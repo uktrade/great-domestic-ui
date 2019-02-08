@@ -25,3 +25,5 @@ django-ipware==2.1.0
 django-redis==4.8.0
 directory-forms-api-client==3.3.0
 dateparser==0.7.0
+
+-e git+https://www.github.com/uktrade/dit-django-ip-safelist@initial_commit#egg=ip_safelist

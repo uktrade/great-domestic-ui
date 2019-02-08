@@ -4,6 +4,7 @@
 #
 #    pip-compile --output-file requirements_test.txt requirements_test.in
 #
+-e git+https://www.github.com/uktrade/dit-django-ip-safelist@initial_commit#egg=ip_safelist
 apipkg==1.5               # via execnet
 args==0.1.0               # via clint
 atomicwrites==1.1.5       # via pytest
@@ -27,6 +28,7 @@ directory-healthcheck==1.0.1
 directory-sso-api-client==3.0.2
 directory-validators==5.0.1
 django-admin-ip-restrictor==1.0.0  # via directory-components
+django-basicauth==0.5.1
 django-cors-headers==2.1.0
 django-environ==0.4.5
 django-extensions==1.9.0

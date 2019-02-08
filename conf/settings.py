@@ -74,6 +74,7 @@ MIDDLEWARE_CLASSES = [
     'core.middleware.PersistLocaleMiddleware',
     'core.middleware.ForceDefaultLocale',
     'directory_components.middleware.RobotsIndexControlHeaderMiddlware',
+    'ip_safelist.middleware.IpRestrictionOrBasicAuth',
 ]
 
 ROOT_URLCONF = 'conf.urls'
@@ -566,3 +567,8 @@ RESTRICTED_APP_NAMES = env.list(
 if env.bool('IP_RESTRICTOR_RESTRICT_UI', False):
     # restrict all pages that are not in apps API, healthcheck, admin, etc
     RESTRICTED_APP_NAMES.append('')
+
+ENABLE_IP_SAFELIST = env.bool('ENABLE_IP_SAFELIST', False)
+ALLOWED_IPS = env.list('ALLOWED_IPS', [])
+ALLOWED_IP_RANGES = env.list('ALLOWED_IP_RANGES', [])
+BASICAUTH_USERS = env.dict('BASICAUTH_USERS', {})
