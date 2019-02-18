@@ -16,7 +16,6 @@ redirects = [
             ),
         )
     ),
-
     url(
         r'^(?i)innovation-hk/$',
         QuerystringRedirectView.as_view(
@@ -52,7 +51,7 @@ redirects = [
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-kor',
         )
-    ),  
+    ),
     url(
         r'^bodw2019/$',
         QuerystringRedirectView.as_view(
