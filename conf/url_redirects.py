@@ -16,6 +16,43 @@ redirects = [
             ),
         )
     ),
+
+    url(
+        r'^(?i)innovation-hk/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.events.great.gov.uk/ehome/innovation-hk',
+        )
+    ),
+    url(
+        r'^(?i)innovation-china/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.events.great.gov.uk/ehome/innovation-china',
+        )
+    ),
+    url(
+        r'^(?i)innovation-asean/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.events.great.gov.uk/ehome/innovation-asean',
+        )
+    ),
+    url(
+        r'^(?i)innovation-au-nz/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.events.great.gov.uk/ehome/innovation-au-nz',
+        )
+    ),
+    url(
+        r'^(?i)innovation-jpn/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.events.great.gov.uk/ehome/innovation-jpn',
+        )
+    ),
+    url(
+        r'^(?i)innovation-kor/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.events.great.gov.uk/ehome/innovation-kor',
+        )
+    ),  
     url(
         r'^bodw2019/$',
         QuerystringRedirectView.as_view(
