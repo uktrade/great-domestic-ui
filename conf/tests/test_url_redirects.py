@@ -109,6 +109,31 @@ redirects = [
         '/future/',
         'https://www.events.great.gov.uk/ehome/index.php?eventid=200185206'
     ),
+
+    (
+        '/innovation-hk/',
+        'https://www.events.great.gov.uk/ehome/innovation-hk'
+    ),
+    (
+        '/innovation-china/',
+        'https://www.events.great.gov.uk/ehome/innovation-china'
+    ),
+    (
+        '/innovation-asean/',
+        'https://www.events.great.gov.uk/ehome/innovation-asean'
+    ),
+    (
+        '/innovation-au-nz/',
+        'https://www.events.great.gov.uk/ehome/innovation-au-nz'
+    ),
+    (
+        '/innovation-jpn/',
+        'https://www.events.great.gov.uk/ehome/innovation-jpn'
+    ),
+    (
+        '/innovation-kor/',
+        'https://www.events.great.gov.uk/ehome/innovation-kor'
+    ),
     ('/bodw2019/', 'https://www.events.great.gov.uk/bodw2019/'),
     ('/events/', 'https://www.events.great.gov.uk/'),
     ('/ukpavilion2020/', 'https://www.events.trade.gov.uk/dubai-expo-2020/'),
