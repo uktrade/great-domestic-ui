@@ -500,19 +500,19 @@ def test_about_view(client):
 cms_urls_slugs = (
     (
         reverse('privacy-and-cookies'),
-        cms.EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+        cms.GREAT_PRIVACY_AND_COOKIES_SLUG,
     ),
     (
         reverse('terms-and-conditions'),
-        cms.EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+        cms.GREAT_TERMS_AND_CONDITIONS_SLUG,
     ),
     (
         reverse('privacy-and-cookies-international'),
-        cms.EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG,
+        cms.GREAT_PRIVACY_AND_COOKIES_SLUG,
     ),
     (
         reverse('terms-and-conditions-international'),
-        cms.EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG,
+        cms.GREAT_TERMS_AND_CONDITIONS_SLUG,
     ),
 )
 

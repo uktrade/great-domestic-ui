@@ -65,7 +65,7 @@ class NewsListPageView(
     TemplateView,
 ):
     template_name = 'article/domestic_news_list.html'
-    slug = cms.EXPORT_READINESS_EU_EXIT_DOMESTIC_NEWS_SLUG
+    slug = cms.GREAT_EU_EXIT_DOMESTIC_NEWS_SLUG
 
 
 class NewsArticleDetailView(
@@ -90,7 +90,7 @@ class InternationalNewsListPageView(
 ):
     template_name = 'article/international_news_list.html'
     component_slug = cms.COMPONENTS_BANNER_DOMESTIC_SLUG
-    slug = cms.EXPORT_READINESS_EU_EXIT_INTERNATIONAL_NEWS_SLUG
+    slug = cms.GREAT_EU_EXIT_INTERNATIONAL_NEWS_SLUG
 
 
 class InternationalNewsArticleDetailView(NewsArticleDetailView):
