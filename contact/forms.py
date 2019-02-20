@@ -4,8 +4,6 @@ from directory_constants.constants import choices, urls
 from directory_forms_api_client.forms import (
     GovNotifyActionMixin, ZendeskActionMixin
 )
-from directory_validators.common import not_contains_url_or_email
-from directory_validators.company import no_html
 import requests.exceptions
 
 from django.conf import settings
@@ -41,8 +39,6 @@ COMPANY_TYPE_OTHER_CHOICES = (
 INDUSTRY_CHOICES = (
     (('', 'Please select'),) + choices.INDUSTRIES + (('OTHER', 'Other'),)
 )
-
-anti_phising_validators = [no_html, not_contains_url_or_email]
 
 
 class EuExitOptionFeatureFlagMixin:
@@ -194,14 +190,11 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
 
 
 class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
-    name = fields.CharField(
-        validators=anti_phising_validators
-    )
+    name = fields.CharField()
     email = fields.EmailField()
     comment = fields.CharField(
         label='Feedback',
         widget=Textarea,
-        validators=anti_phising_validators
     )
     captcha = ReCaptchaField(
         label='',
@@ -221,16 +214,9 @@ class BaseShortForm(forms.Form):
     comment = fields.CharField(
         label='Please give us as much detail as you can',
         widget=Textarea,
-        validators=anti_phising_validators
     )
-    given_name = fields.CharField(
-        label='First name',
-        validators=anti_phising_validators,
-    )
-    family_name = fields.CharField(
-        label='Last name',
-        validators=anti_phising_validators
-    )
+    given_name = fields.CharField(label='First name')
+    family_name = fields.CharField(label='Last name')
     email = fields.EmailField()
     company_type = fields.ChoiceField(
         label_suffix='',
@@ -243,19 +229,13 @@ class BaseShortForm(forms.Form):
         choices=(('', 'Please select'),) + COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
-    organisation_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    postcode = fields.CharField(
-        validators=anti_phising_validators
-    )
+    organisation_name = fields.CharField()
+    postcode = fields.CharField()
     captcha = ReCaptchaField(
         label='',
         label_suffix='',
     )
-    terms_agreed = fields.BooleanField(
-        label=TERMS_LABEL
-    )
+    terms_agreed = fields.BooleanField(label=TERMS_LABEL)
 
 
 class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
@@ -294,33 +274,22 @@ class InternationalContactForm(
         ('OTHER', 'Other type of organisation'),
     )
 
-    given_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    family_name = fields.CharField(
-        validators=anti_phising_validators
-    )
+    given_name = fields.CharField()
+    family_name = fields.CharField()
     email = fields.EmailField(label='Email address')
     organisation_type = fields.ChoiceField(
         label_suffix='',
         widget=widgets.RadioSelect(),
         choices=ORGANISATION_TYPE_CHOICES
     )
-    organisation_name = fields.CharField(
-        label='Your organisation name',
-        validators=anti_phising_validators,
-    )
+    organisation_name = fields.CharField(label='Your organisation name')
     country_name = fields.ChoiceField(
         choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
     )
-    city = fields.CharField(
-        label='City',
-        validators=anti_phising_validators
-    )
+    city = fields.CharField(label='City')
     comment = fields.CharField(
         label='Tell us how we can help',
         widget=Textarea,
-        validators=anti_phising_validators
     )
     captcha = ReCaptchaField(
         label='',
@@ -335,7 +304,6 @@ class CommentForm(forms.Form):
     comment = fields.CharField(
         label='',
         widget=Textarea,
-        validators=anti_phising_validators
     )
 
 
@@ -374,12 +342,8 @@ class BusinessDetailsForm(forms.Form):
         choices=(('', 'Please select'),) + COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
-    organisation_name = fields.CharField(
-        validators=anti_phising_validators
-    )
-    postcode = fields.CharField(
-        validators=anti_phising_validators
-    )
+    organisation_name = fields.CharField()
+    postcode = fields.CharField()
     industry = fields.ChoiceField(
         choices=INDUSTRY_CHOICES,
     )
@@ -408,10 +372,7 @@ class BusinessDetailsForm(forms.Form):
 
 
 class SellingOnlineOverseasBusiness(forms.Form):
-    company_name = fields.CharField(
-        validators=anti_phising_validators,
-        required=False,
-    )
+    company_name = fields.CharField(required=False)
     soletrader = fields.BooleanField(
         label='I don\'t have a company number',
         required=False,
@@ -424,7 +385,6 @@ class SellingOnlineOverseasBusiness(forms.Form):
         required=False,
     )
     company_postcode = fields.CharField(
-        validators=anti_phising_validators,
         required=False,  # in js hide if company number is inputted
     )
     website_address = fields.CharField(
@@ -494,14 +454,11 @@ class SellingOnlineOverseasExperience(forms.Form):
             'how you market your products in a few paragraphs.'
         ),
         widget=Textarea,
-        validators=anti_phising_validators
     )
 
 
 class SellingOnlineOverseasContactDetails(forms.Form):
-    contact_name = fields.CharField(
-        validators=anti_phising_validators
-    )
+    contact_name = fields.CharField()
     contact_email = fields.EmailField(
         label='Email address'
     )
