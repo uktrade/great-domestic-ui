@@ -19,7 +19,6 @@ class MarketAccessView(
     TemplateView
 ):
     template_name = "marketaccess/report_a_barrier.html"
-    
 
 
 class ReportBarrierEmergencyView(
