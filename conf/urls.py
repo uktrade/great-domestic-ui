@@ -514,22 +514,22 @@ contact_urls = [
 
 marketaccess_urls = [
     url(
-        r'^market-access/$',
+        r'^report-trade-barrier/$',
         marketaccess.views.MarketAccessView.as_view(),
         name='market-access'
     ),
     url(
-        r'^market-access/report-barrier/emergency-details/$',
+        r'^report-trade-barrier/report/emergency-details/$',
         marketaccess.views.ReportBarrierEmergencyView.as_view(),
         name='market-access-emergency'
     ),
     url(
-        r'^market-access/report-barrier/success/$',
+        r'^report-trade-barrier/report/success/$',
         marketaccess.views.ReportMarketAccessBarrierSuccessView.as_view(),
         name='report-barrier-form-success'
     ),
     url(
-        r'^market-access/report-barrier/(?P<step>.+)/$',
+        r'^report-trade-barrier/report/(?P<step>.+)/$',
         marketaccess.views.ReportMarketAccessBarrierFormView.as_view(
             url_name='report-ma-barrier',
             done_step_name='finished',
