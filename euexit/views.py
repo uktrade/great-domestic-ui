@@ -64,7 +64,7 @@ class BaseContactView(
 
 
 class InternationalContactFormView(BaseInternationalContactFormView):
-    slug = cms.EXPORT_READINESS_EUEXIT_INTERNATIONAL_FORM_SLUG
+    slug = cms.GREAT_EUEXIT_INTERNATIONAL_FORM_SLUG
     form_class = forms.InternationalContactForm
     template_name = 'euexit/international-contact-form.html'
     success_url = reverse_lazy('eu-exit-international-contact-form-success')
@@ -85,7 +85,7 @@ class InternationalContactFormView(BaseInternationalContactFormView):
 
 
 class DomesticContactFormView(BaseInternationalContactFormView):
-    slug = cms.EXPORT_READINESS_EUEXIT_DOMESTIC_FORM_SLUG
+    slug = cms.GREAT_EUEXIT_DOMESTIC_FORM_SLUG
     form_class = forms.DomesticContactForm
     template_name = 'euexit/domestic-contact-form.html'
     success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
@@ -105,9 +105,9 @@ class DomesticContactFormView(BaseInternationalContactFormView):
 
 class InternationalContactSuccessView(BaseContactView):
     template_name = 'euexit/international-contact-form-success.html'
-    slug = cms.EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG
+    slug = cms.GREAT_EUEXIT_FORM_SUCCESS_SLUG
 
 
 class DomesticContactSuccessView(BaseContactView):
     template_name = 'euexit/domestic-contact-form-success.html'
-    slug = cms.EXPORT_READINESS_EUEXIT_FORM_SUCCESS_SLUG
+    slug = cms.GREAT_EUEXIT_FORM_SUCCESS_SLUG

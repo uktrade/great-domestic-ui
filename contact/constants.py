@@ -23,6 +23,7 @@ COMPANIES_HOUSE_LOGIN = 'companies-house-login'
 COMPANY_NOT_FOUND = 'company-not-found'
 VERIFICATION_CODE = 'verification-code'
 NO_VERIFICATION_LETTER = 'no-verification-letter'
+NO_VERIFICATION_MISSING = 'verification-missing'
 
 MARKETING_SOURCES = (
     (
