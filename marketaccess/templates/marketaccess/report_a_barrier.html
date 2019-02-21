@@ -12,7 +12,7 @@
 
 {% block content %}
 {% load hero from directory_components_tags %}
-{% hero hero_text="Report a trade barrier" %}
+{% hero hero_text="Report a trade barrier" background_image_url='/static/images/market-access/report-a-barrier-banner.jpg' %}
 <section>
     <div class="container">
         <div class="breadcrumbs">
@@ -70,6 +70,9 @@
                     </li>
                 </ol>
                 <a href="{% url 'report-ma-barrier' step='current-status' %}" class="button">Report a barrier</a>
+            </div>
+            <div class="column-one-third">
+                <img alt='content-image' src='/static/images/market-access/report-a-barrier-content.jpg' />
             </div>
         </div>
     </div>

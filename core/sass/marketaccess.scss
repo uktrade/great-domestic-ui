@@ -97,3 +97,9 @@ form {
 dt, dd {
     margin: 15px 0;
 }
+
+@media (max-width: 768px) {
+    .column-one-third {
+       display: none;
+    }
+}
