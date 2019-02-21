@@ -10,9 +10,14 @@
 {% endblock %}
 
 
+
 {% block content %}
+
+{% static 'images/market-access/report-a-barrier-banner.jpg' as hero_image %}
+{% static 'images/market-access/report-a-barrier-content.jpg' as content_image %}
+
 {% load hero from directory_components_tags %}
-{% hero hero_text="Report a trade barrier" background_image_url='/static/images/market-access/report-a-barrier-banner.jpg' %}
+{% hero hero_text="Report a trade barrier" background_image_url=hero_image %}
 <section>
     <div class="container">
         <div class="breadcrumbs">
@@ -20,6 +25,7 @@
             <li><a href="{% url 'landing-page' %}">great.gov.uk</a></li>
             <li> Trade barriers </li>
             <li> Report a trade barrier </li>
+            {{ content_image_url }}
           </ol>
         </div>
         <div class="grid-row">
@@ -72,7 +78,7 @@
                 <a href="{% url 'report-ma-barrier' step='current-status' %}" class="button">Report a barrier</a>
             </div>
             <div class="column-one-third">
-                <img alt='content-image' src='/static/images/market-access/report-a-barrier-content.jpg' />
+                <img alt class="report-barrier-image" src="{{ content_image }}" />
             </div>
         </div>
     </div>
