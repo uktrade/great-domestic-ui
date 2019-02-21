@@ -9,24 +9,24 @@ class CurrentStatusForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     STATUS_CHOICES = (
         (
-            1,
+            'My perishable goods or livestock are blocked in transit',
             'My perishable goods or livestock are blocked in transit'
         ),
         (
-            2,
+            'I’m at immediate risk of missing a commercial opportunity',
             'I’m at immediate risk of missing a commercial opportunity'
         ),
         (
-            3,
+            'I’m at immediate risk of not fulfilling a contract',
             'I’m at immediate risk of not fulfilling a contract'
         ),
         (
-            4,
+            'I need resolution quickly, but I’m not at immediate risk of loss',
             'I need resolution quickly, but I’m not at immediate risk of loss'
         ),
     )
 
-    status = fields.ChoiceField(
+    problem_status = fields.ChoiceField(
         label='Select which option best applies to you',
         widget=widgets.RadioSelect(
             use_nice_ids=True, attrs={'id': 'radio-one'}
@@ -67,7 +67,7 @@ class AboutForm(forms.Form):
         }
     )
 
-    categories = fields.ChoiceField(
+    business_type = fields.ChoiceField(
         label='Business type',
         widget=widgets.RadioSelect(
             attrs={'id': 'checkbox-single'},
@@ -78,7 +78,7 @@ class AboutForm(forms.Form):
             'required': 'Tell us your business type'
         }
     )
-    organisation_description = fields.CharField(
+    other_business_type = fields.CharField(
         label='Tell us about your organisation',
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False
@@ -107,11 +107,11 @@ class AboutForm(forms.Form):
 
     def clean(self):
         data = self.cleaned_data
-        description = data.get('organisation_description')
-        categories = data.get('categories')
-        if categories == 'Other' and not description:
+        other_business_type = data.get('other_business_type')
+        business_type = data.get('business_type')
+        if business_type == 'Other' and not other_business_type:
             self.add_error(
-                'organisation_description', 'Enter your organisation'
+                'other_business_type', 'Enter your organisation'
             )
         else:
             return data
