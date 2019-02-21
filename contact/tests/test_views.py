@@ -156,43 +156,51 @@ def domestic_form_data(captcha_stub):
         constants.GREAT_ACCOUNT,
         constants.NO_VERIFICATION_EMAIL,
         views.build_great_account_guidance_url(
-            cms.EXPORT_READINESS_HELP_MISSING_VERIFY_EMAIL_SLUG
+            cms.GREAT_HELP_MISSING_VERIFY_EMAIL_SLUG
         ),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.COMPANY_NOT_FOUND,
         views.build_great_account_guidance_url(
-            cms.EXPORT_READINESS_HELP_ACCOUNT_COMPANY_NOT_FOUND_SLUG
+            cms.GREAT_HELP_ACCOUNT_COMPANY_NOT_FOUND_SLUG
         ),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.PASSWORD_RESET,
         views.build_great_account_guidance_url(
-            cms.EXPORT_READINESS_HELP_PASSWORD_RESET_SLUG
+            cms.GREAT_HELP_PASSWORD_RESET_SLUG
         ),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.COMPANIES_HOUSE_LOGIN,
         views.build_great_account_guidance_url(
-            cms.EXPORT_READINESS_HELP_COMPANIES_HOUSE_LOGIN_SLUG
+            cms.GREAT_HELP_COMPANIES_HOUSE_LOGIN_SLUG
         ),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.VERIFICATION_CODE,
         views.build_great_account_guidance_url(
-            cms.EXPORT_READINESS_HELP_VERIFICATION_CODE_ENTER_SLUG
+            cms.GREAT_HELP_VERIFICATION_CODE_ENTER_SLUG
         ),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.NO_VERIFICATION_LETTER,
         views.build_great_account_guidance_url(
-            cms.EXPORT_READINESS_HELP_VERIFICATION_CODE_LETTER_SLUG
-        )
+            cms.GREAT_HELP_VERIFICATION_CODE_LETTER_SLUG
+        ),
+    ),
+    (
+        constants.GREAT_ACCOUNT,
+        constants.NO_VERIFICATION_MISSING,
+        views.build_great_account_guidance_url(
+            cms.GREAT_HELP_VERIFICATION_CODE_MISSING_SLUG
+        ),
+
     ),
     (
         constants.GREAT_ACCOUNT,
@@ -204,14 +212,14 @@ def domestic_form_data(captcha_stub):
         constants.EXPORT_OPPORTUNITIES,
         constants.NO_RESPONSE,
         views.build_export_opportunites_guidance_url(
-            cms.EXPORT_READINESS_HELP_EXOPP_NO_RESPONSE
+            cms.GREAT_HELP_EXOPP_NO_RESPONSE
         ),
     ),
     (
         constants.EXPORT_OPPORTUNITIES,
         constants.ALERTS,
         views.build_export_opportunites_guidance_url(
-            cms.EXPORT_READINESS_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
+            cms.GREAT_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
         ),
     ),
     (
@@ -345,31 +353,31 @@ def test_notify_form_submit_success(
 @pytest.mark.parametrize('url,slug', (
     (
         reverse('contact-us-events-success'),
-        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG,
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG,
     ),
     (
         reverse('contact-us-dso-success'),
-        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_DSO_SLUG,
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_DSO_SLUG,
     ),
     (
         reverse('contact-us-export-advice-success'),
-        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG,
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG,
     ),
     (
         reverse('contact-us-feedback-success'),
-        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG,
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG,
     ),
     (
         reverse('contact-us-domestic-success'),
-        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG,
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG,
     ),
     (
         reverse('contact-us-international-success'),
-        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG,
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG,
     ),
     (
         reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
-        cms.EXPORT_READINESS_CONTACT_US_FORM_SUCCESS_SLUG,
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG,
     )
 ))
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')

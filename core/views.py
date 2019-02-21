@@ -30,7 +30,7 @@ class LandingPageView(TemplateView):
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_slug(
-            slug=cms.EXPORT_READINESS_HOME_SLUG,
+            slug=cms.GREAT_HOME_SLUG,
             draft_token=self.request.GET.get('draft_token'),
         )
         return helpers.handle_cms_response_allow_404(response)
@@ -74,7 +74,7 @@ class InternationalLandingPageView(
 ):
     template_name = 'core/landing_page_international.html'
     component_slug = cms.COMPONENTS_BANNER_INTERNATIONAL_SLUG
-    slug = cms.EXPORT_READINESS_HOME_INTERNATIONAL_SLUG
+    slug = cms.GREAT_HOME_INTERNATIONAL_SLUG
 
 
 class InternationalContactPageView(
@@ -200,7 +200,7 @@ class AboutView(SetEtagMixin, TemplateView):
 
 class PrivacyCookiesDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
-    slug = cms.EXPORT_READINESS_PRIVACY_AND_COOKIES_SLUG
+    slug = cms.GREAT_PRIVACY_AND_COOKIES_SLUG
 
 
 class PrivacyCookiesDomesticSubpageCMS(mixins.GetCMSPageMixin, TemplateView):
@@ -217,7 +217,7 @@ class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
 
 class TermsConditionsDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
-    slug = cms.EXPORT_READINESS_TERMS_AND_CONDITIONS_SLUG
+    slug = cms.GREAT_TERMS_AND_CONDITIONS_SLUG
 
 
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
@@ -233,27 +233,27 @@ class PerformanceDashboardView(
 
 
 class PerformanceDashboardGreatView(PerformanceDashboardView):
-    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_SLUG
+    slug = cms.GREAT_PERFORMANCE_DASHBOARD_SLUG
 
 
 class PerformanceDashboardExportOpportunitiesView(PerformanceDashboardView):
-    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_EXOPPS_SLUG
+    slug = cms.GREAT_PERFORMANCE_DASHBOARD_EXOPPS_SLUG
 
 
 class PerformanceDashboardSellingOnlineOverseasView(PerformanceDashboardView):
-    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_SOO_SLUG
+    slug = cms.GREAT_PERFORMANCE_DASHBOARD_SOO_SLUG
 
 
 class PerformanceDashboardTradeProfilesView(PerformanceDashboardView):
-    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_TRADE_PROFILE_SLUG
+    slug = cms.GREAT_PERFORMANCE_DASHBOARD_TRADE_PROFILE_SLUG
 
 
 class PerformanceDashboardInvestView(PerformanceDashboardView):
-    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_INVEST_SLUG
+    slug = cms.GREAT_PERFORMANCE_DASHBOARD_INVEST_SLUG
 
 
 class PerformanceDashboardNotesView(PerformanceDashboardView):
-    slug = cms.EXPORT_READINESS_PERFORMANCE_DASHBOARD_NOTES_SLUG
+    slug = cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG
     template_name = 'core/performance_dashboard_notes.html'
 
 

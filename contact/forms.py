@@ -162,6 +162,10 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
             constants.NO_VERIFICATION_LETTER,
             'I have not received my letter containing the verification code'
         ),
+        (
+            constants.NO_VERIFICATION_MISSING,
+            'I have not received a verification code'
+        ),
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
