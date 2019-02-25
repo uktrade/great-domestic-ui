@@ -6,18 +6,19 @@ from marketaccess import forms
 @pytest.fixture
 def current_status_form_data():
     return {
-        'status': '1'
+        'problem_status': ('My perishable goods or '
+                           'livestock are blocked in transit')
     }
 
 
 def test_current_status_form_initial():
     form = forms.CurrentStatusForm()
-    assert form.fields['status'].initial is None
+    assert form.fields['problem_status'].initial is None
 
 
 def test_current_status_form_mandatory_fields():
     form = forms.CurrentStatusForm(data={})
-    assert form.fields['status'].required is True
+    assert form.fields['problem_status'].required is True
 
 
 def test_current_status_form_serialize():
@@ -33,7 +34,7 @@ def test_check_current_status_error_messages():
         data={}
     )
     assert len(form.errors) == 1
-    assert form.errors['status'] == [
+    assert form.errors['problem_status'] == [
         'Choose the option that best describes your situation'
     ]
 
@@ -44,8 +45,8 @@ def about_form_data():
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'categories': "I’m an exporter or I want to export",
-        'organisation_description': '',
+        'business_type': "I’m an exporter or I want to export",
+        'other_business_type': '',
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
         'phone': '0123456789'
@@ -58,8 +59,8 @@ def about_form_data_with_other_business_type():
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'categories': "Other",
-        'organisation_description': "Other business type",
+        'business_type': "Other",
+        'other_business_type': "Other business type",
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
         'phone': '0123456789'
@@ -71,8 +72,8 @@ def test_about_form_initial():
     assert form.fields['firstname'].initial is None
     assert form.fields['lastname'].initial is None
     assert form.fields['jobtitle'].initial is None
-    assert form.fields['categories'].initial is None
-    assert form.fields['organisation_description'].initial is None
+    assert form.fields['business_type'].initial is None
+    assert form.fields['other_business_type'].initial is None
     assert form.fields['company_name'].initial is None
     assert form.fields['email'].initial is None
     assert form.fields['phone'].initial is None
@@ -84,8 +85,8 @@ def test_about_form_mandatory_fields():
     assert form.fields['firstname'].required is True
     assert form.fields['lastname'].required is True
     assert form.fields['jobtitle'].required is True
-    assert form.fields['categories'].required is True
-    assert form.fields['organisation_description'].required is False
+    assert form.fields['business_type'].required is True
+    assert form.fields['other_business_type'].required is False
     assert form.fields['company_name'].required is True
     assert form.fields['email'].required is True
     assert form.fields['phone'].required is True
@@ -108,15 +109,15 @@ def test_about_form_with_other_serializes():
     assert form.cleaned_data == about_form_data_with_other_business_type()
 
 
-def test_organisation_description_is_required_if_other_business_type():
+def test_other_business_type_is_required_if_other_business_type():
     form_data = about_form_data_with_other_business_type()
-    form_data['organisation_description'] = ''
+    form_data['other_business_type'] = ''
     form = forms.AboutForm(
         data=form_data
     )
 
     assert len(form.errors) == 1
-    assert form.errors['organisation_description'] == [
+    assert form.errors['other_business_type'] == [
         'Enter your organisation'
     ]
 
@@ -130,7 +131,7 @@ def test_about_form_error_messages():
     form.errors['firstname'] == ['Enter your first name']
     form.errors['lastname'] == ['Enter your last name']
     form.errors['jobtitle'] == ['Enter your job title']
-    form.errors['categories'] == ['Enter your business type']
+    form.errors['business_type'] == ['Enter your business type']
     form.errors['company_name'] == ['Enter your company name']
     form.errors['email'] == ['Enter your email']
     form.errors['phone'] == ['Enter your phone number']

@@ -81,12 +81,13 @@ class ReportMarketAccessBarrierFormView(
         return context
 
     def render_next_step(self, form, **kwargs):
-        """
-        When using the NamedUrlWizardView, we have to redirect to update the
-        browser's URL to match the shown step.
-        """
-        status = self.get_cleaned_data_for_step(self.CURRENT_STATUS)['status']
-        if self.steps.current == self.CURRENT_STATUS and status != "4":
+        status = self.get_cleaned_data_for_step(
+            self.CURRENT_STATUS
+        )['problem_status']
+        status_text = ('I need resolution quickly, '
+                       'but I’m not at immediate risk of loss')
+
+        if self.steps.current == self.CURRENT_STATUS and status != status_text:
             return redirect('market-access-emergency')
         else:
             return super().render_next_step(form=form, **kwargs)

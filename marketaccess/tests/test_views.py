@@ -22,25 +22,32 @@ def test_form_feature_flag_on(client, settings):
     assert response.status_code == 200
 
 
-@pytest.mark.parametrize('status', ['1', '2', '3', '4'])
+@pytest.mark.parametrize('status', [
+    'My perishable goods or livestock are blocked in transit',
+    'I’m at immediate risk of missing a commercial opportunity',
+    'I’m at immediate risk of not fulfilling a contract',
+    'I need resolution quickly, but I’m not at immediate risk of loss'
+])
 def test_form_submission_redirects_if_not_option_4_in_current_status(
     client, status
 ):
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
-    emergency_details_url = '/market-access/report-barrier/emergency-details/'
-    about_url = '/market-access/report-barrier/about/'
+    emergency_details_url = '/report-trade-barrier/report/emergency-details/'
+    about_url = '/report-trade-barrier/report/about/'
+    status_text = ('I need resolution quickly, '
+                   'but I’m not at immediate risk of loss')
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'current-status'}),
         {
             view_name + '-current_step': 'current-status',
-            'current-status-status': status,
+            'current-status-problem_status': status,
         }
     )
 
     assert response.status_code == 302
-    if status != "4":
+    if status != status_text:
         assert response._headers['location'][1] == emergency_details_url
     else:
         assert response._headers['location'][1] == about_url
@@ -54,7 +61,7 @@ def test_error_box_at_top_of_page_shows(client):
         reverse(url_name, kwargs={'step': 'current-status'}),
         {
             view_name + '-current_step': 'current-status',
-            'current-status-status': '',
+            'current-status-problem_status': '',
         }
     )
     assert response.status_code == 200
@@ -65,12 +72,14 @@ def test_error_box_at_top_of_page_shows(client):
 def test_form_submission(mock_zendesk_action, client):
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
+    status_text = ('I need resolution quickly, '
+                   'but I’m not at immediate risk of loss')
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'current-status'}),
         {
             view_name + '-current_step': 'current-status',
-            'current-status-status': '4',
+            'current-status-problem_status': status_text,
         }
     )
     assert response.status_code == 302
@@ -82,7 +91,7 @@ def test_form_submission(mock_zendesk_action, client):
             'about-firstname': 'Craig',
             'about-lastname': 'Smith',
             'about-jobtitle': 'Musician',
-            'about-categories': "I’m an exporter or I want to export",
+            'about-business_type': "I’m an exporter or I want to export",
             'about-company_name': 'Craig Music',
             'about-email': 'craig@craigmusic.com',
             'about-phone': '0123456789',
@@ -139,12 +148,13 @@ def test_form_submission(mock_zendesk_action, client):
     )
     assert mock_zendesk_action().save.call_count == 1
     assert mock_zendesk_action().save.call_args == mock.call({
-        'status': '4',
+        'problem_status': ('I need resolution quickly, '
+                           'but I’m not at immediate risk of loss'),
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'categories': "I’m an exporter or I want to export",
-        'organisation_description': '',
+        'business_type': "I’m an exporter or I want to export",
+        'other_business_type': '',
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
         'phone': '0123456789',
