@@ -141,7 +141,10 @@ urlpatterns = [
     ),
     url(
         r"^export-opportunities/$",
-        RedirectView.as_view(url=settings.SERVICES_EXOPPS_ACTUAL, permanent=False),
+        RedirectView.as_view(
+            url=settings.SERVICES_EXOPPS_ACTUAL,
+            permanent=False
+        ),
         name='export-opportunities'
     ),
     url(
