@@ -5,7 +5,6 @@ import requests
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
-from django.test import TestCase
 
 from bs4 import BeautifulSoup
 import pytest
@@ -195,6 +194,7 @@ def test_landing_page_template_news_feature_flag_off(
 
     assert response.status_code == 200
     assert response.template_name == [views.LandingPageView.template_name]
+
 
 def test_sitemaps(client):
     url = reverse('sitemap')
