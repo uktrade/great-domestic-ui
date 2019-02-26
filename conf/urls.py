@@ -510,6 +510,11 @@ contact_urls = [
         core.views.CompaniesHouseSearchApiView.as_view(),
         name='api-internal-companies-house-search'
     ),
+    url(
+        r'^community/$',
+        article.views.CommunityArticlePageView.as_view(),
+        name='community-article'
+    ),
 ]
 
 marketaccess_urls = [

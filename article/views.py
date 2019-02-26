@@ -95,3 +95,7 @@ class InternationalNewsListPageView(
 
 class InternationalNewsArticleDetailView(NewsArticleDetailView):
     template_name = 'article/international_news_detail.html'
+
+
+class CommunityArticlePageView(CMSPageView):
+    slug = 'community'
