@@ -5,6 +5,7 @@ import requests
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
+from django.test import TestCase
 
 from bs4 import BeautifulSoup
 import pytest
@@ -16,6 +17,14 @@ from core.tests.helpers import create_response
 from casestudy import casestudies
 
 from directory_constants.constants import cms
+
+
+def test_interstitial_page_exopps(client):
+    url = reverse('export-opportunities')
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == settings.SERVICES_EXOPPS_ACTUAL
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -186,24 +195,6 @@ def test_landing_page_template_news_feature_flag_off(
 
     assert response.status_code == 200
     assert response.template_name == [views.LandingPageView.template_name]
-
-
-def test_interstitial_page_exopps(client):
-    url = reverse('export-opportunities')
-    response = client.get(url)
-    context = response.context_data
-
-    assert response.status_code == 200
-    assert context['exopps_url'] == settings.SERVICES_EXOPPS_ACTUAL
-
-    heading = '<h1 class="heading-xlarge">Export opportunities</h1>'
-    expected = str(BeautifulSoup(heading, 'html.parser'))
-    button_text = 'Find export opportunities'
-    html_page = str(BeautifulSoup(response.content, 'html.parser'))
-
-    assert expected in html_page
-    assert button_text in html_page
-
 
 def test_sitemaps(client):
     url = reverse('sitemap')
