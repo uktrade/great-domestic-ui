@@ -240,6 +240,16 @@ news_urls = [
         article.views.InternationalNewsArticleDetailView.as_view(),
         name='international-eu-exit-news-detail',
     ),
+    url(
+        r"^community/$",
+        core.views.CommunityLandingPageCMS.as_view(),
+        name='community-landing'
+    ),
+    url(
+        r"^community-join/$",
+        core.views.CommunityJoinFormPageCMS.as_view(),
+        name='community-join-form'
+    ),
 ]
 
 

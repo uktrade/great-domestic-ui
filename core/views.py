@@ -273,3 +273,13 @@ class CompaniesHouseSearchApiView(View):
         )
         api_response.raise_for_status()
         return JsonResponse(api_response.json()['items'], safe=False)
+
+
+class CommunityLandingPageCMS(mixins.GetCMSPageMixin, TemplateView):
+    template_name = 'core/community.html'
+    slug = cms.COMMUNITY_LANDING_PAGE_SLUG
+
+
+class CommunityJoinFormPageCMS(mixins.GetCMSPageMixin, TemplateView):
+    template_name = 'core/community-join-form.html'
+    slug = cms.COMMUNITY_JOIN_PAGE_SLUG

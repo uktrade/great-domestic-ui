@@ -1,0 +1,26 @@
+{% extends 'article/base.html' %}
+
+{% load static %}
+{% load add_export_elements_classes from directory_components_tags %}
+
+{% block head_title %}{{ page.article_title }} - great.gov.uk{% endblock %}
+
+{% block og_image %}{% if page.article_image %}{{ page.article_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block meta_description %}{{ page.article_teaser }}{% endblock %}
+
+{% block css_layout_class %}article-detail-page{% endblock css_layout_class %}
+
+{% block content %}
+
+<section id="article">
+  {% include 'article/article_detail_content.html' %}
+</section>
+
+{% block related_content_cards %}
+  {% if page.related_pages %}
+    {% include 'article/article_related_content_cards.html' %}
+  {% endif %}
+{% endblock %}
+
+{% endblock %}
