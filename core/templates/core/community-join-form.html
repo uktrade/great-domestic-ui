@@ -1,17 +1,27 @@
-{% extends 'article/base.html' %}
+{% extends "core/base.html" %}
+{% load render_form from directory_components_tags %}
+{% load static from staticfiles %}
 
-{% load static %}
-{% load add_export_elements_classes from directory_components_tags %}
-
-{% block head_title %}{{ page.article_title }} - great.gov.uk{% endblock %}
-
-{% block og_image %}{% if page.article_image %}{{ page.article_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
-
-{% block meta_description %}{{ page.article_teaser }}{% endblock %}
-
-{% block css_layout_class %}article-detail-page{% endblock css_layout_class %}
+{% block head_css %}
+    {{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/community.css' %}">
+{% endblock %}
 
 {% block content %}
-
-<h1>Join Form</h1>
+	<section class="questions">
+		{% block breadcrumbs %}
+			{% include 'core/includes/community_breadcrumbs.html' with current_page_label='Community Join Form' %}
+		{% endblock %}
+		<div class="container">
+			<div class="question">
+				<div class="exred-triage-form">
+					<form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
+						{% csrf_token %}
+						{% render_form form %}
+						<button type="submit" class="button button">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}

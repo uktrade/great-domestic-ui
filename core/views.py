@@ -4,14 +4,15 @@ from directory_cms_client.client import cms_api_client
 from django.conf import settings
 from django.contrib import sitemaps
 from django.http import JsonResponse
-from django.urls import reverse, RegexURLResolver
+from django.urls import reverse, RegexURLResolver, reverse_lazy
 from django.utils.cache import set_response_etag
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from django.views.generic.base import RedirectView, View
 from django.utils.functional import cached_property
 
 from casestudy import casestudies
 from core import helpers, mixins, forms
+from core.forms import CommunityJoinForm
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin)
 
@@ -280,6 +281,8 @@ class CommunityLandingPageCMS(mixins.GetCMSPageMixin, TemplateView):
     slug = cms.COMMUNITY_LANDING_PAGE_SLUG
 
 
-class CommunityJoinFormPageCMS(mixins.GetCMSPageMixin, TemplateView):
+class CommunityJoinFormPageCMS(mixins.GetCMSPageMixin, FormView):
     template_name = 'core/community-join-form.html'
     slug = cms.COMMUNITY_JOIN_PAGE_SLUG
+    form_class = CommunityJoinForm
+    success_url = reverse_lazy('community-landing')

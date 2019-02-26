@@ -1,0 +1,15 @@
+<div class="container breadcrumbs">
+  <ol>
+    <li>
+      <a href="{% url 'landing-page' %}">Home</a>
+    </li>
+    <li>
+      <a href="{% url 'community-landing' %}">Community</a>
+    </li>
+    {% if current_page_label %}
+      <li>
+	    <span>{{ current_page_label }}</span>
+      </li>
+    {% endif %}
+  </ol>
+</div>
