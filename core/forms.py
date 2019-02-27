@@ -49,7 +49,8 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
             'min_length': _('Figures only, maximum 15 characters,'
                             ' minimum 8 characters excluding spaces'),
             'required': _('Enter a UK telephone number'),
-            'invalid': _('Enter a UK telephone number')
+            'invalid': _('Phone number must be entered in the format:'
+                         ' "+999999999". Up to 15 digits allowed')
         }
     )
     company_name = fields.CharField(

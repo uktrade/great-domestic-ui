@@ -943,7 +943,6 @@ def test_companies_house_search_internal(mocked_ch_client, client, settings):
     assert response.content == b'[{"name": "Smashing corp"}]'
 
 
-
 @pytest.mark.parametrize(
     'url,success_url,agent_template,user_template,agent_email',
     (
@@ -957,12 +956,17 @@ def test_companies_house_search_internal(mocked_ch_client, client, settings):
     )
 )
 @mock.patch.object(FormSessionMixin, 'form_session_class')
-def test_community_join_form_notify_success(mock_form_session, client, url, success_url, agent_template, user_template, agent_email, settings):
+def test_community_join_form_notify_success(
+        mock_form_session, client, url, success_url,
+        agent_template, user_template, agent_email
+):
     class TestForm(GovNotifyActionMixin, Form):
         email = fields.EmailField()
         save = mock.Mock()
 
-    with mock.patch.object(views.CommunityJoinFormPageView, 'form_class', TestForm):
+    with mock.patch.object(
+            views.CommunityJoinFormPageView, 'form_class', TestForm
+    ):
         response = client.post(url, {'email': 'test@example.com'})
 
     assert response.status_code == 302
