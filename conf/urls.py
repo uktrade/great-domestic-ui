@@ -242,13 +242,13 @@ news_urls = [
     ),
     url(
         r"^community/join/$",
-        core.views.CommunityJoinFormPageCMS.as_view(),
+        core.views.CommunityJoinFormPageView.as_view(),
         name='community-join-form'
     ),
     url(
         r"^community/success/$",
-        core.views.CommunitySuccessPageCMS.as_view(),
-        name='community-form-success'
+        core.views.CommunitySuccessPageView.as_view(),
+        name='community-join-success'
     ),
 ]
 

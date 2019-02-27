@@ -1,7 +1,12 @@
 import http
+from unittest import mock
 from unittest.mock import call, patch, PropertyMock
 
 import requests
+from directory_components import fields
+from directory_components.forms import Form
+from directory_forms_api_client.forms import GovNotifyActionMixin
+from directory_forms_api_client.helpers import FormSessionMixin
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -936,3 +941,46 @@ def test_companies_house_search_internal(mocked_ch_client, client, settings):
 
     assert response.status_code == 200
     assert response.content == b'[{"name": "Smashing corp"}]'
+
+
+
+@pytest.mark.parametrize(
+    'url,success_url,agent_template,user_template,agent_email',
+    (
+        (
+            reverse('community-join-form'),
+            reverse('community-join-success'),
+            settings.COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.COMMUNITY_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
+            settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS,
+        ),
+    )
+)
+@mock.patch.object(FormSessionMixin, 'form_session_class')
+def test_community_join_form_notify_success(mock_form_session, client, url, success_url, agent_template, user_template, agent_email, settings):
+    class TestForm(GovNotifyActionMixin, Form):
+        email = fields.EmailField()
+        save = mock.Mock()
+
+    with mock.patch.object(views.CommunityJoinFormPageView, 'form_class', TestForm):
+        response = client.post(url, {'email': 'test@example.com'})
+
+    assert response.status_code == 302
+    assert response.url == success_url
+
+    assert TestForm.save.call_count == 2
+    assert TestForm.save.call_args_list == [
+        mock.call(
+            template_id=agent_template,
+            email_address=agent_email,
+            form_url=url,
+            form_session=mock_form_session(),
+            sender={'email_address': 'test@example.com', 'country_code': None}
+        ),
+        mock.call(
+            template_id=user_template,
+            email_address='test@example.com',
+            form_url=url,
+            form_session=mock_form_session(),
+        )
+    ]

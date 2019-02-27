@@ -277,10 +277,10 @@ class CompaniesHouseSearchApiView(View):
         return JsonResponse(api_response.json()['items'], safe=False)
 
 
-class CommunityJoinFormPageCMS(BaseNotifyFormView):
+class CommunityJoinFormPageView(BaseNotifyFormView):
     template_name = 'core/community-join-form.html'
     form_class = CommunityJoinForm
-    success_url = reverse_lazy('community-form-success')
+    success_url = reverse_lazy('community-join-success')
     notify_settings = NotifySettings(
         agent_template=settings.COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
         agent_email=settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS,
@@ -288,5 +288,5 @@ class CommunityJoinFormPageCMS(BaseNotifyFormView):
     )
 
 
-class CommunitySuccessPageCMS(TemplateView):
+class CommunitySuccessPageView(TemplateView):
     template_name = 'core/community-success.html'
