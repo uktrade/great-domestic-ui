@@ -1,12 +1,21 @@
 import pytest
-from unittest.mock import patch, PropertyMock
+from unittest.mock import call, patch, PropertyMock
 from bs4 import BeautifulSoup
 from django.urls import reverse
 
 from core.tests.helpers import create_response
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@pytest.fixture
+def mock_get_page():
+    stub = patch(
+        'directory_cms_client.client.cms_api_client.lookup_by_slug',
+        return_value=create_response(status_code=200)
+    )
+    yield stub.start()
+    stub.stop()
+
+
 def test_prototype_landing_page_news_section(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
@@ -82,7 +91,6 @@ markets_pages = [
 
 
 @pytest.mark.parametrize('page_type,url', markets_pages)
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_markets_pages_404_when_feature_off(
     mock_get_page, page_type, url, client, settings
 ):
@@ -101,7 +109,6 @@ def test_markets_pages_404_when_feature_off(
 
 
 @pytest.mark.parametrize('page_type,url', markets_pages)
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_markets_pages_200_when_feature_on(
     mock_get_page, page_type, url, client, settings
 ):
@@ -119,7 +126,6 @@ def test_markets_pages_200_when_feature_on(
     assert response.status_code == 200
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_markets_link_in_header_when_feature_on(
     mock_get_page, client, settings
 ):
@@ -139,7 +145,6 @@ def test_markets_link_in_header_when_feature_on(
     assert soup.find(id='header-markets-link').string == 'Markets'
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_markets_link_not_in_header_when_feature_off(
     mock_get_page, client, settings
 ):
@@ -157,7 +162,6 @@ def test_markets_link_not_in_header_when_feature_off(
     assert 'id="header-markets-link"' not in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_article_advice_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
@@ -184,7 +188,6 @@ def test_article_advice_page(mock_get_page, client, settings):
     assert '01 October 2018' in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_article_article_detail_page_no_related_content(
     mock_get_page, client, settings
 ):
@@ -223,7 +226,6 @@ def test_article_article_detail_page_no_related_content(
     assert 'Related content' not in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_article_detail_page_related_content(
     mock_get_page, client, settings
 ):
@@ -318,7 +320,6 @@ test_news_list_page = {
 }
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_news_list_page_feature_flag_on(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
@@ -342,9 +343,8 @@ def test_news_list_page_feature_flag_on(mock_get_page, client, settings):
 
 @patch('article.views.InternationalNewsListPageView.cms_component',
        new_callable=PropertyMock)
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_international_news_list_page(
-    mock_get_page, mock_get_component, client, settings
+    mock_get_component, mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
@@ -371,7 +371,6 @@ def test_international_news_list_page(
     assert 'Dolor sit amet' in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_domestic_news_article_detail_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
@@ -420,7 +419,6 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
     assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_international_news_article_detail_page(
     mock_get_page, client, settings
 ):
@@ -522,7 +520,6 @@ test_list_page = {
 }
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_article_list_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
@@ -575,7 +572,6 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
     assert 'New to exporting' in str(response.content)
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_landing_page_header_footer(
     mock_get_page, client, settings
 ):
@@ -606,7 +602,6 @@ def test_landing_page_header_footer(
     assert soup.find(id="header-dit-logo")
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_breadcrumbs_mixin(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
@@ -637,7 +632,6 @@ def test_breadcrumbs_mixin(mock_get_page, client, settings):
     ]
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_article_detail_page_social_share_links(
     mock_get_page, client, settings
 ):
@@ -700,7 +694,6 @@ def test_article_detail_page_social_share_links(
     assert soup.find(id='share-email').attrs['href'] == email_link
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_article_detail_page_social_share_links_no_title(
     mock_get_page, client, settings
 ):
@@ -755,3 +748,21 @@ def test_article_detail_page_social_share_links_no_title(
     assert soup.find(id='share-twitter').attrs['href'] == twitter_link
     assert soup.find(id='share-linkedin').attrs['href'] == linkedin_link
     assert soup.find(id='share-email').attrs['href'] == email_link
+
+
+def test_community_article_view(mock_get_page, client):
+    mock_get_page.return_value = create_response(200, {
+        "meta": {"slug": "foo"},
+        "page_type": "ArticlePage",
+    })
+    url = reverse('community-article')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert mock_get_page.call_count == 1
+    assert mock_get_page.call_args == call(
+        draft_token=None,
+        language_code='en-gb',
+        slug='community',
+    )
