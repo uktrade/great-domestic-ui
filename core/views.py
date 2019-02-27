@@ -6,12 +6,12 @@ from django.contrib import sitemaps
 from django.http import JsonResponse
 from django.urls import reverse, RegexURLResolver, reverse_lazy
 from django.utils.cache import set_response_etag
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView, View
 from django.utils.functional import cached_property
 
 from casestudy import casestudies
-from contact.views import BaseNotifyFormView
+from contact.views import BaseNotifyFormView, NotifySettings
 from core import helpers, mixins, forms
 from core.forms import CommunityJoinForm
 from euexit.mixins import (
@@ -281,6 +281,11 @@ class CommunityJoinFormPageCMS(BaseNotifyFormView):
     template_name = 'core/community-join-form.html'
     form_class = CommunityJoinForm
     success_url = reverse_lazy('community-form-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS,
+        user_template=settings.COMMUNITY_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
+    )
 
 
 class CommunitySuccessPageCMS(TemplateView):

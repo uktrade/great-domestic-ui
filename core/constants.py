@@ -1,4 +1,5 @@
 COMPANY_SECTOR_CHOISES = (
+    ('', 'Please Choose'),
     ('0', 'Advanced Manufacturing'),
     ('1', 'Aerospace'),
     ('2', 'Agri-Tech'),
@@ -46,12 +47,15 @@ COMPANY_SECTOR_CHOISES = (
 )
 
 EMPLOYEES_NUMBER_CHOISES = (
-    ('0', 'Less than 10'),
-    ('1', '10-50'),
-    ('2', '50+'),
+    ('', 'Please Choose'),
+    ('0', 'Fewer than 10'),
+    ('1', '10 to 49'),
+    ('2', '50 to 250'),
+    ('3', 'More than 250'),
 )
 
 HEARD_ABOUT_CHOISES = (
+    ('', 'Please Choose'),
     ('0', 'In the press'),
     ('1', 'International Trade Advisor'),
     ('2', 'Anothercompany'),
