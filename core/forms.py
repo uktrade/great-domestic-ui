@@ -13,7 +13,7 @@ class CompaniesHouseSearchForm(forms.Form):
 class CommunityJoinForm(AbstractActionMixin, forms.Form):
     action_class = AbstractAction
 
-    name = forms.CharField(max_length=50)
+    name = forms.CharField(min_length=2, max_length=50)
     email = forms.EmailField()
     phone_number = forms.CharField(
         validators=[

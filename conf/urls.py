@@ -241,14 +241,14 @@ news_urls = [
         name='international-eu-exit-news-detail',
     ),
     url(
-        r"^community/$",
-        core.views.CommunityLandingPageCMS.as_view(),
-        name='community-landing'
-    ),
-    url(
-        r"^community-join/$",
+        r"^community/join/$",
         core.views.CommunityJoinFormPageCMS.as_view(),
         name='community-join-form'
+    ),
+    url(
+        r"^community/success/$",
+        core.views.CommunitySuccessPageCMS.as_view(),
+        name='community-form-success'
     ),
 ]
 

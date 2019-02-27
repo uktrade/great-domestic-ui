@@ -276,13 +276,11 @@ class CompaniesHouseSearchApiView(View):
         return JsonResponse(api_response.json()['items'], safe=False)
 
 
-class CommunityLandingPageCMS(mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'core/community.html'
-    slug = cms.COMMUNITY_LANDING_PAGE_SLUG
-
-
-class CommunityJoinFormPageCMS(mixins.GetCMSPageMixin, FormView):
+class CommunityJoinFormPageCMS(FormView):
     template_name = 'core/community-join-form.html'
-    slug = cms.COMMUNITY_JOIN_PAGE_SLUG
     form_class = CommunityJoinForm
-    success_url = reverse_lazy('community-landing')
+    success_url = reverse_lazy('community-form-success')
+
+
+class CommunitySuccessPageCMS(TemplateView):
+    template_name = 'core/community-success.html'
