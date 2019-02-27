@@ -11,6 +11,7 @@ from django.views.generic.base import RedirectView, View
 from django.utils.functional import cached_property
 
 from casestudy import casestudies
+from contact.views import BaseNotifyFormView
 from core import helpers, mixins, forms
 from core.forms import CommunityJoinForm
 from euexit.mixins import (
@@ -276,7 +277,7 @@ class CompaniesHouseSearchApiView(View):
         return JsonResponse(api_response.json()['items'], safe=False)
 
 
-class CommunityJoinFormPageCMS(FormView):
+class CommunityJoinFormPageCMS(BaseNotifyFormView):
     template_name = 'core/community-join-form.html'
     form_class = CommunityJoinForm
     success_url = reverse_lazy('community-form-success')

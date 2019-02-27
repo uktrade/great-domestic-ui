@@ -1,8 +1,8 @@
-from directory_forms_api_client.actions import AbstractAction
-from directory_forms_api_client.forms import AbstractActionMixin
+from directory_forms_api_client.forms import GovNotifyActionMixin
 from django import forms
 from django.core.validators import RegexValidator
 
+from contact.forms import SerializeDataMixin
 from core.constants import HEARD_ABOUT_CHOISES, COMPANY_SECTOR_CHOISES, EMPLOYEES_NUMBER_CHOISES
 
 
@@ -10,9 +10,9 @@ class CompaniesHouseSearchForm(forms.Form):
     term = forms.CharField()
 
 
-class CommunityJoinForm(AbstractActionMixin, forms.Form):
-    action_class = AbstractAction
-
+class CommunityJoinForm(
+    SerializeDataMixin, GovNotifyActionMixin, forms.Form
+):
     name = forms.CharField(min_length=2, max_length=50)
     email = forms.EmailField()
     phone_number = forms.CharField(
