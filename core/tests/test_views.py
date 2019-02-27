@@ -18,6 +18,21 @@ from casestudy import casestudies
 from directory_constants.constants import cms
 
 
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_hero_url(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+    settings.FEATURE_FLAGS['LANDING_PAGE_EU_EXIT_BANNER_ON'] = False
+
+    settings.LANDING_PAGE_HERO_HEADER_URL = 'https://example.com/community/'
+
+    url = reverse('landing-page')
+    response = client.get(url)
+    assert response.context_data['LANDING_PAGE_HERO_HEADER_URL'] == (
+        'https://example.com/community/'
+    )
+    assert b'https://example.com/community/' in response.content
+
+
 @patch(
     'core.helpers.GeoLocationRedirector.should_redirect',
     PropertyMock(return_value=True)

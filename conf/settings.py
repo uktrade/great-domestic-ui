@@ -19,7 +19,6 @@ from directory_components.constants import IP_RETRIEVER_NAME_GOV_UK
 from directory_constants.constants import cms
 import directory_healthcheck.backends
 
-
 env = environ.Env()
 env.read_env()
 
@@ -357,6 +356,13 @@ LANDING_PAGE_VIDEO_URL = env.str(
     (
         'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
         'promo-video_web.mp4'
+    )
+)
+
+LANDING_PAGE_HERO_HEADER_URL = env.str(
+    'LANDING_PAGE_HERO_HEADER_URL',
+    (
+        '/community/join/'
     )
 )
 

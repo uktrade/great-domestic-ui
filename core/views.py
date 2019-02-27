@@ -45,7 +45,7 @@ class LandingPageView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            LANDING_PAGE_VIDEO_URL=settings.LANDING_PAGE_VIDEO_URL,
+            LANDING_PAGE_HERO_HEADER_URL=settings.LANDING_PAGE_HERO_HEADER_URL,
             page=self.page,
             casestudies=[
                 casestudies.MARKETPLACE,

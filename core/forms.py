@@ -25,8 +25,10 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
     email = fields.EmailField(
         label=_('Email address'),
         error_messages={
-            'required': _('Enter an email address in the correct format, like name@example.com'), # noqa
-            'invalid': _('Enter an email address in the correct format, like name@example.com'),  # noqa
+            'required': _('Enter an email address in the correct format,'
+                          ' like name@example.com'),
+            'invalid': _('Enter an email address in the correct format,'
+                         ' like name@example.com'),
         }
     )
     phone_number = fields.CharField(
@@ -42,8 +44,10 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         min_length=8,
         help_text=_('This can be a landline or mobile number'),
         error_messages={
-            'max_length': _('Figures only, maximum 15 characters, minimum 8 characters excluding spaces'), # noqa
-            'min_length': _('Figures only, maximum 15 characters, minimum 8 characters excluding spaces'), # noqa
+            'max_length': _('Figures only, maximum 15 characters,'
+                            ' minimum 8 characters excluding spaces'),
+            'min_length': _('Figures only, maximum 15 characters,'
+                            ' minimum 8 characters excluding spaces'),
             'required': _('Enter a UK telephone number'),
             'invalid': _('Enter a UK telephone number')
         }
@@ -95,6 +99,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
     advertising_feedback = fields.ChoiceField(
         choices=HEARD_ABOUT_CHOISES,
         error_messages={
-            'required': _('Please tell us where you heard about becoming an Export Advocate'), # noqa
+            'required': _('Please tell us where you heard about'
+                          ' becoming an Export Advocate'),
         }
     )
