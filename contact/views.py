@@ -165,6 +165,10 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
             constants.COMPANY_NOT_FOUND: build_great_account_guidance_url(
                 cms.GREAT_HELP_ACCOUNT_COMPANY_NOT_FOUND_SLUG
             ),
+            constants.SOLE_TRADER_ADDRESS_NOT_FOUND:
+                build_great_account_guidance_url(
+                cms.GREAT_HELP_ACCOUNT_SOLE_TRADER_ADDRESS_NOT_FOUND_SLUG
+            ),
             constants.COMPANIES_HOUSE_LOGIN: build_great_account_guidance_url(
                 cms.GREAT_HELP_COMPANIES_HOUSE_LOGIN_SLUG
             ),
