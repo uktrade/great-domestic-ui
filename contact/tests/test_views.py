@@ -982,7 +982,7 @@ def test_contact_soo_feature_flag_off(settings, client):
     response = client.get(
         reverse('contact-us-soo', kwargs={'step': 'organisation'}),
     )
-    
+
     assert response.status_code == 404
 
 
