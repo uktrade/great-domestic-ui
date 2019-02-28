@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'euexit',
     'contact',
     'marketaccess',
+    'community',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -350,21 +351,6 @@ RECAPTCHA_PUBLIC_KEY = env.str('RECAPTCHA_PUBLIC_KEY')
 RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY')
 # NOCAPTCHA = True turns on version 2 of recaptcha
 NOCAPTCHA = env.bool('NOCAPTCHA', True)
-
-LANDING_PAGE_VIDEO_URL = env.str(
-    'LANDING_PAGE_VIDEO_URL',
-    (
-        'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
-        'promo-video_web.mp4'
-    )
-)
-
-LANDING_PAGE_HERO_HEADER_URL = env.str(
-    'LANDING_PAGE_HERO_HEADER_URL',
-    (
-        '/community/join/'
-    )
-)
 
 # directory CMS
 DIRECTORY_CMS_API_CLIENT_BASE_URL = env.str('CMS_URL')

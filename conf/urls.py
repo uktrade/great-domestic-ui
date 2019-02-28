@@ -14,6 +14,7 @@ import core.views
 import euexit.views
 import finance.views
 import marketaccess.views
+import community.views
 
 from conf.url_redirects import redirects
 
@@ -239,16 +240,6 @@ news_urls = [
         r"^international/eu-exit-news/(?P<slug>[\w-]+)/$",
         article.views.InternationalNewsArticleDetailView.as_view(),
         name='international-eu-exit-news-detail',
-    ),
-    url(
-        r"^community/join/$",
-        core.views.CommunityJoinFormPageView.as_view(),
-        name='community-join-form'
-    ),
-    url(
-        r"^community/success/$",
-        core.views.CommunitySuccessPageView.as_view(),
-        name='community-join-success'
     ),
 ]
 
@@ -520,11 +511,6 @@ contact_urls = [
         core.views.CompaniesHouseSearchApiView.as_view(),
         name='api-internal-companies-house-search'
     ),
-    url(
-        r'^community/$',
-        article.views.CommunityArticlePageView.as_view(),
-        name='community-article'
-    ),
 ]
 
 marketaccess_urls = [
@@ -554,9 +540,28 @@ marketaccess_urls = [
 
 ]
 
+community_urls = [
+    url(
+        r"^community/join/$",
+        community.views.CommunityJoinFormPageView.as_view(),
+        name='community-join-form'
+    ),
+    url(
+        r"^community/success/$",
+        community.views.CommunitySuccessPageView.as_view(),
+        name='community-join-success'
+    ),
+    url(
+        r'^community/$',
+        article.views.CommunityArticlePageView.as_view(),
+        name='community-article'
+    ),
+]
+
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
 urlpatterns += article_urls
 urlpatterns += contact_urls
 urlpatterns += marketaccess_urls
+urlpatterns += community_urls

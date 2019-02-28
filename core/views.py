@@ -1,21 +1,21 @@
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
+from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
 from django.conf import settings
 from django.contrib import sitemaps
 from django.http import JsonResponse
-from django.urls import reverse, RegexURLResolver, reverse_lazy
+from django.urls import reverse, RegexURLResolver
 from django.utils.cache import set_response_etag
-from django.views.generic import TemplateView
+from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from django.utils.functional import cached_property
 
 from casestudy import casestudies
-from contact.views import BaseNotifyFormView, NotifySettings
 from core import helpers, mixins, forms
-from core.forms import CommunityJoinForm
 from euexit.mixins import (
-    HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin)
+    HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin
+)
 
 
 class SetEtagMixin:
@@ -45,7 +45,6 @@ class LandingPageView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         return super().get_context_data(
-            LANDING_PAGE_HERO_HEADER_URL=settings.LANDING_PAGE_HERO_HEADER_URL,
             page=self.page,
             casestudies=[
                 casestudies.MARKETPLACE,
@@ -277,16 +276,37 @@ class CompaniesHouseSearchApiView(View):
         return JsonResponse(api_response.json()['items'], safe=False)
 
 
-class CommunityJoinFormPageView(BaseNotifyFormView):
-    template_name = 'core/community-join-form.html'
-    form_class = CommunityJoinForm
-    success_url = reverse_lazy('community-join-success')
-    notify_settings = NotifySettings(
-        agent_template=settings.COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
-        agent_email=settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS,
-        user_template=settings.COMMUNITY_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID,
-    )
+class SendNotifyMessagesMixin:
+
+    def send_agent_message(self, form):
+        sender = Sender(
+            email_address=form.cleaned_data['email'],
+            country_code=None,
+        )
+        response = form.save(
+            template_id=self.notify_settings.agent_template,
+            email_address=self.notify_settings.agent_email,
+            form_url=self.request.get_full_path(),
+            form_session=self.form_session,
+            sender=sender,
+        )
+        response.raise_for_status()
+
+    def send_user_message(self, form):
+        # no need to set `sender` as this is just a confirmation email.
+        response = form.save(
+            template_id=self.notify_settings.user_template,
+            email_address=form.cleaned_data['email'],
+            form_url=self.request.get_full_path(),
+            form_session=self.form_session,
+        )
+        response.raise_for_status()
+
+    def form_valid(self, form):
+        self.send_agent_message(form)
+        self.send_user_message(form)
+        return super().form_valid(form)
 
 
-class CommunitySuccessPageView(TemplateView):
-    template_name = 'core/community-success.html'
+class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
+    pass

@@ -1,4 +1,3 @@
-import collections
 from urllib.parse import urlparse
 
 from directory_constants.constants import cms
@@ -18,12 +17,10 @@ from django.views.generic.edit import FormView
 from django.template.response import TemplateResponse
 
 from core import mixins
+from core.views import BaseNotifyFormView
+from core.helpers import NotifySettings
 from contact import constants, forms, helpers
 
-
-NotifySettings = collections.namedtuple(
-    'NotifySettings', ['agent_template', 'agent_email', 'user_template']
-)
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 
 
@@ -60,38 +57,6 @@ class SubmitFormOnGetMixin:
         return super().post(request, *args, **kwargs)
 
 
-class SendNotifyMessagesMixin:
-
-    def send_agent_message(self, form):
-        sender = Sender(
-            email_address=form.cleaned_data['email'],
-            country_code=None,
-        )
-        response = form.save(
-            template_id=self.notify_settings.agent_template,
-            email_address=self.notify_settings.agent_email,
-            form_url=self.request.get_full_path(),
-            form_session=self.form_session,
-            sender=sender,
-        )
-        response.raise_for_status()
-
-    def send_user_message(self, form):
-        # no need to set `sender` as this is just a confirmation email.
-        response = form.save(
-            template_id=self.notify_settings.user_template,
-            email_address=form.cleaned_data['email'],
-            form_url=self.request.get_full_path(),
-            form_session=self.form_session,
-        )
-        response.raise_for_status()
-
-    def form_valid(self, form):
-        self.send_agent_message(form)
-        self.send_user_message(form)
-        return super().form_valid(form)
-
-
 class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
     def get_form_initial(self):
         if self.company_profile:
@@ -103,10 +68,6 @@ class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
                 'given_name': self.guess_given_name,
                 'family_name': self.guess_family_name,
             }
-
-
-class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
-    pass
 
 
 class BaseZendeskFormView(FormSessionMixin, FormView):
