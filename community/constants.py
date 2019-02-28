@@ -1,5 +1,5 @@
 COMPANY_SECTOR_CHOISES = (
-    ('', 'Please Choose'),
+    ('', 'Please choose'),
     ('0', 'Advanced Manufacturing'),
     ('1', 'Aerospace'),
     ('2', 'Agri-Tech'),
@@ -43,11 +43,11 @@ COMPANY_SECTOR_CHOISES = (
     ('41', 'Space'),
     ('42', 'Technology'),
     ('43', 'Textiles, Interior Textiles and Carpets'),
-    ('44', 'Other (please specify):'),
+    ('44', 'Other'),
 )
 
 EMPLOYEES_NUMBER_CHOISES = (
-    ('', 'Please Choose'),
+    ('', 'Please choose'),
     ('0', 'Fewer than 10'),
     ('1', '10 to 49'),
     ('2', '50 to 250'),
@@ -55,7 +55,7 @@ EMPLOYEES_NUMBER_CHOISES = (
 )
 
 HEARD_ABOUT_CHOISES = (
-    ('', 'Please Choose'),
+    ('', 'Please choose'),
     ('0', 'In the press'),
     ('1', 'International Trade Advisor'),
     ('2', 'Anothercompany'),
@@ -63,5 +63,5 @@ HEARD_ABOUT_CHOISES = (
     ('4', 'On great.gov.uk'),
     ('5', 'Email from DIT'),
     ('6', 'At an event'),
-    ('7', 'Other (please specify):'),
+    ('7', 'Other'),
 )
