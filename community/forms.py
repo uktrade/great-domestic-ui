@@ -9,7 +9,7 @@ from community import constants as choices
 
 class CommunityJoinForm(GovNotifyActionMixin, Form):
     name = fields.CharField(
-        label=_('Full Name'),
+        label=_('Full name'),
         min_length=2,
         max_length=50,
         error_messages={
@@ -62,12 +62,14 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         }
     )
     sector = fields.ChoiceField(
+        label=_('Sector'),
         choices=choices.COMPANY_SECTOR_CHOISES,
         error_messages={
             'required': _('Choose a sector'),
         }
     )
     company_website = fields.CharField(
+        label=_('Website'),
         max_length=255,
         help_text=_('Enter the home page address'),
         error_messages={
@@ -78,6 +80,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         }
     )
     employees_number = fields.ChoiceField(
+        label=_('Number of employees'),
         choices=choices.EMPLOYEES_NUMBER_CHOISES,
         error_messages={
             'required': _('Choose a number'),
@@ -92,6 +95,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
             widget=widgets.RadioSelect
     )
     advertising_feedback = fields.ChoiceField(
+        label=_('Where did you hear about becoming an Export Advocate?'),
         choices=choices.HEARD_ABOUT_CHOISES,
         error_messages={
             'required': _('Please tell us where you heard about'
