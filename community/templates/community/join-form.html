@@ -1,0 +1,23 @@
+{% extends "core/base.html" %}
+{% load render_form from directory_components_tags %}
+{% load static from staticfiles %}
+
+{% block content %}
+	<section class="questions">
+		{% block breadcrumbs %}
+			{% include 'community/breadcrumbs.html' with current_page_label='Export Advocates Form' %}
+		{% endblock %}
+		<div class="container">
+			<h1 class="heading-large">Sign up to become an Export Advocate</h1>
+			<div class="question">
+				<div class="exred-triage-form">
+					<form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
+						{% csrf_token %}
+						{% render_form form %}
+						<button type="submit" class="button button">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
