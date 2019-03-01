@@ -14,4 +14,5 @@ def community_valid_form_data(captcha_stub):
         'employees_number': '1',
         'currently_export': 'no',
         'advertising_feedback': '4',
+        'terms_agreed': True,
     }

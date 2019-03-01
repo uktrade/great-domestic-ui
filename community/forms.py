@@ -5,6 +5,7 @@ from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
 from community import constants as choices
+from contact.forms import TERMS_LABEL
 
 
 class CommunityJoinForm(GovNotifyActionMixin, Form):
@@ -103,3 +104,5 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                           ' becoming an Export Advocate'),
         }
     )
+
+    terms_agreed = fields.BooleanField(label=TERMS_LABEL)
