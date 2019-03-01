@@ -2,7 +2,7 @@ import pytest
 
 
 @pytest.fixture
-def community_join_valid_data(captcha_stub):
+def community_valid_form_data(captcha_stub):
     return {
         'name': 'Test name',
         'email': 'test@test.com',

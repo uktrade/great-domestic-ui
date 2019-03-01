@@ -77,7 +77,8 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                           'like https://www.example.com or www.company.com'),
             'invalid': _('Enter a website address in the correct format, '
                          'like https://www.example.com or www.company.com')
-        }
+        },
+        required=False
     )
     employees_number = fields.ChoiceField(
         label=_('Number of employees'),
