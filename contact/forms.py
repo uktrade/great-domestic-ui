@@ -379,8 +379,9 @@ class SellingOnlineOverseasBusiness(forms.Form):
     )
     company_number = fields.CharField(
         label='Companies House Number',
-        help_text='The number you received when registering your company at Companies House.',
-        required=False, # Only need if soletrader false - see clean (below)
+        help_text='The number you received when'
+        'registering your company at Companies House.',
+        required=False,  # Only need if soletrader false - see clean (below)
     )
     company_postcode = fields.CharField(
         required=True,
@@ -393,11 +394,13 @@ class SellingOnlineOverseasBusiness(forms.Form):
     )
 
     def clean(self):
-      cleaned_data = super().clean()
-      soletrader = cleaned_data.get('soletrader')
-      company_number = cleaned_data.get('company_number')
-      if not soletrader and not company_number:
-        self.add_error('company_number', self.fields['company_number'].error_messages['required'])
+        cleaned_data = super().clean()
+        soletrader = cleaned_data.get('soletrader')
+        company_number = cleaned_data.get('company_number')
+        if not soletrader and not company_number:
+            self.add_error('company_number',
+                           self.fields['company_number']
+                           .error_messages['required'])
 
 
 class SellingOnlineOverseasBusinessDetails(forms.Form):
