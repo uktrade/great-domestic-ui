@@ -3,10 +3,16 @@ import pytest
 from community import forms
 
 
-def test_community_join_validation_success(community_join_valid_data):
-    form = forms.CommunityJoinForm(data=community_join_valid_data)
+def test_community_form_validations(community_valid_form_data):
+    form = forms.CommunityJoinForm(data=community_valid_form_data)
     assert form.is_valid()
-    assert form.cleaned_data == community_join_valid_data
+    assert form.cleaned_data == community_valid_form_data
+
+    # validate the form with blank 'company_website' field
+    community_valid_form_data['company_website'] = ''
+    form = forms.CommunityJoinForm(data=community_valid_form_data)
+    assert form.is_valid()
+    assert form.cleaned_data == community_valid_form_data
 
 
 @pytest.mark.parametrize(
@@ -77,7 +83,7 @@ def test_community_join_validation_success(community_join_valid_data):
         ),
     )
 )
-def test_community_join_validation_errors(
+def test_community_form_validation_errors(
         invalid_data, invalid_field, error_message
 ):
     form = forms.CommunityJoinForm(data=invalid_data)
