@@ -482,6 +482,12 @@ def test_about_view(client):
     assert response.template_name == [views.AboutView.template_name]
 
 
+def test_search_view(client):
+    response = client.get(reverse('search'))
+
+    assert response.status_code == 200
+
+
 cms_urls_slugs = (
     (
         reverse('privacy-and-cookies'),
