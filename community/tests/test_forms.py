@@ -1,6 +1,7 @@
 import pytest
 
 from community import forms
+from community import constants
 
 
 def test_community_form_validations(valid_community_form_data):
@@ -20,7 +21,16 @@ def test_community_form_api_serialization(
 ):
     form = forms.CommunityJoinForm(data=valid_community_form_data)
     assert form.is_valid()
-    assert form.serialized_data == serialized_community_form_api_data
+
+    api_data = form.serialized_data
+    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
+        form.serialized_data['sector']
+    )
+    assert api_data['sector_label'] == sector_label
+    employees_number_label = dict(constants.EMPLOYEES_NUMBER_CHOISES).get(
+        form.serialized_data['employees_number']
+    )
+    assert api_data['employees_number_label'] == employees_number_label
 
 
 @pytest.mark.parametrize(
