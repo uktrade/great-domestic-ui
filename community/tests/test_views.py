@@ -9,10 +9,10 @@ from community import forms, views
 @mock.patch.object(views.CommunityJoinFormPageView, 'form_session_class')
 @mock.patch.object(forms.CommunityJoinForm, 'save')
 def test_community_join_form_notify_success(
-    mock_save, mock_form_session, client, community_valid_form_data
+    mock_save, mock_form_session, client, valid_community_form_data
 ):
     url = reverse('community-join-form')
-    response = client.post(url, community_valid_form_data)
+    response = client.post(url, valid_community_form_data)
 
     assert response.status_code == 302
     assert response.url == reverse('community-join-success')
