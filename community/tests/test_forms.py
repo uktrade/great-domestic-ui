@@ -1,18 +1,36 @@
 import pytest
 
 from community import forms
+from community import constants
 
 
-def test_community_form_validations(community_valid_form_data):
-    form = forms.CommunityJoinForm(data=community_valid_form_data)
+def test_community_form_validations(valid_community_form_data):
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
     assert form.is_valid()
-    assert form.cleaned_data == community_valid_form_data
+    assert form.cleaned_data == valid_community_form_data
 
     # validate the form with blank 'company_website' field
-    community_valid_form_data['company_website'] = ''
-    form = forms.CommunityJoinForm(data=community_valid_form_data)
+    valid_community_form_data['company_website'] = ''
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
     assert form.is_valid()
-    assert form.cleaned_data == community_valid_form_data
+    assert form.cleaned_data == valid_community_form_data
+
+
+def test_community_form_api_serialization(
+        valid_community_form_data, serialized_community_form_api_data
+):
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    assert form.is_valid()
+
+    api_data = form.serialized_data
+    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
+        form.serialized_data['sector']
+    )
+    assert api_data['sector_label'] == sector_label
+    employees_number_label = dict(constants.EMPLOYEES_NUMBER_CHOISES).get(
+        form.serialized_data['employees_number']
+    )
+    assert api_data['employees_number_label'] == employees_number_label
 
 
 @pytest.mark.parametrize(
