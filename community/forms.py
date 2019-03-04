@@ -111,7 +111,6 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         label_suffix='',
     )
 
-
     @property
     def serialized_data(self):
         data = super().serialized_data
