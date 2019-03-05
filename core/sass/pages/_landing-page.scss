@@ -91,6 +91,7 @@ body.webp-enabled {
     }
   }
 
+  .community-section,
   .triage-section,
   .beis-section {
     img {
@@ -99,8 +100,10 @@ body.webp-enabled {
   }
 }
 
+
 @media (min-width: 640px) {
   .landing-page {
+    .community-section,
     .triage-section,
     .beis-section {
       img {
