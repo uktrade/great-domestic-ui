@@ -1,3 +1,4 @@
+from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components.forms import Form
 from directory_components import fields, widgets
@@ -5,6 +6,7 @@ from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
 from community import constants as choices
+from contact.forms import TERMS_LABEL
 
 
 class CommunityJoinForm(GovNotifyActionMixin, Form):
@@ -77,7 +79,8 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                           'like https://www.example.com or www.company.com'),
             'invalid': _('Enter a website address in the correct format, '
                          'like https://www.example.com or www.company.com')
-        }
+        },
+        required=False
     )
     employees_number = fields.ChoiceField(
         label=_('Number of employees'),
@@ -102,3 +105,23 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                           ' becoming an Export Advocate'),
         }
     )
+    terms_agreed = fields.BooleanField(label=TERMS_LABEL)
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+    )
+
+    @property
+    def serialized_data(self):
+        data = super().serialized_data
+        sector_mapping = dict(choices.COMPANY_SECTOR_CHOISES)
+        employees_number_mapping = dict(choices.EMPLOYEES_NUMBER_CHOISES)
+        advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOISES)
+        data['sector_label'] = sector_mapping.get(data['sector'])
+        data['employees_number_label'] = employees_number_mapping.get(
+            data['employees_number']
+        )
+        data['advertising_feedback_label'] = advertising_feedback_mapping.get(
+            data['advertising_feedback']
+        )
+        return data
