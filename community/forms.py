@@ -1,3 +1,4 @@
+from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components.forms import Form
 from directory_components import fields, widgets
@@ -104,8 +105,11 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                           ' becoming an Export Advocate'),
         }
     )
-
     terms_agreed = fields.BooleanField(label=TERMS_LABEL)
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+    )
 
     @property
     def serialized_data(self):

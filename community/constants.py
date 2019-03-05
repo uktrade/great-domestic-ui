@@ -46,6 +46,7 @@ COMPANY_SECTOR_CHOISES = (
     ('44', 'Other'),
 )
 
+
 EMPLOYEES_NUMBER_CHOISES = (
     ('', 'Please choose'),
     ('0', 'Fewer than 10'),
@@ -58,8 +59,8 @@ HEARD_ABOUT_CHOISES = (
     ('', 'Please choose'),
     ('0', 'In the press'),
     ('1', 'International Trade Advisor'),
-    ('2', 'Anothercompany'),
-    ('3', 'Tradeassociation'),
+    ('2', 'Another Company'),
+    ('3', 'Trade Association'),
     ('4', 'On great.gov.uk'),
     ('5', 'Email from DIT'),
     ('6', 'At an event'),

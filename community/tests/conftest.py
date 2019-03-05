@@ -15,6 +15,7 @@ def valid_community_form_data(captcha_stub):
         'currently_export': 'no',
         'advertising_feedback': '4',
         'terms_agreed': True,
+        'g-recaptcha-response': captcha_stub,
     }
 
 
