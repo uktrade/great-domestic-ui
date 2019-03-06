@@ -7,13 +7,16 @@ from community import constants
 def test_community_form_validations(valid_community_form_data):
     form = forms.CommunityJoinForm(data=valid_community_form_data)
     assert form.is_valid()
-    assert form.cleaned_data == valid_community_form_data
+    assert form.cleaned_data['name'] == valid_community_form_data['name']
+    assert form.cleaned_data['email'] == valid_community_form_data['email']
 
     # validate the form with blank 'company_website' field
     valid_community_form_data['company_website'] = ''
     form = forms.CommunityJoinForm(data=valid_community_form_data)
     assert form.is_valid()
-    assert form.cleaned_data == valid_community_form_data
+    assert form.cleaned_data['name'] == valid_community_form_data['name']
+    assert form.cleaned_data['email'] == valid_community_form_data['email']
+    assert form.cleaned_data['company_website'] == ''
 
 
 def test_community_form_api_serialization(
