@@ -20,7 +20,7 @@ def test_community_form_validations(valid_community_form_data):
 
 
 def test_community_form_api_serialization(
-        valid_community_form_data, serialized_community_form_api_data
+        valid_community_form_data
 ):
     form = forms.CommunityJoinForm(data=valid_community_form_data)
     assert form.is_valid()
@@ -34,6 +34,27 @@ def test_community_form_api_serialization(
         form.serialized_data['employees_number']
     )
     assert api_data['employees_number_label'] == employees_number_label
+
+
+def test_community_form_api_serialization_with_other_options(
+        valid_community_form_data_with_other_options
+):
+    form = forms.CommunityJoinForm(
+        data=valid_community_form_data_with_other_options
+    )
+    assert form.is_valid()
+
+    api_data = form.serialized_data
+    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
+        form.serialized_data['sector']
+    )
+    assert sector_label == 'Other'
+    assert api_data['sector_other'] == 'Game Development'
+    advertising_feedback_label = dict(constants.HEARD_ABOUT_CHOISES).get(
+        form.serialized_data['advertising_feedback']
+    )
+    assert advertising_feedback_label == 'Other'
+    assert api_data['advertising_feedback_other'] == 'Friends'
 
 
 @pytest.mark.parametrize(

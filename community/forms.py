@@ -129,11 +129,19 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         sector_mapping = dict(choices.COMPANY_SECTOR_CHOISES)
         employees_number_mapping = dict(choices.EMPLOYEES_NUMBER_CHOISES)
         advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOISES)
-        data['sector_label'] = sector_mapping.get(data['sector'])
+        if data.get('sector_other'):
+            sector_label = data.get('sector_other')
+        else:
+            sector_label = sector_mapping.get(data['sector'])
+        data['sector_label'] = sector_label
+        if data.get('advertising_feedback_other'):
+            advertising_feedback_label = data.get('advertising_feedback_other')
+        else:
+            advertising_feedback_label = advertising_feedback_mapping.get(
+                data['advertising_feedback']
+            )
+        data['advertising_feedback_label'] = advertising_feedback_label
         data['employees_number_label'] = employees_number_mapping.get(
             data['employees_number']
-        )
-        data['advertising_feedback_label'] = advertising_feedback_mapping.get(
-            data['advertising_feedback']
         )
         return data
