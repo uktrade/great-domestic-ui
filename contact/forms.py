@@ -501,14 +501,14 @@ class OfficeFinderForm(forms.Form):
         except requests.exceptions.RequestException:
             return None
 
-    @cached_property
+    @property
     def office_details(self):
         return helpers.filter_regional_office(
             matched=True,
             office_list=self.all_office_details,
         )
 
-    @cached_property
+    @property
     def other_offices(self):
         return helpers.filter_regional_office(
             matched=False,

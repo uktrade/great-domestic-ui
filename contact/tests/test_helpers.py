@@ -39,3 +39,39 @@ def test_retrieve_exporting_advice_email_success():
         email = helpers.retrieve_exporting_advice_email('ABC123')
 
     assert email == 'region@example.com'
+
+
+def test_filter_regional_office():
+
+    offices = [
+        {'is_match': True, 'email': 'region@example.com'},
+        {'is_match': False, 'email': 'region2@example.com'}
+    ]
+
+    filtered_office_match = helpers.filter_regional_office(
+        matched=True,
+        office_list=offices,
+    )
+
+    filtered_office_unmatch = helpers.filter_regional_office(
+        matched=False,
+        office_list=offices,
+    )
+
+    assert filtered_office_match == [
+        {'is_match': True, 'email': 'region@example.com'}
+    ]
+
+    assert filtered_office_unmatch == [
+        {'is_match': False, 'email': 'region2@example.com'}
+    ]
+
+
+def test_filter_regional_office_empty():
+
+    filtered_office=helpers.filter_regional_office(
+        matched=True,
+        office_list=[],
+    )
+
+    assert filtered_office is None
