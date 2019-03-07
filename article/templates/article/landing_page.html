@@ -36,14 +36,17 @@
   <div class="container">
     <div class="grid-row">
       <div class="column-half-l column-two-thirds-m column-full">
-        <h1 class="heading-xlarge heading-hero-domestic title" id="hero-campaign-section-title"><span>JOIN OUR</span><br><span>EXPORT COMMUNITY</span></h1>
-        <p class="body-text">Our export community is a network of businesses who advocate for exporting. They share success stories, offer practical advice and lead by example.</p>
-        <p class="body-text">The Department for International Trade and the export community together offer export guidance, services and support.</p>
+        <h1 class="heading-xlarge heading-hero-domestic title" id="hero-campaign-section-title"><span>If we can</span><br><span>you can</span></h1>
+        <p id="hero-campaign-section-description" class="body-text">Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
       </div>
     </div>
+	<picture id="hero-campaign-section-eig-logo">
+	  <source srcset="{% static 'images/eig-logo-stacked.webp' %}" type="image/webp">
+	  <img src="{% static 'images/eig-logo-stacked.png' %}" alt="">
+	</picture>
 
     <div class="video modal">
-	   <a href="{% url 'community-article' %}" class="button">Become an Export Advocate</a>
+      <a href="{{ LANDING_PAGE_VIDEO_URL }}" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" class="button button-ghost-white video-button" target="_blank">Watch video</a>
     </div>
   </div>
 </section>
@@ -60,6 +63,8 @@
 {% if features.NEWS_SECTION_ON %}
   {% include 'article/sections/news_section.html' %}
 {% endif %}
+
+{% include 'article/sections/community_section.html' %}
 
 {% include 'article/sections/advice_section.html' %}
 

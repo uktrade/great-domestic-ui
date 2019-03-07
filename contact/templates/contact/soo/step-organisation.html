@@ -36,47 +36,54 @@
 
 {% block body_js %}
     <script src="{% static 'js/company-lookup.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
     <script type="text/javascript">
-        var isSoleTrader = document.getElementById('id_organisation-soletrader');
-        var companyNumberContainer = document.getElementById('id_organisation-company_number-container');
-        companyNumberContainer.style.display = 'none';
-        var companyNumber = document.getElementById('id_organisation-company_number');
-        var companyName = document.getElementById('id_organisation-company_name');
-        var companyNameContainer = document.getElementById('id_organisation-company_name-container');
-        var companyPostcodeContainer = document.getElementById('id_organisation-company_postcode-container');
-        
-        GOVUK.utils.toggleInputOnNotTicked(isSoleTrader, companyNameContainer);
-        GOVUK.utils.toggleRadioOtherOnClick(isSoleTrader, companyPostcodeContainer);
+      $(document).ready(function() {
+        var $companyNumberContainer = $("#id_organisation-company_number-container");
+        var $companyNumberField = $("#id_organisation-company_number");
+        var $noCompanyNumber = $("#id_organisation-soletrader");
+        var lookup = new GOVUK.components.CompaniesHouseNameLookup($("#id_organisation-company_name"), $companyNumberField);
 
-        function clearUpValuesOnTypeChange() {
-          isSoleTrader.addEventListener('change', function(event) {
-            if (event.target.checked) {
-              companyNumber.value = '';
+        // Hide and clear company number field if declare they have no number.
+        $noCompanyNumber.on("change", function() {
+          if(this.checked) {
+            $companyNumberField.val("");
+            $companyNumberContainer.hide();
+          }
+          else {
+            $companyNumberContainer.show();
+          }
+        });
+
+        // Adjustments for the Companies House lookup on company name field and
+        // automatic population of the company number and postcode on selection.
+        lookup.bindContentEvents = function() {
+
+          // First allow the normal functionality to run.
+          GOVUK.components.CompaniesHouseNameLookup.prototype.bindContentEvents.call(lookup);
+
+          // Now add customisations for this SOO form (includes postcode population).
+          lookup._private.$list.on("click.CompaniesHouseNameLookup", function(event) {
+            var companies = GOVUK.data.getCompanyByName.response;
+            var selectedCompanyNumber = lookup._private.$field.val();
+            for(var i=0; i<companies.length; ++i) {
+              if(companies[i].company_number == selectedCompanyNumber) {
+                $("#id_organisation-company_postcode").val(companies[i].address.postal_code);
+              }
             }
+
+            // Where has the auto-close gone??
+            lookup.close();
           });
         }
 
-        function createCompaniesHouseLookup() {
-          $(document.body).on(
-            "click.SelectiveLookupCloseAll",
-            GOVUK.components.SelectiveLookup.closeAll
-          );
-          function maybePreventCompanyLookup(event) {
-            isSoleTrader.checked && event.stopImmediatePropagation();
+        // In case user selects 'no companies house number' before filling in
+        // company name (unlikely), let's prevent the number lookup functionality.
+        lookup.search = function() {
+          if(! $noCompanyNumber.get(0).checked) {
+            GOVUK.components.SelectiveLookup.prototype.search.call(lookup);
           }
-          companyName.addEventListener('keydown', maybePreventCompanyLookup);
-          companyName.addEventListener('keypress', maybePreventCompanyLookup);
-          companyName.addEventListener('keyup', maybePreventCompanyLookup);
-          companyName.addEventListener('input', maybePreventCompanyLookup);
-          return new GOVUK.components.CompaniesHouseNameLookup(
-            $(companyName),
-            $(companyNumber)
-          );
-
         }
-        createCompaniesHouseLookup();
-        clearUpValuesOnTypeChange();
+      });
     </script>
 
 
