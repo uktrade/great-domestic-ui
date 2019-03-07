@@ -187,13 +187,6 @@ def domestic_form_data(captcha_stub):
     ),
     (
         constants.GREAT_ACCOUNT,
-        constants.SOLE_TRADER_ADDRESS_NOT_FOUND,
-        views.build_great_account_guidance_url(
-            cms.GREAT_HELP_ACCOUNT_SOLE_TRADER_ADDRESS_NOT_FOUND_SLUG
-        ),
-    ),
-    (
-        constants.GREAT_ACCOUNT,
         constants.PASSWORD_RESET,
         views.build_great_account_guidance_url(
             cms.GREAT_HELP_PASSWORD_RESET_SLUG
