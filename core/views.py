@@ -1,9 +1,10 @@
+import json
 import requests
+import re
 
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
-from sigauth.helpers import RequestSigner
 
 from django.conf import settings
 from django.contrib import sitemaps
@@ -20,7 +21,7 @@ from core import helpers, mixins, forms
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin
 )
-
+from mohawk import Sender as MohawkSender
 
 class SetEtagMixin:
     def dispatch(self, request, *args, **kwargs):
@@ -320,49 +321,52 @@ class SearchView(TemplateView):
     ''' Search results
     '''
     def get(self, request, *args, **kwargs):
-        
-        def send_request(method, url, body):
-            #request = requests.Request(method=method, url=url, body=body).prepare()
-            request = requests.Request(method=method, url=url, data=body).prepare()
-            sign_request(request)
-            return requests.Session().send(request)
 
-        def sign_request(request):
-            request_signer = RequestSigner(settings.ACTIVITY_STREAM_API_SECRET_KEY,
-                                           settings.ACTIVITY_STREAM_API_ACCESS_KEY)
-            headers = request_signer.get_signature_headers(
-                url=request.path_url,
-                body=request.body,
-                method=request.method,
+        def sanitiser(query):
+            return " ".join(list(filter(None, re.findall(r"[a-zA-Z0-9']*", query))))
+
+        def format_query(query):
+            return {
+                "query": {
+                    "match_phrase": {
+                        "orderedItems.id": query
+                    }
+                }
+            }
+
+        def search_with_activitystream(query):
+            method = "GET"
+            url = settings.ACTIVITY_STREAM_API_URL
+            request = requests.Request(method=method, url=url, data=query).prepare()
+
+            auth = MohawkSender(
+                {
+                    'id': settings.ACTIVITY_STREAM_API_ACCESS_KEY,
+                    'key': settings.ACTIVITY_STREAM_API_SECRET_KEY,
+                    'algorithm': 'sha256'
+                },
+                url,
+                method,
+                content=query,
                 content_type='application/json',
-            )
-            request.headers.update({    
+            ).request_header
+
+            request.headers.update({
                 'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
-                'X-Forwarded-Proto': 'http',
-                'Authorization': headers.pop("X-Signature"),
+                'X-Forwarded-Proto': 'https',
+                'Authorization': auth,
                 'Content-Type': 'application/json'
             })
-            request.headers.update(headers)
 
+            return requests.Session().send(request)
 
-        results = send_request("GET", settings.ACTIVITY_STREAM_API_URL, '')
+        query = sanitiser(request.GET.get('q', ''))
+        elasticsearch_query = format_query(query)
+        results = search_with_activitystream(elasticsearch_query)
 
-        return render(request, 'core/search.html', {'results': results })
+        if(results.status_code != 200):
+            results_or_error = "No results found"
+        else:
+            results_or_error = json.loads(results.content)
 
-
-# What are the tests for this one going to say?
-
-# Send valid request and get a valid response?
-# Send a request with 
-
-
-# Step 1:
-# Run AS locally
-# Send in a signed request from great-domestic-ui
-
-# Step 2:
-# Run AS locally
-# Fire off a request from local views.py
-
-
-
+        return render(request, 'core/search.html', {'results': results_or_error })
