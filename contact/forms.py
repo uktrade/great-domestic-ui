@@ -7,8 +7,7 @@ from directory_forms_api_client.forms import (
 import requests.exceptions
 
 from django.conf import settings
-from django.forms import Textarea, TextInput, TypedChoiceField, ValidationError
-from django.utils.functional import cached_property
+from django.forms import Textarea, TextInput, TypedChoiceField
 from django.utils.html import mark_safe
 
 from contact import constants, helpers
@@ -492,32 +491,7 @@ class OfficeFinderForm(forms.Form):
         help_text='For example SW1A 2AA',
     )
 
-    @cached_property
-    def all_office_details(self):
-        try:
-            return helpers.retrieve_regional_offices(
-                self.cleaned_data['postcode']
-            )
-        except requests.exceptions.RequestException:
-            return None
-
-    @property
-    def office_details(self):
-        return helpers.filter_regional_office(
-            matched=True,
-            office_list=self.all_office_details,
-        )
-
-    @property
-    def other_offices(self):
-        return helpers.filter_regional_office(
-            matched=False,
-            office_list=self.all_office_details,
-        )
-
     def clean_postcode(self):
-        if not self.all_office_details:
-            raise ValidationError(self.MESSAGE_NOT_FOUND)
         return self.cleaned_data['postcode'].replace(' ', '')
 
 

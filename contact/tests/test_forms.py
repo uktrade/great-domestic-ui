@@ -258,35 +258,6 @@ def test_routing_forms_new_reg_journey_flag(value, feature_flags):
     ) is value
 
 
-def test_office_finder_unknown_postcode():
-    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
-        postcode='ABC123'
-    )
-
-    form = forms.OfficeFinderForm(data={'postcode': 'ABC123'})
-
-    with requests_mock.mock() as mock:
-        mock.get(url, status_code=404)
-        assert form.is_valid() is False
-
-    assert form.errors['postcode'] == [form.MESSAGE_NOT_FOUND]
-
-
-def test_office_finder_known_postcode():
-    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
-        postcode='ABC123'
-    )
-    office_details = [{'is_match': True, 'field': 'value'}]
-
-    form = forms.OfficeFinderForm(data={'postcode': 'ABC123'})
-
-    with requests_mock.mock() as mock:
-        mock.get(url, json=office_details)
-        assert form.is_valid() is True
-
-    assert form.office_details == office_details
-
-
 def test_selling_online_overseas_business_valid_form_soletrader():
     form = forms.SellingOnlineOverseasBusiness(
         data={
