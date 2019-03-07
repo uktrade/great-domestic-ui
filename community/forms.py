@@ -3,6 +3,7 @@ from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components.forms import Form
 from directory_components import fields, widgets
 from django.core.validators import RegexValidator
+from django.forms import TextInput
 from django.utils.translation import ugettext_lazy as _
 
 from community import constants as choices
@@ -70,6 +71,11 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
             'required': _('Choose a sector'),
         }
     )
+    sector_other = fields.CharField(
+        label=_('Type in your sector'),
+        widget=TextInput(attrs={'class': 'js-field-other'}),
+        required=False,
+    )
     company_website = fields.CharField(
         label=_('Website'),
         max_length=255,
@@ -105,6 +111,12 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                           ' becoming an Export Advocate'),
         }
     )
+    advertising_feedback_other = fields.CharField(
+        label=_('Type in your feedback'),
+        widget=TextInput(attrs={'class': 'js-field-other'}),
+        required=False,
+    )
+
     terms_agreed = fields.BooleanField(label=TERMS_LABEL)
     captcha = ReCaptchaField(
         label='',
@@ -117,11 +129,19 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         sector_mapping = dict(choices.COMPANY_SECTOR_CHOISES)
         employees_number_mapping = dict(choices.EMPLOYEES_NUMBER_CHOISES)
         advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOISES)
-        data['sector_label'] = sector_mapping.get(data['sector'])
+        if data.get('sector_other'):
+            sector_label = data.get('sector_other')
+        else:
+            sector_label = sector_mapping.get(data['sector'])
+        data['sector_label'] = sector_label
+        if data.get('advertising_feedback_other'):
+            advertising_feedback_label = data.get('advertising_feedback_other')
+        else:
+            advertising_feedback_label = advertising_feedback_mapping.get(
+                data['advertising_feedback']
+            )
+        data['advertising_feedback_label'] = advertising_feedback_label
         data['employees_number_label'] = employees_number_mapping.get(
             data['employees_number']
-        )
-        data['advertising_feedback_label'] = advertising_feedback_mapping.get(
-            data['advertising_feedback']
         )
         return data
