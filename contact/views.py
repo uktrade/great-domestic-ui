@@ -576,9 +576,9 @@ class OfficeFinderFormView(
 
     @cached_property
     def all_offices(self):
-            return helpers.retrieve_regional_offices(
-               self.postcode
-            )
+        return helpers.retrieve_regional_offices(
+           self.postcode
+        )
 
     @property
     def flag(self):
