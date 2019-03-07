@@ -283,9 +283,9 @@ def test_office_finder_known_postcode():
     with requests_mock.mock() as mock:
         mock.get(url, json=office_details)
         assert form.is_valid() is True
-        
+
     assert form.office_details == office_details
- 
+
 
 def test_selling_online_overseas_business_valid_form_soletrader():
     form = forms.SellingOnlineOverseasBusiness(
@@ -321,4 +321,3 @@ def test_selling_online_overseas_business_invalid_form():
     )
     assert form.is_valid() is False
     assert form.errors == {'company_number': ['This field is required.']}
-
