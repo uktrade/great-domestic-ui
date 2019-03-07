@@ -69,7 +69,7 @@ def test_filter_regional_office():
 
 def test_filter_regional_office_empty():
 
-    filtered_office=helpers.filter_regional_office(
+    filtered_office = helpers.filter_regional_office(
         matched=True,
         office_list=[],
     )
