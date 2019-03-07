@@ -19,9 +19,7 @@ def test_community_form_validations(valid_community_form_data):
     assert form.cleaned_data['company_website'] == ''
 
 
-def test_community_form_api_serialization(
-        valid_community_form_data
-):
+def test_community_form_api_serialization(valid_community_form_data):
     form = forms.CommunityJoinForm(data=valid_community_form_data)
     assert form.is_valid()
 
