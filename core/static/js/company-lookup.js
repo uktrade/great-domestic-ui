@@ -59,7 +59,6 @@ GOVUK.data = (new function() {
 
   // Create service to fetch Company from name lookup on Companies House API
   this.getCompanyByName = new Service("/api/internal/companies-house-search/");
-
 });
 
 GOVUK.components = (new function() {
@@ -294,6 +293,11 @@ GOVUK.components = (new function() {
       SelectiveLookup.instances[i].close();
     }
   }
+
+  // So that we close any open when another is activated
+  $(document).ready(function() {
+    $(document.body).on("click.SelectiveLookupCloseAll", SelectiveLookup.closeAll);
+  });
 
   /* Extends SelectiveLookup to perform specific requirements
    * for Companies House company search by name, and resulting
