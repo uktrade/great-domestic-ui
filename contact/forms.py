@@ -485,16 +485,30 @@ class OfficeFinderForm(forms.Form):
     )
 
     @cached_property
-    def office_details(self):
+    def all_office_details(self):
         try:
-            return helpers.retrieve_regional_office(
+            return helpers.retrieve_regional_offices(
                 self.cleaned_data['postcode']
             )
         except requests.exceptions.RequestException:
             return None
 
+    @cached_property
+    def office_details(self):
+        return helpers.filter_regional_office(
+            matched=True,
+            office_list=self.all_office_details,
+        )
+
+    @cached_property
+    def other_offices(self):
+        return helpers.filter_regional_office(
+            matched=False,
+            office_list=self.all_office_details,
+        )
+
     def clean_postcode(self):
-        if not self.office_details:
+        if not self.all_office_details:
             raise ValidationError(self.MESSAGE_NOT_FOUND)
         return self.cleaned_data['postcode'].replace(' ', '')
 

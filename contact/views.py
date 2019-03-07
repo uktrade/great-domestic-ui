@@ -577,22 +577,26 @@ class OfficeFinderFormView(
         return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
 
     @staticmethod
-    def format_office_details(office_details):
-        address = office_details['address_street'].split(', ')
-        address.append(office_details['address_city'])
-        address.append(office_details['address_postcode'])
-        return {
-            'address': '\n'.join(address),
-            **office_details,
-        }
+    def format_office_details(office_list):
+        offices = []
+        for office in office_list:
+            address = office['address_street'].split(', ')
+            address.append(office['address_city'])
+            address.append(office['address_postcode'])
+            office = {'address': '\n'.join(address), **office}
+            offices.append(office)
+        return offices if len(offices) > 0 else None
 
     def form_valid(self, form):
         office_details = self.format_office_details(form.office_details)
+        office_details = office_details[0] if office_details else None
+        other_offices = self.format_office_details(form.other_offices)
         return TemplateResponse(
             self.request,
             self.template_name,
             {
                 'office_details': office_details,
+                'other_offices': other_offices,
                 **self.get_context_data(),
             }
         )

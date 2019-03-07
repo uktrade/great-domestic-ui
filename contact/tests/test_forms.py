@@ -129,7 +129,9 @@ def test_short_notify_form_serialize_data(domestic_data):
     url = api_client.exporting.endpoints['lookup-by-postcode'].format(
         postcode='ABC123'
     )
-    office_details = {'name': 'Some Office', 'email': 'foo@example.com'}
+    office_details = [
+        {'is_match': True, 'name': 'Some Office', 'email': 'foo@example.com'}
+    ]
     with requests_mock.mock() as mock:
         mock.get(url, json=office_details)
         data = form.serialized_data
@@ -274,7 +276,7 @@ def test_office_finder_known_postcode():
     url = api_client.exporting.endpoints['lookup-by-postcode'].format(
         postcode='ABC123'
     )
-    office_details = {'field': 'value'}
+    office_details = [{'is_match': True, 'field': 'value'}]
 
     form = forms.OfficeFinderForm(data={'postcode': 'ABC123'})
 
@@ -282,4 +284,4 @@ def test_office_finder_known_postcode():
         mock.get(url, json=office_details)
         assert form.is_valid() is True
 
-    assert form.office_details == {'field': 'value'}
+    assert form.office_details == office_details

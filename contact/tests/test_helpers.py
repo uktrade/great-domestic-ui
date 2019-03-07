@@ -32,8 +32,10 @@ def test_retrieve_exporting_advice_email_success():
     url = api_client.exporting.endpoints['lookup-by-postcode'].format(
         postcode='ABC123'
     )
+    match_office = [{'is_match': True, 'email': 'region@example.com'}]
     with requests_mock.mock() as mock:
-        mock.get(url, status_code=200, json={'email': 'region@example.com'})
+        mock.get(url, status_code=200, json=match_office)
+
         email = helpers.retrieve_exporting_advice_email('ABC123')
 
     assert email == 'region@example.com'
