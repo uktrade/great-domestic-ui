@@ -18,7 +18,8 @@ META_DESCRIPTION_TEXT_LENGTH = 150
 
 @register.simple_tag
 def get_meta_description(page, **kwargs):
-    description = page.get('article_teaser', '')
+    search_description = page.get('search_description', '')
+    description = page.get('article_teaser', search_description)
     if not description and page.get('article_body_text'):
         description = ''.join(BeautifulSoup(
             page.get('article_body_text')
