@@ -4,12 +4,6 @@
     <div class="container">
       {% block login_state %}
       <ul aria-label="Account links" class="account-links">
-        <li>
-          <form action="/search">
-            <input type="text" name="q">
-            <button>Search</button>
-          </form>
-        </li>
         {% if not sso_is_logged_in %}
         <li class="anonymous">
           <a id="header-register-link" href="{{ sso_register_url }}" class="register">Register</a>

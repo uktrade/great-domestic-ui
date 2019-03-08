@@ -14,7 +14,6 @@ from django.utils.cache import set_response_etag
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from django.utils.functional import cached_property
-from django.shortcuts import render
 
 from casestudy import casestudies
 from core import helpers, mixins, forms
@@ -22,6 +21,7 @@ from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin
 )
 from mohawk import Sender as MohawkSender
+
 
 class SetEtagMixin:
     def dispatch(self, request, *args, **kwargs):
@@ -318,110 +318,97 @@ class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
 
 
 class SearchView(TemplateView):
-    ''' Search results
+    template_name = 'core/search.html'
+    ''' Search results page.
+
+        URL parameters: 'q'    String to be searched
+                        'page' Int results page number
     '''
-    def get(self, request, *args, **kwargs):
 
-        def sanitiser(query):
-            return " ".join(list(filter(None, re.findall(r"[a-zA-Z0-9']*", query))))
+    def search_with_activitystream(self, query):
+        """ Searches ActivityStream services with given Elasticsearch query.
+            Note that this must be at root level in SearchView class to
+            enable it to be mocked in tests.
+        """
+        method = "GET"
+        url = settings.ACTIVITY_STREAM_API_URL
+        request = requests.Request(
+            method=method, url=url, data=query).prepare()
 
-        def format_query(query):
-            return {
+        auth = MohawkSender(
+            {
+                'id': settings.ACTIVITY_STREAM_API_ACCESS_KEY,
+                'key': settings.ACTIVITY_STREAM_API_SECRET_KEY,
+                'algorithm': 'sha256'
+            },
+            url,
+            method,
+            content=query,
+            content_type='application/json',
+        ).request_header
+
+        request.headers.update({
+            'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
+            'X-Forwarded-Proto': 'https',
+            'Authorization': auth,
+            'Content-Type': 'application/json'
+        })
+
+        return requests.Session().send(request)
+
+    def get_context_data(self, **kwargs):
+
+        def sanitise_query(query):
+            return " ".join(list(filter(
+                None, re.findall(r"[a-zA-Z0-9']*", query)
+            )))
+
+        def sanitise_page(page):
+            return int(page) if int(page) > 0 else 0
+
+        def parse(results):
+            return json.loads(results.content)['orderedItems']
+
+        def flatten(results):
+            return list(map(lambda x: x['object'], results))
+
+        def format_query(query, page):
+            """ formats query for ElasticSearch
+            Note: ActivityStream not yet configured to recieve pagination,
+            will be corrected shortly. Hence commented-out lines.
+            """
+            RESULTS_PER_PAGE = 10
+            # from_result = page * RESULTS_PER_PAGE
+            return json.dumps({
                 "query": {
-                    "match_phrase": {
-                        "orderedItems.id": query
-                    }
-                }
+                  "bool": {
+                      "should": [
+                          {"match": {"object.id": query}},
+                          {"match": {"object.name": query}},
+                          {"match": {"object.content": query}},
+                          {"match": {"object.type": query}}
+                      ]
+                  }
+                },
+                "_source": "object.*",
+                # "from" : from_result,
+                "size": RESULTS_PER_PAGE
+            })
+
+        query = sanitise_query(self.request.GET.get('q', ''))
+        page = sanitise_page(self.request.GET.get('page', '0'))
+        elasticsearch_query = format_query(query, page)
+        response = self.search_with_activitystream(elasticsearch_query)
+
+        if(response.status_code != 200):
+            return {
+                'error_message': response.content,
+                'error_status_code': response.status_code
             }
-
-        # def search_with_activitystream(query):
-        #     method = "GET"
-        #     url = settings.ACTIVITY_STREAM_API_URL
-        #     request = requests.Request(method=method, url=url, data=query).prepare()
-
-        #     auth = MohawkSender(
-        #         {
-        #             'id': settings.ACTIVITY_STREAM_API_ACCESS_KEY,
-        #             'key': settings.ACTIVITY_STREAM_API_SECRET_KEY,
-        #             'algorithm': 'sha256'
-        #         },
-        #         url,
-        #         method,
-        #         content=query,
-        #         content_type='application/json',
-        #     ).request_header
-
-        #     request.headers.update({
-        #         'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
-        #         'X-Forwarded-Proto': 'https',
-        #         'Authorization': auth,
-        #         'Content-Type': 'application/json'
-        #     })
-
-        #     return requests.Session().send(request)
-
-        query = sanitiser(request.GET.get('q', ''))
-        elasticsearch_query = format_query(query)
-        #  results = search_with_activitystream(elasticsearch_query)
-
-        # if(results.status_code != 200):
-        #     results_or_error = "No results found"
-        # else:
-        #     results_or_error = json.loads(results.content)
-
-        results_or_error = [{
-  "type": "Opportunities",
-  "name": "Poland - Waste services",
-  "content": "1) The subject of the contract covers the service of transport, management and/or neutralisation of hazardous and non-hazardous waste of the codes given in Appendix No. 1 to the ToR, from the area of real estate located in Głogów, at 8 Południowa Street, in the estimated quantity of approx. 3 600"
-},
-{
-  "type": "Opportunities",
-  "name": "France - Higher education services",
-  "content": "Provision of teaching services in mathematics, physics, computer science and electronics (fundamental and applied) for candidates preparing for the internal competitions of the Directorate General of Civil Aviation (DGAC) and provision of services for export candidates."
-},
-{
-  "type": "Opportunities",
-  "name": "France - Data analysis services",
-  "content": "The purpose of this contract is to analyze, retrieve and format data from the BPI sites in Jahia and create an export of this data for integration in Wordpress."
-},
-{
-  "type": "Opportunities",
-  "name": "Germany - snow clearing",
-  "content": "Winter services for the properties1) Former procurement office of the Federal Customs Administration, Frankfurter Str. 91, 63067 Offenbach a. M.a) Public areas: 42.00 m2- Winter services: Mondays to Fridays for the first time until 06.00 a.m., end 20.00 a.m.; Saturdays, Sundays and public holidays in accordance with the statutesgb) Non-public areas: 1,327.00 m2- Winter services: Mondays to Fridays for the first time until 6.00 h, end 20.00 h2) Residential property, Strahlenberger Straße 149/149a, 63067 Offenbach a.M.- non-public areas: 28.00 m2, according to statutes3"
-},
-{
-  "type": "Opportunities",
-  "name": "Poland - Software package and information systems",
-  "content": "The full scope of contract performance is included in the content of the Object of Contract, constituting Appendix No. 2 to the ToR1.. Implementation shall include, in particular, the following sub-stages:a) signing of the agreement together"
-},
-{
-  "type": "Opportunities",
-  "name": "Switzerland - IT services: Consulting, software development, internet and support",
-  "content": "The service recipient procures a process- and workflow-supporting, parameterizable, intuitively operable, web-based overall solution for the migration system of the Canton of Berne, which is operated by the internal ICT service provider of the Canton of Berne.",
-},
-{
-  "type": "Opportunities",
-  "name": "France - Creation and maintenance of green spaces",
-  "content": "Landscaping of the approach sections of urban agglomeration on departmental roads: - 2017 firm slice:-- Signalling, 530 half-days,-- Soil preparation, export/vegetable soil supply 1,850 m3, soil preparation 6,800 m2,-- Mulch installation 4,200 m2,-- Plant supply and planting 18,700 units,-- Grassing 6,200 m2,-- 18,700 shrubs, 6,200 m2 of grass,"
-},
-{
-  "type": "Opportunities",
-  "name": "Poland - Waste services",
-  "content": "The subject of the contract is to equip all real estates inhabited in the Międzyrzecz commune with containers for collecting municipal waste and keeping them in a proper sanitary, clean and technical condition, as well as continuous and reliable collection of all municipal waste from all real estates in the period from"
-},
-{
-  "type": "Advice",
-  "name": "How to create an export plan",
-  "content": "An export plan is a business plan for selling overseas. It should detail the decisions you’ve made based on your market research, your objectives and how you plan to achieve them."
-},
-{
-  "type": "Opportunities",
-  "name": "Poland - Air filters",
-  "content": "The subject of this order is delivery, replacement, validation measurements, export and utilization of air filters in the buildings of the 600th anniversary of Jagiellonian University Renewal Campus in Krakow. In accordance with the table divided into buildings constituting Annex A and B to the ToR.",
-  },
-{
-  "type": "Opportunities",
-  "name": "France - Software maintenance and repair services",
-  "content": "The \"Si_Di_Base_Export_Export_Prospect\" allows:- to store all data relating to prospective cases and contracts that have been concluded between French armaments manufacturers and foreign countries,- to be fully informed on the number, amounts and nature of contracts signed (statistical tool),"
-}]
-        return render(request, 'core/search.html', {'results': results_or_error })
+        else:
+            results = parse(response)
+            if(results == []):
+                results = "No results found"
+            else:
+                results = flatten(results)
+            return {'results': results}

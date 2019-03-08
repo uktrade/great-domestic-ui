@@ -1,7 +1,9 @@
+import json
 import http
-from unittest.mock import call, patch, PropertyMock
+from unittest.mock import call, patch, PropertyMock, Mock
 
 import requests
+
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -483,9 +485,62 @@ def test_about_view(client):
 
 
 def test_search_view(client):
-    response = client.get(reverse('search'))
+    """ We mock the call to ActivityStream """
+    with patch('core.views.SearchView.search_with_activitystream') as search:
+        mock_results = json.dumps({"orderedItems": [
+            {"object": {
+                "type": "Opportunities",
+                "name": "France - Data analysis services",
+                "content": "The purpose of this contract is to analyze..."
+            }},
+            {"object": {
+                "type": "Opportunities",
+                "name": "Germany - snow clearing",
+                "content": "Winter services for the properties1) Former..."
+            }}
+        ]})
+        search.return_value = Mock(status_code=200, content=mock_results)
 
-    assert response.status_code == 200
+        response = client.get("%s?q=services" % reverse('search'))
+        context = response.context_data
+
+        assert response.status_code == 200
+        assert context['results'] == [
+                {
+                  "type": "Opportunities",
+                  "name": "France - Data analysis services",
+                  "content": "The purpose of this contract is to analyze..."
+                },
+                {
+                  "type": "Opportunities",
+                  "name": "Germany - snow clearing",
+                  "content": "Winter services for the properties1) Former..."
+                }
+            ]
+
+        """ What if there are no results? """
+        search.return_value = Mock(
+            status_code=200,
+            content=json.dumps({"orderedItems": []})
+        )
+
+        response = client.get("%s?q=services" % reverse('search'))
+        context = response.context_data
+
+        assert response.status_code == 200
+        assert context['results'] == "No results found"
+
+        """ What if ActivitySteam is down? """
+        search.return_value = Mock(status_code=500,
+                                   content="[service overloaded]")
+
+        response = client.get("%s?q=Document" % reverse('search'))
+        context = response.context_data
+
+        assert response.status_code == 200
+        # This can be handled on the front end as we wish
+        assert context['error_message'] == "[service overloaded]"
+        assert context['error_status_code'] == 500
 
 
 cms_urls_slugs = (
