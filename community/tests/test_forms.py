@@ -1,12 +1,58 @@
 import pytest
 
 from community import forms
+from community import constants
 
 
-def test_community_join_validation_success(community_join_valid_data):
-    form = forms.CommunityJoinForm(data=community_join_valid_data)
+def test_community_form_validations(valid_community_form_data):
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
     assert form.is_valid()
-    assert form.cleaned_data == community_join_valid_data
+    assert form.cleaned_data['name'] == valid_community_form_data['name']
+    assert form.cleaned_data['email'] == valid_community_form_data['email']
+
+    # validate the form with blank 'company_website' field
+    valid_community_form_data['company_website'] = ''
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    assert form.is_valid()
+    assert form.cleaned_data['name'] == valid_community_form_data['name']
+    assert form.cleaned_data['email'] == valid_community_form_data['email']
+    assert form.cleaned_data['company_website'] == ''
+
+
+def test_community_form_api_serialization(valid_community_form_data):
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    assert form.is_valid()
+
+    api_data = form.serialized_data
+    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
+        form.serialized_data['sector']
+    )
+    assert api_data['sector_label'] == sector_label
+    employees_number_label = dict(constants.EMPLOYEES_NUMBER_CHOISES).get(
+        form.serialized_data['employees_number']
+    )
+    assert api_data['employees_number_label'] == employees_number_label
+
+
+def test_community_form_api_serialization_with_other_options(
+        valid_community_form_data_with_other_options
+):
+    form = forms.CommunityJoinForm(
+        data=valid_community_form_data_with_other_options
+    )
+    assert form.is_valid()
+
+    api_data = form.serialized_data
+    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
+        form.serialized_data['sector']
+    )
+    assert sector_label == 'Other'
+    assert api_data['sector_other'] == 'Game Development'
+    advertising_feedback_label = dict(constants.HEARD_ABOUT_CHOISES).get(
+        form.serialized_data['advertising_feedback']
+    )
+    assert advertising_feedback_label == 'Other'
+    assert api_data['advertising_feedback_other'] == 'Friends'
 
 
 @pytest.mark.parametrize(
@@ -77,7 +123,7 @@ def test_community_join_validation_success(community_join_valid_data):
         ),
     )
 )
-def test_community_join_validation_errors(
+def test_community_form_validation_errors(
         invalid_data, invalid_field, error_message
 ):
     form = forms.CommunityJoinForm(data=invalid_data)

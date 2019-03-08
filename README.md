@@ -97,7 +97,7 @@ To compile `.mo` files (no need to add these to source code, as this is done aut
 
 ## Geolocation
 
-This product includes GeoLite2 data created by MaxMind, available from
+This product includes GeoLite2 (data created by MaxMind), available from
 <a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 
 To download the data run the following command:

@@ -96,7 +96,7 @@ def test_great_services_form_routing():
     assert expected_choice_count == len(choices)
 
 
-def test_export_oppotunities_form_routing():
+def test_export_opportunities_form_routing():
     field = forms.ExportOpportunitiesRoutingForm.base_fields['choice']
 
     mapping = (
@@ -283,3 +283,39 @@ def test_office_finder_known_postcode():
         assert form.is_valid() is True
 
     assert form.office_details == {'field': 'value'}
+
+
+def test_selling_online_overseas_business_valid_form_soletrader():
+    form = forms.SellingOnlineOverseasBusiness(
+        data={
+            'company_name': 'Acme',
+            'soletrader': True,
+            'company_postcode': 'SW1H 0TL',
+            'website_address': 'bar'
+        }
+    )
+    assert form.is_valid()
+
+
+def test_selling_online_overseas_business_valid_form_company():
+    form = forms.SellingOnlineOverseasBusiness(
+        data={
+            'company_name': 'Acme',
+            'company_number': '123',
+            'company_postcode': 'SW1H 0TL',
+            'website_address': 'bar'
+        }
+    )
+    assert form.is_valid()
+
+
+def test_selling_online_overseas_business_invalid_form():
+    form = forms.SellingOnlineOverseasBusiness(
+        data={
+            'company_name': 'Acme',
+            'company_postcode': 'SW1H 0TL',
+            'website_address': 'bar'
+        }
+    )
+    assert form.is_valid() is False
+    assert form.errors == {'company_number': ['This field is required.']}
