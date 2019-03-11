@@ -15,6 +15,7 @@ from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.template.response import TemplateResponse
+from django.utils.functional import cached_property
 
 from core import mixins
 from core.views import BaseNotifyFormView
@@ -567,28 +568,30 @@ class OfficeFinderFormView(
 ):
     template_name = 'contact/office-finder.html'
     form_class = forms.OfficeFinderForm
+    postcode = ''
+
+    @cached_property
+    def all_offices(self):
+        return helpers.retrieve_regional_offices(
+           self.postcode
+        )
 
     @property
     def flag(self):
         return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
 
-    @staticmethod
-    def format_office_details(office_details):
-        address = office_details['address_street'].split(', ')
-        address.append(office_details['address_city'])
-        address.append(office_details['address_postcode'])
-        return {
-            'address': '\n'.join(address),
-            **office_details,
-        }
-
     def form_valid(self, form):
-        office_details = self.format_office_details(form.office_details)
+        self.postcode = form.cleaned_data['postcode']
+        office_details = helpers.extract_regional_office_details(
+            self.all_offices
+        )
+        other_offices = helpers.extract_other_offices_details(self.all_offices)
         return TemplateResponse(
             self.request,
             self.template_name,
             {
                 'office_details': office_details,
+                'other_offices': other_offices,
                 **self.get_context_data(),
             }
         )
