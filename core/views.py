@@ -424,4 +424,4 @@ class SearchView(TemplateView):
   "name": "France - Software maintenance and repair services",
   "content": "The \"Si_Di_Base_Export_Export_Prospect\" allows:- to store all data relating to prospective cases and contracts that have been concluded between French armaments manufacturers and foreign countries,- to be fully informed on the number, amounts and nature of contracts signed (statistical tool),"
 }]
-        return render(request, 'core/search.html', {'results': results_or_error })
+        return render(request, 'core/search.html', {'results': results_or_error, 'query': query, })
