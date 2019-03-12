@@ -569,6 +569,13 @@ ALLOWED_ADMIN_IP_RANGES = env.list(
 RESTRICTED_APP_NAMES = env.list(
     'IP_RESTRICTOR_RESTRICTED_APP_NAMES', default=['admin']
 )
+
+LANDING_PAGE_VIDEO_URL = env.str(
+    'LANDING_PAGE_VIDEO_URL',
+    'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
+    'promo-video_web-stitch.mp4'
+)
+
 if env.bool('IP_RESTRICTOR_RESTRICT_UI', False):
     # restrict all pages that are not in apps API, healthcheck, admin, etc
     RESTRICTED_APP_NAMES.append('')
