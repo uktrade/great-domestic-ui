@@ -41,4 +41,27 @@
             </section>
         {% endif %}
     </div>
+
+    <div class="container">
+		{% if other_offices %}
+			<h2 class="heading-medium">List of other trade offices</h2>
+			{% for office in other_offices %}
+				<section class="lg-2" id="results">
+					<hr>
+					<h3 class="heading-medium" id="office-name">{{ office.name }}</h3>
+					{{ office.address|linebreaks }}
+
+					<h3 class="heading-medium">Telephone</h3>
+					<p>{{ office.phone }}</p>
+					{% if office.phone_other %}
+						<h3 class="heading-medium">{{ office.phone_other_comment }}</h3>
+						<p>{{ office.phone_other }}</p>
+					{% endif %}
+					<br>
+					<a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office.name }} office</a>
+				</section>
+			{% endfor %}
+		{% endif %}
+    </div>
+
 {% endblock %}

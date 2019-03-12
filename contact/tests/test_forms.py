@@ -129,7 +129,9 @@ def test_short_notify_form_serialize_data(domestic_data):
     url = api_client.exporting.endpoints['lookup-by-postcode'].format(
         postcode='ABC123'
     )
-    office_details = {'name': 'Some Office', 'email': 'foo@example.com'}
+    office_details = [
+        {'is_match': True, 'name': 'Some Office', 'email': 'foo@example.com'}
+    ]
     with requests_mock.mock() as mock:
         mock.get(url, json=office_details)
         data = form.serialized_data
@@ -254,35 +256,6 @@ def test_routing_forms_new_reg_journey_flag(value, feature_flags):
         value == constants.COMPANY_NOT_FOUND for value,
         label in choices
     ) is value
-
-
-def test_office_finder_unknown_postcode():
-    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
-        postcode='ABC123'
-    )
-
-    form = forms.OfficeFinderForm(data={'postcode': 'ABC123'})
-
-    with requests_mock.mock() as mock:
-        mock.get(url, status_code=404)
-        assert form.is_valid() is False
-
-    assert form.errors['postcode'] == [form.MESSAGE_NOT_FOUND]
-
-
-def test_office_finder_known_postcode():
-    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
-        postcode='ABC123'
-    )
-    office_details = {'field': 'value'}
-
-    form = forms.OfficeFinderForm(data={'postcode': 'ABC123'})
-
-    with requests_mock.mock() as mock:
-        mock.get(url, json=office_details)
-        assert form.is_valid() is True
-
-    assert form.office_details == {'field': 'value'}
 
 
 def test_selling_online_overseas_business_valid_form_soletrader():
