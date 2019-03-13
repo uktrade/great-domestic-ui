@@ -4,11 +4,9 @@ import urllib.parse
 import re
 import json
 import requests
-
 from functools import partial
 from urllib.parse import urljoin
 
-import requests
 from directory_api_client.client import api_client
 from directory_ch_client.company import CompanyCHClient
 from ipware import get_client_ip
@@ -186,7 +184,7 @@ class CompaniesHouseClient:
             return cls.get(url, params={'q': term})
 
 
-## --- Search Helpers ---
+''' --- Search Helpers --- '''
 
 
 def sanitise_query(query):
@@ -194,14 +192,18 @@ def sanitise_query(query):
         None, re.findall(r"[a-zA-Z0-9']*", query)
     )))
 
+
 def sanitise_page(page):
     return int(page) if int(page) > 0 else 0
+
 
 def parse(results):
     return json.loads(results.content)['orderedItems']
 
+
 def flatten(results):
     return list(map(lambda x: x['object'], results))
+
 
 def format_query(query, page):
     """ formats query for ElasticSearch
@@ -225,6 +227,7 @@ def format_query(query, page):
         # "from" : from_result,
         "size": RESULTS_PER_PAGE
     })
+
 
 def search_with_activitystream(query):
     """ Searches ActivityStream services with given Elasticsearch query.
@@ -256,4 +259,3 @@ def search_with_activitystream(query):
     })
 
     return requests.Session().send(request)
-
