@@ -22,7 +22,13 @@
             <div class="grid-row">
               {% for subsection in accordion.subsections %}
                 {% if subsection.heading %}
+                {% if accordion.num_of_subsections == 3 %}
                 <div class="column-full column-third-l">
+                {% elif accordion.num_of_subsections == 2 %}
+                <div class="column-full column-half-l">
+                {% else %}
+                <div class="column-full">
+                {% endif %}
                   {% if subsection.icon %}
                   <img class="section-two-icon" src="{{ subsection.icon.url }}"/>
                   {% endif %}
@@ -60,13 +66,13 @@
             <div class="card-grid padding-bottom-15 underline-active-blue">
               {% for statistic in accordion.statistics %}
                 {% if statistic.number %}
-                  {% if view.num_of_statistics == 6 %}
+                  {% if accordion.num_of_statistics == 6 %}
                   <figure class="column-half column-third-l column-sixth-xl">
-                  {% elif view.num_of_statistics == 5 %}
+                  {% elif accordion.num_of_statistics == 5 %}
                   <figure class="column-half column-third-l column-sixth-xl">
-                  {% elif view.num_of_statistics == 4 %}
+                  {% elif accordion.num_of_statistics == 4 %}
                   <figure class="column-half column-quarter-xl">
-                  {% elif view.num_of_statistics == 3 %}
+                  {% elif accordion.num_of_statistics == 3 %}
                   <figure class="column-half column-third-l">
                   {% else %}
                   <figure class="column-half">
@@ -86,6 +92,17 @@
         <section id="country-guide-sector-cta-section" class="sector-ctas">
           <div class="container">
             <div class="grid-row">
+{#              {% for cta in accordion.ctas %}#}
+{#                {% if accordion.num_of_ctas == 3 %}#}
+{#                <div class="column-full column-third-l margin-bottom-30">#}
+{#                {% elif accordion.num_octas == 2 %}#}
+{#                <div class="column-full column-half-l margin-bottom-30">#}
+{#                {% else %}#}
+{#                <div class="column-full margin-bottom-30">#}
+{#                {% endif %}#}
+{#                  {% cta_link with_arrow=True url=cta.url text=cta.text %}#}
+{#                </div>#}
+{#              {% endfor %}#}
               <div class="column-full column-third-l margin-bottom-30">
                 {% cta_link with_arrow=True url=services_urls.invest text="Remember to use page fields" %}
               </div>

@@ -49,6 +49,7 @@ class MarketsPageView(MarketsFeatureFlagMixin, CMSPageView):
 
 class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
     num_of_statistics = 0
+    section_three_num_of_subsections = 0
 
     def count_data_with_field(self, list_of_data, field):
         filtered_list = [item for item in list_of_data if item[field]]
@@ -60,6 +61,23 @@ class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
             context['page']['statistics'],
             'number'
         )
+        # self.section_three_num_of_subsections = self.count_data_with_field(
+        #     context['page']['section_three_subsections'],
+        #     'heading'
+        # )
+        for accordion in context['page']['accordions']:
+            accordion['num_of_subsections'] = self.count_data_with_field(
+                accordion['subsections'],
+                'heading'
+            )
+            accordion['num_of_statistics'] = self.count_data_with_field(
+                accordion['statistics'],
+                'number'
+            )
+            # accordion['num_of_ctas'] = self.count_data_with_field(
+            #     accordion['ctas'],
+            #     'text'
+            # )
         return context
 
 

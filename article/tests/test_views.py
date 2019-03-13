@@ -766,3 +766,61 @@ def test_community_article_view(mock_get_page, client):
         language_code='en-gb',
         slug='community',
     )
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
+
+    page = {
+        'title': 'test',
+        'page_type': 'CountryGuidePage',
+        'statistics': [
+            {'number': '1'},
+            {'number': '2', 'heading': 'heading'},
+            {'number': None, 'heading': 'no-number-stat'}
+        ],
+        'accordions': [
+            {
+                'statistics': [
+                    {'number': '1'},
+                    {'number': '2', 'heading': 'heading'},
+                    {'number': '3', 'heading': 'heading2'},
+                    {'number': None, 'heading': 'no-number-stat'}
+                ],
+                'subsections': [
+                    {'heading': 'heading'},
+                    {'heading': 'heading-with-teaser', 'teaser': 'teaser'},
+                    {'heading': 'heading-with-teaser-2', 'teaser': 'teaser2'},
+                    {'heading': None, 'teaser': 'teaser-without-heading'}
+                ],
+                # 'ctas': [
+                #     {'text': 'text', 'url': 'url'},
+                #     {'text': 'text no url', 'url': None},
+                #     {'text': None, 'url': 'no-text-url'}
+                # ]
+            }
+        ],
+        # 'section_three_subsections': [
+        #     {'heading': 'heading'},
+        #     {'heading': 'heading-with-teaser', 'teaser': 'teaser'},
+        #     {'heading': None, 'teaser': 'teaser-without-heading'}
+        # ]
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+
+    url = reverse(
+        'country-guide',
+        kwargs={'slug': 'japan'}
+    )
+    response = client.get(url)
+
+    view = response.context_data['view']
+    assert view.num_of_statistics == 2
+    assert response.context_data['page']['accordions'][0]['num_of_statistics'] == 3
+    assert response.context_data['page']['accordions'][0]['num_of_subsections'] == 3
+    # assert view.accordion[0].num_of_ctas == 2
+    # assert view.section_three_num_of_subsections == 2
