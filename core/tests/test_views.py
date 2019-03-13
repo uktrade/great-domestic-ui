@@ -530,7 +530,7 @@ def test_search_view(client):
         assert response.status_code == 200
         assert context['results'] == "No results found"
 
-        """ What if ActivitySteam is down? """
+        """ What if ActivitySteam sends an error? """
         search.return_value = Mock(status_code=500,
                                    content="[service overloaded]")
 
@@ -540,6 +540,17 @@ def test_search_view(client):
         assert response.status_code == 200
         # This can be handled on the front end as we wish
         assert context['error_message'] == "[service overloaded]"
+        assert context['error_status_code'] == 500
+
+        """ What if ActivitySteam is down? """
+        search.side_effect = ConnectionError
+
+        response = client.get("%s?q=Document" % reverse('search'))
+        context = response.context_data
+
+        assert response.status_code == 200
+        # This can be handled on the front end as we wish
+        assert context['error_message'] == "Activity Stream connection failed"
         assert context['error_status_code'] == 500
 
 

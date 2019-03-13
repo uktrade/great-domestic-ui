@@ -179,3 +179,44 @@ class CompaniesHouseClient:
         else:
             url = cls.endpoints['search']
             return cls.get(url, params={'q': term})
+
+
+## --- Search Helpers ---
+
+
+def sanitise_query(query):
+    return " ".join(list(filter(
+        None, re.findall(r"[a-zA-Z0-9']*", query)
+    )))
+
+def sanitise_page(page):
+    return int(page) if int(page) > 0 else 0
+
+def parse(results):
+    return json.loads(results.content)['orderedItems']
+
+def flatten(results):
+    return list(map(lambda x: x['object'], results))
+
+def format_query(query, page):
+    """ formats query for ElasticSearch
+    Note: ActivityStream not yet configured to recieve pagination,
+    will be corrected shortly. Hence commented-out lines.
+    """
+    RESULTS_PER_PAGE = 10
+    # from_result = page * RESULTS_PER_PAGE
+    return json.dumps({
+        "query": {
+          "bool": {
+              "should": [
+                  {"match": {"object.id": query}},
+                  {"match": {"object.name": query}},
+                  {"match": {"object.content": query}},
+                  {"match": {"object.type": query}}
+              ]
+          }
+        },
+        "_source": "object.*",
+        # "from" : from_result,
+        "size": RESULTS_PER_PAGE
+    })

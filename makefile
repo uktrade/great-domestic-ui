@@ -121,12 +121,12 @@ TEST_SET_ENV_VARS := \
 	export COMPANIES_HOUSE_API_KEY=debug; \
 	export CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=domesitc-enquiries@example.com; \
 	export ACTIVITY_STREAM_API_URL=http://localhost:8080/v1/; \
-  export ACTIVITY_STREAM_API_SECRET_KEY=incoming-some-secret-3; \
-  export ACTIVITY_STREAM_API_ACCESS_KEY=incoming-some-id-3; \
-  export ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4,2.3.4.5
+	export ACTIVITY_STREAM_API_SECRET_KEY=incoming-some-secret-3; \
+	export ACTIVITY_STREAM_API_ACCESS_KEY=incoming-some-id-3; \
+	export ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4,2.3.4.5
 
 debug_webserver:
-	$(DEBUG_SET_ENV_VARS) && $(TEST_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
+	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
 
 debug_pytest:
 	$(DEBUG_SET_ENV_VARS) && $(TEST_SET_ENV_VARS) && $(COLLECT_STATIC) && $(PYTEST)

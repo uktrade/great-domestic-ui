@@ -1,6 +1,7 @@
 import json
 import requests
 import re
+from urllib3.exceptions import MaxRetryError
 
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
@@ -324,16 +325,15 @@ class SearchView(TemplateView):
         URL parameters: 'q'    String to be searched
                         'page' Int results page number
     '''
-
     def search_with_activitystream(self, query):
         """ Searches ActivityStream services with given Elasticsearch query.
             Note that this must be at root level in SearchView class to
             enable it to be mocked in tests.
         """
-        method = "GET"
-        url = settings.ACTIVITY_STREAM_API_URL
         request = requests.Request(
-            method=method, url=url, data=query).prepare()
+            method="GET",
+            url=settings.ACTIVITY_STREAM_API_URL,
+            data=query).prepare()
 
         auth = MohawkSender(
             {
@@ -341,8 +341,8 @@ class SearchView(TemplateView):
                 'key': settings.ACTIVITY_STREAM_API_SECRET_KEY,
                 'algorithm': 'sha256'
             },
-            url,
-            method,
+            settings.ACTIVITY_STREAM_API_URL,
+            "GET",
             content=query,
             content_type='application/json',
         ).request_header
@@ -358,57 +358,33 @@ class SearchView(TemplateView):
 
     def get_context_data(self, **kwargs):
 
-        def sanitise_query(query):
-            return " ".join(list(filter(
-                None, re.findall(r"[a-zA-Z0-9']*", query)
-            )))
+        query = helpers.sanitise_query(self.request.GET.get('q', ''))
+        page = helpers.sanitise_page(self.request.GET.get('page', '0'))
+        elasticsearch_query = helpers.format_query(query, page)
 
-        def sanitise_page(page):
-            return int(page) if int(page) > 0 else 0
-
-        def parse(results):
-            return json.loads(results.content)['orderedItems']
-
-        def flatten(results):
-            return list(map(lambda x: x['object'], results))
-
-        def format_query(query, page):
-            """ formats query for ElasticSearch
-            Note: ActivityStream not yet configured to recieve pagination,
-            will be corrected shortly. Hence commented-out lines.
-            """
-            RESULTS_PER_PAGE = 10
-            # from_result = page * RESULTS_PER_PAGE
-            return json.dumps({
-                "query": {
-                  "bool": {
-                      "should": [
-                          {"match": {"object.id": query}},
-                          {"match": {"object.name": query}},
-                          {"match": {"object.content": query}},
-                          {"match": {"object.type": query}}
-                      ]
-                  }
-                },
-                "_source": "object.*",
-                # "from" : from_result,
-                "size": RESULTS_PER_PAGE
-            })
-
-        query = sanitise_query(self.request.GET.get('q', ''))
-        page = sanitise_page(self.request.GET.get('page', '0'))
-        elasticsearch_query = format_query(query, page)
-        response = self.search_with_activitystream(elasticsearch_query)
-
-        if(response.status_code != 200):
-            return {
-                'error_message': response.content,
-                'error_status_code': response.status_code
-            }
-        else:
-            results = parse(response)
-            if(results == []):
-                results = "No results found"
+        try:
+            response = self.search_with_activitystream(elasticsearch_query)
+            if(response.status_code != 200):
+                return {
+                    'error_message': response.content,
+                    'error_status_code': response.status_code
+                }
             else:
-                results = flatten(results)
-            return {'results': results}
+                results = helpers.parse(response)
+                if(results == []):
+                    results = "No results found"
+                else:
+                    results = helpers.flatten(results)
+                return {'results': results}
+        except: #ConnectionError:
+            return {
+                'error_status_code': 500,
+                'error_message': "Activity Stream connection failed",
+            }
+
+        # except Exception as ex:
+        #     print("ex:")
+        #     print(ex.__class__.__name__)
+        #     print(type(ex).__name__)
+        #     print(ex)
+
