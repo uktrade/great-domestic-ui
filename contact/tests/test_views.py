@@ -22,8 +22,9 @@ class ChoiceForm(django.forms.Form):
 
 
 @pytest.fixture()
-def office_details():
-    return {
+def all_office_details():
+    return [{
+        'is_match': True,
         'region_id': 'east_midlands',
         'name': 'DIT East Midlands',
         'address_street': (
@@ -38,7 +39,25 @@ def office_details():
         'phone_other': '',
         'phone_other_comment': '',
         'website': None
-    }
+    },
+        {
+        'is_match': False,
+        'region_id': 'west_midlands',
+        'name': 'DIT West Midlands',
+        'address_street': (
+            'The International Trade Centre, '
+            '10 New Street, '
+            'Midlands Business Park'
+        ),
+        'address_city': 'Birmingham',
+        'address_postcode': 'B20 1RJ',
+        'email': 'test+west_midlands@examoke.com',
+        'phone': '0208 555 4001',
+        'phone_other': '',
+        'phone_other_comment': '',
+        'website': None
+        }
+    ]
 
 
 @pytest.fixture(autouse=True)
@@ -979,16 +998,17 @@ def test_contact_soo_feature_flag_off(settings, client):
     assert response.status_code == 404
 
 
-def test_office_finder_valid(office_details, client):
+def test_office_finder_valid(all_office_details, client):
     url = api_client.exporting.endpoints['lookup-by-postcode'].format(
         postcode='ABC123'
     )
 
     with requests_mock.mock() as mock:
-        mock.get(url, json=office_details)
+        mock.get(url, json=all_office_details)
         response = client.get(reverse('office-finder'), {'postcode': 'ABC123'})
 
     assert response.status_code == 200
+
     assert response.context_data['office_details'] == {
         'address': (
             'The International Trade Centre\n'
@@ -997,6 +1017,7 @@ def test_office_finder_valid(office_details, client):
             'Leicester\n'
             'LE19 1RJ'
         ),
+        'is_match': True,
         'region_id': 'east_midlands',
         'name': 'DIT East Midlands',
         'address_street': (
@@ -1012,6 +1033,31 @@ def test_office_finder_valid(office_details, client):
         'phone_other_comment': '',
         'website': None
     }
+
+    assert response.context_data['other_offices'] == [{
+        'address': (
+            'The International Trade Centre\n'
+            '10 New Street\n'
+            'Midlands Business Park\n'
+            'Birmingham\n'
+            'B20 1RJ'
+        ),
+        'is_match': False,
+        'region_id': 'west_midlands',
+        'name': 'DIT West Midlands',
+        'address_street': (
+            'The International Trade Centre, '
+            '10 New Street, '
+            'Midlands Business Park'
+        ),
+        'address_city': 'Birmingham',
+        'address_postcode': 'B20 1RJ',
+        'email': 'test+west_midlands@examoke.com',
+        'phone': '0208 555 4001',
+        'phone_other': '',
+        'phone_other_comment': '',
+        'website': None
+    }]
 
 
 @pytest.mark.parametrize('flag_value,expected_url', (
