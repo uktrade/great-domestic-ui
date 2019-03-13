@@ -486,7 +486,7 @@ def test_about_view(client):
 
 def test_search_view(client):
     """ We mock the call to ActivityStream """
-    with patch('core.views.SearchView.search_with_activitystream') as search:
+    with patch('core.helpers.search_with_activitystream') as search:
         mock_results = json.dumps({"orderedItems": [
             {"object": {
                 "type": "Opportunities",

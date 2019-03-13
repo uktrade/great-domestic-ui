@@ -1,6 +1,10 @@
 import collections
 import http
 import urllib.parse
+import re
+import json
+import requests
+
 from functools import partial
 from urllib.parse import urljoin
 
@@ -220,3 +224,35 @@ def format_query(query, page):
         # "from" : from_result,
         "size": RESULTS_PER_PAGE
     })
+
+def search_with_activitystream(self, query):
+    """ Searches ActivityStream services with given Elasticsearch query.
+        Note that this must be at root level in SearchView class to
+        enable it to be mocked in tests.
+    """
+    request = requests.Request(
+        method="GET",
+        url=settings.ACTIVITY_STREAM_API_URL,
+        data=query).prepare()
+
+    auth = MohawkSender(
+        {
+            'id': settings.ACTIVITY_STREAM_API_ACCESS_KEY,
+            'key': settings.ACTIVITY_STREAM_API_SECRET_KEY,
+            'algorithm': 'sha256'
+        },
+        settings.ACTIVITY_STREAM_API_URL,
+        "GET",
+        content=query,
+        content_type='application/json',
+    ).request_header
+
+    request.headers.update({
+        'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
+        'X-Forwarded-Proto': 'https',
+        'Authorization': auth,
+        'Content-Type': 'application/json'
+    })
+
+    return requests.Session().send(request)
+

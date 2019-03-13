@@ -1,8 +1,3 @@
-import json
-import requests
-import re
-from urllib3.exceptions import MaxRetryError
-
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
@@ -325,45 +320,14 @@ class SearchView(TemplateView):
         URL parameters: 'q'    String to be searched
                         'page' Int results page number
     '''
-    def search_with_activitystream(self, query):
-        """ Searches ActivityStream services with given Elasticsearch query.
-            Note that this must be at root level in SearchView class to
-            enable it to be mocked in tests.
-        """
-        request = requests.Request(
-            method="GET",
-            url=settings.ACTIVITY_STREAM_API_URL,
-            data=query).prepare()
-
-        auth = MohawkSender(
-            {
-                'id': settings.ACTIVITY_STREAM_API_ACCESS_KEY,
-                'key': settings.ACTIVITY_STREAM_API_SECRET_KEY,
-                'algorithm': 'sha256'
-            },
-            settings.ACTIVITY_STREAM_API_URL,
-            "GET",
-            content=query,
-            content_type='application/json',
-        ).request_header
-
-        request.headers.update({
-            'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
-            'X-Forwarded-Proto': 'https',
-            'Authorization': auth,
-            'Content-Type': 'application/json'
-        })
-
-        return requests.Session().send(request)
 
     def get_context_data(self, **kwargs):
-
         query = helpers.sanitise_query(self.request.GET.get('q', ''))
         page = helpers.sanitise_page(self.request.GET.get('page', '0'))
         elasticsearch_query = helpers.format_query(query, page)
 
         try:
-            response = self.search_with_activitystream(elasticsearch_query)
+            response = helpers.search_with_activitystream(elasticsearch_query)
             if(response.status_code != 200):
                 return {
                     'error_message': response.content,
@@ -376,15 +340,13 @@ class SearchView(TemplateView):
                 else:
                     results = helpers.flatten(results)
                 return {'results': results}
-        except: #ConnectionError:
-            return {
-                'error_status_code': 500,
-                'error_message': "Activity Stream connection failed",
-            }
-
-        # except Exception as ex:
-        #     print("ex:")
-        #     print(ex.__class__.__name__)
-        #     print(type(ex).__name__)
-        #     print(ex)
-
+        except Exception as e:
+            # "except ConnectionError" does not work even
+            # though this is a ConnectionError
+            if(e.__class__.__name__ == 'ConnectionError'):
+                return {
+                    'error_status_code': 500,
+                    'error_message': "Activity Stream connection failed",
+                }
+            else:
+                raise e
