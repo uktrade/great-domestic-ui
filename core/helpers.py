@@ -19,6 +19,7 @@ from django.urls import reverse
 from django.shortcuts import Http404, redirect
 from django.utils.functional import cached_property
 from django.utils import translation
+from mohawk import Sender
 
 
 NotifySettings = collections.namedtuple(
@@ -225,7 +226,7 @@ def format_query(query, page):
         "size": RESULTS_PER_PAGE
     })
 
-def search_with_activitystream(self, query):
+def search_with_activitystream(query):
     """ Searches ActivityStream services with given Elasticsearch query.
         Note that this must be at root level in SearchView class to
         enable it to be mocked in tests.
@@ -235,7 +236,7 @@ def search_with_activitystream(self, query):
         url=settings.ACTIVITY_STREAM_API_URL,
         data=query).prepare()
 
-    auth = MohawkSender(
+    auth = Sender(
         {
             'id': settings.ACTIVITY_STREAM_API_ACCESS_KEY,
             'key': settings.ACTIVITY_STREAM_API_SECRET_KEY,

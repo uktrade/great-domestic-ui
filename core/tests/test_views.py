@@ -543,7 +543,7 @@ def test_search_view(client):
         assert context['error_status_code'] == 500
 
         """ What if ActivitySteam is down? """
-        search.side_effect = ConnectionError
+        search.side_effect = requests.exceptions.ConnectionError
 
         response = client.get("%s?q=Document" % reverse('search'))
         context = response.context_data

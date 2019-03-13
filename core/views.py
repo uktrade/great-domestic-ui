@@ -1,3 +1,5 @@
+from requests.exceptions import ConnectionError
+
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
@@ -16,7 +18,6 @@ from core import helpers, mixins, forms
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin
 )
-from mohawk import Sender as MohawkSender
 
 
 class SetEtagMixin:
@@ -340,13 +341,8 @@ class SearchView(TemplateView):
                 else:
                     results = helpers.flatten(results)
                 return {'results': results}
-        except Exception as e:
-            # "except ConnectionError" does not work even
-            # though this is a ConnectionError
-            if(e.__class__.__name__ == 'ConnectionError'):
-                return {
-                    'error_status_code': 500,
-                    'error_message': "Activity Stream connection failed",
-                }
-            else:
-                raise e
+        except ConnectionError:
+            return {
+                'error_status_code': 500,
+                'error_message': "Activity Stream connection failed",
+            }
