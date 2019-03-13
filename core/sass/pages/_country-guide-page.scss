@@ -4,35 +4,99 @@
 
 
 .country-guide-page {
-
-  .subheading {
-    margin-bottom: 5px;
+  .section-one .container {
+    padding: 60px 0;
   }
 
-  .button-large {
-    text-align: center;
-    width: 300px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+  @media (min-width: 769px) {
+    .section-one .container {
+      padding: 120px 0;
+    }
   }
 
-  .width-full {
-    width: 100%;
+  .section-one-body {
+    h2:first-child {
+      margin-top: 0;
+    }
   }
 
-  .background-stone-gradient-left {
-    background-image: linear-gradient(to right, $stone-30 66.66667%, $white 33.3333%);
-  }
-}
-
-@media (max-width: 960px) {
-  .country-guide-page {
-    .background-stone-gradient-left {
-      background: $stone-30;
+  .statistics {
+    .statistic-number {
+      margin-bottom: 0.4em;
     }
 
-    .margin-0-l {
+    .statistic-heading {
+      margin-bottom: 0.75em;
+    }
+
+    .statistic-smallprint {
+      color: #666666;
+    }
+  }
+
+  .section-two {
+    .section-two-icon {
+      height: 50px;
+    }
+  }
+
+  .case-study {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+
+    .container {
+      min-height: 597px;
+      display: flex;
+      align-items: center;
+
+      .grid-row {
+        flex-grow: 1
+      }
+    }
+
+    .decorative-line {
+      width: 50%;
+    }
+
+    @media (max-width: 640px) {
+      .button {
+        width: auto;
+      }
+    }
+
+    .button::after {
+      content: '→';
+      margin-left: 1em;
+    }
+  }
+
+  .next-steps .container {
+    padding: 150px 0;
+
+    @media (min-width: 961px) {
+      .cta-link {
+        font-size: 36px;
+      }
+    }
+
+    .with-arrow {
       margin: 0;
+
+      &:before {
+        display: none;
+      }
+      &:after {
+        content: '➔';
+        margin-left: 0;
+      }
+    }
+  }
+
+  .news-events {
+    .card {
+      height: 100%;
     }
   }
 }
