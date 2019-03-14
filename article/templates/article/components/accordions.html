@@ -41,19 +41,19 @@
           </div>
         </section>
 
-        {% if accordion.case_study_title and accordion.case_study_image %}
+        {% if accordion.case_study.title and accordion.case_study.image %}
         <section
           id="country-guide-sector-case-study-section"
           class="case-study"
-          style="background-image: url({{ accordion.case_study_image.url }})">
+          style="background-image: url({{ accordion.case_study.image.url }})">
           <div class="container">
             <div class="grid-row">
               <div class="column-full column-two-thirds-m column-half-l column-third-xl">
                 <div class="decorative-line border-thin border-flag-red"></div>
-                <h2 class="heading-large">{{ accordion.case_study_title }}</h2>
-                <p>{{ accordion.case_study_description }}</p>
-                {% if accordion.case_study_cta_page and accordion.case_study_cta_text %}
-                <a class="button" href="{{ accordion.case_study_cta_page.full_path }}">{{ accordion.case_study_cta_text }}</a>
+                <h2 class="heading-large">{{ accordion.case_study.title }}</h2>
+                <p>{{ accordion.case_study.description }}</p>
+                {% if accordion.case_study.button_link and accordion.case_study.button_text %}
+                <a class="button" href="{{ accordion.case_study.button_link }}">{{ accordion.case_study.button_text }}</a>
                 {% endif %}
               </div>
             </div>
@@ -92,26 +92,19 @@
         <section id="country-guide-sector-cta-section" class="sector-ctas">
           <div class="container">
             <div class="grid-row">
-{#              {% for cta in accordion.ctas %}#}
-{#                {% if accordion.num_of_ctas == 3 %}#}
-{#                <div class="column-full column-third-l margin-bottom-30">#}
-{#                {% elif accordion.num_octas == 2 %}#}
-{#                <div class="column-full column-half-l margin-bottom-30">#}
-{#                {% else %}#}
-{#                <div class="column-full margin-bottom-30">#}
-{#                {% endif %}#}
-{#                  {% cta_link with_arrow=True url=cta.url text=cta.text %}#}
-{#                </div>#}
-{#              {% endfor %}#}
-              <div class="column-full column-third-l margin-bottom-30">
-                {% cta_link with_arrow=True url=services_urls.invest text="Remember to use page fields" %}
-              </div>
-              <div class="column-full column-third-l margin-bottom-30">
-                {% cta_link with_arrow=True url=services_urls.fas text="This should not be hardcoded" %}
-              </div>
-              <div class="column-full column-third-l margin-bottom-30">
-                {% cta_link with_arrow=True url=services_urls.fas text="Change this you fool" %}
-              </div>
+              {% for cta in accordion.ctas %}
+                {% if cta.link %}
+                {% if accordion.num_of_ctas == 3 %}
+                <div class="column-full column-third-l margin-bottom-30">
+                {% elif accordion.num_of_ctas == 2 %}
+                <div class="column-full column-half-l margin-bottom-30">
+                {% else %}
+                <div class="column-full margin-bottom-30">
+                {% endif %}
+                  {% cta_link with_arrow=True url=cta.link text=cta.title %}
+                </div>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
         </section>

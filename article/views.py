@@ -61,10 +61,11 @@ class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
             context['page']['statistics'],
             'number'
         )
-        # self.section_three_num_of_subsections = self.count_data_with_field(
-        #     context['page']['section_three_subsections'],
-        #     'heading'
-        # )
+        fact_sheet = context['page']['fact_sheet']
+        fact_sheet['num_of_columns'] = self.count_data_with_field(
+            fact_sheet['columns'],
+            'title'
+        )
         for accordion in context['page']['accordions']:
             accordion['num_of_subsections'] = self.count_data_with_field(
                 accordion['subsections'],
@@ -74,10 +75,10 @@ class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
                 accordion['statistics'],
                 'number'
             )
-            # accordion['num_of_ctas'] = self.count_data_with_field(
-            #     accordion['ctas'],
-            #     'text'
-            # )
+            accordion['num_of_ctas'] = self.count_data_with_field(
+                accordion['ctas'],
+                'link'
+            )
         return context
 
 

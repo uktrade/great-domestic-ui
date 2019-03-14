@@ -99,26 +99,26 @@
   <div class="container">
     <div class="grid-row margin-bottom-60">
       <div class="column-full column-two-thirds-m column-half-l">
-        <h2 class="heading-large margin-top-0">{{ page.section_three_heading }}</h2>
-        <p>{{ page.section_three_teaser }}</p>
+        <h2 class="heading-large margin-top-0">{{ page.fact_sheet.fact_sheet_title }}</h2>
+        <p>{{ page.fact_sheet.fact_sheet_teaser }}</p>
       </div>
     </div>
     <div class="grid-row">
-      {% for subsection in page.section_three_subsections %}
-        {% if subsection.heading %}
-          {% if view.section_three_num_of_subsections == 1 %}
+      {% for column in page.fact_sheet.columns %}
+        {% if column.heading %}
+          {% if page.fact_sheet.num_of_columns == 1 %}
           <div class="column-full margin-bottom-30">
           {% else %}
           <div class="column-full column-half-xl margin-bottom-30">
           {% endif %}
             <div class="fact-sheet">
-              <h3 class="highlight heading-medium background-grey white-text">{{ subsection.heading }}</h3>
+              <h3 class="highlight heading-medium background-grey white-text">{{ column.heading }}</h3>
               <div class="fact-sheet-content background-white padding-45 wrap-tight font-xsmall">
-                {% if subsection.teaser %}
-                <p class="font-small">{{ subsection.teaser }}</p>
+                {% if column.teaser %}
+                <p class="font-small">{{ column.teaser }}</p>
                 <hr>
                 {% endif %}
-                {{ subsection.body|convert_headings_to:'h4'|add_export_elements_classes|override_elements_css_class:'h4,heading-small'|safe }}
+                {{ column.body|convert_headings_to:'h4'|add_export_elements_classes|override_elements_css_class:'h4,heading-small'|safe }}
               </div>
             </div>
           </div>
@@ -144,10 +144,10 @@
         {% cta_card with_arrow=True image_url=need_help_image_url text="Read our exporting advice" url=advice_url %}
       </div>
       <div class="column-full column-third-l margin-bottom-30">
-        {% cta_card with_arrow=True image_url=need_help_image_url text="Read market guide for" %}
+        {% cta_card with_arrow=True image_url=need_help_image_url text=page.help_market_guide_cta_title url=page.help_market_guide_cta_link %}
       </div>
       <div class="column-full column-third-l margin-bottom-30">
-        {% cta_card with_arrow=True image_url=need_help_image_url text="Tell us what help you need" %}
+        {% cta_card with_arrow=True image_url=need_help_image_url text="Tell us what help you need" url=services_urls.contact_us %}
       </div>
     </div>
   </div>
