@@ -3,6 +3,7 @@
 // ==================
 
 @import '../components/accordion';
+@import '../partials/typography.scss';
 
 .country-guide-page {
   .section-one .container {
@@ -24,7 +25,7 @@
   .statistics {
     .statistic-number {
       margin-bottom: 0.4em;
-      font-family: Overpass, arial, helvetica, verdana, sans-serif;
+      font-family: $brand-font-alternative;
     }
 
     .statistic-heading {
