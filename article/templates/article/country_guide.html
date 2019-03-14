@@ -144,7 +144,9 @@
         {% cta_card with_arrow=True image_url=need_help_image_url text="Read our exporting advice" url=advice_url %}
       </div>
       <div class="column-full column-third-l margin-bottom-30">
-        {% cta_card with_arrow=True image_url=need_help_image_url text=page.help_market_guide_cta_title url=page.help_market_guide_cta_link %}
+        {% with 'Read market guide for '|add:page.heading as market_guide_cta_text %}
+        {% cta_card with_arrow=True image_url=need_help_image_url text=market_guide_cta_text url=page.help_market_guide_cta_link %}
+        {% endwith %}
       </div>
       <div class="column-full column-third-l margin-bottom-30">
         {% cta_card with_arrow=True image_url=need_help_image_url text="Tell us what help you need" url=services_urls.contact_us %}
