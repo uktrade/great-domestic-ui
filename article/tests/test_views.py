@@ -119,7 +119,8 @@ def test_markets_pages_200_when_feature_on(
         json_body={
             'page_type': page_type,
             'statistics': [],
-            'accordions': []
+            'accordions': [],
+            'fact_sheet': {'columns': []}
         }
     )
 
@@ -795,18 +796,20 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
                     {'heading': 'heading-with-teaser-2', 'teaser': 'teaser2'},
                     {'heading': None, 'teaser': 'teaser-without-heading'}
                 ],
-                # 'ctas': [
-                #     {'text': 'text', 'url': 'url'},
-                #     {'text': 'text no url', 'url': None},
-                #     {'text': None, 'url': 'no-text-url'}
-                # ]
+                'ctas': [
+                    {'title': 'title', 'link': 'link'},
+                    {'title': 'title no link', 'link': None},
+                    {'title': None, 'link': 'link-but-no-title'}
+                ]
             }
         ],
-        # 'section_three_subsections': [
-        #     {'heading': 'heading'},
-        #     {'heading': 'heading-with-teaser', 'teaser': 'teaser'},
-        #     {'heading': None, 'teaser': 'teaser-without-heading'}
-        # ]
+        'fact_sheet': {
+            'columns': [
+                {'title': 'title'},
+                {'title': 'title-with-teaser', 'teaser': 'teaser'},
+                {'title': None, 'teaser': 'teaser-without-title'}
+            ]
+        }
     }
 
     mock_get_page.return_value = create_response(
