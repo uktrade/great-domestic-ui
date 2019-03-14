@@ -61,8 +61,9 @@
         </section>
         {% endif %}
 
+        {% if accordion.num_of_statistics != 0 %}
         <section id="country-guide-sector-statistics-section" class="statistics">
-          <div class="container padding-vertical-30px margin-bottom-60-m">
+          <div class="container padding-top-30">
             <div class="card-grid padding-bottom-15 underline-active-blue">
               {% for statistic in accordion.statistics %}
                 {% if statistic.number %}
@@ -77,7 +78,7 @@
                   {% else %}
                   <figure class="column-half">
                   {% endif %}
-                    <p class="bold-large active-blue-text statistic-number">{{ statistic.number }}</p>
+                    <p class="active-blue-text statistic-number {% if statistic.number|length > 8 %} bold-medium{% else %} bold-large{% endif %}">{{ statistic.number }}</p>
                     <figcaption>
                       <p class="statistic-heading">{{ statistic.heading }}</p>
                       <p class="font-xsmall statistic-smallprint">{{ statistic.smallprint }}</p>
@@ -88,9 +89,10 @@
             </div>
           </div>
         </section>
+        {% endif %}
 
         <section id="country-guide-sector-cta-section" class="sector-ctas">
-          <div class="container">
+          <div class="container padding-top-30">
             <div class="grid-row">
               {% for cta in accordion.ctas %}
                 {% if cta.link %}
