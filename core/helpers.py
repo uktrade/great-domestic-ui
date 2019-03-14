@@ -4,6 +4,7 @@ import urllib.parse
 import re
 import json
 import requests
+from math import ceil
 from functools import partial
 from urllib.parse import urljoin
 
@@ -197,12 +198,40 @@ def sanitise_page(page):
     return int(page) if int(page) > 0 else 0
 
 
-def parse(results):
-    return json.loads(results.content)['orderedItems']
+def parse_results(response, query, page):
+    current_page = int(page)
 
+    content = json.loads(response.content)
+    results = list(map(lambda x: x['_source'], content['hits']['hits']))
+    total_results = content['hits']['total']
 
-def flatten(results):
-    return list(map(lambda x: x['object'], results))
+    total_pages = int(ceil(total_results)/10)
+
+    prev_pages = list(range(1, current_page))[-3:]
+    if (len(prev_pages) > 0 and (prev_pages[0] > 2)):
+        show_first_page = True
+    else:
+        show_first_page = False
+
+    next_pages = list(range(current_page + 1, total_pages + 1))[:3]
+    if (len(next_pages) > 0 and (next_pages[-1] + 1 < total_pages)):
+        show_last_page = True
+    else:
+        show_last_page = False
+
+    return {
+       'query': query,
+       'results': results,
+       'total_results': total_results,
+       'current_page': current_page,
+       'total_pages': total_pages,
+       'previous_page': current_page - 1,
+       'next_page': current_page + 1,
+       'prev_pages': prev_pages,
+       'next_pages': next_pages,
+       'show_first_page': show_first_page,
+       'show_last_page': show_last_page
+    }
 
 
 def format_query(query, page):
@@ -211,20 +240,19 @@ def format_query(query, page):
     will be corrected shortly. Hence commented-out lines.
     """
     RESULTS_PER_PAGE = 10
-    # from_result = page * RESULTS_PER_PAGE
+    from_result = page * RESULTS_PER_PAGE
     return json.dumps({
         "query": {
           "bool": {
               "should": [
-                  {"match": {"object.id": query}},
-                  {"match": {"object.name": query}},
-                  {"match": {"object.content": query}},
-                  {"match": {"object.type": query}}
+                  {"match": {"id": query}},
+                  {"match": {"name": query}},
+                  {"match": {"content": query}},
+                  {"match": {"type": query}}
               ]
           }
         },
-        "_source": "object.*",
-        # "from" : from_result,
+        "from": from_result,
         "size": RESULTS_PER_PAGE
     })
 

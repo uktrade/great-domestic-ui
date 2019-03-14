@@ -325,7 +325,7 @@ class SearchView(TemplateView):
 
     def get_context_data(self, **kwargs):
         query = helpers.sanitise_query(self.request.GET.get('q', ''))
-        page = helpers.sanitise_page(self.request.GET.get('page', '0'))
+        page = helpers.sanitise_page(self.request.GET.get('page', '1'))
         elasticsearch_query = helpers.format_query(query, page)
 
         try:
@@ -333,17 +333,14 @@ class SearchView(TemplateView):
             if(response.status_code != 200):
                 return {
                     'error_message': response.content,
-                    'error_status_code': response.status_code
+                    'error_status_code': response.status_code,
+                    'query': query
                 }
             else:
-                results = helpers.parse(response)
-                if(results == []):
-                    results = "No results found"
-                else:
-                    results = helpers.flatten(results)
-                return {'results': results}
+                return helpers.parse_results(response, query, page)
         except ConnectionError:
             return {
                 'error_status_code': 500,
                 'error_message': "Activity Stream connection failed",
+                'query': query
             }
