@@ -820,5 +820,5 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
     accordions = response.context_data['page']['accordions']
     assert accordions[0]['num_of_statistics'] == 3
     assert accordions[0]['num_of_subsections'] == 3
-    assert accordions[0].num_of_ctas == 2
-    assert view.section_three_num_of_subsections == 2
+    assert accordions[0]['num_of_ctas'] == 2
+    assert response.context_data['page']['fact_sheet']['num_of_columns'] == 2
