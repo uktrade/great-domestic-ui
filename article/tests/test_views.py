@@ -81,12 +81,12 @@ markets_pages = [
     ),
     (
         'CountryGuidePage',
-        '/markets/asia-pacifc/australia/'
+        '/markets/australia/'
     ),
-    (
-        'ArticlePage',
-        '/markets/asia-pacific/australia/exporting-to-australia/'
-    ),
+    # (
+    #     'ArticlePage',
+    #     '/markets/australia/exporting-to-australia/'
+    # ),
 ]
 
 
@@ -118,6 +118,8 @@ def test_markets_pages_200_when_feature_on(
         status_code=200,
         json_body={
             'page_type': page_type,
+            'statistics': [],
+            'accordions': []
         }
     )
 
