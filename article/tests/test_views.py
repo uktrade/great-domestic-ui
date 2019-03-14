@@ -110,6 +110,7 @@ def test_markets_pages_200_when_feature_on(
         status_code=200,
         json_body={
             'page_type': page_type,
+            'heading': 'Heading',
             'statistics': [],
             'accordions': [],
             'fact_sheet': {'columns': []}
@@ -769,6 +770,7 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
+        'heading': 'Heading',
         'statistics': [
             {'number': '1'},
             {'number': '2', 'heading': 'heading'},
