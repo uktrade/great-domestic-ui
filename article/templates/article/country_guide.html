@@ -4,28 +4,17 @@
 
 {% block css_layout_class %}country-guide-page{% endblock %}
 
+{% block head_js %}
+    <script src="{% static 'directory_components/js/third-party.js' %}"></script>
+    <script src="{% static 'directory_components/js/script.js' %}"></script>
+    <script src="{% static 'js/dit.js' %}"></script>
+    <script src="{% static 'js/country-guide.js' %}"></script>
+    {% block cookie_js %}
+      <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+    {% endblock %}
+{% endblock %}
+
 {% block content %}
-
-<script>
-  /* Add expanding functionality to target elements for desktop.
-  **/
-  var accordions = [];
-  function setupAccordionExpanders() {
-    $('.accordion-content').each(function() {
-      var $this = $(this);
-      accordions.push(new dit.classes.Expander($this, {
-        hover: false,
-        blur: false,
-        wrap: false,
-        $control: $this.parent().find('a.accordion-expander')
-      }));
-    });
-  }
-
-  $(document).ready(function() {
-    setupAccordionExpanders();
-  });
-</script>
 
 {% include 'directory_components/hero.html' with background_image_url=page.hero_image.url hero_text=page.heading hero_subheading=page.sub_heading %}
 
