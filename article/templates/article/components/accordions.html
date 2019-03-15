@@ -1,7 +1,7 @@
 {% load add_export_elements_classes cta_link from directory_components_tags %}
 
 {% for accordion in accordions %}
-  {% if accordion.title %}
+  {% if accordion.title and accordion.teaser and accordion.num_of_subsections >= 2 and accordion.num_of_ctas == 3 %}
     <li class="accordion-divider">
       <a href="#" class="accordion-expander heading-medium link container margin-vertical-0">
         {% if accordion.icon %}
@@ -30,7 +30,7 @@
                 <div class="column-full">
                 {% endif %}
                   {% if subsection.icon %}
-                  <img class="section-two-icon" src="{{ subsection.icon.url }}"/>
+                  <img class="subsection-icon" src="{{ subsection.icon.url }}"/>
                   {% endif %}
                   <h3 class="heading-medium margin-top-15">{{ subsection.heading }}</h3>
                   <p class="font-xsmall">{{ subsection.body }}</p>
