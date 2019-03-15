@@ -1,7 +1,9 @@
+import json
 from unittest.mock import patch, Mock, PropertyMock
 
 import pytest
 import requests
+from requests.exceptions import ConnectionError
 import requests_mock
 
 from django.shortcuts import Http404
@@ -230,3 +232,118 @@ def test_search_unauthorized():
         )
         with pytest.raises(requests.HTTPError):
             helpers.CompaniesHouseClient.search(term='green')
+
+''' -- Search helpers -- '''
+
+@pytest.mark.parametrize('query,safe_output', (
+    ("SELECT * FROM Users WHERE Username='1' OR '1' = '1' AND Password='1' OR '1' = '1' ",
+     "SELECT FROM Users WHERE Username '1' OR '1' '1' AND Password '1' OR '1' '1'"),
+    ("$password = 1' or '1' = '1", "password 1' or '1' '1"),
+    ("'search=keyword'and'1'='1'", "'search keyword'and'1' '1'"),
+    ("innocent search'dropdb();","innocent search'dropdb"),
+    ("{\"script\": \"ctx._source.viewings += 1}\"", "script ctx source viewings 1")
+))
+def test_sanitise_query(query, safe_output):
+    assert helpers.sanitise_query(query) == safe_output
+
+@pytest.mark.parametrize('page,safe_output', (
+    ("2",2),
+    ("-1", 1),
+    ("abc", 1),
+    ("$password = 1' or '1' = '1", 1),
+    ("'search=keyword'and'1'='1'", 1),
+    ("innocent search'dropdb();", 1),
+    ("{\"script\": \"ctx._source.viewings += 1}\"", 1)
+))
+def test_sanitise_page(page, safe_output):
+    assert helpers.sanitise_page(page) == safe_output
+
+def test_parse_results():
+    mock_results = json.dumps({
+        'took': 17,
+        'timed_out': False,
+        '_shards': {
+            'total': 4,
+            'successful': 4,
+            'skipped': 0,
+            'failed': 0
+        },
+        'hits': {
+            'total': 50,
+            'max_score': 0.2876821,
+            'hits': [{
+                '_index': 'objects__feed_id_first_feed__date_2019',
+                '_type': '_doc',
+                '_id': 'dit:exportOpportunities:Opportunity:2',
+                '_score': 0.2876821,
+                '_source': {
+                    'type': 'Opportunities',
+                    'title': 'France - Data analysis services',
+                    'content':
+                    'The purpose of this contract is to analyze...',
+                    'url': 'www.great.gov.uk/opportunities/1'
+                }
+            }, {
+                '_index': 'objects__feed_id_first_feed__date_2019',
+                '_type': '_doc',
+                '_id': 'dit:exportOpportunities:Opportunity:2',
+                '_score': 0.18232156,
+                '_source': {
+                    'type': 'Opportunities',
+                    'title': 'Germany - snow clearing',
+                    'content':
+                    'Winter services for the properties1) Former...',
+                    'url': 'www.great.gov.uk/opportunities/2'
+                }
+            }]
+        }
+    })
+    response = Mock(status=200, content=mock_results)
+    assert helpers.parse_results(response, "services", 2) == {
+       'query': "services",
+       'results': [{
+            "type": "Opportunities",
+            "title": "France - Data analysis services",
+            "content": "The purpose of this contract is to analyze...",
+            "url": "www.great.gov.uk/opportunities/1"
+        },
+        {
+            "type": "Opportunities",
+            "title": "Germany - snow clearing",
+            "content": "Winter services for the properties1) Former...",
+            "url": "www.great.gov.uk/opportunities/2"
+        }],
+       'total_results': 50,
+       'current_page': 2,
+       'total_pages': 5,
+       'previous_page': 1,
+       'next_page': 3,
+       'prev_pages': [1],
+       'next_pages': [3,4,5],
+       'show_first_page': False,
+       'show_last_page': False
+    }
+
+def test_format_query():
+    assert helpers.format_query("services", 2) == json.dumps({
+        "query": {
+          "bool": {
+              "should": [
+                  {"match": {"id": "services"}},
+                  {"match": {"name": "services"}},
+                  {"match": {"content": "services"}},
+                  {"match": {"type": "services"}}
+              ]
+          }
+        },
+        "from": 10,
+        "size": 10
+    })
+
+def test_search_with_activitystream():
+    ''' Simply check that it doesn't expload,
+        and instead raises correct no-connection error '''
+    with pytest.raises(ConnectionError):
+        helpers.search_with_activitystream(
+            helpers.format_query("Test", 1)
+        )

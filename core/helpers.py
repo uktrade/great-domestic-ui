@@ -195,8 +195,10 @@ def sanitise_query(query):
 
 
 def sanitise_page(page):
-    return int(page) if int(page) > 0 else 0
-
+    if(page.isdigit() and int(page) > 0):
+        return int(page)
+    else:
+        return 1
 
 def parse_results(response, query, page):
     current_page = int(page)
@@ -240,7 +242,7 @@ def format_query(query, page):
     will be corrected shortly. Hence commented-out lines.
     """
     RESULTS_PER_PAGE = 10
-    from_result = page * RESULTS_PER_PAGE
+    from_result = (page - 1) * RESULTS_PER_PAGE
     return json.dumps({
         "query": {
           "bool": {
