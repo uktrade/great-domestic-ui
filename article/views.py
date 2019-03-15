@@ -47,6 +47,41 @@ class MarketsPageView(MarketsFeatureFlagMixin, CMSPageView):
     pass
 
 
+class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
+    num_of_statistics = 0
+    section_three_num_of_subsections = 0
+
+    def count_data_with_field(self, list_of_data, field):
+        filtered_list = [item for item in list_of_data if item[field]]
+        return len(filtered_list)
+
+    def get_context_data(self, **kwargs):
+        context = super(CountryGuidePageView, self).get_context_data(**kwargs)
+        self.num_of_statistics = self.count_data_with_field(
+            context['page']['statistics'],
+            'number'
+        )
+        fact_sheet = context['page']['fact_sheet']
+        fact_sheet['num_of_columns'] = self.count_data_with_field(
+            fact_sheet['columns'],
+            'title'
+        )
+        for accordion in context['page']['accordions']:
+            accordion['num_of_subsections'] = self.count_data_with_field(
+                accordion['subsections'],
+                'heading'
+            )
+            accordion['num_of_statistics'] = self.count_data_with_field(
+                accordion['statistics'],
+                'number'
+            )
+            accordion['num_of_ctas'] = self.count_data_with_field(
+                accordion['ctas'],
+                'link'
+            )
+        return context
+
+
 class TagListPageView(
     PrototypeFeatureFlagMixin,
     GetCMSTagMixin,
