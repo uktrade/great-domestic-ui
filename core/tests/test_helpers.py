@@ -265,7 +265,15 @@ def test_sanitise_page(page, safe_output):
     assert helpers.sanitise_page(page) == safe_output
 
 
-def test_parse_results():
+@pytest.mark.parametrize(
+    'page,prev_pages,next_pages,show_first_page,show_last_page', (
+        (2, [1], [3, 4, 5], False, True),
+        (9, [6, 7, 8], [10], True, False),
+    )
+)
+def test_parse_results(page, prev_pages,
+                       next_pages, show_first_page,
+                       show_last_page):
     mock_results = json.dumps({
         'took': 17,
         'timed_out': False,
@@ -276,7 +284,7 @@ def test_parse_results():
             'failed': 0
         },
         'hits': {
-            'total': 50,
+            'total': 100,
             'max_score': 0.2876821,
             'hits': [{
                 '_index': 'objects__feed_id_first_feed__date_2019',
@@ -306,7 +314,7 @@ def test_parse_results():
         }
     })
     response = Mock(status=200, content=mock_results)
-    assert helpers.parse_results(response, "services", 2) == {
+    assert helpers.parse_results(response, "services", page) == {
        'query': "services",
        'results': [{
             "type": "Opportunities",
@@ -320,15 +328,15 @@ def test_parse_results():
             "content": "Winter services for the properties1) Former...",
             "url": "www.great.gov.uk/opportunities/2"
         }],
-       'total_results': 50,
-       'current_page': 2,
-       'total_pages': 5,
-       'previous_page': 1,
-       'next_page': 3,
-       'prev_pages': [1],
-       'next_pages': [3, 4, 5],
-       'show_first_page': False,
-       'show_last_page': False
+       'total_results': 100,
+       'current_page': page,
+       'total_pages': 10,
+       'previous_page': page-1,
+       'next_page': page+1,
+       'prev_pages': prev_pages,
+       'next_pages': next_pages,
+       'show_first_page': show_first_page,
+       'show_last_page': show_last_page
     }
 
 
