@@ -200,6 +200,7 @@ def sanitise_page(page):
     else:
         return 1
 
+
 def parse_results(response, query, page):
     current_page = int(page)
 

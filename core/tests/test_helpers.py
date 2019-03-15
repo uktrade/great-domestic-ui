@@ -233,21 +233,27 @@ def test_search_unauthorized():
         with pytest.raises(requests.HTTPError):
             helpers.CompaniesHouseClient.search(term='green')
 
+
 ''' -- Search helpers -- '''
 
+
 @pytest.mark.parametrize('query,safe_output', (
-    ("SELECT * FROM Users WHERE Username='1' OR '1' = '1' AND Password='1' OR '1' = '1' ",
-     "SELECT FROM Users WHERE Username '1' OR '1' '1' AND Password '1' OR '1' '1'"),
+    ("SELECT * FROM Users WHERE Username='1' OR \
+'1' = '1' AND Password='1' OR '1' = '1' ",
+     "SELECT FROM Users WHERE Username '1' OR \
+'1' '1' AND Password '1' OR '1' '1'"),
     ("$password = 1' or '1' = '1", "password 1' or '1' '1"),
     ("'search=keyword'and'1'='1'", "'search keyword'and'1' '1'"),
-    ("innocent search'dropdb();","innocent search'dropdb"),
-    ("{\"script\": \"ctx._source.viewings += 1}\"", "script ctx source viewings 1")
+    ("innocent search'dropdb();", "innocent search'dropdb"),
+    ("{\"script\": \"ctx._source.viewings += 1}\"",
+        "script ctx source viewings 1")
 ))
 def test_sanitise_query(query, safe_output):
     assert helpers.sanitise_query(query) == safe_output
 
+
 @pytest.mark.parametrize('page,safe_output', (
-    ("2",2),
+    ("2", 2),
     ("-1", 1),
     ("abc", 1),
     ("$password = 1' or '1' = '1", 1),
@@ -257,6 +263,7 @@ def test_sanitise_query(query, safe_output):
 ))
 def test_sanitise_page(page, safe_output):
     assert helpers.sanitise_page(page) == safe_output
+
 
 def test_parse_results():
     mock_results = json.dumps({
@@ -319,10 +326,11 @@ def test_parse_results():
        'previous_page': 1,
        'next_page': 3,
        'prev_pages': [1],
-       'next_pages': [3,4,5],
+       'next_pages': [3, 4, 5],
        'show_first_page': False,
        'show_last_page': False
     }
+
 
 def test_format_query():
     assert helpers.format_query("services", 2) == json.dumps({
@@ -339,6 +347,7 @@ def test_format_query():
         "from": 10,
         "size": 10
     })
+
 
 def test_search_with_activitystream():
     ''' Simply check that it doesn't expload,
