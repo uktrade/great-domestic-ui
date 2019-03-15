@@ -1,7 +1,7 @@
 {% load add_export_elements_classes cta_link from directory_components_tags %}
 
 {% for accordion in accordions %}
-  {% if accordion.title and accordion.teaser and accordion.num_of_subsections >= 2 and accordion.num_of_ctas == 3 %}
+  {% if accordion.is_viable %}
     <li class="accordion-divider">
       <a href="#" class="accordion-expander heading-medium link container margin-vertical-0">
         {% if accordion.icon %}
