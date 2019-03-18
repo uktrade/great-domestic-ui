@@ -132,6 +132,7 @@ def test_markets_link_in_header_when_feature_on(
         status_code=200,
         json_body={
             'page_type': 'TopicLandingPage',
+            'child_pages': []
         }
     )
     url = reverse('markets')
