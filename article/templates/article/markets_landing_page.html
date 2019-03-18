@@ -1,0 +1,16 @@
+{% extends 'article/topic_list_base.html' %}
+
+{% block child_pages %}
+  <div class="grid-row margin-vertical-60">
+    <div class="column-full column-half-l font-medium">
+      Find market guides for British businesses interested in selling goods and services overseas.
+    </div>
+  </div>
+  <div class="card-grid">
+    {% for listing in page.child_pages %}
+        <div class="column-full column-third-l column-half-m">
+          {% include 'article/components/landing_page_card.html' with listing=listing %}
+        </div>
+    {% endfor %}
+  </div>
+{% endblock child_pages %}

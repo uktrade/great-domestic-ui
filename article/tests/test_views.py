@@ -1009,3 +1009,29 @@ def test_get_country_guide_page_non_viable_accordion(
 
     accordions = response.context_data['page']['accordions']
     assert bool(accordions[0]['is_viable']) is False
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_get_markets_page_renames_heading_to_landing_page_title(
+    mock_get_page, client
+):
+    page = {
+        'title': 'test',
+        'page_type': 'TopicLandingPage',
+        'child_pages': [
+            {
+                'heading': 'heading'
+            }
+        ]
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+
+    url = reverse('markets')
+    response = client.get(url)
+
+    child_page = response.context_data['page']['child_pages'][0]
+    assert child_page['landing_page_title'] is 'heading'
