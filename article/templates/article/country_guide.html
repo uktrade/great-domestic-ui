@@ -1,124 +1,177 @@
 {% extends 'article/base.html' %}
 {% load static %}
-{% load cta_box add_export_elements_classes from directory_components_tags %}
-{% load parse_date from article_tags %}
+{% load card image_with_caption cta_link cta_card add_export_elements_classes convert_headings_to override_elements_css_class from directory_components_tags %}
 
-{% block css_layout_class %}country-guide-page{% endblock css_layout_class %}
+{% block css_layout_class %}country-guide-page{% endblock %}
+
+{% block head_js %}
+    <script src="{% static 'directory_components/js/third-party.js' %}"></script>
+    <script src="{% static 'directory_components/js/script.js' %}"></script>
+    <script src="{% static 'js/dit.js' %}"></script>
+    <script src="{% static 'js/country-guide.js' %}"></script>
+    {% block cookie_js %}
+      <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+    {% endblock %}
+{% endblock %}
 
 {% block content %}
-<section class="hero hero-generic padding-0" {% if page.hero_image %}style="background-image: url('{{ page.hero_image.url }}')"{% endif %}>
+
+{% include 'directory_components/hero.html' with background_image_url=page.hero_image.url hero_text=page.heading hero_subheading=page.sub_heading %}
+
+<section id="breadcrumb-section">
+  {% block breadcrumbs %}
+    {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+  {% endblock %}
+</section>
+
+{% if page.heading_teaser %}
+<section id="country-guide-teaser-section" class="teaser">
   <div class="container">
-    <div class="hero-title-compact">
-      <h1 class="heading-hero-generic{% if page.breadcrumbs_label|length > 15 %}-compact{% endif %}" id="hero-heading">{{ page.landing_page_title }}</h1>
+    <div class="grid-row padding-top-30 padding-bottom-30">
+      <div class="column-full column-half-l">
+        <p class="font-medium">{{ page.heading_teaser }}</p>
+      </div>
     </div>
   </div>
 </section>
-
-<section>
-    {% block breadcrumbs %}
-      {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
-    {% endblock %}
-
-  <div class="container">
-
-    <div class="grid-row">
-      <div class="column-half">
-        <h2 class="heading-large margin-top-15">{{ page.section_one_heading }}</h2>
-        <div class="margin-bottom-60">{{ page.section_one_content|add_export_elements_classes }}</div>
-      </div>
-    </div>
-
-    <ul class="grid-row">
-      <li class="column-third">
-        {% if page.selling_point_one_icon %}<img src="{{ page.selling_point_one_icon.url }}" width="50" alt="">{% endif %}
-        <h3 class="heading-medium margin-top-15">{{ page.selling_point_one_heading }}</h3>
-        {{ page.selling_point_one_content|add_export_elements_classes }}
-      </li>
-      {% if page.selling_point_two_heading and page.selling_point_two_content %}
-        <li class="column-third">
-          {% if page.selling_point_two_icon %}<img src="{{ page.selling_point_two_icon.url }}" width="50" alt="">{% endif %}
-          <h3 class="heading-medium margin-top-15">{{ page.selling_point_two_heading }}</h3>
-          {{ page.selling_point_two_content|add_export_elements_classes }}
-        </li>
-      {% endif %}
-      {% if page.selling_point_three_heading and page.selling_point_three_content %}
-        <li class="column-third">
-          {% if page.selling_point_three_icon %}<img src="{{ page.selling_point_three_icon.url }}" width="50" alt="">{% endif %}
-          <h3 class="heading-medium margin-top-15">{{ page.selling_point_three_heading }}</h3>
-          {{ page.selling_point_three_content|add_export_elements_classes }}
-        </li>
-      {% endif %}
-    </ul>
-
-  </div>
-</section>
-
-{% if page.articles %}
-  <section class="background-stone-30 padding-top-15">
-    <div class="container">
-      <div class="grid-row">
-        <div class="column-half">
-          <h2 class="heading-large">{{ page.section_two_heading }}</h2>
-          <div class="margin-bottom-45">{{ page.section_two_content|add_export_elements_classes }}</div>
-        </div>
-      </div>
-
-      <div class="grid-row">
-        {% if page.articles %}
-          {% for article in page.articles %}
-            <div class="column-third">
-              <p class="subheading">Published on {{ page.last_published_at|parse_date }}</p>
-              <a href="{{ article.full_path }}" class="heading-medium margin-top-0 link">{{ article.article_title }}</a>
-              <p>{{ article.article_teaser }}</p>
-            </div>
-          {% endfor %}
-        {% endif %}
-      </div>
-
-    </div>
-  </section>
 {% endif %}
 
-{% if page.related_pages.0.article_title %}
-<section class="padding-top-15 padding-bottom-90">
+<section id="country-guide-section-one" class="section-one">
   <div class="container">
     <div class="grid-row">
-      <div class="column-half">
-        <h2 class="heading-large">{{ page.related_content_heading }}</h2>
-        <div class="margin-bottom-30">{{ page.related_content_intro|add_export_elements_classes }}</div>
+      <div class="column-full column-half-l section-one-body">
+        {{ page.section_one_body|convert_headings_to:'h2'|add_export_elements_classes|override_elements_css_class:'h2,heading-medium'|safe }}
+      </div>
+      <div class="column-full column-half-l">
+        {% image_with_caption image_url=page.section_one_image.url main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company %}
       </div>
     </div>
+  </div>
+</section>
 
-    <ul class="grid-row" aria-labelledby="related-content-heading" id="related-pages-list">
-      {% for article in page.related_pages %}
-        <li class="column-third" id="related-page-one">
-          {% if article.article_image %}
-            <img id="related-page-one-image" src="{{ article.article_image_thumbnail.url }}" alt="" class="width-full">
+<section id="country-guide-statistics-section" class="statistics">
+  <div class="container padding-vertical-30px margin-bottom-60-m">
+    <div class="card-grid padding-bottom-15 underline-active-blue">
+      {% for statistic in page.statistics %}
+        {% if statistic.number %}
+          {% if view.num_of_statistics == 6 %}
+          <figure class="column-half column-third-l column-sixth-xl">
+          {% elif view.num_of_statistics == 5 %}
+          <figure class="column-half column-third-l column-sixth-xl">
+          {% elif view.num_of_statistics == 4 %}
+          <figure class="column-half column-quarter-xl">
+          {% elif view.num_of_statistics == 3 %}
+          <figure class="column-half column-third-l">
+          {% else %}
+          <figure class="column-half">
           {% endif %}
-          <a href="{{ article.full_path }}" class="heading-medium grey-text margin-top-30">{{ article.article_title }}</a>
-          <p>{{ article.article_teaser }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+            <p class="bold-large active-blue-text statistic-number">{{ statistic.number }}</p>
+            <figcaption>
+              <p class="statistic-heading">{{ statistic.heading }}</p>
+              <p class="font-xsmall statistic-smallprint">{{ statistic.smallprint }}</p>
+            </figcaption>
+          </figure>
+        {% endif %}
+      {% endfor %}
+    </div>
   </div>
 </section>
-{% endif %}
 
-<section class="{% if page.related_pages.0.article_title %}background-stone-gradient-left{% endif %} padding-top-45">
-  <div class="container">
-    <div class="card-grid reverse-columns-l">
-      <div class="column-third-xl column-full-l">
-        <h2 class="heading-xlarge heading-hero-domestic title margin-top-0 margin-bottom-30"><span>If we can</span><br><span>you can</span></h2>
-        <p>Thousands of businesses like yours have increased their sales, growth and stability by selling overseas.</p>
-        <p>Explore the potential of exporting with guidance, services and support from the Department for International Trade.</p>
-
-        <a class="button button-large margin-top-30" href="#">Get started</a>
-      </div>
-
-      <div class="column-two-thirds-xl column-full-l">
-        <img id="cta-image" src="{% static 'images/home-triage-world-connections@2x.png' %}" alt="" class="float-right width-full margin-top-90 margin-bottom-60 margin-0-l">
+<section id="country-guide-section-two" class="section-two">
+  <div class="container padding-top-90 padding-bottom-45">
+    <div class="grid-row">
+      <div class="column-full column-two-thirds-m column-half-l">
+        <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
+        <p>{{ page.section_two_teaser }}</p>
       </div>
     </div>
   </div>
 </section>
+
+<section id="country-guide-accordions" class="accordions padding-bottom-0">
+  <ul>
+    {% include 'article/components/accordions.html' with accordions=page.accordions %}
+  </ul>
+</section>
+
+{% if page.section_three_heading %}
+<section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
+  <div class="container">
+    <div class="grid-row margin-bottom-60">
+      <div class="column-full column-two-thirds-m column-half-l">
+        <h2 class="heading-large margin-top-0">{{ page.fact_sheet.fact_sheet_title }}</h2>
+        <p>{{ page.fact_sheet.fact_sheet_teaser }}</p>
+      </div>
+    </div>
+    <div class="grid-row">
+      {% for column in page.fact_sheet.columns %}
+        {% if column.heading %}
+          {% if page.fact_sheet.num_of_columns == 1 %}
+          <div class="column-full margin-bottom-30">
+          {% else %}
+          <div class="column-full column-half-xl margin-bottom-30">
+          {% endif %}
+            <div class="fact-sheet">
+              <h3 class="highlight heading-medium background-grey white-text">{{ column.heading }}</h3>
+              <div class="fact-sheet-content background-white padding-45 wrap-tight font-xsmall">
+                {% if column.teaser %}
+                <p class="font-small">{{ column.teaser }}</p>
+                <hr>
+                {% endif %}
+                {{ column.body|convert_headings_to:'h4'|add_export_elements_classes|override_elements_css_class:'h4,heading-small'|safe }}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section id="country-guide-need-help-section" class="need-help">
+  <div class="container padding-top-45">
+    <div class="grid-row margin-bottom-45">
+      <div class="column-full column-two-thirds-m column-half-l">
+        <h2 class="heading-large margin-top-0">Next steps</h2>
+        <p>DIT can advise you on doing business abroad, and help put you in touch with other people who can help such as lawyers and distributors.</p>
+      </div>
+    </div>
+    <div class="grid-row">
+      {% static 'images/country-guide-need-help@2x.png' as need_help_image_url %}
+      <div class="column-full column-third-l margin-bottom-30">
+        {% url 'advice' as advice_url %}
+        {% cta_card with_arrow=True image_url=need_help_image_url text="Read our exporting advice" url=advice_url %}
+      </div>
+      <div class="column-full column-third-l margin-bottom-30">
+        {% with 'Read market guide for '|add:page.heading as market_guide_cta_text %}
+        {% cta_card with_arrow=True image_url=need_help_image_url text=market_guide_cta_text url=page.help_market_guide_cta_link %}
+        {% endwith %}
+      </div>
+      <div class="column-full column-third-l margin-bottom-30">
+        {% cta_card with_arrow=True image_url=need_help_image_url text="Tell us what help you need" url=services_urls.contact_us %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if page.related_pages %}
+<section id="country-guide-news-events-section" class="news-events background-stone-30 padding-vertical-60">
+  <div class="container">
+    <h2 class="heading-large margin-top-0 margin-bottom-45">News and events</h2>
+    <div class="card-grid">
+      {% for related_page in page.related_pages %}
+        <div class="column-full column-half-l column-third-xl">
+          {% if related_page.page_type == 'InternationalArticlePage' %}
+            {% card card_id=related_page.meta.slug url=related_page.full_path img_src=related_page.thumbnail.url sub_heading='Article' title=related_page.title description=related_page.teaser %}
+          {% else %}
+            {% card card_id=related_page.meta.slug url=related_page.full_path img_src=related_page.thumbnail.url sub_heading='Campaign' title=related_page.title description=related_page.teaser %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
 {% endblock %}
