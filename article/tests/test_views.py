@@ -829,7 +829,7 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_get_country_guide_page_accordion_is_viable(
+def test_get_country_guide_page_viable_accordion(
         mock_get_page,
         client
 ):
@@ -980,7 +980,7 @@ non_viable_accordions = [
 
 @pytest.mark.parametrize('non_viable_accordion', non_viable_accordions)
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_get_country_guide_page_accordion_is_viable(
+def test_get_country_guide_page_non_viable_accordion(
     mock_get_page,
     non_viable_accordion,
     client
