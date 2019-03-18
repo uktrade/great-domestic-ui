@@ -189,15 +189,15 @@ class CompaniesHouseClient:
 
 
 def sanitise_query(query):
-    return " ".join(list(filter(
+    return " ".join(filter(
         None, re.findall(r"[a-zA-Z0-9']*", query)
-    )))
+    ))
 
 
 def sanitise_page(page):
-    if(page.isdigit() and int(page) > 0):
-        return int(page)
-    else:
+    try:
+        return int(page) if int(page) > 0 else 1
+    except ValueError:
         return 1
 
 
@@ -245,18 +245,18 @@ def format_query(query, page):
     RESULTS_PER_PAGE = 10
     from_result = (page - 1) * RESULTS_PER_PAGE
     return json.dumps({
-        "query": {
-          "bool": {
-              "should": [
-                  {"match": {"id": query}},
-                  {"match": {"name": query}},
-                  {"match": {"content": query}},
-                  {"match": {"type": query}}
+        'query': {
+          'bool': {
+              'should': [
+                  {'match': {'id': query}},
+                  {'match': {'name': query}},
+                  {'match': {'content': query}},
+                  {'match': {'type': query}}
               ]
           }
         },
-        "from": from_result,
-        "size": RESULTS_PER_PAGE
+        'from': from_result,
+        'size': RESULTS_PER_PAGE
     })
 
 

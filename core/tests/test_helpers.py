@@ -358,8 +358,9 @@ def test_format_query():
 
 
 def test_search_with_activitystream():
-    ''' Simply check that it doesn't expload,
-        and instead raises correct no-connection error '''
+    """ Simply check that it doesn't expload,
+        and instead raises correct no-connection error
+    """
     with pytest.raises(ConnectionError):
         helpers.search_with_activitystream(
             helpers.format_query("Test", 1)

@@ -543,7 +543,7 @@ def test_search_view(client):
         })
         search.return_value = Mock(status_code=200, content=mock_results)
 
-        response = client.get("%s?q=services" % reverse('search'))
+        response = client.get(reverse('search'), data={'q':'services'})
         context = response.context_data
 
         assert response.status_code == 200
