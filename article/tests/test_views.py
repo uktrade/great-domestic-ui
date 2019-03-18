@@ -113,7 +113,8 @@ def test_markets_pages_200_when_feature_on(
             'heading': 'Heading',
             'statistics': [],
             'accordions': [],
-            'fact_sheet': {'columns': []}
+            'fact_sheet': {'columns': []},
+            'child_pages': []
         }
     )
 
@@ -1034,4 +1035,4 @@ def test_get_markets_page_renames_heading_to_landing_page_title(
     response = client.get(url)
 
     child_page = response.context_data['page']['child_pages'][0]
-    assert child_page['landing_page_title'] is 'heading'
+    assert child_page['landing_page_title'] == 'heading'
