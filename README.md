@@ -1,10 +1,10 @@
-# directory-ui-export-readiness
+# great-domestic-ui
 
 [![circle-ci-image]][circle-ci]
 [![codecov-image]][codecov]
 [![snyk-image]][snyk]
 
-**Export Readiness (Exred) - the Department for International Trade (DIT)**  
+**GREAT.gov.uk, Domestic facing FE service - the Department for International Trade (DIT)**  
 
 ---
 ### See also:
@@ -46,7 +46,7 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
 ### Installing
     $ git clone https://github.com/uktrade/directory-ui-export-readiness
     $ cd directory-ui-export-readiness
-    $ virtualenv .venv -p python3.5
+    $ virtualenv .venv -p python3.6
     $ source .venv/bin/activate
     $ pip install -r requirements_test.txt
 
@@ -114,6 +114,8 @@ To make sso work locally add the following to your machine's `/etc/hosts`:
 | 127.0.0.1 | api.trade.great      |
 | 127.0.0.1 | profile.trade.great  |
 | 127.0.0.1 | exred.trade.great    |
+| 127.0.0.1 | cms.trade.great      |
+
 
 Then log into `directory-sso` via `sso.trade.great:8001`, and use `directory-ui-export-readiness` on `exred.trade.great:8001`
 
