@@ -5,7 +5,7 @@
   {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
 {% endblock %}
 
-<article>
+<article class="article-main {{ view.slug }}-article">
   <div class="container">
 
     <header>
@@ -40,6 +40,19 @@
 
     <div class="grid-row">
       <div class="column-three-quarters">
+
+				<div class="grid-row">
+					<div class="column-seven-ninths article-content margin-top-0">
+						{% if page.article_teaser %}
+							<div class="text">
+								<p>
+									{{ page.article_teaser }}
+								</p>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+
         {% if page.article_image %}
           <img src="{{ page.article_image.url }}" alt="" class="width-100">
         {% endif %}
