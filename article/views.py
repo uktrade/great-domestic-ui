@@ -79,6 +79,11 @@ class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
                 accordion['ctas'],
                 'link'
             )
+            accordion['is_viable'] = \
+                accordion['title'] and \
+                accordion['teaser'] and \
+                accordion['num_of_subsections'] >= 2 and \
+                accordion['num_of_ctas'] == 3
         return context
 
 
