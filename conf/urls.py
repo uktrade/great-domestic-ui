@@ -15,6 +15,7 @@ import core.views
 import euexit.views
 import finance.views
 import marketaccess.views
+import community.views
 
 from conf.url_redirects import redirects
 
@@ -355,18 +356,8 @@ article_urls = [
     ),
     url(
         r"^markets/(?P<slug>[\w-]+)/$",
-        article.views.MarketsPageView.as_view(),
-        name='superregion',
-    ),
-    url(
-        r"^markets/(?P<region>[\w-]+)/(?P<slug>[\w-]+)/$",
-        article.views.MarketsPageView.as_view(),
+        article.views.CountryGuidePageView.as_view(),
         name='country-guide',
-    ),
-    url(
-        r"^markets/(?P<region>[\w-]+)/(?P<country>[\w-]+)/(?P<slug>[\w-]+)/$",
-        article.views.MarketsPageView.as_view(),
-        name='country-guide-article',
     ),
 ]
 
@@ -543,9 +534,28 @@ marketaccess_urls = [
 
 ]
 
+community_urls = [
+    url(
+        r"^community/join/$",
+        community.views.CommunityJoinFormPageView.as_view(),
+        name='community-join-form'
+    ),
+    url(
+        r"^community/success/$",
+        community.views.CommunitySuccessPageView.as_view(),
+        name='community-join-success'
+    ),
+    url(
+        r'^community/$',
+        article.views.CommunityArticlePageView.as_view(),
+        name='community-article'
+    ),
+]
+
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
 urlpatterns += article_urls
 urlpatterns += contact_urls
 urlpatterns += marketaccess_urls
+urlpatterns += community_urls

@@ -1,0 +1,23 @@
+{% load progressive_image from image_tags %}
+<br>
+<section id="community" class="community-section background-stone-30 padding-top-30">
+  <div class="container">
+    <div class="grid-row">
+      <div class="column-half-l">
+        {% progressive_image webp='images/export-hp-community.webp' img_id='export-community-image' src='images/export-hp-community.jpg' %}
+      </div>
+      <div class="column-full column-half-l">
+        <h2 id="export-community-title" class="heading-large">Join our export community</h2>
+        <p id="export-community-description">
+          Our export community is a network of businesses who advocate for exporting. They share success stories, offer practical advice and lead by example.
+        </p>
+		<p>
+		  The Department for International Trade and the export community together offer export guidance, services and support.
+		</p>
+		<p>
+		  <a id="export-community-link" class="link" href="{% url 'community-article' %}" target="_blank">Become an Export Advocate</a>
+		</p>
+      </div>
+    </div>
+  </div>
+</section>

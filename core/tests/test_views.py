@@ -26,21 +26,6 @@ def test_interstitial_page_exopps(client):
     assert response.url == settings.SERVICES_EXOPPS_ACTUAL
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_video_url(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    settings.FEATURE_FLAGS['LANDING_PAGE_EU_EXIT_BANNER_ON'] = False
-
-    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
-
-    url = reverse('landing-page')
-    response = client.get(url)
-    assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
-        'https://example.com/videp.mp4'
-    )
-    assert b'https://example.com/videp.mp4' in response.content
-
-
 @patch(
     'core.helpers.GeoLocationRedirector.should_redirect',
     PropertyMock(return_value=True)
@@ -97,6 +82,21 @@ def test_landing_page(mock_get_page, client, settings):
         casestudies.HELLO_BABY,
         casestudies.YORK,
     ]
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_video_url(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+    settings.FEATURE_FLAGS['LANDING_PAGE_EU_EXIT_BANNER_ON'] = False
+
+    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
+
+    url = reverse('landing-page')
+    response = client.get(url)
+    assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
+        'https://example.com/videp.mp4'
+    )
+    assert b'https://example.com/videp.mp4' in response.content
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')

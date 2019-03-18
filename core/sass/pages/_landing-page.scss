@@ -23,6 +23,7 @@
     .heading-hero-domestic span {
       padding: 8px 15px 5px;
       margin: 0 0 5px 0px;
+      text-transform: uppercase;
     }
 
     .container {
@@ -59,16 +60,16 @@
 
 // Background images
 
-#hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-500.png') }
-#services-section-find-a-buyer-image { background-image: url('/static/images/export-hp-fas-profile.jpg') }
+#hero-campaign-section {
+  background-image: url('/static/images/hero/export-hp-hero-champion-500.jpg');
+
+}
+#services-section-find-a-buyer-image { background-image: url('/static/images/export-hp-fab.jpg') }
 #services-section-selling-online-overseas-image { background-image: url('/static/images/export-hp-online-market.jpg') }
 #services-section-export-opportunities-image { background-image: url('/static/images/export-hp-export-opportunities.jpg') }
 
 body.webp-enabled {
-  #hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-500.webp') }
-  #services-section-find-a-buyer-image { background-image: url('/static/images/export-hp-fas-profile.webp') }
-  #services-section-selling-online-overseas-image { background-image: url('/static/images/export-hp-online-market.webp') }
-  #services-section-export-opportunities-image { background-image: url('/static/images/export-hp-export-opportunities.webp') }
+  #hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-champion-500.webp') }
 }
 
 // Sections
@@ -91,6 +92,7 @@ body.webp-enabled {
     }
   }
 
+  .community-section,
   .triage-section,
   .beis-section {
     img {
@@ -99,8 +101,10 @@ body.webp-enabled {
   }
 }
 
+
 @media (min-width: 640px) {
   .landing-page {
+    .community-section,
     .triage-section,
     .beis-section {
       img {
@@ -134,10 +138,11 @@ body.webp-enabled {
   }
 
   #hero-campaign-section {
-    background-image: url('/static/images/hero/export-hp-hero-mb.jpg');
+    background-image: url('/static/images/hero/export-hp-hero-champion-mb.png');
+      background-position: 80% 0;
   }
 
   body.webp-enabled  #hero-campaign-section {
-    background-image: url('/static/images/hero/export-hp-hero-mb.webp');
+    background-image: url('/static/images/hero/export-hp-hero-champion-mb.webp');
   }
 }

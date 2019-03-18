@@ -19,7 +19,6 @@ from directory_components.constants import IP_RETRIEVER_NAME_GOV_UK
 from directory_constants.constants import cms
 import directory_healthcheck.backends
 
-
 env = environ.Env()
 env.read_env()
 
@@ -56,6 +55,7 @@ INSTALLED_APPS = [
     'euexit',
     'contact',
     'marketaccess',
+    'community',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -352,14 +352,6 @@ RECAPTCHA_PRIVATE_KEY = env.str('RECAPTCHA_PRIVATE_KEY')
 # NOCAPTCHA = True turns on version 2 of recaptcha
 NOCAPTCHA = env.bool('NOCAPTCHA', True)
 
-LANDING_PAGE_VIDEO_URL = env.str(
-    'LANDING_PAGE_VIDEO_URL',
-    (
-        'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
-        'promo-video_web.mp4'
-    )
-)
-
 # directory CMS
 DIRECTORY_CMS_API_CLIENT_BASE_URL = env.str('CMS_URL')
 DIRECTORY_CMS_API_CLIENT_API_KEY = env.str('CMS_SIGNATURE_SECRET')
@@ -542,6 +534,19 @@ MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME = env.str(
     'MARKET_ACCESS_FORMS_API_ZENDESK_SEVICE_NAME', 'market_access'
 )
 
+# Community
+COMMUNITY_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'COMMUNITY_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID',
+    'b1a0f719-b00d-4fc4-bc4d-b68ccc50c651'
+)
+COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID',
+    '63748451-6dbf-40ea-90b1-05f1f62c61ac'
+)
+COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str(
+    'COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS',
+)
+
 # ip-restrictor
 IP_RESTRICTOR_SKIP_CHECK_ENABLED = env.bool(
     'IP_RESTRICTOR_SKIP_CHECK_ENABLED', False
@@ -564,6 +569,13 @@ ALLOWED_ADMIN_IP_RANGES = env.list(
 RESTRICTED_APP_NAMES = env.list(
     'IP_RESTRICTOR_RESTRICTED_APP_NAMES', default=['admin']
 )
+
+LANDING_PAGE_VIDEO_URL = env.str(
+    'LANDING_PAGE_VIDEO_URL',
+    'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
+    'promo-video_web-stitch.mp4'
+)
+
 if env.bool('IP_RESTRICTOR_RESTRICT_UI', False):
     # restrict all pages that are not in apps API, healthcheck, admin, etc
     RESTRICTED_APP_NAMES.append('')

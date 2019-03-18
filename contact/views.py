@@ -1,4 +1,3 @@
-import collections
 from urllib.parse import urlparse
 
 from directory_constants.constants import cms
@@ -16,14 +15,13 @@ from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.template.response import TemplateResponse
+from django.utils.functional import cached_property
 
 from core import mixins
+from core.views import BaseNotifyFormView
+from core.helpers import NotifySettings
 from contact import constants, forms, helpers
 
-
-NotifySettings = collections.namedtuple(
-    'NotifySettings', ['agent_template', 'agent_email', 'user_template']
-)
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 
 
@@ -60,38 +58,6 @@ class SubmitFormOnGetMixin:
         return super().post(request, *args, **kwargs)
 
 
-class SendNotifyMessagesMixin:
-
-    def send_agent_message(self, form):
-        sender = Sender(
-            email_address=form.cleaned_data['email'],
-            country_code=None,
-        )
-        response = form.save(
-            template_id=self.notify_settings.agent_template,
-            email_address=self.notify_settings.agent_email,
-            form_url=self.request.get_full_path(),
-            form_session=self.form_session,
-            sender=sender,
-        )
-        response.raise_for_status()
-
-    def send_user_message(self, form):
-        # no need to set `sender` as this is just a confirmation email.
-        response = form.save(
-            template_id=self.notify_settings.user_template,
-            email_address=form.cleaned_data['email'],
-            form_url=self.request.get_full_path(),
-            form_session=self.form_session,
-        )
-        response.raise_for_status()
-
-    def form_valid(self, form):
-        self.send_agent_message(form)
-        self.send_user_message(form)
-        return super().form_valid(form)
-
-
 class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
     def get_form_initial(self):
         if self.company_profile:
@@ -103,10 +69,6 @@ class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
                 'given_name': self.guess_given_name,
                 'family_name': self.guess_family_name,
             }
-
-
-class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
-    pass
 
 
 class BaseZendeskFormView(FormSessionMixin, FormView):
@@ -606,28 +568,30 @@ class OfficeFinderFormView(
 ):
     template_name = 'contact/office-finder.html'
     form_class = forms.OfficeFinderForm
+    postcode = ''
+
+    @cached_property
+    def all_offices(self):
+        return helpers.retrieve_regional_offices(
+           self.postcode
+        )
 
     @property
     def flag(self):
         return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
 
-    @staticmethod
-    def format_office_details(office_details):
-        address = office_details['address_street'].split(', ')
-        address.append(office_details['address_city'])
-        address.append(office_details['address_postcode'])
-        return {
-            'address': '\n'.join(address),
-            **office_details,
-        }
-
     def form_valid(self, form):
-        office_details = self.format_office_details(form.office_details)
+        self.postcode = form.cleaned_data['postcode']
+        office_details = helpers.extract_regional_office_details(
+            self.all_offices
+        )
+        other_offices = helpers.extract_other_offices_details(self.all_offices)
         return TemplateResponse(
             self.request,
             self.template_name,
             {
                 'office_details': office_details,
+                'other_offices': other_offices,
                 **self.get_context_data(),
             }
         )

@@ -7,8 +7,7 @@ from directory_forms_api_client.forms import (
 import requests.exceptions
 
 from django.conf import settings
-from django.forms import Textarea, TextInput, TypedChoiceField, ValidationError
-from django.utils.functional import cached_property
+from django.forms import Textarea, TextInput, TypedChoiceField
 from django.utils.html import mark_safe
 
 from contact import constants, helpers
@@ -372,27 +371,35 @@ class BusinessDetailsForm(forms.Form):
 
 
 class SellingOnlineOverseasBusiness(forms.Form):
-    company_name = fields.CharField(required=False)
+    company_name = fields.CharField(required=True)
     soletrader = fields.BooleanField(
         label='I don\'t have a company number',
         required=False,
     )
     company_number = fields.CharField(
-        label=(
-            'The number you received when registering your company at '
-            'Companies House.'
-        ),
-        required=False,
+        label='Companies House Number',
+        help_text='The number you received when'
+        'registering your company at Companies House.',
+        required=False,  # Only need if soletrader false - see clean (below)
     )
     company_postcode = fields.CharField(
-        required=False,  # in js hide if company number is inputted
+        required=True,
     )
     website_address = fields.CharField(
         label='Company website',
         help_text='Website address, where we can see your products online.',
         max_length=255,
-        required=False,
+        required=True,
     )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        soletrader = cleaned_data.get('soletrader')
+        company_number = cleaned_data.get('company_number')
+        if not soletrader and not company_number:
+            self.add_error('company_number',
+                           self.fields['company_number']
+                           .error_messages['required'])
 
 
 class SellingOnlineOverseasBusinessDetails(forms.Form):
@@ -484,18 +491,7 @@ class OfficeFinderForm(forms.Form):
         help_text='For example SW1A 2AA',
     )
 
-    @cached_property
-    def office_details(self):
-        try:
-            return helpers.retrieve_regional_office(
-                self.cleaned_data['postcode']
-            )
-        except requests.exceptions.RequestException:
-            return None
-
     def clean_postcode(self):
-        if not self.office_details:
-            raise ValidationError(self.MESSAGE_NOT_FOUND)
         return self.cleaned_data['postcode'].replace(' ', '')
 
 
