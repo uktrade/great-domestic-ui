@@ -457,7 +457,7 @@ def test_international_news_article_detail_page(
         'article/international_news_detail.html']
 
     assert 'Test news title' in str(response.content)
-    assert 'Test news teaser' not in str(response.content)
+    assert 'Test news teaser' in str(response.content)
     assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
 
 
@@ -778,6 +778,8 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
         ],
         'accordions': [
             {
+                'title': 'title',
+                'teaser': 'teaser',
                 'statistics': [
                     {'number': '1'},
                     {'number': '2', 'heading': 'heading'},
@@ -824,3 +826,186 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
     assert accordions[0]['num_of_subsections'] == 3
     assert accordions[0]['num_of_ctas'] == 2
     assert response.context_data['page']['fact_sheet']['num_of_columns'] == 2
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_get_country_guide_page_viable_accordion(
+        mock_get_page,
+        client
+):
+    viable_accordion = {
+        'statistics': [],
+        'title': 'title',
+        'teaser': 'teaser',
+        'subsections': [
+            {
+                'heading': 'heading1'
+            },
+            {
+                'heading': 'heading2'
+            }
+        ],
+        'ctas': [
+            {
+                'link': 'link1'
+            },
+            {
+                'link': 'link2'
+            },
+            {
+                'link': 'link3'
+            }
+        ]
+    }
+
+    page = {
+        'title': 'test',
+        'page_type': 'CountryGuidePage',
+        'heading': 'Heading',
+        'statistics': [],
+        'accordions': [viable_accordion],
+        'fact_sheet': {
+            'columns': []
+        }
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+
+    url = reverse(
+        'country-guide',
+        kwargs={'slug': 'japan'}
+    )
+    response = client.get(url)
+
+    accordions = response.context_data['page']['accordions']
+    assert bool(accordions[0]['is_viable']) is True
+
+
+non_viable_accordions = [
+    {
+        'statistics': [],
+        'title': '',
+        'teaser': 'teaser',
+        'subsections': [
+            {
+                'heading': 'heading1'
+            },
+            {
+                'heading': 'heading2'
+            }
+        ],
+        'ctas': [
+            {
+                'link': 'link1'
+            },
+            {
+                'link': 'link2'
+            },
+            {
+                'link': 'link3'
+            }
+        ]
+    },
+    {
+        'statistics': [],
+        'title': 'title',
+        'teaser': '',
+        'subsections': [
+            {
+                'heading': 'heading1'
+            },
+            {
+                'heading': 'heading2'
+            }
+        ],
+        'ctas': [
+            {
+                'link': 'link1'
+            },
+            {
+                'link': 'link2'
+            },
+            {
+                'link': 'link3'
+            }
+        ]
+    },
+    {
+        'statistics': [],
+        'title': 'title',
+        'teaser': 'teaser',
+        'subsections': [
+            {
+                'heading': 'heading1'
+            }
+        ],
+        'ctas': [
+            {
+                'link': 'link1'
+            },
+            {
+                'link': 'link2'
+            },
+            {
+                'link': 'link3'
+            }
+        ]
+    },
+    {
+        'statistics': [],
+        'title': 'title',
+        'teaser': 'teaser',
+        'subsections': [
+            {
+                'heading': 'heading1'
+            },
+            {
+                'heading': 'heading2'
+            }
+        ],
+        'ctas': [
+            {
+                'link': 'link1'
+            },
+            {
+                'link': 'link2'
+            }
+        ]
+    }
+]
+
+
+@pytest.mark.parametrize('non_viable_accordion', non_viable_accordions)
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_get_country_guide_page_non_viable_accordion(
+    mock_get_page,
+    non_viable_accordion,
+    client
+):
+    page = {
+        'title': 'test',
+        'page_type': 'CountryGuidePage',
+        'heading': 'Heading',
+        'statistics': [],
+        'accordions': [non_viable_accordion],
+        'fact_sheet': {
+            'columns': []
+        }
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+
+    url = reverse(
+        'country-guide',
+        kwargs={'slug': 'japan'}
+    )
+    response = client.get(url)
+
+    accordions = response.context_data['page']['accordions']
+    assert bool(accordions[0]['is_viable']) is False

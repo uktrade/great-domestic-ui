@@ -145,16 +145,6 @@ class OpportunitiesRedirectView(RedirectView):
         return redirect_url
 
 
-class InterstitialPageExoppsView(SetEtagMixin, TemplateView):
-    template_name = 'core/interstitial_exopps.html'
-
-    def get_context_data(self, **kwargs):
-        context = {
-            'exopps_url': settings.SERVICES_EXOPPS_ACTUAL
-        }
-        return context
-
-
 class StaticViewSitemap(sitemaps.Sitemap):
     changefreq = 'daily'
 
