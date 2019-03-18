@@ -51,6 +51,7 @@ class LandingPageView(TemplateView):
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ],
+            LANDING_PAGE_VIDEO_URL=settings.LANDING_PAGE_VIDEO_URL,
             *args, **kwargs
         )
 
