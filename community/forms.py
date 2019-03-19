@@ -29,15 +29,15 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                          ' like name@example.com'),
         }
     )
-    phone_number_regex = re.compile(r'^(\+\d{1,3}[- ]?)?\d{10,16}$')
+    phone_number_regex = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
     phone_number = fields.CharField(
         label=_('UK telephone number'),
-        min_length=10,
+        min_length=8,
         help_text=_('This can be a landline or mobile number'),
         error_messages={
-            'max_length': _('Figures only, maximum 15 characters,'
+            'max_length': _('Figures only, maximum 16 characters,'
                             ' minimum 8 characters excluding spaces'),
-            'min_length': _('Figures only, maximum 15 characters,'
+            'min_length': _('Figures only, maximum 16 characters,'
                             ' minimum 8 characters excluding spaces'),
             'required': _('Enter an UK phone number'),
             'invalid': _('Please enter an UK phone number')
