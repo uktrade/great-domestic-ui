@@ -101,7 +101,8 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                 ('yes', 'Yes'),
                 ('no', 'No')
             ),
-            widget=widgets.RadioSelect
+            widget=widgets.RadioSelect,
+            error_messages={'required': _('Please answer this question')}
     )
     advertising_feedback = fields.ChoiceField(
         label=_('Where did you hear about becoming an Export Advocate?'),
@@ -117,10 +118,19 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         required=False,
     )
 
-    terms_agreed = fields.BooleanField(label=TERMS_LABEL)
+    terms_agreed = fields.BooleanField(
+        label=TERMS_LABEL,
+        error_messages={
+            'required': _('You must agree to the terms and conditions'
+                          ' before registering'),
+        }
+    )
     captcha = ReCaptchaField(
         label='',
         label_suffix='',
+        error_messages={
+            'required': _('Check the box to confirm that you’re human')
+        }
     )
 
     @property
