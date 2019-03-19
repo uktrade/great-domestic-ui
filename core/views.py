@@ -306,12 +306,12 @@ class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
 
 
 class SearchView(TemplateView):
-    template_name = 'core/search.html'
-    ''' Search results page.
+    """ Search results page.
 
         URL parameters: 'q'    String to be searched
                         'page' Int results page number
-    '''
+    """
+    template_name = 'core/search.html'
 
     def get_context_data(self, **kwargs):
         query = helpers.sanitise_query(self.request.GET.get('q', ''))
