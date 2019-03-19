@@ -572,7 +572,7 @@ def test_search_view(client):
             })
         )
 
-        response = client.get("%s?q=services" % reverse('search'))
+        response = client.get(reverse('search'), data={'q': 'services'})
         context = response.context_data
 
         assert response.status_code == 200
@@ -582,7 +582,7 @@ def test_search_view(client):
         search.return_value = Mock(status_code=500,
                                    content="[service overloaded]")
 
-        response = client.get("%s?q=Document" % reverse('search'))
+        response = client.get(reverse('search'), data={'q': 'services'})
         context = response.context_data
 
         assert response.status_code == 200
@@ -593,7 +593,7 @@ def test_search_view(client):
         """ What if ActivitySteam is down? """
         search.side_effect = requests.exceptions.ConnectionError
 
-        response = client.get("%s?q=Document" % reverse('search'))
+        response = client.get(reverse('search'), data={'q': 'services'})
         context = response.context_data
 
         assert response.status_code == 200

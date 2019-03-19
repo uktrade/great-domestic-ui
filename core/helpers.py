@@ -208,7 +208,7 @@ def parse_results(response, query, page):
     results = list(map(lambda x: x['_source'], content['hits']['hits']))
     total_results = content['hits']['total']
 
-    total_pages = int(ceil(total_results)/10)
+    total_pages = int(ceil(total_results/10.0))
 
     prev_pages = list(range(1, current_page))[-3:]
     if (len(prev_pages) > 0 and (prev_pages[0] > 2)):
