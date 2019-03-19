@@ -46,12 +46,12 @@ def test_community_form_api_serialization_with_other_options(
     sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
         form.serialized_data['sector']
     )
-    assert sector_label == 'Other'
+    assert sector_label == 'Please specify'
     assert api_data['sector_other'] == 'Game Development'
     advertising_feedback_label = dict(constants.HEARD_ABOUT_CHOISES).get(
         form.serialized_data['advertising_feedback']
     )
-    assert advertising_feedback_label == 'Other'
+    assert advertising_feedback_label == 'Please specify'
     assert api_data['advertising_feedback_other'] == 'Friends'
 
 
@@ -103,8 +103,7 @@ def test_community_form_api_serialization_with_other_options(
                 'advertising_feedback': '4',
             },
             'phone_number',
-            'Phone number must be entered in the format:'
-            ' "+999999999". Up to 15 digits allowed'
+            'Please enter an UK phone number'
         ),
         (
             {
@@ -119,7 +118,7 @@ def test_community_form_api_serialization_with_other_options(
                 'advertising_feedback': '4',
             },
             'phone_number',
-            'Enter a UK telephone number'
+            'Enter an UK phone number'
         ),
     )
 )
@@ -130,3 +129,23 @@ def test_community_form_validation_errors(
     assert not form.is_valid()
     assert invalid_field in form.errors
     assert form.errors[invalid_field][0] == error_message
+
+
+def test_phone_number_validation(valid_community_form_data):
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    assert form.is_valid()
+
+    # validate a phone number without country code
+    valid_community_form_data['phone_number'] = '07501234567'
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    assert form.is_valid()
+
+    # validate a phone number with spaces
+    valid_community_form_data['phone_number'] = '+44 0750 123 45 67'
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    assert form.is_valid()
+
+    # validate a phone number with country code
+    valid_community_form_data['phone_number'] = '+447501234567'
+    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    assert form.is_valid()
