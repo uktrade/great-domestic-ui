@@ -44,8 +44,8 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
 ## Running locally
 
 ### Installing
-    $ git clone https://github.com/uktrade/directory-ui-export-readiness
-    $ cd directory-ui-export-readiness
+    $ git clone https://github.com/uktrade/great-domestic-ui
+    $ cd great-domestic-ui
     $ virtualenv .venv -p python3.6
     $ source .venv/bin/activate
     $ pip install -r requirements_test.txt
