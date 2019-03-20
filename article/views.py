@@ -44,7 +44,19 @@ class CMSPageView(
 
 
 class MarketsPageView(MarketsFeatureFlagMixin, CMSPageView):
-    pass
+    template_name = 'article/markets_landing_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MarketsPageView, self).get_context_data(**kwargs)
+
+        def rename_heading_field(page):
+            page['landing_page_title'] = page['heading']
+            return page
+
+        context['page']['child_pages'] = [rename_heading_field(child_page)
+                                          for child_page
+                                          in context['page']['child_pages']]
+        return context
 
 
 class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
