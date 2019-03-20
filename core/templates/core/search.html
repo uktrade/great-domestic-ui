@@ -14,16 +14,7 @@
 {% block content %}
 
 {% block breadcrumbs %}
-  <!--div class="container">
-    <div class="breadcrumbs body-text">
-      <ol>
-        <li>
-          <a href="{% url 'landing-page' %}">great.gov.uk</a>
-        </li>
-        <li aria-current="page">Search</li>
-      </ol>
-    </div>
-  </div-->
+
 {% endblock %}
 
 <section id="search-results-information">
@@ -43,7 +34,7 @@
         <input class="submit search-button" type="submit" value="Go">
       </form>
     </div>
-    <a class="back" href="#">Back</a>
+    <a class="back" href="#" onclick="window.history.back()">Back</a>
   </div>
 </section>
 
@@ -51,7 +42,7 @@
   <section id="search-results-list">
     <div class="container">
       <h2 class="verbose">Results found</h2>
-      <p class="information verbose">Displaying items <b>1&nbsp;-&nbsp;25</b> of <b>{{ total_results }}</b> in total</p>
+      <p class="information verbose">Displaying items <b>{{ first_item_number }}&nbsp;-&nbsp;{{ last_item_number }}</b> of <b>{{ total_results }}</b> in total</p>
       <ul class="results" aria-label="Search results">
         {% for result in results %}
           <li>

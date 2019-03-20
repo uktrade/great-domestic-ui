@@ -188,10 +188,33 @@ class CompaniesHouseClient:
 ''' --- Search Helpers --- '''
 
 
-def sanitise_query(query):
-    return " ".join(filter(
-        None, re.findall(r"[a-zA-Z0-9']*", query)
-    ))
+def sanitise_query(text):
+    """ Based on:
+        https://gist.github.com/eranhirs/5c9ef5de8b8731948e6ed14486058842
+    """
+    # Escape special characters
+    # http://lucene.apache.org/core/old_versioned_docs/
+    #   versions/2_9_1/queryparsersyntax.html#Escaping Special Characters
+    text = re.sub('([{}])'.format(
+        re.escape('\\+\-&|!(){}\[\]^~*?:\/')
+    ), r"\\\1", text)
+
+    # AND, OR and NOT are used by lucene as logical operators. We need
+    # to escape them
+    for word in ['AND', 'OR', 'NOT']:
+        escaped_word = "".join(["\\" + letter for letter in word])
+        text = re.sub(
+            r'\s*\b({})\b\s*'.format(word),
+            r" {} ".format(escaped_word),
+            text
+        )
+
+    # Escape odd quotes
+    quote_count = text.count('"')
+    if(quote_count % 2 == 1):
+        return re.sub(r'(.*)"(.*)', r'\1\"\2', text)
+    else:
+        return text
 
 
 def sanitise_page(page):
@@ -201,14 +224,16 @@ def sanitise_page(page):
         return 1
 
 
+RESULTS_PER_PAGE = 10
+
+
 def parse_results(response, query, page):
     current_page = int(page)
 
     content = json.loads(response.content)
-    results = list(map(lambda x: x['_source'], content['hits']['hits']))
+    results = [hit['_source'] for hit in content['hits']['hits']]
     total_results = content['hits']['total']
-
-    total_pages = int(ceil(total_results/10.0))
+    total_pages = int(ceil(total_results/float(RESULTS_PER_PAGE)))
 
     prev_pages = list(range(1, current_page))[-3:]
     if (len(prev_pages) > 0 and (prev_pages[0] > 2)):
@@ -222,6 +247,12 @@ def parse_results(response, query, page):
     else:
         show_last_page = False
 
+    first_item_number = ((current_page-1)*RESULTS_PER_PAGE) + 1
+    if(current_page == total_pages):
+        last_item_number = total_results
+    else:
+        last_item_number = (current_page)*RESULTS_PER_PAGE
+
     return {
        'query': query,
        'results': results,
@@ -233,7 +264,9 @@ def parse_results(response, query, page):
        'prev_pages': prev_pages,
        'next_pages': next_pages,
        'show_first_page': show_first_page,
-       'show_last_page': show_last_page
+       'show_last_page': show_last_page,
+       'first_item_number': first_item_number,
+       'last_item_number': last_item_number
     }
 
 
@@ -242,7 +275,6 @@ def format_query(query, page):
     Note: ActivityStream not yet configured to recieve pagination,
     will be corrected shortly. Hence commented-out lines.
     """
-    RESULTS_PER_PAGE = 10
     from_result = (page - 1) * RESULTS_PER_PAGE
     return json.dumps({
         'query': {

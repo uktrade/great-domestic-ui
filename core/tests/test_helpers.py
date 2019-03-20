@@ -238,15 +238,9 @@ def test_search_unauthorized():
 
 
 @pytest.mark.parametrize('query,safe_output', (
-    ("SELECT * FROM Users WHERE Username='1' OR \
-'1' = '1' AND Password='1' OR '1' = '1' ",
-     "SELECT FROM Users WHERE Username '1' OR \
-'1' '1' AND Password '1' OR '1' '1'"),
-    ("$password = 1' or '1' = '1", "password 1' or '1' '1"),
-    ("'search=keyword'and'1'='1'", "'search keyword'and'1' '1'"),
-    ("innocent search'dropdb();", "innocent search'dropdb"),
+    ("innocent search'dropdb();", "innocent search'dropdb\(\);"),
     ("{\"script\": \"ctx._source.viewings += 1}\"",
-        "script ctx source viewings 1")
+        '\{"script"\: "ctx._source.viewings \+= 1\}"')
 ))
 def test_sanitise_query(query, safe_output):
     assert helpers.sanitise_query(query) == safe_output
@@ -266,14 +260,16 @@ def test_sanitise_page(page, safe_output):
 
 
 @pytest.mark.parametrize(
-    'page,prev_pages,next_pages,show_first_page,show_last_page', (
-        (2, [1], [3, 4, 5], False, True),
-        (9, [6, 7, 8], [10], True, False),
+    'page,prev_pages,next_pages,show_first_page,\
+show_last_page,first_item_number,last_item_number', (
+        (2, [1], [3, 4, 5], False, True, 11, 20),
+        (9, [6, 7, 8], [10], True, False, 81, 90),
     )
 )
 def test_parse_results(page, prev_pages,
                        next_pages, show_first_page,
-                       show_last_page):
+                       show_last_page, first_item_number,
+                       last_item_number):
     mock_results = json.dumps({
         'took': 17,
         'timed_out': False,
@@ -336,7 +332,9 @@ def test_parse_results(page, prev_pages,
        'prev_pages': prev_pages,
        'next_pages': next_pages,
        'show_first_page': show_first_page,
-       'show_last_page': show_last_page
+       'show_last_page': show_last_page,
+       'first_item_number': first_item_number,
+       'last_item_number': last_item_number
     }
 
 
