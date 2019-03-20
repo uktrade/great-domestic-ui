@@ -656,3 +656,33 @@ def test_article_detail_page_social_share_links_no_title(
     assert soup.find(id='share-email').attrs['href'] == email_link
 
 
+def test_country_guide_fact_sheet_displays_if_given_title(
+        mock_get_page, client, settings
+):
+    settings.FEATURE_FLAGS['MARKETS_PAGES_ON'] = True
+
+    page = {
+        'title': 'test',
+        'page_type': 'CountryGuidePage',
+        'heading': 'Heading',
+        'statistics': [],
+        'accordions': [],
+        'fact_sheet': {
+            'fact_sheet_title': 'Fact sheet title',
+            'columns': []
+        }
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+    url = reverse(
+        'country-guide',
+        kwargs={'slug': 'japan'}
+    )
+    response = client.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    assert soup.find(id='country-guide-section-three')
+    assert 'Fact sheet title' in str(response.content)
