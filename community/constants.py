@@ -43,7 +43,7 @@ COMPANY_SECTOR_CHOISES = (
     ('41', 'Space'),
     ('42', 'Technology'),
     ('43', 'Textiles, Interior Textiles and Carpets'),
-    ('OTHER', 'Other'),
+    ('OTHER', 'Please specify'),
 )
 
 
@@ -62,7 +62,8 @@ HEARD_ABOUT_CHOISES = (
     ('2', 'Another Company'),
     ('3', 'Trade Association'),
     ('4', 'On great.gov.uk'),
-    ('5', 'Email from DIT'),
-    ('6', 'At an event'),
-    ('OTHER', 'Other'),
+    ('5', 'Social media'),
+    ('6', 'Email from The Department for International Trade (DIT)'),
+    ('7', 'At an event'),
+    ('OTHER', 'Please specify'),
 )
