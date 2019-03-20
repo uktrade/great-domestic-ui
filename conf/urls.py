@@ -195,6 +195,11 @@ urlpatterns = [
         r'^custom/$',
         core.views.ServiceNoLongerAvailableView.as_view(),
         name='custom-page'
+    ),
+    url(
+        r'^search/$',
+        core.views.SearchView.as_view(),
+        name='search'
     )
 
 ]

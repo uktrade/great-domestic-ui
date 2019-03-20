@@ -1,3 +1,6 @@
+import logging
+from requests.exceptions import RequestException
+
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
@@ -16,6 +19,8 @@ from core import helpers, mixins, forms
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin
 )
+
+logger = logging.getLogger(__name__)
 
 
 class SetEtagMixin:
@@ -301,3 +306,37 @@ class SendNotifyMessagesMixin:
 
 class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
     pass
+
+
+class SearchView(TemplateView):
+    """ Search results page.
+
+        URL parameters: 'q'    String to be searched
+                        'page' Int results page number
+    """
+    template_name = 'core/search.html'
+
+    def get_context_data(self, **kwargs):
+        query = helpers.sanitise_query(self.request.GET.get('q', ''))
+        page = helpers.sanitise_page(self.request.GET.get('page', '1'))
+        elasticsearch_query = helpers.format_query(query, page)
+
+        try:
+            response = helpers.search_with_activitystream(elasticsearch_query)
+        except RequestException:
+            logger.error(f"Activity Stream connection for\
+ Search failed. Query: '{query}'")
+            return {
+                'error_status_code': 500,
+                'error_message': "Activity Stream connection failed",
+                'query': query
+            }
+        else:
+            if response.status_code != 200:
+                return {
+                    'error_message': response.content,
+                    'error_status_code': response.status_code,
+                    'query': query
+                }
+            else:
+                return helpers.parse_results(response, query, page)
