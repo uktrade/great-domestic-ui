@@ -1,9 +1,10 @@
+import re
+
 from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components.forms import Form
 from directory_components import fields, widgets
-from django.core.validators import RegexValidator
-from django.forms import TextInput
+from django.forms import TextInput, forms
 from django.utils.translation import ugettext_lazy as _
 
 from community import constants as choices
@@ -28,26 +29,18 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                          ' like name@example.com'),
         }
     )
+    phone_number_regex = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
     phone_number = fields.CharField(
         label=_('UK telephone number'),
-        validators=[
-            RegexValidator(
-                regex=r'^\+?1?\d{9,15}$',
-                message="Phone number must be entered in the format:"
-                        " '+999999999'. Up to 15 digits allowed."
-            )
-        ],
-        max_length=15,
         min_length=8,
         help_text=_('This can be a landline or mobile number'),
         error_messages={
-            'max_length': _('Figures only, maximum 15 characters,'
+            'max_length': _('Figures only, maximum 16 characters,'
                             ' minimum 8 characters excluding spaces'),
-            'min_length': _('Figures only, maximum 15 characters,'
+            'min_length': _('Figures only, maximum 16 characters,'
                             ' minimum 8 characters excluding spaces'),
-            'required': _('Enter a UK telephone number'),
-            'invalid': _('Phone number must be entered in the format:'
-                         ' "+999999999". Up to 15 digits allowed')
+            'required': _('Enter an UK phone number'),
+            'invalid': _('Please enter an UK phone number')
         }
     )
     company_name = fields.CharField(
@@ -101,7 +94,8 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                 ('yes', 'Yes'),
                 ('no', 'No')
             ),
-            widget=widgets.RadioSelect
+            widget=widgets.RadioSelect,
+            error_messages={'required': _('Please answer this question')}
     )
     advertising_feedback = fields.ChoiceField(
         label=_('Where did you hear about becoming an Export Advocate?'),
@@ -117,11 +111,28 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         required=False,
     )
 
-    terms_agreed = fields.BooleanField(label=TERMS_LABEL)
+    terms_agreed = fields.BooleanField(
+        label=TERMS_LABEL,
+        error_messages={
+            'required': _('You must agree to the terms and conditions'
+                          ' before registering'),
+        }
+    )
     captcha = ReCaptchaField(
         label='',
         label_suffix='',
+        error_messages={
+            'required': _('Check the box to confirm that you’re human')
+        }
     )
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get(
+            'phone_number', ''
+        ).replace(' ', '')
+        if not self.phone_number_regex.match(phone_number):
+            raise forms.ValidationError(_('Please enter an UK phone number'))
+        return phone_number
 
     @property
     def serialized_data(self):
