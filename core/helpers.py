@@ -211,7 +211,7 @@ def sanitise_query(text):
 
     # Escape odd quotes
     quote_count = text.count('"')
-    if(quote_count % 2 == 1):
+    if quote_count % 2 == 1:
         return re.sub(r'(.*)"(.*)', r'\1\"\2', text)
     else:
         return text
@@ -236,19 +236,19 @@ def parse_results(response, query, page):
     total_pages = int(ceil(total_results/float(RESULTS_PER_PAGE)))
 
     prev_pages = list(range(1, current_page))[-3:]
-    if (len(prev_pages) > 0 and (prev_pages[0] > 2)):
+    if (len(prev_pages) > 0) and (prev_pages[0] > 2):
         show_first_page = True
     else:
         show_first_page = False
 
     next_pages = list(range(current_page + 1, total_pages + 1))[:3]
-    if (len(next_pages) > 0 and (next_pages[-1] + 1 < total_pages)):
+    if (len(next_pages) > 0) and (next_pages[-1] + 1 < total_pages):
         show_last_page = True
     else:
         show_last_page = False
 
     first_item_number = ((current_page-1)*RESULTS_PER_PAGE) + 1
-    if(current_page == total_pages):
+    if current_page == total_pages:
         last_item_number = total_results
     else:
         last_item_number = (current_page)*RESULTS_PER_PAGE

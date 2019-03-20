@@ -1,4 +1,5 @@
-from requests.exceptions import ConnectionError
+import logging
+from requests.exceptions import RequestException
 
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
@@ -18,6 +19,8 @@ from core import helpers, mixins, forms
 from euexit.mixins import (
     HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin
 )
+
+logger = logging.getLogger(__name__)
 
 
 class SetEtagMixin:
@@ -320,7 +323,16 @@ class SearchView(TemplateView):
 
         try:
             response = helpers.search_with_activitystream(elasticsearch_query)
-            if(response.status_code != 200):
+        except RequestException:
+            logger.error(f"Activity Stream connection for\
+ Search failed. Query: '{query}'")
+            return {
+                'error_status_code': 500,
+                'error_message': "Activity Stream connection failed",
+                'query': query
+            }
+        else:
+            if response.status_code != 200:
                 return {
                     'error_message': response.content,
                     'error_status_code': response.status_code,
@@ -328,9 +340,3 @@ class SearchView(TemplateView):
                 }
             else:
                 return helpers.parse_results(response, query, page)
-        except ConnectionError:
-            return {
-                'error_status_code': 500,
-                'error_message': "Activity Stream connection failed",
-                'query': query
-            }
