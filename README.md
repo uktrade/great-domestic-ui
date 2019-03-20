@@ -54,6 +54,8 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
     $ source .venv/bin/activate
     $ make debug_webserver
 
+You must have the directory-cms project running locally to run this project.
+
 ### Running the tests
 
     $ make debug_test
