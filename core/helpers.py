@@ -196,7 +196,7 @@ def sanitise_query(text):
     # http://lucene.apache.org/core/old_versioned_docs/
     #   versions/2_9_1/queryparsersyntax.html#Escaping Special Characters
     text = re.sub('([{}])'.format(
-        re.escape('\\+\-&|!(){}\[\]^~*?:\/')
+        re.escape(r'\\+\-&|!(){}\[\]^~*?:\/')
     ), r"\\\1", text)
 
     # AND, OR and NOT are used by lucene as logical operators. We need

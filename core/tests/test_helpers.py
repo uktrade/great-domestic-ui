@@ -238,9 +238,9 @@ def test_search_unauthorized():
 
 
 @pytest.mark.parametrize('query,safe_output', (
-    ("innocent search'dropdb();", "innocent search'dropdb\(\);"),
+    ("innocent search'dropdb();", r"innocent search'dropdb\(\);"),
     ("{\"script\": \"ctx._source.viewings += 1}\"",
-        '\{"script"\: "ctx._source.viewings \+= 1\}"')
+        r'\{"script"\: "ctx._source.viewings \+= 1\}"')
 ))
 def test_sanitise_query(query, safe_output):
     assert helpers.sanitise_query(query) == safe_output
