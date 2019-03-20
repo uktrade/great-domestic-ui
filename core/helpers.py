@@ -315,7 +315,6 @@ def search_with_activitystream(query):
     ).request_header
 
     request.headers.update({
-        'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
         'X-Forwarded-Proto': 'https',
         'Authorization': auth,
         'Content-Type': 'application/json'
