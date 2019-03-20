@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'finance',
     'directory_healthcheck',
     'captcha',
-    'export_elements',
     'directory_components',
     'euexit',
     'contact',
