@@ -1,11 +1,13 @@
 {% extends 'article/topic_list_base.html' %}
 
 {% block child_pages %}
-  <div class="grid-row margin-vertical-60">
-    <div class="column-full column-half-l font-medium">
-      Find market guides for British businesses interested in selling goods and services overseas.
+  {% if page.teaser %}
+    <div class="grid-row margin-vertical-60">
+      <div class="column-full column-half-l font-medium">
+        {{ page.teaser }}
+      </div>
     </div>
-  </div>
+  {% endif %}
   <div class="card-grid">
     {% for listing in page.child_pages %}
         <div class="column-full column-third-l column-half-m">
