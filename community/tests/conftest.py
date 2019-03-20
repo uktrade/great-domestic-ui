@@ -6,7 +6,7 @@ def valid_community_form_data(captcha_stub):
     return {
         'name': 'Test name',
         'email': 'test@test.com',
-        'phone_number': '+447500192913',
+        'phone_number': '+447501234567',
         'company_name': 'Limited',
         'company_location': 'London',
         'sector': '3',
