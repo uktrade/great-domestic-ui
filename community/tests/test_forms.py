@@ -46,12 +46,12 @@ def test_community_form_api_serialization_with_other_options(
     sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
         form.serialized_data['sector']
     )
-    assert sector_label == 'Please specify'
+    assert sector_label == 'Other'
     assert api_data['sector_other'] == 'Game Development'
     advertising_feedback_label = dict(constants.HEARD_ABOUT_CHOISES).get(
         form.serialized_data['advertising_feedback']
     )
-    assert advertising_feedback_label == 'Please specify'
+    assert advertising_feedback_label == 'Other'
     assert api_data['advertising_feedback_other'] == 'Friends'
 
 
