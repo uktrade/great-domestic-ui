@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 
 from directory_constants.constants import cms
 from directory_forms_api_client import actions
+from directory_forms_api_client.client import forms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -21,6 +22,7 @@ from core import mixins
 from core.views import BaseNotifyFormView
 from core.helpers import NotifySettings
 from contact import constants, forms, helpers
+from sso.utils import SSOLoginRequiredMixin
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 
@@ -465,7 +467,7 @@ class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
 
 
 class SellingOnlineOverseasFormView(
-    mixins.NotFoundOnDisabledFeature, mixins.PreventCaptchaRevalidationMixin,
+    SSOLoginRequiredMixin, mixins.NotFoundOnDisabledFeature, mixins.PreventCaptchaRevalidationMixin,
     FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
@@ -510,20 +512,22 @@ class SellingOnlineOverseasFormView(
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-        if step == self.ORGANISATION and self.company_profile:
-            initial.update({
-                'soletrader': False,
-                'company_name': self.company_profile['name'],
-                'company_number': self.company_profile['number'],
-                'company_postcode': self.company_profile['postal_code'],
-                'website_address': self.company_profile['website'],
-            })
-        elif step == self.CONTACT_DETAILS and self.company_profile:
-            initial.update({
-                'contact_name': self.company_profile['postal_full_name'],
-                'contact_email': self.request.sso_user.email,
-                'phone': self.company_profile['mobile_number'],
-            })
+        response = forms_api_client.get(
+            url=forms_api_client.endpoints['submission'],
+            params={'sso_user_id': self.request.sso_user.id}
+        )
+        if not response.ok:
+            return initial
+
+        results = response.json()
+        if not results:
+            return initial
+
+        latest_submission_data = results[0]['data']
+        for field in self.form_list[step].declared_fields:
+            if field in latest_submission_data:
+                initial[field] = latest_submission_data[field]
+
         return initial
 
     def serialize_form_list(self, form_list):
@@ -542,10 +546,8 @@ class SellingOnlineOverseasFormView(
 
     def done(self, form_list, **kwargs):
         form_data = self.serialize_form_list(form_list)
-        sender = Sender(
-            email_address=form_data['contact_email'],
-            country_code=None
-        )
+        sender = Sender(email_address=form_data['contact_email'], country_code=None)
+        sender['sso_user_id'] = self.request.sso_user.id if self.request.sso_user else None
         action = actions.ZendeskAction(
             subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
             full_name=form_data['contact_name'],
