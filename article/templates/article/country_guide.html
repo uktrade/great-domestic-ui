@@ -94,7 +94,7 @@
   </ul>
 </section>
 
-{% if page.section_three_heading %}
+{% if page.fact_sheet.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
   <div class="container">
     <div class="grid-row margin-bottom-60">
@@ -105,14 +105,14 @@
     </div>
     <div class="grid-row">
       {% for column in page.fact_sheet.columns %}
-        {% if column.heading %}
+        {% if column.title %}
           {% if page.fact_sheet.num_of_columns == 1 %}
           <div class="column-full margin-bottom-30">
           {% else %}
           <div class="column-full column-half-xl margin-bottom-30">
           {% endif %}
             <div class="fact-sheet">
-              <h3 class="highlight heading-medium background-grey white-text">{{ column.heading }}</h3>
+              <h3 class="highlight heading-medium background-grey white-text">{{ column.title }}</h3>
               <div class="fact-sheet-content background-white padding-45 wrap-tight font-xsmall">
                 {% if column.teaser %}
                 <p class="font-small">{{ column.teaser }}</p>
@@ -138,18 +138,20 @@
       </div>
     </div>
     <div class="grid-row">
-      {% static 'images/country-guide-need-help@2x.png' as need_help_image_url %}
       <div class="column-full column-third-l margin-bottom-30">
+        {% static 'images/country-guide-advice.png' as need_help_image_url %}
         {% url 'advice' as advice_url %}
         {% cta_card with_arrow=True image_url=need_help_image_url text="Read our exporting advice" url=advice_url %}
       </div>
       <div class="column-full column-third-l margin-bottom-30">
+        {% static 'images/country-guide-gov-uk.png' as market_guide_image_url %}
         {% with 'Read market guide for '|add:page.heading as market_guide_cta_text %}
-        {% cta_card with_arrow=True image_url=need_help_image_url text=market_guide_cta_text url=page.help_market_guide_cta_link %}
+        {% cta_card with_arrow=True image_url=market_guide_image_url text=market_guide_cta_text url=page.help_market_guide_cta_link %}
         {% endwith %}
       </div>
       <div class="column-full column-third-l margin-bottom-30">
-        {% cta_card with_arrow=True image_url=need_help_image_url text="Tell us what help you need" url=services_urls.contact_us %}
+        {% static 'images/country-guide-contact.png' as contact_us_image_url %}
+        {% cta_card with_arrow=True image_url=contact_us_image_url text="Tell us what help you need" url=services_urls.contact_us %}
       </div>
     </div>
   </div>
