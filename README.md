@@ -2,7 +2,6 @@
 
 [![circle-ci-image]][circle-ci]
 [![codecov-image]][codecov]
-[![snyk-image]][snyk]
 
 **GREAT.gov.uk, Domestic facing FE service - the Department for International Trade (DIT)**  
 
@@ -22,22 +21,17 @@ We aim to follow [GDS service standards](https://www.gov.uk/service-manual/servi
 
 
 ## Requirements
-[Python 3.6](https://www.python.org/downloads/release/python-36/)
+[Python 3.6](https://www.python.org/downloads/release/python-366/)
+
+[Redis](https://redis.io/)
+
 
 ### SASS
 We use SASS CSS pre-compiler. If you're doing front-end work your local machine will also need the following dependencies:
 
 [node](https://nodejs.org/en/download/)
-
 [SASS](https://rubygems.org/gems/sass/versions/3.4.22)
 
-### Run JS tests with gulp or npm
-
-    $ gulp test
-    $ npm test
-
-### Host environment variables for docker-compose
-``.env`` files will be automatically created (with ``env_writer.py`` based on ``env.json``) by ``make docker_test``, based on host environment variables with ``DIRECTORY_UI_EXPORT_READINESS_`` prefix.
 
 #### Web server
 
@@ -82,23 +76,21 @@ You must have the directory-cms project running locally to run this project.
 
     $ make debug_test
 
-### CSS development
+## CSS development
 
-When doing front-end development work you will need to be able to compile SASS to CSS. First run:
+If you're doing front-end development work you will need to be able to compile the SASS to CSS. For this you need:
 
-    $ npm install
-
-Then:
-
-    $ gulp sass
-
-...to compile sass. You can also watch for changes by running:
-
-    $ gulp sass:watch
+    $ npm install yarn
+    $ yarn install --production=false
 
 We add compiled CSS files to version control. This will sometimes result in conflicts if multiple developers are working on the same SASS files. However, by adding the compiled CSS to version control we avoid having to install node, npm, node-sass, etc to non-development machines.
 
 You should not edit CSS files directly, instead edit their SCSS counterparts.
+
+### Update CSS under version control
+
+    $ make compile_css
+
 
 ## Session
 
@@ -155,6 +147,3 @@ Therefore to make cookie sharing work in development we need the apps to be runn
 
 [codecov-image]: https://codecov.io/gh/uktrade/directory-ui-export-readiness/branch/master/graph/badge.svg
 [codecov]: https://codecov.io/gh/uktrade/directory-ui-export-readiness
-
-[snyk-image]: https://snyk.io/test/github/uktrade/directory-ui-export-readiness/badge.svg
-[snyk]: https://snyk.io/test/github/uktrade/directory-ui-export-readiness
