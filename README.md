@@ -50,6 +50,32 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
     $ source .venv/bin/activate
     $ pip install -r requirements_test.txt
 
+### Configuration
+
+Secrets such as API keys and environment specific configurations are placed in `conf/.env` - a file that is not added to version control. You will need to create that file locally in order for the project to run.
+
+Here is an example `conf/.env` with placeholder values to get you going:
+
+```
+COMPANIES_HOUSE_API_KEY=debug
+DIRECTORY_FORMS_API_API_KEY=debug
+DIRECTORY_FORMS_API_SENDER_ID=debug
+EU_EXIT_ZENDESK_SUBDOMAIN=debug
+CONTACT_EVENTS_AGENT_EMAIL_ADDRESS=debug
+CONTACT_DSO_AGENT_EMAIL_ADDRESS=debug
+CONTACT_DIT_AGENT_EMAIL_ADDRESS=debug
+CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS=debug
+CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=debug
+EXPORTING_OPPORTUNITIES_API_BASE_URL=debug
+EXPORTING_OPPORTUNITIES_API_SECRET=debug
+EXPORTING_OPPORTUNITIES_SEARCH_URL=debug
+GET_ADDRESS_API_KEY=debug
+ACTIVITY_STREAM_API_ACCESS_KEY=123
+ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4
+ACTIVITY_STREAM_API_SECRET_KEY=123
+ACTIVITY_STREAM_API_URL=http://localhost:8080/v1/objects
+```
+
 ### Running the webserver
     $ source .venv/bin/activate
     $ make debug_webserver

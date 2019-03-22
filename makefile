@@ -87,11 +87,7 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_MARKET_ACCESS_ENABLED=true; \
 	export FEATURE_MARKET_ACCESS_GOV_LINK_ENABLED=true; \
 	export FEATURE_LANDING_PAGE_EU_EXIT_BANNER_ENABLED=true; \
-	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com \
-	export ACTIVITY_STREAM_API_ACCESS_KEY=123; \
-	export ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4; \
-	export ACTIVITY_STREAM_API_SECRET_KEY=123 ;\
-	export ACTIVITY_STREAM_API_URL=http://localhost:8080/v1/objects
+	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
@@ -122,11 +118,7 @@ TEST_SET_ENV_VARS := \
 	export CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID=debug; \
 	export CONTACT_EXPORTING_AGENT_SUBJECT=exporting-subject; \
 	export COMPANIES_HOUSE_API_KEY=debug; \
-	export CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=domesitc-enquiries@example.com; \
-	export ACTIVITY_STREAM_API_URL=http://localhost:8080/v1/objects; \
-	export ACTIVITY_STREAM_API_SECRET_KEY=incoming-some-secret-3; \
-	export ACTIVITY_STREAM_API_ACCESS_KEY=incoming-some-id-3; \
-	export ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4,2.3.4.5
+	export CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=domesitc-enquiries@example.com
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
