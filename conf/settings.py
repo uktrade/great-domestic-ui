@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'contact',
     'marketaccess',
     'community',
+    'ukef',
 ]
 
 MIDDLEWARE_CLASSES = [

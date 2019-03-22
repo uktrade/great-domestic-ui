@@ -1,0 +1,53 @@
+{% extends 'article/article_list.html' %}
+{% load static %}
+{% load add_export_elements_classes from directory_components_tags %}
+{% load parse_date from article_tags %}
+
+{% block css_layout_class %}ukef-export-view{% endblock css_layout_class %}
+
+
+{% block content %}
+
+{% block hero %}
+  <section class="hero hero-generic" id="hero" style="background-image: url(http://localhost:8010/media/images/get-finance-banner.original.jpg)"> {# {{ page.hero_image.url }} #}
+    <div class="container">
+      <div class="hero-title">
+        <h1 class="heading-hero-generic-compact" id="hero-heading">{{ page.landing_page_title }}</h1>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+<section id="{% block page_id %}article-list-page{% endblock %}">
+
+  {% block breadcrumbs %}
+    {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+  {% endblock %}
+
+  <div class="container">
+
+    {% if page.list_teaser %}
+    <div class="grid-row">
+      <div class="column-full">
+				{{ page.list_teaser|add_export_elements_classes }}
+      </div>
+    </div>
+    {% endif %}
+
+		<section class="invest-fas-section background-stone-gradient-bottom padding-vertical-60">
+			<div class="grid-row">
+				<div class="column-half">
+					<ul class="content-list">
+						{% block content_list %}
+
+						{% endblock %}
+					</ul>
+				</div>
+			</div>
+		</section>
+	</div>
+</section>
+
+{% block list_footer %}
+{% endblock %}
+{% endblock %}

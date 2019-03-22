@@ -18,7 +18,7 @@ import marketaccess.views
 import community.views
 
 from conf.url_redirects import redirects
-
+from ukef.views import UKEFExportView
 
 sitemaps = {
     'static': core.views.StaticViewSitemap,
@@ -557,6 +557,15 @@ community_urls = [
     ),
 ]
 
+ukef_urls = [
+    url(
+        r"^uk-export-finance/$",
+        UKEFExportView.as_view(),
+        {'slug': 'uk-export-finance'},
+        name='uk-export-finance',
+    )
+]
+
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
@@ -564,3 +573,4 @@ urlpatterns += article_urls
 urlpatterns += contact_urls
 urlpatterns += marketaccess_urls
 urlpatterns += community_urls
+urlpatterns += ukef_urls
