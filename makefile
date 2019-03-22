@@ -155,4 +155,10 @@ upgrade_requirements:
 new_redirect:
 	python scripts/add_new_redirect.py
 
+compile_css:
+	./node_modules/.bin/gulp sass
+
+watch_css:
+	./node_modules/.bin/gulp sass:watch
+
 .PHONY: clean test_requirements debug_webserver debug_test debug heroku_deploy_dev heroku_deploy_demo
