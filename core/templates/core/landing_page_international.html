@@ -3,6 +3,17 @@
 {% load trans from i18n %}
 {% load banner from directory_components_tags %}
 
+{% block head_sharing_metadata %}
+  {{ block.super }}
+
+  {% if request %}
+    {% for code, label in LANGUAGES %}
+    <link rel="alternate" href="{{ request.build_absolute_uri }}?lang={{ code }}" hreflang="{{code}}" />
+    {% endfor %}
+    <link rel="alternate" href="{{ request.build_absolute_uri }}" hreflang="x-default" />
+  {% endif %}
+{% endblock %}
+
 {% block content %}
 
 {% if features.NEWS_SECTION_ON and cms_component and page.articles_count > 0 %}
