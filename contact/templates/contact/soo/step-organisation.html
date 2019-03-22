@@ -37,17 +37,25 @@
 {% block body_js %}
     <script src="{% static 'js/company-lookup.js' %}"></script>
     <script type="text/javascript">
+      var $companyNumberContainer = $("#id_organisation-company_number-container");
+      var $companyNumberField = $("#id_organisation-company_number");
+      var $noCompanyNumber = $("#id_organisation-soletrader");
+      function hideCompanyNumberFieldContainer() {
+        $companyNumberField.val("");
+        $companyNumberContainer.hide();
+      }
+      // hide company number field container if checkbox is checked before page is loaded fully
+      if($noCompanyNumber.is(":checked")) {
+        hideCompanyNumberFieldContainer();
+      }
+
       $(document).ready(function() {
-        var $companyNumberContainer = $("#id_organisation-company_number-container");
-        var $companyNumberField = $("#id_organisation-company_number");
-        var $noCompanyNumber = $("#id_organisation-soletrader");
         var lookup = new GOVUK.components.CompaniesHouseNameLookup($("#id_organisation-company_name"), $companyNumberField);
 
         // Hide and clear company number field if declare they have no number.
         $noCompanyNumber.on("change", function() {
           if(this.checked) {
-            $companyNumberField.val("");
-            $companyNumberContainer.hide();
+            hideCompanyNumberFieldContainer();
           }
           else {
             $companyNumberContainer.show();
