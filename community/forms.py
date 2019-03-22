@@ -65,7 +65,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         }
     )
     sector_other = fields.CharField(
-        label=_('Type in your sector'),
+        label=_('Please specify'),
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False,
     )
@@ -106,7 +106,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         }
     )
     advertising_feedback_other = fields.CharField(
-        label=_('Type in your feedback'),
+        label=_('Please specify'),
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False,
     )
