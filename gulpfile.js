@@ -12,14 +12,6 @@ const CSS_DIR = `${PROJECT_DIR}/core/static/styles`;
 const CSS_FILES = `${PROJECT_DIR}/core/static/styles/**/*.css`;
 const CSS_MAPS = `${PROJECT_DIR}/core/static/styles/**/*.css.map`;
 
-// Run test once and exit
-gulp.task('test', function (done) {
-  new Server({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done).start();
-});
-
 gulp.task('clean', function() {
   return del([CSS_FILES, CSS_MAPS])
 });
@@ -40,10 +32,10 @@ gulp.task('sass:compile', function () {
 gulp.task('sass:watch', function () {
   gulp.watch(
     [SASS_FILES],
-    ['sass:compile']
+    gulp.series('sass:compile')
   );
 });
 
-gulp.task('sass', ['clean', 'sass:compile']);
+gulp.task('sass', gulp.series('clean', 'sass:compile'));
 
-gulp.task('default', ['sass']);
+gulp.task('default', gulp.series('sass'));
