@@ -28,10 +28,10 @@
                 {{ office_details.address|linebreaks }}
 
                 <h3 class="heading-medium">Telephone</h3>
-                <p>{{ office_details.phone }}</p>
+                <p><a href="tel:{{ office_details.phone }}">{{ office_details.phone }}</a></p>
                 {% if office_details.phone_other %}
                     <h3 class="heading-medium">{{ office_details.phone_other_comment }}</h3>
-                    <p>{{ office_details.phone_other }}</p>
+                    <p><a href="tel:{{ office_details.phone_other }}">{{ office_details.phone_other }}</a></p>
                 {% endif %}
                 <br>
                 <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office</a>
@@ -52,10 +52,10 @@
 					{{ office.address|linebreaks }}
 
 					<h3 class="heading-medium">Telephone</h3>
-					<p>{{ office.phone }}</p>
+					<p><a href="tel:{{ office.phone }}">{{ office.phone }}</a></p>
 					{% if office.phone_other %}
 						<h3 class="heading-medium">{{ office.phone_other_comment }}</h3>
-						<p>{{ office.phone_other }}</p>
+						<p><a href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
 					{% endif %}
 					<br>
 					<a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office.name }} office</a>
