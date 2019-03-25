@@ -90,8 +90,7 @@ DEBUG_SET_ENV_VARS := \
 	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com \
 	export ACTIVITY_STREAM_API_URL=http://localhost:8080/v1/objects; \
 	export ACTIVITY_STREAM_API_SECRET_KEY=incoming-some-secret-3; \
-	export ACTIVITY_STREAM_API_ACCESS_KEY=incoming-some-id-3; \
-	export ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4,2.3.4.5
+	export ACTIVITY_STREAM_API_ACCESS_KEY=incoming-some-id-3
 
 
 TEST_SET_ENV_VARS := \
@@ -126,8 +125,7 @@ TEST_SET_ENV_VARS := \
 	export CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=domesitc-enquiries@example.com; \
 	export ACTIVITY_STREAM_API_URL=http://localhost:8080/v1/objects; \
 	export ACTIVITY_STREAM_API_SECRET_KEY=incoming-some-secret-3; \
-	export ACTIVITY_STREAM_API_ACCESS_KEY=incoming-some-id-3; \
-	export ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4,2.3.4.5
+	export ACTIVITY_STREAM_API_ACCESS_KEY=incoming-some-id-3
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
@@ -159,5 +157,11 @@ upgrade_requirements:
 
 new_redirect:
 	python scripts/add_new_redirect.py
+
+compile_css:
+	./node_modules/.bin/gulp sass
+
+watch_css:
+	./node_modules/.bin/gulp sass:watch
 
 .PHONY: clean test_requirements debug_webserver debug_test debug heroku_deploy_dev heroku_deploy_demo
