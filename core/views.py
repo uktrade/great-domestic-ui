@@ -31,7 +31,6 @@ class SetEtagMixin:
         return response
 
 
-
 class LandingPageView(TemplateView):
     template_name = 'article/landing_page.html'
 
