@@ -822,12 +822,13 @@ def test_ingress_url_cleared_on_redirect_away(
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_selling_online_overseas_contact_form_submission(
     mock_form_session, mock_zendesk_action, mock_clean, captcha_stub,
-    company_profile, client
+    company_profile, sso_user, client
 ):
     company_profile.return_value = None
 
     url_name = 'contact-us-soo'
     view_name = 'selling_online_overseas_form_view'
+    form_prefix = '{}_{}'.format(view_name, sso_user.id)
 
     client.get(
         reverse(url_name, kwargs={'step': 'organisation'}),
@@ -837,7 +838,7 @@ def test_selling_online_overseas_contact_form_submission(
     response = client.post(
         reverse(url_name, kwargs={'step': 'organisation'}),
         {
-            view_name + '-current_step': 'organisation',
+            form_prefix + '-current_step': 'organisation',
             'organisation-soletrader': False,
             'organisation-company_name': 'Example corp',
             'organisation-company_number': 213123,
@@ -850,7 +851,7 @@ def test_selling_online_overseas_contact_form_submission(
     response = client.post(
         reverse(url_name, kwargs={'step': 'organisation-details'}),
         {
-            view_name + '-current_step': 'organisation-details',
+            form_prefix + '-current_step': 'organisation-details',
             'organisation-details-turnover': 'Under 100k',
             'organisation-details-sku_count': 12,
             'organisation-details-trademarked': True,
@@ -861,7 +862,7 @@ def test_selling_online_overseas_contact_form_submission(
     response = client.post(
         reverse(url_name, kwargs={'step': 'your-experience'}),
         {
-            view_name + '-current_step': 'your-experience',
+            form_prefix + '-current_step': 'your-experience',
             'your-experience-experience': 'Not yet',
             'your-experience-description': 'help!',
         }
@@ -871,7 +872,7 @@ def test_selling_online_overseas_contact_form_submission(
     response = client.post(
         reverse(url_name, kwargs={'step': 'contact-details'}),
         {
-            view_name + '-current_step': 'contact-details',
+            form_prefix + '-current_step': 'contact-details',
             'contact-details-contact_name': 'Foo Example',
             'contact-details-contact_email': 'test@example.com',
             'contact-details-phone': '0324234243',

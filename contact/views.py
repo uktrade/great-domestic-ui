@@ -18,8 +18,9 @@ from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 
 from core import mixins
-from core.views import BaseNotifyFormView
 from core.helpers import NotifySettings
+from core.views import BaseNotifyFormView
+from core.wizard.views import CacheLastUserSubmissionWizardView
 from contact import constants, forms, helpers
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
@@ -466,7 +467,8 @@ class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
 
 class SellingOnlineOverseasFormView(
     mixins.NotFoundOnDisabledFeature, mixins.PreventCaptchaRevalidationMixin,
-    FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
+    FormSessionMixin, mixins.PrepopulateFormMixin,
+    CacheLastUserSubmissionWizardView
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
 
@@ -573,7 +575,7 @@ class OfficeFinderFormView(
     @cached_property
     def all_offices(self):
         return helpers.retrieve_regional_offices(
-           self.postcode
+            self.postcode
         )
 
     @property
