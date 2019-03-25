@@ -20,6 +20,7 @@ from django.utils.functional import cached_property
 from django.utils import translation
 from mohawk import Sender
 
+from core import serializers
 
 NotifySettings = collections.namedtuple(
     'NotifySettings', ['agent_template', 'agent_email', 'user_template']
@@ -231,7 +232,7 @@ def parse_results(response, query, page):
     current_page = int(page)
 
     content = json.loads(response.content)
-    results = [hit['_source'] for hit in content['hits']['hits']]
+    results = serializers.parse_search_results(content)
     total_results = content['hits']['total']
     total_pages = int(ceil(total_results/float(RESULTS_PER_PAGE)))
 
