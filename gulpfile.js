@@ -3,7 +3,6 @@ const path = require('path');
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const Server = require('karma').Server;
 const del = require('del');
 
 const PROJECT_DIR = path.resolve(__dirname);
