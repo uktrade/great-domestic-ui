@@ -1,53 +1,119 @@
-{% extends 'article/article_list.html' %}
-{% load static %}
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
 {% load add_export_elements_classes from directory_components_tags %}
-{% load parse_date from article_tags %}
 
-{% block css_layout_class %}ukef-export-view{% endblock css_layout_class %}
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/ukef-home-page.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
 
+{% block head_title %}UK Export finance - great.gov.uk{% endblock %}
+
+{% block css_layout_class %}uk-export-finance{% endblock %}
 
 {% block content %}
+	<section id="get-finance-hero" class="hero hero-generic uk-export-finance-hero" style="background-image: url(http://localhost:8010/media/images/get-finance-banner.original.jpg)">
+	{#	url({{ page.hero_image.url }}#}
+		<div class="container">
+			<div class="hero-title-compact">
+				<h1 class="heading-hero-generic-compact" id="hero-heading">
+					Get financed
+				</h1>
 
-{% block hero %}
-  <section class="hero hero-generic" id="hero" style="background-image: url(http://localhost:8010/media/images/get-finance-banner.original.jpg)"> {# {{ page.hero_image.url }} #}
-    <div class="container">
-      <div class="hero-title">
-        <h1 class="heading-hero-generic-compact" id="hero-heading">{{ page.landing_page_title }}</h1>
-      </div>
-    </div>
-  </section>
-{% endblock %}
+			</div>
+		</div>
+	</section>
 
-<section id="{% block page_id %}article-list-page{% endblock %}">
+	<section id="breadcrumbs-section" class="breadcrumbs-section">
+		<div class="container">
+			<nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
+				<ol>
+					<li>
+						<a href="/">great.gov.uk</a>
+					</li>
+					<li>
+						<a href="/advice/">Services</a>
+					</li>
+					<li aria-current="page">Get export finance and funding</li>
+				</ol>
+			</nav>
+		</div>
+	</section>
 
-  {% block breadcrumbs %}
-    {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
-  {% endblock %}
+	<section id="list-teaser-section" class="list-teaser-section">
+		<div class="container">
+			<p class="body-text">
+				When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid.
+			</p>
+		</div>
+	</section>
 
-  <div class="container">
 
-    {% if page.list_teaser %}
-    <div class="grid-row">
-      <div class="column-full">
-				{{ page.list_teaser|add_export_elements_classes }}
-      </div>
-    </div>
-    {% endif %}
+	<section id="card-list-section" class="card-list-section padding-vertical-60 background-stone-30">
+		<div class="container">
+			<div class="card-grid">
+				<div class="column-half-l column-full">
+					<div class="card" id="small-and-medium-businesses">
+						<a class="card-link" href="#" id="small-and-medium-businesses-link">
+							<div class="card-image" role="image" style="background-image: url('{% static 'images/small_bussiness.jpg' %}');" aria-label="Small & medium businesses" title="Small & medium businesses" id="small-medium-image">
+								<p class="visually-hidden">Small & medium businesses</p>
+							</div>
+							<div class="card-inner">
+								<h3 class="heading-large" id="small-and-medium-businesses-title">Small & medium businesses</h3>
+								<p class="description subheading">Updated 21 December 2018</p>
+								<p class="description subheading">1 guide</p>
+							</div>
+						</a>
+					</div>
 
-		<section class="invest-fas-section background-stone-gradient-bottom padding-vertical-60">
-			<div class="grid-row">
-				<div class="column-half">
-					<ul class="content-list">
-						{% block content_list %}
+				</div>
 
-						{% endblock %}
-					</ul>
+				<div class="column-half-l column-full">
+					<div class="card" id="large-corporations-card">
+						<a class="card-link" href="#" id="large-corporations-link">
+							<div class="card-image" role="image" style="background-image: url('{% static 'images/large_corporations.jpg' %}');" aria-label="Large corporations" title="Large corporations" id="large-corporations-image">
+								<p class="visually-hidden">Large corporations</p>
+							</div>
+							<div class="card-inner">
+								<h3 class="heading-large" id="large-corporations-title">Large corporations</h3>
+								<p class="description subheading">Updated 21 December 2018</p>
+								<p class="description subheading">4 guides</p>
+							</div>
+						</a>
+					</div>
 				</div>
 			</div>
-		</section>
-	</div>
-</section>
+		</div>
+	</section>
 
-{% block list_footer %}
-{% endblock %}
+	<section id="why-uk-export-finance" class="why-uk-export-finance padding-vertical-60">
+		<div class="container">
+			<div class="width-half">
+				<h2 class="heading-large heading-title">Why choose UK Export Finance?</h2>
+				<p class="text">When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid.</p>
+			</div>
+			<section class="grid-row">
+				<div class="column-one-third">
+					<ol class="list list-number">
+						<li>
+							<h3 class="heading-medium">Win contracts</h3>
+							<p>UKEF can help you win export contracts by providing attractive financing terms to your buyers.</p>
+						</li>
+						<li>
+							<h3 class="heading-medium">Fulfil orders</h3>
+							<p>UKEF supports working capital loans so you can take on and fulfil orders with confidence.</p>
+						</li>
+						<li>
+							<h3 class="heading-medium">Get paid</h3>
+							<p>UKEF makes sure you get paid by offering insurance against buyer default.</p>
+						</li>
+					</ol>
+				</div>
+				<div class="column-two-thirds">
+					<img src="{% static 'images/why_ukef_image.jpg' %}">
+				</div>
+			</section>
+		</div>
+	</section>
 {% endblock %}

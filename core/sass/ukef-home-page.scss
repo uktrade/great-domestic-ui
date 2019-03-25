@@ -1,0 +1,53 @@
+@import 'partials/utils';
+@import 'partials/typography';
+
+.uk-export-finance {
+  .uk-export-finance-hero {
+    background-position: top center;
+    position: relative;
+
+    .hero-title-compact{
+      bottom: -7px;
+    }
+
+    .heading-hero-generic-compact p{
+      margin: 0;
+    }
+  }
+
+  .card-list-section .card-image{
+    height: 320px;
+    background-position: top center;
+  }
+
+  .why-uk-export-finance{
+    padding-top: 60px;
+    padding-bottom: 60px;
+
+    .heading-title{
+      @include heading-m;
+    }
+
+    ol.list-number{
+
+      padding-left: 0;
+      list-style-type: decimal;
+
+      li{
+        clear: both;
+        counter-increment: li;
+        margin-bottom: 47px;
+        list-style: none;
+        &::before {
+          color: #6f777b;
+          content: counter(li) " ";
+          float: left;
+          font-size: 72px;
+          line-height: 72px;
+          margin-right: 48px;
+          height: 150px;
+        }
+      }
+    }
+  }
+}
