@@ -413,6 +413,7 @@ FEATURE_FLAGS = {
     ),
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
+    'SEARCH_ON': env.bool('FEATURE_SEARCH_ENABLED', False),
 }
 
 # UK Export Finance
