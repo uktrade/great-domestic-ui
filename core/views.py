@@ -228,30 +228,9 @@ class PerformanceDashboardView(
 ):
     template_name = 'core/performance_dashboard.html'
 
-
-class PerformanceDashboardGreatView(PerformanceDashboardView):
-    slug = cms.GREAT_PERFORMANCE_DASHBOARD_SLUG
-
-
-class PerformanceDashboardExportOpportunitiesView(PerformanceDashboardView):
-    slug = cms.GREAT_PERFORMANCE_DASHBOARD_EXOPPS_SLUG
-
-
-class PerformanceDashboardSellingOnlineOverseasView(PerformanceDashboardView):
-    slug = cms.GREAT_PERFORMANCE_DASHBOARD_SOO_SLUG
-
-
-class PerformanceDashboardTradeProfilesView(PerformanceDashboardView):
-    slug = cms.GREAT_PERFORMANCE_DASHBOARD_TRADE_PROFILE_SLUG
-
-
-class PerformanceDashboardInvestView(PerformanceDashboardView):
-    slug = cms.GREAT_PERFORMANCE_DASHBOARD_INVEST_SLUG
-
-
-class PerformanceDashboardNotesView(PerformanceDashboardView):
-    slug = cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG
-    template_name = 'core/performance_dashboard_notes.html'
+    @property
+    def slug(self):
+        return self.kwargs['slug']
 
 
 class ServiceNoLongerAvailableView(TemplateView):
@@ -344,3 +323,7 @@ class SearchView(mixins.NotFoundOnDisabledFeature, TemplateView):
                 }
             else:
                 return helpers.parse_results(response, query, page)
+
+
+class ServicesView(TemplateView):
+    template_name = 'core/services.html'

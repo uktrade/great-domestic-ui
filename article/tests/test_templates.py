@@ -112,7 +112,7 @@ test_topic_page = {
 def test_markets_link_in_header_when_feature_on(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['MARKETS_PAGES_ON'] = True
+    settings.FEATURE_FLAGS['NEW_HEADER_FOOTER_ON'] = True
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -125,29 +125,29 @@ def test_markets_link_in_header_when_feature_on(
     response = client.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    assert soup.find(id='header-markets-link')
-    assert soup.find(id='header-markets-link').string == 'Markets'
+    assert soup.find(id='header-markets')
+    assert soup.find(id='header-markets').string == 'Markets'
 
 
 def test_markets_link_not_in_header_when_feature_off(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['MARKETS_PAGES_ON'] = False
+    settings.FEATURE_FLAGS['NEW_HEADER_FOOTER_ON'] = False
 
     mock_get_page.return_value = create_response(
         status_code=200,
         json_body={
             'page_type': 'TopicLandingPage',
+            'child_pages': [],
         }
     )
     url = reverse('markets')
     response = client.get(url)
 
-    assert 'id="header-markets-link"' not in str(response.content)
+    assert 'id="header-markets"' not in str(response.content)
 
 
 def test_article_advice_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     url = reverse('advice', kwargs={'slug': 'advice'})
 
@@ -175,7 +175,6 @@ def test_article_advice_page(mock_get_page, client, settings):
 def test_article_detail_page_related_content(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     article_page = {
         "title": "Test article admin title",
@@ -511,8 +510,8 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
 def test_landing_page_header_footer(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
+    settings.FEATURE_FLAGS['NEW_HEADER_FOOTER_ON'] = False
+    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
     url = reverse('landing-page')
 
