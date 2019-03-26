@@ -1,6 +1,7 @@
 import logging
 from requests.exceptions import RequestException
 
+from directory_components.mixins import CountryDisplayMixin
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
@@ -86,6 +87,7 @@ class InternationalLandingPageView(
 
 class InternationalContactPageView(
     EUExitFormsFeatureFlagMixin,
+    CountryDisplayMixin,
     HideLanguageSelectorMixin,
     TemplateView,
 ):

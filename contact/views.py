@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+from directory_components.mixins import CountryDisplayMixin
 from directory_constants.constants import cms
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
@@ -92,7 +93,7 @@ class BaseZendeskFormView(FormSessionMixin, FormView):
 
 
 class BaseSuccessView(FormSessionMixin, mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'contact/submit-success.html'
+    template_name = 'contact/submit-success-domestic.html'
 
     def clear_form_session(self, response):
         self.form_session.clear()
@@ -428,8 +429,9 @@ class DefenceAndSecurityOrganisationFormView(
     )
 
 
-class InternationalSuccessView(BaseSuccessView):
+class InternationalSuccessView(CountryDisplayMixin, BaseSuccessView):
     slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG
+    template_name = 'contact/submit-success-international.html'
 
 
 class DomesticSuccessView(BaseSuccessView):
