@@ -308,13 +308,17 @@ class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
     pass
 
 
-class SearchView(TemplateView):
+class SearchView(mixins.NotFoundOnDisabledFeature, TemplateView):
     """ Search results page.
 
         URL parameters: 'q'    String to be searched
                         'page' Int results page number
     """
     template_name = 'core/search.html'
+
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['SEARCH_ON']
 
     def get_context_data(self, **kwargs):
         query = helpers.sanitise_query(self.request.GET.get('q', ''))
