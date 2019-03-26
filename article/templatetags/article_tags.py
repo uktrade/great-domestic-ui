@@ -21,7 +21,7 @@ def get_meta_description(page, **kwargs):
     search_description = page.get('search_description', '')
     description = page.get('article_teaser', search_description)
     if not description and page.get('article_body_text'):
-        description = ''.join(BeautifulSoup(
-            page.get('article_body_text')
-        ).findAll(text=True))[:META_DESCRIPTION_TEXT_LENGTH]
+        html = BeautifulSoup(page.get('article_body_text'), 'html.parser')
+        body_text = html.findAll(text=True)
+        description = ''.join(body_text)[:META_DESCRIPTION_TEXT_LENGTH]
     return description
