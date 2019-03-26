@@ -50,13 +50,33 @@ def test_parse_results():
                 '_score': 0.18232156,
                 '_source': {
                     'type': 'Article',
-                    'title': 'UK - notice of report',
+                    'title': 'Test Shortening Content',
                     'content':
                     "The UK and the EU have agreed a draft agreement\
  on withdrawing from the EU. Read the [Prime Minister's statement](ht\
 tps://www.gov.k/government/speeches/pms-statement-on-brexit-14-novembe\
 r-2018) and the full",
                     'url': 'www.great.gov.uk/opportunities/3'
+                }
+            }, {
+                '_index': 'objects__feed_id_first_feed__date_2019',
+                '_type': '_doc',
+                '_id': 'dit:exportOpportunities:Opportunity:4',
+                '_score': 0.18232156,
+                '_source': {
+                    'type': 'Article',
+                    'title': 'Test No Content',
+                    'url': 'www.great.gov.uk/opportunities/4'
+                }
+            }, {
+                '_index': 'objects__feed_id_first_feed__date_2019',
+                '_type': '_doc',
+                '_id': 'dit:exportOpportunities:Opportunity:5',
+                '_score': 0.18232156,
+                '_source': {
+                    'type': 'Article',
+                    'title': 'Test No URL',
+                    'content': 'Here is the content'
                 }
             }]
         }
@@ -76,9 +96,18 @@ r-2018) and the full",
         "url": "www.great.gov.uk/opportunities/2"
     }, {
         "type": "Article",
-        "title": "UK - notice of report",
+        "title": "Test Shortening Content",
         "content": "The UK and the EU have agreed a draft agreement\
  on withdrawing from the EU. Read the Prime Minister's statement and\
  the full",
         "url": "www.great.gov.uk/opportunities/3"
+    }, {
+        "type": "Article",
+        "title": "Test No Content",
+        "url": "www.great.gov.uk/opportunities/4",
+        'content': ''
+    }, {
+        "type": "Article",
+        "title": "Test No URL",
+        "content": "Here is the content",
     }]
