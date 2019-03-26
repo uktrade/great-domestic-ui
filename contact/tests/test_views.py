@@ -7,6 +7,7 @@ import requests_mock
 
 import django.forms
 from django.conf import settings
+from django.core.cache import cache
 from django.urls import reverse
 
 from contact import constants, forms, views
@@ -828,7 +829,6 @@ def test_selling_online_overseas_contact_form_submission(
 
     url_name = 'contact-us-soo'
     view_name = 'selling_online_overseas_form_view'
-    form_prefix = '{}_{}'.format(view_name, sso_user.id)
 
     client.get(
         reverse(url_name, kwargs={'step': 'organisation'}),
@@ -838,7 +838,7 @@ def test_selling_online_overseas_contact_form_submission(
     response = client.post(
         reverse(url_name, kwargs={'step': 'organisation'}),
         {
-            form_prefix + '-current_step': 'organisation',
+            view_name + '-current_step': 'organisation',
             'organisation-soletrader': False,
             'organisation-company_name': 'Example corp',
             'organisation-company_number': 213123,
@@ -851,7 +851,7 @@ def test_selling_online_overseas_contact_form_submission(
     response = client.post(
         reverse(url_name, kwargs={'step': 'organisation-details'}),
         {
-            form_prefix + '-current_step': 'organisation-details',
+            view_name + '-current_step': 'organisation-details',
             'organisation-details-turnover': 'Under 100k',
             'organisation-details-sku_count': 12,
             'organisation-details-trademarked': True,
@@ -862,7 +862,7 @@ def test_selling_online_overseas_contact_form_submission(
     response = client.post(
         reverse(url_name, kwargs={'step': 'your-experience'}),
         {
-            form_prefix + '-current_step': 'your-experience',
+            view_name + '-current_step': 'your-experience',
             'your-experience-experience': 'Not yet',
             'your-experience-description': 'help!',
         }
@@ -872,7 +872,7 @@ def test_selling_online_overseas_contact_form_submission(
     response = client.post(
         reverse(url_name, kwargs={'step': 'contact-details'}),
         {
-            form_prefix + '-current_step': 'contact-details',
+            view_name + '-current_step': 'contact-details',
             'contact-details-contact_name': 'Foo Example',
             'contact-details-contact_email': 'test@example.com',
             'contact-details-phone': '0324234243',
@@ -903,7 +903,7 @@ def test_selling_online_overseas_contact_form_submission(
         form_session=mock_form_session(),
     )
     assert mock_zendesk_action().save.call_count == 1
-    assert mock_zendesk_action().save.call_args == mock.call({
+    expected_data = {
         'soletrader': False,
         'company_name': 'Example corp',
         'company_number': '213123',
@@ -919,7 +919,22 @@ def test_selling_online_overseas_contact_form_submission(
         'phone': '0324234243',
         'email_pref': True,
         'market': 'ebay',
-    })
+    }
+    cache_key = '{}_{}'.format(view_name, + sso_user.id)
+    assert mock_zendesk_action().save.call_args == mock.call(expected_data)
+    assert cache.get(cache_key) == expected_data
+    # next request for the form will have initial values
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'organisation'}),
+        {'market': 'ebay'}
+    )
+    assert response.context_data['form'].initial == {
+        'soletrader': False,
+        'company_name': 'Example corp',
+        'company_number': '213123',
+        'company_postcode': 'FOO BAR',
+        'website_address': 'http://example.com'
+    }
 
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')
