@@ -127,6 +127,11 @@ urlpatterns = [
         name='about'
     ),
     url(
+        r"^services/$",
+        core.views.ServicesView.as_view(),
+        name='services'
+    ),
+    url(
         r"^privacy-and-cookies/$",
         core.views.PrivacyCookiesDomesticCMS.as_view(),
         name='privacy-and-cookies'
