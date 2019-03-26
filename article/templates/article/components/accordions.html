@@ -78,9 +78,11 @@
                   {% else %}
                   <figure class="column-half">
                   {% endif %}
+                    <figcaption>
+                      <p class="statistic-heading margin-top-15">{{ statistic.heading }}</p>
+                    </figcaption>
                     <p class="active-blue-text statistic-number {% if statistic.number|length > 8 %} bold-medium{% else %} bold-large{% endif %}">{{ statistic.number }}</p>
                     <figcaption>
-                      <p class="statistic-heading">{{ statistic.heading }}</p>
                       <p class="font-xsmall statistic-smallprint">{{ statistic.smallprint }}</p>
                     </figcaption>
                   </figure>
@@ -99,7 +101,7 @@
                 {% if accordion.num_of_ctas == 3 %}
                 <div class="column-full column-third-l margin-bottom-30">
                 {% elif accordion.num_of_ctas == 2 %}
-                <div class="column-full column-half-l margin-bottom-30">
+                <div class="column-full column-half-l margin-bottom-30 padding-horizontal-30-l">
                 {% else %}
                 <div class="column-full margin-bottom-30">
                 {% endif %}

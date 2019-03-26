@@ -2,12 +2,11 @@
 // ------------------------------------------------
 
 @import './partials/base';
+@import './partials/colours';
 @import './components/form-wizard';
 @import './components/breadcrumbs';
 
-#content .form-group input[type=checkbox] {
-  width: 38px;
-}
+
 
 .breadcrumbs {
   border-bottom: 0;
@@ -21,6 +20,21 @@ button {
   input, textarea, select {
     width: 100%;
   }
+
+  .form-group input[type=checkbox] {
+    width: 38px;
+  }
+
+  h1 {
+    margin-bottom: 15px;  
+  }
+  form p {
+    margin-bottom: 30px;
+  }
+}
+
+#search-section {
+  padding-bottom: 45px;
 }
 
 #results {
@@ -29,7 +43,26 @@ button {
   padding: 40px 30px;
   padding-top: 0;
   hr {
-    background-color: #969696;
+    background: $grey-2;
+  }
+}
+
+#other-results {
+  padding-bottom: 0;
+  h2 {
+    margin-bottom: 45px;
+    margin-top: 60px;
+  }
+  h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  .grid-row {
+    padding: 0;
+  }
+  hr {
+    margin-left: 0;
+    background: $grey-2;
   }
 }
 

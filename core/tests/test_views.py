@@ -490,6 +490,14 @@ def test_about_view(client):
     assert response.template_name == [views.AboutView.template_name]
 
 
+def test_search_view_feature_flag(client, settings):
+    settings.FEATURE_FLAGS['SEARCH_ON'] = False
+
+    response = client.get(reverse('search'), data={'q': 'services'})
+
+    assert response.status_code == 404
+
+
 def test_search_view(client):
     """ We mock the call to ActivityStream """
     with patch('core.helpers.search_with_activitystream') as search:

@@ -11,57 +11,62 @@
     {% include 'contact/breadcrumbs.html' with current_page_label='Find trade office' %}
 
     <div class="container">
-        <section class="lg-2">
+        <section class="width-half" id="search-section">
             <form method="get" enctype="multipart/form-data">
-                <h1 class="heading-xlarge">Find your local trade office</h1>
+                <h1 class="heading-large">Find your local trade office</h1>
                 <p>We have local trade offices based around the UK, within each office you can contact an international trade advisor.</p>
-                </br>
                 {% render_form form %}
                 <button type="submit" class="button button">Search</button>
             </form>
         </section>
+
         {% if office_details %}
-            <section class="lg-2" id="results">
+            <section class="width-half" id="results">
                 <h2 class="heading-medium">Your local Trade office for {{ form.cleaned_data.postcode }} is</h2>
                 <hr>
                 <h3 class="heading-medium" id="office-name">{{ office_details.name }}</h3>
                 {{ office_details.address|linebreaks }}
-
                 <h3 class="heading-medium">Telephone</h3>
-                <p>{{ office_details.phone }}</p>
+                <p><a class="link" href="tel:{{ office_details.phone }}">{{ office_details.phone }}</a></p>
                 {% if office_details.phone_other %}
                     <h3 class="heading-medium">{{ office_details.phone_other_comment }}</h3>
-                    <p>{{ office_details.phone_other }}</p>
+                    <p><a class="link" href="tel:{{ office_details.phone_other }}">{{ office_details.phone_other }}</a></p>
                 {% endif %}
                 <br>
-                <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office</a>
-            </section>
-            <section>
-                <a href="{% url 'office-finder' %}" class="previous-step">Back</a>
+                <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office via an online form</a>
             </section>
         {% endif %}
     </div>
 
-    <div class="container">
-		{% if other_offices %}
-			<h2 class="heading-medium">List of other trade offices</h2>
-			{% for office in other_offices %}
-				<section class="lg-2" id="results">
-					<hr>
-					<h3 class="heading-medium" id="office-name">{{ office.name }}</h3>
-					{{ office.address|linebreaks }}
+    <section class="container" id="other-results">
+        {% if other_offices %}
+            <div class="width-half">
+                <h2 class="heading-large">Department for International Trade regional offices</h2>
+            </div>
+            {% for office in other_offices %}
+                <div class="grid-row">
+                    <h3 class="heading-medium" id="office-name">{{ office.name }}</h3>
 
-					<h3 class="heading-medium">Telephone</h3>
-					<p>{{ office.phone }}</p>
-					{% if office.phone_other %}
-						<h3 class="heading-medium">{{ office.phone_other_comment }}</h3>
-						<p>{{ office.phone_other }}</p>
-					{% endif %}
-					<br>
-					<a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office.name }} office</a>
-				</section>
-			{% endfor %}
-		{% endif %}
-    </div>
+                    <div class="column-one-quarter">
+                        {{ office.address|linebreaks }}
+                    </div>
+                    <div class="column-one-third">
+                        <h3 class="heading-small">Telephone</h3>
+                        <p><a class="link" href="tel:{{ office.phone }}">{{ office.phone }}</a></p>
+                        {% if office.phone_other %}
+                            <h3 class="heading-smal">{{ office.phone_other_comment }}</h3>
+                            <p><a class="link" href="tel:{{ office.phone_other }}">{{ office.phone_other }}</a></p>
+                        {% endif %}
+                        <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="link">Contact {{ office.name }} office</a>
+                    </div>
 
+                </div>
+                <hr class="width-two-thirds">
+            {% endfor %}
+        {% endif %}
+    </section>
+
+    <section class="container" >
+        <a href="{% url 'office-finder' %}" class="previous-step">Back</a>
+    </section>
 {% endblock %}

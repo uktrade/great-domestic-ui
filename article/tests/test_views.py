@@ -213,9 +213,6 @@ def test_get_country_guide_page_viable_accordion(
             },
             {
                 'link': 'link2'
-            },
-            {
-                'link': 'link3'
             }
         ]
     }
@@ -265,9 +262,6 @@ non_viable_accordions = [
             },
             {
                 'link': 'link2'
-            },
-            {
-                'link': 'link3'
             }
         ]
     },
@@ -289,9 +283,6 @@ non_viable_accordions = [
             },
             {
                 'link': 'link2'
-            },
-            {
-                'link': 'link3'
             }
         ]
     },
@@ -310,9 +301,6 @@ non_viable_accordions = [
             },
             {
                 'link': 'link2'
-            },
-            {
-                'link': 'link3'
             }
         ]
     },
@@ -331,9 +319,6 @@ non_viable_accordions = [
         'ctas': [
             {
                 'link': 'link1'
-            },
-            {
-                'link': 'link2'
             }
         ]
     }
