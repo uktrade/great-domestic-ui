@@ -5,15 +5,16 @@
 {% block head_css %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/international.css' %}">
+    <link href="{% static 'directory_components/vendor/flag-icons/css/flag-icon.min.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block head_js %}
-  <script src="{% static 'directory_components/js/third-party.js' %}"></script>
-  <script src="{% static 'js/dit.js' %}"></script>
-  <script src="{% static 'js/dit.class.modal.js' %}"></script>
-  <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
-  <script src="{% static 'js/international.js' %}"></script>
+{% block header_js %}
+  <script src="{% static 'directory_components/js/dit.responsive.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.utils.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.classes.Dropdown.js' %}"></script>
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.components.countrySelector.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.components.greatInternationalHeader.js' %}"></script>
 {% endblock %}
 
 {% block head_other %}
@@ -23,11 +24,11 @@
 {% block skip_link %}{% endblock %}
 
 {% block body_header %}
-  {% include 'core/includes/international_header.html' %}
+  {% include 'directory_components/header_footer/international_header.html' %}
 {% endblock %}
 
 {% block body_footer %}
-  {% include 'core/includes/international_footer.html' %}
+  {% include 'directory_components/header_footer/international_footer.html' %}
 {% endblock %}
 
 {% block body_attributes %}id="top"{% endblock %}

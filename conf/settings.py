@@ -73,6 +73,7 @@ MIDDLEWARE_CLASSES = [
     'core.middleware.PersistLocaleMiddleware',
     'core.middleware.ForceDefaultLocale',
     'directory_components.middleware.RobotsIndexControlHeaderMiddlware',
+    'directory_components.middleware.CountryMiddleware',
 ]
 
 ROOT_URLCONF = 'conf.urls'
