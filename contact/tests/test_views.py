@@ -7,6 +7,7 @@ import requests_mock
 
 import django.forms
 from django.conf import settings
+from django.core.cache import cache
 from django.urls import reverse
 
 from contact import constants, forms, views
@@ -822,7 +823,7 @@ def test_ingress_url_cleared_on_redirect_away(
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_selling_online_overseas_contact_form_submission(
     mock_form_session, mock_zendesk_action, mock_clean, captcha_stub,
-    company_profile, client
+    company_profile, sso_user, client
 ):
     company_profile.return_value = None
 
@@ -902,7 +903,7 @@ def test_selling_online_overseas_contact_form_submission(
         form_session=mock_form_session(),
     )
     assert mock_zendesk_action().save.call_count == 1
-    assert mock_zendesk_action().save.call_args == mock.call({
+    expected_data = {
         'soletrader': False,
         'company_name': 'Example corp',
         'company_number': '213123',
@@ -918,7 +919,22 @@ def test_selling_online_overseas_contact_form_submission(
         'phone': '0324234243',
         'email_pref': True,
         'market': 'ebay',
-    })
+    }
+    cache_key = '{}_{}'.format(view_name, + sso_user.id)
+    assert mock_zendesk_action().save.call_args == mock.call(expected_data)
+    assert cache.get(cache_key) == expected_data
+    # next request for the form will have initial values
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'organisation'}),
+        {'market': 'ebay'}
+    )
+    assert response.context_data['form'].initial == {
+        'soletrader': False,
+        'company_name': 'Example corp',
+        'company_number': '213123',
+        'company_postcode': 'FOO BAR',
+        'website_address': 'http://example.com'
+    }
 
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')

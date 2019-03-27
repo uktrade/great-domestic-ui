@@ -8,6 +8,7 @@ from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
+from django.core.cache import cache
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
@@ -19,11 +20,13 @@ from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 
 from core import mixins
-from core.views import BaseNotifyFormView
 from core.helpers import NotifySettings
+from core.views import BaseNotifyFormView
 from contact import constants, forms, helpers
+from sso.utils import SSOLoginRequiredMixin
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
+SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
 
 
 class LazyOfficeFinderURL(LazyObject):
@@ -467,8 +470,9 @@ class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
 
 
 class SellingOnlineOverseasFormView(
-    mixins.NotFoundOnDisabledFeature, mixins.PreventCaptchaRevalidationMixin,
-    FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView
+    SSOLoginRequiredMixin, mixins.NotFoundOnDisabledFeature,
+    mixins.PreventCaptchaRevalidationMixin, FormSessionMixin,
+    mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
 
@@ -510,9 +514,28 @@ class SellingOnlineOverseasFormView(
             *args, **kwargs
         )
 
+    def get_cache_prefix(self):
+        return 'selling_online_overseas_form_view_{}'.format(
+            self.request.sso_user.id)
+
+    def get_form_data_cache(self):
+        return cache.get(self.get_cache_prefix(), None)
+
+    def set_form_data_cache(self, form_data):
+        cache.set(
+            self.get_cache_prefix(), form_data, SOO_SUBMISSION_CACHE_TIMEOUT
+        )
+
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-        if step == self.ORGANISATION and self.company_profile:
+
+        # prepopulate form from cached latest submission data or directory-api
+        latest_submission_data = self.get_form_data_cache()
+        if latest_submission_data is not None:
+            for field in self.form_list[step].declared_fields:
+                if field in latest_submission_data:
+                    initial[field] = latest_submission_data[field]
+        elif step == self.ORGANISATION and self.company_profile:
             initial.update({
                 'soletrader': False,
                 'company_name': self.company_profile['name'],
@@ -562,6 +585,7 @@ class SellingOnlineOverseasFormView(
         response = action.save(form_data)
         response.raise_for_status()
         self.request.session.pop(SESSION_KEY_SOO_MARKET, None)
+        self.set_form_data_cache(form_data)
         return redirect(self.success_url)
 
 
@@ -575,7 +599,7 @@ class OfficeFinderFormView(
     @cached_property
     def all_offices(self):
         return helpers.retrieve_regional_offices(
-           self.postcode
+            self.postcode
         )
 
     @property
