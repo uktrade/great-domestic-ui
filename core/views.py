@@ -75,6 +75,7 @@ class CampaignPageView(
 
 
 class InternationalLandingPageView(
+    CountryDisplayMixin,
     mixins.TranslationsMixin,
     mixins.GetCMSPageMixin,
     mixins.GetCMSComponentMixin,
