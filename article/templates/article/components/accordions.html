@@ -1,4 +1,4 @@
-{% load add_export_elements_classes cta_link from directory_components_tags %}
+{% load add_export_elements_classes cta_link statistics_card_grid from directory_components_tags %}
 
 {% for accordion in accordions %}
   {% if accordion.is_viable %}
@@ -41,7 +41,7 @@
           </div>
         </section>
 
-        {% if accordion.case_study.title and accordion.case_study.image %}
+        {% if accordion.case_study.is_viable %}
         <section
           id="country-guide-sector-case-study-section"
           class="case-study"
@@ -63,32 +63,8 @@
 
         {% if accordion.num_of_statistics %}
         <section id="country-guide-sector-statistics-section" class="statistics padding-vertical-30">
-          <div class="container">
-            <div class="card-grid padding-bottom-15 underline-active-blue">
-              {% for statistic in accordion.statistics %}
-                {% if statistic.number %}
-                  {% if accordion.num_of_statistics == 6 %}
-                  <figure class="column-half column-third-l column-sixth-xl">
-                  {% elif accordion.num_of_statistics == 5 %}
-                  <figure class="column-half column-third-l column-sixth-xl">
-                  {% elif accordion.num_of_statistics == 4 %}
-                  <figure class="column-half column-quarter-xl">
-                  {% elif accordion.num_of_statistics == 3 %}
-                  <figure class="column-half column-third-l">
-                  {% else %}
-                  <figure class="column-half">
-                  {% endif %}
-                    <figcaption>
-                      <p class="statistic-heading margin-top-15">{{ statistic.heading }}</p>
-                    </figcaption>
-                    <p class="active-blue-text statistic-number {% if statistic.number|length > 8 %} bold-medium{% else %} bold-large{% endif %}">{{ statistic.number }}</p>
-                    <figcaption>
-                      <p class="font-xsmall statistic-smallprint">{{ statistic.smallprint }}</p>
-                    </figcaption>
-                  </figure>
-                {% endif %}
-              {% endfor %}
-            </div>
+          <div class="container{% if not accordion.case_study.is_viable %} padding-top-15 border-active-blue border-medium{% endif %}">
+            {% statistics_card_grid statistics=accordion.statistics num_of_statistics=accordion.num_of_statistics %}
           </div>
         </section>
         {% endif %}

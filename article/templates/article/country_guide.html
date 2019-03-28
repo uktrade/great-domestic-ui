@@ -1,6 +1,6 @@
 {% extends 'article/base.html' %}
 {% load static %}
-{% load card image_with_caption cta_link cta_card add_export_elements_classes convert_headings_to override_elements_css_class from directory_components_tags %}
+{% load card image_with_caption cta_link cta_card add_export_elements_classes convert_headings_to override_elements_css_class statistics_card_grid from directory_components_tags %}
 
 {% block css_layout_class %}country-guide-page{% endblock %}
 
@@ -51,30 +51,7 @@
 
 <section id="country-guide-statistics-section" class="statistics padding-vertical-30">
   <div class="container">
-    <div class="card-grid padding-bottom-15 underline-active-blue">
-      {% for statistic in page.statistics %}
-        {% if statistic.number %}
-          {% if view.num_of_statistics == 6 %}
-          <figure class="column-half column-third-l column-sixth-xl">
-          {% elif view.num_of_statistics == 5 %}
-          <figure class="column-half column-third-l column-sixth-xl">
-          {% elif view.num_of_statistics == 4 %}
-          <figure class="column-half column-quarter-xl">
-          {% elif view.num_of_statistics == 3 %}
-          <figure class="column-half column-third-l">
-          {% else %}
-          <figure class="column-half">
-          {% endif %}
-            <figcaption>
-              <p class="statistic-heading margin-top-30">{{ statistic.heading }}</p>
-            </figcaption>
-            <p class="bold-large active-blue-text statistic-number">{{ statistic.number }}</p>
-            <figcaption>
-              <p class="font-xsmall statistic-smallprint">{{ statistic.smallprint }}</p>
-            </figcaption>
-          </figure>
-        {% endif %}
-      {% endfor %}
+    {% statistics_card_grid statistics=page.statistics num_of_statistics=view.num_of_statistics %}
     </div>
   </div>
 </section>

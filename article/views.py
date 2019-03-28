@@ -79,6 +79,8 @@ class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
             'title'
         )
         for accordion in context['page']['accordions']:
+            case_study = accordion['case_study']
+            case_study['is_viable'] = case_study['title'] and case_study['image']
             accordion['num_of_subsections'] = self.count_data_with_field(
                 accordion['subsections'],
                 'heading'
