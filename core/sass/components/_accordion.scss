@@ -24,16 +24,19 @@
 
   &:after {
     content: '+';
+    font-weight: 700;
+    font-size: 36px;
     position: absolute;
     right: $spacing-4;
+    color: black;
   }
 
   &.active {
     border-bottom: 0;
 
     &:after {
-    content: '–';
-    }
+      content: '–';
+      }
   }
 }
 
