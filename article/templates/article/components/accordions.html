@@ -11,9 +11,9 @@
       </a>
       <div class="accordion-content" aria-labelledby="accordion-content">
 
-        <section id="country-guide-sector-section-one">
+        <section id="country-guide-sector-section-one" class="padding-vertical-60">
           <div class="container">
-            <div class="grid-row margin-vertical-30">
+            <div class="grid-row margin-bottom-30">
               <div class="column-full column-two-thirds-m column-half-l">
                 <p class="font-medium">{{ accordion.teaser }}</p>
               </div>
@@ -62,8 +62,8 @@
         {% endif %}
 
         {% if accordion.num_of_statistics %}
-        <section id="country-guide-sector-statistics-section" class="statistics">
-          <div class="container padding-top-30">
+        <section id="country-guide-sector-statistics-section" class="statistics padding-vertical-30">
+          <div class="container">
             <div class="card-grid padding-bottom-15 underline-active-blue">
               {% for statistic in accordion.statistics %}
                 {% if statistic.number %}
@@ -93,8 +93,8 @@
         </section>
         {% endif %}
 
-        <section id="country-guide-sector-cta-section" class="sector-ctas">
-          <div class="container padding-top-30">
+        <section id="country-guide-sector-cta-section" class="sector-ctas padding-vertical-30">
+          <div class="container">
             <div class="grid-row">
               {% for cta in accordion.ctas %}
                 {% if cta.link %}

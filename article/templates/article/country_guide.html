@@ -25,18 +25,18 @@
 </section>
 
 {% if page.heading_teaser %}
-<section id="country-guide-teaser-section" class="teaser">
+<section id="country-guide-teaser-section" class="teaser padding-vertical-30">
   <div class="container">
-    <div class="grid-row padding-top-30 padding-bottom-30">
+    <div class="grid-row">
       <div class="column-full column-half-l">
-        <p class="font-medium">{{ page.heading_teaser }}</p>
+        <p class="font-medium margin-bottom-60">{{ page.heading_teaser }}</p>
       </div>
     </div>
   </div>
 </section>
 {% endif %}
 
-<section id="country-guide-section-one" class="section-one">
+<section id="country-guide-section-one" class="section-one padding-vertical-60">
   <div class="container">
     <div class="grid-row">
       <div class="column-full column-half-l section-one-body">
@@ -49,8 +49,8 @@
   </div>
 </section>
 
-<section id="country-guide-statistics-section" class="statistics">
-  <div class="container padding-vertical-30px margin-bottom-60-m">
+<section id="country-guide-statistics-section" class="statistics padding-vertical-30">
+  <div class="container">
     <div class="card-grid padding-bottom-15 underline-active-blue">
       {% for statistic in page.statistics %}
         {% if statistic.number %}
@@ -79,8 +79,8 @@
   </div>
 </section>
 
-<section id="country-guide-section-two" class="section-two">
-  <div class="container padding-top-90 padding-bottom-45">
+<section id="country-guide-section-two" class="section-two padding-vertical-60">
+  <div class="container">
     <div class="grid-row">
       <div class="column-full column-two-thirds-m column-half-l">
         <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
@@ -90,7 +90,7 @@
   </div>
 </section>
 
-<section id="country-guide-accordions" class="accordions padding-bottom-0">
+<section id="country-guide-accordions" class="accordions padding-vertical-0">
   <ul>
     {% include 'article/components/accordions.html' with accordions=page.accordions %}
   </ul>
@@ -131,8 +131,8 @@
 </section>
 {% endif %}
 
-<section id="country-guide-need-help-section" class="need-help">
-  <div class="container padding-top-45">
+<section id="country-guide-need-help-section" class="need-help padding-vertical-60">
+  <div class="container">
     <div class="grid-row margin-bottom-45">
       <div class="column-full column-two-thirds-m column-half-l">
         <h2 class="heading-large margin-top-0">Next steps</h2>
@@ -140,18 +140,18 @@
       </div>
     </div>
     <div class="grid-row">
-      <div class="column-full column-third-l margin-bottom-30">
+      <div class="column-full column-half-l column-third-xl margin-bottom-30 margin-bottom-0-xl">
         {% static 'images/country-guide-advice.png' as need_help_image_url %}
         {% url 'advice' as advice_url %}
         {% cta_card with_arrow=True image_url=need_help_image_url text="Read our exporting advice" url=advice_url %}
       </div>
-      <div class="column-full column-third-l margin-bottom-30">
+      <div class="column-full column-half-l column-third-xl margin-bottom-30 margin-bottom-0-xl">
         {% static 'images/country-guide-gov-uk.png' as market_guide_image_url %}
         {% with 'Read market guide for '|add:page.heading as market_guide_cta_text %}
         {% cta_card with_arrow=True image_url=market_guide_image_url text=market_guide_cta_text url=page.help_market_guide_cta_link %}
         {% endwith %}
       </div>
-      <div class="column-full column-third-l margin-bottom-30">
+      <div class="column-full column-half-l column-third-xl margin-bottom-0">
         {% static 'images/country-guide-contact.png' as contact_us_image_url %}
         {% cta_card with_arrow=True image_url=contact_us_image_url text="Tell us what help you need" url=services_urls.contact_us %}
       </div>

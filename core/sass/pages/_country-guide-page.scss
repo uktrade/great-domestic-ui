@@ -6,14 +6,8 @@
 @import '../partials/typography.scss';
 
 .country-guide-page {
-  .section-one .container {
-    padding: 60px 0;
-  }
 
   @media (min-width: 769px) {
-    .section-one .container {
-      padding: 120px 0 90px;
-    }
     .section-one-body {
       padding-right: 10%;
     }
