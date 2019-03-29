@@ -158,7 +158,8 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
                     {'title': 'title', 'link': 'link'},
                     {'title': 'title no link', 'link': None},
                     {'title': None, 'link': 'link-but-no-title'}
-                ]
+                ],
+                'case_study': {'title': 'title', 'image': 'image'}
             }
         ],
         'fact_sheet': {
@@ -214,7 +215,8 @@ def test_get_country_guide_page_viable_accordion(
             {
                 'link': 'link2'
             }
-        ]
+        ],
+        'case_study': {'title': 'title', 'image': 'image'}
     }
 
     page = {
@@ -263,7 +265,8 @@ non_viable_accordions = [
             {
                 'link': 'link2'
             }
-        ]
+        ],
+        'case_study': {'title': 'title', 'image': 'image'}
     },
     {
         'statistics': [],
@@ -284,7 +287,8 @@ non_viable_accordions = [
             {
                 'link': 'link2'
             }
-        ]
+        ],
+        'case_study': {'title': 'title', 'image': 'image'}
     },
     {
         'statistics': [],
@@ -302,7 +306,8 @@ non_viable_accordions = [
             {
                 'link': 'link2'
             }
-        ]
+        ],
+        'case_study': {'title': 'title', 'image': 'image'}
     },
     {
         'statistics': [],
@@ -320,7 +325,8 @@ non_viable_accordions = [
             {
                 'link': 'link1'
             }
-        ]
+        ],
+        'case_study': {'title': 'title', 'image': 'image'}
     }
 ]
 
