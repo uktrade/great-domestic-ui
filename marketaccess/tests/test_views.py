@@ -31,6 +31,7 @@ def test_form_feature_flag_on(client, settings):
 def test_form_submission_redirects_if_not_option_4_in_current_status(
     client, status
 ):
+    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
     emergency_details_url = '/report-trade-barrier/report/emergency-details/'
@@ -54,6 +55,7 @@ def test_form_submission_redirects_if_not_option_4_in_current_status(
 
 
 def test_error_box_at_top_of_page_shows(client):
+    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
 
@@ -70,6 +72,7 @@ def test_error_box_at_top_of_page_shows(client):
 
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
 def test_form_submission(mock_zendesk_action, client):
+    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
     status_text = ('I need resolution quickly, '
@@ -169,6 +172,7 @@ def test_form_submission(mock_zendesk_action, client):
 
 
 def test_form_initial_data(client):
+    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
     response_one = client.get(
         reverse('report-ma-barrier', kwargs={'step': 'about'}),
     )

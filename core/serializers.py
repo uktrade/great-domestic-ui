@@ -11,7 +11,8 @@ def parse_search_results(content):
     # Then we remove HTML tags
     # It also removes unneccessary \n added by the markdown library
     for result in results:
-        html = markdown2.markdown(result['content'])
+        content = result['content'] if 'content' in result else ''
+        html = markdown2.markdown(content)
         result['content'] = ''.join(
             BeautifulSoup(html, "html.parser").findAll(text=True)
         ).rstrip()

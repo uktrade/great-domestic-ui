@@ -1,3 +1,5 @@
+from directory_constants.constants import cms
+
 import directory_components.views
 import directory_healthcheck.views
 
@@ -82,38 +84,52 @@ urlpatterns = [
     ),
     url(
         r"^performance-dashboard/$",
-        core.views.PerformanceDashboardGreatView.as_view(),
+        core.views.PerformanceDashboardView.as_view(),
+        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_SLUG},
         name='performance-dashboard'
     ),
     url(
         r"^performance-dashboard/export-opportunities/$",
-        core.views.PerformanceDashboardExportOpportunitiesView.as_view(),
+        core.views.PerformanceDashboardView.as_view(),
+        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_EXOPPS_SLUG},
         name='performance-dashboard-export-opportunities'
     ),
     url(
         r"^performance-dashboard/selling-online-overseas/$",
-        core.views.PerformanceDashboardSellingOnlineOverseasView.as_view(),
+        core.views.PerformanceDashboardView.as_view(),
+        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_SOO_SLUG},
         name='performance-dashboard-selling-online-overseas'
     ),
     url(
         r"^performance-dashboard/trade-profiles/$",
-        core.views.PerformanceDashboardTradeProfilesView.as_view(),
+        core.views.PerformanceDashboardView.as_view(),
+        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_TRADE_PROFILE_SLUG},
         name='performance-dashboard-trade-profiles'
     ),
     url(
         r"^performance-dashboard/invest/$",
-        core.views.PerformanceDashboardInvestView.as_view(),
+        core.views.PerformanceDashboardView.as_view(),
+        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_INVEST_SLUG},
         name='performance-dashboard-invest'
     ),
     url(
         r"^performance-dashboard/guidance-notes/$",
-        core.views.PerformanceDashboardNotesView.as_view(),
+        core.views.PerformanceDashboardView.as_view(),
+        {
+            'slug': cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG,
+            'template_name': 'core/performance_dashboard_notes.html',
+        },
         name='performance-dashboard-notes'
     ),
     url(
         r"^about/$",
         core.views.AboutView.as_view(),
         name='about'
+    ),
+    url(
+        r"^services/$",
+        core.views.ServicesView.as_view(),
+        name='services'
     ),
     url(
         r"^privacy-and-cookies/$",
