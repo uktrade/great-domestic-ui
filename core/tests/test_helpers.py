@@ -331,18 +331,35 @@ def test_parse_results(page, prev_pages,
 
 def test_format_query():
     assert helpers.format_query("services", 2) == json.dumps({
-        "query": {
-          "bool": {
-              "should": [
-                  {"match": {"id": "services"}},
-                  {"match": {"name": "services"}},
-                  {"match": {"content": "services"}},
-                  {"match": {"type": "services"}}
-              ]
-          }
+        'query': {
+          'bool': {
+                'should': [
+                    {
+                        'match': {
+                            'name': {
+                                'query': 'services',
+                                'minimum_should_match': '2<75%'
+                            }
+                        }
+                    },
+                    {
+                        'match': {
+                            'content': {
+                                'query': 'services',
+                                'minimum_should_match': '2<75%'
+                            }
+                        }
+                    },
+                    {'match': {'type': 'services'}}
+                ]
+            }
         },
-        "from": 10,
-        "size": 10
+        'from': 10,
+        'size': 10,
+        'indices_boost': [
+            {'objects__feed_id_export_opportunities*': 0.1},
+            {'objects*': 1}
+        ]
     })
 
 

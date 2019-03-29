@@ -250,16 +250,33 @@ def format_query(query, page):
     return json.dumps({
         'query': {
           'bool': {
-              'should': [
-                  {'match': {'id': query}},
-                  {'match': {'name': query}},
-                  {'match': {'content': query}},
-                  {'match': {'type': query}}
-              ]
-          }
+                'should': [
+                    {
+                        'match': {
+                            'name': {
+                                'query': query,
+                                'minimum_should_match': '2<75%'
+                            }
+                        }
+                    },
+                    {
+                        'match': {
+                            'content': {
+                                'query': query,
+                                'minimum_should_match': '2<75%'
+                            }
+                        }
+                    },
+                    {'match': {'type': query}}
+                ]
+            }
         },
         'from': from_result,
-        'size': RESULTS_PER_PAGE
+        'size': RESULTS_PER_PAGE,
+        'indices_boost': [
+            {'objects__feed_id_export_opportunities*': 0.1},
+            {'objects*': 1}
+        ]
     })
 
 
