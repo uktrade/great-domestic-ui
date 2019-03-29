@@ -1,0 +1,189 @@
+@import 'partials/utils';
+@import 'partials/typography';
+@import 'partials/colours';
+
+.uk-export-finance-landing {
+
+  img{
+    width: 100%;
+  }
+
+  .heading-light{
+    font-weight: normal;
+    font-size: 36px;
+  }
+
+  .text{
+    font-size: 24px;
+  }
+
+  .why-we-offer-section{
+    .offer-section-image{
+      width: 100%;
+    }
+
+    .offer-section-text{
+      padding: 0 45px;
+    }
+  }
+
+  .flag{
+    background-image: url('/static/images/icons/uj-motif.png');
+    background-size: 155px;
+    background-repeat: no-repeat;
+    height: 32px;
+    margin-top: 60px;
+  }
+
+  .about-us-and-our-services{
+    .description{
+      font-size: 16px;
+    }
+  }
+
+  .your-next-step-section{
+    .text{
+      font-size: 19px;
+    }
+  }
+
+  //TABLET
+  @media screen and (max-width: 641px) {
+    .flag{
+      display: none;
+    }
+
+    .why-we-offer-section{
+      .offer-section-text{
+        padding: 30px;
+      }
+    }
+  }
+
+  .steps-progress-indicator {
+    list-style: none;
+    position: relative;
+    padding-left: 15px;
+
+    ol, ul{
+      list-style-type: none;
+    }
+
+    li {
+      border-left: 0.18em solid $grey;
+      color: $grey;
+      counter-increment: progress-indicator-counter;
+      font-weight: bold;
+      list-style-position: outside;
+      padding: 0 0 1.0em 2em;
+      position: relative;
+      top: -0.5em;
+      margin: 0;
+
+      &:last-child {
+        border-left-color: $white;
+
+        span {
+          border: none;
+        }
+      }
+    }
+
+    // Adds the separating lines.
+    span {
+      border-color: $stone-50;
+      border-style: solid;
+      border-width: 0 0 1px 0;
+      display: block;
+      padding-bottom: 1.0em;
+
+      // Adds the default numbering
+      &:before {
+        background-color: $grey;
+        border: 0.2em solid $grey;
+        border-radius: 50%;
+        color: $grey;
+        content: "•";
+        display: block;
+        font-size: 80%;
+        height: 2.4em;
+        left: -1.525em;
+        line-height: 1.6em;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        width: 2.4em;
+      }
+    }
+
+    .current {
+      color: $grey;
+
+      &:before {
+        background-color: $white;
+        border: 0.2em solid $grey;
+        border-radius: 50%;
+        content: '';
+        display: block;
+        height: 1.9em;
+        left: -1.2em;
+        position: absolute;
+        top: -0.35em;
+        width: 1.9em;
+      }
+
+      span {
+        &:before {
+          background-color: $grey;
+          border-color: $grey;
+          color: $white;
+        }
+      }
+    }
+
+    .complete {
+      border-left-color: $grey;
+      color: $grey;
+
+      // This is the tick.
+      &:after {
+        border-color: $white;
+        border-style: solid;
+        border-width: 0 0 2px 2px;
+        border-radius: 0;
+        content: '';
+        display: block;
+        left: -0.4em;
+        height: 0.25em;
+        position: absolute;
+        transform: rotate(-45deg);
+        top: 0.6em;
+        width: 0.6em;
+      }
+
+      // Colour hides the number.
+      span {
+        &:before {
+          background-color: $grey;
+          border-color: $grey;
+          color: $grey;
+        }
+      }
+    }
+
+    .verbose {
+      &:before {
+        display: none;
+      }
+    }
+
+    .heading{
+      font-weight: bold;
+      font-size: 19px;
+    }
+    .list-text{
+      font-size: 19px;
+      font-weight: normal;
+    }
+  }
+}
