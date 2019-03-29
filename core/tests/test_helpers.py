@@ -237,17 +237,6 @@ def test_search_unauthorized():
 ''' -- Search helpers -- '''
 
 
-@pytest.mark.parametrize('query,safe_output', (
-    ("innocent search'dropdb();", r"innocent search'dropdb\(\);"),
-    ("{\"script\": \"ctx._source.viewings += 1}\"",
-        r'\{"script"\: "ctx._source.viewings \+= 1\}"'),
-    ('innocent" "query":{ "match_all": {} }',
-        r'innocent" "query"\:\{ "match_all\"\: \{\} \}')
-))
-def test_sanitise_query(query, safe_output):
-    assert helpers.sanitise_query(query) == safe_output
-
-
 @pytest.mark.parametrize('page,safe_output', (
     ("2", 2),
     ("-1", 1),

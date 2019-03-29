@@ -303,7 +303,7 @@ class SearchView(mixins.NotFoundOnDisabledFeature, TemplateView):
         return settings.FEATURE_FLAGS['SEARCH_ON']
 
     def get_context_data(self, **kwargs):
-        query = helpers.sanitise_query(self.request.GET.get('q', ''))
+        query = self.request.GET.get('q', '')
         page = helpers.sanitise_page(self.request.GET.get('page', '1'))
         elasticsearch_query = helpers.format_query(query, page)
 
