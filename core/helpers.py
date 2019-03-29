@@ -268,15 +268,14 @@ def format_query(query, page):
                         }
                     },
                     {'match': {'type': query}}
-                ],
-                
-          }
+                ]
+            }
         },
         'from': from_result,
         'size': RESULTS_PER_PAGE,
-        'indices_boost' : [
-            { 'objects__feed_id_export_opportunities*' : 0.1 },
-            { 'objects*' : 1 }
+        'indices_boost': [
+            {'objects__feed_id_export_opportunities*': 0.1},
+            {'objects*': 1}
         ]
     })
 
