@@ -1,7 +1,6 @@
 import collections
 import http
 import urllib.parse
-import re
 import json
 import requests
 from math import ceil
@@ -187,35 +186,6 @@ class CompaniesHouseClient:
 
 
 ''' --- Search Helpers --- '''
-
-
-def sanitise_query(text):
-    """ Based on:
-        https://gist.github.com/eranhirs/5c9ef5de8b8731948e6ed14486058842
-    """
-    # Escape special characters
-    # http://lucene.apache.org/core/old_versioned_docs/
-    #   versions/2_9_1/queryparsersyntax.html#Escaping Special Characters
-    text = re.sub('([{}])'.format(
-        re.escape(r'\\+\-&|!(){}\[\]^~*?:\/')
-    ), r"\\\1", text)
-
-    # AND, OR and NOT are used by lucene as logical operators. We need
-    # to escape them
-    for word in ['AND', 'OR', 'NOT']:
-        escaped_word = "".join(["\\" + letter for letter in word])
-        text = re.sub(
-            r'\s*\b({})\b\s*'.format(word),
-            r" {} ".format(escaped_word),
-            text
-        )
-
-    # Escape odd quotes
-    quote_count = text.count('"')
-    if quote_count % 2 == 1:
-        return re.sub(r'(.*)"(.*)', r'\1\"\2', text)
-    else:
-        return text
 
 
 def sanitise_page(page):
