@@ -180,9 +180,9 @@ urlpatterns = [
         name='casestudy-york-bag'
     ),
     url(
-        r"^get-finance/$",
+        r"^trade-finance/$",
         finance.views.GetFinanceView.as_view(),
-        name='get-finance'
+        name='trade-finance'
     ),
     url(
         r'^get-finance/contact/thanks/$',

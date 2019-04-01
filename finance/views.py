@@ -21,7 +21,7 @@ class FeatureFlagMixin:
 
 
 class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'finance/get_finance.html'
+    template_name = 'finance/trade_finance.html'
     slug = cms.GREAT_GET_FINANCE_SLUG
 
 
