@@ -1,3 +1,4 @@
+from directory_components.mixins import CountryDisplayMixin
 from directory_constants.constants import cms
 from directory_forms_api_client.helpers import Sender
 
@@ -18,6 +19,7 @@ class BaseInternationalContactFormView(
     GetCMSPageMixin,
     PrepopulateFormMixin,
     mixins.HideLanguageSelectorMixin,
+    CountryDisplayMixin,
     FormView,
 ):
 

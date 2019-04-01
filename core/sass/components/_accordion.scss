@@ -24,16 +24,19 @@
 
   &:after {
     content: '+';
+    font-weight: 700;
+    font-size: 36px;
     position: absolute;
     right: $spacing-4;
+    color: black;
   }
 
   &.active {
     border-bottom: 0;
 
     &:after {
-    content: '–';
-    }
+      content: '–';
+      }
   }
 }
 
@@ -42,8 +45,8 @@
 }
 
 .accordion-icon {
-  height: 40px;
-  width: 40px;
+  height: 60px;
+  width: 60px;
 }
 
 .accordion-content {
@@ -61,5 +64,11 @@
 
   .subsection-icon {
     height: 50px;
+  }
+
+  .statistics .container {
+    border-right: none;
+    border-left: none;
+    border-bottom: none;
   }
 }

@@ -6,34 +6,16 @@
 @import '../partials/typography.scss';
 
 .country-guide-page {
-  .section-one .container {
-    padding: 60px 0;
-  }
 
   @media (min-width: 769px) {
-    .section-one .container {
-      padding: 120px 0 90px;
+    .section-one-body {
+      padding-right: calc(100% / 12);
     }
   }
 
   .section-one-body {
     h2:first-child {
       margin-top: 0;
-    }
-  }
-
-  .statistics {
-    .statistic-number {
-      margin-bottom: 0.4em;
-      font-family: $brand-font-alternative;
-    }
-
-    .statistic-heading {
-      margin-bottom: 0.75em;
-    }
-
-    .statistic-smallprint {
-      color: #666666;
     }
   }
 

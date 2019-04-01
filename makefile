@@ -91,7 +91,6 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_NEW_HEADER_FOOTER_ENABLED=true; \
 	export FEATURE_SEARCH_ENABLED=true
 
-
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
 	export DIRECTORY_FORMS_API_API_KEY=debug; \

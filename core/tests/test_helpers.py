@@ -237,17 +237,6 @@ def test_search_unauthorized():
 ''' -- Search helpers -- '''
 
 
-@pytest.mark.parametrize('query,safe_output', (
-    ("innocent search'dropdb();", r"innocent search'dropdb\(\);"),
-    ("{\"script\": \"ctx._source.viewings += 1}\"",
-        r'\{"script"\: "ctx._source.viewings \+= 1\}"'),
-    ('innocent" "query":{ "match_all": {} }',
-        r'innocent" "query"\:\{ "match_all\"\: \{\} \}')
-))
-def test_sanitise_query(query, safe_output):
-    assert helpers.sanitise_query(query) == safe_output
-
-
 @pytest.mark.parametrize('page,safe_output', (
     ("2", 2),
     ("-1", 1),
@@ -342,18 +331,35 @@ def test_parse_results(page, prev_pages,
 
 def test_format_query():
     assert helpers.format_query("services", 2) == json.dumps({
-        "query": {
-          "bool": {
-              "should": [
-                  {"match": {"id": "services"}},
-                  {"match": {"name": "services"}},
-                  {"match": {"content": "services"}},
-                  {"match": {"type": "services"}}
-              ]
-          }
+        'query': {
+          'bool': {
+                'should': [
+                    {
+                        'match': {
+                            'name': {
+                                'query': 'services',
+                                'minimum_should_match': '2<75%'
+                            }
+                        }
+                    },
+                    {
+                        'match': {
+                            'content': {
+                                'query': 'services',
+                                'minimum_should_match': '2<75%'
+                            }
+                        }
+                    },
+                    {'match': {'type': 'services'}}
+                ]
+            }
         },
-        "from": 10,
-        "size": 10
+        'from': 10,
+        'size': 10,
+        'indices_boost': [
+            {'objects__feed_id_export_opportunities*': 0.1},
+            {'objects*': 1}
+        ]
     })
 
 

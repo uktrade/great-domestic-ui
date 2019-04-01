@@ -1,6 +1,7 @@
 import logging
 from requests.exceptions import RequestException
 
+from directory_components.mixins import CountryDisplayMixin
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
@@ -74,6 +75,7 @@ class CampaignPageView(
 
 
 class InternationalLandingPageView(
+    CountryDisplayMixin,
     mixins.TranslationsMixin,
     mixins.GetCMSPageMixin,
     mixins.GetCMSComponentMixin,
@@ -86,6 +88,7 @@ class InternationalLandingPageView(
 
 class InternationalContactPageView(
     EUExitFormsFeatureFlagMixin,
+    CountryDisplayMixin,
     HideLanguageSelectorMixin,
     TemplateView,
 ):
@@ -300,7 +303,7 @@ class SearchView(mixins.NotFoundOnDisabledFeature, TemplateView):
         return settings.FEATURE_FLAGS['SEARCH_ON']
 
     def get_context_data(self, **kwargs):
-        query = helpers.sanitise_query(self.request.GET.get('q', ''))
+        query = self.request.GET.get('q', '')
         page = helpers.sanitise_page(self.request.GET.get('page', '1'))
         elasticsearch_query = helpers.format_query(query, page)
 

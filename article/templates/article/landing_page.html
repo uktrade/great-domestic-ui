@@ -7,8 +7,7 @@
 {% block og_image %}{% static_absolute 'images/hero/export-hp-hero-500.png' %}{% endblock %}
 
 {% block head_js %}
-  {{ block.super }}
-  {% block cookie_js %}{% endblock %}
+  <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/dit.js' %}"></script>
   <script src="{% static 'js/dit.class.modal.js' %}"></script>
   <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
