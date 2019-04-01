@@ -357,6 +357,7 @@ def test_format_query():
         'from': 10,
         'size': 10,
         'indices_boost': [
+            {'objects__feed_id_key_pages*': 10},
             {'objects__feed_id_export_opportunities*': 0.1},
             {'objects*': 1}
         ]

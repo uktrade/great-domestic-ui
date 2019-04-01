@@ -610,6 +610,13 @@ def test_search_view(client):
         assert context['error_status_code'] == 500
 
 
+def test_search_key_pages_view(client):
+    response = client.get(reverse('search-key-pages'))
+    feed_parsed = json.loads(response.content)
+    assert feed_parsed["orderedItems"][0]["object"]["name"] == \
+        "Get finance - Homepage"
+
+
 cms_urls_slugs = (
     (
         reverse('privacy-and-cookies'),

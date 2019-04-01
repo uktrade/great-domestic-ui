@@ -274,6 +274,7 @@ def format_query(query, page):
         'from': from_result,
         'size': RESULTS_PER_PAGE,
         'indices_boost': [
+            {'objects__feed_id_key_pages*': 10},
             {'objects__feed_id_export_opportunities*': 0.1},
             {'objects*': 1}
         ]

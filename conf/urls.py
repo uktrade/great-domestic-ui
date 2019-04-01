@@ -213,11 +213,15 @@ urlpatterns = [
         name='custom-page'
     ),
     url(
+        r'^search/key-pages$',
+        core.views.SearchKeyPagesView.as_view(),
+        name='search-key-pages'
+    ),
+    url(
         r'^search/$',
         core.views.SearchView.as_view(),
         name='search'
     )
-
 ]
 
 
