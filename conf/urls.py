@@ -20,7 +20,7 @@ import marketaccess.views
 import community.views
 
 from conf.url_redirects import redirects
-from ukef.views import UKEFHomeView, UKEFLandingView
+from ukef.views import UKEFHomeView, UKEFLandingView, UKEFContactView
 
 sitemaps = {
     'static': core.views.StaticViewSitemap,
@@ -573,6 +573,7 @@ community_urls = [
     ),
 ]
 
+
 ukef_urls = [
     url(
         r"^uk-export-finance/$",
@@ -585,6 +586,12 @@ ukef_urls = [
         UKEFLandingView.as_view(),
         {'slug': 'uk-export-landing'},
         name='uk-export-landing',
+    ),
+    url(
+        r"^uk-export-contact/$",
+        UKEFContactView.as_view(),
+        {'slug': 'uk-export-contact'},
+        name='uk-export-contact',
     )
 ]
 

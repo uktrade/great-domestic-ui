@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
     'django.contrib.sessions',
     'django.contrib.sitemaps',
+    'export_elements',
     'formtools',
     'corsheaders',
     'directory_constants',
@@ -551,6 +552,20 @@ COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.str(
 COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str(
     'COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS',
 )
+
+# UKEF CONTACT FORM
+UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID',
+    '09677460-1796-4a60-a37c-c1a59068219e'
+)
+UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID',
+    'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
+)
+UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
+    'COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS',
+)
+
 
 # ip-restrictor
 IP_RESTRICTOR_SKIP_CHECK_ENABLED = env.bool(
