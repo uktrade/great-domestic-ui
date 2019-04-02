@@ -15,7 +15,7 @@
         "type": "Service",
          "name": "Get finance - Homepage",
          "content": "When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid.",
-         "keywords": "",
+         "keywords": "Financial help Financial aid finance Export finance Insurance Export insurance",
          "url": "https://www.great.gov.uk/get-finance/"
       }
     },{
@@ -39,7 +39,7 @@
         "type": "Service",
         "name": "Find Export Opportunities - Homepage",
         "content": "Search 18,024 export sales leads and pitch your company to overseas buyers who are looking for products and services like yours.",
-        "keywords": "Opportunities Business opportunities Export opportunities",
+        "keywords": "Opportunities Opportunity Business opportunities Business opportunity Export opportunities Export opportunity Exporting",
         "url": "https://opportunities.export.great.gov.uk/"
       }
     }, {
@@ -51,7 +51,7 @@
         "type": "Service",
         "name": "DIT Events - Homepage",
         "content": "Events are one of the most effective ways to support companies looking for trade opportunities. DIT's calendar of events is updated regularly with both UK and overseas events as well as overseas missions, and opportunities across the Tradeshow Access Programme (TAP).",
-        "keywords": "Event events export seminar Events DIT exporting seminars",
+        "keywords": "Event events export seminar Events DIT exporting seminars Trade show",
         "url": "https://www.events.great.gov.uk/ehome/index.php?eventid=200183029&"
       }
     },{
@@ -63,7 +63,7 @@
         "type": "Service",
         "name": "Selling Online Overseas - Homepage",
         "content": "Find online global marketplaces. Identify and apply to sell with marketplaces to reach international consumers",
-        "keywords": "Selling online overseas sales Ecommerce E-commerce Online marketplaces Amazon Ebay Royal Mail Rakuten Trade me Flipkart Onbuy Fruugo Catch.com.au Kaola 1688 1688.com ttHigo Cdiscount Newegg Linio Newegg Newegg business Newegg Canada La Redoute Bol JD Worldwide Fnac Shangpin Spartoo ManoMano Goxip SF Best Darty ePrice Privalia",
+        "keywords": "Selling online overseas sales exporting Ecommerce E-commerce Online marketplaces Amazon Ebay Royal Mail Rakuten Trade me Flipkart Onbuy Fruugo Catch.com.au Kaola 1688 1688.com ttHigo Cdiscount Newegg Linio Newegg Newegg business Newegg Canada La Redoute Bol JD Worldwide Fnac Shangpin Spartoo ManoMano Goxip SF Best Darty ePrice Privalia",
         "url": "https://www.great.gov.uk/selling-online-overseas/"
       }
     },{
@@ -75,8 +75,20 @@
         "type": "Service",
         "name": "Business Profiles (Find a Buyer) - Homepage",
         "content": "Your business profile on great.gov.uk will let buyers find you. Give companies looking to buy from your industry an easy way to find you. Showcase your company. Highlight your company's projects and experience to give buyers insight into what you do. Pull in the right leads. Attract more business by connecting with the right international buyers.",
-        "keywords": "Business profile profile my business",
+        "keywords": "Business profile Business Profiles Trade profile Trade profiles Profile Profiles My business Find buyer",
         "url": "https://www.great.gov.uk/find-a-buyer/"
+      }
+    },{
+      "dit:application": "greatDomesticUi",
+      "id": "dit:greatDomesticUi:KeyPages:7:Update",
+      "type": "Update",
+      "object": {
+        "id": "dit:greatDomesticUi:KeyPages:7",
+        "type": "Service",
+        "name": "Advice - Homepage",
+        "content": "Explore the potential of exporting with guidance and support from the Department for International Trade.",
+        "keywords": "Advice News Article Support Guidance",
+        "url": "https://www.great.gov.uk/advice/"
       }
     }
   ]

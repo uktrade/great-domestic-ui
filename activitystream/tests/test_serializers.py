@@ -1,4 +1,6 @@
-from core import serializers
+import pytest
+
+from activitystream import serializers
 
 
 def test_parse_results():
