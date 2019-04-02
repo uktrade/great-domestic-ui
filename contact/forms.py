@@ -378,8 +378,10 @@ class SellingOnlineOverseasBusiness(forms.Form):
     )
     company_number = fields.CharField(
         label='Companies House Number',
-        help_text='The number you received when'
-        'registering your company at Companies House.',
+        help_text=(
+            'The number you received when '
+            'registering your company at Companies House.'
+        ),
         required=False,  # Only need if soletrader false - see clean (below)
     )
     company_postcode = fields.CharField(
