@@ -1,7 +1,6 @@
 import collections
 import http
 import urllib.parse
-import json
 import requests
 from functools import partial
 from urllib.parse import urljoin

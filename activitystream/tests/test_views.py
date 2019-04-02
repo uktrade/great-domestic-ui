@@ -1,9 +1,9 @@
 import json
 import requests
-import pytest
 
 from unittest.mock import patch, Mock
 from django.core.urlresolvers import reverse
+
 
 def test_search_view_feature_flag(client, settings):
     settings.FEATURE_FLAGS['SEARCH_ON'] = False
@@ -130,4 +130,3 @@ def test_search_key_pages_view(client):
     feed_parsed = json.loads(response.content)
     assert feed_parsed["orderedItems"][0]["object"]["name"] == \
         "Get finance - Homepage"
-

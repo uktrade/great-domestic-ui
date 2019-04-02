@@ -2,7 +2,6 @@ import json
 import pytest
 
 from requests.exceptions import ConnectionError
-from django.core.urlresolvers import reverse
 from unittest.mock import Mock
 
 from activitystream import helpers

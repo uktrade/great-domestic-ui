@@ -1,6 +1,5 @@
-import json
 import http
-from unittest.mock import call, patch, PropertyMock, Mock
+from unittest.mock import call, patch, PropertyMock
 
 import requests
 
@@ -488,6 +487,7 @@ def test_about_view(client):
 
     assert response.status_code == 200
     assert response.template_name == [views.AboutView.template_name]
+
 
 cms_urls_slugs = (
     (

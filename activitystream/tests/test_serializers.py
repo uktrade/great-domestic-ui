@@ -1,5 +1,3 @@
-import pytest
-
 from activitystream import serializers
 
 
