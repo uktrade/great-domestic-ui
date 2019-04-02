@@ -267,6 +267,7 @@ def format_query(query, page):
                             }
                         }
                     },
+                    {'match': {'keywords': query}},
                     {'match': {'type': query}}
                 ]
             }

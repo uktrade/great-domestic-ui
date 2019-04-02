@@ -350,6 +350,7 @@ def test_format_query():
                             }
                         }
                     },
+                    {'match': {'keywords': 'services'}},
                     {'match': {'type': 'services'}}
                 ]
             }
