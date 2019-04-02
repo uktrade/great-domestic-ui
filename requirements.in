@@ -18,7 +18,7 @@ directory-sso-api-client==3.0.2
 sigauth==4.0.1
 directory-healthcheck==1.0.1
 directory-ch-client==1.0.0
-directory-components==8.3.0
+directory-components==8.3.1
 geoip2==2.9.0
 django-ipware==2.1.0
 django-redis==4.8.0
