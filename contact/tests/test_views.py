@@ -711,6 +711,34 @@ def test_ingress_url_cleared_on_success(
 @pytest.mark.parametrize('url', success_urls)
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
+def test_ingress_url_special_cases_on_success(
+    mock_clear, mock_lookup_by_slug, url, client, rf
+):
+    mock_clear.return_value = None
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    # given the ingress url is set
+    client.get(
+        reverse('contact-us-routing-form', kwargs={'step': 'location'}),
+        HTTP_REFERER='http://testserver.com/contact/',
+        HTTP_HOST='testserver.com'
+    )
+
+    # when the success page is viewed
+    response = client.get(url, HTTP_HOST='testserver.com')
+
+    # for contact ingress urls user flow continues to landing page
+    assert response.context_data['next_url'] == '/'
+    assert response.status_code == 200
+    # and the ingress url is cleared
+    assert mock_clear.call_count == 1
+
+
+@pytest.mark.parametrize('url', success_urls)
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
 def test_external_ingress_url_not_used_on_success(
     mock_clear, mock_lookup_by_slug, url, client
 ):
