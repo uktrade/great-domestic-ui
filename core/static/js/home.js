@@ -54,7 +54,23 @@ dit.home = (new function () {
   }
 });
 
+dit.ga360 = (new function () {
+  // Page init
+  this.init = function() {
+    // push only once across project. used to transmit to GA360 logged in/out and userID etc..
+    window.dataLayer.push({
+        'businessUnit': 'great',
+        'siteLanguage': 'en-gb',
+        'userID': null, //String
+        'loginStatus': false, //Boolean cast to string
+    })
+  }
+
+})
+
+
 $(document).ready(function() {
   dit.home.init();
   dit.components.video.init();
+  dit.ga360.init();
 });

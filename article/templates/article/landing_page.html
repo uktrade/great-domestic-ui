@@ -17,6 +17,26 @@
   <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
 
+{% block head_js_ga360 %}
+	window.addEventListener("DOMContentLoaded", function() {
+		// add this only once per page to differentiate between GA360 invocations in different pages
+		window.dataLayer.push({'pageCategory':'landing_page'});
+
+        $(".card-image.fab").onclick(function(e) {
+            window.dataLayer.push({'eventName': 'clicking on Great.gov landing page services profile link'});
+            window.dataLayer.push({'eventID': 'great_gov_services_profile'});
+        });
+        $(".card-image.soo").onclick(function(e) {
+            window.dataLayer.push({'eventName': 'clicking on Great.gov landing page services SOO link'});
+            window.dataLayer.push({'eventID': 'great_gov_services_soo'});
+        });
+        $(".card-image.exopps").onclick(function(e) {
+            window.dataLayer.push({'eventName': 'clicking on Great.gov landing page services exopps link'});
+            window.dataLayer.push({'eventID': 'great_gov_services_exopps'});
+        });
+    }, false);
+{%  endblock %}
+
 {% block head_title %}Welcome to great.gov.uk - export guidance and services{% endblock %}
 
 {% block css_layout_class %}landing-page{% endblock %}
