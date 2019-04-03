@@ -404,6 +404,47 @@ def test_get_country_guide_page_viable_case_study(mock_get_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_get_country_guide_page_neither_case_study_nor_statistics(
+    mock_get_page,
+    client
+):
+    page = {
+        'title': 'test',
+        'page_type': 'CountryGuidePage',
+        'heading': 'Heading',
+        'statistics': [],
+        'accordions': [{
+            'case_study': {
+                'title': '',
+                'image': 'Case study image'
+            },
+            'statistics': [],
+            'title': 'title',
+            'teaser': 'teaser',
+            'subsections': [],
+            'ctas': []
+        }],
+        'fact_sheet': {
+            'columns': []
+        }
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+
+    url = reverse(
+        'country-guide',
+        kwargs={'slug': 'japan'}
+    )
+    response = client.get(url)
+
+    accordion = response.context_data['page']['accordions'][0]
+    assert bool(accordion['neither_case_study_nor_statistics']) is True
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_get_markets_page_renames_heading_to_landing_page_title(
     mock_get_page, client
 ):

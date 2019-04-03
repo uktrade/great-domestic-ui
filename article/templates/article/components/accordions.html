@@ -12,7 +12,7 @@
       <div class="accordion-content" aria-labelledby="accordion-content">
 
         <section id="country-guide-sector-section-one" class="padding-vertical-60">
-          <div class="container">
+          <div class="container{% if accordion.neither_case_study_nor_statistics %} padding-bottom-60 underline-active-blue{% endif %}">
             <div class="grid-row margin-bottom-30">
               <div class="column-full column-two-thirds-m column-half-l">
                 <p class="font-medium">{{ accordion.teaser }}</p>
@@ -33,7 +33,7 @@
                   <img class="accordion-icon" src="{{ subsection.icon.url }}"/>
                   {% endif %}
                   <h3 class="heading-medium margin-top-15">{{ subsection.heading }}</h3>
-                  <p class="font-xsmall">{{ subsection.body }}</p>
+                  <p>{{ subsection.body }}</p>
                 </div>
                 {% endif %}
               {% endfor %}
@@ -63,13 +63,13 @@
 
         {% if accordion.num_of_statistics %}
         <section id="country-guide-sector-statistics-section" class="statistics padding-vertical-30">
-          <div class="container{% if not accordion.case_study.is_viable %} padding-top-15 border-active-blue border-medium{% endif %}">
+          <div class="container">
             {% statistics_card_grid statistics=accordion.statistics num_of_statistics=accordion.num_of_statistics %}
           </div>
         </section>
         {% endif %}
 
-        <section id="country-guide-sector-cta-section" class="sector-ctas padding-vertical-30">
+        <section id="country-guide-sector-cta-section" class="sector-ctas padding-vertical-60">
           <div class="container">
             <div class="grid-row">
               {% for cta in accordion.ctas %}

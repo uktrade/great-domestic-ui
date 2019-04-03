@@ -90,6 +90,9 @@ class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
                 accordion['statistics'],
                 'number'
             )
+            accordion['neither_case_study_nor_statistics'] = \
+                not case_study['is_viable'] and \
+                not accordion['num_of_statistics']
             accordion['num_of_ctas'] = self.count_data_with_field(
                 accordion['ctas'],
                 'link'
