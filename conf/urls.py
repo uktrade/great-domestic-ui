@@ -18,6 +18,7 @@ import euexit.views
 import finance.views
 import marketaccess.views
 import community.views
+import activitystream.views
 
 from conf.url_redirects import redirects
 
@@ -213,11 +214,15 @@ urlpatterns = [
         name='custom-page'
     ),
     url(
+        r'^search/key-pages/$',
+        activitystream.views.SearchKeyPagesView.as_view(),
+        name='search-key-pages'
+    ),
+    url(
         r'^search/$',
-        core.views.SearchView.as_view(),
+        activitystream.views.SearchView.as_view(),
         name='search'
     )
-
 ]
 
 
