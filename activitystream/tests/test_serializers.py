@@ -1,4 +1,4 @@
-from core import serializers
+from activitystream import serializers
 
 
 def test_parse_results():

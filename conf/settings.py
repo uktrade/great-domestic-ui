@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'contact',
     'marketaccess',
     'community',
+    'activitystream',
 ]
 
 MIDDLEWARE_CLASSES = [
