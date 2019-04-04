@@ -13,7 +13,7 @@
 {% block css_layout_class %}uk-export-finance-landing{% endblock %}
 
 {% block content %}
-	<section id="uk-finance-export-hero" class="hero hero-generic uk-export-finance-hero" style="background-image: url({{ page.hero_image.url }})">
+	<section id="uk-finance-export-hero" class="hero hero-generic uk-export-finance-hero" style="background-image: url({% static 'images/finance_export_hero_image.png' %})">
 		<div class="container">
 			<div class="hero-title-compact">
 				<h1 class="heading-hero-generic-compact" id="hero-heading">
@@ -75,7 +75,7 @@
 		<div class="container">
 			<div class="grid-row">
 				<div class="column-half padding-0">
-						<img src="{% static 'images/offer_section_image.png' %}" id="offer-section-image " class="offer-section-image">
+						<img src="{% static 'images/ukef_landing_offer_section_image.jpg' %}" id="offer-section-image " class="offer-section-image">
 						<div class="flag"></div>
 				</div>
 
@@ -127,7 +127,7 @@
 				</div>
 
 				<div class="column-half">
-					<img src="{% static 'images/how_we_can_help.png' %}">
+					<img src="{% static 'images/ukef_landing_how_we_can_help.jpg' %}">
 				</div>
 			</div>
 		</div>
