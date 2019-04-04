@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load static from staticfiles %}
+
+{% load add_export_elements_classes from directory_components_tags %}
+{% load static from staticfiles %}
+{% load hero from directory_components_tags %}
+{% load message_box from directory_components_tags %}
+
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/marketaccess.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="breadcrumbs">
+        <ol>
+					<li><a href="{% url 'landing-page' %}">Home</a></li>
+					<li>Create a great.gov.uk account</li>
+        </ol>
+    </div>
+</div>
+<section class="background-stone-30">
+    <div class="container">
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                {% with "We've received your form and have sent an email" as success_message %}
+                    {% message_box heading="Thank you" description=success_message %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="grid-row">
+        <div class="column-two-thirds">
+            <h1 class="heading-large">What happens next</h1>
+            <ul class="list list-bullet">
+                <li>We'll review your submission. We aim to respond within 28 days, but this may take longer, as we work on a case-by-case basis.</li>
+                <li>If appropriate we'll set a date for a meeting with a member of our business development team, and will give you detailed guidance on how to prepare for it.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}

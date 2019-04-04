@@ -18,9 +18,9 @@ import euexit.views
 import finance.views
 import marketaccess.views
 import community.views
+import ukef.views
 
 from conf.url_redirects import redirects
-from ukef.views import UKEFHomeView, UKEFLandingView, UKEFContactView
 
 sitemaps = {
     'static': core.views.StaticViewSitemap,
@@ -577,22 +577,27 @@ community_urls = [
 ukef_urls = [
     url(
         r"^uk-export-finance/$",
-        UKEFHomeView.as_view(),
+        ukef.views.UKEFHomeView.as_view(),
         {'slug': 'uk-export-finance'},
         name='uk-export-finance',
     ),
     url(
         r"^uk-export-landing/$",
-        UKEFLandingView.as_view(),
+        ukef.views.UKEFLandingView.as_view(),
         {'slug': 'uk-export-landing'},
         name='uk-export-landing',
     ),
     url(
-        r"^uk-export-contact/$",
-        UKEFContactView.as_view(),
+        r"^uk-export-contact-form/$",
+        ukef.views.UKEFContactView.as_view(),
         {'slug': 'uk-export-contact'},
         name='uk-export-contact',
-    )
+    ),
+    url(
+        r"^uk-export-contact-form-success/$",
+        ukef.views.UKEFSuccessPageView.as_view(),
+        name='uk-export-contract-success'
+    ),
 ]
 
 urlpatterns += euexit_urls
