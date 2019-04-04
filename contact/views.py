@@ -108,9 +108,13 @@ class BaseSuccessView(FormSessionMixin, mixins.GetCMSPageMixin, TemplateView):
         return response
 
     def get_next_url(self):
-        # If the ingress URL is internal then allow user to go back to it
+        # If the ingress URL is internal and it's not contact page then allow
+        # user to go back to it
         parsed_url = urlparse(self.form_session.ingress_url)
-        if parsed_url.netloc == self.request.get_host():
+        if (
+            parsed_url.netloc == self.request.get_host() and
+            not parsed_url.path.startswith('/contact')
+        ):
             return self.form_session.ingress_url
         return reverse('landing-page')
 
