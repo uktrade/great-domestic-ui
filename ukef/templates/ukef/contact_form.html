@@ -5,7 +5,6 @@
 {% block head_css %}
 {{ block.super }}
 <link href="{% static 'styles/ukef-contact-page.css' %}" rel="stylesheet" type="text/css" />
-<link href="{% static 'styles/accessible-autocomplete.min.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block head_title %}UK Export finance - great.gov.uk{% endblock %}
@@ -14,33 +13,12 @@
 
 {% block body_js %}
 	<script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/vendor/accessible-autocomplete.min.js' %}"></script>
 	<script type="text/javascript">
 		var likeToDiscussInputYes = document.getElementById('id_like_to_discuss_1');
 		var likeToDiscussOther = document.getElementById('id_like_to_discuss_other-container');
 		GOVUK.utils.toggleRadioOtherOnClick(likeToDiscussInputYes, likeToDiscussOther);
 	</script>
 
-	<script type="text/javascript">
-		accessibleAutocomplete.enhanceSelectElement({
-			selectElement: document.getElementById('id_country'),
-			defaultValue: '',
-			autoselect: false,
-			showAllValues: true,
-			placeholder: 'Select a country',
-			minLength: 2,
-		});
-
-		accessibleAutocomplete.enhanceSelectElement({
-			selectElement: document.getElementById('id_like_to_discuss_other'),
-			defaultValue: '',
-			autoselect: false,
-			showAllValues: true,
-			placeholder: 'Select a country',
-			minLength: 2,
-		});
-
-	</script>
 {% endblock %}
 
 {% block content %}
