@@ -598,6 +598,12 @@ ukef_urls = [
         ukef.views.UKEFSuccessPageView.as_view(),
         name='uk-export-contract-success'
     ),
+    url(
+        r"^how-we-assess-your-project/$",
+        ukef.views.UKEFHowWeAssessPageView.as_view(),
+        {'slug': 'how-we-assess-your-project'},
+        name='how-we-assess-your-project'
+    ),
 ]
 
 urlpatterns += euexit_urls

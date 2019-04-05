@@ -30,3 +30,6 @@ class UKEFContactView(BaseNotifyFormView):
 class UKEFSuccessPageView(TemplateView):
     template_name = 'ukef/contact_form_success.html'
 
+
+class UKEFHowWeAssessPageView(CMSPageView):
+    template_name = 'ukef/how_we_assess.html'

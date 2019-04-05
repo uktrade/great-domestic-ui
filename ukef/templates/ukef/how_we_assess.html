@@ -1,0 +1,36 @@
+{% extends 'article/base.html' %}
+
+{% load static %}
+{% load article_tags %}
+{% load add_export_elements_classes from directory_components_tags %}
+
+{% block head_title %}{{ page.article_title }} - great.gov.uk{% endblock %}
+
+{% block og_image %}{% if page.article_image %}{{ page.article_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block meta_description %}{% get_meta_description page %}{% endblock %}
+
+{% block css_layout_class %}article-detail-page{% endblock css_layout_class %}
+
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/ukef-how-we-assess.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+<section id="article article-how-we-assess-your-project">
+  {% include 'article/article_detail_content.html' %}
+</section>
+
+<section id="contact-us" class="contact-us padding-vertical-60 background-stone-30">
+	<div class="container">
+		<div class="grid-row">
+			<div class="column-seven-twelfths">
+				<p class="text small">Contact our team to discuss our eligibility requirements in more detail and tell us more about your project or proposal.</p>
+				<a href="{% url 'uk-export-contact' %}" class="button">Get in touch</a>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
