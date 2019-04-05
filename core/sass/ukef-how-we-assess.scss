@@ -1,10 +1,8 @@
-.article-how-we-assess-your-project{
-  .contact-us{
-    @media (min-width: 641px){
-      .column-sixth {
-        float: left;
-        width: 16.66667%;
-      }
+.contact-us-how-we-assess{
+  @media (min-width: 641px){
+    .column-seven-twelfths {
+      float: left;
+      margin-left: 16.66667%;
     }
   }
 }
