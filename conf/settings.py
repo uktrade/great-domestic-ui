@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
     'django.contrib.sessions',
     'django.contrib.sitemaps',
-    'export_elements',
     'formtools',
     'corsheaders',
     'directory_constants',
