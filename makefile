@@ -6,7 +6,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -n auto -v --dist=loadfile --ignore=node_modules --cov=. --last-failed --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -x -n auto -v --dist=loadfile --ignore=node_modules --cov=. --last-failed --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -124,7 +124,9 @@ TEST_SET_ENV_VARS := \
 	export ACTIVITY_STREAM_API_URL=https://www.nonworkingdomaintoraiseconnectionerror.com; \
 	export ACTIVITY_STREAM_API_SECRET_KEY=debug; \
 	export ACTIVITY_STREAM_API_ACCESS_KEY=debug; \
-	export ACTIVITY_STREAM_API_IP_WHITELIST=debug
+	export ACTIVITY_STREAM_API_IP_WHITELIST=debug; \
+	export CONTACT_DEFRA_AGENT_EMAIL_ADDRESS=debug; \
+	export CONTACT_BEIS_AGENT_EMAIL_ADDRESS=debug
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)

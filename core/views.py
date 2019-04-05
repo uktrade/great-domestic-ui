@@ -171,7 +171,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-routing-form',
             'office-finder-contact',
             'contact-us-office-success',
-            'report-ma-barrier'
+            'report-ma-barrier',
+            'contact-us-exporting-guidance',
         ]
 
         excluded_pages += dynamic_cms_page_url_names

@@ -255,6 +255,11 @@ def domestic_form_data(captcha_stub):
     ),
     (
         constants.INTERNATIONAL,
+        constants.EXPORTING_TO_UK,
+        views.build_exporting_guidance_url(cms.GREAT_HELP_EXPORTING_TO_UK_SLUG)
+    ),
+    (
+        constants.INTERNATIONAL,
         constants.BUYING,
         settings.FIND_A_SUPPLIER_CONTACT_URL,
     ),
@@ -268,6 +273,37 @@ def domestic_form_data(captcha_stub):
         constants.OTHER,
         reverse('contact-us-international'),
     ),
+    # exporting to the UK routing
+    (
+        constants.EXPORTING_TO_UK,
+        constants.HMRC,
+        settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
+    ),
+    (
+        constants.EXPORTING_TO_UK,
+        constants.DEFRA,
+        reverse('contact-us-exporting-to-the-uk-defra')
+    ),
+    (
+        constants.EXPORTING_TO_UK,
+        constants.BEIS,
+        reverse('contact-us-exporting-to-the-uk-beis')
+    ),
+    (
+        constants.EXPORTING_TO_UK,
+        constants.IMPORT_CONTROLS,
+        reverse('contact-us-international')
+    ),
+    (
+        constants.EXPORTING_TO_UK,
+        constants.TRADE_WITH_UK_APP,
+        reverse('contact-us-international')
+    ),
+    (
+        constants.EXPORTING_TO_UK,
+        constants.OTHER,
+        reverse('contact-us-international'),
+    )
 ))
 def test_render_next_step(current_step, choice, expected_url):
     form = ChoiceForm(data={'choice': choice})
@@ -334,6 +370,22 @@ def test_get_previous_step(current_step, expected_step):
             settings.CONTACT_OFFICE_USER_NOTIFY_TEMPLATE_ID,
             settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS,
         ),
+        (
+            reverse('contact-us-exporting-to-the-uk-beis'),
+            reverse('contact-us-exporting-to-the-uk-beis-success'),
+            views.ExportingToUKBEISFormView,
+            settings.CONTACT_BEIS_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_BEIS_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_BEIS_AGENT_EMAIL_ADDRESS,
+        ),
+        (
+            reverse('contact-us-exporting-to-the-uk-defra'),
+            reverse('contact-us-exporting-to-the-uk-defra-success'),
+            views.ExportingToUKDERAFormView,
+            settings.CONTACT_DEFRA_AGENT_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DEFRA_USER_NOTIFY_TEMPLATE_ID,
+            settings.CONTACT_DEFRA_AGENT_EMAIL_ADDRESS,
+        )
     )
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
@@ -398,7 +450,16 @@ def test_notify_form_submit_success(
     (
         reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
         cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG,
+    ),
+    (
+        reverse('contact-us-exporting-to-the-uk-beis-success'),
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_BEIS_SLUG,
+    ),
+    (
+        reverse('contact-us-exporting-to-the-uk-defra-success'),
+        cms.GREAT_CONTACT_US_FORM_SUCCESS_DEFRA_SLUG,
     )
+
 ))
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
@@ -568,6 +629,26 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
 
     url = reverse(
         'contact-us-export-opportunities-guidance', kwargs={'slug': 'the-slug'}
+    )
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert mock_lookup_by_slug.call_count == 1
+    assert mock_lookup_by_slug.call_args == mock.call(
+        draft_token=None, language_code='en-gb', slug='the-slug'
+    )
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_exporting_to_uk_cms_retrieval(mock_lookup_by_slug, client):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    url = reverse(
+        'contact-us-exporting-guidance', kwargs={'slug': 'the-slug'}
     )
 
     response = client.get(url)

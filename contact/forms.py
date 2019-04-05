@@ -177,6 +177,7 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
 class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
+        (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
         (constants.BUYING, 'Find a UK business partner'),
         (constants.EUEXIT, 'EU exit enquiries'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
@@ -185,6 +186,55 @@ class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
         label='',
         widget=widgets.RadioSelect(),
         choices=CHOICES,  # possibly updated by mixin
+    )
+
+
+class ExportingIntoUKRoutingForm(forms.Form):
+    CHOICES = (
+        (
+            constants.HMRC,
+            mark_safe(
+                '<p>Commodity codes, taxes, tarrifs, and other measures, import procedures</p>'
+                '<p class="form-hint">Your question will be sent to Her Majesty\'s Revenue and Customs (HMRC) to review and answer.</a>'
+            ),
+        ),
+        (
+            constants.DEFRA,
+            mark_safe(
+                '<p>Bringing animals, plants or food into the UK, '
+                'environmental regulations, sanitary and phytosanitary '
+                'regulations.</p>'
+                '<p class="form-hint">Your question will be sent to the '
+                'Department for Environment, Food and Rural Affairs (DEFRA) '
+                'to review and answer.</p>'
+            )
+        ),
+        (
+            constants.BEIS,
+            mark_safe(
+                '<p>Product safety and standards, packaging and labelling.</p>'
+                '<p class="form-hint">Your question will be sent to the '
+                'department for Business, Energy and Industrial Strategy '
+                '(BEIS) to review and answer</p>'
+            )
+        ),
+        (
+            constants.IMPORT_CONTROLS,
+            'Import controls, trade agreements, rules of origin.'
+        ),
+        (
+            constants.TRADE_WITH_UK_APP,
+            (
+                'Help using the "Trade with the UK: look up tariffs, taxes '
+                'and rules" service.'
+            )
+        ),
+        (constants.OTHER, 'Other'),
+    )
+    choice = fields.ChoiceField(
+        label='',
+        widget=widgets.RadioSelect(),
+        choices=CHOICES,
     )
 
 
