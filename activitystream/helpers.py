@@ -87,7 +87,13 @@ def format_query(query, page):
                         }
                     },
                     {'match': {'keywords': query}},
-                    {'match': {'type': query}}
+                    {'match': {'type': query}},
+                    {'match': 
+                        {'name':
+                            {'query':
+                            'Guidance on how to prepare for EU Exit',
+                             'boost': 20}
+                    }},
                 ]
             }
         },
@@ -125,6 +131,7 @@ def search_with_activitystream(query):
 
     request.headers.update({
         'X-Forwarded-Proto': 'https',
+        'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
         'Authorization': auth,
         'Content-Type': 'application/json'
     })
