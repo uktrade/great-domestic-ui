@@ -234,7 +234,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
         (constants.GREAT_ACCOUNT, forms.GreatAccountRoutingForm),
         (constants.EXPORT_OPPORTUNITIES, forms.ExportOpportunitiesRoutingForm),
         (constants.INTERNATIONAL, forms.InternationalRoutingForm),
-        (constants.EXPORTING, forms.ExportingIntoUKRoutingForm),
+        (constants.EXPORTING_TO_UK, forms.ExportingIntoUKRoutingForm),
         ('NO-OPERATION', forms.NoOpForm),  # should never be reached
     )
     templates = {
@@ -246,7 +246,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
             'contact/routing/step-export-opportunities-service.html'
         ),
         constants.INTERNATIONAL: 'contact/routing/step-international.html',
-        constants.EXPORTING: 'contact/routing/step-exporting.html',
+        constants.EXPORTING_TO_UK: 'contact/routing/step-exporting.html',
     }
 
     # given current step, where to send them back to
@@ -256,6 +256,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
         constants.GREAT_SERVICES: constants.DOMESTIC,
         constants.GREAT_ACCOUNT: constants.GREAT_SERVICES,
         constants.EXPORT_OPPORTUNITIES: constants.GREAT_SERVICES,
+        constants.EXPORTING_TO_UK: constants.INTERNATIONAL,
     }
 
     def get_template_names(self):
