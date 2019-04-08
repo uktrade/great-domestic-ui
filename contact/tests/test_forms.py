@@ -118,7 +118,6 @@ def test_international_form_routing():
     mapping = views.RoutingFormView.redirect_mapping[constants.INTERNATIONAL]
     for choice, _ in field.choices:
         assert choice in mapping
-        assert choice not in routing_steps
 
 
 def test_short_notify_form_serialize_data(domestic_data):
