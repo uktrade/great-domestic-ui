@@ -575,10 +575,10 @@ community_urls = [
 
 ukef_urls = [
     url(
-        r"^uk-export-finance/$",
+        r"^get-finance/$",
         UKEFHomeView.as_view(),
-        {'slug': 'uk-export-finance'},
-        name='uk-export-finance',
+        {'slug': 'get-finance'},
+        name='get-finance',
     ),
     url(
         r"^uk-export-landing/$",
@@ -588,6 +588,7 @@ ukef_urls = [
     )
 ]
 
+urlpatterns += ukef_urls
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
@@ -595,4 +596,3 @@ urlpatterns += article_urls
 urlpatterns += contact_urls
 urlpatterns += marketaccess_urls
 urlpatterns += community_urls
-urlpatterns += ukef_urls

@@ -10,14 +10,14 @@
 
 {% block head_title %}UK Export finance - great.gov.uk{% endblock %}
 
-{% block css_layout_class %}uk-export-finance-home{% endblock %}
+{% block css_layout_class %}uk-export-finance{% endblock %}
 
 {% block content %}
-		<section id="uk-finance-export-hero" class="hero hero-generic uk-export-finance-hero" style="background-image: url({% static 'images/finance_export_hero_image.png' %})">
+	<section id="get-finance-hero" class="hero hero-generic uk-export-finance-hero" style="background-image: url({% static 'images/get_finance_hero.jpg' %})">
 		<div class="container">
 			<div class="hero-title-compact">
 				<h1 class="heading-hero-generic-compact" id="hero-heading">
-					UK EXPORT FINANCE
+					Get financed
 				</h1>
 			</div>
 		</div>
@@ -30,139 +30,58 @@
 					<li>
 						<a href="/">great.gov.uk</a>
 					</li>
-					<li aria-current="page">Industries</li>
+					<li aria-current="page">UK export Finance</li>
 				</ol>
 			</nav>
 		</div>
 	</section>
 
-	<section id="teaser-section" class="teaser-section">
+	<section id="list-teaser-section" class="list-teaser-section">
 		<div class="container">
-			<div class="grid-row">
-				<div class="column-three-quarters">
-					<h2 class="heading heading-light padding-bottom-30">The UK’s Export Credit agency</h2>
-					<p class="text">
-						Some copy in here about the first step and it goes on over a couple of lines like this.Some copy in here about the first step and it goes on over a couple of lines like this. Some copy in here about the first step and it goes on over a couple of lines like this.
-					</p>
-				</div>
-				<div class="column-quarter">
-					<div class="panel-vertical-narrow">
-						<h2 class="heading heading-small margin-top-15 margin-bottom-15">More about UKEF</h2>
-						<ul>
-							<li>
-								<h3 class="heading-small"><a href="javascript:void(0)" class="link">JUKEF Countries</a></h3>
-							</li>
-							<li>
-								<h3 class="heading-small"><a href="javascript:void(0)" class="link">UKEF Solutions</a></h3>
-							</li>
-							<li>
-								<h3 class="heading-small"><a href="javascript:void(0)" class="link">UKEF Getting ready</a></h3>
-							</li>
-							<li>
-								<h3 class="heading-small"><a href="javascript:void(0)" class="link">UKEF Successes</a></h3>
-							</li>
-							<li>
-								<h3 class="heading-small"><a href="javascript:void(0)" class="link">UKEF Contact</a></h3>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section id="why-we-offer-section" class="why-we-offer-section padding-vertical-60 background-stone-30">
-		<div class="container">
-			<div class="grid-row">
-				<div class="column-half padding-0">
-						<img src="{% static 'images/offer_section_image.png' %}" id="offer-section-image " class="offer-section-image">
-						<div class="flag"></div>
-				</div>
-
-				<div class="column-half offer-section-text">
-					<h2 class="heading heading-light offer-section-title padding-bottom-30">What we offer</h2>
-					<p class="text">
-						We activate the UK supply chain, connecting overseas project sponsors and buyers directly with UK exporters. We offer government-backed financing and insurance, cooperating with investment banks and other financial institutions to offer bespoke solutions on a project-by-project basis.
-					</p>
-					<p class="text">
-						UK Export Finance cooperates with many other export credit agencies (ECAs), allowing us to collaboratively support major international projects.
-					</p>
-				</div>
-			</div>
+			<p class="body-text">
+				You can get finance and insurance from the UK government. UK Export Finance is the UK’s Export Credit Agency. In the last five years we’ve provided £14 billion of support for UK exports.
+			</p>
 		</div>
 	</section>
 
 
-	<section id="how-we-can-help-you" class="how-we-can-help-you padding-vertical-60">
+	<section id="card-list-section" class="card-list-section padding-vertical-60 background-stone-30">
 		<div class="container">
-			<div class="grid-row">
-				<div class="column-half steps-progress-indicator">
-					<h2 class="heading-medium heading-light margin-top-0">How we can help you</h2>
-					<p class="text padding-bottom-45">We work with UK exporters and overseas buyers - anyone who’s spotted an international business opportunity involving a UK-based company.</p>
-					<ol class="list list-number">
-						<li>
-							<h5 class="heading">Exploring financing options</h5>
-							<span class="list-text">
-								If your bank won’t lend, or their rates are too high, we’ll work with you both to explore options.
-							</span>
-						</li>
-						<li>
-							<h5 class="heading">Examining eligibility</h5>
-							<span class="list-text">Once you’ve created a detailed proposal, we’ll examine it in detail: we consider the project itself, but also the ‘risk profile’ of the country you want to export to.</span>
-						</li>
-						<li>
-							<h5 class="heading">Negotiating terms</h5>
-							<span class="list-text">We’ll work with your bank to agree the terms of the deal: this can take some time, especially with complex projects.</span>
-						</li>
-						<li>
-							<h5 class="heading">Securing finance</h5>
-							<span class="list-text">You’ll then be able to access UKEF’s support.</span>
-						</li>
-					</ol>
-				</div>
-
-				<div class="column-half">
-					<img src="{% static 'images/how_we_can_help.png' %}">
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section id="about-us-and-our-services" class="about-us-and-our-services padding-vertical-60 background-stone-30">
-		<div class="container">
-			<div class="grid-row">
-				<div class="column-full">
-					<h2 class="heading heading-medium heading-light padding-bottom-30 margin-top-0">About us and our services</h2>
-				</div>
-				<div class="column-third column-full">
-					<div class="card ">
-						<a class="card-link" href="javascript:void(0)">
+			<div class="card-grid">
+				<div class="column-half-l column-full">
+					<div class="card" id="small-and-medium-businesses">
+						<a class="card-link" href="#" id="small-and-medium-businesses-link">
+							<div class="card-image" role="image" style="background-image: url('{% static 'images/offer_section_image.png' %}');" aria-label="Small & medium businesses" title="Small & medium businesses" id="small-medium-image">
+								<p class="visually-hidden">Trade finance for UK exporters</p>
+							</div>
 							<div class="card-inner">
-								<h3 class="heading-large">Working with UKEF</h3>
-								<p class="description text-small">Understand what we do, our requirements, and how UKEF can support your opportunity in your chosen markets.</p>
+								<h3 class="heading-large" id="small-and-medium-businesses-title">Trade finance for UK exporters</h3>
+								<p class="description">When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference. Our trade finance offer includes:</p>
+								<ul class="margin-15 list-bullet">
+									<li>working capital support</li>
+									<li>bond support</li>
+									<li>credit insurance</li>
+								</ul>
 							</div>
 						</a>
 					</div>
+
 				</div>
 
-				<div class="column-third column-full">
-					<div class="card ">
-						<a class="card-link" href="javascript:void(0)">
-							<div class="card-inner">
-								<h3 class="heading-large">Our solutions</h3>
-								<p class="description">We can offer lending, guarantees, and insurance to help make international projects happen.</p>
+				<div class="column-half-l column-full">
+					<div class="card" id="large-corporations-card">
+						<a class="card-link" href="#" id="large-corporations-link">
+							<div class="card-image" role="image" style="background-image: url('{% static 'images/large_corporations.jpg' %}');" aria-label="Large corporations" title="Large corporations" id="large-corporations-image">
+								<p class="visually-hidden">Finance for international projects</p>
 							</div>
-						</a>
-					</div>
-				</div>
-
-				<div class="column-third column-full">
-					<div class="card ">
-						<a class="card-link" href="javascript:void(0)">
 							<div class="card-inner">
-								<h3 class="heading-large">How we've helped others</h3>
-								<p class="description">We have supported projects aroun
-the world from bridges in Sri Lanka, aircraft in China and petrochemicals in India.</p>
+								<h3 class="heading-large" id="large-corporations-title">Large corporations</h3>
+								<p class="description">Achieve more with our flexible financing. Our lending to overseas buyers and the guarantees we offer to financial institutions cover:</p>
+								<ul class="margin-15 list-bullet">
+									<li>UKEF buyer credit guarantees</li>
+									<li>direct lending</li>
+									<li>credit and overseas investment insurance</li>
+								</ul>
 							</div>
 						</a>
 					</div>
@@ -171,18 +90,44 @@ the world from bridges in Sri Lanka, aircraft in China and petrochemicals in Ind
 		</div>
 	</section>
 
-
-	<section id="your-next-step-section" class="your-next-step-section padding-vertical-60">
+	<section id="why-you-choose-ukef" class="why-you-choose-ukef padding-vertical-60">
 		<div class="container">
+			<h2 class="heading heading-medium heading-light padding-bottom-45">Why choose UK Export Finance?</h2>
 			<div class="grid-row">
-				<div class="column-full">
-					<h2 class="heading heading-medium heading-light margin-top-0">Your next step</h2>
+				<div class="column-third-l column-full">
+					<div class="column-quarter-l">
+						<img src="{% static 'icons/why-ukef-icon-1.png' %}">
+					</div>
+					<div class="column-three-quarters-l">
+						<h4 class="description-title bold">Win contracts</h4>
+						<p class="text">
+							UKEF can help you win export contracts by providing attractive financing terms to your buyers.
+						</p>
+					</div>
 				</div>
-				<div class="column-full">
-					<p class="text">To find out more, contact us. One of advisors will then be in touch to discuss your project, and how we can work with you.</p>
+
+				<div class="column-third-l column-full">
+					<div class="column-quarter-l">
+						<img src="{% static 'icons/why-ukef-icon-2.png' %}">
+					</div>
+					<div class="column-three-quarters-l">
+						<h4 class="description-title bold">Fulfil orders</h4>
+						<p class="text">
+							UKEF supports working capital loans so you can take on and fulfil orders with confidence.
+						</p>
+					</div>
 				</div>
-				<div class="column-full">
-					<a href="javascript:void(0)" class="button">Contact Us</a>
+
+				<div class="column-third-l column-full">
+					<div class="column-quarter-l">
+						<img src="{% static 'icons/why-ukef-icon-2.png' %}">
+					</div>
+					<div class="column-three-quarters-l">
+						<h4 class="description-title bold">Get paid</h4>
+						<p class="text">
+							UKEF makes sure you get paid by offering insurance against buyer default.
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
