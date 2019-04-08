@@ -16,9 +16,7 @@ from django.utils.functional import cached_property
 
 from casestudy import casestudies
 from core import helpers, mixins, forms
-from euexit.mixins import (
-    HideLanguageSelectorMixin, EUExitFormsFeatureFlagMixin
-)
+from euexit.mixins import HideLanguageSelectorMixin
 
 logger = logging.getLogger(__name__)
 
@@ -86,10 +84,7 @@ class InternationalLandingPageView(
 
 
 class InternationalContactPageView(
-    EUExitFormsFeatureFlagMixin,
-    CountryDisplayMixin,
-    HideLanguageSelectorMixin,
-    TemplateView,
+    CountryDisplayMixin, HideLanguageSelectorMixin, TemplateView,
 ):
     template_name = 'core/contact_page_international.html'
 
@@ -171,7 +166,8 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-routing-form',
             'office-finder-contact',
             'contact-us-office-success',
-            'report-ma-barrier'
+            'report-ma-barrier',
+            'contact-us-exporting-guidance',
         ]
 
         excluded_pages += dynamic_cms_page_url_names

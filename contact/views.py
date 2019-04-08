@@ -12,7 +12,6 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
-from django.utils.functional import LazyObject
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -29,23 +28,27 @@ SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
 
 
-class LazyOfficeFinderURL(LazyObject):
+class ExportingToUKFormsFeatureFlagMixin(mixins.NotFoundOnDisabledFeature):
     @property
-    def _wrapped(self):
-        if settings.FEATURE_FLAGS['OFFICE_FINDER_ON']:
-            return reverse('office-finder')
-        return settings.FIND_TRADE_OFFICE_URL
+    def flag(self):
+        return settings.FEATURE_FLAGS['EXPORTING_TO_UK_ON']
 
 
-def build_export_opportunites_guidance_url(step_name, ):
+def build_export_opportunites_guidance_url(slug):
     return reverse_lazy(
-        'contact-us-export-opportunities-guidance', kwargs={'slug': step_name}
+        'contact-us-export-opportunities-guidance', kwargs={'slug': slug}
     )
 
 
-def build_great_account_guidance_url(step_name, ):
+def build_great_account_guidance_url(slug):
     return reverse_lazy(
-        'contact-us-great-account-guidance', kwargs={'slug': step_name}
+        'contact-us-great-account-guidance', kwargs={'slug': slug}
+    )
+
+
+def build_exporting_guidance_url(slug):
+    return reverse_lazy(
+        'contact-us-exporting-guidance', kwargs={'slug': slug}
     )
 
 
@@ -70,6 +73,20 @@ class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
                 'company_type': forms.LIMITED,
                 'organisation_name': self.company_profile['name'],
                 'postcode': self.company_profile['postal_code'],
+                'given_name': self.guess_given_name,
+                'family_name': self.guess_family_name,
+            }
+
+
+class PrepopulateInternationalFormMixin:
+
+    def get_form_initial(self):
+        if self.company_profile:
+            return {
+                'email': self.request.sso_user.email,
+                'organisation_name': self.company_profile['name'],
+                'country_name': self.company_profile['country'],
+                'city': self.company_profile['locality'],
                 'given_name': self.guess_given_name,
                 'family_name': self.guess_family_name,
             }
@@ -130,7 +147,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
     # given the current step, based on selected  option, where to redirect.
     redirect_mapping = {
         constants.DOMESTIC: {
-            constants.TRADE_OFFICE: LazyOfficeFinderURL(),
+            constants.TRADE_OFFICE: reverse_lazy('office-finder'),
             constants.EXPORT_ADVICE: reverse_lazy(
                 'contact-us-export-advice',
                 kwargs={'step': 'comment'}
@@ -146,6 +163,9 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
         },
         constants.INTERNATIONAL: {
             constants.INVESTING: settings.INVEST_CONTACT_URL,
+            constants.EXPORTING_TO_UK: build_exporting_guidance_url(
+                cms.GREAT_HELP_EXPORTING_TO_UK_SLUG
+            ),
             constants.BUYING: settings.FIND_A_SUPPLIER_CONTACT_URL,
             constants.EUEXIT: reverse_lazy(
                 'eu-exit-international-contact-form'
@@ -188,6 +208,22 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
                 cms.GREAT_HELP_VERIFICATION_CODE_MISSING_SLUG
             ),
             constants.OTHER: reverse_lazy('contact-us-domestic'),
+        },
+        constants.EXPORTING_TO_UK: {
+            constants.HMRC: settings.CONTACT_EXPORTING_TO_UK_HMRC_URL,
+            constants.DEFRA: reverse_lazy(
+                'contact-us-exporting-to-the-uk-defra'
+            ),
+            constants.BEIS: reverse_lazy(
+                'contact-us-exporting-to-the-uk-beis'
+            ),
+            constants.IMPORT_CONTROLS: (
+                reverse_lazy('contact-us-international')
+            ),
+            constants.TRADE_WITH_UK_APP: (
+                reverse_lazy('contact-us-international')
+            ),
+            constants.OTHER: reverse_lazy('contact-us-international'),
         }
     }
 
@@ -198,6 +234,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
         (constants.GREAT_ACCOUNT, forms.GreatAccountRoutingForm),
         (constants.EXPORT_OPPORTUNITIES, forms.ExportOpportunitiesRoutingForm),
         (constants.INTERNATIONAL, forms.InternationalRoutingForm),
+        (constants.EXPORTING, forms.ExportingIntoUKRoutingForm),
         ('NO-OPERATION', forms.NoOpForm),  # should never be reached
     )
     templates = {
@@ -209,6 +246,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
             'contact/routing/step-export-opportunities-service.html'
         ),
         constants.INTERNATIONAL: 'contact/routing/step-international.html',
+        constants.EXPORTING: 'contact/routing/step-exporting.html',
     }
 
     # given current step, where to send them back to
@@ -390,7 +428,10 @@ class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
     )
 
 
-class InternationalFormView(mixins.PrepopulateFormMixin, BaseNotifyFormView):
+class InternationalFormView(
+    mixins.PrepopulateFormMixin, PrepopulateInternationalFormMixin,
+    BaseNotifyFormView
+):
     form_class = forms.InternationalContactForm
     template_name = 'contact/international/step.html'
     success_url = reverse_lazy('contact-us-international-success')
@@ -399,17 +440,6 @@ class InternationalFormView(mixins.PrepopulateFormMixin, BaseNotifyFormView):
         agent_email=settings.CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_INTERNATIONAL_USER_NOTIFY_TEMPLATE_ID,
     )
-
-    def get_form_initial(self):
-        if self.company_profile:
-            return {
-                'email': self.request.sso_user.email,
-                'organisation_name': self.company_profile['name'],
-                'country_name': self.company_profile['country'],
-                'city': self.company_profile['locality'],
-                'given_name': self.guess_given_name,
-                'family_name': self.guess_family_name,
-            }
 
 
 class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
@@ -474,9 +504,8 @@ class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
 
 
 class SellingOnlineOverseasFormView(
-    SSOLoginRequiredMixin, mixins.NotFoundOnDisabledFeature,
-    mixins.PreventCaptchaRevalidationMixin, FormSessionMixin,
-    mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
+    SSOLoginRequiredMixin, mixins.PreventCaptchaRevalidationMixin,
+    FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
 
@@ -504,10 +533,6 @@ class SellingOnlineOverseasFormView(
         if market:
             self.request.session[SESSION_KEY_SOO_MARKET] = market
         return super().get(*args, **kwargs)
-
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['SOO_CONTACT_FORM_ON']
 
     def get_template_names(self):
         return [self.templates[self.steps.current]]
@@ -593,9 +618,7 @@ class SellingOnlineOverseasFormView(
         return redirect(self.success_url)
 
 
-class OfficeFinderFormView(
-    mixins.NotFoundOnDisabledFeature, SubmitFormOnGetMixin, FormView
-):
+class OfficeFinderFormView(SubmitFormOnGetMixin, FormView):
     template_name = 'contact/office-finder.html'
     form_class = forms.OfficeFinderForm
     postcode = ''
@@ -605,10 +628,6 @@ class OfficeFinderFormView(
         return helpers.retrieve_regional_offices(
             self.postcode
         )
-
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
 
     def form_valid(self, form):
         self.postcode = form.cleaned_data['postcode']
@@ -627,16 +646,9 @@ class OfficeFinderFormView(
         )
 
 
-class OfficeContactFormView(
-    mixins.NotFoundOnDisabledFeature, PrepopulateShortFormMixin,
-    BaseNotifyFormView
-):
+class OfficeContactFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = forms.TradeOfficeContactForm
     template_name = 'contact/domestic/step.html'
-
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
 
     @property
     def agent_email(self):
@@ -657,15 +669,68 @@ class OfficeContactFormView(
         )
 
 
-class OfficeSuccessView(mixins.NotFoundOnDisabledFeature, BaseSuccessView):
+class OfficeSuccessView(BaseSuccessView):
     slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG
-
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['OFFICE_FINDER_ON']
 
     def get_context_data(self, **kwargs):
         return {
             **super().get_context_data(**kwargs),
             'next_url': reverse('landing-page'),
         }
+
+
+class ExportingToUKDERAFormView(
+    ExportingToUKFormsFeatureFlagMixin,
+    mixins.PrepopulateFormMixin,
+    PrepopulateInternationalFormMixin,
+    BaseNotifyFormView
+):
+    form_class = forms.InternationalContactForm
+    template_name = 'contact/international/step.html'
+    success_url = reverse_lazy('contact-us-exporting-to-the-uk-defra-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_DEFRA_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_DEFRA_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_DEFRA_USER_NOTIFY_TEMPLATE_ID,
+    )
+
+
+class ExportingToUKBEISFormView(
+    ExportingToUKFormsFeatureFlagMixin,
+    mixins.PrepopulateFormMixin,
+    PrepopulateInternationalFormMixin,
+    BaseNotifyFormView
+):
+    form_class = forms.InternationalContactForm
+    template_name = 'contact/international/step.html'
+    success_url = reverse_lazy('contact-us-exporting-to-the-uk-beis-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_BEIS_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_BEIS_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_BEIS_USER_NOTIFY_TEMPLATE_ID,
+    )
+
+
+class ExportingToUKFormView(
+    ExportingToUKFormsFeatureFlagMixin,
+    mixins.PrepopulateFormMixin,
+    PrepopulateInternationalFormMixin,
+    BaseZendeskFormView,
+):
+    form_class = forms.InternationalContactForm
+    template_name = 'contact/international/step.html'
+    success_url = reverse_lazy('contact-us-international-success')
+
+
+class ExportingToUKBEISSuccessView(
+    ExportingToUKFormsFeatureFlagMixin, CountryDisplayMixin, BaseSuccessView
+):
+    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_BEIS_SLUG
+    template_name = 'contact/submit-success-international.html'
+
+
+class ExportingToUKDEFRASuccessView(
+    ExportingToUKFormsFeatureFlagMixin, CountryDisplayMixin, BaseSuccessView
+):
+    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_DEFRA_SLUG
+    template_name = 'contact/submit-success-international.html'
