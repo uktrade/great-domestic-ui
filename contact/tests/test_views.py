@@ -117,7 +117,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.DOMESTIC,
         constants.TRADE_OFFICE,
-        views.LazyOfficeFinderURL(),
+        reverse('office-finder'),
     ),
     (
         constants.DOMESTIC,
@@ -1085,16 +1085,6 @@ def test_selling_online_overseas_contact_form_initial_data(client):
     }
 
 
-def test_contact_soo_feature_flag_off(settings, client):
-    settings.FEATURE_FLAGS['SOO_CONTACT_FORM_ON'] = False
-
-    response = client.get(
-        reverse('contact-us-soo', kwargs={'step': 'organisation'}),
-    )
-
-    assert response.status_code == 404
-
-
 def test_office_finder_valid(all_office_details, client):
     url = api_client.exporting.endpoints['lookup-by-postcode'].format(
         postcode='ABC123'
@@ -1157,43 +1147,10 @@ def test_office_finder_valid(all_office_details, client):
     }]
 
 
-@pytest.mark.parametrize('flag_value,expected_url', (
-    (True, reverse('office-finder')),
-    (False, views.LazyOfficeFinderURL()),
-))
-def test_lazy_office_finder_url_on(flag_value, expected_url, settings):
-    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = flag_value
-
-    url = views.LazyOfficeFinderURL()
-
-    assert url == expected_url
-
-
-def test_office_finder_contact_feature_off(client, settings):
-    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = False
-
-    url = reverse('office-finder-contact', kwargs={'postcode': 'FOOBAR'})
-
-    response = client.get(url)
-
-    assert response.status_code == 404
-
-
-def test_contact_us_office_success_feature_off(client, settings):
-    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = False
-
-    url = reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'})
-
-    response = client.get(url)
-
-    assert response.status_code == 404
-
-
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_contact_us_office_success_next_url(
-    mock_lookup_by_slug, client, settings
+    mock_lookup_by_slug, client
 ):
-    settings.FEATURE_FLAGS['OFFICE_FINDER_ON'] = True
     mock_lookup_by_slug.return_value = create_response(
         status_code=200,
         json_body={}
@@ -1205,3 +1162,18 @@ def test_contact_us_office_success_next_url(
 
     assert response.status_code == 200
     assert response.context_data['next_url'] == '/'
+
+
+@pytest.mark.parametrize('url', (
+    reverse('contact-us-exporting-to-the-uk'),
+    reverse('contact-us-exporting-to-the-uk-defra-success'),
+    reverse('contact-us-exporting-to-the-uk-defra'),
+    reverse('contact-us-exporting-to-the-uk-beis-success'),
+    reverse('contact-us-exporting-to-the-uk-beis'),
+))
+def test_exporting_to_uk_feature_flag_off(url, client, settings):
+    settings.FEATURE_FLAGS['EXPORTING_TO_UK_ON'] = False
+
+    response = client.get(url)
+
+    assert response.status_code == 404

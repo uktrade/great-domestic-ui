@@ -13,20 +13,13 @@ from core import mixins
 from finance import forms
 
 
-class FeatureFlagMixin:
-    def dispatch(self, *args, **kwargs):
-        if not settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
-            raise Http404()
-        return super().dispatch(*args, **kwargs)
-
-
 class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/get_finance.html'
     slug = cms.GREAT_GET_FINANCE_SLUG
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, mixins.PrepopulateFormMixin,
+    mixins.PrepopulateFormMixin,
     mixins.PreventCaptchaRevalidationMixin,
     NamedUrlSessionWizardView
 ):

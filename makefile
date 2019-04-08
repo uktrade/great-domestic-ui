@@ -6,7 +6,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -x -n auto -v --dist=loadfile --ignore=node_modules --cov=. --last-failed --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -n auto -v --dist=loadfile --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -70,26 +70,23 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_SEARCH_ENGINE_INDEXING_DISABLED=true; \
 	export REDIS_URL=redis://localhost:6379; \
 	export PRIVACY_COOKIE_DOMAIN=.trade.great; \
-	export FEATURE_UKEF_LEAD_GENERATION_ENABLED=true; \
 	export UKEF_FORM_SUBMIT_TRACKER_URL=http://go.pardot.com/l/590031/2018-08-16/5kj25l; \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
 	export FEATURE_PROTOTYPE_PAGES_ENABLED=false; \
 	export FEATURE_MARKETS_PAGES_ENABLED=true; \
 	export FEATURE_NEWS_SECTION_ENABLED=false; \
-	export FEATURE_EU_EXIT_FORMS_ENABLED=true; \
 	export FEATURE_CAMPAIGN_PAGES_ENABLED=true; \
 	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
 	export EUEXIT_AGENT_EMAIL=test@example.com; \
 	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
 	export FEATURE_EXPORT_JOURNEY_ENABLED=false; \
-	export FEATURE_SOO_CONTACT_FORM_ENABLED=true; \
-	export FEATURE_OFFICE_FINDER_ENABLED=true; \
 	export FEATURE_MARKET_ACCESS_ENABLED=false; \
 	export FEATURE_MARKET_ACCESS_GOV_LINK_ENABLED=true; \
 	export FEATURE_LANDING_PAGE_EU_EXIT_BANNER_ENABLED=true; \
 	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com \
 	export FEATURE_NEW_HEADER_FOOTER_ENABLED=true; \
-	export FEATURE_SEARCH_ENABLED=true
+	export FEATURE_SEARCH_ENABLED=true; \
+	export FEATURE_EXPORTING_TO_UK_ON_ENABLED=True
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \

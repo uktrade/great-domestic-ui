@@ -40,13 +40,13 @@ INDUSTRY_CHOICES = (
 )
 
 
-class EuExitOptionFeatureFlagMixin:
+class ExportingToUKOptionFeatureFlagMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON']:
+        if not settings.FEATURE_FLAGS['EXPORTING_TO_UK_ON']:
             self.fields['choice'].choices = [
                 (value, label) for value, label in self.CHOICES
-                if value != constants.EUEXIT
+                if value != constants.EXPORTING_TO_UK
             ]
 
 
@@ -86,7 +86,7 @@ class LocationRoutingForm(forms.Form):
     )
 
 
-class DomesticRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
+class DomesticRoutingForm(forms.Form):
 
     CHOICES = (
         (constants.TRADE_OFFICE, 'Find your local trade office'),
@@ -174,7 +174,7 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
     )
 
 
-class InternationalRoutingForm(EuExitOptionFeatureFlagMixin, forms.Form):
+class InternationalRoutingForm(ExportingToUKOptionFeatureFlagMixin, forms.Form):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
         (constants.EXPORTING_TO_UK, 'Exporting to the UK'),

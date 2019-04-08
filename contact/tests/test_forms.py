@@ -233,17 +233,15 @@ def test_feedback_form_serialize_data(captcha_stub):
 
 
 @pytest.mark.parametrize('form_class,value', (
-    (forms.DomesticRoutingForm, True),
-    (forms.DomesticRoutingForm, False),
     (forms.InternationalRoutingForm, True),
     (forms.InternationalRoutingForm, False),
 ))
 def test_routing_forms_feature_flag(form_class, value, feature_flags):
-    feature_flags['EU_EXIT_FORMS_ON'] = value
+    expected = constants.EXPORTING_TO_UK
+    feature_flags['EXPORTING_TO_UK_ON'] = value
 
     choices = form_class().fields['choice'].choices
-
-    assert any(value == constants.EUEXIT for value, label in choices) is value
+    assert any(item == expected for item, _ in choices) is value
 
 
 @pytest.mark.parametrize('value', (True, False,))
