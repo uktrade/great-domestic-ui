@@ -1,41 +1,16 @@
 # great-domestic-ui
 
+[![code-climate-image]][code-climate]
 [![circle-ci-image]][circle-ci]
 [![codecov-image]][codecov]
+[![gitflow-image]][gitflow]
+[![calver-image]][calver]
 
 **GREAT.gov.uk, Domestic facing FE service - the Department for International Trade (DIT)**  
 
 ---
-### See also:
-| [directory-api](https://github.com/uktrade/directory-api) | [directory-ui-buyer](https://github.com/uktrade/directory-ui-buyer) | [directory-ui-supplier](https://github.com/uktrade/directory-ui-supplier) | [directory-ui-export-readiness](https://github.com/uktrade/directory-ui-export-readiness) |
-| --- | --- | --- | --- |
-| **[directory-sso](https://github.com/uktrade/directory-sso)** | **[directory-sso-proxy](https://github.com/uktrade/directory-sso-proxy)** | **[directory-sso-profile](https://github.com/uktrade/directory-sso-profile)** |  |
-
-For more information on installation please check the [Developers Onboarding Checklist](https://uktrade.atlassian.net/wiki/spaces/ED/pages/32243946/Developers+onboarding+checklist)
-
 
 ## Development
-
-
-We aim to follow [GDS service standards](https://www.gov.uk/service-manual/service-standard) and [GDS design principles](https://www.gov.uk/design-principles).
-
-
-## Requirements
-[Python 3.6](https://www.python.org/downloads/release/python-366/)
-
-[Redis](https://redis.io/)
-
-
-### SASS
-We use SASS CSS pre-compiler. If you're doing front-end work your local machine will also need the following dependencies:
-
-[node](https://nodejs.org/en/download/)
-[SASS](https://rubygems.org/gems/sass/versions/3.4.22)
-
-
-#### Web server
-
-## Running locally
 
 ### Installing
     $ git clone https://github.com/uktrade/great-domestic-ui
@@ -43,6 +18,13 @@ We use SASS CSS pre-compiler. If you're doing front-end work your local machine 
     $ virtualenv .venv -p python3.6
     $ source .venv/bin/activate
     $ pip install -r requirements_test.txt
+
+
+### Requirements
+[Python 3.6](https://www.python.org/downloads/release/python-366/)
+
+[Redis](https://redis.io/)
+
 
 ### Configuration
 
@@ -84,7 +66,12 @@ You must have the directory-cms project running locally to run this project.
 
 ## CSS development
 
-If you're doing front-end development work you will need to be able to compile the SASS to CSS. For this you need:
+We use SASS CSS pre-compiler. If you're doing front-end work your local machine will also need the following dependencies:
+
+[node](https://nodejs.org/en/download/)
+[SASS](https://rubygems.org/gems/sass/versions/3.4.22)
+
+Then run:
 
     $ npm install yarn
     $ yarn install --production=false
@@ -139,17 +126,37 @@ To make sso work locally add the following to your machine's `/etc/hosts`:
 | 127.0.0.1 | cms.trade.great      |
 
 
-Then log into `directory-sso` via `sso.trade.great:8001`, and use `directory-ui-export-readiness` on `exred.trade.great:8001`
+Then log into `directory-sso` via `sso.trade.great:8001`, and use `great-domestic-ui` on `exred.trade.great:8001`
 
 Note in production, the `directory-sso` session cookie is shared with all subdomains that are on the same parent domain as `directory-sso`. However in development we cannot share cookies between subdomains using `localhost` - that would be like trying to set a cookie for `.com`, which is not supported by any RFC.
 
 Therefore to make cookie sharing work in development we need the apps to be running on subdomains. Some stipulations:
- - `directory-ui-export-readiness` and `directory-sso` must both be running on sibling subdomains (with same parent domain)
+ - `great-domestic-ui` and `directory-sso` must both be running on sibling subdomains (with same parent domain)
  - `directory-sso` must be told to target cookies at the parent domain.
 
 
-[circle-ci-image]: https://circleci.com/gh/uktrade/directory-ui-export-readiness/tree/master.svg?style=svg
-[circle-ci]: https://circleci.com/gh/uktrade/directory-ui-export-readiness/tree/master
+## Helpful links
+* [Developers Onboarding Checklist](https://uktrade.atlassian.net/wiki/spaces/ED/pages/32243946/Developers+onboarding+checklist)
+* [Gitflow branching](https://uktrade.atlassian.net/wiki/spaces/ED/pages/737182153/Gitflow+and+releases)
+* [GDS service standards](https://www.gov.uk/service-manual/service-standard)
+* [GDS design principles](https://www.gov.uk/design-principles)
 
-[codecov-image]: https://codecov.io/gh/uktrade/directory-ui-export-readiness/branch/master/graph/badge.svg
-[codecov]: https://codecov.io/gh/uktrade/directory-ui-export-readiness
+## Related projects:
+https://github.com/uktrade?q=directory
+https://github.com/uktrade?q=great
+
+[code-climate-image]: https://codeclimate.com/github/uktrade/great-domestic-ui/issue_count.svg
+[code-climate]: https://codeclimate.com/github/uktrade/great-domestic-ui
+
+[circle-ci-image]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/master.svg?style=svg
+[circle-ci]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/master
+
+[codecov-image]: https://codecov.io/gh/uktrade/great-domestic-ui/branch/master/graph/badge.svg
+[codecov]: https://codecov.io/gh/uktrade/great-domestic-ui
+
+[gitflow-image]: https://img.shields.io/badge/Branching%20strategy-gitflow-5FBB1C.svg
+[gitflow]: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+
+[calver-image]: https://img.shields.io/badge/Versioning%20strategy-CalVer-5FBB1C.svg
+[calver]: https://calver.org
+    
