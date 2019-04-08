@@ -121,7 +121,14 @@ def test_format_query():
                         }
                     },
                     {'match': {'keywords': 'services'}},
-                    {'match': {'type': 'services'}}
+                    {'match': {'type': 'services'}}, {
+                        'match': {
+                            'name': {
+                                'query': 'Guidance\
+ on how to prepare for EU Exit', 'boost': 20
+                                }
+                            }
+                    }
                 ]
             }
         },
