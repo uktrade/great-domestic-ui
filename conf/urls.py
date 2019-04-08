@@ -576,10 +576,10 @@ community_urls = [
 
 ukef_urls = [
     url(
-        r"^uk-export-finance/$",
+        r"^get-finance/$",
         ukef.views.UKEFHomeView.as_view(),
-        {'slug': 'uk-export-finance'},
-        name='uk-export-finance',
+        {'slug': 'get-finance'},
+        name='get-finance',
     ),
     url(
         r"^uk-export-landing/$",
