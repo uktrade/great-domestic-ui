@@ -110,7 +110,7 @@
         "id": "dit:greatDomesticUi:KeyPages:9",
         "type": "Service",
         "name": "EU Exit enquiry form",
-        "content": "See our guidance on how to prepare for EU Exit. If you can’t find the information you’re looking for, complete the form below and one of our experts will try to help you.",
+        "content": "See our guidance on how to prepare for EU Exit. If you can’t see the information you’re looking for, complete the form below and one of our experts will try to help you.",
         "keywords": "Brexit eu exit leave european union euexit",
         "url": "https://www.great.gov.uk/eu-exit-news/contact/"
       }
