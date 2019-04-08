@@ -1,5 +1,5 @@
 HMRC = 'HMRC'
-DEFRA = 'DEFRA'
+DEFRA = 'Defra'
 BEIS = 'BEIS'
 IMPORT_CONTROLS = 'import-controls'
 TRADE_WITH_UK_APP = 'trade-with-uk-app'

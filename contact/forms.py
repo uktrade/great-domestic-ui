@@ -210,7 +210,7 @@ class ExportingIntoUKRoutingForm(forms.Form):
                 'environmental regulations, sanitary and phytosanitary '
                 'regulations.</p>'
                 '<p class="form-hint">Your question will be sent to the '
-                'Department for Environment, Food and Rural Affairs (DEFRA) '
+                'Department for Environment, Food and Rural Affairs (Defra) '
                 'to review and answer.</p>'
             )
         ),
