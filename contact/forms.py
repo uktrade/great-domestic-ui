@@ -174,7 +174,9 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
     )
 
 
-class InternationalRoutingForm(ExportingToUKOptionFeatureFlagMixin, forms.Form):
+class InternationalRoutingForm(
+    ExportingToUKOptionFeatureFlagMixin, forms.Form
+):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
         (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
@@ -194,8 +196,11 @@ class ExportingIntoUKRoutingForm(forms.Form):
         (
             constants.HMRC,
             mark_safe(
-                '<p>Commodity codes, taxes, tarrifs, and other measures, import procedures</p>'
-                '<p class="form-hint">Your question will be sent to Her Majesty\'s Revenue and Customs (HMRC) to review and answer.</a>'
+                '<p>Commodity codes, taxes, tarrifs, and other measures, '
+                'import procedures</p>'
+                '<p class="form-hint">Your question will be sent to '
+                'Her Majesty\'s Revenue and Customs (HMRC) to review and '
+                'answer.</a>'
             ),
         ),
         (

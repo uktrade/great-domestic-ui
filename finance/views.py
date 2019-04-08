@@ -4,7 +4,6 @@ from directory_forms_api_client.helpers import Sender
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
-from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.base import TemplateView

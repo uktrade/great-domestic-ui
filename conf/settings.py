@@ -394,7 +394,9 @@ FEATURE_FLAGS = {
     'PERFORMANCE_DASHBOARD_ON': env.bool(
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
-    'EXPORTING_TO_UK_ON': env.bool('FEATURE_EXPORTING_TO_UK_ON_ENABLED', False),
+    'EXPORTING_TO_UK_ON': env.bool(
+        'FEATURE_EXPORTING_TO_UK_ON_ENABLED', False
+    ),
     'MARKET_ACCESS_ON': env.bool(
         'FEATURE_MARKET_ACCESS_ENABLED', False
     ),

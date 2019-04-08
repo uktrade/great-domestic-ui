@@ -12,7 +12,6 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
-from django.utils.functional import LazyObject
 from django.utils.html import strip_tags
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -33,7 +32,6 @@ class ExportingToUKFormsFeatureFlagMixin(mixins.NotFoundOnDisabledFeature):
     @property
     def flag(self):
         return settings.FEATURE_FLAGS['EXPORTING_TO_UK_ON']
-
 
 
 def build_export_opportunites_guidance_url(slug):
@@ -707,7 +705,6 @@ class ExportingToUKBEISFormView(
         agent_email=settings.CONTACT_BEIS_AGENT_EMAIL_ADDRESS,
         user_template=settings.CONTACT_BEIS_USER_NOTIFY_TEMPLATE_ID,
     )
-
 
 
 class ExportingToUKFormView(

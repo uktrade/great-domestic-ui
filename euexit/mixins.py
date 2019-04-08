@@ -1,4 +1,4 @@
-from core.mixins import TranslationsMixin, NotFoundOnDisabledFeature
+from core.mixins import TranslationsMixin
 
 
 class HideLanguageSelectorMixin(TranslationsMixin):
