@@ -582,10 +582,10 @@ ukef_urls = [
         name='get-finance',
     ),
     url(
-        r"^uk-export-landing/$",
+        r"^project-finance/$",
         ukef.views.UKEFLandingView.as_view(),
-        {'slug': 'uk-export-landing'},
-        name='uk-export-landing',
+        {'slug': 'project-finance'},
+        name='project-finance',
     ),
     url(
         r"^uk-export-contact-form/$",
