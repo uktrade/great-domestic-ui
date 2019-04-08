@@ -87,13 +87,14 @@ def format_query(query, page):
                         }
                     },
                     {'match': {'keywords': query}},
-                    {'match': {'type': query}},
-                    {'match': 
-                        {'name':
-                            {'query':
-                            'Guidance on how to prepare for EU Exit',
-                             'boost': 20}
-                    }},
+                    {'match': {'type': query}}, {
+                        'match': {
+                            'name': {
+                                'query': 'Guidance\
+ on how to prepare for EU Exit', 'boost': 20
+                                }
+                            }
+                    },
                 ]
             }
         },
