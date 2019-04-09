@@ -9,6 +9,7 @@ enrolment/staticfiles/
 */staticfiles/
 BrowserStackLocal
 node_modules/
+dump.rdb
 
 # C extensions
 *.so
