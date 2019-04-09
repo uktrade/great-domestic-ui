@@ -1,25 +1,14 @@
 import json
 import requests
-import logging
 from math import ceil
 
 from django.conf import settings
 from mohawk import Sender
-from raven import Client
-from raven.transport.http import HTTPTransport
+from raven.contrib.django.raven_compat.models import client
 
 from activitystream import serializers
 
 RESULTS_PER_PAGE = 10
-logger = logging.getLogger(__name__)
-
-client = Client(
-    **settings.RAVEN_CONFIG,
-    raise_send_errors=True,
-    install_sys_hook=False,
-    install_logging_hook=False,
-    transport=HTTPTransport
-)
 
 
 def sanitise_page(page):
