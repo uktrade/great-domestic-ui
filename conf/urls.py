@@ -400,8 +400,8 @@ contact_urls = [
     ),
     url(
         r'^contact/triage/international/(?P<slug>[-\w\d]+)/$',
-        contact.views.GuidanceView.as_view(),
-        name='contact-us-exporting-guidance'
+        contact.views.ExortingToUKGuidanceView.as_view(),
+        name='contact-us-exporting-to-the-uk-guidance'
     ),
     url(
         r'^contact/events/$',
