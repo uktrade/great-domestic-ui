@@ -107,10 +107,10 @@ def format_query(query, page):
                 'should': [{
                     'match': {
                         'boost': {
-                              'query': query,
-                              'boost': 20
-                            }
+                            'query': query,
+                            'boost': 20
                         }
+                    }
                 }]
             }
         },

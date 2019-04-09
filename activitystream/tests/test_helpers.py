@@ -99,6 +99,35 @@ def test_parse_results(page, prev_pages,
     }
 
 
+@pytest.mark.parametrize(
+    'page,prev_pages,next_pages,show_first_page,\
+show_last_page,first_item_number,last_item_number', (
+        (1, [], [], False, False, 1, 0),
+    )
+)
+def test_parse_results_error(page, prev_pages,
+                             next_pages, show_first_page,
+                             show_last_page, first_item_number,
+                             last_item_number):
+    mock_results = json.dumps({'error': 'Incorrect alias used'})
+    response = Mock(status=200, content=mock_results)
+    assert helpers.parse_results(response, "services", page) == {
+       'query': "services",
+       'results': [],
+       'total_results': 0,
+       'current_page': page,
+       'total_pages': 1,
+       'previous_page': page-1,
+       'next_page': page+1,
+       'prev_pages': prev_pages,
+       'next_pages': next_pages,
+       'show_first_page': show_first_page,
+       'show_last_page': show_last_page,
+       'first_item_number': first_item_number,
+       'last_item_number': last_item_number
+    }
+
+
 def test_format_query():
     assert helpers.format_query('services', 2) == json.dumps({
         'query': {
