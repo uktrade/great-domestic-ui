@@ -33,22 +33,11 @@ def company_profile(authed_client):
     stub.stop()
 
 
-def test_international_form_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON'] = False
-
-    response = client.get(reverse('eu-exit-international-contact-form'))
-
-    assert response.status_code == 404
-
-
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_international_form_feature_flag_on(
-    mock_lookup_by_slug, client, settings
-):
+def test_international_form(mock_lookup_by_slug, client):
     mock_lookup_by_slug.return_value = create_response(
         status_code=200, json_body={'disclaimer': 'disclaim'}
     )
-    settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON'] = True
 
     response = client.get(reverse('eu-exit-international-contact-form'))
 
@@ -60,9 +49,8 @@ def test_international_form_feature_flag_on(
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_international_form_not_found(mock_lookup_by_slug, settings, client):
+def test_international_form_not_found(mock_lookup_by_slug, client):
     mock_lookup_by_slug.return_value = create_response(status_code=404)
-    settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON'] = True
 
     url = reverse('eu-exit-international-contact-form')
     response = client.get(url)
@@ -178,20 +166,11 @@ def test_form_success_page(
     assert response.context_data['hide_language_selector'] is True
 
 
-def test_domestic_form_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON'] = False
-
-    response = client.get(reverse('eu-exit-domestic-contact-form'))
-
-    assert response.status_code == 404
-
-
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_domestic_form_feature_flag_on(mock_lookup_by_slug, client, settings):
+def test_domestic_form(mock_lookup_by_slug, client):
     mock_lookup_by_slug.return_value = create_response(
         status_code=200, json_body={'disclaimer': 'disclaim'}
     )
-    settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON'] = True
 
     response = client.get(reverse('eu-exit-domestic-contact-form'))
 
@@ -203,9 +182,8 @@ def test_domestic_form_feature_flag_on(mock_lookup_by_slug, client, settings):
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_domestic_form_not_found(mock_lookup_by_slug, settings, client):
+def test_domestic_form_not_found(mock_lookup_by_slug, client):
     mock_lookup_by_slug.return_value = create_response(status_code=404)
-    settings.FEATURE_FLAGS['EU_EXIT_FORMS_ON'] = True
 
     url = reverse('eu-exit-domestic-contact-form')
     response = client.get(url)
