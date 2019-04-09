@@ -115,11 +115,8 @@ urlpatterns = [
     ),
     url(
         r"^performance-dashboard/guidance-notes/$",
-        core.views.PerformanceDashboardView.as_view(),
-        {
-            'slug': cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG,
-            'template_name': 'core/performance_dashboard_notes.html',
-        },
+        core.views.PerformanceDashboardNotesView.as_view(),
+        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG},
         name='performance-dashboard-notes'
     ),
     url(
