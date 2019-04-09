@@ -232,6 +232,10 @@ class PerformanceDashboardView(
         return self.kwargs['slug']
 
 
+class PerformanceDashboardNotesView(PerformanceDashboardView):
+    template_name = 'core/performance_dashboard_notes.html'
+
+
 class ServiceNoLongerAvailableView(TemplateView):
     template_name = 'core/service_no_longer_available.html'
 

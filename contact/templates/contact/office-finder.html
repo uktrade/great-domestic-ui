@@ -33,7 +33,7 @@
                     <p><a class="link" href="tel:{{ office_details.phone_other }}">{{ office_details.phone_other }}</a></p>
                 {% endif %}
                 <br>
-                <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office via an online form</a>
+                <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office</a>
             </section>
         {% endif %}
     </div>
