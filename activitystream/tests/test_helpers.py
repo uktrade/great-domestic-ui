@@ -100,36 +100,41 @@ def test_parse_results(page, prev_pages,
 
 
 def test_format_query():
-    assert helpers.format_query("services", 2) == json.dumps({
+    assert helpers.format_query('services', 2) == json.dumps({
         'query': {
-          'bool': {
-                'should': [
-                    {
-                        'match': {
-                            'name': {
-                                'query': 'services',
-                                'minimum_should_match': '2<75%'
-                            }
-                        }
-                    },
-                    {
-                        'match': {
-                            'content': {
-                                'query': 'services',
-                                'minimum_should_match': '2<75%'
-                            }
-                        }
-                    },
-                    {'match': {'keywords': 'services'}},
-                    {'match': {'type': 'services'}}, {
-                        'match': {
-                            'boost': {
-                                  'query': 'boost',
-                                  'boost': 20
+            'bool': {
+                'must': {
+                    'bool': {
+                        'should': [
+                            {
+                                'match': {
+                                    'name': {
+                                        'query': 'services',
+                                        'minimum_should_match': '2<75%'
+                                    }
                                 }
+                            },
+                            {
+                                'match': {
+                                    'content': {
+                                        'query': 'services',
+                                        'minimum_should_match': '2<75%'
+                                    }
+                                }
+                            },
+                            {'match': {'keywords': 'services'}},
+                            {'match': {'type': 'services'}}
+                        ]
+                    }
+                },
+                'should': [{
+                    'match': {
+                        'boost': {
+                              'query': 'services',
+                              'boost': 20
                             }
-                    },
-                ]
+                        }
+                }]
             }
         },
         'from': 10,

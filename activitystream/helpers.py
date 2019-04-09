@@ -1,5 +1,6 @@
 import json
 import requests
+import logging
 from math import ceil
 
 from django.conf import settings
@@ -8,6 +9,7 @@ from mohawk import Sender
 from activitystream import serializers
 
 RESULTS_PER_PAGE = 10
+logger = logging.getLogger(__name__)
 
 
 def sanitise_page(page):
@@ -21,9 +23,18 @@ def parse_results(response, query, page):
     current_page = int(page)
 
     content = json.loads(response.content)
-    results = serializers.parse_search_results(content)
-    total_results = content['hits']['total']
-    total_pages = int(ceil(total_results/float(RESULTS_PER_PAGE)))
+
+    if 'error' in content:
+        results = []
+        total_results = 0
+        total_pages = 1
+        logger.error('There was an error in /search', extra={
+            'error': content['error'],
+        })
+    else:
+        results = serializers.parse_search_results(content)
+        total_results = content['hits']['total']
+        total_pages = int(ceil(total_results/float(RESULTS_PER_PAGE)))
 
     prev_pages = list(range(1, current_page))[-3:]
     if (len(prev_pages) > 0) and (prev_pages[0] > 2):
@@ -68,34 +79,39 @@ def format_query(query, page):
     from_result = (page - 1) * RESULTS_PER_PAGE
     return json.dumps({
         'query': {
-          'bool': {
-                'should': [
-                    {
-                        'match': {
-                            'name': {
-                                'query': query,
-                                'minimum_should_match': '2<75%'
-                            }
-                        }
-                    },
-                    {
-                        'match': {
-                            'content': {
-                                'query': query,
-                                'minimum_should_match': '2<75%'
-                            }
-                        }
-                    },
-                    {'match': {'keywords': query}},
-                    {'match': {'type': query}}, {
-                        'match': {
-                            'boost': {
-                                  'query': 'boost',
-                                  'boost': 20
+            'bool': {
+                'must': {
+                    'bool': {
+                        'should': [
+                            {
+                                'match': {
+                                    'name': {
+                                        'query': query,
+                                        'minimum_should_match': '2<75%'
+                                    }
                                 }
+                            },
+                            {
+                                'match': {
+                                    'content': {
+                                        'query': query,
+                                        'minimum_should_match': '2<75%'
+                                    }
+                                }
+                            },
+                            {'match': {'keywords': query}},
+                            {'match': {'type': query}}
+                        ]
+                    }
+                },
+                'should': [{
+                    'match': {
+                        'boost': {
+                              'query': query,
+                              'boost': 20
                             }
-                    },
-                ]
+                        }
+                }]
             }
         },
         'from': from_result,
