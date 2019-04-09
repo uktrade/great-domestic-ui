@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.sitemaps',
     'formtools',
+    'export_elements',
     'corsheaders',
     'directory_constants',
     'core',
