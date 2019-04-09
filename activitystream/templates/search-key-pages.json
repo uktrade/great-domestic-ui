@@ -100,7 +100,8 @@
         "name": "Guidance on how to prepare for EU Exit",
         "content": "The United Kingdom (UK) is leaving the European Union (EU). Leaving the EU means a number of changes that will affect businesses and individual citizens. Use the information below to find out how to prepare and the steps you may need to take.",
         "keywords": "Brexit eu exit leave european union euexit",
-        "url": "https://euexit.campaign.gov.uk/"
+        "url": "https://euexit.campaign.gov.uk/",
+        "boost": "boost"
       }
     },{
       "dit:application": "greatDomesticUi",
