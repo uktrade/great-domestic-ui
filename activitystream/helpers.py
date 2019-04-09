@@ -5,11 +5,21 @@ from math import ceil
 
 from django.conf import settings
 from mohawk import Sender
+from raven import Client
+from raven.transport.http import HTTPTransport
 
 from activitystream import serializers
 
 RESULTS_PER_PAGE = 10
 logger = logging.getLogger(__name__)
+
+client = Client(
+    **settings.RAVEN_CONFIG,
+    raise_send_errors=True,
+    install_sys_hook=False,
+    install_logging_hook=False,
+    transport=HTTPTransport
+)
 
 
 def sanitise_page(page):
@@ -28,13 +38,13 @@ def parse_results(response, query, page):
         results = []
         total_results = 0
         total_pages = 1
-        logger.error('There was an error in /search', extra={
-            'error': content['error'],
-        })
+        client.captureMessage(
+            f"There was an error in /search: {content['error']}"
+        )
     else:
         results = serializers.parse_search_results(content)
         total_results = content['hits']['total']
-        total_pages = int(ceil(total_results/float(RESULTS_PER_PAGE)))
+        total_pages = ceil(total_results/float(RESULTS_PER_PAGE))
 
     prev_pages = list(range(1, current_page))[-3:]
     if (len(prev_pages) > 0) and (prev_pages[0] > 2):
