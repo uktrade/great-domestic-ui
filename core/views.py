@@ -168,6 +168,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'contact-us-office-success',
             'report-ma-barrier',
             'contact-us-exporting-guidance',
+            'contact-us-exporting-to-the-uk-guidance',
         ]
 
         excluded_pages += dynamic_cms_page_url_names

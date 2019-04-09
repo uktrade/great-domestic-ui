@@ -648,7 +648,7 @@ def test_exporting_to_uk_cms_retrieval(mock_lookup_by_slug, client):
     )
 
     url = reverse(
-        'contact-us-exporting-guidance', kwargs={'slug': 'the-slug'}
+        'contact-us-exporting-to-the-uk-guidance', kwargs={'slug': 'the-slug'}
     )
 
     response = client.get(url)
@@ -1198,6 +1198,7 @@ def test_contact_us_office_success_next_url(
     reverse('contact-us-exporting-to-the-uk-defra'),
     reverse('contact-us-exporting-to-the-uk-beis-success'),
     reverse('contact-us-exporting-to-the-uk-beis'),
+    reverse('contact-us-exporting-to-the-uk-guidance', kwargs={'slug': 'foo'})
 ))
 def test_exporting_to_uk_feature_flag_off(url, client, settings):
     settings.FEATURE_FLAGS['EXPORTING_TO_UK_ON'] = False

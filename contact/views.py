@@ -48,7 +48,7 @@ def build_great_account_guidance_url(slug):
 
 def build_exporting_guidance_url(slug):
     return reverse_lazy(
-        'contact-us-exporting-guidance', kwargs={'slug': slug}
+        'contact-us-exporting-to-the-uk-guidance', kwargs={'slug': slug}
     )
 
 
@@ -498,6 +498,16 @@ class SellingOnlineOverseasSuccessView(BaseSuccessView):
 
 class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/guidance.html'
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']
+
+
+class ExortingToUKGuidanceView(
+    ExportingToUKFormsFeatureFlagMixin,  mixins.GetCMSPageMixin, TemplateView
+):
+    template_name = 'contact/guidance-exporting-to-the-uk.html'
 
     @property
     def slug(self):
