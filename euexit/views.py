@@ -15,7 +15,6 @@ SESSION_KEY_FORM_INGRESS_URL = 'FORM_INGRESS_URL'
 
 
 class BaseInternationalContactFormView(
-    mixins.EUExitFormsFeatureFlagMixin,
     GetCMSPageMixin,
     PrepopulateFormMixin,
     mixins.HideLanguageSelectorMixin,
@@ -57,7 +56,6 @@ class BaseInternationalContactFormView(
 
 
 class BaseContactView(
-    mixins.EUExitFormsFeatureFlagMixin,
     GetCMSPageMixin,
     mixins.HideLanguageSelectorMixin,
     TemplateView
