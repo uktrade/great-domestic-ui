@@ -79,7 +79,6 @@
 			<div class="grid-row">
 				<div class="column-half padding-0">
 						<img src="{% static 'images/ukef_landing_offer_section_image.jpg' %}" id="offer-section-image " class="offer-section-image">
-						<div class="flag"></div>
 				</div>
 
 				<div class="column-half offer-section-text">
@@ -186,7 +185,7 @@
 					<p class="text small">To find out more, contact us.</p>
 				</div>
 				<div class="column-full">
-					<a href="javascript:void(0)" class="button">Contact Us</a>
+					<a href="{% url 'uk-export-contact' %}" class="button">Contact Us</a>
 				</div>
 			</div>
 		</div>
