@@ -10,15 +10,15 @@ from core.views import BaseNotifyFormView
 from ukef.forms import UKEFContactForm
 
 
-class UKEFHomeView(CMSPageView):
+class HomeView(CMSPageView):
     template_name = 'ukef/home_page.html'
 
 
-class UKEFLandingView(CMSPageView):
+class LandingView(CMSPageView):
     template_name = 'ukef/landing_page.html'
 
 
-class UKEFContactView(BaseNotifyFormView):
+class ContactView(BaseNotifyFormView):
     template_name = 'ukef/contact_form.html'
     form_class = UKEFContactForm
     success_url = reverse_lazy('uk-export-contract-success')
@@ -34,7 +34,7 @@ class UKEFContactView(BaseNotifyFormView):
         return super().form_valid(form)
 
 
-class UKEFSuccessPageView(TemplateView):
+class SuccessPageView(TemplateView):
     template_name = 'ukef/contact_form_success.html'
 
     def get(self, *args, **kwargs):
@@ -47,5 +47,9 @@ class UKEFSuccessPageView(TemplateView):
         return super().get_context_data(**kwargs)
 
 
-class UKEFHowWeAssessPageView(CMSPageView):
+class HowWeAssessPageView(CMSPageView):
     template_name = 'ukef/how_we_assess.html'
+
+
+class CountryCoverView(TemplateView):
+    template_name = 'ukef/country_cover.html'

@@ -577,32 +577,38 @@ community_urls = [
 ukef_urls = [
     url(
         r"^get-finance/$",
-        ukef.views.UKEFHomeView.as_view(),
+        ukef.views.HomeView.as_view(),
         {'slug': 'get-finance'},
         name='get-finance',
     ),
     url(
         r"^project-finance/$",
-        ukef.views.UKEFLandingView.as_view(),
+        ukef.views.LandingView.as_view(),
         {'slug': 'project-finance'},
         name='project-finance',
     ),
     url(
         r"^uk-export-contact-form/$",
-        ukef.views.UKEFContactView.as_view(),
+        ukef.views.ContactView.as_view(),
         {'slug': 'uk-export-contact'},
         name='uk-export-contact',
     ),
     url(
         r"^uk-export-contact-form-success/$",
-        ukef.views.UKEFSuccessPageView.as_view(),
+        ukef.views.SuccessPageView.as_view(),
         name='uk-export-contract-success'
     ),
     url(
         r"^how-we-assess-your-project/$",
-        ukef.views.UKEFHowWeAssessPageView.as_view(),
+        ukef.views.HowWeAssessPageView.as_view(),
         {'slug': 'how-we-assess-your-project'},
         name='how-we-assess-your-project'
+    ),
+    url(
+        r"^country-cover/$",
+        ukef.views.CountryCoverView.as_view(),
+        {'slug': 'country-cover'},
+        name='country-cover'
     ),
 ]
 
