@@ -27,11 +27,19 @@
 {% block skip_link %}{% endblock %}
 
 {% block body_header %}
-  {% include 'directory_components/header_footer/international_header.html' %}
+  {% if features.INTERNATIONAL_HEADER_ON %}
+    {% include 'directory_components/header_footer/international_header.html' %}
+  {% else %}
+    {% include 'core/includes/international_header.html' %}
+  {% endif %}
 {% endblock %}
 
 {% block body_footer %}
-  {% include 'directory_components/header_footer/international_footer.html' %}
+  {% if features.INTERNATIONAL_HEADER_ON %}
+    {% include 'directory_components/header_footer/international_footer.html' %}
+  {% else %}
+    {% include 'core/includes/international_footer.html' %}
+  {% endif %}
 {% endblock %}
 
 {% block body_attributes %}id="top"{% endblock %}
