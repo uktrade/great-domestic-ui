@@ -18,6 +18,7 @@ import euexit.views
 import finance.views
 import marketaccess.views
 import community.views
+import activitystream.views
 
 from conf.url_redirects import redirects
 
@@ -114,11 +115,8 @@ urlpatterns = [
     ),
     url(
         r"^performance-dashboard/guidance-notes/$",
-        core.views.PerformanceDashboardView.as_view(),
-        {
-            'slug': cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG,
-            'template_name': 'core/performance_dashboard_notes.html',
-        },
+        core.views.PerformanceDashboardNotesView.as_view(),
+        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG},
         name='performance-dashboard-notes'
     ),
     url(
@@ -213,11 +211,15 @@ urlpatterns = [
         name='custom-page'
     ),
     url(
+        r'^search/key-pages/$',
+        activitystream.views.SearchKeyPagesView.as_view(),
+        name='search-key-pages'
+    ),
+    url(
         r'^search/$',
-        core.views.SearchView.as_view(),
+        activitystream.views.SearchView.as_view(),
         name='search'
     )
-
 ]
 
 
@@ -394,6 +396,11 @@ contact_urls = [
         name='contact-us-great-account-guidance'
     ),
     url(
+        r'^contact/triage/international/(?P<slug>[-\w\d]+)/$',
+        contact.views.ExortingToUKGuidanceView.as_view(),
+        name='contact-us-exporting-to-the-uk-guidance'
+    ),
+    url(
         r'^contact/events/$',
         contact.views.EventsFormView.as_view(),
         name='contact-us-events-form'
@@ -489,6 +496,37 @@ contact_urls = [
             url_name='contact-us-soo', done_step_name='finished'
         ),
         name='contact-us-soo'
+    ),
+    url(
+        r'^contact/department-for-business-energy-and-industrial-strategy/$',
+        contact.views.ExportingToUKBEISFormView.as_view(),
+        name='contact-us-exporting-to-the-uk-beis'
+    ),
+    url(
+        (
+            r'^contact/department-for-business-energy-and-industrial-strategy/'
+            r'success/$'
+        ),
+        contact.views.ExportingToUKBEISSuccessView.as_view(),
+        name='contact-us-exporting-to-the-uk-beis-success'
+    ),
+    url(
+        r'^contact/department-for-environment-food-and-rural-affairs/$',
+        contact.views.ExportingToUKDERAFormView.as_view(),
+        name='contact-us-exporting-to-the-uk-defra'
+    ),
+    url(
+        (
+            r'^contact/department-for-environment-food-and-rural-affairs/'
+            r'success/$'
+        ),
+        contact.views.ExportingToUKDEFRASuccessView.as_view(),
+        name='contact-us-exporting-to-the-uk-defra-success'
+    ),
+    url(
+        r'^contact/exporting-to-the-uk/$',
+        contact.views.ExportingToUKFormView.as_view(),
+        name='contact-us-exporting-to-the-uk'
     ),
     url(
         r'^contact/$',

@@ -4,7 +4,6 @@ from directory_forms_api_client.helpers import Sender
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
-from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.base import TemplateView
@@ -13,20 +12,13 @@ from core import mixins
 from finance import forms
 
 
-class FeatureFlagMixin:
-    def dispatch(self, *args, **kwargs):
-        if not settings.FEATURE_FLAGS['UKEF_LEAD_GENERATION_ON']:
-            raise Http404()
-        return super().dispatch(*args, **kwargs)
-
-
 class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/get_finance.html'
     slug = cms.GREAT_GET_FINANCE_SLUG
 
 
 class GetFinanceLeadGenerationFormView(
-    FeatureFlagMixin, mixins.PrepopulateFormMixin,
+    mixins.PrepopulateFormMixin,
     mixins.PreventCaptchaRevalidationMixin,
     NamedUrlSessionWizardView
 ):
