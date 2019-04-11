@@ -758,6 +758,7 @@ success_urls = (
     reverse('contact-us-feedback-success'),
     reverse('contact-us-domestic-success'),
     reverse('contact-us-international-success'),
+    reverse('contact-us-selling-online-overseas-success'),
 )
 
 
@@ -800,18 +801,48 @@ def test_ingress_url_special_cases_on_success(
         status_code=200,
         json_body={}
     )
-    # given the ingress url is set
+    # /contact/<path> should always return to landing
     client.get(
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
         HTTP_REFERER='http://testserver.com/contact/',
         HTTP_HOST='testserver.com'
     )
-
-    # when the success page is viewed
     response = client.get(url, HTTP_HOST='testserver.com')
-
     # for contact ingress urls user flow continues to landing page
     assert response.context_data['next_url'] == '/'
+    assert response.status_code == 200
+    # and the ingress url is cleared
+    assert mock_clear.call_count == 1
+
+
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
+def test_soo_ingress_url_special_cases_on_success(
+    mock_clear, mock_lookup_by_slug, client, rf
+):
+    mock_clear.return_value = None
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+    # /selling-online-overseas/<path> should always return to soo landing
+    mocked_soo_landing = 'http://testserver.com/selling-online-overseas/'
+    client.get(
+        reverse('contact-us-soo', kwargs={'step': 'organisation'}),
+        HTTP_REFERER=mocked_soo_landing + 'markets/details/ebay/',
+        HTTP_HOST='testserver.com'
+    )
+    # when the success page is viewed
+    with mock.patch(
+        'directory_constants.constants.urls.SERVICES_SOO',
+        mocked_soo_landing
+    ):
+        response = client.get(
+            reverse('contact-us-selling-online-overseas-success'),
+            HTTP_HOST='testserver.com'
+        )
+    # for contact ingress urls user flow continues to landing page
+    assert response.context_data['next_url'] == mocked_soo_landing
     assert response.status_code == 200
     # and the ingress url is cleared
     assert mock_clear.call_count == 1
