@@ -493,7 +493,7 @@ contact_urls = [
     ),
     url(
         r'^contact/selling-online-overseas/success/$',
-        contact.views.DomesticSuccessView.as_view(),
+        contact.views.SellingOnlineOverseasSuccessView.as_view(),
         {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_SOO_SLUG},
         name='contact-us-selling-online-overseas-success'
     ),

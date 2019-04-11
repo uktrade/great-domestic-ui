@@ -6,7 +6,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -n auto -v --dist=loadfile --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -n auto -v -vv --dist=loadfile --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \

@@ -1,7 +1,7 @@
 from urllib.parse import urlparse
 
 from directory_components.mixins import CountryDisplayMixin
-from directory_constants.constants import cms
+from directory_constants.constants import cms, urls
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
@@ -94,8 +94,6 @@ class PrepopulateInternationalFormMixin:
 
 class BaseZendeskFormView(FormSessionMixin, FormView):
 
-    zendesk_subdomain = None
-
     def form_valid(self, form):
         sender = Sender(
             email_address=form.cleaned_data['email'],
@@ -109,7 +107,7 @@ class BaseZendeskFormView(FormSessionMixin, FormView):
             form_url=self.request.get_full_path(),
             form_session=self.form_session,
             sender=sender,
-            subdomain=self.zendesk_subdomain,
+            subdomain=self.kwargs.get('zendesk_subdomain'),
         )
         response.raise_for_status()
         return super().form_valid(form)
@@ -723,3 +721,16 @@ class ExportingToUKSuccessView(
     ExportingToUKFormsFeatureFlagMixin, InternationalSuccessView
 ):
     pass
+
+
+class SellingOnlineOverseasSuccessView(DomesticSuccessView):
+    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_SOO_SLUG
+
+    def get_next_url(self):
+        return urls.SERVICES_SOO
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            next_url_text='Go back to Selling Online Overseas'
+        )
