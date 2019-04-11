@@ -928,3 +928,39 @@ def test_companies_house_search_internal(mocked_ch_client, client, settings):
 
     assert response.status_code == 200
     assert response.content == b'[{"name": "Smashing corp"}]'
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_international_header_off(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS['NEW_INTERNATIONAL_HEADER_ON'] = False
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    url = reverse('landing-page-international')
+
+    response = client.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    assert not soup.find(id='great-global-header-logo')
+    assert not soup.find(id='great-global-footer-logo')
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_international_header_on(mock_get_page, client, settings):
+    settings.FEATURE_FLAGS['NEW_INTERNATIONAL_HEADER_ON'] = True
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={}
+    )
+
+    url = reverse('landing-page-international')
+
+    response = client.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    assert soup.find(id='great-global-header-logo')
+    assert soup.find(id='great-global-footer-logo')
