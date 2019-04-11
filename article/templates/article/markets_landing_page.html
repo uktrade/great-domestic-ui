@@ -1,18 +1,25 @@
 {% extends 'article/topic_list_base.html' %}
 
+{% load banner from directory_components_tags %}
+
 {% block child_pages %}
-  {% if page.teaser %}
+<section class="topic-list-section background-stone-30">
+  <div class="container padding-vertical-60">
+    {% banner banner_content='<p>Hello</p>' %}
+    {% if page.teaser %}
     <div class="grid-row margin-vertical-60">
       <div class="column-full column-half-l font-medium">
         {{ page.teaser }}
       </div>
     </div>
-  {% endif %}
-  <div class="card-grid">
-    {% for listing in page.child_pages %}
-        <div class="column-full column-third-l column-half-m">
-          {% include 'article/components/landing_page_card.html' with listing=listing %}
-        </div>
-    {% endfor %}
+    {% endif %}
+    <div class="card-grid">
+      {% for listing in page.child_pages %}
+          <div class="column-full column-third-l column-half-m">
+            {% include 'article/components/landing_page_card.html' with listing=listing %}
+          </div>
+      {% endfor %}
+    </div>
   </div>
+</section>
 {% endblock child_pages %}
