@@ -219,7 +219,8 @@ urlpatterns = [
         r'^search/$',
         activitystream.views.SearchView.as_view(),
         name='search'
-    )
+    ),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 ]
 
 
