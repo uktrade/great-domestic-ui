@@ -9,7 +9,7 @@
 {% block head_js %}
   <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/dit.js' %}"></script>
-  <script src="{% static 'js/dit.class.modal.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.classes.Modal.js' %}"></script>
   <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
   <script src="{% static 'js/dit.components.video.js' %}"></script>
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
@@ -22,7 +22,7 @@
 
 {% block content %}
 
-{% include 'article/components/language_selector.html' %}
+{% include 'core/includes/language_selector.html' %}
 
 <div class="js-enabled-only">
   <div id="header-beta-bar" class="header-beta-bar beta">
