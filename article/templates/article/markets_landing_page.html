@@ -7,13 +7,13 @@
   <div class="container padding-vertical-60">
     {% banner banner_content='<p>There are more export market guides coming soon. In the meantime, if you have a question about an export market read the <a href="https://www.gov.uk/government/collections/exporting-country-guides">exporting guides</a> on GOV.UK, or <a href="https://www.great.gov.uk/contact/triage/location/">get in touch</a>.</p>' %}
     {% if page.teaser %}
-    <div class="grid-row margin-vertical-60">
+    <div class="grid-row margin-top-60">
       <div class="column-full column-half-l font-medium">
         {{ page.teaser }}
       </div>
     </div>
     {% endif %}
-    <div class="card-grid">
+    <div class="card-grid margin-top-60">
       {% for listing in page.child_pages %}
           <div class="column-full column-third-l column-half-m">
             {% include 'article/components/landing_page_card.html' with listing=listing %}
