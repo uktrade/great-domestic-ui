@@ -2,27 +2,16 @@
 // MODAL
 // ======
 
-body.modal-open {
-  overflow: hidden;
-}
-
 .Modal-Container {
   z-index: 11;
 
   .content {
-    max-width: 100%;
     width: calc(100% - 60px);
   }
 }
 
 .Modal-Overlay {
   z-index: 10;
-}
-
-@media (max-width: 768px) {
-  .Modal-Container .content {
-    padding: 15px;
-  }
 }
 
 // MOBILE

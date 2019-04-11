@@ -69,9 +69,9 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'directory_components.middleware.NoCacheMiddlware',
-    'core.middleware.LocaleQuerystringMiddleware',
-    'core.middleware.PersistLocaleMiddleware',
-    'core.middleware.ForceDefaultLocale',
+    'directory_components.middleware.LocaleQuerystringMiddleware',
+    'directory_components.middleware.PersistLocaleMiddleware',
+    'directory_components.middleware.ForceDefaultLocale',
     'directory_components.middleware.CountryMiddleware',
 ]
 

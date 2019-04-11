@@ -1,6 +1,8 @@
 import logging
 
-from directory_components.mixins import CountryDisplayMixin
+from directory_components.mixins import (
+    CountryDisplayMixin, EnableTranslationsMixin
+)
 from directory_constants.constants import cms, urls
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
@@ -31,7 +33,7 @@ class SetEtagMixin:
 
 
 class LandingPageView(TemplateView):
-    template_name = 'article/landing_page.html'
+    template_name = 'core/landing_page_domestic.html'
 
     @cached_property
     def page(self):
@@ -73,6 +75,7 @@ class CampaignPageView(
 
 
 class InternationalLandingPageView(
+    EnableTranslationsMixin,
     CountryDisplayMixin,
     mixins.TranslationsMixin,
     mixins.GetCMSPageMixin,

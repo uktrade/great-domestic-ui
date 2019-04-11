@@ -75,7 +75,7 @@ def test_prototype_landing_page_news_section(mock_get_page, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == ['article/landing_page.html']
+    assert response.template_name == ['core/landing_page_domestic.html']
 
     assert page['news_title'] in str(response.content)
     assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
