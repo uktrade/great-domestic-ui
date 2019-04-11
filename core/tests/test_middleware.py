@@ -8,9 +8,9 @@ from core import middleware
 
 def test_locale_middleware_installed():
     assert all(setting in settings.MIDDLEWARE_CLASSES for setting in (
-        'core.middleware.LocaleQuerystringMiddleware',
-        'core.middleware.PersistLocaleMiddleware',
-        'core.middleware.ForceDefaultLocale',
+        'directory_components.middleware.LocaleQuerystringMiddleware',
+        'directory_components.middleware.PersistLocaleMiddleware',
+        'directory_components.middleware.ForceDefaultLocale',
     ))
 
 
