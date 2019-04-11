@@ -843,6 +843,7 @@ def test_soo_ingress_url_special_cases_on_success(
         )
     # for contact ingress urls user flow continues to landing page
     assert response.context_data['next_url'] == mocked_soo_landing
+    assert response.context_data['next_url_text'] == 'Go back to Selling Online Overseas'
     assert response.status_code == 200
     # and the ingress url is cleared
     assert mock_clear.call_count == 1

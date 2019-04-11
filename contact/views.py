@@ -501,6 +501,12 @@ class SellingOnlineOverseasSuccessView(BaseSuccessView):
             return urls.SERVICES_SOO
         return super().get_next_url()
 
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            next_url_text='Go back to Selling Online Overseas'
+        )
+
 
 class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/guidance.html'
