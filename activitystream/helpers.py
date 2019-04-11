@@ -103,23 +103,38 @@ def format_query(query, page):
                         ]
                     }
                 },
-                'should': [{
-                    'match': {
+                'should': [
+                    {'match': {
                         'boost': {
-                            'query': query,
+                            'query': 'boost',
                             'boost': 20
                         }
-                    }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'Service',
+                            'boost': 10
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'Opportunity',
+                            'boost': 0.1
+                        }
+                    }}
+                ],
+                'filter': [{
+                    'type': [
+                        'Article',
+                        'Opportunity',
+                        'Market',
+                        'Service'
+                    ]
                 }]
             }
         },
         'from': from_result,
-        'size': RESULTS_PER_PAGE,
-        'indices_boost': [
-            {'objects__feed_id_key_pages*': 10},
-            {'objects__feed_id_export_opportunities*': 0.1},
-            {'objects*': 1}
-        ]
+        'size': RESULTS_PER_PAGE
     })
 
 
@@ -145,6 +160,10 @@ def search_with_activitystream(query):
         content_type='application/json',
     ).request_header
 
+    # Note that the X-Forwarded-* items are overridden by Gov PaaS values 
+    # in production, and thus the value of ACTIVITY_STREAM_API_IP_WHITELIST
+    # in production is irrelivant. It is included here to allow the app to 
+    # run locally or outside of Gov PaaS 
     request.headers.update({
         'X-Forwarded-Proto': 'https',
         'X-Forwarded-For': settings.ACTIVITY_STREAM_API_IP_WHITELIST,
