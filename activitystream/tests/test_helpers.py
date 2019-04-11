@@ -176,14 +176,16 @@ def test_format_query():
                         }
                     }}
                 ],
-                'filter': [{
-                    'type': [
-                        'Article',
-                        'Opportunity',
-                        'Market',
-                        'Service'
-                    ]
-                }]
+                'filter': [
+                    {'terms': {
+                        'type': [
+                            'Article',
+                            'Opportunity',
+                            'Market',
+                            'Service'
+                        ]
+                    }}
+                ]
             }
         },
         'from': 10,
