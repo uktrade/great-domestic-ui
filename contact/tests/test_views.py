@@ -661,19 +661,42 @@ def test_exporting_to_uk_cms_retrieval(mock_lookup_by_slug, client):
 
 
 @pytest.mark.parametrize(
-    'url,success_url,view_class,subject',
+    'url,success_url,view_class,subject,subdomain',
     (
         (
             reverse('contact-us-domestic'),
             reverse('contact-us-domestic-success'),
             views.DomesticFormView,
             settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+            None
         ),
         (
             reverse('contact-us-feedback'),
             reverse('contact-us-feedback-success'),
             views.FeedbackFormView,
             settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+            None,
+        ),
+        (
+            reverse('contact-us-exporting-to-the-trade-with-uk-app'),
+            reverse('contact-us-international-success'),
+            views.FeedbackFormView,
+            settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+            None,
+        ),
+        (
+            reverse('contact-us-exporting-to-the-uk-import-controls'),
+            reverse('contact-us-international-success'),
+            views.ExportingToUKFormView,
+            settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
+            settings.EU_EXIT_ZENDESK_SUBDOMAIN,
+        ),
+        (
+            reverse('contact-us-exporting-to-the-uk-other'),
+            reverse('contact-us-international-success'),
+            views.ExportingToUKFormView,
+            settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
+            settings.EU_EXIT_ZENDESK_SUBDOMAIN,
         ),
     )
 )
@@ -701,6 +724,7 @@ def test_zendesk_submit_success(
         subject=subject,
         service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
         sender={'email_address': 'foo@bar.com', 'country_code': None},
+        subdomain=None,
     )
 
 

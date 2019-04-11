@@ -442,6 +442,10 @@ FIND_A_SUPPLIER_CONTACT_URL = env.str(
 CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.str(
     'CONTACT_DOMESTIC_ZENDESK_SUBJECT', 'great.gov.uk contact form'
 )
+CONTACT_INTERNATIONAL_ZENDESK_SUBJECT = env.str(
+    'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
+    'great.gov.uk international contact form'
+)
 CONTACT_SOO_ZENDESK_SUBJECT = env.str(
     'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
     'great.gov.uk Selling Online Overseas contact form'
