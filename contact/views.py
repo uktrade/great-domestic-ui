@@ -496,10 +496,7 @@ class SellingOnlineOverseasSuccessView(BaseSuccessView):
     slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_SOO_SLUG
 
     def get_next_url(self):
-        # If ingress url is from soo path always return to soo landing
-        if self.form_session.ingress_url.startswith(urls.SERVICES_SOO):
-            return urls.SERVICES_SOO
-        return super().get_next_url()
+        return urls.SERVICES_SOO
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(

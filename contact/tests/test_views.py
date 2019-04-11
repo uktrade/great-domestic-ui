@@ -758,7 +758,6 @@ success_urls = (
     reverse('contact-us-feedback-success'),
     reverse('contact-us-domestic-success'),
     reverse('contact-us-international-success'),
-    reverse('contact-us-selling-online-overseas-success'),
 )
 
 
@@ -817,7 +816,7 @@ def test_ingress_url_special_cases_on_success(
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @mock.patch.object(views.FormSessionMixin.form_session_class, 'clear')
-def test_soo_ingress_url_special_cases_on_success(
+def test_always_landing_for_soo_ingress_url_on_success(
     mock_clear, mock_lookup_by_slug, client, rf
 ):
     mock_clear.return_value = None
@@ -825,8 +824,7 @@ def test_soo_ingress_url_special_cases_on_success(
         status_code=200,
         json_body={}
     )
-    # /selling-online-overseas/<path> should always return to soo landing
-    mocked_soo_landing = 'http://testserver.com/selling-online-overseas/'
+    mocked_soo_landing = 'http://testserver.com/test-path/'
     client.get(
         reverse('contact-us-soo', kwargs={'step': 'organisation'}),
         HTTP_REFERER=mocked_soo_landing + 'markets/details/ebay/',
