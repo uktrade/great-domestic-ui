@@ -69,9 +69,9 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'directory_components.middleware.NoCacheMiddlware',
-    'core.middleware.LocaleQuerystringMiddleware',
-    'core.middleware.PersistLocaleMiddleware',
-    'core.middleware.ForceDefaultLocale',
+    'directory_components.middleware.LocaleQuerystringMiddleware',
+    'directory_components.middleware.PersistLocaleMiddleware',
+    'directory_components.middleware.ForceDefaultLocale',
     'directory_components.middleware.CountryMiddleware',
 ]
 
@@ -280,6 +280,9 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 # HEADER/FOOTER URLS
 DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = env.str(
     'DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC', ''
+)
+DIRECTORY_CONSTANTS_URL_GREAT_INTERNATIONAL = env.str(
+    'DIRECTORY_CONSTANTS_URL_GREAT_INTERNATIONAL', ''
 )
 DIRECTORY_CONSTANTS_URL_EXPORT_OPPORTUNITIES = env.str(
     'DIRECTORY_CONSTANTS_URL_EXPORT_OPPORTUNITIES', ''

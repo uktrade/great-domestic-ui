@@ -1,0 +1,48 @@
+{% load i18n %}
+{% load static %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+<header id="international-header" dir="ltr">
+  <a id="skip-link" href="#content" class="verbose">{% trans "Skip to main content" %}</a>
+  {% if not hide_language_selector %}
+    <section dir="ltr" role="dialog" data-component="language-selector-dialog" data-lang="{{ LANGUAGE_CODE }}" data-label="{% trans "International" %}" class="language-selector-dialog">
+      <div data-node="languages" class="languages">
+        <p id="great-languages-selector">{% trans "Choose your language" %}</p>
+        <ul aria-labelledby="great-languages-selector" class="navigation">
+          {% for code, label in LANGUAGES %}
+          <li>
+            <a class="link" id="header-language-selector-{{code}}" href="{% url 'landing-page-international' %}?lang={{ code }}">{{ label }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div data-node="domestic-redirect" class="domestic-redirect">
+        <p lang="en">
+          <a class="link" href="{% url 'landing-page' %}?lang=en-gb">
+            {% trans "English (UK)" %}
+          </a>
+          <span>{% trans "Get guidance and services to help you export." %}</span>
+        </p>
+      </div>
+    </section>
+  {% endif %}
+  <div id="international-header-bar">
+    <div class="container">
+      <p class="government-links"></p>
+      {% if hide_language_selector and LANGUAGE_CODE != 'en-gb' %}
+        <span id="header-label-not-translated">
+          {% trans 'Page in English only' %}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+  <div id="header-beta-bar" dir="ltr" class="header-beta-bar beta">
+    {% include 'core/widgets/beta_bar_content.html' %}
+  </div>
+
+  <div id="international-header-menu" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr' }}">
+    <div class="container">
+      <img id="international-header-logo" src="{% static 'images/international/great-uk-gov-logo.svg' %}" alt="{% trans "UK Government" %}">
+    </div>
+  </div>
+</header>

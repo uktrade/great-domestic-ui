@@ -53,6 +53,7 @@ DEBUG_SET_ENV_VARS := \
 	export COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export SECURE_HSTS_SECONDS=0; \
 	export DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC=http://exred.trade.great:8007; \
+	export DIRECTORY_CONSTANTS_URL_GREAT_INTERNATIONAL=http://international.trade.great:8012/international/; \
 	export DIRECTORY_CONSTANTS_URL_FIND_A_BUYER=http://buyer.trade.great:8001; \
 	export DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS=http://soo.trade.great:8008; \
 	export DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER=http://supplier.trade.great:8005/; \
@@ -85,7 +86,7 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_LANDING_PAGE_EU_EXIT_BANNER_ENABLED=true; \
 	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com \
 	export FEATURE_NEW_HEADER_FOOTER_ENABLED=true; \
-	export FEATURE_SEARCH_ENABLED=true; \
+	export FEATURE_SEARCH_ENABLED=false; \
 	export FEATURE_EXPORTING_TO_UK_ON_ENABLED=True
 
 TEST_SET_ENV_VARS := \
