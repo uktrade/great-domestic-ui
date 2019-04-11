@@ -1,33 +1,22 @@
-{% extends 'article/base.html' %}
-{% load static %}
+{% extends 'article/topic_list_base.html' %}
+
 {% load card from directory_components_tags %}
+{% load static %}
 
-{% block head_title %}Services - great.gov.uk{% endblock %}
-
-{% block content %}
-
-<section id="services" class="services-section">
-  <div class="container">
-    <div class="breadcrumbs">
-      <ol>
-        <li>
-          <a href="{% url 'landing-page' %}">Great.gov.uk</a>
-        </li>
-        <li aria-current="page">Export services</li>
-      </ol>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="grid-row margin-bottom-30">
-      <div class="column-full column-two-thirds-m column-half-l">
-        <h2 id="services-section-title" class="heading-xlarge">Export services</h2>
-        <p id="services-section-description">Our export services help to connect UK businesses with international buyers.</p>
+{% block hero %}
+  {% static 'images/placeholder.jpg' as hero_image %}
+  <section class="hero hero-generic padding-0" style="background-image: url('{{ hero_image }}')">
+    <div class="container">
+      <div class="hero-title-compact">
+        <h1 class="heading-hero-generic" id="hero-heading">Services</h1>
       </div>
     </div>
+  </section>
+{% endblock %}
 
+{% block child_pages %}
+  <div class="container">
     <div class="flex-grid">
-
       <div class="column-third-xl column-half-l column-full-m">
         {% static 'images/export-hp-fab.jpg' as fab_image %}
         {% card url=services_urls.fab card_id='find-a-buyer' img_src=fab_image heading='Create a business profile' description='Create your free business profile and promote your company to overseas buyers.' %}
@@ -59,11 +48,6 @@
         {% static 'images/govuk.png' as eori_image %}
         {% card url='https://www.gov.uk/eori' card_id='govuk-eori' img_src=eori_image heading='Get an EORI number' description='To move goods into or out of the EU you need an Economic Operator Registration and Identification (EORI) number.' %}
       </div>
-
-
-
     </div>
   </div>
-</section>
-
 {% endblock %}

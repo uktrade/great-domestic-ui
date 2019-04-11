@@ -219,7 +219,7 @@ urlpatterns = [
         r'^search/$',
         activitystream.views.SearchView.as_view(),
         name='search'
-    )
+    ),
 ]
 
 
