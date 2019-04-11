@@ -649,6 +649,12 @@ ukef_urls = [
         {'slug': 'country-cover'},
         name='country-cover'
     ),
+    url(
+        r"^what-we-offer-you/$",
+        ukef.views.WhatWeOfferView.as_view(),
+        {'slug': 'what-we-offer-you'},
+        name='what-we-offer-you'
+    ),
 ]
 
 urlpatterns += euexit_urls

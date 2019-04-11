@@ -20,4 +20,9 @@
   .thank-you-section{
     padding-bottom: 40px;
   }
+
+  .list.list-bullet.list-bullet li:before{
+    background-color: #000000;
+    border-radius: 8px;
+  }
 }

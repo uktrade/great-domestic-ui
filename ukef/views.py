@@ -51,5 +51,9 @@ class HowWeAssessPageView(CMSPageView):
     template_name = 'ukef/how_we_assess.html'
 
 
+class WhatWeOfferView(CMSPageView):
+    template_name = 'ukef/what_we_offer.html'
+
+
 class CountryCoverView(TemplateView):
     template_name = 'ukef/country_cover.html'

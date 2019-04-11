@@ -53,19 +53,19 @@
 						<h2 class="heading heading-small margin-top-15 margin-bottom-15">More about UKEF</h2>
 						<ul>
 							<li>
-								<h3 class="heading-small"><a href="javascript:void(0)" class="link">Check our country cover</a></h3>
+								<h3 class="heading-small"><a href="{% url 'country-cover' %}" class="link">Check our country cover</a></h3>
 							</li>
 							<li>
 								<h3 class="heading-small"><a href="javascript:void(0)" class="link">What we offer you</a></h3>
 							</li>
 							<li>
-								<h3 class="heading-small"><a href="javascript:void(0)" class="link">How we assess your projects</a></h3>
+								<h3 class="heading-small"><a href="{% url 'how-we-assess-your-project' %}" class="link">How we assess your projects</a></h3>
 							</li>
 							<li>
 								<h3 class="heading-small"><a href="javascript:void(0)" class="link">Success stories</a></h3>
 							</li>
 							<li>
-								<h3 class="heading-small"><a href="javascript:void(0)" class="link">Get in touch</a></h3>
+								<h3 class="heading-small"><a href="{% url 'uk-export-contact' %}" class="link">Get in touch</a></h3>
 							</li>
 						</ul>
 					</div>
@@ -84,13 +84,13 @@
 				<div class="column-half offer-section-text">
 					<h2 class="heading heading-light offer-section-title padding-bottom-30">What we offer</h2>
 					<p class="text">
-						We activate the UK supply chain, connecting overseas project sponsors and buyers directly with UK exporters, through government-backed financing and our supplier fair programme.
+						We activate the UK supply chain, connecting overseas project sponsors and buyers with UK exporters, through government-backed financing.
 					</p>
 					<p class="text">
-						UKEF cooperates with many other ECAs, allowing us to collaboratively support international project financing needs.
+						UKEF cooperates with many other export credit agencies (ECAs), allowing us to collaboratively support international project financing needs.
 					</p>
 					<p class="text">
-						We know every opportunity is different and finding the right financial structure can be the key to success.
+						We know that every opportunity is different, and finding the right financial structure can be the key to success.
 					</p>
 				</div>
 			</div>
@@ -103,7 +103,7 @@
 			<div class="grid-row">
 				<div class="column-half steps-progress-indicator">
 					<h2 class="heading-medium heading-light margin-top-0">How we can help you</h2>
-					<p class="text padding-bottom-45">Our medium-to long-term financing solutions are tailored to each transaction, but the process of working with UKEF on an international business opportunity typically follows these steps. </p>
+					<p class="text padding-bottom-45">Our medium and long-term financing solutions are tailored to each transaction, but working with UKEF typically follows these steps. </p>
 					<ol class="list list-number">
 						<li>
 							<h5 class="heading">Exploring financing options</h5>
@@ -114,7 +114,7 @@
 						<li>
 							<h5 class="heading">Examining eligibility</h5>
 							<span class="list-text">
-								UKEF support is on a first come first serve basis subject to <a href="#">country limits</a>, and to meeting <a href="#">eligibility criteria</a>. These include minimum risk standards, UK content, anti-bribery and corruption and due diligence around environmental, social and human rights standards.
+								UKEF support is on a first come first serve basis subject to <a href="https://www.gov.uk/guidance/country-cover-policy-and-indicators#a-to-z-list-of-country-cover-policies-and-indicators">country limits</a>, and to meeting <a href="{% url 'how-we-assess-your-project' %}">eligibility criteria</a>. These include minimum risk standards, UK content, anti-bribery and corruption and due diligence around environmental, social and human rights standards.
 							</span>
 						</li>
 						<li>
@@ -157,7 +157,7 @@
 						<a class="card-link" href="javascript:void(0)">
 							<div class="card-inner">
 								<h3 class="heading-large">How we assess your project</h3>
-								<p class="description">Indicative guidance on how we assess the eligibility of all potential transactions, including our UK content requirements.</p>
+								<p class="description">How we assess the eligibility of all potential transactions, including our UK content requirements. </p>
 							</div>
 						</a>
 					</div>
