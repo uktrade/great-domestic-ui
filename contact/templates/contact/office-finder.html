@@ -33,7 +33,7 @@
                     <p><a class="link" href="tel:{{ office_details.phone_other }}">{{ office_details.phone_other }}</a></p>
                 {% endif %}
                 <br>
-                <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office via an online form</a>
+                <a href="{% url 'office-finder-contact' postcode=form.cleaned_data.postcode %}" class="button">Contact {{ office_details.name }} office</a>
             </section>
         {% endif %}
     </div>
@@ -41,11 +41,11 @@
     <section class="container" id="other-results">
         {% if other_offices %}
             <div class="width-half">
-                <h2 class="heading-large">Department for International Trade regional offices</h2>
+                <h2 class="heading-medium">Department for International Trade regional offices</h2>
             </div>
             {% for office in other_offices %}
                 <div class="grid-row">
-                    <h3 class="heading-medium" id="office-name">{{ office.name }}</h3>
+                    <h3 class="heading-small" id="office-name">{{ office.name }}</h3>
 
                     <div class="column-one-quarter">
                         {{ office.address|linebreaks }}
@@ -66,7 +66,9 @@
         {% endif %}
     </section>
 
+    {% if office_details %}
     <section class="container" >
         <a href="{% url 'office-finder' %}" class="previous-step">Back</a>
     </section>
+    {% endif %}
 {% endblock %}

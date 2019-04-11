@@ -15,7 +15,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 import environ
-from directory_components.constants import IP_RETRIEVER_NAME_GOV_UK
 from directory_constants.constants import cms
 import directory_healthcheck.backends
 
@@ -42,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.sitemaps',
     'formtools',
-    'export_elements',
     'corsheaders',
     'directory_constants',
     'core',
@@ -56,12 +54,13 @@ INSTALLED_APPS = [
     'contact',
     'marketaccess',
     'community',
+    'activitystream',
     'ukef',
 ]
 
 MIDDLEWARE_CLASSES = [
     'directory_components.middleware.MaintenanceModeMiddleware',
-    'directory_components.middleware.IPRestrictorMiddleware',
+    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,7 +73,7 @@ MIDDLEWARE_CLASSES = [
     'core.middleware.LocaleQuerystringMiddleware',
     'core.middleware.PersistLocaleMiddleware',
     'core.middleware.ForceDefaultLocale',
-    'directory_components.middleware.RobotsIndexControlHeaderMiddlware',
+    'directory_components.middleware.CountryMiddleware',
 ]
 
 ROOT_URLCONF = 'conf.urls'
@@ -381,6 +380,8 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 
 # feature flags
 FEATURE_FLAGS = {
+    'NEW_INTERNATIONAL_HEADER_ON': env.bool(
+        'FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED', False),
     'HEADER_SEARCH_ON': env.bool('FEATURE_SEARCH_ENABLED', False),
     'NEW_HEADER_FOOTER_ON': env.bool(
         'FEATURE_NEW_HEADER_FOOTER_ENABLED', False
@@ -393,15 +394,12 @@ FEATURE_FLAGS = {
         'FEATURE_LANDING_PAGE_EU_EXIT_BANNER_ENABLED', False
     ),
     'INTERNAL_CH_ON': env.bool('FEATURE_USE_INTERNAL_CH_ENABLED', False),
-    'UKEF_LEAD_GENERATION_ON': env.bool(
-        'FEATURE_UKEF_LEAD_GENERATION_ENABLED', False
-    ),
     'PERFORMANCE_DASHBOARD_ON': env.bool(
         'FEATURE_PERFORMANCE_DASHBOARD_ENABLED', False
     ),
-    'EU_EXIT_FORMS_ON': env.bool('FEATURE_EU_EXIT_FORMS_ENABLED', False),
-    'OFFICE_FINDER_ON': env.bool('FEATURE_OFFICE_FINDER_ENABLED', False),
-    'SOO_CONTACT_FORM_ON': env.bool('FEATURE_SOO_CONTACT_FORM_ENABLED', False),
+    'EXPORTING_TO_UK_ON': env.bool(
+        'FEATURE_EXPORTING_TO_UK_ON_ENABLED', False
+    ),
     'MARKET_ACCESS_ON': env.bool(
         'FEATURE_MARKET_ACCESS_ENABLED', False
     ),
@@ -412,13 +410,8 @@ FEATURE_FLAGS = {
         'FEATURE_NEW_REGISTRATION_ENABLED', False
     ),
     # used by directory-components
-    'SEARCH_ENGINE_INDEXING_OFF': env.bool(
-        'FEATURE_SEARCH_ENGINE_INDEXING_DISABLED', False
-    ),
-    # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
     'SEARCH_ON': env.bool('FEATURE_SEARCH_ENABLED', False),
-    'EXPORT_JOURNEY_ON': env.bool('EXPORT_JOURNEY_ON', False)
 }
 
 # UK Export Finance
@@ -449,10 +442,6 @@ FIND_A_SUPPLIER_CONTACT_URL = env.str(
     'FIND_A_SUPPLIER_CONTACT_URL',
     'https://trade.great.gov.uk/industries/contact/'
 )
-FIND_TRADE_OFFICE_URL = env.str(
-    'FIND_TRADE_OFFICE_URL',
-    'https://www.contactus.trade.gov.uk/office-finder'
-)
 CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.str(
     'CONTACT_DOMESTIC_ZENDESK_SUBJECT', 'great.gov.uk contact form'
 )
@@ -460,7 +449,6 @@ CONTACT_SOO_ZENDESK_SUBJECT = env.str(
     'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
     'great.gov.uk Selling Online Overseas contact form'
 )
-
 CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID = env.str(
     'CONTACT_EVENTS_USER_NOTIFY_TEMPLATE_ID',
     '2d5d556a-e0fa-4a9b-81a0-6ed3fcb2e3da'
@@ -532,6 +520,35 @@ CONTACT_EXPORTING_AGENT_SUBJECT = env.str(
     'CONTACT_EXPORTING_AGENT_SUBJECT', 'A form was submitted on great.gov.uk'
 )
 
+CONTACT_EXPORTING_TO_UK_HMRC_URL = env.str(
+    'CONTACT_EXPORTING_TO_UK_HRMC_URL',
+    'https://www.tax.service.gov.uk/shortforms/form/CITEX_CGEF'
+)
+
+CONTACT_DEFRA_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_DEFRA_AGENT_NOTIFY_TEMPLATE_ID',
+    '8823e0be-773e-42b0-8dad-740c94d439d4'
+)
+CONTACT_DEFRA_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_DEFRA_AGENT_EMAIL_ADDRESS',
+)
+CONTACT_DEFRA_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_DEFRA_USER_NOTIFY_TEMPLATE_ID',
+    '05d70d9f-76a6-4c2f-9f62-6ed4154d6dd6'
+)
+CONTACT_BEIS_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_BEIS_AGENT_NOTIFY_TEMPLATE_ID',
+    '8823e0be-773e-42b0-8dad-740c94d439d4'
+)
+CONTACT_BEIS_AGENT_EMAIL_ADDRESS = env.str(
+    'CONTACT_BEIS_AGENT_EMAIL_ADDRESS',
+)
+CONTACT_BEIS_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'CONTACT_BEIS_USER_NOTIFY_TEMPLATE_ID',
+    'cdc770d8-30e0-42fc-bf11-12385cb40845'
+)
+
+
 # Market Access
 MARKET_ACCESS_ZENDESK_SUBJECT = env.str(
     'MARKET_ACCESS_ZENDESK_SUBJECT', 'market access'
@@ -553,41 +570,11 @@ COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str(
     'COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS',
 )
 
-# UKEF CONTACT FORM
-UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = env.str(
-    'UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID',
-    '09677460-1796-4a60-a37c-c1a59068219e'
-)
-UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
-    'UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID',
-    'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
-)
-UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
-    'UKEF_CONTACT_AGENT_EMAIL_ADDRESS',
-)
-
-
-# ip-restrictor
-IP_RESTRICTOR_SKIP_CHECK_ENABLED = env.bool(
-    'IP_RESTRICTOR_SKIP_CHECK_ENABLED', False
-)
-IP_RESTRICTOR_SKIP_CHECK_SENDER_ID = env.str(
-    'IP_RESTRICTOR_SKIP_CHECK_SENDER_ID', ''
-)
-IP_RESTRICTOR_SKIP_CHECK_SECRET = env.str(
-    'IP_RESTRICTOR_SKIP_CHECK_SECRET', ''
-)
-IP_RESTRICTOR_REMOTE_IP_ADDRESS_RETRIEVER = env.str(
-    'IP_RESTRICTOR_REMOTE_IP_ADDRESS_RETRIEVER',
-    IP_RETRIEVER_NAME_GOV_UK
-)
+# Admin restrictor
 RESTRICT_ADMIN = env.bool('IP_RESTRICTOR_RESTRICT_IPS', False)
 ALLOWED_ADMIN_IPS = env.list('IP_RESTRICTOR_ALLOWED_ADMIN_IPS', default=[])
 ALLOWED_ADMIN_IP_RANGES = env.list(
     'IP_RESTRICTOR_ALLOWED_ADMIN_IP_RANGES', default=[]
-)
-RESTRICTED_APP_NAMES = env.list(
-    'IP_RESTRICTOR_RESTRICTED_APP_NAMES', default=['admin']
 )
 
 LANDING_PAGE_VIDEO_URL = env.str(
@@ -596,11 +583,8 @@ LANDING_PAGE_VIDEO_URL = env.str(
     'promo-video_web-stitch.mp4'
 )
 
-if env.bool('IP_RESTRICTOR_RESTRICT_UI', False):
-    # restrict all pages that are not in apps API, healthcheck, admin, etc
-    RESTRICTED_APP_NAMES.append('')
-
 # Activity Stream API
 ACTIVITY_STREAM_API_SECRET_KEY = env.str('ACTIVITY_STREAM_API_SECRET_KEY')
 ACTIVITY_STREAM_API_ACCESS_KEY = env.str('ACTIVITY_STREAM_API_ACCESS_KEY')
 ACTIVITY_STREAM_API_URL = env.str('ACTIVITY_STREAM_API_URL')
+ACTIVITY_STREAM_API_IP_WHITELIST = env.str('ACTIVITY_STREAM_API_IP_WHITELIST')

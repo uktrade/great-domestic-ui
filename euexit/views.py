@@ -1,3 +1,4 @@
+from directory_components.mixins import CountryDisplayMixin
 from directory_constants.constants import cms
 from directory_forms_api_client.helpers import Sender
 
@@ -14,10 +15,10 @@ SESSION_KEY_FORM_INGRESS_URL = 'FORM_INGRESS_URL'
 
 
 class BaseInternationalContactFormView(
-    mixins.EUExitFormsFeatureFlagMixin,
     GetCMSPageMixin,
     PrepopulateFormMixin,
     mixins.HideLanguageSelectorMixin,
+    CountryDisplayMixin,
     FormView,
 ):
 
@@ -55,7 +56,6 @@ class BaseInternationalContactFormView(
 
 
 class BaseContactView(
-    mixins.EUExitFormsFeatureFlagMixin,
     GetCMSPageMixin,
     mixins.HideLanguageSelectorMixin,
     TemplateView

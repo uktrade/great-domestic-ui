@@ -60,6 +60,7 @@ dit.components.video = (new function() {
   VideoDialog.prototype = new dit.classes.Modal;
 
   VideoDialog.prototype.open = function() {
+    $('body').addClass('modal-open');
     VideoDialog.activate.call(this);
     dit.classes.Modal.prototype.open.call(this);
   }
@@ -104,6 +105,7 @@ dit.components.video = (new function() {
   }
 
   function onClose() {
+    $('body').removeClass('modal-open');
     this.$container.find('video').each(function(index, video) {
       video.pause();
     });
