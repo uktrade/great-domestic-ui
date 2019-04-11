@@ -19,6 +19,7 @@ from django.utils.functional import cached_property
 from casestudy import casestudies
 from core import helpers, mixins, forms
 from euexit.mixins import HideLanguageSelectorMixin
+from article.mixins import BreadcrumbsMixin
 
 logger = logging.getLogger(__name__)
 
@@ -293,5 +294,5 @@ class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
     pass
 
 
-class ServicesView(TemplateView):
+class ServicesView(BreadcrumbsMixin, TemplateView):
     template_name = 'core/services.html'

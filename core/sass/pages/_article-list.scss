@@ -19,6 +19,11 @@
     font-weight: 700;
   }
 
+  .information-banner {
+    background-color: $white;
+    border: solid $stone 2px;
+  }
+
   .list-teaser {
     padding: 2em 0;
     line-height: 1.5;
@@ -36,5 +41,9 @@
     a {
       display: inline-block;
     }
+  }
+
+  .error-reporting {
+    padding-top: 30px;
   }
 }
