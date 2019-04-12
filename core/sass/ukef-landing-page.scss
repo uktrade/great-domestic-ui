@@ -4,12 +4,23 @@
 
 .uk-export-finance-landing {
 
+  .teaser-text{
+    line-height: 1.58;
+  }
+
+  .more-about-section{
+    .heading-small{
+      margin-top: 0.5em;
+    }
+  }
+
   img{
     width: 100%;
   }
 
   .heading-light{
-    font-weight: normal;
+    font-family: $brand-font-alternative;
+    font-weight: 700;
     font-size: 36px;
   }
 
@@ -25,6 +36,10 @@
     .offer-section-text{
       padding: 0 45px;
     }
+  }
+
+  .hero-title{
+    font-size: 52px;
   }
 
   .flag{
@@ -187,7 +202,9 @@
 
     .heading{
       font-weight: bold;
-      font-size: 19px;
+      font-size: 24px;
+      margin-bottom: 10px;
+      padding-top: 3px;
     }
     .list-text{
       font-size: 19px;
