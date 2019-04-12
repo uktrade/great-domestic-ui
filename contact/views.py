@@ -391,7 +391,7 @@ class DomesticFormView(PrepopulateShortFormMixin, BaseZendeskFormView):
 
 class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
     form_class = forms.ShortNotifyForm
-    template_name = 'contact/domestic/step.html'
+    template_name = 'contact/domestic/step-enquiries.html'
     success_url = reverse_lazy('contact-us-domestic-success')
     notify_settings = NotifySettings(
         agent_template=settings.CONTACT_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
