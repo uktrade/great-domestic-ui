@@ -1,8 +1,19 @@
-.contact-us-how-we-assess{
+.ukef-article-detail-page{
+
+  .contact-us-how-we-assess{
+    @media (min-width: 641px){
+      .column-seven-twelfths {
+        float: left;
+        margin-left: 16.66667%;
+      }
+    }
+  }
+  .article-content{
+    padding-bottom: 0;
+  }
   @media (min-width: 641px){
-    .column-seven-twelfths {
-      float: left;
-      margin-left: 16.66667%;
+    .article-hero-text {
+      margin-left: 25%;
     }
   }
 }
