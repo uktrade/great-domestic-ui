@@ -6,6 +6,10 @@
     background-position: top center;
     position: relative;
 
+    .container{
+      height: 500px;
+    }
+
     .hero-title-compact{
       bottom: -7px;
     }
@@ -21,6 +25,8 @@
 
   .card-list-section{
     .heading-large{
+      font-family: $brand-font-alternative;
+      font-weight: 700;
       font-size: 36px;
       margin-bottom: 15px;
     }
