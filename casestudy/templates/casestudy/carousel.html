@@ -47,7 +47,7 @@
                           </a>
                         </h3>
                         <p class="body-text">{{ casestudy.description }}</p>
-                        <a id="case-studies-section-case-study-{{ forloop.counter }}-button" href="{{ casestudy.url }}" class="carousel-cta link" aria-labelledby="Go to {{ casestudy.title }} case study"></a>
+                        <a id="case-studies-section-case-study-{{ forloop.counter }}-button" href="{{ casestudy.url }}" class="carousel-cta link" aria-label="Go to {{ casestudy.title }} case study"></a>
                     </div>
                     <div id="case-studies-section-case-study-{{ forloop.counter }}-image" class="ed-carousel__slide__image lg-2 md-1" style="background-image: url('{% static casestudy.image_url %}');" role="listitem" aria-labelledby="{{ casestudy.image_description }}">
                     </div>

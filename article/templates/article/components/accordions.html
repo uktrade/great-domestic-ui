@@ -5,7 +5,7 @@
     <li class="accordion-divider">
       <a href="#" class="accordion-expander heading-medium link container margin-vertical-0">
         {% if accordion.icon %}
-        <img class="accordion-icon margin-right-15" src="{{ accordion.icon.url }}"/>
+        <img class="accordion-icon margin-right-15" src="{{ accordion.icon.url }}" alt="{{ accordion.title }} icon"/>
         {% endif %}
         {{ accordion.title }}
       </a>
@@ -30,7 +30,7 @@
                 <div class="column-full">
                 {% endif %}
                   {% if subsection.icon %}
-                  <img class="accordion-icon" src="{{ subsection.icon.url }}"/>
+                  <img class="accordion-icon" src="{{ subsection.icon.url }}" alt="{{ subsection.heading }} icon"/>
                   {% endif %}
                   <h3 class="heading-medium margin-top-15">{{ subsection.heading }}</h3>
                   <p>{{ subsection.body }}</p>
