@@ -11,14 +11,7 @@ dit.pages.international = (new function () {
 
   // Page init
   this.init = function() {
-    dit.responsive.init({
-      "desktop": "min-width: 768px",
-      "tablet" : "max-width: 767px",
-      "mobile" : "max-width: 480px"
-    });
-
     enhanceLanguageSelector();
-
     delete this.init; // Run once
   }
 
