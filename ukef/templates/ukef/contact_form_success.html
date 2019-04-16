@@ -30,7 +30,7 @@
     <div class="container">
         <div class="grid-row">
             <div class="column-two-thirds">
-                {% with "We've received your form and have sent an email to ["|add:user_email|add:"]" as success_message %}
+                {% with "We've received your form and have sent an email to "|add:user_email as success_message %}
                     {% message_box heading="Thank you" description=success_message %}
                 {% endwith %}
             </div>

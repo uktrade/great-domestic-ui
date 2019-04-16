@@ -38,11 +38,15 @@
 				<header>
 					<div class="grid-row">
 						<div class="column-three-quarters article-hero-text">
-							<h1 class="heading-xlarge">What we offer you</h1>
-							<div class="text">
-								<p>
-									We support complex international projects through financing, export credits and insurance. Buyers of goods and services from the UK can also benefit from longer repayment tenors than may otherwise be available.
-								</p>
+							<div class="grid-row">
+								<div class="column-seven-ninths">
+									<h1 class="heading-xlarge">What we offer you</h1>
+									<div class="text">
+										<p class="teaser-text">
+											We support complex international projects through financing, export credits and insurance. Buyers of goods and services from the UK can also benefit from longer repayment tenors than may otherwise be available.
+										</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -50,10 +54,10 @@
 
 				<div class="grid-row">
 					<div class="column-three-quarters">
-						<img src="{% static 'images/get_finance_hero.jpg' %}" alt="" class="width-100">
+						<img src="{% static 'images/what-we-offer-you-hero.png' %}" alt="" class="width-100">
 
 						<section class="grid-row">
-							<div class="column-seven-ninths article-content">
+							<div class="column-seven-ninths article-content padding-bottom-0">
 								<h3 class="heading-medium">Project financing</h3>
 								<p class="text">
 									Through our <a href="https://www.gov.uk/guidance/buyer-credit-facility">Buyer Credit</a> and <a
@@ -103,14 +107,20 @@
 		</article>
 	</section>
 
-	<section id="contact-us-section" class="contact-us-section padding-vertical-60">
+	<section id="contact-us-section" class="contact-us-section padding-vertical-60 background-stone-30">
 		<div class="container">
 			<div class="grid-row">
-				<div class="column-full padding-bottom-30">
-					<p class="text small">Contact us about your project.</p>
-				</div>
-				<div class="column-full">
-					<a href="{% url 'uk-export-contact' %}" class="button">Get in touch</a>
+				<div class="column-three-quarters">
+					<div class="grid-row">
+						<div class="column-seven-ninths padding-0">
+							<div class="column-full padding-bottom-30">
+								<p class="text small">Contact us about your project.</p>
+							</div>
+							<div class="column-full">
+								<a href="{% url 'uk-export-contact' %}" class="button">Get in touch</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

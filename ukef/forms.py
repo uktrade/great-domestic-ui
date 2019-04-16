@@ -48,7 +48,6 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
     business_website = fields.CharField(
         label=_('Business website'),
         max_length=255,
-        help_text=_('Enter the home page address'),
         error_messages={
             'required': _('Enter a website address in the correct format, '
                           'like https://www.example.com or www.company.com'),
