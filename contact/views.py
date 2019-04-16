@@ -1,7 +1,7 @@
 from urllib.parse import urlparse
 
 from directory_components.mixins import CountryDisplayMixin
-from directory_constants.constants import cms
+from directory_constants.constants import cms, urls
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
@@ -106,40 +106,11 @@ class BaseZendeskFormView(FormSessionMixin, FormView):
             service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
             form_url=self.request.get_full_path(),
             form_session=self.form_session,
-            sender=sender
+            sender=sender,
+            subdomain=self.kwargs.get('zendesk_subdomain'),
         )
         response.raise_for_status()
         return super().form_valid(form)
-
-
-class BaseSuccessView(FormSessionMixin, mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'contact/submit-success-domestic.html'
-
-    def clear_form_session(self, response):
-        self.form_session.clear()
-
-    def get(self, *args, **kwargs):
-        # setting ingress url not very meaningful here, so skip it.
-        response = super(FormSessionMixin, self).get(*args, **kwargs)
-        response.add_post_render_callback(self.clear_form_session)
-        return response
-
-    def get_next_url(self):
-        # If the ingress URL is internal and it's not contact page then allow
-        # user to go back to it
-        parsed_url = urlparse(self.form_session.ingress_url)
-        if (
-            parsed_url.netloc == self.request.get_host() and
-            not parsed_url.path.startswith('/contact')
-        ):
-            return self.form_session.ingress_url
-        return reverse('landing-page')
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(
-            **kwargs,
-            next_url=self.get_next_url()
-        )
 
 
 class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
@@ -467,35 +438,6 @@ class DefenceAndSecurityOrganisationFormView(
     )
 
 
-class InternationalSuccessView(CountryDisplayMixin, BaseSuccessView):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG
-    template_name = 'contact/submit-success-international.html'
-
-
-class DomesticSuccessView(BaseSuccessView):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG
-
-
-class EventsSuccessView(BaseSuccessView):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG
-
-
-class DefenceAndSecurityOrganisationSuccessView(BaseSuccessView):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_DSO_SLUG
-
-
-class ExportingAdviceSuccessView(BaseSuccessView):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG
-
-
-class FeedbackSuccessView(BaseSuccessView):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG
-
-
-class SellingOnlineOverseasSuccessView(BaseSuccessView):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_SOO_SLUG
-
-
 class GuidanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'contact/guidance.html'
 
@@ -680,16 +622,6 @@ class OfficeContactFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
         )
 
 
-class OfficeSuccessView(BaseSuccessView):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG
-
-    def get_context_data(self, **kwargs):
-        return {
-            **super().get_context_data(**kwargs),
-            'next_url': reverse('landing-page'),
-        }
-
-
 class ExportingToUKDERAFormView(
     ExportingToUKFormsFeatureFlagMixin,
     mixins.PrepopulateFormMixin,
@@ -731,17 +663,74 @@ class ExportingToUKFormView(
     form_class = forms.InternationalContactForm
     template_name = 'contact/international/step.html'
     success_url = reverse_lazy('contact-us-international-success')
+    subject = settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT
 
 
-class ExportingToUKBEISSuccessView(
-    ExportingToUKFormsFeatureFlagMixin, CountryDisplayMixin, BaseSuccessView
-):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_BEIS_SLUG
+class BaseSuccessView(FormSessionMixin, mixins.GetCMSPageMixin, TemplateView):
+
+    @property
+    def slug(self):
+        return self.kwargs['slug']
+
+    def clear_form_session(self, response):
+        self.form_session.clear()
+
+    def get(self, *args, **kwargs):
+        # setting ingress url not very meaningful here, so skip it.
+        response = super(FormSessionMixin, self).get(*args, **kwargs)
+        response.add_post_render_callback(self.clear_form_session)
+        return response
+
+    def get_next_url(self):
+        # If the ingress URL is internal and it's not contact page then allow
+        # user to go back to it
+        parsed_url = urlparse(self.form_session.ingress_url)
+        if (
+            parsed_url.netloc == self.request.get_host() and
+            not parsed_url.path.startswith('/contact')
+        ):
+            return self.form_session.ingress_url
+        return reverse('landing-page')
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            next_url=self.get_next_url()
+        )
+
+
+class DomesticSuccessView(BaseSuccessView):
+    template_name = 'contact/submit-success-domestic.html'
+
+
+class InternationalSuccessView(CountryDisplayMixin, BaseSuccessView):
     template_name = 'contact/submit-success-international.html'
 
 
-class ExportingToUKDEFRASuccessView(
-    ExportingToUKFormsFeatureFlagMixin, CountryDisplayMixin, BaseSuccessView
+class OfficeSuccessView(DomesticSuccessView):
+    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG
+
+    def get_context_data(self, **kwargs):
+        return {
+            **super().get_context_data(**kwargs),
+            'next_url': reverse('landing-page'),
+        }
+
+
+class ExportingToUKSuccessView(
+    ExportingToUKFormsFeatureFlagMixin, InternationalSuccessView
 ):
-    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_DEFRA_SLUG
-    template_name = 'contact/submit-success-international.html'
+    pass
+
+
+class SellingOnlineOverseasSuccessView(DomesticSuccessView):
+    slug = cms.GREAT_CONTACT_US_FORM_SUCCESS_SOO_SLUG
+
+    def get_next_url(self):
+        return urls.SERVICES_SOO
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            **kwargs,
+            next_url_text='Go back to Selling Online Overseas'
+        )

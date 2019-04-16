@@ -78,9 +78,6 @@
 
 
 .language-selector-dialog {
-  background-color: $white;
-  color: $black;
-  padding: $spacing-3;
 
   a {
     @include body-s;
@@ -269,12 +266,18 @@
 
 @media screen and (max-width: 480px) {
 
+  #great-languages-select {
+    @include body-m;
+    font-weight: bold;
+  }
+
   .LanguageSelectorDialog-Modal {
     padding: $spacing-4;
-    #great-languages-select {
-      @include body-m;
-      font-weight: bold;
+
+    .content {
+      padding: 20px 30px;
     }
+
     a {
       @include body-m;
     }

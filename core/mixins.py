@@ -56,6 +56,7 @@ class MarketAccessFeatureFlagMixin(NotFoundOnDisabledFeature):
 
 
 class GetCMSPageMixin:
+
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_slug(

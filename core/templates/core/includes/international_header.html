@@ -1,0 +1,6 @@
+
+{% if features.NEW_INTERNATIONAL_HEADER_ON %}
+  {% include 'directory_components/header_footer/international_header.html' %}
+{% else %}
+  {% include 'core/includes/old_international_header.html' %}
+{% endif %}

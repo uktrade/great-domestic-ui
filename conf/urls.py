@@ -3,12 +3,12 @@ from directory_constants.constants import cms
 import directory_components.views
 import directory_healthcheck.views
 
+from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib.sitemaps.views import sitemap
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
-from django.conf import settings
 
 import article.views
 import casestudy.views
@@ -220,7 +220,7 @@ urlpatterns = [
         r'^search/$',
         activitystream.views.SearchView.as_view(),
         name='search'
-    )
+    ),
 ]
 
 
@@ -408,7 +408,8 @@ contact_urls = [
     ),
     url(
         r'^contact/events/success/$',
-        contact.views.EventsSuccessView.as_view(),
+        contact.views.DomesticSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG},
         name='contact-us-events-success'
     ),
     url(
@@ -418,12 +419,14 @@ contact_urls = [
     ),
     url(
         r'^contact/defence-and-security-organisation/success/$',
-        contact.views.DefenceAndSecurityOrganisationSuccessView.as_view(),
+        contact.views.DomesticSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_DSO_SLUG},
         name='contact-us-dso-success'
     ),
     url(
         r'^contact/export-advice/success/$',
-        contact.views.ExportingAdviceSuccessView.as_view(),
+        contact.views.DomesticSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG},
         name='contact-us-export-advice-success'
     ),
     url(
@@ -449,7 +452,8 @@ contact_urls = [
     ),
     url(
         r'^contact/feedback/success/$',
-        contact.views.FeedbackSuccessView.as_view(),
+        contact.views.DomesticSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG},
         name='contact-us-feedback-success'
     ),
     url(
@@ -465,6 +469,7 @@ contact_urls = [
     url(
         r'^contact/domestic/success/$',
         contact.views.DomesticSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG},
         name='contact-us-domestic-success'
     ),
     url(
@@ -475,6 +480,7 @@ contact_urls = [
     url(
         r'^contact/international/success/$',
         contact.views.InternationalSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG},
         name='contact-us-international-success'
     ),
     url(
@@ -489,6 +495,7 @@ contact_urls = [
     url(
         r'^contact/selling-online-overseas/success/$',
         contact.views.SellingOnlineOverseasSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_SOO_SLUG},
         name='contact-us-selling-online-overseas-success'
     ),
     url(
@@ -508,7 +515,8 @@ contact_urls = [
             r'^contact/department-for-business-energy-and-industrial-strategy/'
             r'success/$'
         ),
-        contact.views.ExportingToUKBEISSuccessView.as_view(),
+        contact.views.ExportingToUKSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_BEIS_SLUG},
         name='contact-us-exporting-to-the-uk-beis-success'
     ),
     url(
@@ -521,13 +529,31 @@ contact_urls = [
             r'^contact/department-for-environment-food-and-rural-affairs/'
             r'success/$'
         ),
-        contact.views.ExportingToUKDEFRASuccessView.as_view(),
+        contact.views.ExportingToUKSuccessView.as_view(),
+        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_DEFRA_SLUG},
         name='contact-us-exporting-to-the-uk-defra-success'
     ),
     url(
         r'^contact/exporting-to-the-uk/$',
         contact.views.ExportingToUKFormView.as_view(),
         name='contact-us-exporting-to-the-uk'
+    ),
+    url(
+        r'^contact/exporting-to-the-uk/import-controls/$',
+        contact.views.ExportingToUKFormView.as_view(),
+        {'zendesk_subdomain': settings.EU_EXIT_ZENDESK_SUBDOMAIN},
+        name='contact-us-exporting-to-the-uk-import-controls'
+    ),
+    url(
+        r'^contact/exporting-to-the-uk/other/$',
+        contact.views.ExportingToUKFormView.as_view(),
+        {'zendesk_subdomain': settings.EU_EXIT_ZENDESK_SUBDOMAIN},
+        name='contact-us-exporting-to-the-uk-other'
+    ),
+    url(
+        r'^contact/exporting-to-the-uk/trade-with-uk-app/$',
+        contact.views.ExportingToUKFormView.as_view(),
+        name='contact-us-exporting-to-the-trade-with-uk-app'
     ),
     url(
         r'^contact/$',

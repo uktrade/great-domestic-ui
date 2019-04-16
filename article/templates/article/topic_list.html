@@ -1,13 +1,17 @@
 {% extends 'article/topic_list_base.html' %}
 
 {% block child_pages %}
-  <div class="card-grid">
-    {% for listing in page.child_pages %}
-      {% if listing.articles_count > 0 %}
-        <div class="column-full column-third-l column-half-m">
-          {% include 'article/components/landing_page_card.html' with listing=listing %}
-        </div>
-      {% endif %}
-    {% endfor %}
+<section class="topic-list-section">
+  <div class="container">
+    <div class="card-grid">
+      {% for listing in page.child_pages %}
+        {% if listing.articles_count > 0 %}
+          <div class="column-full column-third-l column-half-m">
+            {% include 'article/components/landing_page_card.html' with listing=listing %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
   </div>
+</section>
 {% endblock child_pages %}
