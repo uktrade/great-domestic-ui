@@ -145,7 +145,7 @@ Therefore to make cookie sharing work in development we need the apps to be runn
 https://github.com/uktrade?q=directory
 https://github.com/uktrade?q=great
 
-[code-climate-image]: https://codeclimate.com/github/uktrade/great-domestic-ui/issue_count.svg
+[code-climate-image]: https://codeclimate.com/github/uktrade/great-domestic-ui/badges/issue_count.svg
 [code-climate]: https://codeclimate.com/github/uktrade/great-domestic-ui
 
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/master.svg?style=svg
