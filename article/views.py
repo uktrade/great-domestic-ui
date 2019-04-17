@@ -1,4 +1,4 @@
-from directory_constants.constants import cms
+from directory_constants import slugs
 
 from django.views.generic import TemplateView
 
@@ -123,7 +123,7 @@ class NewsListPageView(
     TemplateView,
 ):
     template_name = 'article/domestic_news_list.html'
-    slug = cms.GREAT_EU_EXIT_DOMESTIC_NEWS_SLUG
+    slug = slugs.EUEXIT_DOMESTIC_NEWS
 
 
 class NewsArticleDetailView(
@@ -147,8 +147,8 @@ class InternationalNewsListPageView(
     TemplateView,
 ):
     template_name = 'article/international_news_list.html'
-    component_slug = cms.COMPONENTS_BANNER_DOMESTIC_SLUG
-    slug = cms.GREAT_EU_EXIT_INTERNATIONAL_NEWS_SLUG
+    component_slug = slugs.COMPONENTS_BANNER_DOMESTIC
+    slug = slugs.EUEXIT_INTERNATIONAL_NEWS
 
 
 class InternationalNewsArticleDetailView(NewsArticleDetailView):
