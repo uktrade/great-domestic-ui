@@ -599,11 +599,6 @@ marketaccess_urls = [
         name='market-access'
     ),
     url(
-        r'^report-trade-barrier/report/emergency-details/$',
-        marketaccess.views.ReportBarrierEmergencyView.as_view(),
-        name='market-access-emergency'
-    ),
-    url(
         r'^report-trade-barrier/report/success/$',
         marketaccess.views.ReportMarketAccessBarrierSuccessView.as_view(),
         name='report-barrier-form-success'

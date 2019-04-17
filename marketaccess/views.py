@@ -39,7 +39,6 @@ class ReportMarketAccessBarrierFormView(
     mixins.MarketAccessFeatureFlagMixin,
     NamedUrlSessionWizardView
 ):
-    CURRENT_STATUS = 'current-status'
     ABOUT = 'about'
     PROBLEM_DETAILS = 'problem-details'
     OTHER_DETAILS = 'other-details'
@@ -47,7 +46,6 @@ class ReportMarketAccessBarrierFormView(
     FINISHED = 'finished'
 
     form_list = (
-        (CURRENT_STATUS, forms.CurrentStatusForm),
         (ABOUT, forms.AboutForm),
         (PROBLEM_DETAILS, forms.ProblemDetailsForm),
         (OTHER_DETAILS, forms.OtherDetailsForm),
@@ -56,7 +54,6 @@ class ReportMarketAccessBarrierFormView(
 
     form_template_directory = 'marketaccess/report_barrier_form/'
     templates = {
-        CURRENT_STATUS: f'{form_template_directory}step-current-status.html',
         ABOUT: f'{form_template_directory}step-about.html',
         PROBLEM_DETAILS: f'{form_template_directory}step-problem.html',
         OTHER_DETAILS: f'{form_template_directory}step-others.html',
@@ -80,18 +77,6 @@ class ReportMarketAccessBarrierFormView(
                 )
         return context
 
-    def render_next_step(self, form, **kwargs):
-        status = self.get_cleaned_data_for_step(
-            self.CURRENT_STATUS
-        )['problem_status']
-        status_text = ('I need resolution quickly, '
-                       'but I’m not at immediate risk of loss')
-
-        if self.steps.current == self.CURRENT_STATUS and status != status_text:
-            return redirect('market-access-emergency')
-        else:
-            return super().render_next_step(form=form, **kwargs)
-
     def serialize_form_list(self, form_list):
         data = {}
         for form in form_list:
@@ -102,7 +87,7 @@ class ReportMarketAccessBarrierFormView(
         data = self.serialize_form_list(form_list)
         subject = (
             f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: "
-            f"{data['country']}: "
+            f"{data['location']}: "
             f"{data['company_name']}"
         )
         sender = Sender(email_address=data['email'], country_code=None)
