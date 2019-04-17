@@ -179,7 +179,7 @@ def test_trade_finance_cms(mock_get_finance_page, client, settings):
     settings.UKEF_PI_TRACKER_ACCOUNT_ID = 'account'
     settings.UKEF_PI_TRACKER_CAMPAIGN_ID = 'campaign'
 
-    url = reverse('get-finance')
+    url = reverse('trade-finance')
     page = {
         'title': 'the page',
         'industries': [{'title': 'good 1'}],
