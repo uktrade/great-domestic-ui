@@ -2,7 +2,7 @@ from captcha.fields import ReCaptchaField
 from django.forms import Select, Textarea
 from django.utils.translation import ugettext_lazy as _
 
-from directory_constants.constants.choices import COUNTRY_CHOICES
+from directory_constants.choices import COUNTRY_CHOICES
 from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components.forms import Form
 from directory_components import fields, widgets
