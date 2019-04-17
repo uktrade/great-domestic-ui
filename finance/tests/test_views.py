@@ -173,7 +173,7 @@ def test_ukef_lead_generation_submit(
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_get_finance_cms(mock_get_finance_page, client, settings):
+def test_trade_finance_cms(mock_get_finance_page, client, settings):
     settings.UKEF_FORM_SUBMIT_TRACKER_URL = 'submit'
     settings.UKEF_PI_TRACKER_JAVASCRIPT_URL = 'js.com'
     settings.UKEF_PI_TRACKER_ACCOUNT_ID = 'account'

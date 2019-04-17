@@ -103,9 +103,12 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
     @property
     def serialized_data(self):
         data = super().serialized_data
-        if data.get('like_to_discuss_other'):
-            like_to_discuss_country = data.get('like_to_discuss_other')
-        else:
-            like_to_discuss_country = data.get('like_to_discuss_other')
-        data['like_to_discuss'] = like_to_discuss_country
+        countries_mapping = dict(COUNTRY_CHOICES)
+        country_label = countries_mapping.get(data['country'])
+        data['country_label'] = country_label
+        data['like_to_discuss_country'] = ''
+        if data.get('like_to_discuss') == 'yes':
+            data['like_to_discuss_country'] = countries_mapping.get(
+                data['like_to_discuss_other']
+            )
         return data
