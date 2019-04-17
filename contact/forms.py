@@ -1,6 +1,6 @@
 from captcha.fields import ReCaptchaField
 from directory_components import forms, fields, widgets
-from directory_constants.constants import choices, urls
+from directory_constants import choices, urls
 from directory_forms_api_client.forms import (
     GovNotifyActionMixin, ZendeskActionMixin
 )
