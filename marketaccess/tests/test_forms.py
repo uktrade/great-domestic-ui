@@ -155,10 +155,10 @@ def test_problem_details_error_messages():
         'Tell us where are you trying to export to'
         ]
     form.errors['problem_summary'] == [
-        'Tell us about the barrier you’re facing'
+        'Tell us about the problem you’re facing'
     ]
     form.errors['impact'] == [
-        'Tell us how your business is being affected by the barrier'
+        'Tell us how your business is being affected by the problem'
     ]
     form.errors['resolve_summary'] == [
         'Tell us what you’ve done to resolve your problem, \

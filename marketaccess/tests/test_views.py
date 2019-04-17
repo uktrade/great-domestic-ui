@@ -26,10 +26,16 @@ def test_error_box_at_top_of_page_shows(client):
     view_name = 'report_market_access_barrier_form_view'
 
     response = client.post(
-        reverse(url_name, kwargs={'step': 'current-status'}),
+        reverse(url_name, kwargs={'step': 'about'}),
         {
-            view_name + '-current_step': 'current-status',
-            'current-status-problem_status': '',
+            view_name + '-current_step': 'about',
+            'about-firstname': '',
+            'about-lastname': '',
+            'about-jobtitle': '',
+            'about-business_type': '',
+            'about-company_name': '',
+            'about-email': '',
+            'about-phone': '',
         }
     )
     assert response.status_code == 200

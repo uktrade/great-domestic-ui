@@ -120,7 +120,7 @@ class ProblemDetailsForm(forms.Form):
             </ul>'),
         widget=Textarea,
         error_messages={
-            'required': 'Tell us about the barrier you’re facing'
+            'required': 'Tell us about the problem you’re facing'
         }
     )
     impact = fields.CharField(
@@ -129,7 +129,7 @@ class ProblemDetailsForm(forms.Form):
         widget=Textarea,
         error_messages={
             'required': 'Tell us how your business or industry is being affected by the \
-            barrier'
+            problem'
         }
     )
     resolve_summary = fields.CharField(
