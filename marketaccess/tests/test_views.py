@@ -3,8 +3,6 @@ from unittest import mock
 from django.conf import settings
 from django.urls import reverse
 
-import pytest
-
 
 def test_form_feature_flag_off(client, settings):
     settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = False

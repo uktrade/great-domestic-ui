@@ -1,8 +1,8 @@
-from directory_constants.constants import choices
 from directory_components import forms, fields, widgets
 from django.utils.safestring import mark_safe
 
-from django.forms import Select, Textarea, TextInput
+from django.forms import Textarea, TextInput
+
 
 class AboutForm(forms.Form):
     error_css_class = 'input-field-container has-error'
@@ -124,7 +124,8 @@ class ProblemDetailsForm(forms.Form):
         }
     )
     impact = fields.CharField(
-        label='How has the problem affected your business or industry, or how could it affect it?',
+        label='How has the problem affected your business or industry, \
+        or how could it affect it?',
         widget=Textarea,
         error_messages={
             'required': 'Tell us how your business or industry is being affected by the \
