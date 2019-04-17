@@ -1,4 +1,4 @@
-from directory_constants.constants import cms
+from directory_constants import slugs
 from directory_forms_api_client.actions import PardotAction
 from directory_forms_api_client.helpers import Sender
 from formtools.wizard.views import NamedUrlSessionWizardView
@@ -14,7 +14,7 @@ from finance import forms
 
 class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/get_finance.html'
-    slug = cms.GREAT_GET_FINANCE_SLUG
+    slug = slugs.GREAT_GET_FINANCE
 
 
 class GetFinanceLeadGenerationFormView(

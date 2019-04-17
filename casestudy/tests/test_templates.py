@@ -1,6 +1,6 @@
 from django.template.loader import render_to_string
 
-from directory_constants.constants import urls
+from directory_constants import urls
 from directory_components.context_processors import urls_processor
 from bs4 import BeautifulSoup
 

@@ -15,7 +15,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 import environ
-from directory_constants.constants import cms
+from directory_constants import cms
 import directory_healthcheck.backends
 
 env = environ.Env()
@@ -59,7 +59,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE_CLASSES = [
     'directory_components.middleware.MaintenanceModeMiddleware',
-    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -571,13 +570,6 @@ COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID = env.str(
 )
 COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str(
     'COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS',
-)
-
-# Admin restrictor
-RESTRICT_ADMIN = env.bool('IP_RESTRICTOR_RESTRICT_IPS', False)
-ALLOWED_ADMIN_IPS = env.list('IP_RESTRICTOR_ALLOWED_ADMIN_IPS', default=[])
-ALLOWED_ADMIN_IP_RANGES = env.list(
-    'IP_RESTRICTOR_ALLOWED_ADMIN_IP_RANGES', default=[]
 )
 
 LANDING_PAGE_VIDEO_URL = env.str(

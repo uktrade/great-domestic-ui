@@ -156,23 +156,40 @@ def test_format_query():
                         ]
                     }
                 },
-                'should': [{
-                    'match': {
+                'should': [
+                    {'match': {
                         'boost': {
-                              'query': 'services',
-                              'boost': 20
-                            }
+                            'query': 'boost',
+                            'boost': 20
                         }
-                }]
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'Service',
+                            'boost': 10
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'Opportunity',
+                            'boost': 0.1
+                        }
+                    }}
+                ],
+                'filter': [
+                    {'terms': {
+                        'type': [
+                            'Article',
+                            'Opportunity',
+                            'Market',
+                            'Service'
+                        ]
+                    }}
+                ]
             }
         },
         'from': 10,
-        'size': 10,
-        'indices_boost': [
-            {'objects__feed_id_key_pages*': 10},
-            {'objects__feed_id_export_opportunities*': 0.1},
-            {'objects*': 1}
-        ]
+        'size': 10
     })
 
 
