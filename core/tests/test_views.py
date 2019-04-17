@@ -16,7 +16,7 @@ from core import helpers, views
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
-from directory_constants.constants import cms
+from directory_constants import slugs
 
 
 def test_interstitial_page_exopps(client):
@@ -492,19 +492,19 @@ def test_about_view(client):
 cms_urls_slugs = (
     (
         reverse('privacy-and-cookies'),
-        cms.GREAT_PRIVACY_AND_COOKIES_SLUG,
+        slugs.GREAT_PRIVACY_AND_COOKIES,
     ),
     (
         reverse('terms-and-conditions'),
-        cms.GREAT_TERMS_AND_CONDITIONS_SLUG,
+        slugs.GREAT_TERMS_AND_CONDITIONS,
     ),
     (
         reverse('privacy-and-cookies-international'),
-        cms.GREAT_PRIVACY_AND_COOKIES_SLUG,
+        slugs.GREAT_PRIVACY_AND_COOKIES,
     ),
     (
         reverse('terms-and-conditions-international'),
-        cms.GREAT_TERMS_AND_CONDITIONS_SLUG,
+        slugs.GREAT_TERMS_AND_CONDITIONS,
     ),
 )
 

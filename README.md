@@ -47,9 +47,9 @@ EXPORTING_OPPORTUNITIES_API_SECRET=debug
 EXPORTING_OPPORTUNITIES_SEARCH_URL=debug
 GET_ADDRESS_API_KEY=debug
 ACTIVITY_STREAM_API_ACCESS_KEY=123
-ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4
 ACTIVITY_STREAM_API_SECRET_KEY=123
 ACTIVITY_STREAM_API_URL=http://localhost:8080/v1/objects
+ACTIVITY_STREAM_API_URL=1.2.3.4,5.6.7.8
 CONTACT_DEFRA_AGENT_EMAIL_ADDRESS=debug
 CONTACT_BEIS_AGENT_EMAIL_ADDRESS=debug
 ```
@@ -145,7 +145,7 @@ Therefore to make cookie sharing work in development we need the apps to be runn
 https://github.com/uktrade?q=directory
 https://github.com/uktrade?q=great
 
-[code-climate-image]: https://codeclimate.com/github/uktrade/great-domestic-ui/issue_count.svg
+[code-climate-image]: https://codeclimate.com/github/uktrade/great-domestic-ui/badges/issue_count.svg
 [code-climate]: https://codeclimate.com/github/uktrade/great-domestic-ui
 
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/master.svg?style=svg

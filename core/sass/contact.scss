@@ -43,7 +43,7 @@ button {
   }
 }
 
-#id_given_name-container::before {
+.show-your-details-title #id_given_name-container::before {
   content: "Your details";
   font-size: 24px;
   font-weight: bold;

@@ -1,6 +1,6 @@
 from captcha.fields import ReCaptchaField
 from directory_components import forms, fields, widgets
-from directory_constants.constants import choices, urls
+from directory_constants import choices, urls
 from directory_forms_api_client.forms import (
     GovNotifyActionMixin, ZendeskActionMixin
 )
@@ -196,11 +196,11 @@ class ExportingIntoUKRoutingForm(forms.Form):
         (
             constants.HMRC,
             mark_safe(
-                '<p>Commodity codes, taxes, tarrifs, and other measures, '
+                '<p>Commodity codes, taxes, tariffs and other measures, '
                 'import procedures</p>'
-                '<p class="form-hint">Your question will be sent to '
-                'Her Majesty\'s Revenue and Customs (HMRC) to review and '
-                'answer.</a>'
+                '<p class="form-hint">Your question will be sent to Her '
+                'Majesty\'s Revenue and Customs (HMRC) to review and '
+                'answer</a>'
             ),
         ),
         (
@@ -208,16 +208,16 @@ class ExportingIntoUKRoutingForm(forms.Form):
             mark_safe(
                 '<p>Bringing animals, plants or food into the UK, '
                 'environmental regulations, sanitary and phytosanitary '
-                'regulations.</p>'
+                'regulations</p>'
                 '<p class="form-hint">Your question will be sent to the '
                 'Department for Environment, Food and Rural Affairs (Defra) '
-                'to review and answer.</p>'
+                'to review and answer</p>'
             )
         ),
         (
             constants.BEIS,
             mark_safe(
-                '<p>Product safety and standards, packaging and labelling.</p>'
+                '<p>Product safety and standards, packaging and labelling</p>'
                 '<p class="form-hint">Your question will be sent to the '
                 'department for Business, Energy and Industrial Strategy '
                 '(BEIS) to review and answer</p>'
@@ -225,13 +225,13 @@ class ExportingIntoUKRoutingForm(forms.Form):
         ),
         (
             constants.IMPORT_CONTROLS,
-            'Import controls, trade agreements, rules of origin.'
+            'Import controls, trade agreements, rules of origin'
         ),
         (
             constants.TRADE_WITH_UK_APP,
             (
-                'Help using the "Trade with the UK: look up tariffs, taxes '
-                'and rules" service.'
+                'Help using the ‘Trade with the UK: look up tariffs, taxes '
+                'and rules’ service.'
             )
         ),
         (constants.OTHER, 'Other'),
@@ -343,6 +343,10 @@ class InternationalContactForm(
     city = fields.CharField(label='City')
     comment = fields.CharField(
         label='Tell us how we can help',
+        help_text=(
+            'Do not include personal information or anything of a '
+            'sensitive nature'
+        ),
         widget=Textarea,
     )
     captcha = ReCaptchaField(

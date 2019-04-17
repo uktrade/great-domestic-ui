@@ -14,7 +14,7 @@ from finance import forms
 
 class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/trade_finance.html'
-    slug = cms.GREAT_GET_FINANCE_SLUG
+    slug = slugs.GREAT_GET_FINANCE
 
 
 class GetFinanceLeadGenerationFormView(

@@ -1,5 +1,5 @@
 from directory_components.mixins import CountryDisplayMixin
-from directory_constants.constants import cms
+from directory_constants import slugs
 from directory_forms_api_client.helpers import Sender
 
 from django.conf import settings
@@ -64,7 +64,7 @@ class BaseContactView(
 
 
 class InternationalContactFormView(BaseInternationalContactFormView):
-    slug = cms.GREAT_EUEXIT_INTERNATIONAL_FORM_SLUG
+    slug = slugs.EUEXIT_INTERNATIONAL_FORM
     form_class = forms.InternationalContactForm
     template_name = 'euexit/international-contact-form.html'
     success_url = reverse_lazy('eu-exit-international-contact-form-success')
@@ -85,7 +85,7 @@ class InternationalContactFormView(BaseInternationalContactFormView):
 
 
 class DomesticContactFormView(BaseInternationalContactFormView):
-    slug = cms.GREAT_EUEXIT_DOMESTIC_FORM_SLUG
+    slug = slugs.EUEXIT_DOMESTIC_FORM
     form_class = forms.DomesticContactForm
     template_name = 'euexit/domestic-contact-form.html'
     success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
@@ -105,9 +105,9 @@ class DomesticContactFormView(BaseInternationalContactFormView):
 
 class InternationalContactSuccessView(BaseContactView):
     template_name = 'euexit/international-contact-form-success.html'
-    slug = cms.GREAT_EUEXIT_FORM_SUCCESS_SLUG
+    slug = slugs.EUEXIT_FORM_SUCCESS
 
 
 class DomesticContactSuccessView(BaseContactView):
     template_name = 'euexit/domestic-contact-form-success.html'
-    slug = cms.GREAT_EUEXIT_FORM_SUCCESS_SLUG
+    slug = slugs.EUEXIT_FORM_SUCCESS

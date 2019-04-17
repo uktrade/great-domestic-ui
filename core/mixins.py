@@ -1,5 +1,5 @@
 from directory_cms_client.client import cms_api_client
-from directory_constants.constants import cms
+from directory_constants import cms
 from django.http import Http404
 from django.conf import settings
 from directory_cms_client.helpers import (

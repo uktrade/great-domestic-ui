@@ -1,4 +1,4 @@
-from directory_constants.constants import cms
+from directory_constants import slugs
 
 import directory_components.views
 import directory_healthcheck.views
@@ -87,37 +87,37 @@ urlpatterns = [
     url(
         r"^performance-dashboard/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD},
         name='performance-dashboard'
     ),
     url(
         r"^performance-dashboard/export-opportunities/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_EXOPPS_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_EXOPPS},
         name='performance-dashboard-export-opportunities'
     ),
     url(
         r"^performance-dashboard/selling-online-overseas/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_SOO_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_SOO},
         name='performance-dashboard-selling-online-overseas'
     ),
     url(
         r"^performance-dashboard/trade-profiles/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_TRADE_PROFILE_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_TRADE_PROFILE},
         name='performance-dashboard-trade-profiles'
     ),
     url(
         r"^performance-dashboard/invest/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_INVEST_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_INVEST},
         name='performance-dashboard-invest'
     ),
     url(
         r"^performance-dashboard/guidance-notes/$",
         core.views.PerformanceDashboardNotesView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_NOTES},
         name='performance-dashboard-notes'
     ),
     url(
@@ -409,7 +409,7 @@ contact_urls = [
     url(
         r'^contact/events/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_EVENTS},
         name='contact-us-events-success'
     ),
     url(
@@ -420,13 +420,13 @@ contact_urls = [
     url(
         r'^contact/defence-and-security-organisation/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_DSO_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_DSO},
         name='contact-us-dso-success'
     ),
     url(
         r'^contact/export-advice/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE},
         name='contact-us-export-advice-success'
     ),
     url(
@@ -453,7 +453,7 @@ contact_urls = [
     url(
         r'^contact/feedback/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_FEEDBACK},
         name='contact-us-feedback-success'
     ),
     url(
@@ -469,7 +469,7 @@ contact_urls = [
     url(
         r'^contact/domestic/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS},
         name='contact-us-domestic-success'
     ),
     url(
@@ -480,7 +480,7 @@ contact_urls = [
     url(
         r'^contact/international/success/$',
         contact.views.InternationalSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_INTERNATIONAL},
         name='contact-us-international-success'
     ),
     url(
@@ -495,7 +495,7 @@ contact_urls = [
     url(
         r'^contact/selling-online-overseas/success/$',
         contact.views.SellingOnlineOverseasSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_SOO_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_SOO},
         name='contact-us-selling-online-overseas-success'
     ),
     url(
@@ -516,7 +516,7 @@ contact_urls = [
             r'success/$'
         ),
         contact.views.ExportingToUKSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_BEIS_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_BEIS},
         name='contact-us-exporting-to-the-uk-beis-success'
     ),
     url(
@@ -530,7 +530,7 @@ contact_urls = [
             r'success/$'
         ),
         contact.views.ExportingToUKSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_DEFRA_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_DEFRA},
         name='contact-us-exporting-to-the-uk-defra-success'
     ),
     url(
