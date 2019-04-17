@@ -4,7 +4,6 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from article.views import CMSPageView
-from contact.views import BaseSuccessView
 from core.helpers import NotifySettings
 from core.views import BaseNotifyFormView
 from ukef.forms import UKEFContactForm

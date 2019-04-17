@@ -62,7 +62,9 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
         choices=COUNTRIES
     )
     like_to_discuss = fields.ChoiceField(
-        label=_('Do you have a specific project or proposal you’d like to discuss?'),
+        label=_(
+            'Do you have a specific project or proposal you’d like to discuss?'
+        ),
         choices=(
             ('no', 'No'),
             ('yes', 'Yes'),
@@ -78,7 +80,9 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
     )
     how_can_we_help = fields.CharField(
         label=_('How can we help?'),
-        help_text=_('Please tell us briefly what type of support you’re looking for'),
+        help_text=_(
+            'Please tell us briefly what type of support you’re looking for'
+        ),
         widget=Textarea
     )
     terms_agreed = fields.BooleanField(
@@ -105,5 +109,3 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
             like_to_discuss_country = data.get('like_to_discuss_other')
         data['like_to_discuss'] = like_to_discuss_country
         return data
-
-
