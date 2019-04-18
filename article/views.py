@@ -2,6 +2,8 @@ from directory_constants import slugs
 
 from django.views.generic import TemplateView
 
+from directory_components.mixins import CountryDisplayMixin
+
 from .mixins import (
     GetCMSTagMixin,
     ArticleSocialLinksMixin,
@@ -140,6 +142,7 @@ class NewsArticleDetailView(
 
 
 class InternationalNewsListPageView(
+    CountryDisplayMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
     GetCMSComponentMixin,
@@ -151,7 +154,10 @@ class InternationalNewsListPageView(
     slug = slugs.EUEXIT_INTERNATIONAL_NEWS
 
 
-class InternationalNewsArticleDetailView(NewsArticleDetailView):
+class InternationalNewsArticleDetailView(
+    CountryDisplayMixin,
+    NewsArticleDetailView
+):
     template_name = 'article/international_news_detail.html'
 
 
