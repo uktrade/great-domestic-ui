@@ -9,15 +9,6 @@
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
 {% endblock %}
 
-{% block head_js_ga360 %}
-  {{ block.super }}
-  <script src="{% static 'js/dit.tagging.js' %}"></script>
-  <script>
-    window.dataLayer.push({ 'pageCategory': 'ServicesLandingPage' });
-    dit.tagging.domestic.init('ServicesLandingPage');
-  </script>
-{% endblock %}
-
 {% block hero %}
   {% static 'images/placeholder.jpg' as hero_image %}
   <section class="hero hero-generic padding-0" style="background-image: url('{{ hero_image }}')">

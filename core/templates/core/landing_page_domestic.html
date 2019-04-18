@@ -20,15 +20,6 @@
 
 {% block css_layout_class %}landing-page{% endblock %}
 
-{% block head_js_ga360 %}
-  {{ block.super }}
-  <script src="{% static 'js/dit.tagging.js' %}"></script>
-  <script>
-    window.dataLayer.push({ 'pageCategory': 'LandingPage' });
-    dit.tagging.domestic.init('LandingPage');
-  </script>
-{% endblock %}
-
 {% block content %}
 
 {% include 'core/includes/language_selector.html' %}

@@ -54,13 +54,13 @@ dit.tagging.domestic = (new function() {
         'eventAction': 'ContentLink',
         'eventCategory': 'EuExit',
         'eventLabel': 'EuExitBanner',
-        'eventValue': $(this).text()
+        'eventValue': $(this).text().trim()
       });
     });
   }
 
   function addTaggingForHeroBannerVideo() {
-    $("#hero-campaign-section a").on("click", function() {
+    $("#hero-campaign-section-watch-video-button").on("click", function() {
       window.dataLayer.push({
         'eventAction': 'ContentLink',
         'eventCategory': 'Video',
@@ -75,7 +75,7 @@ dit.tagging.domestic = (new function() {
         'eventAction': 'Cta',
         'eventCategory': 'Service',
         'eventLabel': 'Link',
-        'eventValue': $(this).find('h3').text()
+        'eventValue': $(this).find('h3').text().trim()
       });
     });
   }
@@ -86,7 +86,7 @@ dit.tagging.domestic = (new function() {
         'eventAction': 'Cta',
         'eventCategory': 'Advice',
         'eventLabel': 'Link',
-        'eventValue': $(this).find('h3').text()
+        'eventValue': $(this).find('h3').text().trim()
       });
     });
   }
@@ -97,7 +97,7 @@ dit.tagging.domestic = (new function() {
         'eventAction': 'Cta',
         'eventCategory': 'ExporterStory',
         'eventLabel': 'Link',
-        'eventValue': $(this).text()
+        'eventValue': $(this).text().trim()
       });
     });
   }
@@ -108,7 +108,7 @@ dit.tagging.domestic = (new function() {
         'eventAction': 'Search',
         'eventCategory': 'General',
         'eventLabel': 'SearchForm',
-        'eventValue': $(this).find("input[type='text']").val()
+        'eventValue': $(this).find("input[type='text']").val().trim()
       });
     });
   }
@@ -117,9 +117,9 @@ dit.tagging.domestic = (new function() {
     $("#article-list-page .article a").on("click", function() {
       window.dataLayer.push({
         'eventAction': 'ContentLink',
-        'eventCategory': $(".article-list-page h1").text(),
+        'eventCategory': $(".article-list-page h1").text().trim(),
         'eventLabel': 'Article',
-        'eventValue': $(this).text()
+        'eventValue': $(this).text().trim()
       });
     });
   }
@@ -129,7 +129,7 @@ dit.tagging.domestic = (new function() {
       window.dataLayer.push({
         'eventAction': 'ExpressInterest',
         'eventLabel': 'ExpanderControl',
-        'eventValue': $(this).text()
+        'eventValue': $(this).text().trim()
       });
     });
 
@@ -138,9 +138,9 @@ dit.tagging.domestic = (new function() {
       // use of functional class names in the target code.
       window.dataLayer.push({
         'eventAction': 'Cta',
-        'eventCategory': $(this).parents("li").children().eq(0).text().trim(),
+        'eventCategory': $(this).parents("li").children().eq(0).text().trim().trim(),
         'eventLabel': 'SectorRelatedCta',
-        'eventValue': $(this).text()
+        'eventValue': $(this).text().trim()
       });
     });
   }
@@ -150,7 +150,7 @@ dit.tagging.domestic = (new function() {
       window.dataLayer.push({
         'eventAction': 'Cta',
         'eventLabel': 'NextStepCta',
-        'eventValue': $(this).text()
+        'eventValue': $(this).text().trim()
       });
     });
   }
@@ -160,7 +160,7 @@ dit.tagging.domestic = (new function() {
       window.dataLayer.push({
         'eventAction': 'Cta',
         'eventLabel': 'MarketCta',
-        'eventValue': $(this).find("h3").text()
+        'eventValue': $(this).find("h3").text().trim()
       });
     });
   }
@@ -170,7 +170,7 @@ dit.tagging.domestic = (new function() {
       window.dataLayer.push({
         'eventAction': 'Cta',
         'eventLabel': 'AdviceCta',
-        'eventValue': $(this).find("h3").text()
+        'eventValue': $(this).find("h3").text().trim()
       });
     });
   }
@@ -180,7 +180,7 @@ dit.tagging.domestic = (new function() {
       window.dataLayer.push({
         'eventAction': 'Cta',
         'eventLabel': 'ServiceCta',
-        'eventValue': $(this).find("h3").text()
+        'eventValue': $(this).find("h3").text().trim()
       });
     });
   }

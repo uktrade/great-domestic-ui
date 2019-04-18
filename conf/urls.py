@@ -285,7 +285,7 @@ article_urls = [
     ),
     url(
         r"^advice/create-an-export-plan/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'create-an-export-plan'},
         name='create-an-export-plan',
     ),
@@ -296,7 +296,7 @@ article_urls = [
     ),
     url(
         r"^advice/find-an-export-market/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'find-an-export-market'},
         name='find-an-export-market',
     ),
@@ -307,7 +307,7 @@ article_urls = [
     ),
     url(
         r"^advice/define-route-to-market/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'define-route-to-market'},
         name='define-route-to-market',
     ),
@@ -318,7 +318,7 @@ article_urls = [
     ),
     url(
         r"^advice/get-export-finance-and-funding/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'get-export-finance-and-funding'},
         name='get-export-finance-and-funding',
     ),
@@ -329,7 +329,7 @@ article_urls = [
     ),
     url(
         r"^advice/manage-payment-for-export-orders/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'manage-payment-for-export-orders'},
         name='manage-payment-for-export-orders',
     ),
@@ -340,7 +340,7 @@ article_urls = [
     ),
     url(
         r"^advice/prepare-to-do-business-in-a-foreign-country/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'prepare-to-do-business-in-a-foreign-country'},
         name='prepare-to-do-business-in-a-foreign-country',
     ),
@@ -351,7 +351,7 @@ article_urls = [
     ),
     url(
         r"^advice/manage-legal-and-ethical-compliance/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'manage-legal-and-ethical-compliance'},
         name='manage-legal-and-ethical-compliance',
     ),
@@ -362,7 +362,7 @@ article_urls = [
     ),
     url(
         r"^advice/prepare-for-export-procedures-and-logistics/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'prepare-for-export-procedures-and-logistics'},
         name='prepare-for-export-procedures-and-logistics',
     ),
