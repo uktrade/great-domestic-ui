@@ -1,41 +1,7 @@
-from directory_constants import choices
 from directory_components import forms, fields, widgets
 from django.utils.safestring import mark_safe
 
-from django.forms import Select, Textarea, TextInput
-
-
-class CurrentStatusForm(forms.Form):
-    error_css_class = 'input-field-container has-error'
-    STATUS_CHOICES = (
-        (
-            'My perishable goods or livestock are blocked in transit',
-            'My perishable goods or livestock are blocked in transit'
-        ),
-        (
-            'I’m at immediate risk of missing a commercial opportunity',
-            'I’m at immediate risk of missing a commercial opportunity'
-        ),
-        (
-            'I’m at immediate risk of not fulfilling a contract',
-            'I’m at immediate risk of not fulfilling a contract'
-        ),
-        (
-            'I need resolution quickly, but I’m not at immediate risk of loss',
-            'I need resolution quickly, but I’m not at immediate risk of loss'
-        ),
-    )
-
-    problem_status = fields.ChoiceField(
-        label='Select which option best applies to you',
-        widget=widgets.RadioSelect(
-            use_nice_ids=True, attrs={'id': 'radio-one'}
-        ),
-        choices=STATUS_CHOICES,
-        error_messages={
-            'required': 'Choose the option that best describes your situation'
-        }
-    )
+from django.forms import Textarea, TextInput
 
 
 class AboutForm(forms.Form):
@@ -119,17 +85,6 @@ class AboutForm(forms.Form):
 
 class ProblemDetailsForm(forms.Form):
 
-    # Country choices is a list of tuples that follow the structure
-    # (country_code, country_name). We don't want this
-    # structure because the choice needs to always be human
-    # readable for the summary and zendesk. This creates a new
-    # tuple that makes tuples with the same value.
-    def change_country_tuples(country_list):
-        return [
-            (country_name, country_name)
-            for country_code, country_name in country_list
-        ]
-
     error_css_class = 'input-field-container has-error'
 
     product_service = fields.CharField(
@@ -140,13 +95,10 @@ class ProblemDetailsForm(forms.Form):
             trying to export or invest in'
         }
     )
-    country = fields.ChoiceField(
-        label='Which country do you want to export to?',
-        choices=[('', 'Select a country')] +
-        change_country_tuples(choices.COUNTRY_CHOICES),
-        widget=Select(attrs={'id': 'js-country-select'}),
+    location = fields.CharField(
+        label='Where are you trying to export to?',
         error_messages={
-            'required': 'Select the country you’re trying to export to'
+            'required': 'Tell us where are you trying to export to'
         }
     )
     problem_summary = fields.CharField(
@@ -156,7 +108,7 @@ class ProblemDetailsForm(forms.Form):
               <li>what’s affecting your export or investment</li> \
               <li>when you became aware of the problem</li> \
               <li>how you became aware of the problem</li> \
-              <li>if it’s a one off</li> \
+              <li>if this has happened before</li> \
               <li> \
                 any information you’ve been given or \
                 correspondence you’ve had \
@@ -168,15 +120,16 @@ class ProblemDetailsForm(forms.Form):
             </ul>'),
         widget=Textarea,
         error_messages={
-            'required': 'Tell us about the barrier you’re facing'
+            'required': 'Tell us about the problem you’re facing'
         }
     )
     impact = fields.CharField(
-        label='How has the problem affected your business?',
+        label='How has the problem affected your business or industry, \
+        or how could it affect it?',
         widget=Textarea,
         error_messages={
-            'required': 'Tell us how your business is being affected by the \
-            barrier'
+            'required': 'Tell us how your business or industry is being affected by the \
+            problem'
         }
     )
     resolve_summary = fields.CharField(

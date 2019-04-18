@@ -4,42 +4,6 @@ from marketaccess import forms
 
 
 @pytest.fixture
-def current_status_form_data():
-    return {
-        'problem_status': ('My perishable goods or '
-                           'livestock are blocked in transit')
-    }
-
-
-def test_current_status_form_initial():
-    form = forms.CurrentStatusForm()
-    assert form.fields['problem_status'].initial is None
-
-
-def test_current_status_form_mandatory_fields():
-    form = forms.CurrentStatusForm(data={})
-    assert form.fields['problem_status'].required is True
-
-
-def test_current_status_form_serialize():
-    form = forms.CurrentStatusForm(
-        data=current_status_form_data()
-    )
-    assert form.is_valid()
-    assert form.cleaned_data == current_status_form_data()
-
-
-def test_check_current_status_error_messages():
-    form = forms.CurrentStatusForm(
-        data={}
-    )
-    assert len(form.errors) == 1
-    assert form.errors['problem_status'] == [
-        'Choose the option that best describes your situation'
-    ]
-
-
-@pytest.fixture
 def about_form_data():
     return {
         'firstname': 'Craig',
@@ -141,7 +105,7 @@ def test_about_form_error_messages():
 def problem_details_form_data():
     return {
         'product_service': 'something',
-        'country': 'Angola',
+        'location': 'Angola',
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
@@ -152,7 +116,7 @@ def problem_details_form_data():
 def test_problem_details_form_initial():
     form = forms.ProblemDetailsForm()
     assert form.fields['product_service'].initial is None
-    assert form.fields['country'].initial is None
+    assert form.fields['location'].initial is None
     assert form.fields['problem_summary'].initial is None
     assert form.fields['impact'].initial is None
     assert form.fields['resolve_summary'].initial is None
@@ -163,7 +127,7 @@ def test_problem_details_form_mandatory_fields():
     form = forms.ProblemDetailsForm(data={})
 
     assert form.fields['product_service'].required is True
-    assert form.fields['country'].required is True
+    assert form.fields['location'].required is True
     assert form.fields['problem_summary'].required is True
     assert form.fields['impact'].required is True
     assert form.fields['resolve_summary'].required is True
@@ -187,14 +151,14 @@ def test_problem_details_error_messages():
     form.errors['product_service'] == [
         'Tell us what you’re trying to export or invest in'
     ]
-    form.errors['country'] == [
-        'Select the country you’re trying to export to'
+    form.errors['location'] == [
+        'Tell us where are you trying to export to'
         ]
     form.errors['problem_summary'] == [
-        'Tell us about the barrier you’re facing'
+        'Tell us about the problem you’re facing'
     ]
     form.errors['impact'] == [
-        'Tell us how your business is being affected by the barrier'
+        'Tell us how your business is being affected by the problem'
     ]
     form.errors['resolve_summary'] == [
         'Tell us what you’ve done to resolve your problem, \
