@@ -9,7 +9,6 @@ from .mixins import (
 )
 from core.mixins import (
     PrototypeFeatureFlagMixin,
-    MarketsFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSComponentMixin,
     GetCMSPageMixin,
@@ -43,7 +42,7 @@ class CMSPageView(
         return self.kwargs['slug']
 
 
-class MarketsPageView(MarketsFeatureFlagMixin, CMSPageView):
+class MarketsPageView(CMSPageView):
     template_name = 'article/markets_landing_page.html'
 
     def get_context_data(self, **kwargs):
@@ -59,7 +58,7 @@ class MarketsPageView(MarketsFeatureFlagMixin, CMSPageView):
         return context
 
 
-class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
+class CountryGuidePageView(CMSPageView):
     num_of_statistics = 0
     section_three_num_of_subsections = 0
 
