@@ -46,7 +46,7 @@ from core.tests.helpers import create_response
                     'slug': 'uk-export-contact-form-success'
                 }
             },
-            200
+            302
         ),
         (
             reverse('how-we-assess-your-project'),
