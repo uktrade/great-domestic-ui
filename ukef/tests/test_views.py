@@ -1,5 +1,8 @@
+from unittest import mock
+
 import pytest
 from django.urls import reverse
+from core.tests.helpers import create_response
 
 
 @pytest.mark.parametrize(
@@ -43,7 +46,7 @@ from django.urls import reverse
                     'slug': 'uk-export-contact-form-success'
                 }
             },
-            302
+            200
         ),
         (
             reverse('how-we-assess-your-project'),
@@ -78,8 +81,14 @@ from django.urls import reverse
 
     )
 )
+@mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_ukef_views_status_code(
-        page_url, page_api_response, expected_status_code, client
+        mock_lookup_by_slug, client,
+        page_url, page_api_response, expected_status_code
 ):
+    mock_lookup_by_slug.return_value = create_response(
+        status_code=200, json_body=page_api_response
+    )
+
     response = client.get(page_url)
     assert response.status_code == expected_status_code
