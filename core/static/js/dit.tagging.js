@@ -114,7 +114,7 @@ dit.tagging.domestic = (new function() {
   }
 
   function addTaggingForArticleList() {
-    $("#search-results-information .search").on("click", function() {
+    $("#article-list-page .article a").on("click", function() {
       window.dataLayer.push({
         'eventAction': 'ContentLink',
         'eventCategory': $(".article-list-page h1").text(),
