@@ -7,6 +7,7 @@ var dit = {
   components: {},
   data: {},
   pages: {},
+  tagging: {},
 
   constants: {
     COMPANIES_HOUSE_SEARCH: "/static/temp/companies-house-data.json"
