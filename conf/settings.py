@@ -18,6 +18,13 @@ import environ
 from directory_components.constants import IP_RETRIEVER_NAME_GOV_UK
 from directory_constants.constants import cms
 import directory_healthcheck.backends
+import dj_database_url
+
+# # Database
+# hard to get rid of this
+DATABASES = {
+    'default': dj_database_url.config()
+}
 
 env = environ.Env()
 env.read_env()
@@ -35,12 +42,17 @@ DEBUG = env.bool('DEBUG', False)
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
-    'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
     'django_extensions',
     'raven.contrib.django.raven_compat',
     'django.contrib.sessions',
     'django.contrib.sitemaps',
+    'django.contrib.redirects',
     'formtools',
     'corsheaders',
     'directory_constants',
@@ -55,7 +67,10 @@ INSTALLED_APPS = [
     'contact',
     'marketaccess',
     'community',
+    'django.contrib.sites',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = [
     'directory_components.middleware.MaintenanceModeMiddleware',
@@ -73,6 +88,9 @@ MIDDLEWARE_CLASSES = [
     'core.middleware.PersistLocaleMiddleware',
     'core.middleware.ForceDefaultLocale',
     'directory_components.middleware.RobotsIndexControlHeaderMiddlware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
 ROOT_URLCONF = 'conf.urls'
@@ -96,6 +114,7 @@ TEMPLATES = [
                 'directory_components.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
                 'directory_components.context_processors.cookie_notice',
+                'django.contrib.auth.context_processors.auth',
             ],
         },
     },

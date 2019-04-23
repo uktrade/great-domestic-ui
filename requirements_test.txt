@@ -16,6 +16,8 @@ codecov==2.0.15
 contextlib2==0.5.5        # via raven
 coverage==4.5.1           # via codecov, pytest-cov
 dateparser==0.7.0
+dj-database-url==0.4.2
+psycopg2==2.7.3.2
 directory-api-client==13.0.0
 directory-ch-client==1.0.0
 directory-client-core==4.3.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client

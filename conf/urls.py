@@ -19,8 +19,10 @@ import finance.views
 import marketaccess.views
 import community.views
 
-from conf.url_redirects import redirects
+from django.contrib import admin
 
+
+from conf.url_redirects import redirects
 
 sitemaps = {
     'static': core.views.StaticViewSitemap,
@@ -42,6 +44,11 @@ healthcheck_urls = [
 
 
 urlpatterns = [
+    url(
+        r'^admin/',
+        admin.site.urls,
+        name='admin'
+       ),
     url(
         r'^healthcheck/',
         include(
@@ -572,6 +579,8 @@ community_urls = [
         name='community-article'
     ),
 ]
+
+
 
 urlpatterns += euexit_urls
 urlpatterns += redirects
