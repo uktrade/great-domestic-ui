@@ -91,7 +91,7 @@ Signed cookies are used as the session backend to avoid using a database. We the
 
 ## Translations
 
-Follow the <a href="https://docs.djangoproject.com/en/1.11/topics/i18n/" target="_blank">Django documentation</a>
+Follow the [Django documentation](https://docs.djangoproject.com/en/1.11/topics/i18n/)
 
 To create or update `.po` files:
 
@@ -105,7 +105,7 @@ To compile `.mo` files (no need to add these to source code, as this is done aut
 ## Geolocation
 
 This product includes GeoLite2 (data created by MaxMind), available from
-<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+[http://www.maxmind.com](http://www.maxmind.com).
 
 To download the data run the following command:
 
