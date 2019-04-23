@@ -1,11 +1,6 @@
-@import 'partials/base';
 @import 'partials/colours';
 @import 'components/form-wizard';
 @import 'components/breadcrumbs';
-
-#international-header-menu {
-  min-height: 110px;
-}
 
 #content {
   background: $white;

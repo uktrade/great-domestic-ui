@@ -658,7 +658,6 @@ def test_article_detail_page_social_share_links_no_title(
 def test_country_guide_fact_sheet_displays_if_given_title(
         mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['MARKETS_PAGES_ON'] = True
 
     page = {
         'title': 'test',

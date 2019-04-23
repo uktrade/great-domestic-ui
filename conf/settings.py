@@ -306,7 +306,7 @@ DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = env.str(
 
 PRIVACY_COOKIE_DOMAIN = os.getenv('PRIVACY_COOKIE_DOMAIN')
 
-# Exopps url for interstitial page
+# Exopps url for /export-opportunities redirect
 SERVICES_EXOPPS_ACTUAL = env.str('SERVICES_EXOPPS_ACTUAL', '')
 
 # Sentry
@@ -384,11 +384,8 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 FEATURE_FLAGS = {
     'NEW_INTERNATIONAL_HEADER_ON': env.bool(
         'FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED', False),
-    'HEADER_SEARCH_ON': env.bool('FEATURE_SEARCH_ENABLED', False),
-    'NEW_HEADER_FOOTER_ON': env.bool(
-        'FEATURE_NEW_HEADER_FOOTER_ENABLED', False
-    ),
-    'MARKETS_PAGES_ON': env.bool('FEATURE_MARKETS_PAGES_ENABLED', False),
+    'HEADER_SEARCH_ON': True,  # to be removed from directory-components
+    'NEW_HEADER_FOOTER_ON': True,  # to be removed from directory-components
     'PROTOTYPE_PAGES_ON': env.bool('FEATURE_PROTOTYPE_PAGES_ENABLED', False),
     'CAMPAIGN_PAGES_ON': env.bool('FEATURE_CAMPAIGN_PAGES_ENABLED', False),
     'NEWS_SECTION_ON': env.bool('FEATURE_NEWS_SECTION_ENABLED', False),
@@ -413,7 +410,6 @@ FEATURE_FLAGS = {
     ),
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
-    'SEARCH_ON': env.bool('FEATURE_SEARCH_ENABLED', False),
 }
 
 # UK Export Finance

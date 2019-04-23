@@ -2,16 +2,6 @@
 // UTILITY CLASSES
 // ================
 
-.button-large {
-  text-align: center;
-  width: 300px;
-  padding: 15px 0;
-}
-
-.width-100 {
-  width: 100%;
-}
-
 @media (max-width: 960px) {
   .reverse-columns-l {
     flex-direction: column-reverse;

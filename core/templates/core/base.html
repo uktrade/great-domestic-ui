@@ -4,8 +4,24 @@
 
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
+{% block head_js %}
+  <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/dit.js' %}"></script>
+{% endblock %}
+
 {% block head_other %}
     {% include 'core/browser-checks.html' %}
+{% endblock %}
+
+{% block head_js_ga360 %}
+  {{ block.super }}
+  {% if ga360 %}
+    <script src="{% static 'js/dit.tagging.js' %}"></script>
+    <script id="ga360-script">
+      window.dataLayer.push({ 'pageCategory': '{{ ga360.page_type }}' });
+      dit.tagging.domestic.init('{{ ga360.page_type }}');
+    </script>
+  {% endif %}
 {% endblock %}
 
 {% block head_sharing_metadata %}

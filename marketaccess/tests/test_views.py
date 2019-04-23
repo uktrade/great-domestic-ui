@@ -3,8 +3,6 @@ from unittest import mock
 from django.conf import settings
 from django.urls import reverse
 
-import pytest
-
 
 def test_form_feature_flag_off(client, settings):
     settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = False
@@ -22,48 +20,22 @@ def test_form_feature_flag_on(client, settings):
     assert response.status_code == 200
 
 
-@pytest.mark.parametrize('status', [
-    'My perishable goods or livestock are blocked in transit',
-    'I’m at immediate risk of missing a commercial opportunity',
-    'I’m at immediate risk of not fulfilling a contract',
-    'I need resolution quickly, but I’m not at immediate risk of loss'
-])
-def test_form_submission_redirects_if_not_option_4_in_current_status(
-    client, status
-):
-    settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
-    url_name = 'report-ma-barrier'
-    view_name = 'report_market_access_barrier_form_view'
-    emergency_details_url = '/report-trade-barrier/report/emergency-details/'
-    about_url = '/report-trade-barrier/report/about/'
-    status_text = ('I need resolution quickly, '
-                   'but I’m not at immediate risk of loss')
-
-    response = client.post(
-        reverse(url_name, kwargs={'step': 'current-status'}),
-        {
-            view_name + '-current_step': 'current-status',
-            'current-status-problem_status': status,
-        }
-    )
-
-    assert response.status_code == 302
-    if status != status_text:
-        assert response._headers['location'][1] == emergency_details_url
-    else:
-        assert response._headers['location'][1] == about_url
-
-
 def test_error_box_at_top_of_page_shows(client):
     settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
 
     response = client.post(
-        reverse(url_name, kwargs={'step': 'current-status'}),
+        reverse(url_name, kwargs={'step': 'about'}),
         {
-            view_name + '-current_step': 'current-status',
-            'current-status-problem_status': '',
+            view_name + '-current_step': 'about',
+            'about-firstname': '',
+            'about-lastname': '',
+            'about-jobtitle': '',
+            'about-business_type': '',
+            'about-company_name': '',
+            'about-email': '',
+            'about-phone': '',
         }
     )
     assert response.status_code == 200
@@ -75,17 +47,6 @@ def test_form_submission(mock_zendesk_action, client):
     settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
-    status_text = ('I need resolution quickly, '
-                   'but I’m not at immediate risk of loss')
-
-    response = client.post(
-        reverse(url_name, kwargs={'step': 'current-status'}),
-        {
-            view_name + '-current_step': 'current-status',
-            'current-status-problem_status': status_text,
-        }
-    )
-    assert response.status_code == 302
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'about'}),
@@ -107,7 +68,7 @@ def test_form_submission(mock_zendesk_action, client):
         {
             view_name + '-current_step': 'problem-details',
             'problem-details-product_service': 'something',
-            'problem-details-country': 'Angola',
+            'problem-details-location': 'Angola',
             'problem-details-problem_summary': 'problem summary',
             'problem-details-impact': 'problem impact',
             'problem-details-resolve_summary': 'steps in resolving',
@@ -151,8 +112,6 @@ def test_form_submission(mock_zendesk_action, client):
     )
     assert mock_zendesk_action().save.call_count == 1
     assert mock_zendesk_action().save.call_args == mock.call({
-        'problem_status': ('I need resolution quickly, '
-                           'but I’m not at immediate risk of loss'),
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
@@ -162,7 +121,7 @@ def test_form_submission(mock_zendesk_action, client):
         'email': 'craig@craigmusic.com',
         'phone': '0123456789',
         'product_service': 'something',
-        'country': 'Angola',
+        'location': 'Angola',
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',

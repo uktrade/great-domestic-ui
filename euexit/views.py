@@ -103,7 +103,7 @@ class DomesticContactFormView(BaseInternationalContactFormView):
             }
 
 
-class InternationalContactSuccessView(BaseContactView):
+class InternationalContactSuccessView(CountryDisplayMixin, BaseContactView):
     template_name = 'euexit/international-contact-form-success.html'
     slug = slugs.EUEXIT_FORM_SUCCESS
 
