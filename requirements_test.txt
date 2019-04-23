@@ -72,6 +72,6 @@ sigauth==4.0.1
 six==1.11.0               # via django-extensions, freezegun, mohawk, more-itertools, pytest, pytest-xdist, python-dateutil, requests-mock, w3lib
 termcolor==1.1.0          # via pytest-sugar
 tzlocal==1.5.1            # via dateparser
-urllib3==1.23             # via requests
+urllib3==1.24.2
 w3lib==1.19.0             # via directory-client-core
 whitenoise==3.1

@@ -50,6 +50,6 @@ requests==2.21.0
 sigauth==4.0.1
 six==1.11.0               # via django-extensions, mohawk, python-dateutil, w3lib
 tzlocal==1.5.1            # via dateparser
-urllib3==1.23             # via requests
+urllib3==1.24.2
 w3lib==1.19.0             # via directory-client-core
 whitenoise==3.1

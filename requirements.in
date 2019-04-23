@@ -24,3 +24,4 @@ directory-cms-client==10.0.0
 directory-sso-api-client==5.0.0
 directory-forms-api-client==4.0.0
 dateparser==0.7.0
+urllib3>=1.24.2,<2.0.0
