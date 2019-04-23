@@ -130,7 +130,7 @@ def test_retrieve_company_profile_mixin_name_guessing(
 def test_ga360_mixin(rf):
     class TestView(mixins.GA360Mixin, TemplateView):
         template_name = 'core/base.html'
-        ga360_page_type = 'TestPageType'
+        ga360_payload = {'page_type': 'TestPageType'}
 
     request = rf.get('/')
     response = TestView.as_view()(request)

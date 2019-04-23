@@ -154,13 +154,10 @@ class PrepopulateFormMixin:
 
 
 class GA360Mixin:
-    ga360_page_type = None
+    ga360_payload = None
 
     def get_context_data(self, *args, **kwargs):
-        ga360 = None
-        if self.ga360_page_type:
-            ga360 = {'page_type': self.ga360_page_type}
         return super().get_context_data(
-            ga360=ga360,
+            ga360=self.ga360_payload,
             *args, **kwargs
         )

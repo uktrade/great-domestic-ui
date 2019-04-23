@@ -34,7 +34,7 @@ class SetEtagMixin:
 
 class LandingPageView(mixins.GA360Mixin, TemplateView):
     template_name = 'core/landing_page_domestic.html'
-    ga360_page_type = 'LandingPage'
+    ga360_payload = {'page_type': 'LandingPage'}
 
     @cached_property
     def page(self):
@@ -297,4 +297,4 @@ class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
 
 class ServicesView(mixins.GA360Mixin, BreadcrumbsMixin, TemplateView):
     template_name = 'core/services.html'
-    ga360_page_type = 'ServicesLandingPage'
+    ga360_payload = {'page_type': 'ServicesLandingPage'}

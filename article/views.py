@@ -45,12 +45,12 @@ class CMSPageView(
 
 
 class AdviceListingPage(CMSPageView):
-    ga360_page_type = 'ArticleListingPage'
+    ga360_payload = {'page_type': 'ArticleListingPage'}
 
 
 class MarketsPageView(CMSPageView):
     template_name = 'article/markets_landing_page.html'
-    ga360_page_type = 'MarketsLandingPage'
+    ga360_payload = {'page_type': 'MarketsLandingPage'}
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -69,7 +69,7 @@ class MarketsPageView(CMSPageView):
 class CountryGuidePageView(CMSPageView):
     num_of_statistics = 0
     section_three_num_of_subsections = 0
-    ga360_page_type = 'MarketPage'
+    ga360_payload = {'page_type': 'MarketPage'}
 
     def count_data_with_field(self, list_of_data, field):
         filtered_list = [item for item in list_of_data if item[field]]
