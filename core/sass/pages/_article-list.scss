@@ -5,19 +5,6 @@
 @import 'partials/colours';
 
 .article-list-page {
-  padding-top: 0;
-
-  section {
-    padding-top: 0;
-  }
-
-  .card-grid > * > .card {
-    flex-grow: 1;
-  }
-
-  .hero-description {
-    font-weight: 700;
-  }
 
   .information-banner {
     background-color: $white;

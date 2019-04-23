@@ -13,6 +13,8 @@
   <script src="{% static 'js/dit.js' %}"></script>
 {% endblock %}
 
+{% block css_layout_class %}international-page{% endblock %}
+
 {% block header_js %}
   {% if features.NEW_INTERNATIONAL_HEADER_ON %}
     <script src="{% static 'directory_components/js/dit.responsive.js' %}"></script>

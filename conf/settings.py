@@ -305,7 +305,7 @@ DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = env.str(
 
 PRIVACY_COOKIE_DOMAIN = os.getenv('PRIVACY_COOKIE_DOMAIN')
 
-# Exopps url for interstitial page
+# Exopps url for /export-opportunities redirect
 SERVICES_EXOPPS_ACTUAL = env.str('SERVICES_EXOPPS_ACTUAL', '')
 
 # Sentry
