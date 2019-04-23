@@ -2,24 +2,19 @@ import logging
 from requests.exceptions import RequestException
 
 from django.views.generic import TemplateView
-from django.conf import settings
-from core import mixins
+
 from activitystream import helpers
 
 logger = logging.getLogger(__name__)
 
 
-class SearchView(mixins.NotFoundOnDisabledFeature, TemplateView):
+class SearchView(TemplateView):
     """ Search results page.
 
         URL parameters: 'q'    String to be searched
                         'page' Int results page number
     """
     template_name = 'search.html'
-
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['SEARCH_ON']
 
     def get_context_data(self, **kwargs):
         query = self.request.GET.get('q', '')
@@ -29,8 +24,9 @@ class SearchView(mixins.NotFoundOnDisabledFeature, TemplateView):
         try:
             response = helpers.search_with_activitystream(elasticsearch_query)
         except RequestException:
-            logger.error(f"Activity Stream connection for\
- Search failed. Query: '{query}'")
+            logger.error(
+                "Activity Stream connection for"
+                "Search failed. Query: '{}'".format(query))
             return {
                 'error_status_code': 500,
                 'error_message': "Activity Stream connection failed",
