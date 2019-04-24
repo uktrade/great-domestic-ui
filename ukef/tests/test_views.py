@@ -22,4 +22,3 @@ def test_ukef_views_status_code(
 ):
     response = client.get(page_url)
     assert response.status_code == expected_status_code
-
