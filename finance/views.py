@@ -12,8 +12,8 @@ from core import mixins
 from finance import forms
 
 
-class GetFinanceView(mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'finance/get_finance.html'
+class TradeFinanceView(mixins.GetCMSPageMixin, TemplateView):
+    template_name = 'finance/trade_finance.html'
     slug = slugs.GREAT_GET_FINANCE
 
 

@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'marketaccess',
     'community',
     'activitystream',
+    'ukef',
 ]
 
 MIDDLEWARE_CLASSES = [
