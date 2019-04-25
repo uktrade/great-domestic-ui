@@ -645,6 +645,17 @@ ukef_urls = [
         ukef.views.LandingView.as_view(),
         name='project-finance',
     ),
+    url(
+        r"^uk-export-contact-form/$",
+        ukef.views.ContactView.as_view(),
+        {'slug': 'uk-export-contact'},
+        name='uk-export-contact',
+    ),
+    url(
+        r"^uk-export-contact-form-success/$",
+        ukef.views.SuccessPageView.as_view(),
+        name='uk-export-contract-success'
+    ),
 ]
 
 urlpatterns += euexit_urls
