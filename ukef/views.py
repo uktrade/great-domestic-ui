@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 
-from core.mixins import UKEFPagesFeatureFlagMixin
+from ukef.mixins import UKEFPagesFeatureFlagMixin
 
 
 class HomeView(UKEFPagesFeatureFlagMixin, TemplateView):

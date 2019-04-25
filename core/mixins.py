@@ -49,13 +49,6 @@ class MarketAccessFeatureFlagMixin(NotFoundOnDisabledFeature):
         return settings.FEATURE_FLAGS['MARKET_ACCESS_ON']
 
 
-class UKEFPagesFeatureFlagMixin(NotFoundOnDisabledFeature):
-
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['UKEF_PAGES_ON']
-
-
 class GetCMSPageMixin:
 
     @cached_property
