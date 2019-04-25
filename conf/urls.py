@@ -19,6 +19,7 @@ import finance.views
 import marketaccess.views
 import community.views
 import activitystream.views
+import ukef.views
 
 from conf.url_redirects import redirects
 
@@ -179,7 +180,7 @@ urlpatterns = [
     ),
     url(
         r"^get-finance/$",
-        finance.views.GetFinanceView.as_view(),
+        finance.views.TradeFinanceView.as_view(),
         name='get-finance'
     ),
     url(
@@ -632,6 +633,15 @@ community_urls = [
     ),
 ]
 
+
+ukef_urls = [
+    url(
+        r"^get-finance-ukef/$",
+        ukef.views.HomeView.as_view(),
+        name='ukef-get-finance',
+    ),
+]
+
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
@@ -639,3 +649,4 @@ urlpatterns += article_urls
 urlpatterns += contact_urls
 urlpatterns += marketaccess_urls
 urlpatterns += community_urls
+urlpatterns += ukef_urls
