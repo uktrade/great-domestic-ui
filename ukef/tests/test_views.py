@@ -6,7 +6,7 @@ from django.urls import reverse
     'page_url,page_content,expected_status_code',
     (
         (
-            reverse('get-finance'),
+            reverse('ukef-get-finance'),
             {
                 'title': 'UK Export finance - great.gov.uk',
             },
@@ -27,7 +27,7 @@ def test_ukef_views_while_feature_flag_enabled(
     'page_url,expected_status_code',
     (
         (
-            reverse('get-finance'),
+            reverse('ukef-get-finance'),
             404
         ),
     )

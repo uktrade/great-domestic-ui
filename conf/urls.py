@@ -638,7 +638,7 @@ ukef_urls = [
     url(
         r"^get-finance-ukef/$",
         ukef.views.HomeView.as_view(),
-        name='get-finance',
+        name='ukef-get-finance',
     ),
 ]
 
