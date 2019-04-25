@@ -179,9 +179,9 @@ urlpatterns = [
         name='casestudy-york-bag'
     ),
     url(
-        r"^trade-finance/$",
+        r"^get-finance/$",
         finance.views.TradeFinanceView.as_view(),
-        name='trade-finance'
+        name='get-finance'
     ),
     url(
         r'^get-finance/contact/thanks/$',
@@ -636,7 +636,7 @@ community_urls = [
 
 ukef_urls = [
     url(
-        r"^get-finance/$",
+        r"^get-finance-ukef/$",
         ukef.views.HomeView.as_view(),
         name='get-finance',
     ),
