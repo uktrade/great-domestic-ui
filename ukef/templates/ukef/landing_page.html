@@ -4,8 +4,8 @@
 {% load add_export_elements_classes from directory_components_tags %}
 
 {% block head_css %}
-{{ block.super }}
-<link href="{% static 'styles/ukef-landing-page.css' %}" rel="stylesheet" type="text/css" />
+	{{ block.super }}
+	<link href="{% static 'styles/ukef-landing-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block head_title %}The UK’s Export Credit Agency - great.gov.uk{% endblock %}
@@ -75,11 +75,11 @@
 		<div class="container">
 			<div class="grid-row">
 				<div class="column-half padding-0">
-						<img src="{% static 'images/ukef_landing_offer_section_image.jpg' %}" id="offer-section-image " class="offer-section-image">
+					<img src="{% static 'images/ukef_landing_offer_section_image.jpg' %}" id="offer-section-image " class="offer-section-image">
 				</div>
-				<div class="column-half offer-section-text padding-0">
+				<div class="column-half offer-section-text padding-30-m padding-horizontal-45 padding-vertical-0">
 					<div class="grid-row">
-						<div class="column-seven-ninths padding-left-90">
+						<div class="column-seven-ninths padding-left-90-l">
 							<h2 class="heading heading-light offer-section-title padding-bottom-30">What we offer</h2>
 							<p class="text">
 								We activate the UK supply chain, connecting overseas project sponsors and buyers with UK exporters, through government-backed financing.
