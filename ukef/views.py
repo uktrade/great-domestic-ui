@@ -48,3 +48,7 @@ class SuccessPageView(UKEFPagesFeatureFlagMixin, TemplateView):
 
 class HowWeAssessPageView(UKEFPagesFeatureFlagMixin, TemplateView):
     template_name = 'ukef/how_we_assess.html'
+
+
+class WhatWeOfferView(UKEFPagesFeatureFlagMixin, TemplateView):
+    template_name = 'ukef/what_we_offer.html'
