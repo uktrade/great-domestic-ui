@@ -62,19 +62,6 @@
     }
   }
 
-  //TABLET
-  @media screen and (max-width: 641px) {
-    .flag{
-      display: none;
-    }
-
-    .why-we-offer-section{
-      .offer-section-text{
-        padding: 30px;
-      }
-    }
-  }
-
   .steps-progress-indicator {
     list-style: none;
     position: relative;
@@ -128,67 +115,6 @@
         text-align: center;
         top: 0;
         width: 2.4em;
-      }
-    }
-
-    .current {
-      color: $grey;
-
-      &:before {
-        background-color: $white;
-        border: 0.2em solid $grey;
-        border-radius: 50%;
-        content: '';
-        display: block;
-        height: 1.9em;
-        left: -1.2em;
-        position: absolute;
-        top: -0.35em;
-        width: 1.9em;
-      }
-
-      span {
-        &:before {
-          background-color: $grey;
-          border-color: $grey;
-          color: $white;
-        }
-      }
-    }
-
-    .complete {
-      border-left-color: $grey;
-      color: $grey;
-
-      // This is the tick.
-      &:after {
-        border-color: $white;
-        border-style: solid;
-        border-width: 0 0 2px 2px;
-        border-radius: 0;
-        content: '';
-        display: block;
-        left: -0.4em;
-        height: 0.25em;
-        position: absolute;
-        transform: rotate(-45deg);
-        top: 0.6em;
-        width: 0.6em;
-      }
-
-      // Colour hides the number.
-      span {
-        &:before {
-          background-color: $grey;
-          border-color: $grey;
-          color: $grey;
-        }
-      }
-    }
-
-    .verbose {
-      &:before {
-        display: none;
       }
     }
 
