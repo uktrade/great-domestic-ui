@@ -52,3 +52,7 @@ class HowWeAssessPageView(UKEFPagesFeatureFlagMixin, TemplateView):
 
 class WhatWeOfferView(UKEFPagesFeatureFlagMixin, TemplateView):
     template_name = 'ukef/what_we_offer.html'
+
+
+class CountryCoverView(UKEFPagesFeatureFlagMixin, TemplateView):
+    template_name = 'ukef/country_cover.html'

@@ -45,6 +45,13 @@ from ukef import forms
                 'title': 'What we offer you - great.gov.uk',
             },
             200
+        ),
+        (
+            reverse('country-cover'),
+            {
+                'title': 'Country Cover - great.gov.uk',
+            },
+            200
         )
     )
 )
@@ -78,6 +85,10 @@ def test_ukef_views_while_feature_flag_enabled(
         ),
         (
             reverse('what-we-offer-you'),
+            404
+        ),
+        (
+            reverse('country-cover'),
             404
         ),
     )
