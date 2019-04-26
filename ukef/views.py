@@ -44,3 +44,7 @@ class SuccessPageView(UKEFPagesFeatureFlagMixin, TemplateView):
     def get_context_data(self, **kwargs):
         kwargs['user_email'] = self.request.session.get('user_email')
         return super().get_context_data(**kwargs)
+
+
+class HowWeAssessPageView(UKEFPagesFeatureFlagMixin, TemplateView):
+    template_name = 'ukef/how_we_assess.html'
