@@ -25,6 +25,13 @@ from ukef import forms
             },
             200
         ),
+        (
+            reverse('uk-export-contact'),
+            {
+                'title': 'UK Export finance contact form - great.gov.uk',
+            },
+            200
+        ),
     )
 )
 def test_ukef_views_while_feature_flag_enabled(
@@ -45,6 +52,10 @@ def test_ukef_views_while_feature_flag_enabled(
         ),
         (
             reverse('project-finance'),
+            404
+        ),
+        (
+            reverse('uk-export-contact'),
             404
         ),
     )
