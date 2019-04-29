@@ -1,0 +1,123 @@
+@import 'partials/utils';
+@import 'partials/typography';
+@import 'partials/colours';
+
+.uk-export-finance-landing {
+
+  .teaser-text{
+    line-height: 1.58;
+  }
+
+  .more-about-section{
+    .heading-small{
+      margin-top: 0.5em;
+    }
+  }
+
+  img{
+    width: 100%;
+  }
+
+  .why-we-offer-section{
+    .offer-section-image{
+      width: 100%;
+    }
+
+    .offer-section-text{
+      padding: 0 45px;
+    }
+  }
+
+  .hero-title{
+    font-size: 52px;
+  }
+
+  .about-us-and-our-services{
+    .description{
+      font-size: 16px;
+    }
+  }
+
+  .heading-hero-generic-compact{
+    text-transform:none;
+  }
+
+  .card-link{
+    min-height: 265px;
+  }
+
+  .your-next-step-section{
+    .text{
+      font-size: 19px;
+    }
+  }
+
+  .steps-progress-indicator {
+    list-style: none;
+    position: relative;
+    padding-left: 15px;
+
+    ol, ul{
+      list-style-type: none;
+    }
+
+    li {
+      border-left: 0.18em solid $grey;
+      color: $grey;
+      counter-increment: progress-indicator-counter;
+      font-weight: bold;
+      list-style-position: outside;
+      padding: 0 0 1.0em 2em;
+      position: relative;
+      top: -0.5em;
+      margin: 0;
+
+      &:last-child {
+        border-left-color: $white;
+
+        span {
+          border: none;
+        }
+      }
+    }
+
+    // Adds the separating lines.
+    span {
+      border-color: $stone-50;
+      border-style: solid;
+      border-width: 0 0 1px 0;
+      display: block;
+      padding-bottom: 1.0em;
+
+      // Adds the default numbering
+      &:before {
+        background-color: $grey;
+        border: 0.2em solid $grey;
+        border-radius: 50%;
+        color: $grey;
+        content: "•";
+        display: block;
+        font-size: 80%;
+        height: 2.4em;
+        left: -1.525em;
+        line-height: 1.6em;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        width: 2.4em;
+      }
+    }
+
+    .heading{
+      font-family: $brand-font-alternative;
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 10px;
+      padding-top: 3px;
+    }
+    .list-text{
+      font-size: 19px;
+      font-weight: normal;
+    }
+  }
+}

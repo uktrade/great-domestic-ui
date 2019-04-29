@@ -640,6 +640,11 @@ ukef_urls = [
         ukef.views.HomeView.as_view(),
         name='ukef-get-finance',
     ),
+    url(
+        r"^project-finance/$",
+        ukef.views.LandingView.as_view(),
+        name='project-finance',
+    ),
 ]
 
 urlpatterns += euexit_urls

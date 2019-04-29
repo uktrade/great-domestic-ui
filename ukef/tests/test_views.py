@@ -12,6 +12,13 @@ from django.urls import reverse
             },
             200
         ),
+        (
+            reverse('project-finance'),
+            {
+                'title': 'The UK’s Export Credit Agency - great.gov.uk',
+            },
+            200
+        ),
     )
 )
 def test_ukef_views_while_feature_flag_enabled(
@@ -28,6 +35,10 @@ def test_ukef_views_while_feature_flag_enabled(
     (
         (
             reverse('ukef-get-finance'),
+            404
+        ),
+        (
+            reverse('project-finance'),
             404
         ),
     )
