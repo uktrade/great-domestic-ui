@@ -10,6 +10,7 @@
 - Upgraded [API client][directory-api-client], [Forms client][directory-forms-api-client], [SSO client][directory-sso-api-client], and [Companies House client][directory-companies-house-client] because [CMS client][directory-cms-client] upgrade results in [Client core][directory-client-core] being upgraded.
 - Added `DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS` env var.
 - Added UKEF Home Page Endpoint([XOT-811](https://uktrade.atlassian.net/browse/XOT-811))
+- Added UKEF Project Finance Page Endpoint([XOT-812](https://uktrade.atlassian.net/browse/XOT-812))
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
