@@ -11,6 +11,7 @@
 - Added `DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS` env var.
 - Added UKEF Home Page Endpoint([XOT-811](https://uktrade.atlassian.net/browse/XOT-811))
 - Added UKEF Project Finance Page Endpoint([XOT-812](https://uktrade.atlassian.net/browse/XOT-812))
+- Added UKEF Contact Form and Success Pages([XOT-816](https://uktrade.atlassian.net/browse/XOT-816))
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
