@@ -72,6 +72,7 @@ DEBUG_SET_ENV_VARS := \
 	export REDIS_URL=redis://localhost:6379; \
 	export PRIVACY_COOKIE_DOMAIN=.trade.great; \
 	export UKEF_FORM_SUBMIT_TRACKER_URL=http://go.pardot.com/l/590031/2018-08-16/5kj25l; \
+	export UKEF_CONTACT_AGENT_EMAIL_ADDRESS=ukef_contact@example.com; \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
 	export FEATURE_PROTOTYPE_PAGES_ENABLED=false; \
 	export FEATURE_MARKETS_PAGES_ENABLED=true; \
