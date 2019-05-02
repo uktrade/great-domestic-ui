@@ -5,12 +5,13 @@ from marketaccess import forms
 
 @pytest.fixture
 def about_form_data():
+    business_type = ("I’m an exporter or investor, or "
+                     "I want to export or invest")
     return {
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'business_type': "I’m an exporter or investor, or \
-                          I want to export or invest",
+        'business_type': business_type,
         'other_business_type': '',
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
