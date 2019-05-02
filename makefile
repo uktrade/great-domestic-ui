@@ -34,7 +34,7 @@ django_webserver:
 DEBUG_SET_ENV_VARS := \
 	export PORT=8007; \
 	export SECRET_KEY=debug; \
-	export DEBUG=true ;\
+	export DEBUG=true; \
 	export API_SIGNATURE_SECRET=debug; \
 	export API_CLIENT_BASE_URL=http://api.trade.great:8000; \
 	export SSO_SIGNATURE_SECRET=api_signature_debug; \
@@ -85,9 +85,9 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_MARKET_ACCESS_ENABLED=false; \
 	export FEATURE_MARKET_ACCESS_GOV_LINK_ENABLED=true; \
 	export FEATURE_LANDING_PAGE_EU_EXIT_BANNER_ENABLED=true; \
-	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com \
+	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com; \
 	export FEATURE_EXPORTING_TO_UK_ON_ENABLED=True; \
-	export FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED=true
+	export FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED=true; \
 	export FEATURE_UKEF_PAGES_ENABLED=true; \
 	export LANGUAGE_COOKIE_DOMAIN=.trade.great
 
