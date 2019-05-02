@@ -9,7 +9,8 @@ def about_form_data():
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'business_type': "I’m an exporter or investor, or I want to export or invest",
+        'business_type': "I’m an exporter or investor, or \
+                          I want to export or invest",
         'other_business_type': '',
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',

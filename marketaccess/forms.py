@@ -98,7 +98,8 @@ class ProblemDetailsForm(forms.Form):
     location = fields.CharField(
         label='Where are you trying to export to or invest in?',
         error_messages={
-            'required': 'Tell us where are you trying to export to or invest in'
+            'required': 'Tell us where are you trying to \
+            export to or invest in'
         }
     )
     problem_summary = fields.CharField(
