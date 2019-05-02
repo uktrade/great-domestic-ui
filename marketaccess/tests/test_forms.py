@@ -9,7 +9,7 @@ def about_form_data():
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'business_type': "I’m an exporter or I want to export",
+        'business_type': "I’m an exporter or investor, or I want to export or invest",
         'other_business_type': '',
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
@@ -152,7 +152,7 @@ def test_problem_details_error_messages():
         'Tell us what you’re trying to export or invest in'
     ]
     form.errors['location'] == [
-        'Tell us where are you trying to export to'
+        'Tell us where are you trying to export to or invest in'
         ]
     form.errors['problem_summary'] == [
         'Tell us about the problem you’re facing'

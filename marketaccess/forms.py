@@ -7,7 +7,7 @@ from django.forms import Textarea, TextInput
 class AboutForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     CATEGORY_CHOICES = (
-        'I’m an exporter or I want to export',
+        'I’m an exporter or investor, or I want to export or invest',
         'I work for a trade association',
         'Other'
     )
@@ -96,9 +96,9 @@ class ProblemDetailsForm(forms.Form):
         }
     )
     location = fields.CharField(
-        label='Where are you trying to export to?',
+        label='Where are you trying to export to or invest in?',
         error_messages={
-            'required': 'Tell us where are you trying to export to'
+            'required': 'Tell us where are you trying to export to or invest in'
         }
     )
     problem_summary = fields.CharField(
