@@ -18,6 +18,7 @@
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
 - [[CMS-1441]](https://uktrade.atlassian.net/browse/CMS-1441) Fix cookie notice banner from not being dismissible
+- [[CMS-1395]](https://uktrade.atlassian.net/browse/CMS-1395) Fix language cookie name and domain to be the same across all our services.
 
 
 
