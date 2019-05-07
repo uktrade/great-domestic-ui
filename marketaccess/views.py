@@ -17,21 +17,21 @@ class MarketAccessView(
     mixins.MarketAccessFeatureFlagMixin,
     TemplateView
 ):
-    template_name = "marketaccess/report_a_barrier.html"
+    template_name = 'marketaccess/report_a_barrier.html'
 
 
 class ReportBarrierEmergencyView(
     mixins.MarketAccessFeatureFlagMixin,
     TemplateView
 ):
-    template_name = "marketaccess/report_barrier_emergency_details.html"
+    template_name = 'marketaccess/report_barrier_emergency_details.html'
 
 
 class ReportMarketAccessBarrierSuccessView(
     mixins.MarketAccessFeatureFlagMixin,
     TemplateView
 ):
-    template_name = "marketaccess/report_barrier_form/success.html"
+    template_name = 'marketaccess/report_barrier_form/success.html'
 
 
 class ReportMarketAccessBarrierFormView(

@@ -91,61 +91,75 @@ class ProblemDetailsForm(forms.Form):
         label='What goods or services do you want to export?',
         help_text='Or tell us about an investment you want to make',
         error_messages={
-            'required': 'Tell us what you’re \
-            trying to export or invest in'
+            'required': (
+                'Tell us what you’re trying to export or invest in'
+            )
         }
     )
     location = fields.CharField(
         label='Where are you trying to export to or invest in?',
         error_messages={
-            'required': 'Tell us where are you trying to \
-            export to or invest in'
+            'required': (
+                'Tell us where are you trying to export to or invest in'
+            )
         }
     )
     problem_summary = fields.CharField(
         label=mark_safe(
-            '<p>Tell us about your problem, including: </p> \
-            <ul class="list list-bullet"> \
-              <li>what’s affecting your export or investment</li> \
-              <li>when you became aware of the problem</li> \
-              <li>how you became aware of the problem</li> \
-              <li>if this has happened before</li> \
-              <li> \
-                any information you’ve been given or \
-                correspondence you’ve had \
-              </li> \
-              <li> \
-                the HS (Harmonized System) code for your goods, \
-                if you know it \
-              </li> \
-            </ul>'),
+            (
+                '<p>Tell us about your problem, including: </p>',
+                '<ul class="list list-bullet">',
+                '<li>what’s affecting your export or investment</li>',
+                '<li>when you became aware of the problem</li>',
+                '<li>how you became aware of the problem</li>',
+                '<li>if this has happened before</li>',
+                '<li>',
+                'any information you’ve been given or',
+                'correspondence you’ve had',
+                '</li>',
+                '<li>',
+                'the HS (Harmonized System) code for your goods,',
+                'if you know it',
+                '</li>',
+                '</ul>',
+            )
+        ),
         widget=Textarea,
         error_messages={
             'required': 'Tell us about the problem you’re facing'
         }
     )
     impact = fields.CharField(
-        label='How has the problem affected your business or industry, \
-        or how could it affect it?',
+        label=(
+            'How has the problem affected your business or',
+            'industry, or how could it affect it?'
+        ),
         widget=Textarea,
         error_messages={
-            'required': 'Tell us how your business or industry is being affected by the \
-            problem'
+            'required': (
+                'Tell us how your business or industry',
+                'is being affected by the problem'
+            )
         }
     )
     resolve_summary = fields.CharField(
         label=mark_safe(
-            '<p>Tell us about any steps you’ve taken \
-            to resolve the problem, including: </p> \
-            <ul class="list list-bullet"> \
-              <li>people you’ve contacted</li> \
-              <li>when you contacted them</li> \
-              <li>what happened</li> \
-            </ul>'),
+            (
+                '<p>Tell us about any steps you’ve taken',
+                'to resolve the problem, including: </p>',
+                '<ul class="list list-bullet">',
+                '<li>people you’ve contacted</li>',
+                '<li>when you contacted them</li>',
+                '<li>what happened</li>',
+                '</ul>'
+            )
+        ),
         widget=Textarea,
         error_messages={
-            'required': 'Tell us what you’ve done to resolve your \
-            problem, even if this is your first step'
+            'required': (
+                'Tell us what you’ve done to resolve your;',
+                'problem, even if this is your first step'
+            )
         }
     )
     eu_exit_related = fields.ChoiceField(
@@ -166,8 +180,10 @@ class ProblemDetailsForm(forms.Form):
 class OtherDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     other_details = fields.CharField(
-        label='Do you want to tell us anything else \
-        about your problem? (optional)',
+        label=(
+            'Do you want to tell us anything else',
+            'about your problem? (optional)'
+        ),
         widget=Textarea,
         required=False
     )

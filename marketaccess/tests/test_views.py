@@ -47,8 +47,10 @@ def test_form_submission(mock_zendesk_action, client):
     settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
-    business_type = ("I’m an exporter or investor, or "
-                     "I want to export or invest")
+    business_type = (
+        'I’m an exporter or investor, or '
+        'I want to export or invest'
+    )
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'about'}),
@@ -103,7 +105,7 @@ def test_form_submission(mock_zendesk_action, client):
     assert response.status_code == 200
 
     assert mock_zendesk_action.call_count == 1
-    subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: Angola: Craig Music"
+    subject = f'{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: Angola: Craig Music'
     assert mock_zendesk_action.call_args == mock.call(
         subject=subject,
         full_name='Craig Smith',
