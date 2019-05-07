@@ -7,6 +7,17 @@
 
 .country-guide-page {
 
+  .teaser-section {
+    @media (min-width: 769px) {
+      .teaser {
+        padding-right: 1 / 9 * 100%;
+      }
+    }
+    .content-list li {
+      margin-bottom: 0.75em;
+    }
+  }
+
   @media (min-width: 769px) {
     .section-one-body {
       padding-right: calc(100% / 12);
