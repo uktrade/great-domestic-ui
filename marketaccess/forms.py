@@ -114,11 +114,11 @@ class ProblemDetailsForm(forms.Form):
                 '<li>how you became aware of the problem</li>'
                 '<li>if this has happened before</li>'
                 '<li>'
-                'any information you’ve been given or'
+                'any information you’ve been given or '
                 'correspondence you’ve had'
                 '</li>'
                 '<li>'
-                'the HS (Harmonized System) code for your goods,'
+                'the HS (Harmonized System) code for your goods, '
                 'if you know it'
                 '</li>'
                 '</ul>'
@@ -131,13 +131,13 @@ class ProblemDetailsForm(forms.Form):
     )
     impact = fields.CharField(
         label=(
-            'How has the problem affected your business or'
+            'How has the problem affected your business or '
             'industry, or how could it affect it?'
         ),
         widget=Textarea,
         error_messages={
             'required': (
-                'Tell us how your business or industry'
+                'Tell us how your business or industry '
                 'is being affected by the problem'
             )
         }
@@ -181,7 +181,7 @@ class OtherDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     other_details = fields.CharField(
         label=(
-            'Do you want to tell us anything else'
+            'Do you want to tell us anything else '
             'about your problem? (optional)'
         ),
         widget=Textarea,
