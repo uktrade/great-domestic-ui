@@ -1,7 +1,9 @@
 import logging
 
-from directory_components.mixins import CountryDisplayMixin
-from directory_constants.constants import cms, urls
+from directory_components.mixins import (
+    CountryDisplayMixin, EnableTranslationsMixin
+)
+from directory_constants import slugs, urls
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
@@ -17,6 +19,7 @@ from django.utils.functional import cached_property
 from casestudy import casestudies
 from core import helpers, mixins, forms
 from euexit.mixins import HideLanguageSelectorMixin
+from article.mixins import BreadcrumbsMixin
 
 logger = logging.getLogger(__name__)
 
@@ -29,13 +32,14 @@ class SetEtagMixin:
         return response
 
 
-class LandingPageView(TemplateView):
-    template_name = 'article/landing_page.html'
+class LandingPageView(mixins.GA360Mixin, TemplateView):
+    template_name = 'core/landing_page_domestic.html'
+    ga360_payload = {'page_type': 'LandingPage'}
 
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_slug(
-            slug=cms.GREAT_HOME_SLUG,
+            slug=slugs.GREAT_HOME,
             draft_token=self.request.GET.get('draft_token'),
         )
         return helpers.handle_cms_response_allow_404(response)
@@ -72,6 +76,7 @@ class CampaignPageView(
 
 
 class InternationalLandingPageView(
+    EnableTranslationsMixin,
     CountryDisplayMixin,
     mixins.TranslationsMixin,
     mixins.GetCMSPageMixin,
@@ -79,8 +84,8 @@ class InternationalLandingPageView(
     TemplateView,
 ):
     template_name = 'core/landing_page_international.html'
-    component_slug = cms.COMPONENTS_BANNER_INTERNATIONAL_SLUG
-    slug = cms.GREAT_HOME_INTERNATIONAL_SLUG
+    component_slug = slugs.COMPONENTS_BANNER_INTERNATIONAL
+    slug = slugs.GREAT_HOME_INTERNATIONAL
 
 
 class InternationalContactPageView(
@@ -196,7 +201,7 @@ class AboutView(SetEtagMixin, TemplateView):
 
 class PrivacyCookiesDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
-    slug = cms.GREAT_PRIVACY_AND_COOKIES_SLUG
+    slug = slugs.GREAT_PRIVACY_AND_COOKIES
 
 
 class PrivacyCookiesDomesticSubpageCMS(mixins.GetCMSPageMixin, TemplateView):
@@ -213,7 +218,7 @@ class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
 
 class TermsConditionsDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'core/info_page.html'
-    slug = cms.GREAT_TERMS_AND_CONDITIONS_SLUG
+    slug = slugs.GREAT_TERMS_AND_CONDITIONS
 
 
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
@@ -290,5 +295,6 @@ class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
     pass
 
 
-class ServicesView(TemplateView):
+class ServicesView(mixins.GA360Mixin, BreadcrumbsMixin, TemplateView):
     template_name = 'core/services.html'
+    ga360_payload = {'page_type': 'ServicesLandingPage'}

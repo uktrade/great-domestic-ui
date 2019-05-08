@@ -91,7 +91,7 @@ Signed cookies are used as the session backend to avoid using a database. We the
 
 ## Translations
 
-Follow the <a href="https://docs.djangoproject.com/en/1.11/topics/i18n/" target="_blank">Django documentation</a>
+Follow the [Django documentation](https://docs.djangoproject.com/en/1.11/topics/i18n/)
 
 To create or update `.po` files:
 
@@ -105,7 +105,7 @@ To compile `.mo` files (no need to add these to source code, as this is done aut
 ## Geolocation
 
 This product includes GeoLite2 (data created by MaxMind), available from
-<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
+[http://www.maxmind.com](http://www.maxmind.com).
 
 To download the data run the following command:
 
@@ -145,7 +145,7 @@ Therefore to make cookie sharing work in development we need the apps to be runn
 https://github.com/uktrade?q=directory
 https://github.com/uktrade?q=great
 
-[code-climate-image]: https://codeclimate.com/github/uktrade/great-domestic-ui/issue_count.svg
+[code-climate-image]: https://codeclimate.com/github/uktrade/great-domestic-ui/badges/issue_count.svg
 [code-climate]: https://codeclimate.com/github/uktrade/great-domestic-ui
 
 [circle-ci-image]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/master.svg?style=svg

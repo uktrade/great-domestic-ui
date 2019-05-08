@@ -5,16 +5,9 @@ from unittest.mock import patch, Mock
 from django.core.urlresolvers import reverse
 
 
-def test_search_view_feature_flag(client, settings):
-    settings.FEATURE_FLAGS['SEARCH_ON'] = False
-
-    response = client.get(reverse('search'), data={'q': 'services'})
-
-    assert response.status_code == 404
-
-
-def test_search_view(client):
+def test_search_view(client, settings):
     """ We mock the call to ActivityStream """
+
     with patch('activitystream.helpers.search_with_activitystream') as search:
         mock_results = json.dumps({
             'took': 17,

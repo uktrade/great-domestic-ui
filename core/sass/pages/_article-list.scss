@@ -5,18 +5,10 @@
 @import 'partials/colours';
 
 .article-list-page {
-  padding-top: 0;
 
-  section {
-    padding-top: 0;
-  }
-
-  .card-grid > * > .card {
-    flex-grow: 1;
-  }
-
-  .hero-description {
-    font-weight: 700;
+  .information-banner {
+    background-color: $white;
+    border: solid $stone 2px;
   }
 
   .list-teaser {
@@ -36,5 +28,9 @@
     a {
       display: inline-block;
     }
+  }
+
+  .error-reporting {
+    padding-top: 30px;
   }
 }

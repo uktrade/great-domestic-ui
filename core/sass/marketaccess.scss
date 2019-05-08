@@ -98,6 +98,10 @@ dt, dd {
     margin: 15px 0;
 }
 
+p.lede + a.button {
+    margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
     .report-barrier-image {
        display: none;

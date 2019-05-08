@@ -6,7 +6,7 @@ test_requirements:
 	pip install -r requirements_test.txt
 
 FLAKE8 := flake8 . --exclude=migrations,.venv,node_modules
-PYTEST := pytest . -n auto -v --dist=loadfile --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
+PYTEST := pytest . -n auto -v -vv --dist=loadfile --ignore=node_modules --cov=. --cov-config=.coveragerc --capture=no $(pytest_args)
 COLLECT_STATIC := python manage.py collectstatic --noinput
 COMPILE_TRANSLATIONS := python manage.py compilemessages
 CODECOV := \
@@ -34,7 +34,7 @@ django_webserver:
 DEBUG_SET_ENV_VARS := \
 	export PORT=8007; \
 	export SECRET_KEY=debug; \
-	export DEBUG=true ;\
+	export DEBUG=true; \
 	export API_SIGNATURE_SECRET=debug; \
 	export API_CLIENT_BASE_URL=http://api.trade.great:8000; \
 	export SSO_SIGNATURE_SECRET=api_signature_debug; \
@@ -53,6 +53,7 @@ DEBUG_SET_ENV_VARS := \
 	export COMPANIES_HOUSE_CLIENT_SECRET=debug-client-secret; \
 	export SECURE_HSTS_SECONDS=0; \
 	export DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC=http://exred.trade.great:8007; \
+	export DIRECTORY_CONSTANTS_URL_GREAT_INTERNATIONAL=http://international.trade.great:8012/international/; \
 	export DIRECTORY_CONSTANTS_URL_FIND_A_BUYER=http://buyer.trade.great:8001; \
 	export DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS=http://soo.trade.great:8008; \
 	export DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER=http://supplier.trade.great:8005/; \
@@ -71,6 +72,7 @@ DEBUG_SET_ENV_VARS := \
 	export REDIS_URL=redis://localhost:6379; \
 	export PRIVACY_COOKIE_DOMAIN=.trade.great; \
 	export UKEF_FORM_SUBMIT_TRACKER_URL=http://go.pardot.com/l/590031/2018-08-16/5kj25l; \
+	export UKEF_CONTACT_AGENT_EMAIL_ADDRESS=ukef_contact@example.com; \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
 	export FEATURE_PROTOTYPE_PAGES_ENABLED=false; \
 	export FEATURE_MARKETS_PAGES_ENABLED=true; \
@@ -83,10 +85,11 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_MARKET_ACCESS_ENABLED=false; \
 	export FEATURE_MARKET_ACCESS_GOV_LINK_ENABLED=true; \
 	export FEATURE_LANDING_PAGE_EU_EXIT_BANNER_ENABLED=true; \
-	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com \
-	export FEATURE_NEW_HEADER_FOOTER_ENABLED=true; \
-	export FEATURE_SEARCH_ENABLED=true; \
-	export FEATURE_EXPORTING_TO_UK_ON_ENABLED=True
+	export COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS=community@example.com; \
+	export FEATURE_EXPORTING_TO_UK_ON_ENABLED=True; \
+	export FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED=true; \
+	export FEATURE_UKEF_PAGES_ENABLED=true; \
+	export LANGUAGE_COOKIE_DOMAIN=.trade.great
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \

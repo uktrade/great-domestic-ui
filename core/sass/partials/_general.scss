@@ -5,11 +5,6 @@
   margin-top: 0;
 }
 
-#content {
-  max-width: none;
-  padding: 0;
-}
-
 a:active {
   background-color: $focus-yellow;
 }
@@ -20,7 +15,6 @@ a:focus {
 
 section {
   clear: both;
-  overflow: hidden;
   padding-bottom: 90px;
 
   .intro {

@@ -1,5 +1,5 @@
 from directory_cms_client.client import cms_api_client
-from directory_constants.constants import cms
+from directory_constants import cms
 from django.http import Http404
 from django.conf import settings
 from directory_cms_client.helpers import (
@@ -37,12 +37,6 @@ class PrototypeFeatureFlagMixin(NotFoundOnDisabledFeature):
         return settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON']
 
 
-class MarketsFeatureFlagMixin(NotFoundOnDisabledFeature):
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['MARKETS_PAGES_ON']
-
-
 class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
     @property
     def flag(self):
@@ -56,6 +50,7 @@ class MarketAccessFeatureFlagMixin(NotFoundOnDisabledFeature):
 
 
 class GetCMSPageMixin:
+
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_slug(
@@ -156,3 +151,13 @@ class PrepopulateFormMixin:
         if self.company_profile and self.company_profile['postal_full_name']:
             names = self.company_profile['postal_full_name'].split(' ')
             return names[-1] if len(names) > 1 else None
+
+
+class GA360Mixin:
+    ga360_payload = None
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            ga360=self.ga360_payload,
+            *args, **kwargs
+        )

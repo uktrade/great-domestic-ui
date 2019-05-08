@@ -29,29 +29,35 @@
           </ol>
         </div>
         <div class="grid-row">
-            <div class="column-one-half">
+            <div class="column-two-thirds">
                 <p class="lede">
-                    Trade barriers are things that slow down or prevent a UK business from accessing an overseas market. 
-                    They can affect businesses of all sizes. 
+                    A trade barrier is something that slows down, limits or prevents a UK business exporting to or investing in an overseas market. 
                 </p>
                 <p class="lede">
-                    Tell us if you think you’re facing a trade barrier. We’ll look into your problem and help you resolve it. 
+                    They can affect businesses of all sizes and at all stages of exporting, even if you’re just exploring opportunities.  
                 </p>
+                <p class="lede">
+                    Tell us if you think you’re facing a trade barrier. We might be able to help you resolve it.  
+                </p>
+                <a href="{% url 'report-ma-barrier' step='about' %}" class="button">Report a barrier</a>
             </div>
-            <div class="column-one-half">
-                <a href="{% url 'report-ma-barrier' step='current-status' %}" class="button">Report a barrier</a>
+        </div>
+        <div class="grid-row">
+            <div class="column-two-thirds">
+                <p>If your problem is urgent, you can <a href="https://www.gov.uk/world/embassies">contact the relevant British embassy</a>. Their knowledge of local business practices and working hours might mean your barrier is resolved more quickly.</p>
             </div>
         </div>
         <hr>
         <div class="text">
-            <p>Trade barriers are tariff, non-tariff or overseas direct investment restrictions that delay or block your exports. </p>
+            <p> Trade barriers are tariff, non-tariff or overseas direct investment restrictions that block or delay investments, exports or potential to do business. </p>
             <p>You might be facing a barrier if, for example:</p>
             <ul class="list list-bullet">
+                <li>regulations in an overseas market prevent you exporting or investing there</li>
+                <li>you supply services and have to pay unnecessary charges that give an advantage to domestic suppliers</li>
                 <li>your goods are delayed from getting to market by lengthy customs procedures</li>
-                <li>you supply services and you have to pay unnecessary charges that give an advantage to domestic suppliers</li>
             </ul>
             {% if features.MARKET_ACCESS_LINK_ON %}
-                <p>You can <a class="link" href="https://gov.uk/guidance/report-a-trade-barrier#what-is-a-barrier-to-goods">see more examples of trade barriers</a>.</p>
+                <p>You can <a class="link" href="https://gov.uk/guidance/report-a-trade-barrier#what-is-a-barrier-to-goods">read more information about trade barriers</a>.</p>
             {% endif %}
         </div>
         <h2 class="heading-medium">Making a report online</h2>
@@ -64,7 +70,7 @@
                     </li>
                     <li> 
                         <h3 class="heading-small">Describe your problem</h4> 
-                        <p class="font-xsmall">What’s stopping your goods getting to market? Is the problem still affecting your business?</p>
+                        <p class="font-xsmall">What’s stopping your export? Is the problem still affecting your business?</p>
                     </li>
                     <li> 
                         <h3 class="heading-small">Tell us more about your problem</h4> 
@@ -72,10 +78,10 @@
                     </li>
                     <li> 
                         <h3 class="heading-small">What happens next</h4> 
-                        <p class="font-xsmall">We’ll email you within 5 working days with an initial assessment of your barrier.<br> We’ll aim to tell you what we’ll do to help resolve your barrier within 20 working days.</p>
+                        <p class="font-xsmall">We’ll aim to email you within 5 working days to let you know if we can help.</p>
                     </li>
                 </ol>
-                <a href="{% url 'report-ma-barrier' step='current-status' %}" class="button">Report a barrier</a>
+                <a href="{% url 'report-ma-barrier' step='about' %}" class="button">Report a barrier</a>
             </div>
             <div class="column-one-third">
                 <img alt class="report-barrier-image" src="{{ content_image }}" />

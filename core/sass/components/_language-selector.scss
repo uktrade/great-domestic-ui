@@ -78,9 +78,6 @@
 
 
 .language-selector-dialog {
-  background-color: $white;
-  color: $black;
-  padding: $spacing-3;
 
   a {
     @include body-s;
@@ -248,9 +245,7 @@
     }
 
     .content {
-      padding-left: 0;
-      padding-right: 0;
-      padding-top: 85px;
+      padding: 20px 30px;
     }
 
     .countries {

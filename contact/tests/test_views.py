@@ -1,7 +1,7 @@
 from unittest import mock
 
 from directory_api_client.client import api_client
-from directory_constants.constants import cms
+from directory_constants import slugs
 import pytest
 import requests_mock
 
@@ -175,52 +175,37 @@ def domestic_form_data(captcha_stub):
     (
         constants.GREAT_ACCOUNT,
         constants.NO_VERIFICATION_EMAIL,
-        views.build_great_account_guidance_url(
-            cms.GREAT_HELP_MISSING_VERIFY_EMAIL_SLUG
-        ),
+        views.build_account_guidance_url(slugs.HELP_MISSING_VERIFY_EMAIL),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.COMPANY_NOT_FOUND,
-        views.build_great_account_guidance_url(
-            cms.GREAT_HELP_ACCOUNT_COMPANY_NOT_FOUND_SLUG
-        ),
+        views.build_account_guidance_url(slugs.HELP_ACCOUNT_COMPANY_NOT_FOUND),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.PASSWORD_RESET,
-        views.build_great_account_guidance_url(
-            cms.GREAT_HELP_PASSWORD_RESET_SLUG
-        ),
+        views.build_account_guidance_url(slugs.HELP_PASSWORD_RESET),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.COMPANIES_HOUSE_LOGIN,
-        views.build_great_account_guidance_url(
-            cms.GREAT_HELP_COMPANIES_HOUSE_LOGIN_SLUG
-        ),
+        views.build_account_guidance_url(slugs.HELP_COMPANIES_HOUSE_LOGIN),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.VERIFICATION_CODE,
-        views.build_great_account_guidance_url(
-            cms.GREAT_HELP_VERIFICATION_CODE_ENTER_SLUG
-        ),
+        views.build_account_guidance_url(slugs.HELP_VERIFICATION_CODE_ENTER),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.NO_VERIFICATION_LETTER,
-        views.build_great_account_guidance_url(
-            cms.GREAT_HELP_VERIFICATION_CODE_LETTER_SLUG
-        ),
+        views.build_account_guidance_url(slugs.HELP_VERIFICATION_CODE_LETTER),
     ),
     (
         constants.GREAT_ACCOUNT,
         constants.NO_VERIFICATION_MISSING,
-        views.build_great_account_guidance_url(
-            cms.GREAT_HELP_VERIFICATION_CODE_MISSING_SLUG
-        ),
-
+        views.build_account_guidance_url(slugs.HELP_VERIFICATION_CODE_MISSING),
     ),
     (
         constants.GREAT_ACCOUNT,
@@ -232,14 +217,14 @@ def domestic_form_data(captcha_stub):
         constants.EXPORT_OPPORTUNITIES,
         constants.NO_RESPONSE,
         views.build_export_opportunites_guidance_url(
-            cms.GREAT_HELP_EXOPP_NO_RESPONSE
+            slugs.HELP_EXOPPS_NO_RESPONSE
         ),
     ),
     (
         constants.EXPORT_OPPORTUNITIES,
         constants.ALERTS,
         views.build_export_opportunites_guidance_url(
-            cms.GREAT_HELP_EXOPP_ALERTS_IRRELEVANT_SLUG
+            slugs.HELP_EXOPP_ALERTS_IRRELEVANT
         ),
     ),
     (
@@ -256,7 +241,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.INTERNATIONAL,
         constants.EXPORTING_TO_UK,
-        views.build_exporting_guidance_url(cms.GREAT_HELP_EXPORTING_TO_UK_SLUG)
+        views.build_exporting_guidance_url(slugs.HELP_EXPORTING_TO_UK)
     ),
     (
         constants.INTERNATIONAL,
@@ -425,39 +410,39 @@ def test_notify_form_submit_success(
 @pytest.mark.parametrize('url,slug', (
     (
         reverse('contact-us-events-success'),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG,
+        slugs.HELP_FORM_SUCCESS_EVENTS,
     ),
     (
         reverse('contact-us-dso-success'),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_DSO_SLUG,
+        slugs.HELP_FORM_SUCCESS_DSO,
     ),
     (
         reverse('contact-us-export-advice-success'),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG,
+        slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE,
     ),
     (
         reverse('contact-us-feedback-success'),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG,
+        slugs.HELP_FORM_SUCCESS_FEEDBACK,
     ),
     (
         reverse('contact-us-domestic-success'),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG,
+        slugs.HELP_FORM_SUCCESS,
     ),
     (
         reverse('contact-us-international-success'),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG,
+        slugs.HELP_FORM_SUCCESS_INTERNATIONAL,
     ),
     (
         reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'}),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG,
+        slugs.HELP_FORM_SUCCESS,
     ),
     (
         reverse('contact-us-exporting-to-the-uk-beis-success'),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_BEIS_SLUG,
+        slugs.HELP_FORM_SUCCESS_BEIS,
     ),
     (
         reverse('contact-us-exporting-to-the-uk-defra-success'),
-        cms.GREAT_CONTACT_US_FORM_SUCCESS_DEFRA_SLUG,
+        slugs.HELP_FORM_SUCCESS_DEFRA,
     )
 
 ))
@@ -661,25 +646,49 @@ def test_exporting_to_uk_cms_retrieval(mock_lookup_by_slug, client):
 
 
 @pytest.mark.parametrize(
-    'url,success_url,view_class,subject',
+    'url,success_url,view_class,subject,subdomain',
     (
         (
             reverse('contact-us-domestic'),
             reverse('contact-us-domestic-success'),
             views.DomesticFormView,
             settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+            None
         ),
         (
             reverse('contact-us-feedback'),
             reverse('contact-us-feedback-success'),
             views.FeedbackFormView,
             settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT,
+            None,
+        ),
+        (
+            reverse('contact-us-exporting-to-the-trade-with-uk-app'),
+            reverse('contact-us-international-success'),
+            views.ExportingToUKFormView,
+            settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
+            None,
+        ),
+        (
+            reverse('contact-us-exporting-to-the-uk-import-controls'),
+            reverse('contact-us-international-success'),
+            views.ExportingToUKFormView,
+            settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
+            settings.EU_EXIT_ZENDESK_SUBDOMAIN,
+        ),
+        (
+            reverse('contact-us-exporting-to-the-uk-other'),
+            reverse('contact-us-international-success'),
+            views.ExportingToUKFormView,
+            settings.CONTACT_INTERNATIONAL_ZENDESK_SUBJECT,
+            settings.EU_EXIT_ZENDESK_SUBDOMAIN,
         ),
     )
 )
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_zendesk_submit_success(
-    mock_form_session, client, url, success_url, view_class, subject, settings
+    mock_form_session, client, url, success_url, view_class, subject, settings,
+    subdomain
 ):
     class Form(forms.SerializeDataMixin, django.forms.Form):
         email = django.forms.EmailField()
@@ -701,6 +710,7 @@ def test_zendesk_submit_success(
         subject=subject,
         service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
         sender={'email_address': 'foo@bar.com', 'country_code': None},
+        subdomain=subdomain,
     )
 
 
@@ -832,7 +842,7 @@ def test_always_landing_for_soo_ingress_url_on_success(
     )
     # when the success page is viewed
     with mock.patch(
-        'directory_constants.constants.urls.SERVICES_SOO',
+        'directory_constants.urls.SERVICES_SOO',
         mocked_soo_landing
     ):
         response = client.get(

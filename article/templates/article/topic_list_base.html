@@ -14,12 +14,10 @@
   </section>
 {% endblock %}
 
-<section class="topic-list-section">
-  {% block breadcrumbs %}
-    {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
-  {% endblock %}
-  <div class="container">
-    {% block child_pages %}{% endblock %}
-  </div>
-</section>
+{% block breadcrumbs %}
+  {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+{% endblock %}
+
+{% block child_pages %}{% endblock %}
+
 {% endblock %}

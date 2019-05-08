@@ -125,3 +125,15 @@ def test_retrieve_company_profile_mixin_name_guessing(
         mocked.get(url, json=expected)
         assert mixin.guess_given_name == first_name
         assert mixin.guess_family_name == last_name
+
+
+def test_ga360_mixin(rf):
+    class TestView(mixins.GA360Mixin, TemplateView):
+        template_name = 'core/base.html'
+        ga360_payload = {'page_type': 'TestPageType'}
+
+    request = rf.get('/')
+    response = TestView.as_view()(request)
+
+    assert response.context_data['ga360']
+    assert response.context_data['ga360']['page_type'] == 'TestPageType'

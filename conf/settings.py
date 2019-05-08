@@ -15,7 +15,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 
 import environ
-from directory_constants.constants import cms
+from directory_constants import cms
 import directory_healthcheck.backends
 
 env = environ.Env()
@@ -55,11 +55,11 @@ INSTALLED_APPS = [
     'marketaccess',
     'community',
     'activitystream',
+    'ukef',
 ]
 
 MIDDLEWARE_CLASSES = [
     'directory_components.middleware.MaintenanceModeMiddleware',
-    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,9 +69,9 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
     'directory_components.middleware.NoCacheMiddlware',
-    'core.middleware.LocaleQuerystringMiddleware',
-    'core.middleware.PersistLocaleMiddleware',
-    'core.middleware.ForceDefaultLocale',
+    'directory_components.middleware.LocaleQuerystringMiddleware',
+    'directory_components.middleware.PersistLocaleMiddleware',
+    'directory_components.middleware.ForceDefaultLocale',
     'directory_components.middleware.CountryMiddleware',
 ]
 
@@ -134,8 +134,12 @@ CACHES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
-
 LANGUAGE_CODE = 'en-gb'
+
+# https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-LANGUAGE_COOKIE_NAME
+LANGUAGE_COOKIE_DEPRECATED_NAME = 'django-language'
+# Django's default value for LANGUAGE_COOKIE_DOMAIN is None
+LANGUAGE_COOKIE_DOMAIN = env.str('LANGUAGE_COOKIE_DOMAIN', None)
 
 # https://github.com/django/django/blob/master/django/conf/locale/__init__.py
 LANGUAGES = [
@@ -281,6 +285,9 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC = env.str(
     'DIRECTORY_CONSTANTS_URL_GREAT_DOMESTIC', ''
 )
+DIRECTORY_CONSTANTS_URL_GREAT_INTERNATIONAL = env.str(
+    'DIRECTORY_CONSTANTS_URL_GREAT_INTERNATIONAL', ''
+)
 DIRECTORY_CONSTANTS_URL_EXPORT_OPPORTUNITIES = env.str(
     'DIRECTORY_CONSTANTS_URL_EXPORT_OPPORTUNITIES', ''
 )
@@ -303,7 +310,7 @@ DIRECTORY_CONSTANTS_URL_FIND_A_BUYER = env.str(
 
 PRIVACY_COOKIE_DOMAIN = os.getenv('PRIVACY_COOKIE_DOMAIN')
 
-# Exopps url for interstitial page
+# Exopps url for /export-opportunities redirect
 SERVICES_EXOPPS_ACTUAL = env.str('SERVICES_EXOPPS_ACTUAL', '')
 
 # Sentry
@@ -359,7 +366,10 @@ DIRECTORY_CMS_API_CLIENT_SERVICE_NAME = cms.EXPORT_READINESS
 DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT = 15
 
 # directory clients
-DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = 60 * 60 * 24 * 30  # 30 days
+DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = env.int(
+    'DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS',
+    60 * 60 * 24 * 30  # 30 days
+)
 
 # Internal CH
 INTERNAL_CH_BASE_URL = env.str('INTERNAL_CH_BASE_URL', '')
@@ -381,11 +391,8 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 FEATURE_FLAGS = {
     'NEW_INTERNATIONAL_HEADER_ON': env.bool(
         'FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED', False),
-    'HEADER_SEARCH_ON': env.bool('FEATURE_SEARCH_ENABLED', False),
-    'NEW_HEADER_FOOTER_ON': env.bool(
-        'FEATURE_NEW_HEADER_FOOTER_ENABLED', False
-    ),
-    'MARKETS_PAGES_ON': env.bool('FEATURE_MARKETS_PAGES_ENABLED', False),
+    'HEADER_SEARCH_ON': True,  # to be removed from directory-components
+    'NEW_HEADER_FOOTER_ON': True,  # to be removed from directory-components
     'PROTOTYPE_PAGES_ON': env.bool('FEATURE_PROTOTYPE_PAGES_ENABLED', False),
     'CAMPAIGN_PAGES_ON': env.bool('FEATURE_CAMPAIGN_PAGES_ENABLED', False),
     'NEWS_SECTION_ON': env.bool('FEATURE_NEWS_SECTION_ENABLED', False),
@@ -410,7 +417,7 @@ FEATURE_FLAGS = {
     ),
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
-    'SEARCH_ON': env.bool('FEATURE_SEARCH_ENABLED', False),
+    'UKEF_PAGES_ON': env.bool('FEATURE_UKEF_PAGES_ENABLED', False),
 }
 
 # UK Export Finance
@@ -443,6 +450,10 @@ FIND_A_SUPPLIER_CONTACT_URL = env.str(
 )
 CONTACT_DOMESTIC_ZENDESK_SUBJECT = env.str(
     'CONTACT_DOMESTIC_ZENDESK_SUBJECT', 'great.gov.uk contact form'
+)
+CONTACT_INTERNATIONAL_ZENDESK_SUBJECT = env.str(
+    'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
+    'great.gov.uk international contact form'
 )
 CONTACT_SOO_ZENDESK_SUBJECT = env.str(
     'CONTACT_DOMESTIC_ZENDESK_SUBJECT',
@@ -566,11 +577,17 @@ COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS = env.str(
     'COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS',
 )
 
-# Admin restrictor
-RESTRICT_ADMIN = env.bool('IP_RESTRICTOR_RESTRICT_IPS', False)
-ALLOWED_ADMIN_IPS = env.list('IP_RESTRICTOR_ALLOWED_ADMIN_IPS', default=[])
-ALLOWED_ADMIN_IP_RANGES = env.list(
-    'IP_RESTRICTOR_ALLOWED_ADMIN_IP_RANGES', default=[]
+# UKEF CONTACT FORM
+UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID = env.str(
+    'UKEF_CONTACT_USER_NOTIFY_TEMPLATE_ID',
+    '09677460-1796-4a60-a37c-c1a59068219e'
+)
+UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
+    'UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID',
+    'e24ba486-6337-46ce-aba3-45d1d3a2aa66'
+)
+UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
+    'UKEF_CONTACT_AGENT_EMAIL_ADDRESS',
 )
 
 LANDING_PAGE_VIDEO_URL = env.str(

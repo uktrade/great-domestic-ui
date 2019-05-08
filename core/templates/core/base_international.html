@@ -8,16 +8,29 @@
     <link href="{% static 'directory_components/vendor/flag-icons/css/flag-icon.min.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block head_js %}{% endblock %}
+{% block head_js %}
+  <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/dit.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+{% endblock %}
+
+{% block css_layout_class %}international-page{% endblock %}
 
 {% block header_js %}
-  <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
-  <script src="{% static 'directory_components/js/dit.responsive.js' %}"></script>
-  <script src="{% static 'directory_components/js/dit.utils.js' %}"></script>
-  <script src="{% static 'directory_components/js/dit.classes.Dropdown.js' %}"></script>
-  <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
-  <script src="{% static 'directory_components/js/dit.components.countrySelector.js' %}"></script>
-  <script src="{% static 'directory_components/js/dit.components.greatInternationalHeader.js' %}"></script>
+  {% if features.NEW_INTERNATIONAL_HEADER_ON %}
+    <script src="{% static 'directory_components/js/dit.responsive.js' %}"></script>
+    <script src="{% static 'directory_components/js/dit.utils.js' %}"></script>
+    <script src="{% static 'directory_components/js/dit.classes.Dropdown.js' %}"></script>
+    <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+    <script src="{% static 'directory_components/js/dit.components.countrySelector.js' %}"></script>
+    <script src="{% static 'directory_components/js/dit.components.languageSelectorDropdown.js' %}"></script>
+    <script src="{% static 'directory_components/js/dit.components.greatInternationalHeader.js' %}"></script>
+  {% else %}
+    <script src="{% static 'directory_components/js/dit.classes.Modal.js' %}"></script>
+    <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
+    <script src="{% static 'js/international.js' %}"></script>
+    <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+  {% endif %}
 {% endblock %}
 
 {% block head_other %}
@@ -27,11 +40,7 @@
 {% block skip_link %}{% endblock %}
 
 {% block body_header %}
-  {% if features.NEW_INTERNATIONAL_HEADER_ON %}
-    {% include 'directory_components/header_footer/international_header.html' %}
-  {% else %}
-    {% include 'core/includes/international_header.html' %}
-  {% endif %}
+  {% include 'core/includes/international_header.html' %}
 {% endblock %}
 
 {% block body_footer %}
