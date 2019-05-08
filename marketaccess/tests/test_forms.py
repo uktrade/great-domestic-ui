@@ -165,7 +165,7 @@ def test_problem_details_error_messages():
         'Tell us how your business is being affected by the problem'
     ]
     form.errors['resolve_summary'] == [(
-        'Tell us what you’ve done to resolve your problem,',
+        'Tell us what you’ve done to resolve your problem, '
         'even if this is your first step'
     )]
     form.errors['eu_exit_related'] == [

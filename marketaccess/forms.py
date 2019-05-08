@@ -107,21 +107,21 @@ class ProblemDetailsForm(forms.Form):
     problem_summary = fields.CharField(
         label=mark_safe(
             (
-                '<p>Tell us about your problem, including: </p>',
-                '<ul class="list list-bullet">',
-                '<li>what’s affecting your export or investment</li>',
-                '<li>when you became aware of the problem</li>',
-                '<li>how you became aware of the problem</li>',
-                '<li>if this has happened before</li>',
-                '<li>',
-                'any information you’ve been given or',
-                'correspondence you’ve had',
-                '</li>',
-                '<li>',
-                'the HS (Harmonized System) code for your goods,',
-                'if you know it',
-                '</li>',
-                '</ul>',
+                '<p>Tell us about your problem, including: </p>'
+                '<ul class="list list-bullet">'
+                '<li>what’s affecting your export or investment</li>'
+                '<li>when you became aware of the problem</li>'
+                '<li>how you became aware of the problem</li>'
+                '<li>if this has happened before</li>'
+                '<li>'
+                'any information you’ve been given or'
+                'correspondence you’ve had'
+                '</li>'
+                '<li>'
+                'the HS (Harmonized System) code for your goods,'
+                'if you know it'
+                '</li>'
+                '</ul>'
             )
         ),
         widget=Textarea,
@@ -131,13 +131,13 @@ class ProblemDetailsForm(forms.Form):
     )
     impact = fields.CharField(
         label=(
-            'How has the problem affected your business or',
+            'How has the problem affected your business or'
             'industry, or how could it affect it?'
         ),
         widget=Textarea,
         error_messages={
             'required': (
-                'Tell us how your business or industry',
+                'Tell us how your business or industry'
                 'is being affected by the problem'
             )
         }
@@ -145,19 +145,19 @@ class ProblemDetailsForm(forms.Form):
     resolve_summary = fields.CharField(
         label=mark_safe(
             (
-                '<p>Tell us about any steps you’ve taken',
-                'to resolve the problem, including: </p>',
-                '<ul class="list list-bullet">',
-                '<li>people you’ve contacted</li>',
-                '<li>when you contacted them</li>',
-                '<li>what happened</li>',
+                '<p>Tell us about any steps you’ve taken '
+                'to resolve the problem, including: </p>'
+                '<ul class="list list-bullet">'
+                '<li>people you’ve contacted</li>'
+                '<li>when you contacted them</li>'
+                '<li>what happened</li>'
                 '</ul>'
             )
         ),
         widget=Textarea,
         error_messages={
             'required': (
-                'Tell us what you’ve done to resolve your;',
+                'Tell us what you’ve done to resolve your ',
                 'problem, even if this is your first step'
             )
         }
@@ -181,7 +181,7 @@ class OtherDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
     other_details = fields.CharField(
         label=(
-            'Do you want to tell us anything else',
+            'Do you want to tell us anything else'
             'about your problem? (optional)'
         ),
         widget=Textarea,
