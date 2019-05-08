@@ -15,6 +15,7 @@
 - Added UKEF getting ready page([XOT-813](https://uktrade.atlassian.net/browse/XOT-813))
 - [[XOT-811]](https://uktrade.atlassian.net/browse/XOT-811) Added UKEF Home Page Endpoint
 - [[XOT-812]](https://uktrade.atlassian.net/browse/XOT-812) Added UKEF Project Finance Page Endpoint
+- [[CMS-1271]](https://uktrade.atlassian.net/browse/CMS-1271) Update teaser section on country guide pages
 - Added Market Access tile to services pages
 
 **Fixed bugs:**
