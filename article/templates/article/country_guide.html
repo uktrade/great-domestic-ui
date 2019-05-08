@@ -20,11 +20,29 @@
 </section>
 
 {% if page.heading_teaser %}
-<section id="country-guide-teaser-section" class="teaser padding-vertical-30">
+<section id="country-guide-teaser-section" class="teaser-section padding-vertical-30">
   <div class="container">
     <div class="grid-row">
-      <div class="column-full column-half-l">
+      <div class="column-three-quarters-l teaser">
         <p class="font-medium margin-bottom-60">{{ page.heading_teaser }}</p>
+      </div>
+      <div class="column-quarter-l links">
+        <div class="panel-vertical-narrow content-list padding-top-30">
+          <ul>
+            <li>
+              {% url 'advice' as advice_url %}
+              <h3 class="heading-small"><a href="{{ advice_url }}" class="link">Read our exporting advice</a></h3>
+            </li>
+            <li>
+              {% with 'Read market guide for '|add:page.heading as market_guide_cta_text %}
+              <h3 class="heading-small"><a href="{{ page.help_market_guide_cta_link }}" class="link">{{ market_guide_cta_text }}</a></h3>
+              {% endwith %}
+            </li>
+            <li>
+              <h3 class="heading-small"><a href="{{ services_urls.contact_us }}" class="link">Tell us what help you need</a></h3>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
