@@ -15,7 +15,11 @@
 - Added UKEF getting ready page([XOT-813](https://uktrade.atlassian.net/browse/XOT-813))
 - [[XOT-811]](https://uktrade.atlassian.net/browse/XOT-811) Added UKEF Home Page Endpoint
 - [[XOT-812]](https://uktrade.atlassian.net/browse/XOT-812) Added UKEF Project Finance Page Endpoint
+<<<<<<< HEAD
 - [[MA-739]](https://uktrade.atlassian.net/browse/MA-739) Adjusted Market Access content
+=======
+- [[CMS-1271]](https://uktrade.atlassian.net/browse/CMS-1271) Update teaser section on country guide pages
+>>>>>>> cc2e170c720a15de4376286c1efc06894633da90
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
