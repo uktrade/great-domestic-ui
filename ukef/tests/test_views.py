@@ -32,6 +32,20 @@ from ukef import forms
             },
             200
         ),
+        (
+            reverse('how-we-assess-your-project'),
+            {
+                'title': 'How we assess your project - great.gov.uk',
+            },
+            200
+        ),
+        (
+            reverse('what-we-offer-you'),
+            {
+                'title': 'What we offer you - great.gov.uk',
+            },
+            200
+        )
     )
 )
 def test_ukef_views_while_feature_flag_enabled(
@@ -56,6 +70,14 @@ def test_ukef_views_while_feature_flag_enabled(
         ),
         (
             reverse('uk-export-contact'),
+            404
+        ),
+        (
+            reverse('how-we-assess-your-project'),
+            404
+        ),
+        (
+            reverse('what-we-offer-you'),
             404
         ),
     )

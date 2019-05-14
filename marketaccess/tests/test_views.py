@@ -47,6 +47,10 @@ def test_form_submission(mock_zendesk_action, client):
     settings.FEATURE_FLAGS['MARKET_ACCESS_ON'] = True
     url_name = 'report-ma-barrier'
     view_name = 'report_market_access_barrier_form_view'
+    business_type = (
+        'I’m an exporter or investor, or '
+        'I want to export or invest'
+    )
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'about'}),
@@ -55,7 +59,7 @@ def test_form_submission(mock_zendesk_action, client):
             'about-firstname': 'Craig',
             'about-lastname': 'Smith',
             'about-jobtitle': 'Musician',
-            'about-business_type': "I’m an exporter or I want to export",
+            'about-business_type': business_type,
             'about-company_name': 'Craig Music',
             'about-email': 'craig@craigmusic.com',
             'about-phone': '0123456789',
@@ -101,7 +105,7 @@ def test_form_submission(mock_zendesk_action, client):
     assert response.status_code == 200
 
     assert mock_zendesk_action.call_count == 1
-    subject = f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: Angola: Craig Music"
+    subject = f'{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: Angola: Craig Music'
     assert mock_zendesk_action.call_args == mock.call(
         subject=subject,
         full_name='Craig Smith',
@@ -115,7 +119,7 @@ def test_form_submission(mock_zendesk_action, client):
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'business_type': "I’m an exporter or I want to export",
+        'business_type': business_type,
         'other_business_type': '',
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
