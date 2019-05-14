@@ -14,6 +14,7 @@
 - Added UKEF Contact Form and Success Pages([XOT-816](https://uktrade.atlassian.net/browse/XOT-816))
 - Added UKEF Getting Ready Page([XOT-813](https://uktrade.atlassian.net/browse/XOT-813))
 - Added UKEF What We Offer Page([XOT-815](https://uktrade.atlassian.net/browse/XOT-815))
+- Added UKEF Country Cover Page([XOT-817](https://uktrade.atlassian.net/browse/XOT-817))
 - [[XOT-811]](https://uktrade.atlassian.net/browse/XOT-811) Added UKEF Home Page Endpoint
 - [[XOT-812]](https://uktrade.atlassian.net/browse/XOT-812) Added UKEF Project Finance Page Endpoint
 - [[XOT-839]](https://uktrade.atlassian.net/browse/XOT-839)  Re-ordered URL parameters on /search page

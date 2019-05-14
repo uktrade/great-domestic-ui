@@ -666,6 +666,11 @@ ukef_urls = [
         ukef.views.WhatWeOfferView.as_view(),
         name='what-we-offer-you'
     ),
+    url(
+        r"^country-cover/$",
+        ukef.views.CountryCoverView.as_view(),
+        name='country-cover'
+    ),
 ]
 
 urlpatterns += euexit_urls
