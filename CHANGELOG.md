@@ -14,6 +14,7 @@
 - Added UKEF Contact Form and Success Pages([XOT-816](https://uktrade.atlassian.net/browse/XOT-816))
 - [[XOT-811]](https://uktrade.atlassian.net/browse/XOT-811) Added UKEF Home Page Endpoint
 - [[XOT-812]](https://uktrade.atlassian.net/browse/XOT-812) Added UKEF Project Finance Page Endpoint
+- [[CMS-1410]](https://uktrade.atlassian.net/browse/CMS-1410) Added redirect URLs for updated export advice articles
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
