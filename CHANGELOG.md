@@ -12,11 +12,14 @@
 - Added UKEF Home Page Endpoint([XOT-811](https://uktrade.atlassian.net/browse/XOT-811))
 - Added UKEF Project Finance Page Endpoint([XOT-812](https://uktrade.atlassian.net/browse/XOT-812))
 - Added UKEF Contact Form and Success Pages([XOT-816](https://uktrade.atlassian.net/browse/XOT-816))
-- Added UKEF getting ready page([XOT-813](https://uktrade.atlassian.net/browse/XOT-813))
+- Added UKEF Getting Ready Page([XOT-813](https://uktrade.atlassian.net/browse/XOT-813))
+- Added UKEF What We Offer Page([XOT-815](https://uktrade.atlassian.net/browse/XOT-815))
 - [[XOT-811]](https://uktrade.atlassian.net/browse/XOT-811) Added UKEF Home Page Endpoint
 - [[XOT-812]](https://uktrade.atlassian.net/browse/XOT-812) Added UKEF Project Finance Page Endpoint
 - [[XOT-839]](https://uktrade.atlassian.net/browse/XOT-839)  Re-ordered URL parameters on /search page
+- [[MA-739]](https://uktrade.atlassian.net/browse/MA-739) Adjusted Market Access content
 - [[CMS-1271]](https://uktrade.atlassian.net/browse/CMS-1271) Update teaser section on country guide pages
+- [[MA-745]](https://uktrade.atlassian.net/browse/MA-745)Added Market Access tile to services pages
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
