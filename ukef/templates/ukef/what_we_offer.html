@@ -6,123 +6,121 @@
 
 {% block head_title %}What we offer you - great.gov.uk{% endblock %}
 
-{% block og_image %}{% if page.article_image %}{{ page.article_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
-
 {% block meta_description %}{% endblock %}
 
 {% block css_layout_class %}article-detail-page ukef-article-detail-page{% endblock css_layout_class %}
 
 {% block head_css %}
-	{{ block.super }}
-	<link href="{% static 'styles/ukef-how-we-assess.css' %}" rel="stylesheet" type="text/css" />
+  {{ block.super }}
+  <link href="{% static 'styles/ukef-how-we-assess.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block content %}
 
-	<section id="breadcrumbs-section" class="breadcrumbs-section">
-		<div class="container">
-			<nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
-				<ol>
-					<li><a href="/">Great.gov.uk </a></li>
-					<li><a href="{% url 'get-finance' %}">UKEF</a></li>
-					<li><a href="{% url 'project-finance' %}">Project Finance</a></li>
-					<li aria-current="page">Get in touch</li>
-				</ol>
-			</nav>
-		</div>
-	</section>
+  <section id="breadcrumbs-section" class="breadcrumbs-section">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
+        <ol>
+          <li><a href="/">Great.gov.uk </a></li>
+          <li><a href="{% url 'get-finance' %}">UKEF</a></li>
+          <li><a href="{% url 'project-finance' %}">Project Finance</a></li>
+          <li aria-current="page">Get in touch</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
 
-	<section id="article-what-we-offer">
-		<article class="article-main what-we-offer-you-article">
-			<div class="container">
-				<header>
-					<div class="grid-row">
-						<div class="column-three-quarters article-hero-text">
-							<div class="grid-row">
-								<div class="column-seven-ninths">
-									<h1 class="heading-xlarge">What we offer you</h1>
-									<div class="text">
-										<p class="teaser-text">
-											We support complex international projects through financing, export credits and insurance. Buyers of goods and services from the UK can also benefit from longer repayment tenors than may otherwise be available.
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</header>
+  <section id="article-what-we-offer">
+    <article class="article-main what-we-offer-you-article">
+      <div class="container">
+        <header>
+          <div class="grid-row">
+            <div class="column-three-quarters article-hero-text">
+              <div class="grid-row">
+                <div class="column-seven-ninths">
+                  <h1 class="heading-xlarge">What we offer you</h1>
+                  <div class="text">
+                    <p class="font-medium">
+                      We support complex international projects through financing, export credits and insurance. Buyers of goods and services from the UK can also benefit from longer repayment tenors than may otherwise be available.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
 
-				<div class="grid-row">
-					<div class="column-three-quarters">
-						<img src="{% static 'images/what-we-offer-you-hero.png' %}" alt="" class="width-100">
+        <div class="grid-row">
+          <div class="column-three-quarters">
+            <img src="{% static 'images/what-we-offer-you-hero.png' %}" alt="" class="width-full">
 
-						<section class="grid-row">
-							<div class="column-seven-ninths article-content padding-bottom-0">
-								<h3 class="heading-medium">Project financing</h3>
-								<p class="text">
-									Through our <a href="https://www.gov.uk/guidance/buyer-credit-facility">Buyer Credit</a> and <a
-									href="https://www.gov.uk/guidance/supplier-credit-financing-facility">Supplier Credit</a> facilities, UKEF offers financial guarantees to banks, where they may otherwise be unwilling to lend. This gives real reassurance to all sides of international trade deals, and allows overseas buyers to benefit from the UK’s credit rating.
-								</p>
-								<p class="text">
-									We’re flexible: we provide support in over 60 local currencies and work within a wide variety of contractual and finance structures. These include lines of credit, limited recourse project financing, public-private Partnerships and Shariah-compliant (Islamic Sukuk) finance.
-								</p>
-								<p class="text">
-									Where banks can’t or won’t offer support, our <a href="https://www.gov.uk/guidance/direct-lending-scheme">Direct Lending</a> facility lends directly to overseas buyers or brokers alternative fixed-rate source of funding.
-								</p>
+            <section class="grid-row">
+              <div class="column-seven-ninths article-content padding-bottom-0">
+                <h2 class="heading-medium">Project financing</h2>
+                <p>
+                  Through our <a href="https://www.gov.uk/guidance/buyer-credit-facility" class="link" rel="noopener noreferrer" target="_blank">Buyer Credit</a> and <a
+                  href="https://www.gov.uk/guidance/supplier-credit-financing-facility" class="link" rel="noopener noreferrer" target="_blank">Supplier Credit</a> facilities, UKEF offers financial guarantees to banks, where they may otherwise be unwilling to lend. This gives real reassurance to all sides of international trade deals, and allows overseas buyers to benefit from the UK’s credit rating.
+                </p>
+                <p>
+                  We’re flexible: we provide support in over 60 local currencies and work within a wide variety of contractual and finance structures. These include lines of credit, limited recourse project financing, public-private Partnerships and Shariah-compliant (Islamic Sukuk) finance.
+                </p>
+                <p>
+                  Where banks can’t or won’t offer support, our <a href="https://www.gov.uk/guidance/direct-lending-scheme" class="link" rel="noopener noreferrer" target="_blank">Direct Lending</a> facility lends directly to overseas buyers or brokers alternative fixed-rate source of funding.
+                </p>
 
-								<h3 class="heading-medium">Support to fulfil contracts</h3>
-								<p class="text">
-									UKEF can help exporters and their direct suppliers in fulfilling their contracts either through the provision of working capital or by providing support for the issuance of contract bonds.
-								</p>
+                <h2 class="heading-medium">Support to fulfil contracts</h2>
+                <p>
+                  UKEF can help exporters and their direct suppliers in fulfilling their contracts either through the provision of working capital or by providing support for the issuance of contract bonds.
+                </p>
 
-								<h3 class="heading-medium">Insurance for UK exporters</h3>
-								<p class="text">
-									If you’re working in challenging markets, our insurance products let you manage risk, where the private market is unable to step in.
-									<a href="https://www.gov.uk/guidance/export-insurance-policy">UKEF’s Export Insurance Policy</a> and
-									<a href="https://www.gov.uk/guidance/bond-insurance-policy">Bond Insurance Policy</a> cover you in the event of
-									non-payment or demand for payment under a bond, which is either unfair or caused by political events.
-								</p>
-								<h3 class="heading-medium">UKEF premiums</h3>
-								<p class="text">We can give you an <a href="https://www.gov.uk/government/publications/sovereign-premium-indicator-tool">indicative premium rate</a> for medium or long-term transactions, where we will be supporting an overseas sovereign buyer as the risk entity.</p>
-							</div>
-						</section>
-					</div>
-					<div class="column-quarter">
-						<div class="panel-vertical-narrow">
-							<ul>
-								<li>
-									<h3 class="heading-small margin-top-0"><a href="{% url 'how-we-assess-your-project' %}" class="link">How we assess your project</a></h3>
-								</li>
-								<li>
-									<h3 class="heading-small"><a href="#" class="link">Check our country cover</a></h3>
-								</li>
-								<li>
-									<h3 class="heading-small"><a href="https://www.gov.uk/government/collections/uk-export-finance-products-and-services" class="link">UKEF services and products</a></h3>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</article>
-	</section>
+                <h2 class="heading-medium">Insurance for UK exporters</h2>
+                <p>
+                  If you’re working in challenging markets, our insurance products let you manage risk, where the private market is unable to step in.
+                  <a href="https://www.gov.uk/guidance/export-insurance-policy" class="link" rel="noopener noreferrer" target="_blank">UKEF’s Export Insurance Policy</a> and
+                  <a href="https://www.gov.uk/guidance/bond-insurance-policy" class="link" rel="noopener noreferrer" target="_blank">Bond Insurance Policy</a> cover you in the event of
+                  non-payment or demand for payment under a bond, which is either unfair or caused by political events.
+                </p>
+                <h2 class="heading-medium">UKEF premiums</h2>
+                <p>We can give you an <a href="https://www.gov.uk/government/publications/sovereign-premium-indicator-tool" class="link" rel="noopener noreferrer" target="_blank">indicative premium rate</a> for medium or long-term transactions, where we will be supporting an overseas sovereign buyer as the risk entity.</p>
+              </div>
+            </section>
+          </div>
+          <div class="column-quarter">
+            <div class="panel-vertical-narrow">
+              <ul>
+                <li class="heading-small margin-top-0">
+                  <a href="{% url 'how-we-assess-your-project' %}" class="link">How we assess your project</a>
+                </li>
+                <li class="heading-small margin-top-0">
+                  <a href="#" class="link">Check our country cover</a>
+                </li>
+                <li class="heading-small margin-top-0">
+                  <a href="https://www.gov.uk/government/collections/uk-export-finance-products-and-services" class="link" rel="noopener noreferrer" target="_blank">UKEF services and products</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
 
-	<section id="contact-us-section" class="contact-us-section padding-vertical-60 background-stone-30">
-		<div class="container">
-			<div class="grid-row">
-				<div class="column-three-quarters">
-					<div class="grid-row">
-						<div class="column-seven-ninths padding-0">
-							<div class="column-full padding-bottom-30">
-								<p class="text small">Contact us about your project.</p>
-							</div>
-							<div class="column-full">
-								<a href="{% url 'uk-export-contact' %}" class="button">Get in touch</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+  <section id="contact-us-section" class="contact-us-section padding-vertical-60 background-stone-30">
+    <div class="container">
+      <div class="grid-row">
+        <div class="column-three-quarters">
+          <div class="grid-row">
+            <div class="column-seven-ninths padding-0">
+              <div class="column-full padding-bottom-30">
+                <p class="text small">Contact us about your project.</p>
+              </div>
+              <div class="column-full">
+                <a href="{% url 'uk-export-contact' %}" class="button">Get in touch</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}

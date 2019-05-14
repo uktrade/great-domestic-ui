@@ -138,3 +138,9 @@ def test_contact_form_success_view_response(rf):
     response = view(request)
     assert response.status_code == 200
     assert user_email in response.rendered_content
+
+    # test page redirect if the email doesn't exists in the session
+    request.session = {}
+    view = views.SuccessPageView.as_view()
+    response = view(request)
+    assert response.status_code == 302
