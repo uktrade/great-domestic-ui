@@ -5,11 +5,15 @@ from marketaccess import forms
 
 @pytest.fixture
 def about_form_data():
+    business_type = (
+        'I’m an exporter or investor, or '
+        'I want to export or invest'
+    )
     return {
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'business_type': "I’m an exporter or I want to export",
+        'business_type': business_type,
         'other_business_type': '',
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
@@ -23,8 +27,8 @@ def about_form_data_with_other_business_type():
         'firstname': 'Craig',
         'lastname': 'Smith',
         'jobtitle': 'Musician',
-        'business_type': "Other",
-        'other_business_type': "Other business type",
+        'business_type': 'Other',
+        'other_business_type': 'Other business type',
         'company_name': 'Craig Music',
         'email': 'craig@craigmusic.com',
         'phone': '0123456789'
@@ -152,7 +156,7 @@ def test_problem_details_error_messages():
         'Tell us what you’re trying to export or invest in'
     ]
     form.errors['location'] == [
-        'Tell us where are you trying to export to'
+        'Tell us where are you trying to export to or invest in'
         ]
     form.errors['problem_summary'] == [
         'Tell us about the problem you’re facing'
@@ -160,10 +164,10 @@ def test_problem_details_error_messages():
     form.errors['impact'] == [
         'Tell us how your business is being affected by the problem'
     ]
-    form.errors['resolve_summary'] == [
-        'Tell us what you’ve done to resolve your problem, \
-        even if this is your first step'
-    ]
+    form.errors['resolve_summary'] == [(
+        'Tell us what you’ve done to resolve your problem, '
+        'even if this is your first step'
+    )]
     form.errors['eu_exit_related'] == [
         'Tell us if your problem is related to EU Exit'
     ]
