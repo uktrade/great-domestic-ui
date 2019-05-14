@@ -65,15 +65,15 @@
       <div class="pagination">
         <p class="verbose">Displaying page {{ current_page }} of total {{ total_pages }}</p>
         {% if current_page != 1 %}
-          <a class="previous" rel="prev" href="{% url 'search' %}?q={{ query }}&page={{ previous_page }}">Previous</a>
+          <a class="previous" rel="prev" href="{% url 'search' %}?page={{ previous_page }}&q={{ query }}">Previous</a>
         {% endif %}
         {% if current_page != total_pages %}
-          <a class="next" rel="next" href="{% url 'search' %}?q={{ query }}&page={{ next_page }}">Next</a>
+          <a class="next" rel="next" href="{% url 'search' %}?page={{ next_page }}&q={{ query }}">Next</a>
         {% endif %}
         <ul class="navigation" role="navigation" aria-label="Page navigation">
           {% if show_first_page %}
             <li>
-              <a href="{% url 'search' %}?q={{ query }}&page=1"><span class="verbose">Page </span>1</a>
+              <a href="{% url 'search' %}?page=1&q={{ query }}"><span class="verbose">Page </span>1</a>
             </li>
             <li>
               <span class="verbose">Page links truncated</span>
@@ -82,7 +82,7 @@
           {% endif %}
           {% for page in prev_pages %}
             <li>
-              <a rel="prev" href="{% url 'search' %}?q={{ query }}&page={{ page }}"><span class="verbose">Page </span>{{ page }}</a>
+              <a rel="prev" href="{% url 'search' %}?page={{ page }}&q={{ query }}"><span class="verbose">Page </span>{{ page }}</a>
             </li>
           {% endfor %}
           <li>
@@ -92,7 +92,7 @@
           </li>
           {% for page in next_pages %}
             <li>
-              <a rel="next" href="{% url 'search' %}?q={{ query }}&page={{ page }}"><span class="verbose">Page </span>{{ page }}</a>
+              <a rel="next" href="{% url 'search' %}?page={{ page }}&q={{ query }}"><span class="verbose">Page </span>{{ page }}</a>
             </li>
           {% endfor %}
           {% if show_last_page %}
@@ -101,7 +101,7 @@
               <span class="gap">…</span>
             </li>
             <li>
-              <a href="{% url 'search' %}?q={{ query }}&page={{ total_pages }}"><span class="verbose">Page </span>{{ total_pages }}</a>
+              <a href="{% url 'search' %}?page={{ total_pages }}&q={{ query }}"><span class="verbose">Page </span>{{ total_pages }}</a>
             </li>
           {% endif %}
         </ul>
