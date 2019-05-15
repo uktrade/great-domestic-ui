@@ -9,12 +9,13 @@
 - Upgraded [CMS client][directory-cms-client] reduces noisy fallback cache logging.
 - Upgraded [API client][directory-api-client], [Forms client][directory-forms-api-client], [SSO client][directory-sso-api-client], and [Companies House client][directory-companies-house-search-client].
 - Added `DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS` env var.
-- Added UKEF Home Page Endpoint([XOT-811](https://uktrade.atlassian.net/browse/XOT-811))
-- Added UKEF Project Finance Page Endpoint([XOT-812](https://uktrade.atlassian.net/browse/XOT-812))
-- Added UKEF Contact Form and Success Pages([XOT-816](https://uktrade.atlassian.net/browse/XOT-816))
-- Added UKEF Getting Ready Page([XOT-813](https://uktrade.atlassian.net/browse/XOT-813))
-- Added UKEF What We Offer Page([XOT-815](https://uktrade.atlassian.net/browse/XOT-815))
-- Added UKEF Country Cover Page([XOT-817](https://uktrade.atlassian.net/browse/XOT-817))
+- ([XOT-811](https://uktrade.atlassian.net/browse/XOT-811)) Added UKEF Home Page Endpoint
+- ([XOT-812](https://uktrade.atlassian.net/browse/XOT-812)) Added UKEF Project Finance Page Endpoint
+- ([XOT-896](https://uktrade.atlassian.net/browse/XOT-896)) Updated UKEF Project Finance Page with new design.
+- ([XOT-816](https://uktrade.atlassian.net/browse/XOT-816)) Added UKEF Contact Form and Success Pages
+- ([XOT-813](https://uktrade.atlassian.net/browse/XOT-813)) Added UKEF Getting Ready Page
+- ([XOT-815](https://uktrade.atlassian.net/browse/XOT-815)) Added UKEF What We Offer Page
+- ([XOT-817](https://uktrade.atlassian.net/browse/XOT-817)) Added UKEF Country Cover Page
 - [[XOT-811]](https://uktrade.atlassian.net/browse/XOT-811) Added UKEF Home Page Endpoint
 - [[XOT-812]](https://uktrade.atlassian.net/browse/XOT-812) Added UKEF Project Finance Page Endpoint
 - [[XOT-839]](https://uktrade.atlassian.net/browse/XOT-839)  Re-ordered URL parameters on /search page
