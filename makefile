@@ -89,7 +89,8 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_EXPORTING_TO_UK_ON_ENABLED=True; \
 	export FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED=true; \
 	export FEATURE_UKEF_PAGES_ENABLED=true; \
-	export LANGUAGE_COOKIE_DOMAIN=.trade.great
+	export LANGUAGE_COOKIE_DOMAIN=.trade.great; \
+	export HEADER_FOOTER_URLS_EVENTS=https://www.events.great.gov.uk
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
@@ -126,7 +127,8 @@ TEST_SET_ENV_VARS := \
 	export ACTIVITY_STREAM_API_ACCESS_KEY=debug; \
 	export ACTIVITY_STREAM_API_IP_WHITELIST=debug; \
 	export CONTACT_DEFRA_AGENT_EMAIL_ADDRESS=debug; \
-	export CONTACT_BEIS_AGENT_EMAIL_ADDRESS=debug
+	export CONTACT_BEIS_AGENT_EMAIL_ADDRESS=debug; \
+	export HEADER_FOOTER_URLS_EVENTS=https://www.events.great.gov.uk
 
 debug_webserver:
 	$(DEBUG_SET_ENV_VARS) && $(DJANGO_WEBSERVER)
