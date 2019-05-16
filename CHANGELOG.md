@@ -21,6 +21,7 @@
 - [[MA-739]](https://uktrade.atlassian.net/browse/MA-739) Adjusted Market Access content
 - [[CMS-1271]](https://uktrade.atlassian.net/browse/CMS-1271) Update teaser section on country guide pages
 - [[MA-745]](https://uktrade.atlassian.net/browse/MA-745)Added Market Access tile to services pages
+- [[CMS-1410]](https://uktrade.atlassian.net/browse/CMS-1410) Added redirect URLs for updated export advice articles
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
