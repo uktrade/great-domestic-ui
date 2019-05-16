@@ -9,26 +9,25 @@
 - Upgraded [CMS client][directory-cms-client] reduces noisy fallback cache logging.
 - Upgraded [API client][directory-api-client], [Forms client][directory-forms-api-client], [SSO client][directory-sso-api-client], and [Companies House client][directory-companies-house-search-client].
 - Added `DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS` env var.
-- Added UKEF Home Page Endpoint([XOT-811](https://uktrade.atlassian.net/browse/XOT-811))
-- Added UKEF Project Finance Page Endpoint([XOT-812](https://uktrade.atlassian.net/browse/XOT-812))
-- Added UKEF Contact Form and Success Pages([XOT-816](https://uktrade.atlassian.net/browse/XOT-816))
-- Added UKEF Getting Ready Page([XOT-813](https://uktrade.atlassian.net/browse/XOT-813))
-- Added UKEF What We Offer Page([XOT-815](https://uktrade.atlassian.net/browse/XOT-815))
-- Added UKEF Country Cover Page([XOT-817](https://uktrade.atlassian.net/browse/XOT-817))
-- [[XOT-811]](https://uktrade.atlassian.net/browse/XOT-811) Added UKEF Home Page Endpoint
-- [[XOT-812]](https://uktrade.atlassian.net/browse/XOT-812) Added UKEF Project Finance Page Endpoint
-- [[XOT-839]](https://uktrade.atlassian.net/browse/XOT-839)  Re-ordered URL parameters on /search page
-- [[MA-739]](https://uktrade.atlassian.net/browse/MA-739) Adjusted Market Access content
-- [[CMS-1271]](https://uktrade.atlassian.net/browse/CMS-1271) Update teaser section on country guide pages
-- [[MA-745]](https://uktrade.atlassian.net/browse/MA-745)Added Market Access tile to services pages
-- [[CMS-1410]](https://uktrade.atlassian.net/browse/CMS-1410) Added redirect URLs for updated export advice articles
-- [[XOT-830]](https://uktrade.atlassian.net/secure/RapidBoard.jspa?rapidView=73&modal=detail&selectedIssue=XOT-830) Parse Event URLS to user facing urls
+- Added UKEF Home Page Endpoint([XOT-811])
+- Added UKEF Project Finance Page Endpoint([XOT-812])
+- Added UKEF Contact Form and Success Pages([XOT-816])
+- Added UKEF Getting Ready Page [[XOT-813]]
+- Added UKEF What We Offer Page [[XOT-815]]
+- Added UKEF Country Cover Page [[XOT-817]]
+- Added UKEF Home Page Endpoint [[XOT-811]]
+- Added UKEF Project Finance Page Endpoint [[XOT-812]]
+- Re-ordered URL parameters on /search page [[XOT-839]]
+- Adjusted Market Access content [[MA-739]]
+- Update teaser section on country guide pages [[CMS-1271]]
+- Added Market Access tile to services pages [[MA-745]]
+- Added redirect URLs for updated export advice articles [[CMS-1410]]
+- Parse Event URLS to user facing urls [[XOT-830]]
 
 **Fixed bugs:**
-- Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
-- [[CMS-1441]](https://uktrade.atlassian.net/browse/CMS-1441) Fix cookie notice banner from not being dismissible
-- [[CMS-1395]](https://uktrade.atlassian.net/browse/CMS-1395) Fix language cookie name and domain to be the same across all our services.
-
+- Upgraded urllib3 to fix [vulnerability]
+- Fix cookie notice banner from not being dismissible [[CMS-1441]] 
+- Fix language cookie name and domain to be the same across all our services. [[CMS-1395]]
 
 
 [directory-api-client]: https://github.com/uktrade/directory-api-client

@@ -8,7 +8,7 @@ from django.conf import settings
 def parse_search_results(content):
 
     def strip_html(result):
-        content = result['content'] if 'content' in result else ''
+        content = result.get('content', '')
         html = markdown2.markdown(content)
         result['content'] = ''.join(
             BeautifulSoup(html, "html.parser").findAll(text=True)
