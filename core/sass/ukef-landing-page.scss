@@ -52,72 +52,25 @@
     }
   }
 
-  .steps-progress-indicator {
-    list-style: none;
-    position: relative;
-    padding-left: 15px;
+  .with-flag:after {
+    bottom: -20px;
+    background-image: url('/static/images/uj-motif.png');
+    background-size: 155px;
+    background-repeat: no-repeat;
+    height: 30px;
+    z-index: 2;
+    max-width: 1200px;
+    display: block;
+    content: "";
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+  }
 
-    ol, ul{
-      list-style-type: none;
-    }
-
-    li {
-      border-left: 0.18em solid $grey;
-      color: $grey;
-      counter-increment: progress-indicator-counter;
-      font-weight: bold;
-      list-style-position: outside;
-      padding: 0 0 1.0em 2em;
-      position: relative;
-      top: -0.5em;
-      margin: 0;
-
-      &:last-child {
-        border-left-color: $white;
-
-        span {
-          border: none;
-        }
-      }
-    }
-
-    // Adds the separating lines.
-    span {
-      border-color: $stone-50;
-      border-style: solid;
-      border-width: 0 0 1px 0;
-      display: block;
-      padding-bottom: 1.0em;
-
-      // Adds the default numbering
-      &:before {
-        background-color: $grey;
-        border: 0.2em solid $grey;
-        border-radius: 50%;
-        color: $grey;
-        content: "•";
-        display: block;
-        font-size: 80%;
-        height: 2.4em;
-        left: -1.525em;
-        line-height: 1.6em;
-        position: absolute;
-        text-align: center;
-        top: 0;
-        width: 2.4em;
-      }
-    }
-
-    .heading{
-      font-family: $brand-font-alternative;
-      font-weight: 700;
-      font-size: 24px;
-      margin-bottom: 10px;
-      padding-top: 3px;
-    }
-    .list-text{
-      font-size: 19px;
-      font-weight: normal;
+  @media (max-width: 1260px){
+    .with-flag:after {
+      margin: 0 30px;
     }
   }
 }
