@@ -83,15 +83,6 @@ def test_form_submission(mock_zendesk_action, client):
     assert response.status_code == 302
 
     response = client.post(
-        reverse(url_name, kwargs={'step': 'other-details'}),
-        {
-            view_name + '-current_step': 'other-details',
-            'other-details-other_details': 'Additional details'
-        }
-    )
-    assert response.status_code == 302
-
-    response = client.post(
         reverse(url_name, kwargs={'step': 'summary'}),
         {
             view_name + '-current_step': 'summary',
@@ -130,7 +121,6 @@ def test_form_submission(mock_zendesk_action, client):
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
         'eu_exit_related': 'No',
-        'other_details': 'Additional details'
     })
 
 
@@ -145,8 +135,3 @@ def test_form_initial_data(client):
         reverse('report-ma-barrier', kwargs={'step': 'problem-details'}),
     )
     assert response_two.context_data['form'].initial == {}
-
-    response_four = client.get(
-        reverse('report-ma-barrier', kwargs={'step': 'other-details'}),
-    )
-    assert response_four.context_data['form'].initial == {}

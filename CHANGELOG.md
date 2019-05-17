@@ -23,6 +23,7 @@
 - CMS-1271 - Update teaser section on country guide pages
 - MA-745 - Added Market Access tile to services pages
 - CMS-1410 - Added redirect URLs for updated export advice articles
+- MA-746 - Updated report a trade barrier form structure and content
 
 
 **Fixed bugs:**

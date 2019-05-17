@@ -40,14 +40,12 @@ class ReportMarketAccessBarrierFormView(
 ):
     ABOUT = 'about'
     PROBLEM_DETAILS = 'problem-details'
-    OTHER_DETAILS = 'other-details'
     SUMMARY = 'summary'
     FINISHED = 'finished'
 
     form_list = (
         (ABOUT, forms.AboutForm),
         (PROBLEM_DETAILS, forms.ProblemDetailsForm),
-        (OTHER_DETAILS, forms.OtherDetailsForm),
         (SUMMARY, forms.SummaryForm),
     )
 
@@ -55,7 +53,6 @@ class ReportMarketAccessBarrierFormView(
     templates = {
         ABOUT: f'{form_template_directory}step-about.html',
         PROBLEM_DETAILS: f'{form_template_directory}step-problem.html',
-        OTHER_DETAILS: f'{form_template_directory}step-others.html',
         SUMMARY: f'{form_template_directory}step-summary.html',
         FINISHED: f'{form_template_directory}success.html',
     }
