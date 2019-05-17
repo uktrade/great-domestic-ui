@@ -29,7 +29,7 @@
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
 - CMS-1441 Fix cookie notice banner from not being dismissible
 - CMS-1395 Fix language cookie name and domain to be the same across all our services.
-
+- XOT-807 Fix search result number format
 
 
 [directory-api-client]: https://github.com/uktrade/directory-api-client
