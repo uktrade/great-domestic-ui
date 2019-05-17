@@ -1,5 +1,5 @@
 from captcha.fields import ReCaptchaField
-from directory_constants.constants import choices, urls
+from directory_constants import choices, urls
 from directory_components import forms, fields, widgets
 from directory_forms_api_client.forms import ZendeskActionMixin
 from directory_validators.common import not_contains_url_or_email
@@ -69,7 +69,7 @@ class InternationalContactForm(
     company_name = fields.CharField()
     country = fields.ChoiceField(
         choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
-        widget=Select(attrs={'id': 'js-country-select'}),
+        widget=Select(),
     )
     city = fields.CharField()
     comment = fields.CharField(

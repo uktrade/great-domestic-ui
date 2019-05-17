@@ -11,7 +11,10 @@
 {% block head_js %}
   <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/dit.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
 {% endblock %}
+
+{% block css_layout_class %}international-page{% endblock %}
 
 {% block header_js %}
   {% if features.NEW_INTERNATIONAL_HEADER_ON %}

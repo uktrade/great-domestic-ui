@@ -1,6 +1,8 @@
-from directory_constants.constants import cms
+from directory_constants import slugs
 
 from django.views.generic import TemplateView
+
+from directory_components.mixins import CountryDisplayMixin
 
 from .mixins import (
     GetCMSTagMixin,
@@ -9,10 +11,10 @@ from .mixins import (
 )
 from core.mixins import (
     PrototypeFeatureFlagMixin,
-    MarketsFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSComponentMixin,
     GetCMSPageMixin,
+    GA360Mixin,
 )
 from euexit.mixins import HideLanguageSelectorMixin
 
@@ -32,6 +34,7 @@ class TemplateChooserMixin:
 
 
 class CMSPageView(
+    GA360Mixin,
     BreadcrumbsMixin,
     ArticleSocialLinksMixin,
     TemplateChooserMixin,
@@ -43,32 +46,39 @@ class CMSPageView(
         return self.kwargs['slug']
 
 
-class MarketsPageView(MarketsFeatureFlagMixin, CMSPageView):
-    template_name = 'article/markets_landing_page.html'
+class AdviceListingPage(CMSPageView):
+    ga360_payload = {'page_type': 'ArticleListingPage'}
 
-    def get_context_data(self, **kwargs):
-        context = super(MarketsPageView, self).get_context_data(**kwargs)
+
+class MarketsPageView(CMSPageView):
+    template_name = 'article/markets_landing_page.html'
+    ga360_payload = {'page_type': 'MarketsLandingPage'}
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
         def rename_heading_field(page):
             page['landing_page_title'] = page['heading']
             return page
 
-        context['page']['child_pages'] = [rename_heading_field(child_page)
-                                          for child_page
-                                          in context['page']['child_pages']]
+        context['page']['child_pages'] = [
+            rename_heading_field(child_page)
+            for child_page in context['page']['child_pages']
+        ]
         return context
 
 
-class CountryGuidePageView(MarketsFeatureFlagMixin, CMSPageView):
+class CountryGuidePageView(CMSPageView):
     num_of_statistics = 0
     section_three_num_of_subsections = 0
+    ga360_payload = {'page_type': 'MarketPage'}
 
     def count_data_with_field(self, list_of_data, field):
         filtered_list = [item for item in list_of_data if item[field]]
         return len(filtered_list)
 
-    def get_context_data(self, **kwargs):
-        context = super(CountryGuidePageView, self).get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         self.num_of_statistics = self.count_data_with_field(
             context['page']['statistics'],
             'number'
@@ -123,7 +133,7 @@ class NewsListPageView(
     TemplateView,
 ):
     template_name = 'article/domestic_news_list.html'
-    slug = cms.GREAT_EU_EXIT_DOMESTIC_NEWS_SLUG
+    slug = slugs.EUEXIT_DOMESTIC_NEWS
 
 
 class NewsArticleDetailView(
@@ -140,6 +150,7 @@ class NewsArticleDetailView(
 
 
 class InternationalNewsListPageView(
+    CountryDisplayMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
     GetCMSComponentMixin,
@@ -147,11 +158,14 @@ class InternationalNewsListPageView(
     TemplateView,
 ):
     template_name = 'article/international_news_list.html'
-    component_slug = cms.COMPONENTS_BANNER_DOMESTIC_SLUG
-    slug = cms.GREAT_EU_EXIT_INTERNATIONAL_NEWS_SLUG
+    component_slug = slugs.COMPONENTS_BANNER_DOMESTIC
+    slug = slugs.EUEXIT_INTERNATIONAL_NEWS
 
 
-class InternationalNewsArticleDetailView(NewsArticleDetailView):
+class InternationalNewsArticleDetailView(
+    CountryDisplayMixin,
+    NewsArticleDetailView
+):
     template_name = 'article/international_news_detail.html'
 
 

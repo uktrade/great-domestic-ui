@@ -7,11 +7,14 @@ var dit = {
   components: {},
   data: {},
   pages: {},
+  tagging: {},
 
   constants: {
     COMPANIES_HOUSE_SEARCH: "/static/temp/companies-house-data.json"
   }
-}
+};
+
+
 // Utility Functions.
 // ---------------------
 
@@ -27,7 +30,7 @@ dit.utils = (new function () {
   **/
   this.generateUniqueStr = function (str) {
     return (str ? str : "") + ((new Date().getTime()) + "_" + Math.random().toString()).replace(/[^\w]*/mig, "");
-  }
+  };
 
   /* Return max height measurement of passed elements
   * @$items (jQuery collection) elements to compare.
@@ -86,154 +89,8 @@ dit.utils = (new function () {
   }
 
 });
-// Responsive Functionality.
-// Adds functionality to help control JS responsive code.
-// Needs corresponding CSS (using media queries) to control
-// the values. See getResponsiveValue();
-// E.g.
-//
-// Requires...
-// dit.js
-//
-
-dit.responsive = (new function () {
-
-  // Constants
-  var RESET_EVENT = "dit:responsive:reset";
-  var RESPONSIVE_ELEMENT_ID = "dit-responsive-size";
-
-  // Sizing difference must be greater than this to trigger the events.
-  // This is and attempt to restrict the number of changes when, for
-  // example, resizing the screen by dragging.
-  var ARBITRARY_DIFFERENCE_MEASUREMENT = 50;
-
-  // Private
-  var _self = this;
-  var _rotating = false;
-  var _responsiveValues = [];
-  var _height = 0;
-  var _width = 0;
 
 
-  /* Detect responsive size in play.
-  * Use CSS media queries to control z-index values of the
-  * #RESPONSIVE_ELEMENT_ID hidden element. Detected value
-  * should match up with index number of _responsiveValues
-  * array. dit.responsive.mode() will return a string that
-  * should give the current responsive mode.
-  * E.g. For _responsiveValues array ["desktop", "table", "mobile"],
-  * the expected z-index values would be:
-  * desktop = 0
-  * tablet = 1
-  * mobile = 2
-  **/
-  function getResponsiveValue() {
-    return Number($("#" + RESPONSIVE_ELEMENT_ID).css("z-index"));
-  };
-
-  /* Create and append a hidden element to track the responsive
-  * size. Note: You need to add CSS to set the z-index property
-  * of the element. Do this using media queries so that it fits
-  * in with other media query controlled responsive sizing.
-  * See _responsiveValues variable for expected values (the
-  * array index should match the set z-index value).
-  **/
-  function addResponsiveTrackingElement() {
-    var $responsiveElement = $("<span></span>");
-    $responsiveElement.attr("id", RESPONSIVE_ELEMENT_ID);
-    $responsiveElement.css({
-      "height": "1px",
-      "position": "absolute",
-      "top": "-1px",
-      "visibility": "hidden",
-      "width": "1px"
-    })
-
-    $(document.body).append($responsiveElement);
-  }
-
-  /* Create in-page <style> tag containing set media query
-  * breakpoints passed to dit.responsive.init()
-  * @queries (Object) Media queries and label - e.g. { desktop: "min-width: 1200px" }
-  **/
-  function addResponsiveSizes(queries) {
-    var $style = $("<style id=\"dit-responsive-css\" type=\"text/css\"></style>");
-    var css = "";
-    var index = 0;
-    for(var query in queries) {
-      if(queries.hasOwnProperty(query)) {
-        _responsiveValues.push(query);
-        css += "@media (" + queries[query] + ") {\n";
-        css += " #"  + RESPONSIVE_ELEMENT_ID + "{\n";
-        css += "   z-index: " + index + ";\n";
-        css += "  }\n";
-        css += "}\n\n";
-        index++;
-      }
-    }
-
-    $style.text(css);
-    $(document.head).append($style);
-  }
-
-  /* Triggers jQuery custom event on body for JS elements
-  * listening to resize changes (e.g. screen rotate).
-  **/
-  function bindResizeEvent() {
-    $(window).on("resize", function () {
-      if (!_rotating) {
-        _rotating = true;
-        setTimeout(function () {
-          if (_rotating) {
-            _rotating = false;
-            if(dimensionChangeWasBigEnough()) {
-              $(document.body).trigger(RESET_EVENT, [_self.mode()]);
-            }
-          }
-        }, "1000");
-      }
-    });
-  }
-
-  /* Calculate if window dimensions have changed enough
-  * to trigger a reset event. Note: This was added
-  * because some mobile browsers hide the address bar
-  * on scroll, which otherwise gives false positive
-  * when trying to detect a resize.
-  **/
-  function dimensionChangeWasBigEnough() {
-    var height = $(window).height();
-    var width = $(window).width();
-    var result = false;
-
-    if (Math.abs(height - _height) >= ARBITRARY_DIFFERENCE_MEASUREMENT) {
-      result = true;
-    }
-
-    if (Math.abs(width - _width) >= ARBITRARY_DIFFERENCE_MEASUREMENT) {
-      result = true;
-    }
-
-    // Update internals with latest values
-    _height = height;
-    _width = width;
-
-    return result;
-  }
-
-  /* Return the detected current responsive mode */
-  this.mode = function() {
-    return _responsiveValues[getResponsiveValue()];
-  };
-
-  this.reset = RESET_EVENT;
-
-  this.init = function(breakpoints) {
-    addResponsiveSizes(breakpoints);
-    addResponsiveTrackingElement();
-    bindResizeEvent();
-  }
-});
 // Scroll Related Functions.
 // Requires main dit.js file
 
@@ -636,194 +493,6 @@ dit.scroll = (new function () {
   classes.Accordion = Accordion;
 })(jQuery, dit.utils, dit.classes);
 
-// Menu Component Functionality.
-//
-// Requires...
-// dit.js
-// dit.class.expander.js
-// dit.classes.accordion.js
-
-dit.components.menu = (new function() {
-
-  // Constants
-  var MENU_ACTIVATOR_ID = "menu-activator";
-  var MENU_ACTIVATOR_TEXT = "Menu";
-  var SELECTOR_LIST_HEADER = "#menu .list-header";
-  var SELECTOR_MENU = "#menu";
-  var SELECTOR_MENU_LISTS = "#menu ul[aria-labelledby]";
-
-  // Private
-  var _self = this;
-  var _expanders = [];
-  var _accordion = [];
-
-  // Immediately invoked function and declaration.
-  // Because non-JS view is to show all, we might see a brief glimpse of the
-  // open menu before JS has kicked in to add dropdown functionality. This
-  // will hide the menu when JS is on, and deactivate itself when the JS
-  // enhancement functionality is ready.
-  // dropdownViewInhibitor(true);
-  function dropdownViewInhibitor(activate) {
-    var rule = SELECTOR_MENU + " .level-2 { display: none; }";
-    var style;
-    if (arguments.length && activate) {
-      style = document.createElement("style");
-      style.setAttribute("type", "text/css");
-      style.setAttribute("id", "menu-dropdown-view-inhibitor");
-      style.appendChild(document.createTextNode(rule));
-      document.head.appendChild(style);
-    }
-    else {
-      document.head.removeChild(document.getElementById("menu-dropdown-view-inhibitor"));
-    }
-  };
-
-  /* Add expanding functionality to target elements for desktop.
-  **/
-  function setupDesktopExpanders() {
-    $(SELECTOR_MENU_LISTS).each(function() {
-      var $this = $(this);
-      // Add to _expanders support reset()
-      _expanders.push(new dit.classes.Expander($this, {
-        hover: true,
-        wrap: true,
-        $control: $("#" + $this.attr("aria-labelledby"))
-      }));
-    });
-  }
-
-  /* Add expanding functionality to target elements for tablet.
-  **/
-  function setupTabletExpanders() {
-    setupOpenByButton();
-    setupAccordionMenus();
-  }
-
-  /* Add expanding functionality to target elements for mobile.
-  * Note: Just calls the tablet setup because it is the same.
-  **/
-  function setupMobileExpanders() {
-    setupTabletExpanders();
-  }
-
-  /* Figures out what responsive view is in play
-  * and attempts to setup the appropriate functionality.
-  **/
-  function setupResponsiveView() {
-    var mode = dit.responsive.mode();
-    this.mode = mode;
-    switch(mode) {
-      case "desktop":
-      setupDesktopExpanders();
-      break;
-      case "tablet":
-      setupTabletExpanders();
-      break;
-      case "mobile":
-      setupMobileExpanders();
-      break;
-      default: console.log("Could not determine responsive mode"); // Do nothing.
-    }
-  }
-
-  /* Adds button for opening all menu lists (e.g. common mobile view)
-  **/
-  function createMenuActivator() {
-    var $button = $("<button></button>");
-    var $icon = $("<span></span>");
-    $button.text(MENU_ACTIVATOR_TEXT);
-    $button.attr("tabindex", "0");
-    $button.attr("id", MENU_ACTIVATOR_ID);
-    $button.append($icon.clone());
-    return $button;
-  }
-
-  /* Bind listener for the dit.responsive.reset event
-  * to reset the view when triggered.
-  **/
-  function bindResponsiveListener() {
-    $(document.body).on(dit.responsive.reset, function(e, mode) {
-      if(mode !== dit.components.menu.mode) {
-        dit.components.menu.reset();
-      }
-    });
-  }
-
-  /* Hacky workaround.
-  * List Headers are HTML anchors, mainly to get keyboard
-  * tabbing working properly. This causes issues when in
-  * tablet/mobile view, however. This function is trying
-  * to prevent list-headers acting like focusable anchors.
-  **/
-  function fixTabletTabbingIssue() {
-    var $listHeaders = $(SELECTOR_LIST_HEADER);
-    $listHeaders.attr("tabindex", "-1");
-    $listHeaders.off("blur");
-    $listHeaders.on("click.workaround", function(e) {
-      e.preventDefault();
-    });
-  }
-
-  /* Open and close the entire menu by a single button
-  **/
-  function setupOpenByButton() {
-    var $control = createMenuActivator();
-    var $menu = $(SELECTOR_MENU);
-    $menu.before($control);
-    $menu.each(function() {
-      _expanders.push(new dit.classes.Expander($(this), {
-        blur: false,
-        $control: $control,
-        complete: fixTabletTabbingIssue,
-        cleanup: function() {
-          $control.remove();
-        }
-      }));
-    });
-  }
-
-  /* Accordion effect for individual menu dropdowns
-  **/
-  function setupAccordionMenus() {
-    var expanders = [];
-    $(SELECTOR_MENU_LISTS).each(function() {
-      var $this = $(this);
-      expanders.push(new dit.classes.Expander($this, {
-        $control: $("#" + $this.attr("aria-labelledby"))
-      }));
-    });
-
-    // Make array of expanders into an accordion.
-    new dit.classes.Accordion(expanders, "open", "close");
-
-    // Add to _expanders for reset() support.
-    _expanders.push.apply(_expanders, expanders);
-  }
-
-
-  // Public
-  this.mode = "";
-
-  this.init = function() {
-    bindResponsiveListener();
-    setupResponsiveView();
-    dropdownViewInhibitor(false); // Turn it off because we're ready.
-  }
-
-  this.reset = function() {
-    // Clear anything that is there...
-    $(SELECTOR_LIST_HEADER).off("click.workaround");
-    while(_expanders.length) {
-      _expanders.pop().destroy();
-    }
-
-    // ...and now start again.
-    setupResponsiveView();
-  }
-
-});
-
-
 
 /* Class: Select Tracker
  * ---------------------
@@ -837,7 +506,7 @@ dit.components.menu = (new function() {
  *
  **/
 (function($, classes) {
-  
+
   /* Constructor
    * @$select (jQuery node) Target input element
    **/
@@ -845,7 +514,7 @@ dit.components.menu = (new function() {
   function SelectTracker($select) {
     var SELECT_TRACKER = this;
     var button, code, lang;
-    
+
     if(arguments.length && $select.length) {
       this.$node = $(document.createElement("p"));
       this.$node.attr("aria-hidden", "true");
@@ -856,7 +525,7 @@ dit.components.menu = (new function() {
       this.$select.on("change.SelectTracker", function() {
         SELECT_TRACKER.update();
       });
-      
+
       // Initial value
       this.update();
     }
@@ -865,6 +534,5 @@ dit.components.menu = (new function() {
   SelectTracker.prototype.update = function() {
     this.$node.text(this.$select.find(":selected").text());
   }
-  
-})(jQuery, dit.classes);
 
+})(jQuery, dit.classes);

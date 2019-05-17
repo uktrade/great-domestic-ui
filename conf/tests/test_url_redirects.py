@@ -405,6 +405,35 @@ redirects = [
         '/legacy/contact/terms-and-conditions/',
         reverse('terms-and-conditions')
     ),
+    # CMS-1410 redirects for updated 'export advice' articles
+    (
+        '/advice/find-an-export-market/plan-export-market-research/',
+        '/advice/find-an-export-market/understand-export-market-research/'
+    ),
+    (
+        '/advice/find-an-export-market/define-export-market-potential/',
+        '/advice/find-an-export-market/research-export-markets-online/',
+    ),
+    (
+        '/advice/find-an-export-market/field-research-in-export-markets/',
+        '/advice/find-an-export-market/research-in-market/'
+    ),
+    (
+        '/advice/get-export-finance-and-funding/choose-the-right-finance/',
+        '/advice/get-export-finance-and-funding/understand-export-finance/'
+    ),
+    (
+        '/advice/get-export-finance-and-funding/raise-money-by-borrowing/',
+        '/advice/get-export-finance-and-funding/get-export-finance/'
+    ),
+    (
+        '/advice/get-export-finance-and-funding/borrow-against-assets/',
+        '/advice/get-export-finance-and-funding/get-export-finance/'
+    ),
+    (
+        '/advice/get-export-finance-and-funding/raise-money-with-investment/',  # NOQA
+        '/advice/get-export-finance-and-funding/get-export-finance/'
+    ),
 ]
 
 
