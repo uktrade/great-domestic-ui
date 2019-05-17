@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
+{% load humanize %}
 
 {% block head_css %}
 {{ block.super }}
@@ -33,7 +34,7 @@
 
     <div class="actions">
       {% if results %}
-        <p><a href="#search-results-list">{{ total_results }} results found<span class="verbose"> for food</span></a></p>
+        <p><a href="#search-results-list">{{ total_results|intcomma }} results found<span class="verbose"> for food</span></a></p>
       {% else %}
         <p href="#search-results-list">No results found. Please try again</p>
       {% endif %}
