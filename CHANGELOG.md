@@ -16,6 +16,9 @@
 - XOT-813 - Added UKEF Getting Ready Page
 - XOT-815 - Added UKEF What We Offer Page
 - XOT-817 - Added UKEF Country Cover Page
+- XOT-811 - Added UKEF Home Page Endpoint
+- XOT-812 - Added UKEF Project Finance Page Endpoint
+- XOT-900 - UKEF content updates
 - XOT-839 - Re-ordered URL parameters on /search page
 - MA-739 - Adjusted Market Access content
 - CMS-1271 - Update teaser section on country guide pages

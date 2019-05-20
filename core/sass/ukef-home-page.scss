@@ -39,16 +39,13 @@
 
   .why-you-choose-ukef{
     .heading-light{
-      font-weight: normal;
+      font-weight: bold;
       font-size: 36px;
     }
 
     .description-title{
       font-size: 24px;
-    }
-
-    .text{
-      font-size: 16px;
+      font-family: $brand-font-alternative;
     }
   }
 
@@ -61,6 +58,6 @@
   }
 
   .teaser-text{
-    font-size: 24px;
+    font-size: 19px;
   }
 }
