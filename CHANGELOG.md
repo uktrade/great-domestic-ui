@@ -21,12 +21,14 @@
 - CMS-1271 - Update teaser section on country guide pages
 - MA-745 - Added Market Access tile to services pages
 - CMS-1410 - Added redirect URLs for updated export advice articles
+- MA-746 - Updated report a trade barrier form structure and content
 
 **Fixed bugs:**
-- Upgraded urllib3 to fix [vulnerability]
+- Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
 - CMS-1441 - Fix cookie notice banner from not being dismissible 
 - CMS-1395 - Fix language cookie name and domain to be the same across all our services.
 - XOT-830 - Parse Event URLS to user facing urls
+- XOT-807 - Fix search result number format
 
 
 [directory-api-client]: https://github.com/uktrade/directory-api-client

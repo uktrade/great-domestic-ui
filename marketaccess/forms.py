@@ -87,20 +87,20 @@ class ProblemDetailsForm(forms.Form):
 
     error_css_class = 'input-field-container has-error'
 
+    location = fields.CharField(
+        label='Where are you trying to export to or invest in?',
+        error_messages={
+            'required': (
+                'Tell us where you are trying to export to or invest in'
+            )
+        }
+    )
     product_service = fields.CharField(
         label='What goods or services do you want to export?',
         help_text='Or tell us about an investment you want to make',
         error_messages={
             'required': (
                 'Tell us what you’re trying to export or invest in'
-            )
-        }
-    )
-    location = fields.CharField(
-        label='Where are you trying to export to or invest in?',
-        error_messages={
-            'required': (
-                'Tell us where are you trying to export to or invest in'
             )
         }
     )
@@ -174,18 +174,6 @@ class ProblemDetailsForm(forms.Form):
         error_messages={
             'required': 'Tell us if your problem is related to EU Exit'
         }
-    )
-
-
-class OtherDetailsForm(forms.Form):
-    error_css_class = 'input-field-container has-error'
-    other_details = fields.CharField(
-        label=(
-            'Do you want to tell us anything else '
-            'about your problem? (optional)'
-        ),
-        widget=Textarea,
-        required=False
     )
 
 

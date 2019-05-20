@@ -156,7 +156,7 @@ def test_problem_details_error_messages():
         'Tell us what you’re trying to export or invest in'
     ]
     form.errors['location'] == [
-        'Tell us where are you trying to export to or invest in'
+        'Tell us where you are trying to export to or invest in'
         ]
     form.errors['problem_summary'] == [
         'Tell us about the problem you’re facing'
@@ -171,29 +171,3 @@ def test_problem_details_error_messages():
     form.errors['eu_exit_related'] == [
         'Tell us if your problem is related to EU Exit'
     ]
-
-
-@pytest.fixture
-def other_details_form_data():
-    return {
-        'other_details': 'additional details'
-    }
-
-
-def test_other_details_form_initial():
-    form = forms.OtherDetailsForm()
-    assert form.fields['other_details'].initial is None
-
-
-def test_other_details_form_mandatory_fields():
-    form = forms.OtherDetailsForm(data={})
-
-    assert form.fields['other_details'].required is False
-
-
-def test_other_details_form_serialize():
-    form = forms.OtherDetailsForm(
-        data=other_details_form_data()
-    )
-    assert form.is_valid()
-    assert form.cleaned_data == other_details_form_data()
