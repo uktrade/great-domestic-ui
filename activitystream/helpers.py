@@ -129,7 +129,8 @@ def format_query(query, page):
                             'Article',
                             'Opportunity',
                             'Market',
-                            'Service'
+                            'Service',
+                            'Event'
                         ]
                     }}
                 ]
