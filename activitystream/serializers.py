@@ -2,7 +2,7 @@ import markdown2
 from bs4 import BeautifulSoup
 from urllib3.util import parse_url
 
-from django.conf import settings
+from directory_constants import urls
 
 
 def parse_search_results(content):
@@ -17,8 +17,7 @@ def parse_search_results(content):
     def format_events_url(result):
         if result['type'] == "Event":
             url = parse_url(result['url'])
-            result['url'] = settings.HEADER_FOOTER_URLS_EVENTS +\
-                url.request_uri
+            result['url'] = urls.SERVICES_EVENTS + url.request_uri
 
     results = [hit['_source'] for hit in content['hits']['hits']]
 
