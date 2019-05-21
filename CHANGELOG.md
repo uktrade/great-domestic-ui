@@ -4,6 +4,7 @@
 
 **Implemented enhancements:**
 
+- [No ticket] Use events url from constants
 - Added Google Analytics 360 tagging.
 - Upgraded [CMS client][directory-cms-client] to allow `lookup_by_path`, to facilitate CMS tree based routing.
 - Upgraded [CMS client][directory-cms-client] reduces noisy fallback cache logging.
@@ -28,7 +29,7 @@
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
-- CMS-1441 - Fix cookie notice banner from not being dismissible 
+- CMS-1441 - Fix cookie notice banner from not being dismissible
 - CMS-1395 - Fix language cookie name and domain to be the same across all our services.
 - XOT-830 - Parse Event URLS to user facing urls
 - XOT-807 - Fix search result number format
