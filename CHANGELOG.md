@@ -26,6 +26,7 @@
 - MA-745 - Added Market Access tile to services pages
 - CMS-1410 - Added redirect URLs for updated export advice articles
 - MA-746 - Updated report a trade barrier form structure and content
+- Added 'Event' to whitelisted search types
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
