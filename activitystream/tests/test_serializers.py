@@ -78,36 +78,54 @@ r-2018) and the full",
                     'title': 'Test No URL',
                     'content': 'Here is the content'
                 }
+            }, {
+                '_index': 'objects__feed_id_first_feed__date_2019',
+                '_type': '_doc',
+                '_id': 'dit:exportOpportunities:Event:1',
+                '_score': 0.18232156,
+                '_source': {
+                    'type': 'Event',
+                    'title': 'Test Event URL Parsing',
+                    'content': 'Great event',
+                    'url': 'https://eu.eventscloud.com\
+/ehome/index.php?eventid=200188836&'
+                }
             }]
         }
     }
 
     assert serializers.parse_search_results(content) == [{
-        "type": "Opportunities",
-        "title": "France - Data analysis services",
-        "content": "The purpose of this contract is to analyze Python\
+        'type': 'Opportunities',
+        'title': 'France - Data analysis services',
+        'content': 'The purpose of this contract is to analyze Python\
  For Loops. A for loop is used for iterating over a sequence (that is\
-  either a list, a tuple, a dictionary, a ...",
-        "url": "www.great.gov.uk/opportunities/1"
+  either a list, a tuple, a dictionary, a ...',
+        'url': 'www.great.gov.uk/opportunities/1'
     }, {
-        "type": "Opportunities",
-        "title": "Germany - snow clearing",
-        "content": "Winter services for the properties1) Former...",
-        "url": "www.great.gov.uk/opportunities/2"
+        'type': 'Opportunities',
+        'title': 'Germany - snow clearing',
+        'content': 'Winter services for the properties1) Former...',
+        'url': 'www.great.gov.uk/opportunities/2'
     }, {
-        "type": "Article",
-        "title": "Test Shortening Content",
-        "content": "The UK and the EU have agreed a draft agreement\
- on withdrawing from the EU. Read the Prime Minister's statement and\
- the full",
-        "url": "www.great.gov.uk/opportunities/3"
+        'type': 'Article',
+        'title': 'Test Shortening Content',
+        'content': 'The UK and the EU have agreed a draft agreement\
+ on withdrawing from the EU. Read the Prime Minister\'s statement and\
+ the full',
+        'url': 'www.great.gov.uk/opportunities/3'
     }, {
-        "type": "Article",
-        "title": "Test No Content",
-        "url": "www.great.gov.uk/opportunities/4",
+        'type': 'Article',
+        'title': 'Test No Content',
+        'url': 'www.great.gov.uk/opportunities/4',
         'content': ''
     }, {
-        "type": "Article",
-        "title": "Test No URL",
-        "content": "Here is the content",
+        'type': 'Article',
+        'title': 'Test No URL',
+        'content': 'Here is the content',
+    }, {
+        'type': 'Event',
+        'title': 'Test Event URL Parsing',
+        'content': 'Great event',
+        'url': 'https://www.events.great.gov.uk/\
+ehome/index.php?eventid=200188836&'
     }]
