@@ -34,6 +34,7 @@
 - CMS-1395 - Fix language cookie name and domain to be the same across all our services.
 - XOT-830 - Parse Event URLS to user facing urls
 - XOT-807 - Fix search result number format
+- XOT-804 - Fix rounded corners on iOS search button
 
 
 [directory-api-client]: https://github.com/uktrade/directory-api-client
