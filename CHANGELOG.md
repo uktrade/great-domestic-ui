@@ -35,6 +35,7 @@
 - XOT-830 - Parse Event URLS to user facing urls
 - XOT-807 - Fix search result number format
 - XOT-804 - Fix rounded corners on iOS search button
+- XOT-763 - Fix tagging key names and selector
 
 
 [directory-api-client]: https://github.com/uktrade/directory-api-client
