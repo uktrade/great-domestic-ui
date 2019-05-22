@@ -4,7 +4,6 @@ from directory_forms_api_client.helpers import Sender
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
-from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
 from django.template.loader import render_to_string
@@ -18,48 +17,42 @@ class MarketAccessView(
     mixins.MarketAccessFeatureFlagMixin,
     TemplateView
 ):
-    template_name = "marketaccess/report_a_barrier.html"
+    template_name = 'marketaccess/report_a_barrier.html'
 
 
 class ReportBarrierEmergencyView(
     mixins.MarketAccessFeatureFlagMixin,
     TemplateView
 ):
-    template_name = "marketaccess/report_barrier_emergency_details.html"
+    template_name = 'marketaccess/report_barrier_emergency_details.html'
 
 
 class ReportMarketAccessBarrierSuccessView(
     mixins.MarketAccessFeatureFlagMixin,
     TemplateView
 ):
-    template_name = "marketaccess/report_barrier_form/success.html"
+    template_name = 'marketaccess/report_barrier_form/success.html'
 
 
 class ReportMarketAccessBarrierFormView(
     mixins.MarketAccessFeatureFlagMixin,
     NamedUrlSessionWizardView
 ):
-    CURRENT_STATUS = 'current-status'
     ABOUT = 'about'
     PROBLEM_DETAILS = 'problem-details'
-    OTHER_DETAILS = 'other-details'
     SUMMARY = 'summary'
     FINISHED = 'finished'
 
     form_list = (
-        (CURRENT_STATUS, forms.CurrentStatusForm),
         (ABOUT, forms.AboutForm),
         (PROBLEM_DETAILS, forms.ProblemDetailsForm),
-        (OTHER_DETAILS, forms.OtherDetailsForm),
         (SUMMARY, forms.SummaryForm),
     )
 
     form_template_directory = 'marketaccess/report_barrier_form/'
     templates = {
-        CURRENT_STATUS: f'{form_template_directory}step-current-status.html',
         ABOUT: f'{form_template_directory}step-about.html',
         PROBLEM_DETAILS: f'{form_template_directory}step-problem.html',
-        OTHER_DETAILS: f'{form_template_directory}step-others.html',
         SUMMARY: f'{form_template_directory}step-summary.html',
         FINISHED: f'{form_template_directory}success.html',
     }
@@ -80,18 +73,6 @@ class ReportMarketAccessBarrierFormView(
                 )
         return context
 
-    def render_next_step(self, form, **kwargs):
-        status = self.get_cleaned_data_for_step(
-            self.CURRENT_STATUS
-        )['problem_status']
-        status_text = ('I need resolution quickly, '
-                       'but I’m not at immediate risk of loss')
-
-        if self.steps.current == self.CURRENT_STATUS and status != status_text:
-            return redirect('market-access-emergency')
-        else:
-            return super().render_next_step(form=form, **kwargs)
-
     def serialize_form_list(self, form_list):
         data = {}
         for form in form_list:
@@ -102,7 +83,7 @@ class ReportMarketAccessBarrierFormView(
         data = self.serialize_form_list(form_list)
         subject = (
             f"{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: "
-            f"{data['country']}: "
+            f"{data['location']}: "
             f"{data['company_name']}"
         )
         sender = Sender(email_address=data['email'], country_code=None)

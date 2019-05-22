@@ -1,4 +1,4 @@
-from directory_constants.constants import cms
+from directory_constants import slugs
 
 import directory_components.views
 import directory_healthcheck.views
@@ -19,6 +19,7 @@ import finance.views
 import marketaccess.views
 import community.views
 import activitystream.views
+import ukef.views
 
 from conf.url_redirects import redirects
 
@@ -86,37 +87,37 @@ urlpatterns = [
     url(
         r"^performance-dashboard/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD},
         name='performance-dashboard'
     ),
     url(
         r"^performance-dashboard/export-opportunities/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_EXOPPS_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_EXOPPS},
         name='performance-dashboard-export-opportunities'
     ),
     url(
         r"^performance-dashboard/selling-online-overseas/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_SOO_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_SOO},
         name='performance-dashboard-selling-online-overseas'
     ),
     url(
         r"^performance-dashboard/trade-profiles/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_TRADE_PROFILE_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_TRADE_PROFILE},
         name='performance-dashboard-trade-profiles'
     ),
     url(
         r"^performance-dashboard/invest/$",
         core.views.PerformanceDashboardView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_INVEST_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_INVEST},
         name='performance-dashboard-invest'
     ),
     url(
         r"^performance-dashboard/guidance-notes/$",
         core.views.PerformanceDashboardNotesView.as_view(),
-        {'slug': cms.GREAT_PERFORMANCE_DASHBOARD_NOTES_SLUG},
+        {'slug': slugs.PERFORMANCE_DASHBOARD_NOTES},
         name='performance-dashboard-notes'
     ),
     url(
@@ -179,7 +180,7 @@ urlpatterns = [
     ),
     url(
         r"^get-finance/$",
-        finance.views.GetFinanceView.as_view(),
+        finance.views.TradeFinanceView.as_view(),
         name='get-finance'
     ),
     url(
@@ -285,7 +286,7 @@ article_urls = [
     ),
     url(
         r"^advice/create-an-export-plan/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'create-an-export-plan'},
         name='create-an-export-plan',
     ),
@@ -296,7 +297,7 @@ article_urls = [
     ),
     url(
         r"^advice/find-an-export-market/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'find-an-export-market'},
         name='find-an-export-market',
     ),
@@ -307,7 +308,7 @@ article_urls = [
     ),
     url(
         r"^advice/define-route-to-market/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'define-route-to-market'},
         name='define-route-to-market',
     ),
@@ -318,7 +319,7 @@ article_urls = [
     ),
     url(
         r"^advice/get-export-finance-and-funding/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'get-export-finance-and-funding'},
         name='get-export-finance-and-funding',
     ),
@@ -329,7 +330,7 @@ article_urls = [
     ),
     url(
         r"^advice/manage-payment-for-export-orders/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'manage-payment-for-export-orders'},
         name='manage-payment-for-export-orders',
     ),
@@ -340,7 +341,7 @@ article_urls = [
     ),
     url(
         r"^advice/prepare-to-do-business-in-a-foreign-country/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'prepare-to-do-business-in-a-foreign-country'},
         name='prepare-to-do-business-in-a-foreign-country',
     ),
@@ -351,7 +352,7 @@ article_urls = [
     ),
     url(
         r"^advice/manage-legal-and-ethical-compliance/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'manage-legal-and-ethical-compliance'},
         name='manage-legal-and-ethical-compliance',
     ),
@@ -362,7 +363,7 @@ article_urls = [
     ),
     url(
         r"^advice/prepare-for-export-procedures-and-logistics/$",
-        article.views.CMSPageView.as_view(),
+        article.views.AdviceListingPage.as_view(),
         {'slug': 'prepare-for-export-procedures-and-logistics'},
         name='prepare-for-export-procedures-and-logistics',
     ),
@@ -408,7 +409,7 @@ contact_urls = [
     url(
         r'^contact/events/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_EVENTS_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_EVENTS},
         name='contact-us-events-success'
     ),
     url(
@@ -419,13 +420,13 @@ contact_urls = [
     url(
         r'^contact/defence-and-security-organisation/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_DSO_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_DSO},
         name='contact-us-dso-success'
     ),
     url(
         r'^contact/export-advice/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_EXPORT_ADVICE_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE},
         name='contact-us-export-advice-success'
     ),
     url(
@@ -452,7 +453,7 @@ contact_urls = [
     url(
         r'^contact/feedback/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_FEEDBACK_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_FEEDBACK},
         name='contact-us-feedback-success'
     ),
     url(
@@ -468,7 +469,7 @@ contact_urls = [
     url(
         r'^contact/domestic/success/$',
         contact.views.DomesticSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS},
         name='contact-us-domestic-success'
     ),
     url(
@@ -479,7 +480,7 @@ contact_urls = [
     url(
         r'^contact/international/success/$',
         contact.views.InternationalSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_INTERNATIONAL_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_INTERNATIONAL},
         name='contact-us-international-success'
     ),
     url(
@@ -494,7 +495,7 @@ contact_urls = [
     url(
         r'^contact/selling-online-overseas/success/$',
         contact.views.SellingOnlineOverseasSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_SOO_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_SOO},
         name='contact-us-selling-online-overseas-success'
     ),
     url(
@@ -515,7 +516,7 @@ contact_urls = [
             r'success/$'
         ),
         contact.views.ExportingToUKSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_BEIS_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_BEIS},
         name='contact-us-exporting-to-the-uk-beis-success'
     ),
     url(
@@ -529,7 +530,7 @@ contact_urls = [
             r'success/$'
         ),
         contact.views.ExportingToUKSuccessView.as_view(),
-        {'slug': cms.GREAT_CONTACT_US_FORM_SUCCESS_DEFRA_SLUG},
+        {'slug': slugs.HELP_FORM_SUCCESS_DEFRA},
         name='contact-us-exporting-to-the-uk-defra-success'
     ),
     url(
@@ -599,11 +600,6 @@ marketaccess_urls = [
         name='market-access'
     ),
     url(
-        r'^report-trade-barrier/report/emergency-details/$',
-        marketaccess.views.ReportBarrierEmergencyView.as_view(),
-        name='market-access-emergency'
-    ),
-    url(
         r'^report-trade-barrier/report/success/$',
         marketaccess.views.ReportMarketAccessBarrierSuccessView.as_view(),
         name='report-barrier-form-success'
@@ -637,6 +633,46 @@ community_urls = [
     ),
 ]
 
+
+ukef_urls = [
+    url(
+        r"^get-finance-ukef/$",
+        ukef.views.HomeView.as_view(),
+        name='ukef-get-finance',
+    ),
+    url(
+        r"^project-finance/$",
+        ukef.views.LandingView.as_view(),
+        name='project-finance',
+    ),
+    url(
+        r"^uk-export-contact-form/$",
+        ukef.views.ContactView.as_view(),
+        {'slug': 'uk-export-contact'},
+        name='uk-export-contact',
+    ),
+    url(
+        r"^uk-export-contact-form-success/$",
+        ukef.views.SuccessPageView.as_view(),
+        name='uk-export-contract-success'
+    ),
+    url(
+        r"^how-we-assess-your-project/$",
+        ukef.views.HowWeAssessPageView.as_view(),
+        name='how-we-assess-your-project'
+    ),
+    url(
+        r"^what-we-offer-you/$",
+        ukef.views.WhatWeOfferView.as_view(),
+        name='what-we-offer-you'
+    ),
+    url(
+        r"^country-cover/$",
+        ukef.views.CountryCoverView.as_view(),
+        name='country-cover'
+    ),
+]
+
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
@@ -644,3 +680,4 @@ urlpatterns += article_urls
 urlpatterns += contact_urls
 urlpatterns += marketaccess_urls
 urlpatterns += community_urls
+urlpatterns += ukef_urls

@@ -27,47 +27,6 @@ markets_pages = [
 ]
 
 
-@pytest.mark.parametrize('page_type,url', markets_pages)
-def test_markets_pages_404_when_feature_off(
-    mock_get_page, page_type, url, client, settings
-):
-    settings.FEATURE_FLAGS['MARKETS_PAGES_ON'] = False
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={
-            'page_type': page_type,
-        }
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 404
-
-
-@pytest.mark.parametrize('page_type,url', markets_pages)
-def test_markets_pages_200_when_feature_on(
-    mock_get_page, page_type, url, client, settings
-):
-    settings.FEATURE_FLAGS['MARKETS_PAGES_ON'] = True
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={
-            'page_type': page_type,
-            'heading': 'Heading',
-            'statistics': [],
-            'accordions': [],
-            'fact_sheet': {'columns': []},
-            'child_pages': []
-        }
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-
-
 def test_news_list_page_feature_flag_off(client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 

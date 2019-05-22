@@ -783,7 +783,51 @@ articles_redirects = [
         QuerystringRedirectView.as_view(
             url='/advice/'
         )
-    )
+    ),
+
+    # CMS-1410 redirects for updated 'export advice' articles
+    url(
+        r'^advice/find-an-export-market/plan-export-market-research/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/find-an-export-market/understand-export-market-research/'  # NOQA
+        )
+    ),
+    url(
+        r'^advice/find-an-export-market/define-export-market-potential/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/find-an-export-market/research-export-markets-online/'
+        )
+    ),
+    url(
+        r'^advice/find-an-export-market/field-research-in-export-markets/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/find-an-export-market/research-in-market/'
+        )
+    ),
+    url(
+        r'^advice/get-export-finance-and-funding/choose-the-right-finance/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/get-export-finance-and-funding/understand-export-finance/'  # NOQA
+        )
+    ),
+    url(
+        r'^advice/get-export-finance-and-funding/raise-money-by-borrowing/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/get-export-finance-and-funding/get-export-finance/'
+        )
+    ),
+    url(
+        r'^advice/get-export-finance-and-funding/borrow-against-assets/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/get-export-finance-and-funding/get-export-finance/'
+        )
+    ),
+    url(
+        r'^advice/get-export-finance-and-funding/raise-money-with-investment/$',  # NOQA
+        QuerystringRedirectView.as_view(
+            url='/advice/get-export-finance-and-funding/get-export-finance/'
+        )
+    ),
 ]
 
 

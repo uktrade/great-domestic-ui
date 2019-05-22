@@ -3,6 +3,12 @@
 {% load card from directory_components_tags %}
 {% load static %}
 
+{% block head_js %}
+  <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/dit.js' %}"></script>
+  <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+{% endblock %}
+
 {% block hero %}
   {% static 'images/placeholder.jpg' as hero_image %}
   <section class="hero hero-generic padding-0" style="background-image: url('{{ hero_image }}')">
@@ -49,6 +55,13 @@
           {% static 'images/govuk.png' as eori_image %}
           {% card url='https://www.gov.uk/eori' card_id='govuk-eori' img_src=eori_image heading='Get an EORI number' description='To move goods into or out of the EU you need an Economic Operator Registration and Identification (EORI) number.' %}
         </div>
+
+        {% if features.MARKET_ACCESS_ON %}
+          <div class="column-third-xl column-half-l column-full-m">
+            {% static 'images/market-access/report-a-barrier-banner.jpg' as market_access_image %}
+            {% card url=header_footer_urls.market_access card_id='market-access' img_src=market_access_image heading='Report a trade barrier' description='Tell us if you’re having problems getting goods, services or investments into overseas markets.' %}
+          </div>
+        {% endif %}
       </div>
     </div>
   </section>
