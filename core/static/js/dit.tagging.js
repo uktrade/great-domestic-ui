@@ -108,7 +108,7 @@ dit.tagging.domestic = (new function() {
         'eventAction': 'Search',
         'eventCategory': 'General',
         'eventLabel': 'SearchForm',
-        'eventValue': $(this).find("input[type='text']").val().trim()
+        'eventValue': $(this).find("input[name='q']").val().trim()
       });
     });
   }
