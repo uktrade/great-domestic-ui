@@ -57,7 +57,7 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
         required=False
     )
     country = fields.ChoiceField(
-        label=_('Country'),
+        label=_('Which country are you based in?'),
         widget=Select(),
         choices=COUNTRIES
     )
