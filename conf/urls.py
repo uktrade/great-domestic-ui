@@ -633,12 +633,12 @@ ukef_urls = [
     url(
         r"^get-finance/$",
         ukef.views.HomeView.as_view(),
-        name='ukef-get-finance',
+        name='get-finance',
     ),
     url(
         r"^trade-finance/$",
         finance.views.TradeFinanceView.as_view(),
-        name='get-finance'
+        name='trade-finance'
     ),
     url(
         r"^project-finance/$",
