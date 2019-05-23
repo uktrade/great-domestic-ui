@@ -74,7 +74,7 @@ redirects = [
         ),
     ),
     url(
-        r'^beijingexpo2019/$',
+        r'^(?i)beijingexpo2019/$',
         RedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/index.php?eventid=200188985&'  # NOQA
         )
