@@ -1,6 +1,19 @@
 # Changelog
 
+
 ## Pre-release
+
+**Implemented enhancements:**
+- Added 'Event' to whitelisted search types
+
+**Fixed bugs:**
+- XOT-804 - Fix rounded corners on iOS search button
+- XOT-763 - Fix tagging key names and selector
+- XOT-831 - Fix search results found text
+
+
+## [2019.05.22](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.22)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.04.11...2019.05.22)
 
 **Implemented enhancements:**
 
@@ -17,8 +30,6 @@
 - XOT-813 - Added UKEF Getting Ready Page
 - XOT-815 - Added UKEF What We Offer Page
 - XOT-817 - Added UKEF Country Cover Page
-- XOT-811 - Added UKEF Home Page Endpoint
-- XOT-812 - Added UKEF Project Finance Page Endpoint
 - XOT-900 - UKEF content updates
 - XOT-841 - UKEF various template and content updates
 - XOT-839 - Re-ordered URL parameters on /search page
@@ -27,17 +38,14 @@
 - MA-745 - Added Market Access tile to services pages
 - CMS-1410 - Added redirect URLs for updated export advice articles
 - MA-746 - Updated report a trade barrier form structure and content
-- Added 'Event' to whitelisted search types
+
 
 **Fixed bugs:**
 - Upgraded urllib3 to fix [vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2019-11324)
 - CMS-1441 - Fix cookie notice banner from not being dismissible
 - CMS-1395 - Fix language cookie name and domain to be the same across all our services.
-- XOT-831 - Fix search results found text
 - XOT-830 - Parse Event URLS to user facing urls
 - XOT-807 - Fix search result number format
-- XOT-804 - Fix rounded corners on iOS search button
-- XOT-763 - Fix tagging key names and selector
 
 
 [directory-api-client]: https://github.com/uktrade/directory-api-client
