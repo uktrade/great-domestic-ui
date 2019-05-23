@@ -74,6 +74,12 @@ redirects = [
         ),
     ),
     url(
+        r'^beijingexpo2019/$',
+        RedirectView.as_view(
+            url='https://www.events.great.gov.uk/ehome/index.php?eventid=200188985&'  # NOQA
+        )
+    ),
+    url(
         r'^exporting-edge/$',
         RedirectView.as_view(pattern_name='get-finance'),
     ),
