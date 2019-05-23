@@ -10,9 +10,14 @@ from django.views.generic.base import TemplateView
 
 from core import mixins
 from finance import forms
+from ukef.mixins import UKEFPagesFeatureFlagMixin
 
 
-class TradeFinanceView(mixins.GetCMSPageMixin, TemplateView):
+class TradeFinanceView(
+    UKEFPagesFeatureFlagMixin,
+    mixins.GetCMSPageMixin,
+    TemplateView
+):
     template_name = 'finance/trade_finance.html'
     slug = slugs.GREAT_GET_FINANCE
 
