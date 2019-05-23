@@ -68,7 +68,7 @@ def test_ukef_views_while_feature_flag_enabled(
     'page_url,expected_status_code',
     (
         (
-            reverse('ukef-get-finance'),
+            reverse('get-finance'),
             404
         ),
         (
