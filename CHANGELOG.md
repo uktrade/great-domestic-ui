@@ -5,6 +5,7 @@
 
 **Implemented enhancements:**
 - Added 'Event' to whitelisted search types
+- CMS-1587 Add beijingexpo2019 marketing redirect
 
 **Fixed bugs:**
 - XOT-804 - Fix rounded corners on iOS search button
