@@ -179,7 +179,7 @@ def test_trade_finance_cms(mock_get_finance_page, client, settings):
     settings.UKEF_PI_TRACKER_ACCOUNT_ID = 'account'
     settings.UKEF_PI_TRACKER_CAMPAIGN_ID = 'campaign'
 
-    url = reverse('get-finance')
+    url = reverse('trade-finance')
     page = {
         'title': 'the page',
         'industries': [{'title': 'good 1'}],
@@ -198,7 +198,7 @@ def test_trade_finance_cms(mock_get_finance_page, client, settings):
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_cms_pages_cms_page_404(mock_get, client):
     mock_get.return_value = create_response(status_code=404)
-    response = client.get(reverse('get-finance'))
+    response = client.get(reverse('trade-finance'))
     assert response.status_code == 404
 
 

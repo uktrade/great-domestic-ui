@@ -12,9 +12,9 @@ from ukef import forms
     'page_url,page_content,expected_status_code',
     (
         (
-            reverse('ukef-get-finance'),
+            reverse('get-finance'),
             {
-                'title': 'UK Export finance - great.gov.uk',
+                'title': 'UK Export Finance - great.gov.uk',
             },
             200
         ),
