@@ -8,7 +8,7 @@
   <link href="{% static 'styles/ukef-landing-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block head_title %}The UK’s Export Credit Agency - great.gov.uk{% endblock %}
+{% block head_title %}UK Export Finance - Project Finance{% endblock %}
 
 {% block css_layout_class %}uk-export-finance-landing{% endblock %}
 
@@ -104,7 +104,9 @@
 				<div class="column-full">
 					<div class="column-half padding-0-l">
 						<h2 class="heading-large heading-light margin-top-0">How we can help you</h2>
-						<p class="font-medium padding-bottom-45">Our medium and long-term financing solutions are tailored to each transaction, but working with UKEF typically follows these steps. </p>
+						<p class="font-medium padding-bottom-45">
+							Our medium and long-term financing solutions are tailored to each transaction, but working with UKEF typically follows these steps.
+						</p>
 					</div>
 				</div>
 				<div class="column-full column-half-l section-one-body padding-right-90-l">
@@ -113,13 +115,18 @@
 					</h2>
 					<p class="body-text">
 						If you are unable to obtain support from your bank, or if the cost is
-						too high, you can work with them to <a href="https://great.dev.uktrade.io/what-we-offer-you/">explore financing options</a> with UKEF.
+						too high, you can work with them to
+						<a href="{% url 'what-we-offer-you' %}" class="link" target="_blank">
+							explore financing options
+						</a> with UKEF.
 					</p>
 					<h2 class="heading-medium">Examining eligibility</h2>
 					<p class="body-text">
 						UKEF support is on a first come first serve basis subject to
-						<a href="https://www.gov.uk/guidance/country-cover-policy-and-indicators#a-to-z-list-of-country-cover-policies-and-indicators">country limits</a>,
-						and to meeting <a href="{% url 'how-we-assess-your-project' %}">eligibility criteria</a>.
+						<a href="https://www.gov.uk/guidance/country-cover-policy-and-indicators#a-to-z-list-of-country-cover-policies-and-indicators" class="link" rel="noopener noreferrer" target="_blank">
+							country limits
+						</a>,
+						and to meeting <a href="{% url 'how-we-assess-your-project' %}" class="link" target="_blank">eligibility criteria</a>.
 						These include minimum risk standards, UK content, anti-bribery and corruption and due
 						diligence around environmental, social and human rights standards.
 					</p>
