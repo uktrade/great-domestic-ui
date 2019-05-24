@@ -34,6 +34,7 @@
 - XOT-817 - Added UKEF Country Cover Page
 - XOT-900 - UKEF content updates
 - XOT-839 - Re-ordered URL parameters on /search page
+- XOT-909 - UKEF content image and layout updates.
 - MA-739 - Adjusted Market Access content
 - CMS-1271 - Update teaser section on country guide pages
 - MA-745 - Added Market Access tile to services pages
