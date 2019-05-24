@@ -182,7 +182,8 @@ def test_format_query():
                             'Article',
                             'Opportunity',
                             'Market',
-                            'Service'
+                            'Service',
+                            'Event'
                         ]
                     }}
                 ]

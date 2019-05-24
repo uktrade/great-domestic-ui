@@ -137,6 +137,8 @@ redirects = [
     ('/bodw2019/', 'https://www.events.great.gov.uk/bodw2019/'),
     ('/events/', 'https://www.events.great.gov.uk/'),
     ('/ukpavilion2020/', 'https://www.events.trade.gov.uk/dubai-expo-2020/'),
+    ('/beijingexpo2019/',
+     'https://www.events.great.gov.uk/ehome/index.php?eventid=200188985&'),
     ('/expo2020/', 'https://www.events.trade.gov.uk/dubai-expo-2020/'),
     ('/invest/', 'https://invest.great.gov.uk'),
     ('/int/invest/', 'https://invest.great.gov.uk/int'),
