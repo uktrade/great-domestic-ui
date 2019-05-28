@@ -90,9 +90,11 @@ class HelpForm(forms.Form):
 
     comment = fields.CharField(
         label='',
-        help_text='Tell us about your export experience, including any challenges '
-                  'you are facing. We’re particularly interested in the markets '
-                  'you have exported to and whether you have already spoken to your bank or a broker.',
+        help_text='Tell us about your export experience, including any '
+                  'challenges you are facing. We’re particularly '
+                  'interested in the markets you have exported to '
+                  'and whether you have already spoken to your '
+                  'bank or a broker.',
         widget=Textarea,
     )
     terms_agreed = fields.BooleanField(

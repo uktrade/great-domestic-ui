@@ -34,7 +34,7 @@ def company_profile(authed_client):
 
 @pytest.mark.parametrize(
     'step',
-    ('contact', 'your-details', 'company-details', 'help')
+    ('your-details', 'company-details', 'help')
 )
 def test_ukef_lead_generation(client, step):
     url = reverse(
@@ -55,15 +55,6 @@ def test_ukef_lead_generation_captcha_revalidation(
 ):
     url_name = 'uk-export-finance-lead-generation-form'
     view_name = 'get_finance_lead_generation_form_view'
-
-    response = client.post(
-        reverse(url_name, kwargs={'step': 'contact'}),
-        {
-            view_name + '-current_step': 'contact',
-            'contact-categories': 'Securing upfront funding',
-        }
-    )
-    assert response.status_code == 302
 
     response = client.post(
         reverse(url_name, kwargs={'step': 'your-details'}),
@@ -91,7 +82,7 @@ def test_ukef_lead_generation_captcha_revalidation(
             'company-details-address_post_code': 'test',
             'company-details-industry': 'Other',
             'company-details-industry_other': 'test',
-            'company-details-export_status': 'I have customers outside the UK',
+            'company-details-export_status': 'I have customers outside UK',
         }
     )
     assert response.status_code == 302
@@ -154,7 +145,7 @@ def test_ukef_lead_generation_submit(
         pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL,
         form_url=reverse(
             'uk-export-finance-lead-generation-form',
-            kwargs={'step': 'contact'}
+            kwargs={'step': 'your-details'}
         ),
         sender={'email_address': 'test@example.com', 'country_code': None}
     )
