@@ -68,8 +68,8 @@ class CompanyDetailsForm(forms.Form):
     )
 
     export_status = fields.MultipleChoiceField(
-        label='Do you currently export?',
-        help_text='Select all that apply',
+        label='',
+        help_text='Select all that apply to your business:',
         widget=widgets.CheckboxSelectInlineLabelMultiple(
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,
