@@ -37,9 +37,9 @@ class PersonalDetailsForm(forms.Form):
 class CompanyDetailsForm(forms.Form):
 
     EXPORT_CHOICES = (
-        'I have customers outside the UK',
-        'I supply UK companies that sell overseas',
-        'I don\'t currently export or supply businesses that export',
+        'I have three years of registered accounts',
+        'I have customers outside UK',
+        'I supply companies that sell overseas',
     )
     INDUSTRY_CHOICES = [('', '')] + [
         (value.replace('_', ' ').title(), label)
@@ -48,7 +48,7 @@ class CompanyDetailsForm(forms.Form):
 
     error_css_class = 'input-field-container has-error'
 
-    trading_name = fields.CharField(label='Trading name')
+    trading_name = fields.CharField(label='Registered name')
     company_number = fields.CharField(
         label='Companies House number', required=False
     )
@@ -90,7 +90,9 @@ class HelpForm(forms.Form):
 
     comment = fields.CharField(
         label='',
-        help_text='Your export plans and any challenges you are facing',
+        help_text='Tell us about your export experience, including any challenges '
+                  'you are facing. We’re particularly interested int he markets '
+                  'you have exported to and whether you have already spoken to your bank ora a broker.',
         widget=Textarea,
     )
     terms_agreed = fields.BooleanField(
