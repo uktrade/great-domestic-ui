@@ -5,6 +5,8 @@
 
 **Implemented enhancements:**
 - Added 'Event' to whitelisted search types
+- CMS-1587 Add beijingexpo2019 marketing redirect
+- XOT-841 - UKEF various template and content updates
 
 **Fixed bugs:**
 - XOT-804 - Fix rounded corners on iOS search button
@@ -31,7 +33,6 @@
 - XOT-815 - Added UKEF What We Offer Page
 - XOT-817 - Added UKEF Country Cover Page
 - XOT-900 - UKEF content updates
-- XOT-841 - UKEF various template and content updates
 - XOT-839 - Re-ordered URL parameters on /search page
 - XOT-909 - UKEF content image and layout updates.
 - MA-739 - Adjusted Market Access content
