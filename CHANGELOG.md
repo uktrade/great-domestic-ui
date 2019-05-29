@@ -8,7 +8,7 @@
 - XOT-911 - UKEF pages CSS updates.
 
 **Fixed bugs:**
-
+- no ticket - Upgrade django rest framework to fix security vulnerability
 
 ## [2019.05.29](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.29)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.05.22...2019.05.29)
