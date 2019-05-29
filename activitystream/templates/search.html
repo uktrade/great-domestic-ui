@@ -31,6 +31,7 @@
 <section id="search-results-information">
   <div class="container">
     <h1 class="heading-xlarge">Search results for<span class=""> {{ query }}</span></h1>
+    <a href="{% url 'search-feedback' %}">Did you find what you were looking for?</a>
 
     <div class="actions">
       {% if results %}

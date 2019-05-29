@@ -221,6 +221,16 @@ urlpatterns = [
         activitystream.views.SearchView.as_view(),
         name='search'
     ),
+    url(
+        r'^search/feedback/$',
+        activitystream.views.SearchFeedbackFormView.as_view(),
+        name='search-feedback'
+    ),
+    url(
+        r'^search/feedback-received/$',
+        activitystream.views.SearchFeedbackReceivedView.as_view(),
+        name='search-feedback-received'
+    ),
 ]
 
 

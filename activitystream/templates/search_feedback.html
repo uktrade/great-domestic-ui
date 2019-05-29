@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+
+{% load static from staticfiles %}
+{% load humanize %}
+
+{% block head_css %}
+{{ block.super }}
+<link href="{% static 'styles/default.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block head_js_ga360 %}
+  {{ block.super }}
+  <script src="{% static 'js/dit.tagging.js' %}"></script>
+  <script id="ga360-script">
+    window.dataLayer.push({ 'pageCategory': 'SearchFeedbackPage' });
+    dit.tagging.domestic.init('SearchFeedbackPage');
+  </script>
+{% endblock %}
+
+{% block head_title %}Feedback Form - great.gov.uk{% endblock %}
+
+{% block content %}
+
+{% block breadcrumbs %}
+
+{% endblock %}
+
+{% include 'directory_components/header_beta_banner.html' %}
+
+<h1>Did you find what you were looking for? </h1>
+
+<form action="{% url 'search-feedback' %}" method="POST">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
