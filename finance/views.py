@@ -31,19 +31,16 @@ class GetFinanceLeadGenerationFormView(
         'uk-export-finance-lead-generation-form-success'
     )
 
-    CATEGORY = 'contact'
     PERSONAL_DETAILS = 'your-details'
     COMPANY_DETAILS = 'company-details'
     HELP = 'help'
 
     form_list = (
-        (CATEGORY, forms.CategoryForm),
         (PERSONAL_DETAILS, forms.PersonalDetailsForm),
         (COMPANY_DETAILS, forms.CompanyDetailsForm),
         (HELP, forms.HelpForm),
     )
     templates = {
-        CATEGORY: 'finance/lead_generation_form/step-category.html',
         PERSONAL_DETAILS: 'finance/lead_generation_form/step-personal.html',
         COMPANY_DETAILS: 'finance/lead_generation_form/step-company.html',
         HELP: 'finance/lead_generation_form/step-help.html',
@@ -90,7 +87,7 @@ class GetFinanceLeadGenerationFormView(
             pardot_url=settings.UKEF_FORM_SUBMIT_TRACKER_URL,
             form_url=reverse(
                 'uk-export-finance-lead-generation-form',
-                kwargs={'step': self.CATEGORY}
+                kwargs={'step': self.PERSONAL_DETAILS}
             ),
             sender=sender,
         )
