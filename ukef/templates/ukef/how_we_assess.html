@@ -4,7 +4,7 @@
 {% load article_tags %}
 {% load add_export_elements_classes from directory_components_tags %}
 
-{% block head_title %}How we assess your project - great.gov.uk{% endblock %}
+{% block head_title %}UK Export Finance - How we assess your project{% endblock %}
 
 {% block og_image %}{% if page.article_image %}{{ page.article_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
 
@@ -51,7 +51,7 @@
 
 			<div class="grid-row">
 				<div class="column-three-quarters">
-					<img src="{% static 'images/how_we_asses_hero.jpg' %}" alt="" class="width-100">
+					<img src="{% static 'images/how_we_asses_hero.jpg' %}" alt="" class="width-full">
 
 					<section class="grid-row">
 						<div class="column-seven-ninths article-content padding-bottom-0">
@@ -85,7 +85,7 @@
 					<div class="panel-vertical-narrow">
 						<ul>
 							<li>
-								<h3 class="heading-small"><a href="{% url 'uk-export-contact' %}" class="link">What we offer you</a></h3>
+								<h3 class="heading-small"><a href="{% url 'what-we-offer-you' %}" class="link">What we offer you</a></h3>
 							</li>
 							<li>
 								<h3 class="heading-small"><a href="{% url 'country-cover' %}" class="link">Check our country cover</a></h3>
