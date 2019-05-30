@@ -25,14 +25,80 @@
 
 {% endblock %}
 
-{% include 'directory_components/header_beta_banner.html' %}
 
-<h1>Did you find what you were looking for? </h1>
+<section id="search-results">
+  <div class="container">
+    <h1 class="heading-large">Feedback on Search Results</h1>
 
-<form action="{% url 'search-feedback' %}" method="POST">
-  {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Submit">
-</form>
+    <form action="{% url 'search-feedback' %}" method="POST">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="fieldWrapper">
+        {{ form.result_found.errors }}
+        {{ form.result_found.label_tag }}
+        {{ form.result_found }}
+      </div>
+      <div class="fieldWrapper">
+        {{ form.search_target.errors }}
+        {{ form.search_target.label_tag }}
+        {{ form.search_target }}
+      </div>
+      <div class="fieldWrapper">
+        {{ form.reason_for_site_visit.errors }}
+        {{ form.reason_for_site_visit.label_tag }}
+        {{ form.reason_for_site_visit }}
+      </div>
+      {{ form.from_search_query.as_hidden }}
+      {{ form.from_search_page.as_hidden }}
+      <div class="fieldWrapper">
+        <label class=" form-label" for="id_contactable"></label>
+        <div class="form-group">
+          <div class="multiple-choice">
+            <input type="checkbox" name="contactable" class="form-control" id="id_contactable" onclick="toggle_contact_details()">
+            <label for="id_contactable" id="id_contactable-label">
+              <span class="form-label">May we contact you with follow-up questions and support?</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div id="contact-details">
+        <div class="fieldWrapper">
+          {{ form.contact_name.errors }}
+          {{ form.contact_name.label_tag }}
+          {{ form.contact_name }}
+        </div>
+        <br>
+        <div class="fieldWrapper">
+          {{ form.contact_email.errors }}
+          {{ form.contact_email.label_tag }}
+          {{ form.contact_email }}
+        </div>
+        <br>
+        <div class="fieldWrapper">
+          {{ form.contact_number.errors }}
+          {{ form.contact_number.label_tag }}
+          {{ form.contact_number }}
+        </div>
+      </div>
+      <br>
+      <br>
+      <input class="button button-blue" type="submit" value="Submit">
+    </form>
+  </div>
+</section>
+
+<script>
+  // If JS is enabled, initially hide the contact details box
+  contactDetails = document.getElementById("contact-details")
+  contactDetails.style.display = 'none'
+
+  function toggle_contact_details(){
+    if(contactDetails.style.display == 'none'){
+      contactDetails.style.display = 'block'
+    } else {
+      contactDetails.style.display = 'none'
+    }
+  }
+</script>
 
 {% endblock %}

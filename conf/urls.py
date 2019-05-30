@@ -230,7 +230,7 @@ urlpatterns = [
         r'^search/feedback-received/$',
         activitystream.views.SearchFeedbackReceivedView.as_view(),
         name='search-feedback-received'
-    ),
+    )
 ]
 
 

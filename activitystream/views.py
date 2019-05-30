@@ -1,10 +1,11 @@
+from datetime import datetime
 import logging
 from requests.exceptions import RequestException
 
-from django.urls import reverse
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 
-from activitystream import helpers
+from activitystream import helpers, forms
 
 logger = logging.getLogger(__name__)
 
@@ -31,14 +32,16 @@ class SearchView(TemplateView):
             return {
                 'error_status_code': 500,
                 'error_message': "Activity Stream connection failed",
-                'query': query
+                'query': query,
+                'current_page': page
             }
         else:
             if response.status_code != 200:
                 return {
                     'error_message': response.content,
                     'error_status_code': response.status_code,
-                    'query': query
+                    'query': query,
+                    'current_page': page
                 }
             else:
                 return helpers.parse_results(response, query, page)
@@ -51,30 +54,28 @@ class SearchKeyPagesView(TemplateView):
     template_name = 'search-key-pages.json'
 
 
-def SearchFeedbackFormView(FormView):
-
+class SearchFeedbackFormView(FormView):
     template_name = 'search_feedback.html'
-    form_class = forms.CompanyHomeSearchForm
-    success_url = reverse('search-feedback-received')
+    form_class = forms.FeedbackForm
+    success_url = '/search/search-feedback-received'
 
-    def form_valid():
-        form.save(
+    def form_valid(self, form):
+        form = forms.FeedbackForm(data=form.cleaned_data)
+        response = form.save(
             email_address=form.cleaned_data['email'],
+            full_name=form.cleaned_data['name'],
+            subject='Search Feedback - ' + datetime.now().strftime("%H:%M %d %b %Y"),
+            service_name='Great.gov.uk Search',
         )
-        
-
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
+        response.raise_for_status()
+        return TemplateResponse(self.request, self.success_template)
 
 
-            # process the data in form.cleaned_data as required
-            # ...
-            return HttpResponseRedirect('/search/seach_feedback_thanks/')
+    def get_initial(self):
+        return {
+            'from_search_query': self.request.GET.get('q', ''),
+            'from_search_page': self.request.GET.get('page', '')
+        }
 
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = NameForm()
-
-    return render(request, '', {'form': form})
-
-
+class SearchFeedbackReceivedView(TemplateView):
+    template_name = 'search_feedback_received.html'

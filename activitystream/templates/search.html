@@ -27,17 +27,18 @@
 
 {% endblock %}
 
-{% include 'directory_components/header_beta_banner.html' %}
 <section id="search-results-information">
   <div class="container">
     <h1 class="heading-xlarge">Search results for<span class=""> {{ query }}</span></h1>
-    <a href="{% url 'search-feedback' %}">Did you find what you were looking for?</a>
 
     <div class="actions">
       {% if results %}
+        <a href="{% url 'search-feedback' %}?q={{ query }}&page={{ current_page }}">Did you find what you were looking for?</a>
         <p><a href="#search-results-list">{{ total_results|intcomma }} result{{ total_results|pluralize }} found<span class="verbose"> for {{ query }}</span></a></p>
       {% else %}
         <p href="#search-results-list">No results found. Please try again</p>
+        <br>
+        <a href="{% url 'search-feedback' %}?q={{ query }}&page={{ current_page }}">Would you like to feedback what you were looking for?</a>
       {% endif %}
 
       <form action="{% url 'search' %}" class="search" method="get" aria-label="Search form">

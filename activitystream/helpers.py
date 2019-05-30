@@ -20,7 +20,7 @@ def sanitise_page(page):
 
 def parse_results(response, query, page):
     current_page = int(page)
-
+    import pdb; pdb.set_trace()
     content = json.loads(response.content)
 
     if 'error' in content:
