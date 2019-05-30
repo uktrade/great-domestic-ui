@@ -4,6 +4,16 @@
 ## Pre-release
 
 **Implemented enhancements:**
+- XOT-909 - UKEF content image and layout updates.
+- XOT-911 - UKEF pages CSS updates.
+
+**Fixed bugs:**
+
+
+## [2019.05.29](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.29)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.05.22...2019.05.29)
+
+**Implemented enhancements:**
 - Added 'Event' to whitelisted search types
 - CMS-1587 Add beijingexpo2019 marketing redirect
 - XOT-841 - UKEF various template and content updates

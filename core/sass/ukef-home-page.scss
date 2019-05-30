@@ -12,6 +12,11 @@
 
     .hero-title-compact{
       bottom: -7px;
+      width: 100%;
+
+      .hero-title{
+        width: 100%;
+      }
     }
 
     .heading-hero-generic-compact p{
