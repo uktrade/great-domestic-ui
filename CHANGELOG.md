@@ -4,10 +4,16 @@
 ## Pre-release
 
 **Implemented enhancements:**
-- XOT-909 - UKEF content image and layout updates.
-- XOT-911 - UKEF pages CSS updates.
 
 **Fixed bugs:**
+
+
+## [2019.05.30](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.30)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.05.29...2019.05.30)
+
+**Implemented enhancements:**
+- XOT-909 - UKEF content image and layout updates.
+- XOT-911 - UKEF pages CSS updates.
 
 
 ## [2019.05.29](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.29)
