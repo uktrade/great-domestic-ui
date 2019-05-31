@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'community',
     'activitystream',
     'ukef',
+    'review',
 ]
 
 MIDDLEWARE_CLASSES = [

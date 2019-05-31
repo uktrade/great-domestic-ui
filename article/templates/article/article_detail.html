@@ -3,6 +3,7 @@
 {% load static %}
 {% load article_tags %}
 {% load add_export_elements_classes from directory_components_tags %}
+{% load review_tags %}
 
 {% block head_title %}{{ page.article_title }} - great.gov.uk{% endblock %}
 
@@ -13,6 +14,7 @@
 {% block css_layout_class %}article-detail-page{% endblock css_layout_class %}
 
 {% block content %}
+{% review %}
 
 <section id="article">
   {% include 'article/article_detail_content.html' %}
