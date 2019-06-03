@@ -59,6 +59,7 @@ DEBUG_SET_ENV_VARS := \
 	export DIRECTORY_CONSTANTS_URL_FIND_A_SUPPLIER=http://supplier.trade.great:8005/; \
 	export DIRECTORY_CONSTANTS_URL_INVEST=http://invest.trade.great:8012; \
 	export DIRECTORY_CONSTANTS_URL_SINGLE_SIGN_ON=http://sso.trade.great:8004/; \
+	export DIRECTORY_CONSTANTS_URL_EVENTS=https://www.events.great.gov.uk; \
 	export SERVICES_EXOPPS_ACTUAL=http://opportunities.export.great.gov.uk; \
 	export SECURE_SSL_REDIRECT=false; \
 	export HEALTH_CHECK_TOKEN=debug; \
