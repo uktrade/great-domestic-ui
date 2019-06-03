@@ -6,7 +6,7 @@
 **Implemented enhancements:**
 
 **Fixed bugs:**
-
+- no ticket - Upgrade django rest framework to fix security vulnerability
 
 ## [2019.05.30](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.30)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.05.29...2019.05.30)
