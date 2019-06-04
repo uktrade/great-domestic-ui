@@ -4,10 +4,16 @@
 ## Pre-release
 
 **Implemented enhancements:**
-- XOT-909 - UKEF content image and layout updates.
-- XOT-911 - UKEF pages CSS updates.
 
 **Fixed bugs:**
+- no ticket - Upgrade django rest framework to fix security vulnerability
+
+## [2019.05.30](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.30)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.05.29...2019.05.30)
+
+**Implemented enhancements:**
+- XOT-909 - UKEF content image and layout updates.
+- XOT-911 - UKEF pages CSS updates.
 
 
 ## [2019.05.29](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.29)
@@ -57,6 +63,7 @@
 - CMS-1395 - Fix language cookie name and domain to be the same across all our services.
 - XOT-830 - Parse Event URLS to user facing urls
 - XOT-807 - Fix search result number format
+- XOT-912 - Fix search rankings
 
 
 [directory-api-client]: https://github.com/uktrade/directory-api-client
