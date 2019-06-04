@@ -29,18 +29,11 @@
       <div class="column-quarter-l links">
         <div class="panel-vertical-narrow content-list padding-top-30">
           <ul>
+            {% for cta in page.intro_ctas %}
             <li>
-              {% url 'advice' as advice_url %}
-              <h3 class="heading-small"><a href="{{ advice_url }}" class="link">Read our exporting advice</a></h3>
+              <a class="heading-small link" href="{{ cta.link }}">{{ cta.title }}</a>
             </li>
-            <li>
-              {% with 'Read market guide for '|add:page.heading as market_guide_cta_text %}
-              <h3 class="heading-small"><a href="{{ page.help_market_guide_cta_link }}" class="link">{{ market_guide_cta_text }}</a></h3>
-              {% endwith %}
-            </li>
-            <li>
-              <h3 class="heading-small"><a href="{{ services_urls.contact_us }}" class="link">Tell us what help you need</a></h3>
-            </li>
+            {% endfor %}
           </ul>
         </div>
       </div>
@@ -133,17 +126,15 @@
       <div class="column-full column-half-l column-third-xl margin-bottom-30 margin-bottom-0-xl">
         {% static 'images/country-guide-advice.png' as need_help_image_url %}
         {% url 'advice' as advice_url %}
-        {% cta_card with_arrow=True image_url=need_help_image_url text="Read our exporting advice" url=advice_url %}
+        {% cta_card with_arrow=True image_url=need_help_image_url text="Read more advice about doing business abroad" url=advice_url %}
       </div>
       <div class="column-full column-half-l column-third-xl margin-bottom-30 margin-bottom-0-xl">
         {% static 'images/country-guide-gov-uk.png' as market_guide_image_url %}
-        {% with 'Read market guide for '|add:page.heading as market_guide_cta_text %}
         {% cta_card with_arrow=True image_url=market_guide_image_url text=market_guide_cta_text url=page.help_market_guide_cta_link %}
-        {% endwith %}
       </div>
       <div class="column-full column-half-l column-third-xl margin-bottom-0">
         {% static 'images/country-guide-contact.png' as contact_us_image_url %}
-        {% cta_card with_arrow=True image_url=contact_us_image_url text="Tell us what help you need" url=services_urls.contact_us %}
+        {% cta_card with_arrow=True image_url=contact_us_image_url text="Get in touch with one of our trade advisers" url=services_urls.office_finder %}
       </div>
     </div>
   </div>

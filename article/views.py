@@ -92,6 +92,7 @@ class CountryGuidePageView(CMSPageView):
             case_study = accordion['case_study']
             case_study['is_viable'] = \
                 case_study['title'] and case_study['image']
+
             accordion['num_of_subsections'] = self.count_data_with_field(
                 accordion['subsections'],
                 'heading'
@@ -103,15 +104,16 @@ class CountryGuidePageView(CMSPageView):
             accordion['neither_case_study_nor_statistics'] = \
                 not case_study['is_viable'] and \
                 not accordion['num_of_statistics']
-            accordion['num_of_ctas'] = self.count_data_with_field(
-                accordion['ctas'],
-                'link'
-            )
+
             accordion['is_viable'] = \
                 accordion['title'] and \
                 accordion['teaser'] and \
-                accordion['num_of_subsections'] >= 2 and \
-                accordion['num_of_ctas'] >= 2
+                accordion['num_of_subsections'] >= 2
+
+        context['market_guide_cta_text'] = (
+            f"Exporting to {self.page['heading']} if there's no EU Exit deal"
+        )
+
         return context
 
 
