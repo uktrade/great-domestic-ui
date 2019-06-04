@@ -5,8 +5,17 @@
 
 **Implemented enhancements:**
 
+
 **Fixed bugs:**
+
+
+## [2019.06.04](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.04)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.05.30...2019.06.04)
+
+**Implemented enhancements:**
 - no ticket - Upgrade django rest framework to fix security vulnerability
+- XOT-912 - Fix search rankings
+
 
 ## [2019.05.30](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.05.30)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.05.29...2019.05.30)
@@ -63,7 +72,6 @@
 - CMS-1395 - Fix language cookie name and domain to be the same across all our services.
 - XOT-830 - Parse Event URLS to user facing urls
 - XOT-807 - Fix search result number format
-- XOT-912 - Fix search rankings
 
 
 [directory-api-client]: https://github.com/uktrade/directory-api-client
