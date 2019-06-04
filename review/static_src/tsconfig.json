@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "lib": ["es2015", "dom"]
+    },
+    "files": [
+        "src/main.ts",
+        "src/api.ts"
+    ]
+}

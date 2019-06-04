@@ -14,4 +14,5 @@
     background: white;
     border-radius: 3px;
     border: 1px solid #ccc;
+    transition: top 0.5s ease 0s;
 }

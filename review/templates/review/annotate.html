@@ -2,11 +2,15 @@
 
 <div id="comments">
     <ol>
-        <li v-for="comment in comments" class="comment" style="position: absolute; top" :data-comment-id="comment.id">
-            <div v-if="comment.isNew">
+        <li v-for="comment in comments" class="comment" style="position: absolute;" :data-comment-id="comment.id" :key="comment.id">
+            <div v-if="comment.isNew && !comment.isSubmitting">
                 <input type="textarea" v-model="comment.text">
                 <button v-on:click.prevent="addComment(comment)">Add Comment</button>
                 <button v-on:click.prevent="cancelComment(comment)">Cancel</button>
+            </div>
+            <div v-if="comment.isNew && comment.isSubmitting">
+                <p v-text="comment.text"></p>
+                <p>Adding...</p>
             </div>
             <div v-if="!comment.isNew">
                 <div>
@@ -14,7 +18,11 @@
                     <p v-text="comment.getDateDisplay()"></p>
                 </div>
                 <p v-text="comment.text"></p>
-                <a href="#">Delete</a>
+                <a href="#" v-on:click.prevent="deleteComment(comment)" v-if="!comment.isDeleting">Delete</a>
+                <p v-if="comment.isDeleting">Deleting....</p>
+                <ul>
+                    <li v-for="reply in comment.replies" v-text="reply.text"></li>
+                </ul>
                 <input type="textarea" v-model="comment.replyInProgress" placeholder="Reply">
                 <div v-if="comment.replyInProgress">
                     <button v-on:click.prevent="sendReply(comment)">Send Reply</button>
@@ -26,73 +34,17 @@
 </div>
 
 {% if review_enabled %}
-    <link rel="stylesheet" href="{% static 'review/css/annotator.css' %}">
-    <link rel="stylesheet" href="{% static 'review/css/comments.css' %}">
-    <script src="{% static 'review/js/vendor/annotator-2.0.0a3.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="{% static 'review/js/comments.js' %}"></script>
+    <script src="{% static 'review/bundle.js' %}"></script>
 
     <script>
-        // trim strips whitespace from either end of a string.
-        //
-        // This usually exists in native code, but not in IE8.
-        function trim(s) {
-            if (typeof String.prototype.trim === 'function') {
-                return String.prototype.trim.call(s);
-            } else {
-                return s.replace(/^[\s\xA0]+|[\s\xA0]+$/g, '');
-            }
-        }
-
-        // annotationFactory returns a function that can be used to construct an
-        // annotation from a list of selected ranges.
-        function annotationFactory(contextEl, ignoreSelector) {
-            return function (ranges) {
-                var text = [],
-                    serializedRanges = [];
-
-                for (var i = 0, len = ranges.length; i < len; i++) {
-                    var r = ranges[i];
-                    text.push(trim(r.text()));
-                    serializedRanges.push(r.serialize(contextEl, ignoreSelector));
-                }
-
-                return {
-                    quote: text.join(' / '),
-                    ranges: serializedRanges
-                };
-            };
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
-            let commentsApp = new CommentsApp('#comments', 'http://localhost:8010/api/comments/');
+            let commentsElement = document.getElementById('comments');
+            let commentsApi = new CommentsAPI('http://localhost:8010/api/review', '{{ review_token|escapejs }}');
+            let commentsApp = initCommentsApp(commentsElement, commentsApi);
 
             for (let element of document.querySelectorAll('[data-contentpath-field]')) {
-                let contentPath = element.dataset.contentpathField;
-
-                let highlighter = new annotator.ui.highlighter.Highlighter(element);
-
-                let makeAnnotation = annotationFactory(element, '.annotator-hl');
-
-                let adder =  new annotator.ui.adder.Adder({
-                    onCreate: function (ann) {
-                        let highlights = highlighter.draw(ann);
-                        commentsApp.startNewComment(contentPath, ann, highlights);
-                    }
-                });
-                adder.attach();
-
-                let selector = new annotator.ui.textselector.TextSelector(element, {
-                    onSelection: function(ranges, event) {
-                        if (ranges.length > 0) {
-                            let annotation = makeAnnotation(ranges);
-                            let interactionPoint = annotator.util.mousePosition(event);
-                            adder.load(annotation, interactionPoint);
-                        } else {
-                            adder.hide();
-                        }
-                    }
-                });
+                commentsApp.addCommentableSection(element.dataset.contentpathField, element);
             }
         });
     </script>
