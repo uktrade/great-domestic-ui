@@ -4,7 +4,7 @@
 ## Pre-release
 
 **Implemented enhancements:**
-
+- CMS-1561 - Move CTAs on country guide page
 
 **Fixed bugs:**
 
