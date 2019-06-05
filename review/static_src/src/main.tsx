@@ -5,11 +5,12 @@ import {createStore} from 'redux';
 import APIClient from './api';
 import {Annotation, AnnotatableSection} from './utils/annotation';
 import {LayoutController} from './utils/layout';
+import {getNextCommentId, getNextReplyId} from './utils/sequences';
 import {Comment, CommentReply, reducer} from './state';
-import {addComment} from './actions';
+import {addComment, addReply} from './actions';
 import CommentComponent from './components/Comment';
 
-import './comments.css';
+import './main.scss';
 
 function Comments(props: {store, api: APIClient, layout: LayoutController, comments: Comment[]}) {
     let commentsRendered = props.comments.map(comment => <CommentComponent key={comment.localId} store={props.store} api={props.api} layout={props.layout} comment={comment} />);
@@ -20,7 +21,6 @@ function Comments(props: {store, api: APIClient, layout: LayoutController, comme
 }
 
 function initCommentsApp(element: HTMLElement, api: APIClient, addCommentableSections: (addCommentableSection: (contentPath: string, element: HTMLElement) => void) => void) {
-    let nextCommentId = 1;
     let commentableSections = {};
 
     let store = createStore(reducer);
@@ -45,7 +45,7 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addCommentableSec
     });
 
     let newComment = (annotation: Annotation) => {
-        let commentId = nextCommentId++;
+        let commentId = getNextCommentId();
         layout.setCommentAnnotation(commentId, annotation)
         store.dispatch(addComment(Comment.makeNew(commentId, annotation)));
     };
@@ -72,9 +72,13 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addCommentableSec
                 }]
             });
 
-            let commentId = nextCommentId++;
+            let commentId = getNextCommentId();
             layout.setCommentAnnotation(commentId, annotation)
             store.dispatch(addComment(Comment.fromApi(commentId, annotation, comment)));
+
+            for (let reply of comment.replies) {
+                store.dispatch(addReply(commentId, CommentReply.fromApi(getNextReplyId(), reply)));
+            }
         }
     });
 }

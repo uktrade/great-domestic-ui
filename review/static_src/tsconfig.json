@@ -6,9 +6,11 @@
     "files": [
         "src/main.tsx",
         "src/api.ts",
-        "src/components/Comment.tsx",
+        "src/components/Comment/index.tsx",
+        "src/components/CommentReply/index.tsx",
         "src/utils/annotation.ts",
         "src/utils/layout.ts",
+        "src/utils/sequences.ts",
         "src/actions.ts",
         "src/state.ts"
     ]

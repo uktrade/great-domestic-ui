@@ -1,8 +1,33 @@
 import {Annotation} from './utils/annotation';
 import * as actions from './actions';
 
-export interface CommentReply {
+export type CommentReplyMode = 'default' | 'editing' | 'saving' | 'deleting' | 'deleted' | 'save_error' | 'delete_error';
+
+export class CommentReply {
+    localId: number;
+    remoteId: number|null;
+    mode: CommentReplyMode;
+    author: string;
     text: string;
+
+    constructor(localId, {remoteId=null, mode=<CommentReplyMode>'default', author='', text='', replies=[], newReply=''}) {
+        this.localId = localId;
+        this.remoteId = remoteId;
+        this.mode = mode;
+        this.author = author;
+        this.text = text;
+    }
+
+    static fromApi(localId: number, data: any): CommentReply {
+        return new CommentReply(localId, {remoteId: data.id, author: data.author, text: data.text});
+    }
+}
+
+export interface CommentReplyUpdate {
+    remoteId?: number|null;
+    mode?: CommentReplyMode;
+    author?: string;
+    text?: string;
 }
 
 export type CommentMode = 'default' | 'creating' | 'editing' | 'saving' | 'deleting' | 'deleted' | 'save_error' | 'delete_error';
@@ -14,10 +39,11 @@ export class Comment {
     mode: CommentMode;
     author: string;
     text: string;
-    replies: CommentReply[];
+    replies: {[replyId: number]: CommentReply};
     newReply: string;
+    editPreviousText: string;
 
-    constructor(localId: number, annotation: Annotation, {remoteId=null, mode=<CommentMode>'default', author='', text='', replies=[], newReply=''}) {
+    constructor(localId: number, annotation: Annotation, {remoteId=null, mode=<CommentMode>'default', author='', text='', replies={}, newReply=''}) {
         this.localId = localId;
         this.annotation = annotation;
         this.remoteId = remoteId;
@@ -26,6 +52,7 @@ export class Comment {
         this.text = text;
         this.replies = replies;
         this.newReply = newReply;
+        this.editPreviousText = '';
     }
 
     static makeNew(localId: number, annotation: Annotation): Comment {
@@ -44,6 +71,7 @@ export interface CommentUpdate {
     author?: string;
     text?: string;
     newReply?: string;
+    editPreviousText?: string;
 }
 
 interface State {
@@ -54,14 +82,6 @@ function initialState(): State {
     return {
         comments: {}
     };
-}
-
-function indexOfComment(comments: Comment[], commentId: number) {
-    for (let index in comments) {
-        if (comments[index].localId == commentId) {
-            return index;
-        }
-    }
 }
 
 export function reducer(state: State|undefined, action: actions.Action) {
@@ -90,6 +110,37 @@ export function reducer(state: State|undefined, action: actions.Action) {
             });
             delete state.comments[action.commentId]
             break;
+
+        case actions.ADD_REPLY:
+            state = Object.assign({}, state, {
+                comments: Object.assign({}, state.comments),
+            });
+            state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
+                replies: Object.assign({}, state.comments[action.commentId].replies),
+            });
+            state.comments[action.commentId].replies[action.reply.localId] = action.reply;
+            break;
+
+        case actions.UPDATE_REPLY:
+            state = Object.assign({}, state, {
+                comments: Object.assign({}, state.comments),
+            });
+            state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
+                replies: Object.assign({}, state.comments[action.commentId].replies),
+            });
+            state.comments[action.commentId].replies[action.replyId] = Object.assign({}, state.comments[action.commentId].replies[action.replyId], action.update);
+            break;
+
+        case actions.DELETE_REPLY:
+            state = Object.assign({}, state, {
+                comments: Object.assign({}, state.comments),
+            });
+            state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
+                replies: Object.assign({}, state.comments[action.commentId].replies),
+            });
+            delete state.comments[action.commentId].replies[action.replyId]
+            break;
+
     }
 
     console.log(state, action);

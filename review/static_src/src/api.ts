@@ -1,4 +1,4 @@
-import {Comment} from './state';
+import {Comment, CommentReply} from './state';
 
 export default class APIClient {
     baseUrl: string;
@@ -20,10 +20,16 @@ export default class APIClient {
     }
 
     async saveComment(comment: Comment) {
-        // TODO: PUT if has remote id
+        let url = `${this.baseUrl}/comments/`;
+        let method = 'POST';
 
-        let response = await fetch(`${this.baseUrl}/comments/`, {
-            method: 'POST',
+        if (comment.remoteId) {
+            url = `${this.baseUrl}/comments/${comment.remoteId}/`;
+            method = 'PUT';
+        }
+
+        let response = await fetch(url, {
+            method,
             headers: {
                 'Content-Type': 'application/json',
                 'X-Review-Token': this.reviewToken,
@@ -52,5 +58,28 @@ export default class APIClient {
                 },
             });
         }
+    }
+
+    async saveCommentReply(comment: Comment, reply: CommentReply) {
+        let url = `${this.baseUrl}/comments/${comment.remoteId}/replies/`;
+        let method = 'POST';
+
+        if (reply.remoteId) {
+            url = `${this.baseUrl}/comments/${comment.remoteId}/replies/${reply.remoteId}/`;
+            method = 'PUT';
+        }
+
+        let response = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Review-Token': this.reviewToken,
+            },
+            body: JSON.stringify({
+                'text': reply.text,
+            }),
+        });
+
+        return await response.json();
     }
 }

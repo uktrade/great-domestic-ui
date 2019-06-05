@@ -1,10 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import {Comment} from '../state';
-import {updateComment, deleteComment} from '../actions';
-import APIClient from '../api';
-import {LayoutController} from '../utils/layout';
+import {Comment, CommentReply} from '../../state';
+import {updateComment, deleteComment, addReply, updateReply} from '../../actions';
+import APIClient from '../../api';
+import {LayoutController} from '../../utils/layout';
+import {getNextReplyId} from '../../utils/sequences';
+import CommentReplyComponent from '../CommentReply';
+
+import './style.scss';
 
 export interface CommentProps {
     store: any,
@@ -14,6 +18,13 @@ export interface CommentProps {
 }
 
 export default class CommentComponent extends React.Component<CommentProps> {
+    renderHeader() {
+        return <div>
+            <h2>{this.props.comment.author}</h2>
+            <p>DATE</p>
+        </div>;
+    }
+
     renderCreating() {
         let { comment, store, api } = this.props;
 
@@ -48,14 +59,15 @@ export default class CommentComponent extends React.Component<CommentProps> {
         };
 
         return <>
-            <textarea value={comment.text} onChange={onChangeText} />
+            <h3>New comment</h3>
+            <textarea className="comment__input" value={comment.text} onChange={onChangeText} style={{resize: 'none'}} />
             <button onClick={onSave}>Add Comment</button>
             <button onClick={onCancel}>Cancel</button>
         </>;
     }
 
     renderEditing() {
-        let { comment, store } = this.props;
+        let { comment, store, api } = this.props;
 
         let onChangeText = e => {
             e.preventDefault();
@@ -65,8 +77,14 @@ export default class CommentComponent extends React.Component<CommentProps> {
             }));
         };
 
-        let onSave = e => {
+        let onSave = async e => {
             e.preventDefault();
+
+            store.dispatch(updateComment(comment.localId, {
+                mode: 'saving',
+            }));
+
+            await api.saveComment(comment);
 
             store.dispatch(updateComment(comment.localId, {
                 mode: 'default',
@@ -79,12 +97,13 @@ export default class CommentComponent extends React.Component<CommentProps> {
             comment.annotation.onDelete();
             store.dispatch(updateComment(comment.localId, {
                 mode: 'default',
-                text: e.target.value,  // TODO: Restore previous content
+                text: comment.editPreviousText,
             }));
         };
 
         return <>
-            <textarea  value={comment.text} onChange={onChangeText} />
+            {this.renderHeader()}
+            <textarea className="comment__input" value={comment.text} onChange={onChangeText} style={{resize: 'none'}} />
             <button onClick={onSave}>Save</button>
             <button onClick={onCancel}>Cancel</button>
         </>;
@@ -111,6 +130,15 @@ export default class CommentComponent extends React.Component<CommentProps> {
     renderDefault() {
         let { comment, store, api } = this.props;
 
+        let onClickEdit = async e => {
+            e.preventDefault();
+
+            store.dispatch(updateComment(comment.localId, {
+                mode: 'editing',
+                editPreviousText: comment.text,
+            }));
+        };
+
         let onClickDelete = async e => {
             e.preventDefault();
 
@@ -122,22 +150,70 @@ export default class CommentComponent extends React.Component<CommentProps> {
 
             store.dispatch(deleteComment(comment.localId));
             comment.annotation.onDelete();
+        };
+
+        let onChangeNewReply = e => {
+            e.preventDefault();
+
+            store.dispatch(updateComment(comment.localId, {
+                newReply: e.target.value,
+            }));
+        };
+
+        let onClickSendReply = async e => {
+            e.preventDefault();
+
+            let replyId = getNextReplyId();
+            let reply = new CommentReply(replyId, {text: comment.newReply, mode: 'saving'});
+            store.dispatch(addReply(comment.localId, reply));
+
+            store.dispatch(updateComment(comment.localId, {
+                newReply: '',
+            }));
+
+            let replyData = await api.saveCommentReply(comment, reply);
+
+            store.dispatch(updateReply(comment.localId, replyId, {
+                remoteId: replyData.id,
+                mode: 'default',
+            }));
+        };
+
+        let onClickCancelReply = e => {
+            e.preventDefault();
+
+            store.dispatch(updateComment(comment.localId, {
+                newReply: '',
+            }));
+        }
+
+        let replies = [];
+        for (const replyId in comment.replies) {
+            const reply = comment.replies[replyId];
+            replies.push(<CommentReplyComponent key={reply.localId} store={store} api={api} reply={reply} />);
+        }
+
+        let replyActions = <></>;
+        if (comment.newReply.length > 0) {
+            replyActions = <div className="comment__reply-actions">
+                <button onClick={onClickSendReply}>Send Reply</button>
+                <button onClick={onClickCancelReply}>Cancel</button>
+            </div>;
         }
 
         return <>
-            <div>
-                <h2>{comment.author}</h2>
-                <p>DATE</p>
+            {this.renderHeader()}
+            <p className="comment__text">{comment.text}</p>
+            <div className="comment__actions">
+                <a href="#" onClick={onClickEdit}>Edit</a>
+                <a href="#" onClick={onClickDelete}>Delete</a>
             </div>
-            <p>{comment.text}</p>
-            <a href="#" onClick={onClickDelete}>Delete</a>
-            <ul>
-                REPLIES
+            <ul className="comment__replies">
+                {replies}
             </ul>
-            <textarea placeholder="Reply" />
-            <button>Send Reply</button>
-            <button>Cancel</button>
-        </>
+            <textarea className="comment__reply-input" placeholder="Write a comment back" value={comment.newReply} onChange={onChangeNewReply} style={{resize: 'none'}} />
+            {replyActions}
+        </>;
     }
 
     render() {

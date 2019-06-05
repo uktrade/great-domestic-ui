@@ -1,0 +1,42 @@
+#comments {
+    .comment {
+        width: 100%;
+        display: block;
+        background: white;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        transition: top 0.5s ease 0s;
+
+        &__text, &__actions {
+            padding: 10px;
+            margin: 0;
+        }
+
+        &__actions {
+            > a {
+                display: inline-block;
+                padding-right: 4px;
+                font-size: 0.9em;
+
+                color: #333;
+            }
+        }
+
+        &__reply-actions {
+            padding: 10px;
+            width: 100%;
+            background-color: #f7f7f7;
+            text-align: right;
+
+            button {
+                margin-right: 5px;
+            }
+        }
+
+        textarea {
+            padding: 10px;
+            width: 100%;
+            background-color: #f7f7f7;
+        }
+    }
+}

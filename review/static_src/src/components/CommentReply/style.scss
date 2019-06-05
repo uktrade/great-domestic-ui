@@ -1,0 +1,21 @@
+#comments {
+    .comment-reply {
+        &__text {
+            padding: 10px;
+            float: left;
+        }
+
+        &__actions {
+            float: right;
+            padding-right: 10px;
+
+            > a {
+                display: inline-block;
+                padding-right: 4px;
+                font-size: 0.75em;
+
+                color: #333;
+            }
+        }
+    }
+}
