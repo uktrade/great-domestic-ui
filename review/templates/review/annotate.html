@@ -2,24 +2,32 @@
 
 <div id="comments">
     <ol>
-        <li v-for="comment in comments" class="comment" style="position: absolute;" :data-comment-id="comment.id" :key="comment.id">
-            <div v-if="comment.isNew && !comment.isSubmitting">
+        <li v-for="comment in comments" class="comment" style="position: absolute;" :data-comment-id="comment.localId" :key="comment.localId">
+            <div v-if="comment.state == 'creating'">
                 <input type="textarea" v-model="comment.text">
                 <button v-on:click.prevent="addComment(comment)">Add Comment</button>
                 <button v-on:click.prevent="cancelComment(comment)">Cancel</button>
             </div>
-            <div v-if="comment.isNew && comment.isSubmitting">
+            <div v-if="comment.state == 'editing'">
+                <input type="textarea" v-model="comment.text">
+                <button v-on:click.prevent="saveChanges(comment)">Save</button>
+                <button v-on:click.prevent="cancelEdit(comment)">Cancel</button>
+            </div>
+            <div v-if="comment.state == 'saving'">
                 <p v-text="comment.text"></p>
                 <p>Adding...</p>
             </div>
-            <div v-if="!comment.isNew">
+            <div v-if="comment.state == 'deleting'">
+                <p v-text="comment.text"></p>
+                <p>Deleting...</p>
+            </div>
+            <div v-if="comment.state == 'default'">
                 <div>
                     <h2 v-text="comment.author"></h2>
                     <p v-text="comment.getDateDisplay()"></p>
                 </div>
                 <p v-text="comment.text"></p>
                 <a href="#" v-on:click.prevent="deleteComment(comment)" v-if="!comment.isDeleting">Delete</a>
-                <p v-if="comment.isDeleting">Deleting....</p>
                 <ul>
                     <li v-for="reply in comment.replies" v-text="reply.text"></li>
                 </ul>

@@ -1,6 +1,6 @@
 import APIClient from './api';
 import {Annotation, AnnotatableSection} from './annotation';
-import {Comment, NewComment, CommentReply} from './types';
+import {Comment, CommentReply} from './types';
 
 import './comments.css';
 
@@ -19,7 +19,7 @@ function initCommentsApp(element: HTMLElement, api: APIClient) {
         methods: {
             newComment(annotation: Annotation) {
                 let commentId = this.nextId++;
-                this.comments.push(new NewComment(commentId, annotation));
+                this.comments.push(Comment.makeNew(commentId, annotation));
                 this.updateLayout();
 
                 // Set focus in text area
@@ -28,23 +28,21 @@ function initCommentsApp(element: HTMLElement, api: APIClient) {
                     textarea.focus();
                 });
             },
-            addComment(comment) {
-                let onSubmitted = newComment => {
-                    let index = this.comments.indexOf(comment);
-                    this.$set(this.comments, index, newComment);
+            addComment(comment: Comment) {
+                let onSubmitted = () => {
                     this.updateLayout();
                 };
 
-                comment.submit(this.api).then(onSubmitted);
+                comment.save(this.api).then(onSubmitted);
             },
-            cancelComment(comment) {
+            cancelComment(comment: Comment) {
                 let index = this.comments.indexOf(comment);
                 this.comments.splice(index, 1);
                 this.updateLayout();
 
-                comment.cancel();
+                comment.delete(null);
             },
-            deleteComment(comment) {
+            deleteComment(comment: Comment) {
                 let onDeleted = () => {
                     let index = this.comments.indexOf(comment);
                     this.comments.splice(index, 1);
@@ -54,10 +52,10 @@ function initCommentsApp(element: HTMLElement, api: APIClient) {
                 comment.delete(this.api).then(onDeleted);
             },
             sendReply(comment: Comment) {
-                let reply = new CommentReply(comment.replyInProgress);
+                let reply = new CommentReply(comment.newReply);
                 comment.replies.push(reply);
 
-                comment.replyInProgress = '';
+                comment.newReply = '';
             },
             async fetchComments() {
                 let response = await fetch(`${this.api.baseUrl}/comments/`, {
@@ -84,7 +82,7 @@ function initCommentsApp(element: HTMLElement, api: APIClient) {
                         }]
                     });
 
-                    this.comments.push(new Comment(this.nextId++, comment, annotation));
+                    this.comments.push(Comment.fromApi(this.nextId++, annotation, comment));
                     this.updateLayout();
                 }
             },
