@@ -719,3 +719,17 @@ def test_country_guide_complete_intro_ctas(dummy_cms_page):
     ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
 
     assert len(ctas) == 3
+
+
+def test_country_guide_no_intro_ctas(dummy_cms_page):
+    context = {
+        'page': dummy_cms_page
+    }
+
+    context['page']['heading_teaser'] = 'Teaser'
+
+    html = render_to_string('article/country_guide.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+    ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
+
+    assert len(ctas) == 0
