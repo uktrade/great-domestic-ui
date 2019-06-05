@@ -5,7 +5,7 @@ import './annotator.css';
 export interface Annotation {
     contentPath: string,
     annotation: any,
-    highlights: any[],
+    highlights: HTMLElement[],
     onDelete(),
 }
 

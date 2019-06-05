@@ -1,59 +1,21 @@
 {% load static %}
 
 <div id="comments">
-    <ol>
-        <li v-for="comment in comments" class="comment" style="position: absolute;" :data-comment-id="comment.localId" :key="comment.localId">
-            <div v-if="comment.state == 'creating'">
-                <input type="textarea" v-model="comment.text">
-                <button v-on:click.prevent="addComment(comment)">Add Comment</button>
-                <button v-on:click.prevent="cancelComment(comment)">Cancel</button>
-            </div>
-            <div v-if="comment.state == 'editing'">
-                <input type="textarea" v-model="comment.text">
-                <button v-on:click.prevent="saveChanges(comment)">Save</button>
-                <button v-on:click.prevent="cancelEdit(comment)">Cancel</button>
-            </div>
-            <div v-if="comment.state == 'saving'">
-                <p v-text="comment.text"></p>
-                <p>Adding...</p>
-            </div>
-            <div v-if="comment.state == 'deleting'">
-                <p v-text="comment.text"></p>
-                <p>Deleting...</p>
-            </div>
-            <div v-if="comment.state == 'default'">
-                <div>
-                    <h2 v-text="comment.author"></h2>
-                    <p v-text="comment.getDateDisplay()"></p>
-                </div>
-                <p v-text="comment.text"></p>
-                <a href="#" v-on:click.prevent="deleteComment(comment)" v-if="!comment.isDeleting">Delete</a>
-                <ul>
-                    <li v-for="reply in comment.replies" v-text="reply.text"></li>
-                </ul>
-                <input type="textarea" v-model="comment.replyInProgress" placeholder="Reply">
-                <div v-if="comment.replyInProgress">
-                    <button v-on:click.prevent="sendReply(comment)">Send Reply</button>
-                    <button v-on:click.prevent="comment.replyInProgress = ''">Cancel</button>
-                </div>
-            </div>
-        </li>
-    </ol>
+
 </div>
 
 {% if review_enabled %}
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="{% static 'review/bundle.js' %}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let commentsElement = document.getElementById('comments');
-            let commentsApi = new CommentsAPI('http://localhost:8010/api/review', '{{ review_token|escapejs }}');
-            let commentsApp = initCommentsApp(commentsElement, commentsApi);
-
-            for (let element of document.querySelectorAll('[data-contentpath-field]')) {
-                commentsApp.addCommentableSection(element.dataset.contentpathField, element);
-            }
+            var commentsElement = document.getElementById('comments');
+            var commentsApi = new CommentsAPI('http://localhost:8010/api/review', '{{ review_token|escapejs }}');
+            initCommentsApp(commentsElement, commentsApi, function (addCommentableSection) {
+                for (var element of document.querySelectorAll('[data-contentpath-field]')) {
+                    addCommentableSection(element.dataset.contentpathField, element);
+                }
+            });
         });
     </script>
 {% endif %}

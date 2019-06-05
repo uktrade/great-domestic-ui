@@ -4,7 +4,12 @@
         "lib": ["es2015", "dom"]
     },
     "files": [
-        "src/main.ts",
-        "src/api.ts"
+        "src/main.tsx",
+        "src/api.ts",
+        "src/components/Comment.tsx",
+        "src/utils/annotation.ts",
+        "src/utils/layout.ts",
+        "src/actions.ts",
+        "src/state.ts"
     ]
 }
