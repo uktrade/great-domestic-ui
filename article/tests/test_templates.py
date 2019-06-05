@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch, PropertyMock
 from bs4 import BeautifulSoup
 from django.urls import reverse
+from django.template.loader import render_to_string
 
 from core.tests.helpers import create_response
 
@@ -14,6 +15,19 @@ def mock_get_page():
     )
     yield stub.start()
     stub.stop()
+
+
+@pytest.fixture
+def dummy_cms_page():
+    return {
+        'title': 'test',
+        'meta': {
+            'languages': [
+                ['en-gb', 'English'],
+            ]
+        },
+        'page_type': ''
+    }
 
 
 def test_article_article_detail_page_no_related_content(
@@ -684,3 +698,70 @@ def test_country_guide_fact_sheet_displays_if_given_title(
 
     assert soup.find(id='country-guide-section-three')
     assert 'Fact sheet title' in str(response.content)
+
+
+@pytest.mark.parametrize('intro_ctas', (
+    None,
+    [],
+    [
+        {
+            'title': 'title 1',
+            'link': 'link 1',
+        }
+    ],
+    [
+        {
+            'title': 'title 1',
+            'link': '',
+        }
+    ],
+    [
+        {
+            'title': '',
+            'link': '',
+        }
+    ],
+))
+def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page):
+    context = {
+        'page': dummy_cms_page
+    }
+
+    context['page']['heading_teaser'] = 'Teaser'
+    context['page']['intro_ctas'] = intro_ctas
+
+    html = render_to_string('article/country_guide.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+    ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
+
+    assert len(ctas) == 0
+
+
+def test_country_guide_complete_intro_ctas(dummy_cms_page):
+    context = {
+        'page': dummy_cms_page
+    }
+
+    intro_ctas = [
+        {
+            'title': 'title 1',
+            'link': 'link 1',
+        },
+        {
+            'title': 'title 2',
+            'link': 'link 2',
+        },
+        {
+            'title': 'title 3',
+            'link': 'link 3',
+        },
+    ]
+
+    context['page']['heading_teaser'] = 'Teaser'
+    context['page']['intro_ctas'] = intro_ctas
+
+    html = render_to_string('article/country_guide.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+    ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
+
+    assert len(ctas) == 3

@@ -26,17 +26,21 @@
       <div class="column-three-quarters-l teaser">
         <p class="font-medium margin-bottom-60">{{ page.heading_teaser }}</p>
       </div>
+      {% if page.intro_ctas %}
       <div class="column-quarter-l links">
         <div class="panel-vertical-narrow content-list padding-top-30">
           <ul>
             {% for cta in page.intro_ctas %}
             <li>
-              <a class="heading-small link" href="{{ cta.link }}">{{ cta.title }}</a>
+              {% if cta.title and cta.link %}
+                <a class="heading-small link intro-cta-link" href="{{ cta.link }}">{{ cta.title }}</a>
+              {% endif %}
             </li>
             {% endfor %}
           </ul>
         </div>
       </div>
+      {% endif %}
     </div>
   </div>
 </section>
