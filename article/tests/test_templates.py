@@ -123,44 +123,6 @@ test_topic_page = {
 }
 
 
-def test_markets_link_in_header_when_feature_on(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEW_HEADER_FOOTER_ON'] = True
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={
-            'page_type': 'TopicLandingPage',
-            'child_pages': []
-        }
-    )
-    url = reverse('markets')
-    response = client.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    assert soup.find(id='header-markets')
-    assert soup.find(id='header-markets').string == 'Markets'
-
-
-def test_markets_link_not_in_header_when_feature_off(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEW_HEADER_FOOTER_ON'] = False
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={
-            'page_type': 'TopicLandingPage',
-            'child_pages': [],
-        }
-    )
-    url = reverse('markets')
-    response = client.get(url)
-
-    assert 'id="header-markets"' not in str(response.content)
-
-
 def test_article_advice_page(mock_get_page, client, settings):
 
     url = reverse('advice', kwargs={'slug': 'advice'})
@@ -524,7 +486,6 @@ def test_prototype_tag_list_page(mock_get_page, client, settings):
 def test_landing_page_header_footer(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['NEW_HEADER_FOOTER_ON'] = False
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
     url = reverse('landing-page')
@@ -544,11 +505,10 @@ def test_landing_page_header_footer(
     assert response.status_code == 200
 
     assert '/static/js/home' in str(response.content)
-    assert 'Create an export plan' in str(response.content)
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    assert soup.find(id="header-dit-logo")
+    assert soup.find(id="great-global-header-logo")
 
 
 def test_article_detail_page_social_share_links(
@@ -703,12 +663,6 @@ def test_country_guide_fact_sheet_displays_if_given_title(
 @pytest.mark.parametrize('intro_ctas', (
     None,
     [],
-    [
-        {
-            'title': 'title 1',
-            'link': 'link 1',
-        }
-    ],
     [
         {
             'title': 'title 1',
