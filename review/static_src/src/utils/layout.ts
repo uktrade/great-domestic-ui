@@ -36,7 +36,6 @@ export class LayoutController {
             this.isDirty = true;
 
             console.log("SET COMMENT HEIGHT", commentId, height)
-
         }
     }
 
@@ -92,27 +91,18 @@ export class LayoutController {
 
             for (let block of blocks) {
                 if (previousBlock) {
-                    if (previousBlock.position + previousBlock.height + GAP > block.position) {
+                    if (previousBlock.position + previousBlock.height / 2 + GAP > block.position - block.height / 2) {
                         overlaps = true;
 
                         // Merge the blocks
                         previousBlock.height += block.height;
                         previousBlock.comments.push(...block.comments);
 
-                        // Move the block so it balances across all comments within it
-                        /* FIXME: Doesn't handle some edge cases well yet
-                        let shift = 0.0;
-                        let currentPosition = previousBlock.position;
-                        for (let commentId of previousBlock.comments) {
-                            let desiredPosition = commentPositions[commentId];
-                            shift += desiredPosition - currentPosition;
-                            currentPosition += commentHeights[commentId];
+                        // Make sure comments don't disappear off the top of the page
+                        if (previousBlock.position - previousBlock.height / 2  < TOP_MARGIN) {
+                            previousBlock.position = TOP_MARGIN + previousBlock.height / 2 ;
                         }
-                        previousBlock.position += shift;
-                        if (previousBlock.position < TOP_MARGIN) {
-                            previousBlock.position = TOP_MARGIN;
-                        }
-                        */
+
                         continue;
                     }
                 }
@@ -126,7 +116,7 @@ export class LayoutController {
 
         // Write positions
         for (let block of blocks) {
-            let currentPosition = block.position;
+            let currentPosition = block.position - block.height / 2;
             for (let commentId of block.comments) {
                 this.commentCalculatedPositions[commentId] = currentPosition;
                 currentPosition += this.commentHeights[commentId] + GAP;
