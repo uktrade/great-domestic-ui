@@ -125,6 +125,9 @@ export function reducer(state: State|undefined, action: actions.Action) {
             break;
 
         case actions.UPDATE_COMMENT:
+            if (!(action.commentId in state.comments)) {
+                break;
+            }
             state = Object.assign({}, state, {
                 comments: Object.assign({}, state.comments),
             });
@@ -132,6 +135,9 @@ export function reducer(state: State|undefined, action: actions.Action) {
             break;
 
         case actions.DELETE_COMMENT:
+            if (!(action.commentId in state.comments)) {
+                break;
+            }
             state = Object.assign({}, state, {
                 comments: Object.assign({}, state.comments),
             });
@@ -154,19 +160,24 @@ export function reducer(state: State|undefined, action: actions.Action) {
                 state.comments[state.focusedComment] = Object.assign({}, state.comments[state.focusedComment], {
                     isFocused: false,
                 });
+
+                state.focusedComment = null;
             }
 
             // Set isFocused on focused comment
-            if (action.commentId) {
+            if (action.commentId && action.commentId in state.comments) {
                 state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
                     isFocused: true,
                 });
-            }
 
-            state.focusedComment = action.commentId;
+                state.focusedComment = action.commentId;
+            }
             break;
 
         case actions.ADD_REPLY:
+            if (!(action.commentId in state.comments)) {
+                break;
+            }
             state = Object.assign({}, state, {
                 comments: Object.assign({}, state.comments),
             });
@@ -177,6 +188,12 @@ export function reducer(state: State|undefined, action: actions.Action) {
             break;
 
         case actions.UPDATE_REPLY:
+            if (!(action.commentId in state.comments)) {
+                break;
+            }
+            if (!(action.replyId in state.comments[action.commentId].replies)) {
+                break;
+            }
             state = Object.assign({}, state, {
                 comments: Object.assign({}, state.comments),
             });
@@ -187,6 +204,12 @@ export function reducer(state: State|undefined, action: actions.Action) {
             break;
 
         case actions.DELETE_REPLY:
+            if (!(action.commentId in state.comments)) {
+                break;
+            }
+            if (!(action.replyId in state.comments[action.commentId].replies)) {
+                break;
+            }
             state = Object.assign({}, state, {
                 comments: Object.assign({}, state.comments),
             });

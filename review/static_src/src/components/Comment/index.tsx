@@ -165,8 +165,8 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onCancel = e => {
             e.preventDefault();
 
-            comment.annotation.onDelete();
             store.dispatch(deleteComment(comment.localId));
+            comment.annotation.onDelete();
         };
 
         return <>
