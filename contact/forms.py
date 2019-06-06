@@ -285,10 +285,7 @@ class BaseShortForm(forms.Form):
     )
     organisation_name = fields.CharField()
     postcode = fields.CharField()
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
+    captcha = ReCaptchaField()
     terms_agreed = fields.BooleanField(label=TERMS_LABEL)
 
 
