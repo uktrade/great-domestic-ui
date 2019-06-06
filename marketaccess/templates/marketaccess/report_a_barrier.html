@@ -1,8 +1,8 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
-{% load hero from directory_components_tags %}
-{% load message_box from directory_components_tags %}
+{% load hero from directory_components %}
+{% load message_box from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -16,7 +16,7 @@
 {% static 'images/market-access/report-a-barrier-banner.jpg' as hero_image %}
 {% static 'images/market-access/report-a-barrier-content.jpg' as content_image %}
 
-{% load hero from directory_components_tags %}
+{% load hero from directory_components %}
 {% hero hero_text="Report a trade barrier" background_image_url=hero_image %}
 <section>
     <div class="container">
