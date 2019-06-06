@@ -82,4 +82,15 @@ export default class APIClient {
 
         return await response.json();
     }
+
+    async deleteCommentReply(comment: Comment, reply: CommentReply) {
+        if (reply.remoteId) {
+            await fetch(`${this.baseUrl}/comments/${comment.remoteId}/replies/${reply.remoteId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-Review-Token': this.reviewToken,
+                },
+            });
+        }
+    }
 }

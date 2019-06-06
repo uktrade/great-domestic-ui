@@ -86,7 +86,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let replies = [];
         for (const replyId in comment.replies) {
             const reply = comment.replies[replyId];
-            replies.push(<CommentReplyComponent key={reply.localId} store={store} api={api} reply={reply} />);
+            replies.push(<CommentReplyComponent key={reply.localId} store={store} api={api} comment={comment} reply={reply} />);
         }
 
         let replyActions = <></>;

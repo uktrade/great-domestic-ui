@@ -25,6 +25,7 @@ export class CommentReply {
     mode: CommentReplyMode;
     author: string;
     text: string;
+    editPreviousText: string;
 
     constructor(localId, {remoteId=null, mode=<CommentReplyMode>'default', author='', text='', replies=[], newReply=''}) {
         this.localId = localId;
@@ -32,6 +33,7 @@ export class CommentReply {
         this.mode = mode;
         this.author = author;
         this.text = text;
+        this.editPreviousText = '';
     }
 
     static fromApi(localId: number, data: any): CommentReply {
@@ -44,6 +46,7 @@ export interface CommentReplyUpdate {
     mode?: CommentReplyMode;
     author?: Author;
     text?: string;
+    editPreviousText?: string;
 }
 
 export type CommentMode = 'default' | 'creating' | 'editing' | 'saving' | 'deleting' | 'deleted' | 'save_error' | 'delete_error';

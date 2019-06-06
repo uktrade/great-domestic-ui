@@ -36,6 +36,7 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addCommentableSec
 
         ReactDOM.render(<Comments store={store} api={api} layout={layout} comments={commentList} />, element, () => {
             // Render again if layout has changed (eg, a comment was added, deleted or resized)
+            // This will just update the "top" style attributes in the comments to get them to move
             if (layout.isDirty) {
                 layout.refresh();
 
