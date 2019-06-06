@@ -68,7 +68,6 @@ export class AnnotatableSection {
         this.makeAnnotation = annotationFactory(element, '.annotator-hl');
         this.adder = new annotator.ui.adder.Adder({
             onCreate: (annotationInfo: AnnotationInfo) => {
-                console.log("onCreate", annotationInfo);
                 let highlights = this.highlighter.draw(annotationInfo);
                 let onDelete = () => {
                     this.highlighter.undraw(annotationInfo);

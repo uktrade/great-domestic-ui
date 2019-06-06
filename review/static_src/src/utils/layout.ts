@@ -13,10 +13,8 @@ export class LayoutController {
 
     setCommentElement(commentId: number, element: HTMLElement) {
         if (element) {
-            console.log("SET ELEMENT", commentId);
             this.commentElements[commentId] = element;
         } else {
-            console.log("DELETE ELEMENT", commentId);
             delete this.commentElements[commentId];
         }
 
@@ -24,7 +22,6 @@ export class LayoutController {
     }
 
     setCommentAnnotation(commentId: number, annotation: Annotation) {
-        console.log("SET COMMENT ANNOTATION", commentId)
         this.commentAnnotations[commentId] = annotation;
         this.updateDesiredPosition(commentId);
         this.isDirty = true;
@@ -34,8 +31,6 @@ export class LayoutController {
         if (this.commentHeights[commentId] != height) {
             this.commentHeights[commentId] = height;
             this.isDirty = true;
-
-            console.log("SET COMMENT HEIGHT", commentId, height)
         }
     }
 
@@ -52,8 +47,6 @@ export class LayoutController {
         if (count == 0) {
             return;
         }
-
-        console.log("SET COMMENT POSITION", commentId, sum / count)
 
         this.commentDesiredPositions[commentId] = sum / count;
     }

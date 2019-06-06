@@ -162,7 +162,5 @@ export function reducer(state: State|undefined, action: actions.Action) {
 
     }
 
-    console.log(state, action);
-
     return state;
 }
