@@ -104,4 +104,4 @@ class HelpForm(forms.Form):
             'conditions</a> of the great.gov.uk service.'
         )
     )
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(label_suffix='')
