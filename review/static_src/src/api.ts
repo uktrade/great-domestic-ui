@@ -42,6 +42,8 @@ export default class APIClient {
             method = 'PUT';
         }
 
+        // TODO: Maybe should PATCH text instead?
+
         let response = await fetch(url, {
             method,
             headers: {
@@ -51,7 +53,7 @@ export default class APIClient {
             body: JSON.stringify({
                 'quote': comment.annotation.annotation.quote,
                 'text': comment.text,
-                'is_resolved': false,
+                'is_resolved': comment.isResolved,  // FIXME: Might blat resolution done by someone else
                 'content_path': comment.annotation.contentPath,
                 'start_xpath': comment.annotation.annotation.ranges[0].start || '.',
                 'start_offset': comment.annotation.annotation.ranges[0].startOffset,
@@ -72,6 +74,18 @@ export default class APIClient {
                 },
             });
         }
+    }
+
+    async saveCommentResolvedStatus(comment: Comment, isResolved: boolean) {
+        // Separate endpoint as anyone can mark a comment as resolved
+        let method = isResolved ? 'PUT' : 'DELETE';
+
+        await fetch(`${this.baseUrl}/comments/${comment.remoteId}/resolved/`, {
+            method,
+            headers: {
+                'X-Review-Token': this.reviewToken,
+            }
+        });
     }
 
     async saveCommentReply(comment: Comment, reply: CommentReply) {

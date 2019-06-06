@@ -19,15 +19,38 @@ export interface CommentProps {
 
 export default class CommentComponent extends React.Component<CommentProps> {
     renderHeader() {
-        let { comment } = this.props;
-        let title, date;
+        let { comment, store, api } = this.props;
+        let title, date, resolved;
 
         if (comment.mode == 'creating') {
             title = "New comment";
             date = "";
+            resolved = <></>;
         } else {
             title = comment.author.name;
             date = "10:25 May 10";
+
+            let toggleResolved = async e => {
+                e.preventDefault();
+
+                let isResolved = !comment.isResolved;
+
+                store.dispatch(updateComment(comment.localId, {
+                    isResolved,
+                    updatingResolvedStatus: true,
+                }));
+
+                await api.saveCommentResolvedStatus(comment, isResolved);
+
+                store.dispatch(updateComment(comment.localId, {
+                    updatingResolvedStatus: false,
+                }));
+            };
+
+            resolved = <div className="comment__header-resolved">
+                <label htmlFor="resolved">Resolved</label>
+                <input name="resolved" type="checkbox" onClick={toggleResolved} checked={comment.isResolved} />
+            </div>;
         }
 
         return <div className="comment__header">
@@ -36,6 +59,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 <h2>{title}</h2>
                 <p className="comment__date">{date}</p>
             </div>
+            {resolved}
         </div>;
     }
 

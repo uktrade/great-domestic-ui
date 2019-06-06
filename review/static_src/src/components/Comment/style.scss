@@ -6,19 +6,31 @@
     border: 1px solid #ccc;
     transition: top 0.5s ease 0s, right 0.5s ease 0s, height 0.5s ease 0s;
 
-    &__header-icon {
+    &__header-icon, &__header-info, &__header-resolved {
         display: inline-block;
+    }
+
+    &__header-icon {
         width: 60px;
     }
 
     &__header-info {
-        display: inline-block;
         padding: 10px;
 
         h2 {
             font-weight: bold;
             font-size: 1.1em;
             color: #555;
+        }
+    }
+
+    &__header-resolved {
+        float: right;
+        padding-top: 20px;
+        padding-right: 20px;
+
+        input {
+            margin-left: 10px;
         }
     }
 

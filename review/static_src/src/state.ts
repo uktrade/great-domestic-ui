@@ -57,18 +57,21 @@ export class Comment {
     annotation: Annotation;
     remoteId: number|null;
     mode: CommentMode;
+    isResolved: boolean;
     author: Author;
     text: string;
     replies: {[replyId: number]: CommentReply};
     newReply: string;
     editPreviousText: string = '';
     isFocused: boolean = false;
+    updatingResolvedStatus: boolean = false;
 
-    constructor(localId: number, annotation: Annotation, {remoteId=null, mode=<CommentMode>'default', author=Author.unknown(), text='', replies={}, newReply=''}) {
+    constructor(localId: number, annotation: Annotation, {remoteId=null, mode=<CommentMode>'default', isResolved=false, author=Author.unknown(), text='', replies={}, newReply=''}) {
         this.localId = localId;
         this.annotation = annotation;
         this.remoteId = remoteId;
         this.mode = mode;
+        this.isResolved = isResolved;
         this.author = author;
         this.text = text;
         this.replies = replies;
@@ -80,7 +83,7 @@ export class Comment {
     }
 
     static fromApi(localId: number, annotation: Annotation, data: any): Comment {
-        return new Comment(localId, annotation, {remoteId: data.id, author: data.author, text: data.text});
+        return new Comment(localId, annotation, {remoteId: data.id, isResolved: data.is_resolved, author: Author.fromApi(data.author), text: data.text});
     }
 }
 
@@ -88,10 +91,12 @@ export interface CommentUpdate {
     annotation?: Annotation;
     remoteId?: number|null;
     mode?: CommentMode;
+    isResolved?: boolean;
     author?: Author;
     text?: string;
     newReply?: string;
     editPreviousText?: string;
+    updatingResolvedStatus?: boolean;
 }
 
 interface State {
