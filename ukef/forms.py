@@ -93,7 +93,6 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
         }
     )
     captcha = ReCaptchaField(
-        label='',
         label_suffix='',
         error_messages={
             'required': _('Check the box to confirm that you’re human')
