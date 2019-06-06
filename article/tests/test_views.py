@@ -113,11 +113,6 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
                     {'heading': 'heading-with-teaser-2', 'teaser': 'teaser2'},
                     {'heading': None, 'teaser': 'teaser-without-heading'}
                 ],
-                'ctas': [
-                    {'title': 'title', 'link': 'link'},
-                    {'title': 'title no link', 'link': None},
-                    {'title': None, 'link': 'link-but-no-title'}
-                ],
                 'case_study': {'title': 'title', 'image': 'image'}
             }
         ],
@@ -146,7 +141,6 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
     accordions = response.context_data['page']['accordions']
     assert accordions[0]['num_of_statistics'] == 3
     assert accordions[0]['num_of_subsections'] == 3
-    assert accordions[0]['num_of_ctas'] == 2
     assert response.context_data['page']['fact_sheet']['num_of_columns'] == 2
 
 
@@ -217,14 +211,6 @@ non_viable_accordions = [
                 'heading': 'heading2'
             }
         ],
-        'ctas': [
-            {
-                'link': 'link1'
-            },
-            {
-                'link': 'link2'
-            }
-        ],
         'case_study': {'title': 'title', 'image': 'image'}
     },
     {
@@ -239,14 +225,6 @@ non_viable_accordions = [
                 'heading': 'heading2'
             }
         ],
-        'ctas': [
-            {
-                'link': 'link1'
-            },
-            {
-                'link': 'link2'
-            }
-        ],
         'case_study': {'title': 'title', 'image': 'image'}
     },
     {
@@ -258,44 +236,15 @@ non_viable_accordions = [
                 'heading': 'heading1'
             }
         ],
-        'ctas': [
-            {
-                'link': 'link1'
-            },
-            {
-                'link': 'link2'
-            }
-        ],
         'case_study': {'title': 'title', 'image': 'image'}
     },
-    {
-        'statistics': [],
-        'title': 'title',
-        'teaser': 'teaser',
-        'subsections': [
-            {
-                'heading': 'heading1'
-            },
-            {
-                'heading': 'heading2'
-            }
-        ],
-        'ctas': [
-            {
-                'link': 'link1'
-            }
-        ],
-        'case_study': {'title': 'title', 'image': 'image'}
-    }
 ]
 
 
 @pytest.mark.parametrize('non_viable_accordion', non_viable_accordions)
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_get_country_guide_page_non_viable_accordion(
-    mock_get_page,
-    non_viable_accordion,
-    client
+    mock_get_page, non_viable_accordion, client
 ):
     page = {
         'title': 'test',
