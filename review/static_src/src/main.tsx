@@ -20,8 +20,8 @@ function Comments(props: {store, api: APIClient, layout: LayoutController, comme
     </ol>;
 }
 
-function initCommentsApp(element: HTMLElement, api: APIClient, addCommentableSections: (addCommentableSection: (contentPath: string, element: HTMLElement) => void) => void) {
-    let commentableSections = {};
+function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void) {
+    let annotatableSections: {[contentPath: string]: AnnotatableSection} = {};
 
     let store = createStore(reducer);
     let layout = new LayoutController();
@@ -51,14 +51,14 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addCommentableSec
         store.dispatch(addComment(Comment.makeNew(commentId, annotation)));
     };
 
-    addCommentableSections((contentPath, element) => {
-        commentableSections[contentPath] = new AnnotatableSection(contentPath, element, newComment);
+    addAnnotatableSections((contentPath, element) => {
+        annotatableSections[contentPath] = new AnnotatableSection(contentPath, element, newComment);
     });
 
     // Fetch existing comments
     api.fetchAllComments().then(comments => {
         for (let comment of comments) {
-            let section = commentableSections[comment.content_path];
+            let section = annotatableSections[comment.content_path];
             if (!section) {
                 continue
             }

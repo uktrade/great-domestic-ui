@@ -11,9 +11,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             var commentsElement = document.getElementById('comments');
             var commentsApi = new CommentsAPI('http://localhost:8010/api/review', '{{ review_token|escapejs }}');
-            initCommentsApp(commentsElement, commentsApi, function (addCommentableSection) {
+            initCommentsApp(commentsElement, commentsApi, function (addAnnotatableSection) {
                 for (var element of document.querySelectorAll('[data-contentpath-field]')) {
-                    addCommentableSection(element.dataset.contentpathField, element);
+                    addAnnotatableSection(element.dataset.contentpathField, element);
                 }
             });
         });

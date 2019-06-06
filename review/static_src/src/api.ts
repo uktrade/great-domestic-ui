@@ -16,7 +16,21 @@ export default class APIClient {
             }
         });
 
-        return await response.json();
+        return await response.json().then(comments => {
+            for (let comment of comments) {
+                // Remove the '.' we add when serialising blank xpaths saveComment
+                // This seems to confuse annotator.js and causes the annotations
+                // to be slightly off
+                if (comment.start_xpath == '.') {
+                    comment.start_xpath = '';
+                }
+                if (comment.end_xpath == '.') {
+                    comment.end_xpath = '';
+                }
+            }
+
+            return comments;
+        });
     }
 
     async saveComment(comment: Comment) {

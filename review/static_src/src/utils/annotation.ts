@@ -2,9 +2,21 @@ import * as annotator from 'annotator';
 
 import './annotator.css';
 
+export interface Range {
+    start: string,
+    startOffset: number,
+    end: string,
+    endOffset: number,
+}
+
+export interface AnnotationInfo {
+    quote: string,
+    ranges: Range[],
+}
+
 export interface Annotation {
     contentPath: string,
-    annotation: any,
+    annotation: AnnotationInfo,
     highlights: HTMLElement[],
     onDelete(),
 }
@@ -22,10 +34,10 @@ function trim(s: string): string {
 
 // annotationFactory returns a function that can be used to construct an
 // annotation from a list of selected ranges.
-function annotationFactory(contextEl, ignoreSelector) {
-    return function (ranges) {
+function annotationFactory(contextEl, ignoreSelector): (ranges: any[]) => AnnotationInfo {
+    return function (ranges: any[]) {
         var text = [],
-            serializedRanges = [];
+            serializedRanges: Range[] = [];
 
         for (var i = 0, len = ranges.length; i < len; i++) {
             var r = ranges[i];
@@ -44,7 +56,7 @@ export class AnnotatableSection {
     contentPath: string;
     element: HTMLElement;
     highlighter: any;
-    makeAnnotation: any;
+    makeAnnotation: (ranges: any[]) => AnnotationInfo;
     adder: any;
     selector: any;
 
@@ -55,13 +67,14 @@ export class AnnotatableSection {
         this.highlighter = new annotator.ui.highlighter.Highlighter(element);
         this.makeAnnotation = annotationFactory(element, '.annotator-hl');
         this.adder = new annotator.ui.adder.Adder({
-            onCreate: annotation => {
-                let highlights = this.highlighter.draw(annotation);
+            onCreate: (annotationInfo: AnnotationInfo) => {
+                console.log("onCreate", annotationInfo);
+                let highlights = this.highlighter.draw(annotationInfo);
                 let onDelete = () => {
-                    this.highlighter.undraw(annotation);
+                    this.highlighter.undraw(annotationInfo);
                 }
 
-                onNewComment({contentPath, annotation, highlights, onDelete});
+                onNewComment({contentPath, annotation: annotationInfo, highlights, onDelete});
             }
         });
         this.adder.attach();
@@ -79,7 +92,7 @@ export class AnnotatableSection {
         });
     }
 
-    addAnnotation(annotationInfo): Annotation {
+    addAnnotation(annotationInfo: AnnotationInfo): Annotation {
         let highlights = this.highlighter.draw(annotationInfo);
 
         let onDelete = () => {
