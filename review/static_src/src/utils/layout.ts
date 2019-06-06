@@ -2,12 +2,14 @@ import {Annotation} from './annotation';
 
 const GAP = 20.0;  // Gap between comments in pixels
 const TOP_MARGIN = 100.0;  // Spacing from the top to the first comment in pixels
+const OFFSET = -50;  // How many pixels from the annotation position should the comments be placed?
 
 export class LayoutController {
     commentElements: {[commentId: number]: HTMLElement} = {};
     commentAnnotations: {[commentId: number]: Annotation} = {};
     commentDesiredPositions: {[commentId: number]: number} = {};
     commentHeights: {[commentId: number]: number} = {};
+    focusedComment: number|null = null;
     commentCalculatedPositions: {[commentId: number]: number} = {};
     isDirty: boolean = false;
 
@@ -34,6 +36,11 @@ export class LayoutController {
         }
     }
 
+    setFocusedComment(commentId: number) {
+        this.focusedComment = commentId;
+        this.isDirty = true;
+    }
+
     updateDesiredPosition(commentId: number) {
         let annotation = this.commentAnnotations[commentId];
 
@@ -48,7 +55,7 @@ export class LayoutController {
             return;
         }
 
-        this.commentDesiredPositions[commentId] = sum / count;
+        this.commentDesiredPositions[commentId] = sum / count + OFFSET;
     }
 
     refresh() {
@@ -60,6 +67,8 @@ export class LayoutController {
             position: number,
             height: number,
             comments: string[],
+            containsFocusedComment: boolean,
+            focusedCommentPosition: number,
         }
 
         // Build list of blocks (starting with one for each comment)
@@ -69,6 +78,8 @@ export class LayoutController {
                 position: this.commentDesiredPositions[commentId],
                 height: this.commentHeights[commentId],
                 comments: [commentId],
+                containsFocusedComment: this.focusedComment && commentId == this.focusedComment.toString(),
+                focusedCommentPosition: 0,
             })
         }
 
@@ -84,16 +95,28 @@ export class LayoutController {
 
             for (let block of blocks) {
                 if (previousBlock) {
-                    if (previousBlock.position + previousBlock.height / 2 + GAP > block.position - block.height / 2) {
+                    if (previousBlock.position + previousBlock.height + GAP > block.position) {
                         overlaps = true;
 
                         // Merge the blocks
-                        previousBlock.height += block.height;
                         previousBlock.comments.push(...block.comments);
 
+                        if (block.containsFocusedComment) {
+                            previousBlock.containsFocusedComment = true;
+                            previousBlock.focusedCommentPosition = block.focusedCommentPosition + previousBlock.height;
+                        }
+                        previousBlock.height += block.height;
+
                         // Make sure comments don't disappear off the top of the page
-                        if (previousBlock.position - previousBlock.height / 2  < TOP_MARGIN) {
-                            previousBlock.position = TOP_MARGIN + previousBlock.height / 2 ;
+                        // But only if a comment isn't focused
+                        if (!this.focusedComment && previousBlock.position < TOP_MARGIN + OFFSET) {
+                            previousBlock.position = TOP_MARGIN + previousBlock.height - OFFSET;
+                        }
+
+                        // If this block contains the focused comment, position it so
+                        // the focused comment is in it's desired position
+                        if (previousBlock.containsFocusedComment) {
+                            previousBlock.position = this.commentDesiredPositions[this.focusedComment] - previousBlock.focusedCommentPosition;
                         }
 
                         continue;
@@ -109,7 +132,7 @@ export class LayoutController {
 
         // Write positions
         for (let block of blocks) {
-            let currentPosition = block.position - block.height / 2;
+            let currentPosition = block.position;
             for (let commentId of block.comments) {
                 this.commentCalculatedPositions[commentId] = currentPosition;
                 currentPosition += this.commentHeights[commentId] + GAP;

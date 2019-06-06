@@ -3,6 +3,7 @@ import {Comment, CommentUpdate, CommentReply, CommentReplyUpdate} from './state'
 export const ADD_COMMENT = 'add-comment';
 export const UPDATE_COMMENT = 'update-comment';
 export const DELETE_COMMENT = 'delete-comment';
+export const SET_FOCUSED_COMMENT = 'set-focused-comment';
 
 export const ADD_REPLY = 'add-reply';
 export const UPDATE_REPLY = 'update-reply';
@@ -21,6 +22,11 @@ export interface UpdateCommentAction {
 
 export interface DeleteCommentAction {
     type: 'delete-comment',
+    commentId: number,
+}
+
+export interface SetFocusedCommentAction {
+    type: 'set-focused-comment',
     commentId: number,
 }
 
@@ -43,7 +49,7 @@ export interface DeleteReplyAction {
     replyId: number,
 }
 
-export type Action = AddCommentAction | UpdateCommentAction | DeleteCommentAction | AddReplyAction | UpdateReplyAction | DeleteReplyAction;
+export type Action = AddCommentAction | UpdateCommentAction | DeleteCommentAction | SetFocusedCommentAction | AddReplyAction | UpdateReplyAction | DeleteReplyAction;
 
 export function addComment(comment: Comment): AddCommentAction {
     return {
@@ -63,6 +69,13 @@ export function updateComment(commentId: number, update: CommentUpdate): UpdateC
 export function deleteComment(commentId: number): DeleteCommentAction {
     return {
         type: DELETE_COMMENT,
+        commentId,
+    };
+}
+
+export function setFocusedComment(commentId: number): SetFocusedCommentAction {
+    return {
+        type: SET_FOCUSED_COMMENT,
         commentId,
     };
 }

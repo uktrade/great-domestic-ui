@@ -18,8 +18,14 @@
     width: 0;
 }
 
+$highlight-colour: rgb(0, 177, 179);
+
 .annotator-hl {
-    background-color: rgba(0, 177, 179, 0.4);
+    background-color: rgba($highlight-colour, 0.4);
+}
+
+.annotator-hl--focused {
+    background-color: rgba($highlight-colour, 0.7);
 }
 
 .annotator-viewer div:first-of-type {

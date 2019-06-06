@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import {Author, Comment, CommentReply} from '../../state';
-import {updateComment, deleteComment, addReply, updateReply} from '../../actions';
+import {updateComment, deleteComment, setFocusedComment, addReply, updateReply} from '../../actions';
 import APIClient from '../../api';
 import {LayoutController} from '../../utils/layout';
 import {getNextReplyId} from '../../utils/sequences';
@@ -90,18 +90,23 @@ export default class CommentComponent extends React.Component<CommentProps> {
         }
 
         let replyActions = <></>;
-        if (comment.newReply.length > 0) {
+        if (comment.isFocused && comment.newReply.length > 0) {
             replyActions = <div className="comment__reply-actions">
                 <button onClick={onClickSendReply}>Send Reply</button>
                 <button onClick={onClickCancelReply}>Cancel</button>
             </div>;
         }
 
+        let replyTextarea = <></>;
+        if (comment.isFocused || comment.newReply) {
+            replyTextarea = <textarea className="comment__reply-input" placeholder="Write a comment back" value={comment.newReply} onChange={onChangeNewReply} style={{resize: 'none'}} />;
+        }
+
         return <>
             <ul className="comment__replies">
                 {replies}
             </ul>
-            <textarea className="comment__reply-input" placeholder="Write a comment back" value={comment.newReply} onChange={onChangeNewReply} style={{resize: 'none'}} />
+            {replyTextarea}
             {replyActions}
         </>;
     }
@@ -283,8 +288,15 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 break;
         }
 
-        let position = this.props.layout.getCommentPosition(this.props.comment.localId);
-        return <li key={this.props.comment.localId} className="comment" style={{position: 'absolute', top: `${position}px`}} data-comment-id={this.props.comment.localId}>
+        let onClick = e => {
+            this.props.store.dispatch(
+                setFocusedComment(this.props.comment.localId)
+            );
+        };
+
+        let top = this.props.layout.getCommentPosition(this.props.comment.localId);
+        let right = this.props.comment.isFocused ? 50 : 0;
+        return <li key={this.props.comment.localId} className="comment" style={{position: 'absolute', top: `${top}px`, right: `${right}px`}} data-comment-id={this.props.comment.localId} onClick={onClick}>
             {inner}
         </li>;
     }

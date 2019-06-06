@@ -4,7 +4,7 @@
     background: white;
     border-radius: 3px;
     border: 1px solid #ccc;
-    transition: top 0.5s ease 0s;
+    transition: top 0.5s ease 0s, right 0.5s ease 0s, height 0.5s ease 0s;
 
     &__header-icon {
         display: inline-block;

@@ -7,7 +7,7 @@ import {Annotation, AnnotatableSection} from './utils/annotation';
 import {LayoutController} from './utils/layout';
 import {getNextCommentId, getNextReplyId} from './utils/sequences';
 import {Comment, CommentReply, reducer} from './state';
-import {addComment, addReply} from './actions';
+import {addComment, addReply, setFocusedComment} from './actions';
 import CommentComponent from './components/Comment';
 
 import './main.scss';
@@ -22,6 +22,7 @@ function Comments(props: {store, api: APIClient, layout: LayoutController, comme
 
 function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void) {
     let annotatableSections: {[contentPath: string]: AnnotatableSection} = {};
+    let focusedComment = null;
 
     let store = createStore(reducer);
     let layout = new LayoutController();
@@ -32,6 +33,30 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSec
 
         for (let commentId in state.comments) {
             commentList.push(state.comments[commentId]);
+        }
+
+        // Check if the focused comment has changed
+        if (state.focusedComment != focusedComment) {
+            // Tell layout controller about the focused comment
+            // so it is moved alongside it's annotation
+            layout.setFocusedComment(state.focusedComment);
+
+            // Unfocus previously focused annotation
+            if (focusedComment) {
+                // Note: the comment may have just been deleted. In that case,
+                // don't worry about unfocusing the annotation as that will be
+                // deleted
+                if (focusedComment in state.comments) {
+                    state.comments[focusedComment].annotation.onUnfocus();
+                }
+            }
+
+            // Focus the new focused annotation
+            if (state.focusedComment) {
+                state.comments[state.focusedComment].annotation.onFocus();
+            }
+
+            focusedComment = state.focusedComment;
         }
 
         ReactDOM.render(<Comments store={store} api={api} layout={layout} comments={commentList} />, element, () => {
@@ -47,8 +72,20 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSec
 
     let newComment = (annotation: Annotation) => {
         let commentId = getNextCommentId();
+
+        // Focus comment when annotation is clicked
+        annotation.setOnClickHandler(() => {
+            store.dispatch(setFocusedComment(commentId));
+        });
+
+        // Let layout engine know the annotation so it would position the comment correctly
         layout.setCommentAnnotation(commentId, annotation)
+
+        // Create the comment
         store.dispatch(addComment(Comment.makeNew(commentId, annotation)));
+
+        // Focus the comment
+        store.dispatch(setFocusedComment(commentId));
     };
 
     addAnnotatableSections((contentPath, element) => {
@@ -63,6 +100,7 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSec
                 continue
             }
 
+            // Create annotation
             let annotation = section.addAnnotation({
                 quote: comment.quote,
                 ranges: [{
@@ -74,9 +112,19 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSec
             });
 
             let commentId = getNextCommentId();
-            layout.setCommentAnnotation(commentId, annotation)
+
+            // Focus comment when annotation is clicked
+            annotation.setOnClickHandler(() => {
+                store.dispatch(setFocusedComment(commentId));
+            });
+
+            // Let layout engine know the annotation so it would position the comment correctly
+            layout.setCommentAnnotation(commentId, annotation);
+
+            // Create comment
             store.dispatch(addComment(Comment.fromApi(commentId, annotation, comment)));
 
+            // Create replies
             for (let reply of comment.replies) {
                 store.dispatch(addReply(commentId, CommentReply.fromApi(getNextReplyId(), reply)));
             }

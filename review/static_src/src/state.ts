@@ -1,5 +1,6 @@
 import {Annotation} from './utils/annotation';
 import * as actions from './actions';
+import { number } from 'prop-types';
 
 export class Author {
     name: string;
@@ -60,7 +61,8 @@ export class Comment {
     text: string;
     replies: {[replyId: number]: CommentReply};
     newReply: string;
-    editPreviousText: string;
+    editPreviousText: string = '';
+    isFocused: boolean = false;
 
     constructor(localId: number, annotation: Annotation, {remoteId=null, mode=<CommentMode>'default', author=Author.unknown(), text='', replies={}, newReply=''}) {
         this.localId = localId;
@@ -71,7 +73,6 @@ export class Comment {
         this.text = text;
         this.replies = replies;
         this.newReply = newReply;
-        this.editPreviousText = '';
     }
 
     static makeNew(localId: number, annotation: Annotation): Comment {
@@ -95,11 +96,13 @@ export interface CommentUpdate {
 
 interface State {
     comments: {[commentId: number]: Comment},
+    focusedComment: number|null,
 }
 
 function initialState(): State {
     return {
-        comments: {}
+        comments: {},
+        focusedComment: null,
     };
 }
 
@@ -128,6 +131,34 @@ export function reducer(state: State|undefined, action: actions.Action) {
                 comments: Object.assign({}, state.comments),
             });
             delete state.comments[action.commentId]
+
+            // Unset focusedComment if the focused comment is the one being deleted
+            if (state.focusedComment == action.commentId) {
+                state.focusedComment = null;
+            }
+            break;
+
+        case actions.SET_FOCUSED_COMMENT:
+            state = Object.assign({}, state, {
+                comments: Object.assign({}, state.comments),
+            });
+
+            // Unset isFocused on previous focused comment
+            if (state.focusedComment) {
+                // Unset isFocused on previous focused comment
+                state.comments[state.focusedComment] = Object.assign({}, state.comments[state.focusedComment], {
+                    isFocused: false,
+                });
+            }
+
+            // Set isFocused on focused comment
+            if (action.commentId) {
+                state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
+                    isFocused: true,
+                });
+            }
+
+            state.focusedComment = action.commentId;
             break;
 
         case actions.ADD_REPLY:
@@ -159,8 +190,9 @@ export function reducer(state: State|undefined, action: actions.Action) {
             });
             delete state.comments[action.commentId].replies[action.replyId]
             break;
-
     }
+
+    console.log(action);
 
     return state;
 }

@@ -101,7 +101,6 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
             await api.deleteCommentReply(comment, reply);
 
             store.dispatch(deleteReply(comment.localId, reply.localId));
-            comment.annotation.onDelete();
         };
 
         return <>

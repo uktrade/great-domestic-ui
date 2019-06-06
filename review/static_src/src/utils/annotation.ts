@@ -1,6 +1,6 @@
 import * as annotator from 'annotator';
 
-import './annotator.css';
+import './annotator.scss';
 
 export interface Range {
     start: string,
@@ -19,6 +19,9 @@ export interface Annotation {
     annotation: AnnotationInfo,
     highlights: HTMLElement[],
     onDelete(),
+    onFocus(),
+    onUnfocus(),
+    setOnClickHandler: (handler: any) => void,
 }
 
 // trim strips whitespace from either end of a string.
@@ -60,7 +63,7 @@ export class AnnotatableSection {
     adder: any;
     selector: any;
 
-    constructor(contentPath, element, onNewComment) {
+    constructor(contentPath: string, element: HTMLElement, onNewComment: (annotation: Annotation) => void) {
         this.contentPath = contentPath;
         this.element = element;
 
@@ -73,7 +76,7 @@ export class AnnotatableSection {
                     this.highlighter.undraw(annotationInfo);
                 }
 
-                onNewComment({contentPath, annotation: annotationInfo, highlights, onDelete});
+                onNewComment(this.addAnnotation(annotationInfo, highlights));
             }
         });
         this.adder.attach();
@@ -91,13 +94,37 @@ export class AnnotatableSection {
         });
     }
 
-    addAnnotation(annotationInfo: AnnotationInfo): Annotation {
-        let highlights = this.highlighter.draw(annotationInfo);
-
-        let onDelete = () => {
-            this.highlighter.undraw(annotationInfo);
+    addAnnotation(annotationInfo: AnnotationInfo, highlights?: HTMLElement[]): Annotation {
+        // Draw highlights if they don't exist yet
+        if (!highlights) {
+            highlights = this.highlighter.draw(annotationInfo);
         }
 
-        return {contentPath: this.contentPath, annotation: annotationInfo, highlights, onDelete};
+        // This is called when this comment is deleted by a used
+        let onDelete = () => {
+            this.highlighter.undraw(annotationInfo);
+        };
+
+        // These two are called by main.tsx when the corresponding comment has been focused/unfocused
+        let onFocus = () => {
+            for (let highlight of highlights) {
+                highlight.classList.add('annotator-hl--focused');
+            }
+        };
+
+        let onUnfocus = () => {
+            for (let highlight of highlights) {
+                highlight.classList.remove('annotator-hl--focused');
+            }
+        };
+
+        // This is called to register a callback so the corresponding comment can be focused when the highlight is clicked
+        let setOnClickHandler = handler => {
+            for (let highlight of highlights) {
+                highlight.onclick = handler;
+            }
+        };
+
+        return {contentPath: this.contentPath, annotation: annotationInfo, highlights, onDelete, onFocus, onUnfocus, setOnClickHandler};
     }
 }
