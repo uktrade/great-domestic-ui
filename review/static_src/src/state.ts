@@ -111,6 +111,20 @@ function initialState(): State {
     };
 }
 
+function update(base: any, update: any): any {
+    return Object.assign({}, base, update);
+}
+
+function cloneComments(state: State): State {
+    // Returns a new state with the comments list cloned
+    return update(state, {comments: update(state.comments, {})});
+}
+
+function cloneReplies(comment: Comment): Comment {
+    // Returns a new comment with the replies list cloned
+    return update(comment, {replies: update(comment.replies, {})});
+}
+
 export function reducer(state: State|undefined, action: actions.Action) {
     if (typeof state === 'undefined') {
         state = initialState();
@@ -118,9 +132,7 @@ export function reducer(state: State|undefined, action: actions.Action) {
 
     switch (action.type) {
         case actions.ADD_COMMENT:
-            state = Object.assign({}, state, {
-                comments: Object.assign({}, state.comments),
-            });
+            state = cloneComments(state);
             state.comments[action.comment.localId] = action.comment;
             break;
 
@@ -128,19 +140,15 @@ export function reducer(state: State|undefined, action: actions.Action) {
             if (!(action.commentId in state.comments)) {
                 break;
             }
-            state = Object.assign({}, state, {
-                comments: Object.assign({}, state.comments),
-            });
-            state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], action.update);
+            state = cloneComments(state);
+            state.comments[action.commentId] = update(state.comments[action.commentId], action.update);
             break;
 
         case actions.DELETE_COMMENT:
             if (!(action.commentId in state.comments)) {
                 break;
             }
-            state = Object.assign({}, state, {
-                comments: Object.assign({}, state.comments),
-            });
+            state = cloneComments(state);
             delete state.comments[action.commentId]
 
             // Unset focusedComment if the focused comment is the one being deleted
@@ -150,14 +158,12 @@ export function reducer(state: State|undefined, action: actions.Action) {
             break;
 
         case actions.SET_FOCUSED_COMMENT:
-            state = Object.assign({}, state, {
-                comments: Object.assign({}, state.comments),
-            });
+            state = cloneComments(state);
 
             // Unset isFocused on previous focused comment
             if (state.focusedComment) {
                 // Unset isFocused on previous focused comment
-                state.comments[state.focusedComment] = Object.assign({}, state.comments[state.focusedComment], {
+                state.comments[state.focusedComment] = update(state.comments[state.focusedComment], {
                     isFocused: false,
                 });
 
@@ -166,7 +172,7 @@ export function reducer(state: State|undefined, action: actions.Action) {
 
             // Set isFocused on focused comment
             if (action.commentId && action.commentId in state.comments) {
-                state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
+                state.comments[action.commentId] = update(state.comments[action.commentId], {
                     isFocused: true,
                 });
 
@@ -178,12 +184,8 @@ export function reducer(state: State|undefined, action: actions.Action) {
             if (!(action.commentId in state.comments)) {
                 break;
             }
-            state = Object.assign({}, state, {
-                comments: Object.assign({}, state.comments),
-            });
-            state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
-                replies: Object.assign({}, state.comments[action.commentId].replies),
-            });
+            state = cloneComments(state);
+            state.comments[action.commentId] = cloneReplies(state.comments[action.commentId]);
             state.comments[action.commentId].replies[action.reply.localId] = action.reply;
             break;
 
@@ -194,13 +196,9 @@ export function reducer(state: State|undefined, action: actions.Action) {
             if (!(action.replyId in state.comments[action.commentId].replies)) {
                 break;
             }
-            state = Object.assign({}, state, {
-                comments: Object.assign({}, state.comments),
-            });
-            state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
-                replies: Object.assign({}, state.comments[action.commentId].replies),
-            });
-            state.comments[action.commentId].replies[action.replyId] = Object.assign({}, state.comments[action.commentId].replies[action.replyId], action.update);
+            state = cloneComments(state);
+            state.comments[action.commentId] = cloneReplies(state.comments[action.commentId]);
+            state.comments[action.commentId].replies[action.replyId] = update(state.comments[action.commentId].replies[action.replyId], action.update);
             break;
 
         case actions.DELETE_REPLY:
@@ -210,17 +208,11 @@ export function reducer(state: State|undefined, action: actions.Action) {
             if (!(action.replyId in state.comments[action.commentId].replies)) {
                 break;
             }
-            state = Object.assign({}, state, {
-                comments: Object.assign({}, state.comments),
-            });
-            state.comments[action.commentId] = Object.assign({}, state.comments[action.commentId], {
-                replies: Object.assign({}, state.comments[action.commentId].replies),
-            });
+            state = cloneComments(state);
+            state.comments[action.commentId] = cloneReplies(state.comments[action.commentId]);
             delete state.comments[action.commentId].replies[action.replyId]
             break;
     }
-
-    console.log(action);
 
     return state;
 }
