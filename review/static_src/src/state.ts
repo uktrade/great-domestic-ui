@@ -1,6 +1,22 @@
 import {Annotation} from './utils/annotation';
 import * as actions from './actions';
 
+export class Author {
+    name: string;
+
+    constructor(name: string) {
+        this.name = name;
+    }
+
+    static unknown(): Author {
+        return new Author("Unknown");
+    }
+
+    static fromApi(data: any): Author {
+        return new Author(data.name);
+    }
+}
+
 export type CommentReplyMode = 'default' | 'editing' | 'saving' | 'deleting' | 'deleted' | 'save_error' | 'delete_error';
 
 export class CommentReply {
@@ -26,7 +42,7 @@ export class CommentReply {
 export interface CommentReplyUpdate {
     remoteId?: number|null;
     mode?: CommentReplyMode;
-    author?: string;
+    author?: Author;
     text?: string;
 }
 
@@ -37,13 +53,13 @@ export class Comment {
     annotation: Annotation;
     remoteId: number|null;
     mode: CommentMode;
-    author: string;
+    author: Author;
     text: string;
     replies: {[replyId: number]: CommentReply};
     newReply: string;
     editPreviousText: string;
 
-    constructor(localId: number, annotation: Annotation, {remoteId=null, mode=<CommentMode>'default', author='', text='', replies={}, newReply=''}) {
+    constructor(localId: number, annotation: Annotation, {remoteId=null, mode=<CommentMode>'default', author=Author.unknown(), text='', replies={}, newReply=''}) {
         this.localId = localId;
         this.annotation = annotation;
         this.remoteId = remoteId;
@@ -68,7 +84,7 @@ export interface CommentUpdate {
     annotation?: Annotation;
     remoteId?: number|null;
     mode?: CommentMode;
-    author?: string;
+    author?: Author;
     text?: string;
     newReply?: string;
     editPreviousText?: string;

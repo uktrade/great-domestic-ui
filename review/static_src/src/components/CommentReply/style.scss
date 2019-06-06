@@ -1,21 +1,21 @@
-#comments {
-    .comment-reply {
-        &__text {
-            padding: 10px;
-            float: left;
-        }
+#comments .comment-reply {
+    clear: both;
 
-        &__actions {
-            float: right;
-            padding-right: 10px;
+    &__text {
+        padding: 10px;
+        float: left;
+    }
 
-            > a {
-                display: inline-block;
-                padding-right: 4px;
-                font-size: 0.75em;
+    &__actions {
+        float: right;
+        padding-right: 10px;
 
-                color: #333;
-            }
+        > a {
+            display: inline-block;
+            padding-right: 4px;
+            font-size: 0.75em;
+
+            color: #333;
         }
     }
 }

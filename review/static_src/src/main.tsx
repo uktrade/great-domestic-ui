@@ -34,14 +34,14 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addCommentableSec
             commentList.push(state.comments[commentId]);
         }
 
-        ReactDOM.render(<Comments store={store} api={api} layout={layout} comments={commentList} />, element);
+        ReactDOM.render(<Comments store={store} api={api} layout={layout} comments={commentList} />, element, () => {
+            // Render again if layout has changed (eg, a comment was added, deleted or resized)
+            if (layout.isDirty) {
+                layout.refresh();
 
-        // Render again if layout has changed (a comment was added, deleted or resized)
-        if (layout.isDirty) {
-            layout.refresh();
-
-            ReactDOM.render(<Comments store={store} api={api} layout={layout} comments={commentList} />, element);
-        }
+                ReactDOM.render(<Comments store={store} api={api} layout={layout} comments={commentList} />, element);
+            }
+        });
     });
 
     let newComment = (annotation: Annotation) => {
