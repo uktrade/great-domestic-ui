@@ -4,11 +4,17 @@
 ## Pre-release
 
 **Implemented enhancements:**
-- CMS-1561 - Move CTAs on country guide page
 
 **Fixed bugs:**
 - TT-1450 - accessibility change h2 to h1
 - TT-1452 - add label to contact us captcha's
+
+
+## [2019.06.06](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.06)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.04...2019.06.06)
+
+**Implemented enhancements:**
+- CMS-1561 - Move CTAs on country guide page
 
 
 ## [2019.06.04](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.04)
