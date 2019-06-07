@@ -8,6 +8,7 @@
 **Fixed bugs:**
 - TT-1450 - accessibility change h2 to h1
 - TT-1452 - add label to contact us captcha's
+- TT-1454/TT-1453 duplicate ids and empty links on finance contact-us
 
 
 ## [2019.06.06](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.06)
