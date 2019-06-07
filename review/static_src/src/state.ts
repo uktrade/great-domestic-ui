@@ -1,6 +1,5 @@
 import {Annotation} from './utils/annotation';
 import * as actions from './actions';
-import { number } from 'prop-types';
 
 export class Author {
     name: string;

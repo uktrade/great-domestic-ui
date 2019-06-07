@@ -12,7 +12,23 @@ export interface CommentReplyProps {
     api: APIClient;
 }
 
+class CommentReplyHeader extends React.Component<CommentReplyProps> {
+    render() {
+        return <div className="comment-reply__header">
+            <hr/>
+            <div className="comment-reply__header-info">
+                <h2>Author</h2>
+                <p className="comment-reply__date">10:25 May 10</p>
+            </div>
+            <div className="comment-reply__header-actions">
+                {this.props.children}
+            </div>
+        </div>;
+    }
+}
+
 export default class CommentReplyComponent extends React.Component<CommentReplyProps> {
+
     renderEditing() {
         let { comment, reply, store, api } = this.props;
 
@@ -49,11 +65,11 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         };
 
         return <>
-            <textarea className="comment-reply__input" value={reply.text} onChange={onChangeText} style={{resize: 'none'}} />
-            <div className="comment__edit-actions">
+            <CommentReplyHeader {...this.props}>
                 <button onClick={onSave}>Save</button>
                 <button onClick={onCancel}>Cancel</button>
-            </div>
+            </CommentReplyHeader>
+            <textarea className="comment-reply__input" value={reply.text} onChange={onChangeText} style={{resize: 'none'}} />
         </>;
     }
 
@@ -61,10 +77,10 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         let { reply } = this.props;
 
         return <>
-            <textarea className="comment-reply__input" value={reply.text} style={{resize: 'none'}} />
-            <div className="comment-reply__edit-actions">
+            <CommentReplyHeader {...this.props}>
                 <p>Saving...</p>
-            </div>
+            </CommentReplyHeader>
+            <textarea className="comment-reply__input" value={reply.text} style={{resize: 'none'}} />
         </>;
     }
 
@@ -72,10 +88,10 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         let { reply } = this.props;
 
         return <>
-            <p className="comment-reply__text">{reply.text}</p>
-            <div className="comment-reply__edit-actions">
+            <CommentReplyHeader {...this.props}>
                 <p>Deleting...</p>
-            </div>
+            </CommentReplyHeader>
+            <p className="comment-reply__text">{reply.text}</p>
         </>;
     }
 
@@ -104,14 +120,13 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         };
 
         return <>
-            <p className="comment-reply__text">{reply.text}</p>
-            <div className="comment-reply__actions">
+            <CommentReplyHeader {...this.props}>
                 <a href="#" onClick={onClickEdit}>Edit</a>
                 <a href="#" onClick={onClickDelete}>Delete</a>
-            </div>
+            </CommentReplyHeader>
+            <p className="comment-reply__text">{reply.text}</p>
         </>;
     }
-
 
     render() {
         let inner;

@@ -6,12 +6,8 @@
     border: 1px solid #ccc;
     transition: top 0.5s ease 0s, right 0.5s ease 0s, height 0.5s ease 0s;
 
-    &__header-icon, &__header-info, &__header-resolved {
+    &__header-info, &__header-resolved {
         display: inline-block;
-    }
-
-    &__header-icon {
-        width: 60px;
     }
 
     &__header-info {
@@ -35,7 +31,7 @@
     }
 
     &__date {
-        font-size: 0.9em;
+        font-size: 0.8em;
         color: #555;
         margin: 0;
     }

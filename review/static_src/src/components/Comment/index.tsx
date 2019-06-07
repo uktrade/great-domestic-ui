@@ -54,7 +54,6 @@ export default class CommentComponent extends React.Component<CommentProps> {
         }
 
         return <div className="comment__header">
-            <div className="comment__header-icon">{/*TODO*/}</div>
             <div className="comment__header-info">
                 <h2>{title}</h2>
                 <p className="comment__date">{date}</p>
