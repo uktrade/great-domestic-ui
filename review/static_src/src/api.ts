@@ -89,15 +89,15 @@ export default class APIClient {
                 'Content-Type': 'application/json',
                 'X-Review-Token': this.reviewToken,
             },
-            body: JSON.stringify({
-                'quote': comment.annotation.annotation.quote,
-                'text': comment.text,
-                'is_resolved': comment.isResolved,  // FIXME: Might blat resolution done by someone else
-                'content_path': comment.annotation.contentPath,
-                'start_xpath': comment.annotation.annotation.ranges[0].start || '.',
-                'start_offset': comment.annotation.annotation.ranges[0].startOffset,
-                'end_xpath': comment.annotation.annotation.ranges[0].end || '.',
-                'end_offset': comment.annotation.annotation.ranges[0].endOffset,
+            body: JSON.stringify(<CommentApi>{
+                quote: comment.annotation.annotation.quote,
+                text: comment.text,
+                is_resolved: comment.isResolved,  // FIXME: Might blat resolution done by someone else
+                content_path: comment.annotation.contentPath,
+                start_xpath: comment.annotation.annotation.ranges[0].start || '.',
+                start_offset: comment.annotation.annotation.ranges[0].startOffset,
+                end_xpath: comment.annotation.annotation.ranges[0].end || '.',
+                end_offset: comment.annotation.annotation.ranges[0].endOffset,
             }),
         });
 
@@ -142,8 +142,8 @@ export default class APIClient {
                 'Content-Type': 'application/json',
                 'X-Review-Token': this.reviewToken,
             },
-            body: JSON.stringify({
-                'text': reply.text,
+            body: JSON.stringify(<CommentReplyApi>{
+                text: reply.text,
             }),
         });
 
