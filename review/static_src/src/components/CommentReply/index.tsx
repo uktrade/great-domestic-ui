@@ -87,6 +87,39 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         </>;
     }
 
+    renderDeleteConfirm(): React.ReactFragment {
+        let { comment, reply, store, api } = this.props;
+
+        let onClickDelete = async (e: React.MouseEvent) => {
+            e.preventDefault();
+
+            store.dispatch(updateReply(comment.localId, reply.localId, {
+                mode: 'deleting',
+            }));
+
+            await api.deleteCommentReply(comment, reply);
+
+            store.dispatch(deleteReply(comment.localId, reply.localId));
+        };
+
+        let onClickCancel = (e: React.MouseEvent) => {
+            e.preventDefault();
+
+            store.dispatch(updateReply(comment.localId, reply.localId, {
+                mode: 'default',
+            }));
+        };
+
+        return <>
+            <CommentReplyHeader {...this.props}>
+                <span className="comment-reply__confirm-delete">Are you sure?</span>
+                <a href="#" onClick={onClickDelete}>Delete</a>
+                <a href="#" onClick={onClickCancel}>Cancel</a>
+            </CommentReplyHeader>
+            <p className="comment-reply__text">{reply.text}</p>
+        </>;
+    }
+
     renderDeleting(): React.ReactFragment {
         let { reply } = this.props;
 
@@ -99,7 +132,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
     }
 
     renderDefault(): React.ReactFragment {
-        let { comment, reply, store, api } = this.props;
+        let { comment, reply, store } = this.props;
 
         let onClickEdit = async (e: React.MouseEvent) => {
             e.preventDefault();
@@ -114,12 +147,8 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
             e.preventDefault();
 
             store.dispatch(updateReply(comment.localId, reply.localId, {
-                mode: 'deleting',
+                mode: 'delete_confirm',
             }));
-
-            await api.deleteCommentReply(comment, reply);
-
-            store.dispatch(deleteReply(comment.localId, reply.localId));
         };
 
         return <>
@@ -141,6 +170,10 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
 
             case 'saving':
                 inner = this.renderSaving();
+                break;
+
+            case 'delete_confirm':
+                inner = this.renderDeleteConfirm();
                 break;
 
             case 'deleting':

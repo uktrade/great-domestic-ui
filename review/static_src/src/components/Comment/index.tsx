@@ -210,7 +210,6 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onCancel = (e: React.MouseEvent) => {
             e.preventDefault();
 
-            comment.annotation.onDelete();
             store.dispatch(updateComment(comment.localId, {
                 mode: 'default',
                 text: comment.editPreviousText,
@@ -241,6 +240,42 @@ export default class CommentComponent extends React.Component<CommentProps> {
         </>;
     }
 
+    renderDeleteConfirm(): React.ReactFragment {
+        let { comment, store, api } = this.props;
+
+        let onClickDelete = async (e: React.MouseEvent) => {
+            e.preventDefault();
+
+            store.dispatch(updateComment(comment.localId, {
+                mode: 'deleting',
+            }));
+
+            await api.deleteComment(comment);
+
+            store.dispatch(deleteComment(comment.localId));
+            comment.annotation.onDelete();
+        };
+
+        let onClickCancel = (e: React.MouseEvent) => {
+            e.preventDefault();
+
+            store.dispatch(updateComment(comment.localId, {
+                mode: 'default',
+            }));
+        };
+
+        return <>
+            {this.renderHeader()}
+            <p className="comment__text">{comment.text}</p>
+            <div className="comment__actions">
+                <span className="comment__confirm-delete">Are you sure?</span>
+                <a href="#" onClick={onClickDelete}>Delete</a>
+                <a href="#" onClick={onClickCancel}>Cancel</a>
+            </div>
+            {this.renderReplies()}
+        </>;
+    }
+
     renderDeleting(): React.ReactFragment {
         let { comment } = this.props;
 
@@ -255,7 +290,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
     }
 
     renderDefault(): React.ReactFragment {
-        let { comment, store, api } = this.props;
+        let { comment, store } = this.props;
 
         let onClickEdit = async (e: React.MouseEvent) => {
             e.preventDefault();
@@ -270,13 +305,8 @@ export default class CommentComponent extends React.Component<CommentProps> {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
-                mode: 'deleting',
+                mode: 'delete_confirm',
             }));
-
-            await api.deleteComment(comment);
-
-            store.dispatch(deleteComment(comment.localId));
-            comment.annotation.onDelete();
         };
 
         return <>
@@ -304,6 +334,10 @@ export default class CommentComponent extends React.Component<CommentProps> {
 
             case 'saving':
                 inner = this.renderSaving();
+                break;
+
+            case 'delete_confirm':
+                inner = this.renderDeleteConfirm();
                 break;
 
             case 'deleting':

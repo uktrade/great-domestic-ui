@@ -20,7 +20,7 @@ export class Author {
     }
 }
 
-export type CommentReplyMode = 'default' | 'editing' | 'saving' | 'deleting' | 'deleted' | 'save_error' | 'delete_error';
+export type CommentReplyMode = 'default' | 'editing' | 'saving' | 'delete_confirm' | 'deleting' | 'deleted' | 'save_error' | 'delete_error';
 
 export class CommentReply {
     localId: number;
@@ -55,7 +55,7 @@ export interface CommentReplyUpdate {
     editPreviousText?: string;
 }
 
-export type CommentMode = 'default' | 'creating' | 'editing' | 'saving' | 'deleting' | 'deleted' | 'save_error' | 'delete_error';
+export type CommentMode = 'default' | 'creating' | 'editing' | 'saving' | 'delete_confirm' | 'deleting' | 'deleted' | 'save_error' | 'delete_error';
 
 export class Comment {
     localId: number;
