@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +25,7 @@
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "annotator": "^2.0.0-alpha.3",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "redux": "^4.0.1"

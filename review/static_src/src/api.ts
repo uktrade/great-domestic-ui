@@ -1,4 +1,6 @@
-import {Comment, CommentReply} from './state';
+import * as jwt from 'jsonwebtoken';
+
+import {Comment, CommentReply, Author} from './state';
 
 export default class APIClient {
     baseUrl: string;
@@ -7,6 +9,11 @@ export default class APIClient {
     constructor(baseUrl: string, reviewToken: string) {
         this.baseUrl = baseUrl;
         this.reviewToken = reviewToken;
+    }
+
+    getAuthor(): Author {
+        let { reviewer_name } = jwt.decode(this.reviewToken);
+        return new Author(reviewer_name);
     }
 
     async fetchAllComments() {

@@ -15,6 +15,7 @@ export interface CommentProps {
     comment: Comment,
     api: APIClient,
     layout: LayoutController,
+    defaultAuthor: Author,
 }
 
 export default class CommentComponent extends React.Component<CommentProps> {
@@ -63,7 +64,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
     }
 
     renderReplies() {
-        let { comment, store, api } = this.props;
+        let { comment, store, api, defaultAuthor } = this.props;
 
         if (!comment.remoteId) {
             // Hide replies UI if the comment itself isn't saved yet
@@ -82,7 +83,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             e.preventDefault();
 
             let replyId = getNextReplyId();
-            let reply = new CommentReply(replyId, {text: comment.newReply, mode: 'saving'});
+            let reply = new CommentReply(replyId, defaultAuthor, {text: comment.newReply, mode: 'saving'});
             store.dispatch(addReply(comment.localId, reply));
 
             store.dispatch(updateComment(comment.localId, {

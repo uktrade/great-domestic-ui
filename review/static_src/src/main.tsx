@@ -6,14 +6,14 @@ import APIClient from './api';
 import {Annotation, AnnotatableSection} from './utils/annotation';
 import {LayoutController} from './utils/layout';
 import {getNextCommentId, getNextReplyId} from './utils/sequences';
-import {Comment, CommentReply, reducer} from './state';
+import {Comment, CommentReply, reducer, Author} from './state';
 import {addComment, addReply, setFocusedComment} from './actions';
 import CommentComponent from './components/Comment';
 
 import './main.scss';
 
-function Comments(props: {store, api: APIClient, layout: LayoutController, comments: Comment[]}) {
-    let commentsRendered = props.comments.map(comment => <CommentComponent key={comment.localId} store={props.store} api={props.api} layout={props.layout} comment={comment} />);
+function Comments(props: {store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[]}) {
+    let commentsRendered = props.comments.map(comment => <CommentComponent key={comment.localId} store={props.store} api={props.api} layout={props.layout} defaultAuthor={props.defaultAuthor} comment={comment} />);
 
     return <ol>
         {commentsRendered}
@@ -26,6 +26,8 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSec
 
     let store = createStore(reducer);
     let layout = new LayoutController();
+
+    let defaultAuthor = api.getAuthor();
 
     store.subscribe(() => {
         let state = store.getState();
@@ -59,13 +61,13 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSec
             focusedComment = state.focusedComment;
         }
 
-        ReactDOM.render(<Comments store={store} api={api} layout={layout} comments={commentList} />, element, () => {
+        ReactDOM.render(<Comments store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comments={commentList} />, element, () => {
             // Render again if layout has changed (eg, a comment was added, deleted or resized)
             // This will just update the "top" style attributes in the comments to get them to move
             if (layout.isDirty) {
                 layout.refresh();
 
-                ReactDOM.render(<Comments store={store} api={api} layout={layout} comments={commentList} />, element);
+                ReactDOM.render(<Comments store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comments={commentList} />, element);
             }
         });
     });
@@ -82,7 +84,7 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSec
         layout.setCommentAnnotation(commentId, annotation)
 
         // Create the comment
-        store.dispatch(addComment(Comment.makeNew(commentId, annotation)));
+        store.dispatch(addComment(Comment.makeNew(commentId, annotation, defaultAuthor)));
 
         // Focus the comment
         store.dispatch(setFocusedComment(commentId));

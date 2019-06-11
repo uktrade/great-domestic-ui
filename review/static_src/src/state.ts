@@ -23,11 +23,11 @@ export class CommentReply {
     localId: number;
     remoteId: number|null;
     mode: CommentReplyMode;
-    author: string;
+    author: Author;
     text: string;
     editPreviousText: string;
 
-    constructor(localId, {remoteId=null, mode=<CommentReplyMode>'default', author='', text='', replies=[], newReply=''}) {
+    constructor(localId: number, author: Author, {remoteId=null, mode=<CommentReplyMode>'default', text='', replies=[], newReply=''}) {
         this.localId = localId;
         this.remoteId = remoteId;
         this.mode = mode;
@@ -37,7 +37,7 @@ export class CommentReply {
     }
 
     static fromApi(localId: number, data: any): CommentReply {
-        return new CommentReply(localId, {remoteId: data.id, author: data.author, text: data.text});
+        return new CommentReply(localId, Author.fromApi(data.author), {remoteId: data.id, text: data.text});
     }
 }
 
@@ -65,7 +65,7 @@ export class Comment {
     isFocused: boolean = false;
     updatingResolvedStatus: boolean = false;
 
-    constructor(localId: number, annotation: Annotation, {remoteId=null, mode=<CommentMode>'default', isResolved=false, author=Author.unknown(), text='', replies={}, newReply=''}) {
+    constructor(localId: number, annotation: Annotation, author: Author, {remoteId=null, mode=<CommentMode>'default', isResolved=false, text='', replies={}, newReply=''}) {
         this.localId = localId;
         this.annotation = annotation;
         this.remoteId = remoteId;
@@ -77,12 +77,12 @@ export class Comment {
         this.newReply = newReply;
     }
 
-    static makeNew(localId: number, annotation: Annotation): Comment {
-        return new Comment(localId, annotation, {mode: 'creating'});
+    static makeNew(localId: number, annotation: Annotation, author: Author): Comment {
+        return new Comment(localId, annotation, author, {mode: 'creating'});
     }
 
     static fromApi(localId: number, annotation: Annotation, data: any): Comment {
-        return new Comment(localId, annotation, {remoteId: data.id, isResolved: data.is_resolved, author: Author.fromApi(data.author), text: data.text});
+        return new Comment(localId, annotation, Author.fromApi(data.author), {remoteId: data.id, isResolved: data.is_resolved, text: data.text});
     }
 }
 

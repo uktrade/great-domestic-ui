@@ -17,7 +17,7 @@ class CommentReplyHeader extends React.Component<CommentReplyProps> {
         return <div className="comment-reply__header">
             <hr/>
             <div className="comment-reply__header-info">
-                <h2>Author</h2>
+                <h2>{this.props.reply.author.name}</h2>
                 <p className="comment-reply__date">10:25 May 10</p>
             </div>
             <div className="comment-reply__header-actions">
