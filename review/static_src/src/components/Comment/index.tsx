@@ -64,7 +64,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         </div>;
     }
 
-    renderReplies(): React.ReactFragment {
+    renderReplies({hideNewReply = false} = {}): React.ReactFragment {
         let { comment, store, api, defaultAuthor } = this.props;
 
         if (!comment.remoteId) {
@@ -124,7 +124,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         }
 
         let replyTextarea = <></>;
-        if (comment.isFocused || comment.newReply) {
+        if (!hideNewReply && (comment.isFocused || comment.newReply)) {
             replyTextarea = <textarea className="comment__reply-input" placeholder="Write a comment back" value={comment.newReply} onChange={onChangeNewReply} style={{resize: 'none'}} />;
         }
 
@@ -223,7 +223,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 <button onClick={onSave}>Save</button>
                 <button onClick={onCancel}>Cancel</button>
             </div>
-            {this.renderReplies()}
+            {this.renderReplies({hideNewReply: true})}
         </>;
     }
 
@@ -232,11 +232,10 @@ export default class CommentComponent extends React.Component<CommentProps> {
 
         return <>
             {this.renderHeader()}
-            <textarea className="comment__input" value={comment.text} style={{resize: 'none'}} />
-            <div className="comment__edit-actions">
-                <p>Saving...</p>
+            <p className="comment__text">{comment.text}</p>
+            <div className="comment__actions">
+                Saving...
             </div>
-            {this.renderReplies()}
         </>;
     }
 
@@ -282,10 +281,9 @@ export default class CommentComponent extends React.Component<CommentProps> {
         return <>
             {this.renderHeader()}
             <p className="comment__text">{comment.text}</p>
-            <div className="comment__edit-actions">
-                <p>Deleting...</p>
+            <div className="comment__actions">
+                Deleting...
             </div>
-            {this.renderReplies()}
         </>;
     }
 

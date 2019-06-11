@@ -81,7 +81,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
 
         return <>
             <CommentReplyHeader {...this.props}>
-                <p>Saving...</p>
+                Saving...
             </CommentReplyHeader>
             <textarea className="comment-reply__input" value={reply.text} style={{resize: 'none'}} />
         </>;
@@ -125,7 +125,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
 
         return <>
             <CommentReplyHeader {...this.props}>
-                <p>Deleting...</p>
+                Deleting...
             </CommentReplyHeader>
             <p className="comment-reply__text">{reply.text}</p>
         </>;
