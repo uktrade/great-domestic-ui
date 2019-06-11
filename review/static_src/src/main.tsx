@@ -12,8 +12,8 @@ import CommentComponent from './components/Comment';
 
 import './main.scss';
 
-function Comments(props: {store: Store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[]}) {
-    let commentsRendered = props.comments.map(comment => <CommentComponent key={comment.localId} store={props.store} api={props.api} layout={props.layout} defaultAuthor={props.defaultAuthor} comment={comment} />);
+function renderComments(store: Store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[]): React.ReactElement {
+    let commentsRendered = comments.map(comment => <CommentComponent key={comment.localId} store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comment={comment} />);
 
     return <ol>
         {commentsRendered}
@@ -61,13 +61,13 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
             focusedComment = state.focusedComment;
         }
 
-        ReactDOM.render(<Comments store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comments={commentList} />, element, () => {
+        ReactDOM.render(renderComments(store, api, layout, defaultAuthor, commentList), element, () => {
             // Render again if layout has changed (eg, a comment was added, deleted or resized)
             // This will just update the "top" style attributes in the comments to get them to move
             if (layout.isDirty) {
                 layout.refresh();
 
-                ReactDOM.render(<Comments store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comments={commentList} />, element);
+                ReactDOM.render(renderComments(store, api, layout, defaultAuthor, commentList), element);
             }
         });
     });
