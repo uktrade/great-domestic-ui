@@ -2,7 +2,6 @@ const path = require('path');
 
 module.exports = {
   entry: './src/main.tsx',
-  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -32,6 +31,9 @@ module.exports = {
         ]
       }
     ]
+  },
+  externals: {
+    annotator: 'annotator',
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]

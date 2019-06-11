@@ -4,14 +4,17 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack --watch"
+    "build": "webpack --mode=development",
+    "dist": "webpack --mode=production",
+    "watch": "webpack --mode=development --watch"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/dateformat": "^3.0.0",
     "@types/jsonwebtoken": "^8.3.2",
+    "@types/react": "^16.8.19",
+    "@types/react-dom": "^16.8.4",
     "css-loader": "^2.1.1",
     "file-loader": "^3.0.1",
     "node-sass": "^4.12.0",
@@ -24,9 +27,6 @@
     "webpack-cli": "^3.3.2"
   },
   "dependencies": {
-    "@types/react": "^16.8.19",
-    "@types/react-dom": "^16.8.4",
-    "annotator": "^2.0.0-alpha.3",
     "dateformat": "^3.0.3",
     "jsonwebtoken": "^8.5.1",
     "react": "^16.8.6",
