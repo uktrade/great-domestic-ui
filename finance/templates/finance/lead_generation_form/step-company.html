@@ -29,7 +29,10 @@
         var exportStatusContainer = document.getElementById('-container')
 
         GOVUK.utils.toggleFieldsetClassOnClick(
-            [exportStatusContainer]
+            [exportStatusContainer],
+            null,
+            "Select all that apply to your business:",
+            "form-hint"
         );
 
         function createCompaniesHouseLookup() {
@@ -41,7 +44,7 @@
           return new GOVUK.components.CompaniesHouseNameLookup(
             $(companyName),
             $(companyNumber),
-            {showNoneOfThese: true},
+            {showNoneOfThese: true}
           );
 
         }

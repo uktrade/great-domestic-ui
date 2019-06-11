@@ -69,7 +69,6 @@ class CompanyDetailsForm(forms.Form):
 
     export_status = fields.MultipleChoiceField(
         label='',
-        help_text='Select all that apply to your business:',
         widget=widgets.CheckboxSelectInlineLabelMultiple(
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,

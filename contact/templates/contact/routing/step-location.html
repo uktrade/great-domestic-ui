@@ -6,7 +6,6 @@
 {% block extra_contents %}
     <div id="form-step-body-text">
         Contact the Department for International Trade (DIT) for questions about trade and investment.
-        <h2 class="heading-large">Where are you based?</h2>
     </div>
 {% endblock %}
 
@@ -21,7 +20,10 @@
         var locationChoiceContainer = document.getElementById('id_location-choice_0-container')
 
         GOVUK.utils.toggleFieldsetClassOnClick(
-            [locationChoiceContainer]
+            [locationChoiceContainer],
+            null,
+            "Where are you based?",
+            "heading-large"
         );
     </script>
 
