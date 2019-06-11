@@ -4,6 +4,7 @@
 {% load article_tags %}
 {% load add_export_elements_classes from directory_components_tags %}
 {% load review_tags %}
+{% load i18n %}
 
 {% block head_title %}{{ page.article_title }} - great.gov.uk{% endblock %}
 
@@ -25,5 +26,40 @@
     {% include 'article/article_related_content_cards.html' %}
   {% endif %}
 {% endblock %}
+
+<div class="review-bar">
+
+  <div class="review-modal">
+    <form method="POST" action="http://localhost:8000/admin/moderation-queue/{{ page.id }}/review/?review_token={{ request.GET.review_token }}">
+
+      <div class="status">
+        <p>Please select a status</p>
+
+        <input type="radio" name="is_accepted" id="approved" required />
+        <label for="approved">Approved</label>
+
+        <input type="radio" name="is_accepted" id="needs-changes" required />
+        <label for="needs-changes">Needs changes</label>
+      </div>
+
+      <div class="reason">
+        <p>Please give a reason for this status</p>
+
+        <textarea name="comment"></textarea>
+        <small>200 character limit.</small>
+      </div>
+
+      <button type="submit" class="btn">Submit Review</button>
+
+    </form>
+  </div>
+
+  <div class="reviewer-status">
+    <span>{% trans "reviewer status" %}</span>
+    <button class="btn">+</button>
+  </div>
+
+</div>
+
 
 {% endblock %}
