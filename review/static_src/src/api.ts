@@ -2,11 +2,11 @@ import * as jwt from 'jsonwebtoken';
 
 import {Comment, CommentReply, Author} from './state';
 
-interface ReviewerApi {
+export interface ReviewerApi {
     name: string,
 }
 
-interface CommentReplyApi {
+export interface CommentReplyApi {
     id: number,
     author: ReviewerApi,
     text: string,
@@ -14,7 +14,7 @@ interface CommentReplyApi {
     updated_at: string,
 }
 
-interface CommentApi {
+export interface CommentApi {
     id: number,
     author: ReviewerApi,
     quote: string,

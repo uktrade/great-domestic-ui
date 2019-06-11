@@ -2,6 +2,7 @@ import {Store} from 'redux';
 
 import {Annotation} from './utils/annotation';
 import * as actions from './actions';
+import {CommentApi, CommentReplyApi} from './api';
 
 export class Author {
     name: string;
@@ -26,20 +27,22 @@ export class CommentReply {
     remoteId: number|null;
     mode: CommentReplyMode;
     author: Author;
+    date: number;
     text: string;
     editPreviousText: string;
 
-    constructor(localId: number, author: Author, {remoteId=<number|null>null, mode=<CommentReplyMode>'default', text=''}) {
+    constructor(localId: number, author: Author, date: number, {remoteId=<number|null>null, mode=<CommentReplyMode>'default', text=''}) {
         this.localId = localId;
         this.remoteId = remoteId;
         this.mode = mode;
         this.author = author;
+        this.date = date;
         this.text = text;
         this.editPreviousText = '';
     }
 
-    static fromApi(localId: number, data: any): CommentReply {
-        return new CommentReply(localId, Author.fromApi(data.author), {remoteId: data.id, text: data.text});
+    static fromApi(localId: number, data: CommentReplyApi): CommentReply {
+        return new CommentReply(localId, Author.fromApi(data.author), Date.parse(data.created_at), {remoteId: data.id, text: data.text});
     }
 }
 
@@ -47,6 +50,7 @@ export interface CommentReplyUpdate {
     remoteId?: number|null;
     mode?: CommentReplyMode;
     author?: Author;
+    date?: number,
     text?: string;
     editPreviousText?: string;
 }
@@ -60,6 +64,7 @@ export class Comment {
     mode: CommentMode;
     isResolved: boolean;
     author: Author;
+    date: number;
     text: string;
     replies: {[replyId: number]: CommentReply};
     newReply: string;
@@ -67,24 +72,25 @@ export class Comment {
     isFocused: boolean = false;
     updatingResolvedStatus: boolean = false;
 
-    constructor(localId: number, annotation: Annotation, author: Author, {remoteId=<number|null>null, mode=<CommentMode>'default', isResolved=false, text='', replies={}, newReply=''}) {
+    constructor(localId: number, annotation: Annotation, author: Author, date: number, {remoteId=<number|null>null, mode=<CommentMode>'default', isResolved=false, text='', replies={}, newReply=''}) {
         this.localId = localId;
         this.annotation = annotation;
         this.remoteId = remoteId;
         this.mode = mode;
         this.isResolved = isResolved;
         this.author = author;
+        this.date = date;
         this.text = text;
         this.replies = replies;
         this.newReply = newReply;
     }
 
     static makeNew(localId: number, annotation: Annotation, author: Author): Comment {
-        return new Comment(localId, annotation, author, {mode: 'creating'});
+        return new Comment(localId, annotation, author, Date.now(), {mode: 'creating'});
     }
 
-    static fromApi(localId: number, annotation: Annotation, data: any): Comment {
-        return new Comment(localId, annotation, Author.fromApi(data.author), {remoteId: data.id, isResolved: data.is_resolved, text: data.text});
+    static fromApi(localId: number, annotation: Annotation, data: CommentApi): Comment {
+        return new Comment(localId, annotation, Author.fromApi(data.author), Date.parse(data.created_at), {remoteId: data.id, isResolved: data.is_resolved, text: data.text});
     }
 }
 
@@ -94,6 +100,7 @@ export interface CommentUpdate {
     mode?: CommentMode;
     isResolved?: boolean;
     author?: Author;
+    date?: number,
     text?: string;
     newReply?: string;
     editPreviousText?: string;

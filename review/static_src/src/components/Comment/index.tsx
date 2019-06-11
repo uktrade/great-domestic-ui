@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as dateFormat from 'dateformat';
 
 import {Author, Comment, CommentReply, Store} from '../../state';
 import {updateComment, deleteComment, setFocusedComment, addReply, updateReply} from '../../actions';
@@ -29,7 +30,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             resolved = <></>;
         } else {
             title = comment.author.name;
-            date = "10:25 May 10";
+            date = dateFormat(comment.date, "h:MM mmmm d");
 
             let toggleResolved = async (e: React.MouseEvent) => {
                 e.preventDefault();
@@ -83,7 +84,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             e.preventDefault();
 
             let replyId = getNextReplyId();
-            let reply = new CommentReply(replyId, defaultAuthor, {text: comment.newReply, mode: 'saving'});
+            let reply = new CommentReply(replyId, defaultAuthor, Date.now(), {text: comment.newReply, mode: 'saving'});
             store.dispatch(addReply(comment.localId, reply));
 
             store.dispatch(updateComment(comment.localId, {
@@ -96,6 +97,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 remoteId: replyData.id,
                 mode: 'default',
                 author: Author.fromApi(replyData.author),
+                date: Date.parse(replyData.created_at),
             }));
         };
 
@@ -159,6 +161,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 mode: 'default',
                 remoteId: commentData.id,
                 author: Author.fromApi(commentData.author),
+                date: Date.parse(commentData.created_at),
             }));
         };
 

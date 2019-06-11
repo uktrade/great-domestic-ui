@@ -1,4 +1,6 @@
 import * as React from 'react';
+import * as dateFormat from 'dateformat';
+
 import { Comment, CommentReply, Store } from '../../state';
 import APIClient from '../../api';
 import { updateReply, deleteReply } from '../../actions';
@@ -14,11 +16,12 @@ export interface CommentReplyProps {
 
 class CommentReplyHeader extends React.Component<CommentReplyProps> {
     render() {
+        let { reply } = this.props;
         return <div className="comment-reply__header">
             <hr/>
             <div className="comment-reply__header-info">
-                <h2>{this.props.reply.author.name}</h2>
-                <p className="comment-reply__date">10:25 May 10</p>
+                <h2>{reply.author.name}</h2>
+                <p className="comment-reply__date">{dateFormat(reply.date, "h:MM mmmm d")}</p>
             </div>
             <div className="comment-reply__header-actions">
                 {this.props.children}
