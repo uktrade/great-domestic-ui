@@ -8,3 +8,14 @@
         <h1 class="heading-large">great.gov.uk account</h1>
     </div>
 {% endblock %}
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var greatAccountChoiceContainer = document.getElementById('id_great-account-choice_0-container')
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [greatAccountChoiceContainer]
+        );
+    </script>
+
+{% endblock %}

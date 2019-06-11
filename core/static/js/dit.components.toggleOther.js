@@ -5,10 +5,13 @@ GOVUK.utils.toggleFieldsetClassOnClick = (function() {
   return function toggleFieldsetClassOnClick(elements, otherRadio) {
 
     function moveToFieldset(elements, fieldset) {
+      var legend = document.createElement('legend');
       var sibling = elements[0];
+
+      fieldset.appendChild(legend);
       sibling.parentElement.insertBefore(fieldset, sibling);
       for (var i=0; i<elements.length; i++) {
-        fieldset.appendChild(elements[i]);
+        legend.appendChild(elements[i]);
       }
     }
 
@@ -37,6 +40,7 @@ GOVUK.utils.toggleFieldsetClassOnClick = (function() {
     }
 
     var fieldset = document.createElement('fieldset');
+
     moveToFieldset(elements, fieldset);
 
     if (otherRadio.checked) {

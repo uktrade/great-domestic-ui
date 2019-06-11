@@ -15,3 +15,14 @@
         <a href="{{ prev_url }}" class="previous-step">Back</a>
     {% endif %}
 {% endblock %}
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var locationChoiceContainer = document.getElementById('id_location-choice_0-container')
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [locationChoiceContainer]
+        );
+    </script>
+
+{% endblock %}
