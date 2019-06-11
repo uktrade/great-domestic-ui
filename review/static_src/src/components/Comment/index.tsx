@@ -312,7 +312,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 break;
         }
 
-        let onClick = (e: React.MouseEvent) => {
+        let onClick = () => {
             this.props.store.dispatch(
                 setFocusedComment(this.props.comment.localId)
             );

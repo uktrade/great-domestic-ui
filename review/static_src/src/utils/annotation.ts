@@ -72,10 +72,6 @@ export class AnnotatableSection {
         this.adder = new annotator.ui.adder.Adder({
             onCreate: (annotationInfo: AnnotationInfo) => {
                 let highlights = this.highlighter.draw(annotationInfo);
-                let onDelete = () => {
-                    this.highlighter.undraw(annotationInfo);
-                }
-
                 onNewComment(this.addAnnotation(annotationInfo, highlights));
             }
         });
