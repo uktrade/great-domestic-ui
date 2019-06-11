@@ -25,8 +25,13 @@
 
 {% endblock %}
 
-{% include 'directory_components/header_beta_banner.html' %}
+  <div class="container">
 
-<h1>Thanks</h1>
+    <h1 class="heading-large">Thank you.</h1>
+
+    <p>Your feedback helps make our service better for all of our users.</p>
+    <a href="{% url 'search' %}?page={{ page }}&q={{ query }}">Return to your search</a>
+
+  </div>
 
 {% endblock %}

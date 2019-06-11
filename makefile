@@ -74,6 +74,7 @@ DEBUG_SET_ENV_VARS := \
 	export UKEF_FORM_SUBMIT_TRACKER_URL=http://go.pardot.com/l/590031/2018-08-16/5kj25l; \
 	export UKEF_CONTACT_AGENT_EMAIL_ADDRESS=ukef_contact@example.com; \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
+	export DIRECTORY_FORMS_DEFAULT_TIMEOUT=30; \
 	export FEATURE_PROTOTYPE_PAGES_ENABLED=false; \
 	export FEATURE_MARKETS_PAGES_ENABLED=true; \
 	export FEATURE_NEWS_SECTION_ENABLED=false; \
@@ -92,7 +93,7 @@ DEBUG_SET_ENV_VARS := \
 	export LANGUAGE_COOKIE_DOMAIN=.trade.great
 
 TEST_SET_ENV_VARS := \
-	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \
+	export DIRECTORY_FORMS_API_BASE_URL=http://localhost:8011; \
 	export DIRECTORY_FORMS_API_API_KEY=debug; \
 	export DIRECTORY_FORMS_API_SENDER_ID=debug; \
 	export DEBUG=false; \

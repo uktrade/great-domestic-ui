@@ -32,13 +32,19 @@
     <h1 class="heading-xlarge">Search results for<span class=""> {{ query }}</span></h1>
 
     <div class="actions">
-      {% if results %}
-        <a href="{% url 'search-feedback' %}?q={{ query }}&page={{ current_page }}">Did you find what you were looking for?</a>
-        <p><a href="#search-results-list">{{ total_results|intcomma }} result{{ total_results|pluralize }} found<span class="verbose"> for {{ query }}</span></a></p>
+      {% if True %}
+        <p><a href="#search-results-list" class="bland">
+          {{ total_results|intcomma }} result{{ total_results|pluralize }} found<span class="verbose"> for {{ query }}</span>
+        </a></p>
+        <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
+          Did you find what you were looking for?
+        </a>
       {% else %}
         <p href="#search-results-list">No results found. Please try again</p>
         <br>
-        <a href="{% url 'search-feedback' %}?q={{ query }}&page={{ current_page }}">Would you like to feedback what you were looking for?</a>
+        <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
+          Tell us what you would like to find
+        </a>
       {% endif %}
 
       <form action="{% url 'search' %}" class="search" method="get" aria-label="Search form">
