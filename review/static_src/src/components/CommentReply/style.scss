@@ -44,6 +44,11 @@
         margin-right: 5px;
     }
 
+    &__error {
+        color: red;
+        font-weight: bold;
+    }
+
     &__text {
         clear: both;
         padding-left: 20px;

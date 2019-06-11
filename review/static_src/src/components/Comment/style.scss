@@ -69,6 +69,11 @@
         margin-right: 5px;
     }
 
+    &__error {
+        color: red;
+        font-weight: bold;
+    }
+
     textarea {
         padding: 10px;
         width: 100%;

@@ -7,6 +7,24 @@ import { updateReply, deleteReply } from '../../actions';
 
 import './style.scss';
 
+export async function saveCommentReply(comment: Comment, reply: CommentReply, store: Store, api: APIClient) {
+    store.dispatch(updateReply(comment.localId, reply.localId, {
+        mode: 'saving',
+    }));
+
+    try {
+        await api.saveCommentReply(comment, reply);
+
+        store.dispatch(updateReply(comment.localId, reply.localId, {
+            mode: 'default',
+        }));
+    } catch (err) {
+        store.dispatch(updateReply(comment.localId, reply.localId, {
+            mode: 'save_error',
+        }));
+    }
+}
+
 export interface CommentReplyProps {
     comment: Comment;
     reply: CommentReply;
@@ -45,16 +63,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
 
         let onSave = async (e: React.MouseEvent) => {
             e.preventDefault();
-
-            store.dispatch(updateReply(comment.localId, reply.localId, {
-                mode: 'saving',
-            }));
-
-            await api.saveCommentReply(comment, reply);
-
-            store.dispatch(updateReply(comment.localId, reply.localId, {
-                mode: 'default',
-            }));
+            await saveCommentReply(comment, reply, store, api);
         };
 
         let onCancel = (e: React.MouseEvent) => {
@@ -83,7 +92,24 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
             <CommentReplyHeader {...this.props}>
                 Saving...
             </CommentReplyHeader>
-            <textarea className="comment-reply__input" value={reply.text} style={{resize: 'none'}} />
+            <p className="comment-reply__text">{reply.text}</p>
+        </>;
+    }
+
+    renderSaveError(): React.ReactFragment {
+        let { comment, reply, store, api } = this.props;
+
+        let onClickRetry = async (e: React.MouseEvent) => {
+            e.preventDefault();
+
+            await saveCommentReply(comment, reply, store, api);
+        };
+
+        return <>
+            <CommentReplyHeader {...this.props}>
+                <span className="comment-reply__error">Save error <a href="#" onClick={onClickRetry}>Retry</a></span>
+            </CommentReplyHeader>
+            <p className="comment-reply__text">{reply.text}</p>
         </>;
     }
 
@@ -170,6 +196,10 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
 
             case 'saving':
                 inner = this.renderSaving();
+                break;
+
+            case 'save_error':
+                inner = this.renderSaveError();
                 break;
 
             case 'delete_confirm':
