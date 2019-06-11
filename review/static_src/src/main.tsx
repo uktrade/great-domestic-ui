@@ -20,14 +20,14 @@ function Comments(props: {store: Store, api: APIClient, layout: LayoutController
     </ol>;
 }
 
-function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void) {
+function initCommentsApp(element: HTMLElement, api: APIClient, authorName: string, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void) {
     let annotatableSections: {[contentPath: string]: AnnotatableSection} = {};
     let focusedComment: number|null = null;
 
     let store = createStore(reducer);
     let layout = new LayoutController();
 
-    let defaultAuthor = api.getAuthor();
+    let defaultAuthor = new Author(authorName);
 
     store.subscribe(() => {
         let state = store.getState();

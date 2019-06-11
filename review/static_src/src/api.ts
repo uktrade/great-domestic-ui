@@ -1,6 +1,4 @@
-import * as jwt from 'jsonwebtoken';
-
-import {Comment, CommentReply, Author} from './state';
+import {Comment, CommentReply} from './state';
 
 export interface ReviewerApi {
     name: string,
@@ -30,10 +28,6 @@ export interface CommentApi {
     end_offset: number,
 }
 
-interface DecodedReviewToken {
-    reviewer_name: string,
-}
-
 export default class APIClient {
     baseUrl: string;
     reviewToken: string;
@@ -41,11 +35,6 @@ export default class APIClient {
     constructor(baseUrl: string, reviewToken: string) {
         this.baseUrl = baseUrl;
         this.reviewToken = reviewToken;
-    }
-
-    getAuthor(): Author {
-        let { reviewer_name } = <DecodedReviewToken>jwt.decode(this.reviewToken);
-        return new Author(reviewer_name);
     }
 
     async fetchAllComments(): Promise<CommentApi[]> {

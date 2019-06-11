@@ -1,4 +1,5 @@
 from django import template
+import jwt
 
 register = template.Library()
 
@@ -7,7 +8,21 @@ register = template.Library()
 def review(context):
     request = context['request']
 
-    return {
-        'review_enabled': 'review_token' in request.GET,
-        'review_token': request.GET.get('review_token'),
-    }
+
+    if 'review_token' in request.GET:
+        review_token = request.GET['review_token']
+
+        # No need to verify as we only beed the reviewer name for display purposes
+        decoded = jwt.decode(review_token, verify=False)
+
+        return {
+            'review_enabled': True,
+            'review_token': review_token,
+            'reviewer_name': decoded['reviewer_name'],
+        }
+    else:
+        return {
+            'review_enabled': False,
+            'review_token': None,
+            'reviewer_name': '',
+        }
