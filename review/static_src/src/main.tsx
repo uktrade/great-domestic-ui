@@ -156,7 +156,7 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
     document.body.addEventListener('click',  e => {
         if (e.target instanceof HTMLElement) {
             // ignore if click target is a comment or a highlight
-            if (!e.target.closest('#comments .comment, .annotator-hl')) {
+            if (!e.target.closest('#comments .comment, .annotator-hl, .annotator-adder')) {
                 // Running store.dispatch directly here seems to prevent the event from being handled anywhere else
                 setTimeout(() => {
                     store.dispatch(setFocusedComment(null));
