@@ -1,4 +1,4 @@
-{% load add_export_elements_classes cta_link statistics_card_grid from directory_components_tags %}
+{% load add_export_elements_classes cta_link statistics_card_grid from directory_components %}
 
 {% for accordion in accordions %}
   {% if accordion.is_viable %}
@@ -12,7 +12,7 @@
       <div class="accordion-content" aria-labelledby="accordion-content">
 
         <section id="country-guide-sector-section-one" class="padding-vertical-60">
-          <div class="container{% if accordion.neither_case_study_nor_statistics %} padding-bottom-60 underline-active-blue{% endif %}">
+          <div class="container">
             <div class="grid-row margin-bottom-30">
               <div class="column-full column-two-thirds-m column-half-l">
                 <p class="font-medium">{{ accordion.teaser }}</p>
@@ -68,26 +68,6 @@
           </div>
         </section>
         {% endif %}
-
-        <section id="country-guide-sector-cta-section" class="sector-ctas padding-vertical-60">
-          <div class="container">
-            <div class="grid-row">
-              {% for cta in accordion.ctas %}
-                {% if cta.link %}
-                {% if accordion.num_of_ctas == 3 %}
-                <div class="column-full column-third-l margin-bottom-30">
-                {% elif accordion.num_of_ctas == 2 %}
-                <div class="column-full column-half-l margin-bottom-30 padding-horizontal-30-l">
-                {% else %}
-                <div class="column-full margin-bottom-30">
-                {% endif %}
-                  {% cta_link with_arrow=True url=cta.link text=cta.title %}
-                </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          </div>
-        </section>
 
       </div>
     </li>

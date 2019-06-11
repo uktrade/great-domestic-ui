@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load render_form from directory_components_tags %}
+{% load render_form from directory_components %}
 {% load static from staticfiles %}
 
 {% block head_css %}
@@ -7,7 +7,7 @@
 <link href="{% static 'styles/ukef-contact-page.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block head_title %}UK Export finance contact form - great.gov.uk{% endblock %}
+{% block head_title %}UK Export Finance - Get in touch{% endblock %}
 
 {% block css_layout_class %}uk-export-contact-form{% endblock %}
 
@@ -50,8 +50,8 @@
         </div>
         <div class="column-quarter">
           <div class="panel-vertical-narrow">
-            <h2 class="heading heading-small margin-top-0 margin-bottom-15">Looking for trade finance?</h2>
-            <a href="#">Trade finance for UK exporters</a>
+            <h2 class="heading heading-medium margin-top-0 margin-bottom-15">Looking for trade finance?</h2>
+            <a href="{% url 'trade-finance' %}">Trade finance for UK exporters</a>
             <p>How we help UK exporters access working capital and bond support, as well as credit insurance.</p>
           </div>
         </div>
@@ -66,7 +66,7 @@
         <form action="" method="post" autocomplete="off">
           {% csrf_token %}
           {% render_form form %}
-          <button type="submit" class="button button">Submit Form</button>
+          <button type="submit" class="button button">Submit</button>
         </form>
       </div>
     </div>

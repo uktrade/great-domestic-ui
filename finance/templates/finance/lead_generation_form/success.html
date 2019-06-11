@@ -1,13 +1,14 @@
 {% extends 'core/base.html' %}
 {% load static from staticfiles %}
 
-{% load add_export_elements_classes from directory_components_tags %}
+{% load add_export_elements_classes from directory_components %}
 
 {% block head_css %}
     {{ block.super }}
     <link href="{% static 'styles/ukef-lead-generation-success.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
+{% block head_title %}UK Export Finance - We have received your details{% endblock %}
 {% block content %}
     <div class="container">
         {% include 'finance/lead_generation_form/breadcrumbs.html' %}

@@ -104,21 +104,27 @@ def format_query(query, page):
                 },
                 'should': [
                     {'match': {
-                        'boost': {
-                            'query': 'boost',
-                            'boost': 20
+                        'type': {
+                            'query': 'Article',
+                            'boost': 10000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'Market',
+                            'boost': 10000
                         }
                     }},
                     {'match': {
                         'type': {
                             'query': 'Service',
-                            'boost': 10
+                            'boost': 20000
                         }
                     }},
                     {'match': {
                         'type': {
-                            'query': 'Opportunity',
-                            'boost': 0.1
+                            'query': 'Event',
+                            'boost': 10000
                         }
                     }}
                 ],

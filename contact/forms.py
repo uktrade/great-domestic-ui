@@ -250,10 +250,7 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
         label='Feedback',
         widget=Textarea,
     )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
+    captcha = ReCaptchaField(label_suffix='')
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
@@ -285,10 +282,7 @@ class BaseShortForm(forms.Form):
     )
     organisation_name = fields.CharField()
     postcode = fields.CharField()
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
+    captcha = ReCaptchaField(label_suffix='')
     terms_agreed = fields.BooleanField(label=TERMS_LABEL)
 
 
@@ -349,10 +343,7 @@ class InternationalContactForm(
         ),
         widget=Textarea,
     )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
+    captcha = ReCaptchaField(label_suffix='')
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
@@ -420,10 +411,7 @@ class BusinessDetailsForm(forms.Form):
         choices=(('', 'Please select'),) + choices.EMPLOYEES,
         required=False,
     )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
+    captcha = ReCaptchaField(label_suffix='')
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
@@ -535,10 +523,7 @@ class SellingOnlineOverseasContactDetails(forms.Form):
         label='I prefer to be contacted by email',
         required=False,
     )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
+    captcha = ReCaptchaField(label_suffix='')
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )

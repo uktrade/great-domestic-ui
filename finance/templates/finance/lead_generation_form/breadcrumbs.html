@@ -1,13 +1,8 @@
-<div class="breadcrumbs">
-  <ol>
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <li>
-      <a href="{% url 'get-finance' %}">Get finance</a>
-    </li>
-    <li aria-current="page">
-        <a href="{% url 'uk-export-finance-lead-generation-form' step='contact' %}" class="current">Contact us</a>
-    </li>
-  </ol>
-</div>
+<nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
+	<ol>
+		<li><a href="/">Great.gov.uk</a></li>
+		<li><a href="{% url 'get-finance' %}">UKEF</a></li>
+		<li><a href="{% url 'trade-finance' %}">Trade Finance</a></li>
+		<li aria-current="page">Contact Us</li>
+	</ol>
+</nav>

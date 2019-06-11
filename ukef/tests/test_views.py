@@ -12,44 +12,44 @@ from ukef import forms
     'page_url,page_content,expected_status_code',
     (
         (
-            reverse('ukef-get-finance'),
+            reverse('get-finance'),
             {
-                'title': 'UK Export finance - great.gov.uk',
+                'title': 'UK Export Finance - Great.gov.uk',
             },
             200
         ),
         (
             reverse('project-finance'),
             {
-                'title': 'The UK’s Export Credit Agency - great.gov.uk',
+                'title': 'UK Export Finance - Project Finance',
             },
             200
         ),
         (
             reverse('uk-export-contact'),
             {
-                'title': 'UK Export finance contact form - great.gov.uk',
+                'title': 'UK Export Finance - Get in touch',
             },
             200
         ),
         (
             reverse('how-we-assess-your-project'),
             {
-                'title': 'How we assess your project - great.gov.uk',
+                'title': 'UK Export Finance - How we assess your project',
             },
             200
         ),
         (
             reverse('what-we-offer-you'),
             {
-                'title': 'What we offer you - great.gov.uk',
+                'title': 'UK Export Finance - What we offer you',
             },
             200
         ),
         (
             reverse('country-cover'),
             {
-                'title': 'Country Cover - great.gov.uk',
+                'title': 'UK Export Finance - Check our Country Cover',
             },
             200
         )
@@ -68,7 +68,7 @@ def test_ukef_views_while_feature_flag_enabled(
     'page_url,expected_status_code',
     (
         (
-            reverse('ukef-get-finance'),
+            reverse('get-finance'),
             404
         ),
         (

@@ -179,11 +179,6 @@ urlpatterns = [
         name='casestudy-york-bag'
     ),
     url(
-        r"^get-finance/$",
-        finance.views.TradeFinanceView.as_view(),
-        name='get-finance'
-    ),
-    url(
         r'^get-finance/contact/thanks/$',
         finance.views.GetFinanceLeadGenerationSuccessView.as_view(),
         name='uk-export-finance-lead-generation-form-success'
@@ -646,9 +641,14 @@ community_urls = [
 
 ukef_urls = [
     url(
-        r"^get-finance-ukef/$",
+        r"^get-finance/$",
         ukef.views.HomeView.as_view(),
-        name='ukef-get-finance',
+        name='get-finance',
+    ),
+    url(
+        r"^trade-finance/$",
+        finance.views.TradeFinanceView.as_view(),
+        name='trade-finance'
     ),
     url(
         r"^project-finance/$",
