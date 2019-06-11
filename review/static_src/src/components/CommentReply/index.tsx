@@ -29,7 +29,7 @@ class CommentReplyHeader extends React.Component<CommentReplyProps> {
 
 export default class CommentReplyComponent extends React.Component<CommentReplyProps> {
 
-    renderEditing() {
+    renderEditing(): React.ReactFragment {
         let { comment, reply, store, api } = this.props;
 
         let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -73,7 +73,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         </>;
     }
 
-    renderSaving() {
+    renderSaving(): React.ReactFragment {
         let { reply } = this.props;
 
         return <>
@@ -84,7 +84,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         </>;
     }
 
-    renderDeleting() {
+    renderDeleting(): React.ReactFragment {
         let { reply } = this.props;
 
         return <>
@@ -95,7 +95,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         </>;
     }
 
-    renderDefault() {
+    renderDefault(): React.ReactFragment {
         let { comment, reply, store, api } = this.props;
 
         let onClickEdit = async (e: React.MouseEvent) => {
@@ -129,7 +129,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
     }
 
     render() {
-        let inner;
+        let inner: React.ReactFragment;
 
         switch (this.props.reply.mode) {
             case 'editing':

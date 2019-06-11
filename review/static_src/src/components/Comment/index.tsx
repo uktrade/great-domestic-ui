@@ -19,7 +19,7 @@ export interface CommentProps {
 }
 
 export default class CommentComponent extends React.Component<CommentProps> {
-    renderHeader() {
+    renderHeader(): React.ReactFragment {
         let { comment, store, api } = this.props;
         let title, date, resolved;
 
@@ -63,7 +63,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         </div>;
     }
 
-    renderReplies() {
+    renderReplies(): React.ReactFragment {
         let { comment, store, api, defaultAuthor } = this.props;
 
         if (!comment.remoteId) {
@@ -135,7 +135,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         </>;
     }
 
-    renderCreating() {
+    renderCreating(): React.ReactFragment {
         let { comment, store, api } = this.props;
 
         let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -179,7 +179,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         </>;
     }
 
-    renderEditing() {
+    renderEditing(): React.ReactFragment {
         let { comment, store, api } = this.props;
 
         let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -225,7 +225,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         </>;
     }
 
-    renderSaving() {
+    renderSaving(): React.ReactFragment {
         let { comment } = this.props;
 
         return <>
@@ -238,7 +238,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         </>;
     }
 
-    renderDeleting() {
+    renderDeleting(): React.ReactFragment {
         let { comment } = this.props;
 
         return <>
@@ -251,7 +251,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         </>;
     }
 
-    renderDefault() {
+    renderDefault(): React.ReactFragment {
         let { comment, store, api } = this.props;
 
         let onClickEdit = async (e: React.MouseEvent) => {
@@ -288,7 +288,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
     }
 
     render() {
-        let inner;
+        let inner: React.ReactFragment;
 
         switch (this.props.comment.mode) {
             case 'creating':
