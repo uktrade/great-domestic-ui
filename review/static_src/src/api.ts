@@ -2,6 +2,38 @@ import * as jwt from 'jsonwebtoken';
 
 import {Comment, CommentReply, Author} from './state';
 
+interface ReviewerApi {
+    name: string,
+}
+
+interface CommentReplyApi {
+    id: number,
+    author: ReviewerApi,
+    text: string,
+    created_at: string,
+    updated_at: string,
+}
+
+interface CommentApi {
+    id: number,
+    author: ReviewerApi,
+    quote: string,
+    text: string,
+    created_at: string,
+    updated_at: string,
+    is_resolved: boolean,
+    replies: CommentReplyApi[],
+    content_path: string,
+    start_xpath: string,
+    start_offset: number,
+    end_xpath: string,
+    end_offset: number,
+}
+
+interface DecodedReviewToken {
+    reviewer_name: string,
+}
+
 export default class APIClient {
     baseUrl: string;
     reviewToken: string;
@@ -12,18 +44,18 @@ export default class APIClient {
     }
 
     getAuthor(): Author {
-        let { reviewer_name } = jwt.decode(this.reviewToken);
+        let { reviewer_name } = <DecodedReviewToken>jwt.decode(this.reviewToken);
         return new Author(reviewer_name);
     }
 
-    async fetchAllComments() {
+    async fetchAllComments(): Promise<CommentApi[]> {
         let response = await fetch(`${this.baseUrl}/comments/`, {
             headers: {
                 'X-Review-Token': this.reviewToken,
             }
         });
 
-        return await response.json().then(comments => {
+        return await response.json().then((comments: CommentApi[]) => {
             for (let comment of comments) {
                 // Remove the '.' we add when serialising blank xpaths saveComment
                 // This seems to confuse annotator.js and causes the annotations
@@ -40,7 +72,7 @@ export default class APIClient {
         });
     }
 
-    async saveComment(comment: Comment) {
+    async saveComment(comment: Comment): Promise<CommentApi> {
         let url = `${this.baseUrl}/comments/`;
         let method = 'POST';
 
@@ -95,7 +127,7 @@ export default class APIClient {
         });
     }
 
-    async saveCommentReply(comment: Comment, reply: CommentReply) {
+    async saveCommentReply(comment: Comment, reply: CommentReply): Promise<CommentReplyApi> {
         let url = `${this.baseUrl}/comments/${comment.remoteId}/replies/`;
         let method = 'POST';
 

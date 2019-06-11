@@ -6,13 +6,13 @@ import APIClient from './api';
 import {Annotation, AnnotatableSection} from './utils/annotation';
 import {LayoutController} from './utils/layout';
 import {getNextCommentId, getNextReplyId} from './utils/sequences';
-import {Comment, CommentReply, reducer, Author} from './state';
+import {Comment, CommentReply, reducer, Author, Store} from './state';
 import {addComment, addReply, setFocusedComment} from './actions';
 import CommentComponent from './components/Comment';
 
 import './main.scss';
 
-function Comments(props: {store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[]}) {
+function Comments(props: {store: Store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[]}) {
     let commentsRendered = props.comments.map(comment => <CommentComponent key={comment.localId} store={props.store} api={props.api} layout={props.layout} defaultAuthor={props.defaultAuthor} comment={comment} />);
 
     return <ol>
@@ -22,7 +22,7 @@ function Comments(props: {store, api: APIClient, layout: LayoutController, defau
 
 function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void) {
     let annotatableSections: {[contentPath: string]: AnnotatableSection} = {};
-    let focusedComment = null;
+    let focusedComment: number|null = null;
 
     let store = createStore(reducer);
     let layout = new LayoutController();
@@ -133,6 +133,8 @@ function initCommentsApp(element: HTMLElement, api: APIClient, addAnnotatableSec
         }
     });
 }
+
+declare var window: any;
 
 window['CommentsAPI'] = APIClient;
 window['initCommentsApp'] = initCommentsApp;

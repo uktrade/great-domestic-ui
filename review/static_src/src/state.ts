@@ -1,3 +1,5 @@
+import {Store} from 'redux';
+
 import {Annotation} from './utils/annotation';
 import * as actions from './actions';
 
@@ -27,7 +29,7 @@ export class CommentReply {
     text: string;
     editPreviousText: string;
 
-    constructor(localId: number, author: Author, {remoteId=null, mode=<CommentReplyMode>'default', text='', replies=[], newReply=''}) {
+    constructor(localId: number, author: Author, {remoteId=<number|null>null, mode=<CommentReplyMode>'default', text=''}) {
         this.localId = localId;
         this.remoteId = remoteId;
         this.mode = mode;
@@ -65,7 +67,7 @@ export class Comment {
     isFocused: boolean = false;
     updatingResolvedStatus: boolean = false;
 
-    constructor(localId: number, annotation: Annotation, author: Author, {remoteId=null, mode=<CommentMode>'default', isResolved=false, text='', replies={}, newReply=''}) {
+    constructor(localId: number, annotation: Annotation, author: Author, {remoteId=<number|null>null, mode=<CommentMode>'default', isResolved=false, text='', replies={}, newReply=''}) {
         this.localId = localId;
         this.annotation = annotation;
         this.remoteId = remoteId;
@@ -215,3 +217,5 @@ export function reducer(state: State|undefined, action: actions.Action) {
 
     return state;
 }
+
+export type Store = Store<State, actions.Action>;

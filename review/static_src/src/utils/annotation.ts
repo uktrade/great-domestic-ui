@@ -1,4 +1,4 @@
-import * as annotator from 'annotator';
+let annotator: any = require('annotator');
 
 import './annotator.scss';
 
@@ -18,9 +18,9 @@ export interface Annotation {
     contentPath: string,
     annotation: AnnotationInfo,
     highlights: HTMLElement[],
-    onDelete(),
-    onFocus(),
-    onUnfocus(),
+    onDelete(): void,
+    onFocus(): void,
+    onUnfocus(): void,
     setOnClickHandler: (handler: any) => void,
 }
 
@@ -37,7 +37,7 @@ function trim(s: string): string {
 
 // annotationFactory returns a function that can be used to construct an
 // annotation from a list of selected ranges.
-function annotationFactory(contextEl, ignoreSelector): (ranges: any[]) => AnnotationInfo {
+function annotationFactory(contextEl: HTMLElement, ignoreSelector: string): (ranges: any[]) => AnnotationInfo {
     return function (ranges: any[]) {
         var text = [],
             serializedRanges: Range[] = [];
@@ -82,7 +82,7 @@ export class AnnotatableSection {
         this.adder.attach();
 
         this.selector = new annotator.ui.textselector.TextSelector(element, {
-            onSelection: (ranges, event) => {
+            onSelection: (ranges: any[], event: any) => {
                 if (ranges.length > 0) {
                     let annotation = this.makeAnnotation(ranges);
                     let interactionPoint = annotator.util.mousePosition(event);
@@ -119,7 +119,7 @@ export class AnnotatableSection {
         };
 
         // This is called to register a callback so the corresponding comment can be focused when the highlight is clicked
-        let setOnClickHandler = handler => {
+        let setOnClickHandler = (handler: (this: GlobalEventHandlers, ev: MouseEvent) => any) => {
             for (let highlight of highlights) {
                 highlight.onclick = handler;
             }

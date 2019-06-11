@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import {Author, Comment, CommentReply} from '../../state';
+import {Author, Comment, CommentReply, Store} from '../../state';
 import {updateComment, deleteComment, setFocusedComment, addReply, updateReply} from '../../actions';
 import APIClient from '../../api';
 import {LayoutController} from '../../utils/layout';
@@ -11,7 +11,7 @@ import CommentReplyComponent from '../CommentReply';
 import './style.scss';
 
 export interface CommentProps {
-    store: any,
+    store: Store,
     comment: Comment,
     api: APIClient,
     layout: LayoutController,
@@ -31,7 +31,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             title = comment.author.name;
             date = "10:25 May 10";
 
-            let toggleResolved = async e => {
+            let toggleResolved = async (e: React.MouseEvent) => {
                 e.preventDefault();
 
                 let isResolved = !comment.isResolved;
@@ -71,7 +71,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             return <></>;
         }
 
-        let onChangeNewReply = e => {
+        let onChangeNewReply = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
@@ -79,7 +79,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             }));
         };
 
-        let onClickSendReply = async e => {
+        let onClickSendReply = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             let replyId = getNextReplyId();
@@ -99,7 +99,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             }));
         };
 
-        let onClickCancelReply = e => {
+        let onClickCancelReply = (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
@@ -138,7 +138,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
     renderCreating() {
         let { comment, store, api } = this.props;
 
-        let onChangeText = e => {
+        let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
@@ -146,7 +146,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             }));
         };
 
-        let onSave = async e => {
+        let onSave = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
@@ -162,7 +162,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             }));
         };
 
-        let onCancel = e => {
+        let onCancel = (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(deleteComment(comment.localId));
@@ -182,7 +182,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
     renderEditing() {
         let { comment, store, api } = this.props;
 
-        let onChangeText = e => {
+        let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
@@ -190,7 +190,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             }));
         };
 
-        let onSave = async e => {
+        let onSave = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
@@ -204,7 +204,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             }));
         };
 
-        let onCancel = e => {
+        let onCancel = (e: React.MouseEvent) => {
             e.preventDefault();
 
             comment.annotation.onDelete();
@@ -254,7 +254,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
     renderDefault() {
         let { comment, store, api } = this.props;
 
-        let onClickEdit = async e => {
+        let onClickEdit = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
@@ -263,7 +263,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             }));
         };
 
-        let onClickDelete = async e => {
+        let onClickDelete = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(updateComment(comment.localId, {
@@ -312,7 +312,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 break;
         }
 
-        let onClick = e => {
+        let onClick = (e: React.MouseEvent) => {
             this.props.store.dispatch(
                 setFocusedComment(this.props.comment.localId)
             );

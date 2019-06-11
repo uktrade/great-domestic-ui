@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Comment, CommentReply } from '../../state';
+import { Comment, CommentReply, Store } from '../../state';
 import APIClient from '../../api';
 import { updateReply, deleteReply } from '../../actions';
 
@@ -8,7 +8,7 @@ import './style.scss';
 export interface CommentReplyProps {
     comment: Comment;
     reply: CommentReply;
-    store: any;
+    store: Store;
     api: APIClient;
 }
 
@@ -32,7 +32,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
     renderEditing() {
         let { comment, reply, store, api } = this.props;
 
-        let onChangeText = e => {
+        let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             e.preventDefault();
 
             store.dispatch(updateReply(comment.localId, reply.localId, {
@@ -40,7 +40,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
             }));
         };
 
-        let onSave = async e => {
+        let onSave = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(updateReply(comment.localId, reply.localId, {
@@ -54,7 +54,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
             }));
         };
 
-        let onCancel = e => {
+        let onCancel = (e: React.MouseEvent) => {
             e.preventDefault();
 
             comment.annotation.onDelete();
@@ -98,7 +98,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
     renderDefault() {
         let { comment, reply, store, api } = this.props;
 
-        let onClickEdit = async e => {
+        let onClickEdit = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(updateReply(comment.localId, reply.localId, {
@@ -107,7 +107,7 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
             }));
         };
 
-        let onClickDelete = async e => {
+        let onClickDelete = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             store.dispatch(updateReply(comment.localId, reply.localId, {

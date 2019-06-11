@@ -66,7 +66,7 @@ export class LayoutController {
         interface Block {
             position: number,
             height: number,
-            comments: string[],
+            comments: number[],
             containsFocusedComment: boolean,
             focusedCommentPosition: number,
         }
@@ -77,7 +77,7 @@ export class LayoutController {
             blocks.push({
                 position: this.commentDesiredPositions[commentId],
                 height: this.commentHeights[commentId],
-                comments: [commentId],
+                comments: [parseInt(commentId)],
                 containsFocusedComment: this.focusedComment && commentId == this.focusedComment.toString(),
                 focusedCommentPosition: 0,
             })
