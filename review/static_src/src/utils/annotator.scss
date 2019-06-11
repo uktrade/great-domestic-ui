@@ -28,6 +28,10 @@ $highlight-colour: rgb(0, 177, 179);
     background-color: rgba($highlight-colour, 0.7);
 }
 
+.annotator-hl--hidden {
+    background-color: transparent;
+}
+
 .annotator-viewer div:first-of-type {
     color: rgba(255, 255, 255, 0.8);
     font-size: 13px;

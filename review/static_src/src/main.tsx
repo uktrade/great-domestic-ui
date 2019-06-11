@@ -9,15 +9,30 @@ import {getNextCommentId, getNextReplyId} from './utils/sequences';
 import {Comment, CommentReply, reducer, Author, Store} from './state';
 import {addComment, addReply, setFocusedComment} from './actions';
 import CommentComponent from './components/Comment';
+import TopbarComponent from './components/Topbar';
 
 import './main.scss';
 
-function renderComments(store: Store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[]): React.ReactElement {
-    let commentsRendered = comments.map(comment => <CommentComponent key={comment.localId} store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comment={comment} />);
+function renderCommentsUi(store: Store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[]): React.ReactElement {
+    let { commentsEnabled, showResolvedComments } = store.getState().settings;
+    let commentsToRender = comments;
 
-    return <ol>
-        {commentsRendered}
-    </ol>;
+    if (!commentsEnabled) {
+        commentsToRender = [];
+    } else if (!showResolvedComments) {
+        // Hide all resolved comments unless they were resolved this session
+        commentsToRender = commentsToRender.filter(comment => {
+            return !(comment.isResolved && !comment.resolvedThisSession);
+        });
+    }
+    let commentsRendered = commentsToRender.map(comment => <CommentComponent key={comment.localId} store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comment={comment} />);
+
+    return <div>
+        <TopbarComponent store={store} />
+        <ol className="comments-list">
+            {commentsRendered}
+        </ol>
+    </div>;
 }
 
 function initCommentsApp(element: HTMLElement, api: APIClient, authorName: string, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void) {
@@ -61,13 +76,13 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
             focusedComment = state.focusedComment;
         }
 
-        ReactDOM.render(renderComments(store, api, layout, defaultAuthor, commentList), element, () => {
+        ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList), element, () => {
             // Render again if layout has changed (eg, a comment was added, deleted or resized)
             // This will just update the "top" style attributes in the comments to get them to move
             if (layout.isDirty) {
                 layout.refresh();
 
-                ReactDOM.render(renderComments(store, api, layout, defaultAuthor, commentList), element);
+                ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList), element);
             }
         });
     });
@@ -90,8 +105,12 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
         store.dispatch(setFocusedComment(commentId));
     };
 
+    let selectionEnabled = () => {
+        return store.getState().settings.commentsEnabled;
+    };
+
     addAnnotatableSections((contentPath, element) => {
-        annotatableSections[contentPath] = new AnnotatableSection(contentPath, element, newComment);
+        annotatableSections[contentPath] = new AnnotatableSection(contentPath, element, newComment, selectionEnabled);
     });
 
     // Fetch existing comments

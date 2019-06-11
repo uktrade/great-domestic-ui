@@ -71,6 +71,7 @@ export class Comment {
     editPreviousText: string = '';
     isFocused: boolean = false;
     updatingResolvedStatus: boolean = false;
+    resolvedThisSession: boolean = false;
 
     constructor(localId: number, annotation: Annotation, author: Author, date: number, {remoteId=<number|null>null, mode=<CommentMode>'default', isResolved=false, text='', replies={}, newReply=''}) {
         this.localId = localId;
@@ -105,17 +106,33 @@ export interface CommentUpdate {
     newReply?: string;
     editPreviousText?: string;
     updatingResolvedStatus?: boolean;
+    resolvedThisSession?: boolean,
+}
+
+interface GlobalSettings {
+    commentsEnabled: boolean,
+    showResolvedComments: boolean,
+}
+
+export interface GlobalSettingsUpdate {
+    commentsEnabled?: boolean,
+    showResolvedComments?: boolean,
 }
 
 interface State {
     comments: {[commentId: number]: Comment},
     focusedComment: number|null,
+    settings: GlobalSettings,
 }
 
 function initialState(): State {
     return {
         comments: {},
         focusedComment: null,
+        settings: {
+            commentsEnabled: true,
+            showResolvedComments: false,
+        },
     };
 }
 
@@ -220,6 +237,11 @@ export function reducer(state: State|undefined, action: actions.Action) {
             state.comments[action.commentId] = cloneReplies(state.comments[action.commentId]);
             delete state.comments[action.commentId].replies[action.replyId]
             break;
+
+        case actions.UPDATE_GLOBAL_SETTINGS:
+            state = Object.assign({}, state, {
+                settings: Object.assign({}, state.settings, action.update),
+            });
     }
 
     return state;

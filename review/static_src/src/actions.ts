@@ -1,4 +1,4 @@
-import {Comment, CommentUpdate, CommentReply, CommentReplyUpdate} from './state';
+import {Comment, CommentUpdate, CommentReply, CommentReplyUpdate, GlobalSettingsUpdate} from './state';
 
 export const ADD_COMMENT = 'add-comment';
 export const UPDATE_COMMENT = 'update-comment';
@@ -8,6 +8,8 @@ export const SET_FOCUSED_COMMENT = 'set-focused-comment';
 export const ADD_REPLY = 'add-reply';
 export const UPDATE_REPLY = 'update-reply';
 export const DELETE_REPLY = 'delete-reply';
+
+export const UPDATE_GLOBAL_SETTINGS = 'update-global-settings';
 
 export interface AddCommentAction {
     type: 'add-comment',
@@ -49,7 +51,12 @@ export interface DeleteReplyAction {
     replyId: number,
 }
 
-export type Action = AddCommentAction | UpdateCommentAction | DeleteCommentAction | SetFocusedCommentAction | AddReplyAction | UpdateReplyAction | DeleteReplyAction;
+export interface UpdateGlobalSettingsAction {
+    type: 'update-global-settings',
+    update: GlobalSettingsUpdate,
+}
+
+export type Action = AddCommentAction | UpdateCommentAction | DeleteCommentAction | SetFocusedCommentAction | AddReplyAction | UpdateReplyAction | DeleteReplyAction | UpdateGlobalSettingsAction;
 
 export function addComment(comment: Comment): AddCommentAction {
     return {
@@ -102,5 +109,12 @@ export function deleteReply(commentId: number, replyId: number): DeleteReplyActi
         type: DELETE_REPLY,
         commentId,
         replyId,
+    };
+}
+
+export function updateGlobalSettings(update: GlobalSettingsUpdate): UpdateGlobalSettingsAction {
+    return {
+        type: UPDATE_GLOBAL_SETTINGS,
+        update,
     };
 }

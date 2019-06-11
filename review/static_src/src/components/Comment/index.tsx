@@ -61,6 +61,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 store.dispatch(updateComment(comment.localId, {
                     isResolved,
                     updatingResolvedStatus: true,
+                    resolvedThisSession: true,
                 }));
 
                 await api.saveCommentResolvedStatus(comment, isResolved);
@@ -391,10 +392,14 @@ export default class CommentComponent extends React.Component<CommentProps> {
             this.props.layout.setCommentElement(this.props.comment.localId, element);
             this.props.layout.setCommentHeight(this.props.comment.localId, element.offsetHeight);
         }
+
+        this.props.comment.annotation.show();
     }
 
     componentWillUnmount() {
         this.props.layout.setCommentElement(this.props.comment.localId, null);
+
+        this.props.comment.annotation.hide();
     }
 
     componentDidUpdate() {

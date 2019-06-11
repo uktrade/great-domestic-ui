@@ -21,6 +21,8 @@ export interface Annotation {
     onDelete(): void,
     onFocus(): void,
     onUnfocus(): void,
+    show(): void,
+    hide(): void,
     setOnClickHandler: (handler: any) => void,
 }
 
@@ -63,7 +65,7 @@ export class AnnotatableSection {
     adder: any;
     selector: any;
 
-    constructor(contentPath: string, element: HTMLElement, onNewComment: (annotation: Annotation) => void) {
+    constructor(contentPath: string, element: HTMLElement, onNewComment: (annotation: Annotation) => void, selectionEnabled: () => boolean) {
         this.contentPath = contentPath;
         this.element = element;
 
@@ -79,7 +81,7 @@ export class AnnotatableSection {
 
         this.selector = new annotator.ui.textselector.TextSelector(element, {
             onSelection: (ranges: any[], event: any) => {
-                if (ranges.length > 0) {
+                if (ranges.length > 0 && selectionEnabled()) {
                     let annotation = this.makeAnnotation(ranges);
                     let interactionPoint = annotator.util.mousePosition(event);
                     this.adder.load(annotation, interactionPoint);
@@ -94,6 +96,11 @@ export class AnnotatableSection {
         // Draw highlights if they don't exist yet
         if (!highlights) {
             highlights = this.highlighter.draw(annotationInfo);
+        }
+
+        // Hide by default
+        for (let highlight of highlights) {
+            highlight.classList.add('annotator-hl--hidden');
         }
 
         // This is called when this comment is deleted by a used
@@ -121,6 +128,19 @@ export class AnnotatableSection {
             }
         };
 
-        return {contentPath: this.contentPath, annotation: annotationInfo, highlights, onDelete, onFocus, onUnfocus, setOnClickHandler};
+        // These are called whenever the comments are mounted/unmounted from the DOM
+        let show = () => {
+            for (let highlight of highlights) {
+                highlight.classList.remove('annotator-hl--hidden');
+            }
+        };
+
+        let hide = () => {
+            for (let highlight of highlights) {
+                highlight.classList.add('annotator-hl--hidden');
+            }
+        };
+
+        return {contentPath: this.contentPath, annotation: annotationInfo, highlights, onDelete, onFocus, onUnfocus, setOnClickHandler, show, hide};
     }
 }
