@@ -306,6 +306,7 @@ class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
 
 class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
 
+    # Overriding this field from BaseShortForm
     company_type = fields.ChoiceField(
         label="",
         widget=widgets.RadioSelect(),
