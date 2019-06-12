@@ -2,7 +2,7 @@
 {% load add_export_elements_classes from directory_components %}
 
 {% block breadcrumbs %}
-  {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+  {% include 'article/components/cms_breadcrumbs.html' %}
 {% endblock %}
 
 <article class="article-main {{ view.slug }}-article">
@@ -14,14 +14,14 @@
           {% include 'directory_components/social_share_links.html' %}
         </div>
         <div class="column-seven-twelfths">
-					<h1 class="heading-xlarge">{{ page.article_title }}</h1>
-					{% if page.article_teaser %}
-						<div class="text">
-							<p>
-								{{ page.article_teaser }}
-							</p>
-						</div>
-					{% endif %}
+          <h1 class="heading-xlarge">{{ page.article_title }}</h1>
+          {% if page.article_teaser %}
+            <div class="text">
+              <p>
+                {{ page.article_teaser }}
+              </p>
+            </div>
+          {% endif %}
           <p class="subheading">Last updated {{ page.last_published_at|parse_date }}</p>
         </div>
 
