@@ -18,7 +18,9 @@
                 <div class="column-one-half">
                     <form method="post">
                         <div class="">
-                            <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
+                            {% block step_title_container %}
+                                <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
+                            {% endblock %}
                             {% csrf_token %}
                             {% block extra_contents %}{% endblock %}
                             <div class="input-field-container">
