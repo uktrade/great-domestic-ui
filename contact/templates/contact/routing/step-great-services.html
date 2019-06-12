@@ -8,3 +8,17 @@
         <h1 class="heading-large">great.gov.uk account and services support</h1>
     </div>
 {% endblock %}
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var greatServicesChoiceContainer = document.getElementById('id_great-services-choice_0-container')
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [greatServicesChoiceContainer],
+            null,
+            "How can we help you today?",
+            "heading-medium"
+        );
+    </script>
+
+{% endblock %}

@@ -2,10 +2,22 @@ var GOVUK = GOVUK || {}
 GOVUK.utils = GOVUK.utils || {};
 
 GOVUK.utils.toggleFieldsetClassOnClick = (function() {
-  return function toggleFieldsetClassOnClick(elements, otherRadio) {
+  return function toggleFieldsetClassOnClick(elements, otherRadio, legendDescription, legendClass) {
 
     function moveToFieldset(elements, fieldset) {
+      var legend = document.createElement('legend');
       var sibling = elements[0];
+
+      if (legendDescription != null) {
+        var legendDescriptionNode = document.createTextNode(legendDescription);
+        legend.appendChild(legendDescriptionNode);
+
+        if (legendClass != null) {
+          legend.classList.add(legendClass);
+        }
+      }
+
+      fieldset.appendChild(legend);
       sibling.parentElement.insertBefore(fieldset, sibling);
       for (var i=0; i<elements.length; i++) {
         fieldset.appendChild(elements[i]);
@@ -39,13 +51,15 @@ GOVUK.utils.toggleFieldsetClassOnClick = (function() {
     var fieldset = document.createElement('fieldset');
     moveToFieldset(elements, fieldset);
 
-    if (otherRadio.checked) {
-      addFieldsetClassName('checked');
-    }
+    if (otherRadio != null) {
+        if (otherRadio.checked) {
+            addFieldsetClassName('checked');
+        }
 
-    var radios = document.getElementsByName(otherRadio.name);
-    for(var i=0; i<radios.length; i++) {
-      radios[i].addEventListener('change', handleChange);
+        var radios = document.getElementsByName(otherRadio.name);
+        for (var i = 0; i < radios.length; i++) {
+            radios[i].addEventListener('change', handleChange);
+        }
     }
   };
 })();

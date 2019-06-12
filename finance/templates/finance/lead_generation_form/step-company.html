@@ -26,6 +26,15 @@
         var companyNumber = document.getElementById('id_company-details-company_number');
         var companyName = document.getElementById('id_company-details-trading_name');
 
+        var exportStatusContainer = document.getElementById('-container')
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [exportStatusContainer],
+            null,
+            "Select all that apply to your business:",
+            "form-hint"
+        );
+
         function createCompaniesHouseLookup() {
           $(document.body).on(
             "click.SelectiveLookupCloseAll",
@@ -35,7 +44,7 @@
           return new GOVUK.components.CompaniesHouseNameLookup(
             $(companyName),
             $(companyNumber),
-            {showNoneOfThese: true},
+            {showNoneOfThese: true}
           );
 
         }

@@ -8,3 +8,17 @@
         <h1 class="heading-large">Export opportunities service</h1>
     </div>
 {% endblock %}
+{% block body_js %}
+    <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
+    <script type="text/javascript">
+        var exportOpportunitiesChoiceContainer = document.getElementById('id_export-opportunities-choice_0-container')
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [exportOpportunitiesChoiceContainer],
+            null,
+            "Please select the issue for export service you need help with.",
+            "heading-medium"
+        );
+    </script>
+
+{% endblock %}

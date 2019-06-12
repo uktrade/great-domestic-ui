@@ -17,8 +17,17 @@
 {% block body_js %}
     <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
     <script type="text/javascript">
+        var companyTypeLimitedContainer = document.getElementById('id_company_type_0');
         var companyTypeOther = document.getElementById('id_company_type_1');
         var otherInputs = document.getElementById('id_company_type_other-container');
+        var companyTypeContainer = document.getElementById('id_company_type_0-container');
+
         GOVUK.utils.toggleRadioOtherOnClick(companyTypeOther, otherInputs);
+
+        GOVUK.utils.toggleFieldsetClassOnClick(
+            [companyTypeContainer],
+            companyTypeOther
+        );
+
     </script>
 {% endblock %}
