@@ -7,6 +7,7 @@ from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 
 from activitystream import helpers, forms
+from article.mixins import BreadcrumbsMixin
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +17,8 @@ class SearchView(TemplateView):
 
         URL parameters: 'q'    String to be searched
                         'page' Int results page number
+
+        We should use BreadcrumbMixin, however it does not work
     """
     template_name = 'search.html'
 
@@ -23,6 +26,7 @@ class SearchView(TemplateView):
         query = self.request.GET.get('q', '')
         page = helpers.sanitise_page(self.request.GET.get('page', '1'))
         elasticsearch_query = helpers.format_query(query, page)
+        breadcrumbs = [{'url': '/search/', 'label': 'Search'}]
 
         try:
             response = helpers.search_with_activitystream(elasticsearch_query)
@@ -34,7 +38,8 @@ class SearchView(TemplateView):
                 'error_status_code': 500,
                 'error_message': "Activity Stream connection failed",
                 'query': query,
-                'current_page': page
+                'current_page': page,
+                'breadcrumbs': breadcrumbs
             }
         else:
             if response.status_code != 200:
@@ -42,7 +47,8 @@ class SearchView(TemplateView):
                     'error_message': response.content,
                     'error_status_code': response.status_code,
                     'query': query,
-                    'current_page': page
+                    'current_page': page,
+                    'breadcrumbs': breadcrumbs
                 }
             else:
                 return helpers.parse_results(response, query, page)
@@ -55,15 +61,15 @@ class SearchKeyPagesView(TemplateView):
     template_name = 'search-key-pages.json'
 
 
-class SearchFeedbackFormView(FormView):
+class SearchFeedbackFormView(BreadcrumbsMixin, FormView):
     template_name = 'search_feedback.html'
     form_class = forms.FeedbackForm
 
     def get_success_url(self):
         page = self.request.POST['from_search_page']
         query = self.request.POST['from_search_query']
-        return f"{reverse_lazy('search-feedback-received')}\
-?page={page}&query={query}"
+        return f"{reverse_lazy('search-feedback')}\
+?page={page}&query={query}&submitted=true"
 
     def form_valid(self, form):
         email = form.cleaned_data['contact_email'] or \
@@ -87,6 +93,13 @@ class SearchFeedbackFormView(FormView):
         return {
             'from_search_query': self.request.GET.get('q', ''),
             'from_search_page': self.request.GET.get('page', '')
+        }
+
+    def get_context_data(self, **kwargs):
+        return {
+            'submitted': self.request.GET.get('submitted', ''),
+            'page': self.request.GET.get('page', ''),
+            'q': self.request.GET.get('q', '')
         }
 
 

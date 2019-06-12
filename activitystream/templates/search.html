@@ -23,29 +23,26 @@
 
 {% block content %}
 
-{% block breadcrumbs %}
-
-{% endblock %}
-
 <section id="search-results-information">
   <div class="container">
+    
+    {% block breadcrumbs %}
+      {% include '_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    {% endblock %}
     <h1 class="heading-xlarge">Search results for<span class=""> {{ query }}</span></h1>
 
     <div class="actions">
-      {% if True %}
+      {% if results %}
         <p><a href="#search-results-list" class="bland">
           {{ total_results|intcomma }} result{{ total_results|pluralize }} found<span class="verbose"> for {{ query }}</span>
         </a></p>
-        <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
-          Did you find what you were looking for?
-        </a>
       {% else %}
         <p href="#search-results-list">No results found. Please try again</p>
         <br>
-        <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
-          Tell us what you would like to find
-        </a>
       {% endif %}
+      <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
+        Did you find what you were looking for?
+      </a>
 
       <form action="{% url 'search' %}" class="search" method="get" aria-label="Search form">
         <label class="verbose" id="search-again-label" for="search-again-input">Search again</label>

@@ -121,3 +121,17 @@
     margin-bottom: $spacing-3;
   }
 }
+
+.breadcrumbs{
+  background-color: transparent;
+  padding: 0;
+  border-bottom: none;
+}
+
+#id_result_found, #id_contactable{
+  margin-top: 10px;
+  .multiple-choice{
+    clear: none;
+    margin-right: 15px;
+  }
+}
