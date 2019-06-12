@@ -18,8 +18,8 @@ from django.utils.functional import cached_property
 
 from casestudy import casestudies
 from core import helpers, mixins, forms
+from article.views import CMSPageView
 from euexit.mixins import HideLanguageSelectorMixin
-from article.mixins import BreadcrumbsMixin
 
 logger = logging.getLogger(__name__)
 
@@ -32,9 +32,8 @@ class SetEtagMixin:
         return response
 
 
-class LandingPageView(mixins.GA360Mixin, TemplateView):
+class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
     template_name = 'core/landing_page_domestic.html'
-    ga360_payload = {'page_type': 'LandingPage'}
 
     @cached_property
     def page(self):
@@ -63,18 +62,11 @@ class LandingPageView(mixins.GA360Mixin, TemplateView):
         )
 
 
-class CampaignPageView(
-    mixins.CampaignPagesFeatureFlagMixin,
-    mixins.GetCMSPageMixin,
-    TemplateView
-):
-    template_name = 'core/campaign.html'
-
-    @property
-    def slug(self):
-        return self.kwargs['slug']
+class CampaignPageView(mixins.CampaignPagesFeatureFlagMixin, CMSPageView):
+    pass
 
 
+# to be removed
 class InternationalLandingPageView(
     EnableTranslationsMixin,
     CountryDisplayMixin,
@@ -88,6 +80,7 @@ class InternationalLandingPageView(
     slug = slugs.GREAT_HOME_INTERNATIONAL
 
 
+# to be removed
 class InternationalContactPageView(
     CountryDisplayMixin, HideLanguageSelectorMixin, TemplateView,
 ):
@@ -195,11 +188,12 @@ class StaticViewSitemap(sitemaps.Sitemap):
         return reverse(item)
 
 
+# to be removed
 class AboutView(SetEtagMixin, TemplateView):
     template_name = 'core/about.html'
 
 
-class PrivacyCookiesDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
+class PrivacyCookiesDomesticCMS(CMSPageView):
     template_name = 'core/info_page.html'
     slug = slugs.GREAT_PRIVACY_AND_COOKIES
 
@@ -212,33 +206,19 @@ class PrivacyCookiesDomesticSubpageCMS(mixins.GetCMSPageMixin, TemplateView):
         return self.kwargs['slug']
 
 
+# to be removed
 class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
     template_name = 'core/info_page_international.html'
 
 
-class TermsConditionsDomesticCMS(mixins.GetCMSPageMixin, TemplateView):
+class TermsConditionsDomesticCMS(CMSPageView):
     template_name = 'core/info_page.html'
     slug = slugs.GREAT_TERMS_AND_CONDITIONS
 
 
+# to be removed
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/info_page_international.html'
-
-
-class PerformanceDashboardView(
-    mixins.PerformanceDashboardFeatureFlagMixin,
-    mixins.GetCMSPageMixin,
-    TemplateView
-):
-    template_name = 'core/performance_dashboard.html'
-
-    @property
-    def slug(self):
-        return self.kwargs['slug']
-
-
-class PerformanceDashboardNotesView(PerformanceDashboardView):
-    template_name = 'core/performance_dashboard_notes.html'
 
 
 class ServiceNoLongerAvailableView(TemplateView):
@@ -295,6 +275,6 @@ class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
     pass
 
 
-class ServicesView(mixins.GA360Mixin, BreadcrumbsMixin, TemplateView):
+class ServicesView(mixins.SetGA360ValuesMixin, TemplateView):
     template_name = 'core/services.html'
-    ga360_payload = {'page_type': 'ServicesLandingPage'}
+    page_type = 'ServicesLandingPage'

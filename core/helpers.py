@@ -178,3 +178,19 @@ class CompaniesHouseClient:
         else:
             url = cls.endpoints['search']
             return cls.get(url, params={'q': term})
+
+
+GA_DATA_MAPPING = {
+    'ServicesLandingPage': {
+        'site_section': 'ServicesLandingPage',
+        'site_subsection': '',
+    },
+    'SearchResultsPage': {
+        'site_section': 'Search',
+        'site_subsection': '',
+    },
+}
+
+
+def get_ga_data_for_page(page_type):
+    return GA_DATA_MAPPING[page_type]

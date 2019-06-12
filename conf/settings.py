@@ -68,6 +68,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
+    'directory_components.middleware.CheckGATags',
     'directory_components.middleware.NoCacheMiddlware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
     'directory_components.middleware.PersistLocaleMiddleware',
@@ -331,6 +332,7 @@ COMPANIES_HOUSE_CLIENT_SECRET = env.str('COMPANIES_HOUSE_CLIENT_SECRET', '')
 GOOGLE_TAG_MANAGER_ID = env.str('GOOGLE_TAG_MANAGER_ID')
 GOOGLE_TAG_MANAGER_ENV = env.str('GOOGLE_TAG_MANAGER_ENV', '')
 UTM_COOKIE_DOMAIN = env.str('UTM_COOKIE_DOMAIN')
+GA360_BUSINESS_UNIT = 'GreatDomestic'
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = env.str('CORS_ORIGIN_ALLOW_ALL', False)

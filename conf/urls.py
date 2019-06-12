@@ -1,6 +1,7 @@
 from directory_constants import slugs
 
 import directory_components.views
+from directory_components.decorators import skip_ga360
 import directory_healthcheck.views
 
 from django.conf import settings
@@ -32,12 +33,12 @@ sitemaps = {
 healthcheck_urls = [
     url(
         r'^$',
-        directory_healthcheck.views.HealthcheckView.as_view(),
+        skip_ga360(directory_healthcheck.views.HealthcheckView.as_view()),
         name='healthcheck'
     ),
     url(
         r'^ping/$',
-        directory_healthcheck.views.PingView.as_view(),
+        skip_ga360(directory_healthcheck.views.PingView.as_view()),
         name='ping'
     ),
 ]
@@ -51,13 +52,20 @@ urlpatterns = [
         )
     ),
     url(
-        r"^sitemap\.xml$", sitemap, {'sitemaps': sitemaps},
+        r"^sitemap\.xml$",
+        skip_ga360(sitemap),
+        {'sitemaps': sitemaps},
         name='sitemap'
     ),
     url(
         r"^robots\.txt$",
-        directory_components.views.RobotsView.as_view(),
+        skip_ga360(directory_components.views.RobotsView.as_view()),
         name='robots'
+    ),
+    url(
+        r"^not-found/$",
+        skip_ga360(TemplateView.as_view(template_name='404.html')),
+        name='not-found'
     ),
     url(
         r"^$",
@@ -86,37 +94,37 @@ urlpatterns = [
     ),
     url(
         r"^performance-dashboard/$",
-        core.views.PerformanceDashboardView.as_view(),
+        core.views.CMSPageView.as_view(),
         {'slug': slugs.PERFORMANCE_DASHBOARD},
         name='performance-dashboard'
     ),
     url(
         r"^performance-dashboard/export-opportunities/$",
-        core.views.PerformanceDashboardView.as_view(),
+        core.views.CMSPageView.as_view(),
         {'slug': slugs.PERFORMANCE_DASHBOARD_EXOPPS},
         name='performance-dashboard-export-opportunities'
     ),
     url(
         r"^performance-dashboard/selling-online-overseas/$",
-        core.views.PerformanceDashboardView.as_view(),
+        core.views.CMSPageView.as_view(),
         {'slug': slugs.PERFORMANCE_DASHBOARD_SOO},
         name='performance-dashboard-selling-online-overseas'
     ),
     url(
         r"^performance-dashboard/trade-profiles/$",
-        core.views.PerformanceDashboardView.as_view(),
+        core.views.CMSPageView.as_view(),
         {'slug': slugs.PERFORMANCE_DASHBOARD_TRADE_PROFILE},
         name='performance-dashboard-trade-profiles'
     ),
     url(
         r"^performance-dashboard/invest/$",
-        core.views.PerformanceDashboardView.as_view(),
+        core.views.CMSPageView.as_view(),
         {'slug': slugs.PERFORMANCE_DASHBOARD_INVEST},
         name='performance-dashboard-invest'
     ),
     url(
         r"^performance-dashboard/guidance-notes/$",
-        core.views.PerformanceDashboardNotesView.as_view(),
+        core.views.CMSPageView.as_view(),
         {'slug': slugs.PERFORMANCE_DASHBOARD_NOTES},
         name='performance-dashboard-notes'
     ),
@@ -137,7 +145,7 @@ urlpatterns = [
     ),
     url(
         r"^privacy-and-cookies/(?P<slug>[-\w\d]+)/$",
-        core.views.PrivacyCookiesDomesticSubpageCMS.as_view(),
+        core.views.CMSPageView.as_view(),
         name='privacy-and-cookies-subpage'
     ),
     url(
@@ -192,29 +200,32 @@ urlpatterns = [
         name='uk-export-finance-lead-generation-form'
     ),
     url(
-        r'^triage/(?P<step>.+)/$',
-        core.views.ServiceNoLongerAvailableView.as_view(),
-        name='triage-wizard'
-    ),
-    url(
-        r'^triage/$',
-        core.views.ServiceNoLongerAvailableView.as_view(),
-        name='triage-start'
-    ),
-    url(
-        r'^custom/$',
-        core.views.ServiceNoLongerAvailableView.as_view(),
-        name='custom-page'
-    ),
-    url(
         r'^search/key-pages/$',
-        activitystream.views.SearchKeyPagesView.as_view(),
+        skip_ga360(activitystream.views.SearchKeyPagesView.as_view()),
         name='search-key-pages'
     ),
     url(
         r'^search/$',
         activitystream.views.SearchView.as_view(),
         name='search'
+    ),
+]
+
+legacy_urls = [
+    url(
+        r'^triage/(?P<step>.+)/$',
+        skip_ga360(core.views.ServiceNoLongerAvailableView.as_view()),
+        name='triage-wizard'
+    ),
+    url(
+        r'^triage/$',
+        skip_ga360(core.views.ServiceNoLongerAvailableView.as_view()),
+        name='triage-start'
+    ),
+    url(
+        r'^custom/$',
+        skip_ga360(core.views.ServiceNoLongerAvailableView.as_view()),
+        name='custom-page'
     ),
 ]
 
@@ -281,7 +292,7 @@ article_urls = [
     ),
     url(
         r"^advice/create-an-export-plan/$",
-        article.views.AdviceListingPage.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'create-an-export-plan'},
         name='create-an-export-plan',
     ),
@@ -292,7 +303,7 @@ article_urls = [
     ),
     url(
         r"^advice/find-an-export-market/$",
-        article.views.AdviceListingPage.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'find-an-export-market'},
         name='find-an-export-market',
     ),
@@ -303,7 +314,7 @@ article_urls = [
     ),
     url(
         r"^advice/define-route-to-market/$",
-        article.views.AdviceListingPage.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'define-route-to-market'},
         name='define-route-to-market',
     ),
@@ -314,7 +325,7 @@ article_urls = [
     ),
     url(
         r"^advice/get-export-finance-and-funding/$",
-        article.views.AdviceListingPage.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'get-export-finance-and-funding'},
         name='get-export-finance-and-funding',
     ),
@@ -325,7 +336,7 @@ article_urls = [
     ),
     url(
         r"^advice/manage-payment-for-export-orders/$",
-        article.views.AdviceListingPage.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'manage-payment-for-export-orders'},
         name='manage-payment-for-export-orders',
     ),
@@ -336,7 +347,7 @@ article_urls = [
     ),
     url(
         r"^advice/prepare-to-do-business-in-a-foreign-country/$",
-        article.views.AdviceListingPage.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'prepare-to-do-business-in-a-foreign-country'},
         name='prepare-to-do-business-in-a-foreign-country',
     ),
@@ -347,7 +358,7 @@ article_urls = [
     ),
     url(
         r"^advice/manage-legal-and-ethical-compliance/$",
-        article.views.AdviceListingPage.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'manage-legal-and-ethical-compliance'},
         name='manage-legal-and-ethical-compliance',
     ),
@@ -358,7 +369,7 @@ article_urls = [
     ),
     url(
         r"^advice/prepare-for-export-procedures-and-logistics/$",
-        article.views.AdviceListingPage.as_view(),
+        article.views.CMSPageView.as_view(),
         {'slug': 'prepare-for-export-procedures-and-logistics'},
         name='prepare-for-export-procedures-and-logistics',
     ),
@@ -673,6 +684,7 @@ ukef_urls = [
     ),
 ]
 
+urlpatterns += legacy_urls
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls
