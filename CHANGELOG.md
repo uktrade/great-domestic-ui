@@ -7,6 +7,7 @@
 - XOT-906 - Add feedback form to search
 
 **Fixed bugs:**
+- TT-1449 - Added fieldset and legend html elements on related form fields
 - TT-1450 - accessibility change h2 to h1
 - TT-1452 - add label to contact us captcha's
 - TT-1454/TT-1453 duplicate ids and empty links on finance contact-us
