@@ -141,12 +141,12 @@ def test_search_feedback_submit_success(mock_save, client):
 
     # With contact details
     data = {
-        'result_found': False,
-        'search_target': '',
-        'reason_for_site_visit': '',
+        'result_found': 'no',
+        'search_target': 'Test',
+        'reason_for_site_visit': 'Test',
         'from_search_query': '',
         'from_search_page':  1,
-        'contactable':  True,
+        'contactable':  'yes',
         'contact_name': 'Test',
         'contact_email': 'test@example.com',
         'contact_number': '55512341234'
@@ -155,7 +155,7 @@ def test_search_feedback_submit_success(mock_save, client):
 
     assert response.status_code == 302
     assert response.url == \
-        f"{reverse('search-feedback-received')}?page=1&query="
+        f"{reverse('search-feedback')}?page=1&query=&submitted=true"
 
     assert mock_save.call_count == 1
     assert mock_save.call_args == call(
@@ -168,12 +168,12 @@ def test_search_feedback_submit_success(mock_save, client):
 
     # Without contact details provided
     data = {
-        'result_found': False,
-        'search_target': '',
-        'reason_for_site_visit': '',
+        'result_found': 'no',
+        'search_target': 'Test',
+        'reason_for_site_visit': 'Test',
         'from_search_query': '',
         'from_search_page': 1,
-        'contactable': False,
+        'contactable': 'yes',
         'contact_name': '',
         'contact_email': '',
         'contact_number': ''
@@ -183,7 +183,7 @@ def test_search_feedback_submit_success(mock_save, client):
 
     assert response.status_code == 302
     assert response.url == \
-        f"{reverse('search-feedback-received')}?page=1&query="
+        f"{reverse('search-feedback')}?page=1&query=&submitted=true"
 
     assert mock_save.call_count == 2
     assert mock_save.call_args == call(

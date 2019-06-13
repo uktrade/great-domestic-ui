@@ -4,6 +4,7 @@
 ## Pre-release
 
 **Implemented enhancements:**
+- XOT-906 - Add feedback form to search
 
 **Fixed bugs:**
 - TT-1450 - accessibility change h2 to h1
@@ -41,7 +42,6 @@
 - Added 'Event' to whitelisted search types
 - CMS-1587 Add beijingexpo2019 marketing redirect
 - XOT-841 - UKEF various template and content updates
-- XOT-906 - Add feedback form to search
 
 **Fixed bugs:**
 - XOT-804 - Fix rounded corners on iOS search button

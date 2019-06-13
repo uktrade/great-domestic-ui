@@ -96,18 +96,10 @@ class SearchFeedbackFormView(BreadcrumbsMixin, FormView):
         }
 
     def get_context_data(self, **kwargs):
-        return {
+        context = super().get_context_data(**kwargs)
+        context.update({
             'submitted': self.request.GET.get('submitted', ''),
             'page': self.request.GET.get('page', ''),
             'q': self.request.GET.get('q', '')
-        }
-
-
-class SearchFeedbackReceivedView(TemplateView):
-    template_name = 'search_feedback_received.html'
-
-    def get_context_data(self, **kwargs):
-        return {
-            'page': self.request.GET.get('page', ''),
-            'query': self.request.GET.get('query', '')
-        }
+        })
+        return context

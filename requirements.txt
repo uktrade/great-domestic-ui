@@ -7,17 +7,17 @@
 args==0.1.0               # via clint
 attrs==19.1.0             # via jsonschema
 beautifulsoup4==4.6.0
-certifi==2018.4.16        # via requests
+certifi==2019.3.9         # via requests
 chardet==3.0.4            # via requests
 clint==0.5.1
 contextlib2==0.5.5        # via raven
 dateparser==0.7.0
 directory-api-client==14.0.0
 directory-ch-client==2.0.0
-directory-client-core==5.0.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
+directory-client-core==5.1.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
 directory-cms-client==10.0.0
-directory-components==16.1.0
-directory-constants==17.0.0  # via directory-components
+directory-components==16.4.0
+directory-constants==17.1.0  # via directory-components
 directory-forms-api-client==4.0.0
 directory-healthcheck==1.0.1
 directory-sso-api-client==5.0.0
@@ -34,7 +34,7 @@ django==1.11.20
 djangorestframework==3.9.1
 geoip2==2.9.0
 gunicorn==19.5.0
-idna==2.7                 # via requests
+idna==2.8                 # via requests
 jsonschema==3.0.1         # via directory-components
 markdown2==2.3.7
 maxminddb==1.4.1          # via geoip2
@@ -44,15 +44,15 @@ olefile==0.44             # via directory-validators, pillow
 phonenumberslite==7.7.4   # via directory-validators
 pillow==4.2.1             # via directory-validators
 pyrsistent==0.15.2        # via jsonschema
-python-dateutil==2.7.3    # via dateparser
+python-dateutil==2.8.0    # via dateparser
 pytz==2017.2              # via dateparser, directory-validators, django, tzlocal
 raven==5.19.0
-redis==2.10.6             # via django-redis
-regex==2018.8.29          # via dateparser
+redis==3.2.1              # via django-redis
+regex==2019.6.8           # via dateparser
 requests==2.21.0
 sigauth==4.0.1
-six==1.11.0               # via django-extensions, jsonschema, mohawk, pyrsistent, python-dateutil, w3lib
+six==1.12.0               # via django-extensions, jsonschema, mohawk, pyrsistent, python-dateutil, w3lib
 tzlocal==1.5.1            # via dateparser
-urllib3==1.24.2
-w3lib==1.19.0             # via directory-client-core
+urllib3==1.24.3
+w3lib==1.20.0             # via directory-client-core
 whitenoise==3.1
