@@ -30,7 +30,7 @@
         <p href="#search-results-list">No results found. Please try again</p>
       {% endif %}
 
-      <form action="{% url 'search' %}" class="search" method="get" aria-label="Search form">
+      <form id="search-form" action="{% url 'search' %}" class="search" method="get" aria-label="Search form">
         <label class="verbose" id="search-again-label" for="search-again-input">Search again</label>
         <input autocomplete="off" class="text form-control" name="q" placeholder="" type="search" value="{{ query }}" id="search-again-input">
         <input class="submit search-button" type="submit" value="Go">

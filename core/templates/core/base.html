@@ -34,7 +34,14 @@
         'userID': '{{ ga360.user_id }}',
         'loginStatus': '{{ ga360.login_status }}',
       });
-      dit.tagging.domestic.init('{{ ga360.page_id }}');
+
+      dit.tagging.domestic.init(
+        {% if ga360.page_id == 'TopicLandingPage' %}
+        '{{ ga360.site_subsection }}LandingPage',
+        {% else %}
+        '{{ ga360.page_id }}',
+        {% endif %}
+      );
     </script>
   {% endif %}
 {% endblock %}

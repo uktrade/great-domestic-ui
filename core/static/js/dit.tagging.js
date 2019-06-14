@@ -11,11 +11,7 @@ dit.tagging.domestic = (new function() {
     $(document).ready(function() {
       switch(page) {
         case 'LandingPage':
-          addTaggingForEuExitBanner();
-          addTaggingForHeroBannerVideo();
-          addTaggingForServiceTeasers();
-          addTaggingForAdviceTeasers();
-          addTaggingForExporterStories();
+          addTaggingForLandingPage();
         break;
 
         case 'ArticleListingPage':
@@ -23,16 +19,15 @@ dit.tagging.domestic = (new function() {
         break;
 
         case 'MarketPage':
-          addTaggingForOpportunities();
-          addTaggingForNextSteps();
+          addTaggingForMarketPage();
         break;
 
         case 'MarketsLandingPage':
-          addTaggingForMarketCtas();
+          addTaggingForMarketsLandingPage();
         break;
 
         case 'AdviceLandingPage':
-          addTaggingForAdviceCtas();
+          addTaggingForAdviceLandingPage();
         break;
 
         case 'SearchResultsPage':
@@ -48,7 +43,7 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForEuExitBanner() {
+  function addTaggingForLandingPage() {
     $(".eu-exit-banner a").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
@@ -58,9 +53,7 @@ dit.tagging.domestic = (new function() {
         'value': $(this).text().trim()
       });
     });
-  }
 
-  function addTaggingForHeroBannerVideo() {
     $("#hero-campaign-section-watch-video-button").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
@@ -69,9 +62,7 @@ dit.tagging.domestic = (new function() {
         'element': 'HeroBannerVideoLink'
       });
     });
-  }
 
-  function addTaggingForServiceTeasers() {
     $("#services a").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
@@ -81,9 +72,7 @@ dit.tagging.domestic = (new function() {
         'value': $(this).find('h3').text().trim()
       });
     });
-  }
 
-  function addTaggingForAdviceTeasers() {
     $("#resource-advice a").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
@@ -93,9 +82,7 @@ dit.tagging.domestic = (new function() {
         'value': $(this).find('h3').text().trim()
       });
     });
-  }
 
-  function addTaggingForExporterStories() {
     $("#carousel h3 a").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
@@ -103,18 +90,6 @@ dit.tagging.domestic = (new function() {
         'type': 'ExporterStory',
         'element': 'Link',
         'value': $(this).text().trim()
-      });
-    });
-  }
-
-  function addTaggingForSearch() {
-    $("#search-results-information .search").on("submit", function() {
-      window.dataLayer.push({
-        'event': 'gaEvent',
-        'action': 'Search',
-        'type': 'General',
-        'element': 'SearchForm',
-        'value': $(this).find("input[name='q']").val().trim()
       });
     });
   }
@@ -131,7 +106,7 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForOpportunities() {
+  function addTaggingForMarketPage() {
     $("#country-guide-accordions .ExpanderControl").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
@@ -141,20 +116,15 @@ dit.tagging.domestic = (new function() {
       });
     });
 
-    $(".sector-ctas a").on("click", function() {
-      // Selector is quite fragile and could be benefit from
-      // use of functional class names in the target code.
+    $("#country-guide-intro-ctas li .intro-cta-link").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
         'action': 'Cta',
-        'type': $(this).parents("li").children().eq(0).text().trim().trim(),
-        'element': 'SectorRelatedCta',
+        'element': 'IntroRelatedCta',
         'value': $(this).text().trim()
       });
     });
-  }
 
-  function addTaggingForNextSteps() {
     $("#country-guide-need-help-section .cta-link").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
@@ -165,8 +135,8 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForMarketCtas() {
-    $(".topic-list-section .card-link").on("click", function() {
+  function addTaggingForMarketsLandingPage() {
+    $("#markets-list-section .card-link").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
         'action': 'Cta',
@@ -176,8 +146,8 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForAdviceCtas() {
-    $(".topic-list-section .card-link").on("click", function() {
+  function addTaggingForAdviceLandingPage() {
+    $("#advice-list-section .card-link").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
         'action': 'Cta',
@@ -187,8 +157,20 @@ dit.tagging.domestic = (new function() {
     });
   }
 
+  function addTaggingForSearch() {
+    $("#search-form").on("submit", function() {
+      window.dataLayer.push({
+        'event': 'gaEvent',
+        'action': 'Search',
+        'type': 'General',
+        'element': 'SearchForm',
+        'value': $("#search-again-input").val().trim()
+      });
+    });
+  }
+
   function addTaggingForServiceCtas() {
-    $(".card-link").on("click", function() {
+    $("#services-list-section .card-link").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
         'action': 'Cta',
