@@ -165,31 +165,3 @@ def test_search_feedback_submit_success(mock_save, client):
         service_name='Great.gov.uk Search',
         form_url='/search/feedback/'
     )
-
-    # Without contact details provided
-    data = {
-        'result_found': 'no',
-        'search_target': 'Test',
-        'reason_for_site_visit': 'Test',
-        'from_search_query': '',
-        'from_search_page': 1,
-        'contactable': 'yes',
-        'contact_name': '',
-        'contact_email': '',
-        'contact_number': ''
-    }
-
-    response = client.post(url, data)
-
-    assert response.status_code == 302
-    assert response.url == \
-        f"{reverse('search-feedback')}?page=1&query=&submitted=true"
-
-    assert mock_save.call_count == 2
-    assert mock_save.call_args == call(
-        email_address="emailnotgiven@example.com",
-        full_name="Name not given",
-        subject='Search Feedback - 00:00 01 Jan 2020',
-        service_name='Great.gov.uk Search',
-        form_url='/search/feedback/'
-    )

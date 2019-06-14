@@ -22,18 +22,16 @@
 {% block head_title %}Feedback Form - great.gov.uk{% endblock %}
 
 {% block content %}
-
 <section id="search-results-information">
   <div class="container">
     {% block breadcrumbs %}
-      {% include '_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+      {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
     {% endblock %}
     <h1 class="heading-xlarge">Tell us how you found the new search feature</h1>
     {% if submitted %}
       {% message_box_with_icon icon="✓" heading="Your feedback has been sent" %}      
       <a href="{% url 'search' %}?page={{ page }}&q={{ query }}" class="font-xsmall">Return to your search</a>
     {% endif %}
-
   </div>
 </section>
 
@@ -42,62 +40,27 @@
   <form action="{% url 'search-feedback' %}" method="POST">
   {% csrf_token %}
   {{ form.non_field_errors }}
-  <div class="fieldWrapper">
-    {{ form.result_found.errors }}
-    {{ form.result_found.label_tag }}
-    {{ form.result_found }}
-  </div>
-  <div class="fieldWrapper">
-    {{ form.search_target.errors }}
-    {{ form.search_target.label_tag }}
-    {{ form.search_target }}
-  </div>
-  <div class="fieldWrapper">
-    {{ form.reason_for_site_visit.errors }}
-    {{ form.reason_for_site_visit.label_tag }}
-    {{ form.reason_for_site_visit }}
-  </div>
+  {% include 'core/includes/form_field.html' with field=form.result_found %}
+  {% include 'core/includes/form_field.html' with field=form.search_target %}
+  {% include 'core/includes/form_field.html' with field=form.reason_for_site_visit %}
   {{ form.from_search_query.as_hidden }}
   {{ form.from_search_page.as_hidden }}
-  <div class="fieldWrapper">
-    <label class=" form-label" for="id_contactable_0">May we contact you with follow-up questions and support?</label>
-    <div class="form-group">
-      <ul id="id_contactable">
-        <li class="multiple-choice">
-          <input type="radio" name="contactable" value="yes" required="" id="id_contactable_0" onclick="toggle_contact_details('yes')">
-          <label id="id_contactable_0-label" for="id_contactable_0" class="form-label">
-            Yes
-          </label>
-        </li>
-        <li class="multiple-choice">
-          <input type="radio" name="contactable" value="no" required="" id="id_contactable_1" onclick="toggle_contact_details('no')">
-          <label id="id_contactable_1-label" for="id_contactable_1" class="form-label">
-            No
-          </label>
-        </li>
-      </ul>
-    </div>
-  </div>
+  {% include 'core/includes/form_field.html' with field=form.contactable %}
   <div id="contact-details">
-    <div class="fieldWrapper">
-      {{ form.contact_name.errors }}
-      {{ form.contact_name.label_tag }}
-      {{ form.contact_name }}
-    </div>
-    <br>
-    <div class="fieldWrapper">
-      {{ form.contact_email.errors }}
-      {{ form.contact_email.label_tag }}
-      {{ form.contact_email }}
-    </div>
-    <br>
-    <div class="fieldWrapper">
-      {{ form.contact_number.errors }}
-      {{ form.contact_number.label_tag }}
-      {{ form.contact_number }}
-    </div>
-    <br>
+    {% include 'core/includes/form_field.html' with field=form.contact_name %}
+    {% include 'core/includes/form_field.html' with field=form.contact_email %}
+    {% include 'core/includes/form_field.html' with field=form.contact_number %}
   </div>
+  <div class="form-group{% if field.errors %} form-group-error{% endif %}">
+    {% if form.captcha.errors %}
+      <span class="error-message">{{ form.captcha.errors }}</span>
+    {% endif %}
+    {% if form.captcha.help_text %}
+      <span class="form-hint">{{ form.captcha.help_text }}</span>
+    {% endif %}
+    {{ form.captcha }}
+  </div>
+
   <input class="button button-blue" type="submit" value="Submit">
   </form>
 </div>
@@ -105,15 +68,22 @@
 <script>
   // If JS is enabled, initially hide the contact details box
   contactDetails = document.getElementById("contact-details")
+  radios = document.getElementsByClassName('multiple-choice')
   contactDetails.style.display = 'none'
 
-  function toggle_contact_details(input){
-    if(input == 'yes'){
+  function check_if_checked(){
+    if(document.getElementById("id_contactable_0").checked){
       contactDetails.style.display = 'block'
     } else {
       contactDetails.style.display = 'none'
     }
   }
+
+  for (var i = 0; i < radios.length; i++) {
+    radios[i].addEventListener('click', check_if_checked, false);
+  }
+
+  check_if_checked()
 </script>
 
 {% endblock %}

@@ -25,9 +25,9 @@
 
 <section id="search-results-information">
   <div class="container">
-    
+
     {% block breadcrumbs %}
-      {% include '_breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+      {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
     {% endblock %}
     <h1 class="heading-xlarge">Search results for<span class=""> {{ query }}</span></h1>
 
@@ -37,8 +37,7 @@
           {{ total_results|intcomma }} result{{ total_results|pluralize }} found<span class="verbose"> for {{ query }}</span>
         </a></p>
       {% else %}
-        <p href="#search-results-list">No results found. Please try again</p>
-        <br>
+        <p class="added-margin-bottom">No results found. Please try again</p>
       {% endif %}
       <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
         Did you find what you were looking for?
