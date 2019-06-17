@@ -199,14 +199,6 @@ class PrivacyCookiesDomesticCMS(CMSPageView):
     slug = slugs.GREAT_PRIVACY_AND_COOKIES
 
 
-class PrivacyCookiesDomesticSubpageCMS(mixins.GetCMSPageMixin, TemplateView):
-    template_name = 'core/privacy_subpage.html'
-
-    @property
-    def slug(self):
-        return self.kwargs['slug']
-
-
 # to be removed
 class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
     template_name = 'core/info_page_international.html'
