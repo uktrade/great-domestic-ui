@@ -160,12 +160,14 @@ class SetGA360ValuesForCMSPageMixin(GA360Mixin):
         page_id = self.page['page_type']
 
         breadcrumbs = self.page['tree_based_breadcrumbs']
-        site_subsection = self.page['title']
-        site_section = ''
 
-        # get the page one level up from the current page
+        # section will always be the top level page in the tree
+        site_section = breadcrumbs[0]['title']
+        site_subsection = ''
+
+        # subsection is the second page down the tree
         if len(breadcrumbs) > 1:
-            site_section = breadcrumbs[-2]['title']
+            site_subsection = breadcrumbs[1]['title']
 
         self.set_ga360_payload(
             page_id=page_id,
