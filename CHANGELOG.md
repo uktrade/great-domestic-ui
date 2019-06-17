@@ -5,7 +5,7 @@
 
 **Implemented enhancements:**
 - CMS-1561 - Move CTAs on country guide page
-- XOT-763 - Update GA360 tagging
+- XOT-763 - Update GA360 tagging. **[Relies on this feature in directory-cms](https://github.com/uktrade/directory-cms/pull/487)**
 
 **Fixed bugs:**
 
