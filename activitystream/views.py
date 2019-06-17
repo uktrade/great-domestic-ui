@@ -7,7 +7,6 @@ from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 
 from activitystream import helpers, forms
-from article.mixins import BreadcrumbsMixin
 from core.mixins import SetGA360ValuesMixin
 
 logger = logging.getLogger(__name__)
@@ -75,9 +74,10 @@ class SearchKeyPagesView(TemplateView):
     template_name = 'search-key-pages.json'
 
 
-class SearchFeedbackFormView(BreadcrumbsMixin, FormView):
+class SearchFeedbackFormView(SetGA360ValuesMixin, FormView):
     template_name = 'search_feedback.html'
     form_class = forms.FeedbackForm
+    page_type = 'SearchFeedbackPage'
 
     def get_success_url(self):
         page = self.request.POST['from_search_page']
@@ -85,6 +85,13 @@ class SearchFeedbackFormView(BreadcrumbsMixin, FormView):
         return f"{reverse_lazy('search')}\
 ?page={page}&q={query}&submitted=true"
 
+    #
+    # email_address and full_name are required by FormsAPI.
+    # However, in the UI, the user is given the option
+    # to give contact details or not. Therefore defaults
+    # are submitted if the user does not want to be contacted
+    # to appease FormsAPI.
+    #
     def form_valid(self, form):
         email = form.cleaned_data['contact_email'] or \
             "emailnotgiven@example.com"

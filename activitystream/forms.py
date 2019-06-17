@@ -58,8 +58,3 @@ class FeedbackForm(forms.ZendeskAPIForm):
             'required': ('Check the box to confirm that you’re human')
         }
     )
-
-    # Prevent captcha failing in local env
-    # https://github.com/praekelt/django-recaptcha/issues/157
-    if getattr(settings, 'DEBUG', False):
-        captcha.clean = lambda x: x[0]
