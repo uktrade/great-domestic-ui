@@ -136,7 +136,7 @@ def test_search_feedback_view(client):
 
 @patch.object(views.SearchFeedbackFormView.form_class, 'save')
 @freeze_time("2020-01-01")
-def test_search_feedback_submit_success(mock_save, client):
+def test_search_feedback_submit_success(mock_save, captcha_stub, client):
     url = reverse('search-feedback')
 
     # With contact details
@@ -149,11 +149,10 @@ def test_search_feedback_submit_success(mock_save, client):
         'contactable':  'yes',
         'contact_name': 'Test',
         'contact_email': 'test@example.com',
-        'contact_number': '55512341234'
+        'contact_number': '55512341234',
+        'g-recaptcha-response': captcha_stub
     }
     response = client.post(url, data)
-    import pdb
-    pdb.set_trace();
 
     assert response.status_code == 302
     assert response.url == \
