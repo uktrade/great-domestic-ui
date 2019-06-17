@@ -18,8 +18,8 @@ dit.tagging.domestic = (new function() {
           addTaggingForArticleList();
         break;
 
-        case 'MarketPage':
-          addTaggingForMarketPage();
+        case 'CountryGuidePage':
+          addTaggingForCountryGuidePage();
         break;
 
         case 'MarketsLandingPage':
@@ -83,7 +83,7 @@ dit.tagging.domestic = (new function() {
       });
     });
 
-    $("#carousel h3 a").on("click", function() {
+    $("#carousel .casestudy-link").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
         'action': 'Cta',
@@ -106,7 +106,7 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForMarketPage() {
+  function addTaggingForCountryGuidePage() {
     $("#country-guide-accordions .ExpanderControl").on("click", function() {
       window.dataLayer.push({
         'event': 'gaEvent',
