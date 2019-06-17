@@ -172,6 +172,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
         excluded_pages += dynamic_cms_page_url_names
         excluded_pages += [url.name for url in urls.article_urls]
         excluded_pages += [url.name for url in urls.news_urls]
+        excluded_pages += [url.name for url in urls.deprecated_urls]
 
         return [
             item.name for item in urls.urlpatterns
@@ -271,8 +272,11 @@ class SendNotifyMessagesMixin:
         return super().form_valid(form)
 
 
-class BaseNotifyFormView(FormSessionMixin, SendNotifyMessagesMixin, FormView):
-    pass
+class BaseNotifyFormView(
+    mixins.SetGA360ValuesMixin,
+    FormSessionMixin, SendNotifyMessagesMixin, FormView
+):
+    page_type = 'ContactPage'
 
 
 class ServicesView(mixins.SetGA360ValuesMixin, TemplateView):

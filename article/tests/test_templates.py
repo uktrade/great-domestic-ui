@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import patch, PropertyMock
+from unittest.mock import patch
 from bs4 import BeautifulSoup
 from django.urls import reverse
 from django.template.loader import render_to_string
@@ -17,142 +17,95 @@ def mock_get_page():
     stub.stop()
 
 
-@pytest.fixture
-def dummy_cms_page():
-    return {
-        'title': 'test',
-        'meta': {
-            'languages': [
-                ['en-gb', 'English'],
-            ]
-        },
-        'page_type': ''
-    }
-
-
-def test_article_article_detail_page_no_related_content(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-
-    test_article_page_no_related_content = {
-        "title": "Test article admin title",
-        "article_title": "Test article",
-        "article_teaser": "Test teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "related_pages": [],
-        "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
-        "last_published_at": "2018-10-09T16:25:13.142357Z",
-        "meta": {
-            "slug": "foo",
-        },
-        "page_type": "ArticlePage",
-    }
-
-    url = reverse(
-        'manage-legal-and-ethical-compliance-article',
-        kwargs={'slug': 'foo'}
-    )
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=test_article_page_no_related_content
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['article/article_detail.html']
-
-    assert 'Related content' not in str(response.content)
-
-
-def test_prototype_landing_page_news_section(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
-
-    url = reverse('landing-page')
-
-    page = {
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-    }
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_domestic.html']
-
-    assert page['news_title'] in str(response.content)
-    assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
-    assert 'News article 1' in str(response.content)
-    assert 'News article 2' in str(response.content)
-
-
-test_topic_page = {
-    'title': 'Markets CMS admin title',
-    'landing_page_title': 'Markets',
-    'hero_image': {'url': 'markets.jpg'},
-    'child_pages': [
-        {
-            'landing_page_title': 'Africa market information',
-            'full_path': '/markets/africa/',
-            'hero_image': {'url': 'africa.png'},
-            'hero_image_thumbnail': {'url': 'africa.jpg'},
-            'articles_count': 0,
-            'last_published_at': '2018-10-01T15:15:53.927833Z'
-        },
-        {
-            'landing_page_title': 'Asia market information',
-            'full_path': '/markets/asia/',
-            'hero_image': {'url': 'asia.png'},
-            'hero_image_thumbnail': {'url': 'asia.jpg'},
-            'articles_count': 3,
-            'last_published_at': '2018-10-01T15:16:30.583279Z'
+def test_article_detail_page_no_related_content():
+    context = {
+        'page': {
+            "title": "Test article admin title",
+            "article_title": "Test article",
+            "article_teaser": "Test teaser",
+            "article_image": {"url": "foobar.png"},
+            "article_body_text": "<p>Lorem ipsum</p>",
+            "related_pages": [],
+            "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
+            "last_published_at": "2018-10-09T16:25:13.142357Z",
+            "meta": {
+                "slug": "foo",
+            },
+            "page_type": "ArticlePage",
         }
-    ],
-    "page_type": "TopicLandingPage",
-}
+    }
+
+    html = render_to_string('article/article_detail.html', context)
+    assert 'Related content' not in html
+
+
+def test_landing_page_news_section():
+
+    context = {
+        'page': {
+            'news_title': 'News',
+            'news_description': '<p>Lorem ipsum</p>',
+            'articles': [
+                {'article_title': 'News article 1'},
+                {'article_title': 'News article 2'},
+            ],
+        },
+        'features': {'NEWS_SECTION_ON': True}
+    }
+
+    html = render_to_string('core/landing_page_domestic.html', context)
+
+    assert context['page']['news_title'] in html
+    assert '<p class="body-text">Lorem ipsum</p>' in html
+    assert 'News article 1' in html
+    assert 'News article 2' in html
 
 
 def test_article_advice_page(mock_get_page, client, settings):
+    context = {}
+    page = {
+        'title': 'Markets CMS admin title',
+        'landing_page_title': 'Markets',
+        'hero_image': {'url': 'markets.jpg'},
+        'child_pages': [
+            {
+                'landing_page_title': 'Africa market information',
+                'full_path': '/markets/africa/',
+                'hero_image': {'url': 'africa.png'},
+                'hero_image_thumbnail': {'url': 'africa.jpg'},
+                'articles_count': 0,
+                'last_published_at': '2018-10-01T15:15:53.927833Z'
+            },
+            {
+                'landing_page_title': 'Asia market information',
+                'full_path': '/markets/asia/',
+                'hero_image': {'url': 'asia.png'},
+                'hero_image_thumbnail': {'url': 'asia.jpg'},
+                'articles_count': 3,
+                'last_published_at': '2018-10-01T15:16:30.583279Z'
+            }
+        ],
+        "page_type": "TopicLandingPage",
+    }
 
-    url = reverse('advice', kwargs={'slug': 'advice'})
+    context['page'] = page
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=test_topic_page
-    )
+    html = render_to_string('article/topic_list.html', context)
 
-    response = client.get(url)
+    assert page['title'] not in html
+    assert page['landing_page_title'] in html
 
-    assert response.status_code == 200
-    assert response.template_name == ['article/topic_list.html']
-
-    assert test_topic_page['title'] not in str(response.content)
-    assert test_topic_page['landing_page_title'] in str(response.content)
-
-    assert 'Asia market information' in str(response.content)
-    assert 'Africa market information' not in str(response.content)
-    assert 'markets.jpg' in str(response.content)
-    assert 'asia.jpg' in str(response.content)
-    assert 'africa.jpg' not in str(response.content)
-    assert '01 October 2018' in str(response.content)
+    assert 'Asia market information' in html
+    assert 'Africa market information' not in html
+    assert 'markets.jpg' in html
+    assert 'asia.jpg' in html
+    assert 'africa.jpg' not in html
+    assert '01 October 2018' in html
 
 
-def test_article_detail_page_related_content(
-    mock_get_page, client, settings
-):
-
-    article_page = {
+def test_article_detail_page_related_content():
+    context = {}
+    page = {
         "title": "Test article admin title",
         "article_title": "Test article",
         "article_teaser": "Test teaser",
@@ -185,24 +138,12 @@ def test_article_detail_page_related_content(
         },
         "page_type": "ArticlePage",
     }
+    context['page'] = page
 
-    url = reverse(
-        'manage-legal-and-ethical-compliance-article',
-        kwargs={'slug': 'foo'}
-    )
+    html = render_to_string('article/article_detail.html', context)
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=article_page
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['article/article_detail.html']
-
-    assert 'Related content' in str(response.content)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    assert 'Related content' in html
+    soup = BeautifulSoup(html, 'html.parser')
 
     assert soup.find(
         id='related-article-test-one-link'
@@ -241,61 +182,46 @@ test_news_list_page = {
 }
 
 
-def test_news_list_page_feature_flag_on(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
+def test_news_list_page_feature_flag_on():
+    context = {
+        'features': {'NEWS_SECTION_ON': True}
+    }
+    context['page'] = test_news_list_page
 
-    url = reverse('eu-exit-news-list')
+    html = render_to_string('article/domestic_news_list.html', context)
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=test_news_list_page
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['article/domestic_news_list.html']
-
-    assert test_news_list_page['title'] not in str(response.content)
-    assert test_news_list_page['landing_page_title'] in str(response.content)
-    assert 'Lorem ipsum' in str(response.content)
-    assert 'Dolor sit amet' in str(response.content)
+    assert test_news_list_page['title'] not in html
+    assert test_news_list_page['landing_page_title'] in html
+    assert 'Lorem ipsum' in html
+    assert 'Dolor sit amet' in html
 
 
-@patch('article.views.InternationalNewsListPageView.cms_component',
-       new_callable=PropertyMock)
-def test_international_news_list_page(
-    mock_get_component, mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
-
-    url = reverse('international-eu-exit-news-list')
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=test_news_list_page
-    )
-    mock_get_component.return_value = {
+def test_international_news_list_page():
+    context = {
+        'features': {'NEWS_SECTION_ON': True}
+    }
+    cms_component = {
         'banner_label': 'EU exit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
         'meta': {'languages': [['en-gb', 'English']]},
     }
+    context['page'] = test_news_list_page
+    context['cms_component'] = cms_component
 
-    response = client.get(url)
+    html = render_to_string('article/international_news_list.html', context)
 
-    assert response.status_code == 200
-    assert response.template_name == ['article/international_news_list.html']
-
-    assert test_news_list_page['title'] not in str(response.content)
-    assert test_news_list_page['landing_page_title'] in str(response.content)
-    assert 'Lorem ipsum' in str(response.content)
-    assert 'Dolor sit amet' in str(response.content)
+    assert test_news_list_page['title'] not in html
+    assert test_news_list_page['landing_page_title'] in html
+    assert 'Lorem ipsum' in html
+    assert 'Dolor sit amet' in html
 
 
-def test_domestic_news_article_detail_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
+def test_domestic_news_article_detail_page():
+    context = {
+        'features': {'NEWS_SECTION_ON': True}
+    }
 
-    test_article_page = {
+    page = {
         "title": "Test article admin title",
         "article_title": "Test news title",
         "article_teaser": "Test news teaser",
@@ -321,31 +247,22 @@ def test_domestic_news_article_detail_page(mock_get_page, client, settings):
         "page_type": "ArticlePage",
     }
 
-    url = reverse('eu-exit-news-detail', kwargs={'slug': 'foo'})
+    context['page'] = page
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=test_article_page
-    )
+    html = render_to_string('article/domestic_news_detail.html', context)
 
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == [
-        'article/domestic_news_detail.html']
-
-    assert 'Test news title' in str(response.content)
-    assert 'Test news teaser' in str(response.content)
-    assert 'Test tag' not in str(response.content)
-    assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
+    assert 'Test news title' in html
+    assert 'Test news teaser' in html
+    assert 'Test tag' not in html
+    assert '<p class="body-text">Lorem ipsum</p>' in html
 
 
-def test_international_news_article_detail_page(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
+def test_international_news_article_detail_page():
+    context = {
+        'features': {'NEWS_SECTION_ON': True}
+    }
 
-    test_article_page = {
+    page = {
         "title": "Test article admin title",
         "article_title": "Test news title",
         "article_teaser": "Test news teaser",
@@ -367,23 +284,13 @@ def test_international_news_article_detail_page(
         },
         "page_type": "ArticlePage",
     }
+    context['page'] = page
 
-    url = reverse('international-eu-exit-news-detail', kwargs={'slug': 'foo'})
+    html = render_to_string('article/international_news_detail.html', context)
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=test_article_page
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == [
-        'article/international_news_detail.html']
-
-    assert 'Test news title' in str(response.content)
-    assert 'Test news teaser' in str(response.content)
-    assert '<p class="body-text">Lorem ipsum</p>' in str(response.content)
+    assert 'Test news title' in html
+    assert 'Test news teaser' in html
+    assert '<p class="body-text">Lorem ipsum</p>' in html
 
 
 test_articles = [
@@ -431,82 +338,43 @@ test_list_page = {
 }
 
 
-def test_article_list_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
+def test_article_list_page():
+    context = {}
+    context['page'] = test_list_page
 
-    url = reverse('create-an-export-plan')
+    html = render_to_string('article/article_list.html', context)
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=test_list_page
-    )
+    assert test_list_page['title'] not in html
+    assert test_list_page['landing_page_title'] in html
 
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['article/article_list.html']
-
-    assert test_list_page['title'] not in str(response.content)
-    assert test_list_page['landing_page_title'] in str(response.content)
-
-    assert '01 October' in str(response.content)
-    assert '02 October' in str(response.content)
+    assert '01 October' in html
+    assert '02 October' in html
 
 
-test_tag_page = {
-    'name': 'New to exporting',
-    'articles': test_articles,
-}
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_tag')
-def test_prototype_tag_list_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
-
-    url = reverse('tag-list', kwargs={'slug': 'new-to-exporting'})
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=test_tag_page
-    )
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['article/tag_list.html']
-
-    assert '01 October' in str(response.content)
-    assert '02 October' in str(response.content)
-    assert 'Article 1 title' in str(response.content)
-    assert 'Article 2 title' in str(response.content)
-    assert '2 articles with tag:' in str(response.content)
-    assert 'New to exporting' in str(response.content)
-
-
-def test_landing_page_header_footer(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
-
-    url = reverse('landing-page')
-
+def test_tag_list_page():
+    context = {}
     page = {
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [],
+        'name': 'New to exporting',
+        'articles': test_articles,
     }
+    context['page'] = page
+    html = render_to_string('article/tag_list.html', context)
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
-    response = client.get(url)
+    assert '01 October' in html
+    assert '02 October' in html
+    assert 'Article 1 title' in html
+    assert 'Article 2 title' in html
+    assert '2 articles with tag:' in html
+    assert 'New to exporting' in html
 
-    assert response.status_code == 200
 
-    assert '/static/js/home' in str(response.content)
+def test_landing_page_header_footer():
 
-    soup = BeautifulSoup(response.content, 'html.parser')
+    html = render_to_string('core/landing_page_domestic.html', {})
+
+    assert '/static/js/home' in html
+
+    soup = BeautifulSoup(html, 'html.parser')
 
     assert soup.find(id="great-global-header-logo")
 
@@ -514,9 +382,7 @@ def test_landing_page_header_footer(
 def test_article_detail_page_social_share_links(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
-
-    test_article_page = {
+    page = {
         "title": "Test article admin title",
         "article_title": "How to write an export plan",
         "article_image": {"url": "foobar.png"},
@@ -529,6 +395,13 @@ def test_article_detail_page_social_share_links(
             "slug": "how-to-write-an-export-plan",
         },
         "page_type": "ArticlePage",
+        "tree_based_breadcrumbs": [
+            {"url": "/advice/", "title": "Topic title"},
+            {"url": "/advice/create-an-export-plan/", "title": "List title"},
+            {"url": (
+                "/advice/create-an-export-plan/how-to-write-an-export-plan/"),
+                "title": "How to write an export plan"},
+        ]
     }
 
     url = reverse(
@@ -538,7 +411,7 @@ def test_article_detail_page_social_share_links(
 
     mock_get_page.return_value = create_response(
         status_code=200,
-        json_body=test_article_page
+        json_body=page
     )
 
     response = client.get(url)
@@ -576,9 +449,7 @@ def test_article_detail_page_social_share_links(
 def test_article_detail_page_social_share_links_no_title(
     mock_get_page, client, settings
 ):
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
-
-    test_article_page = {
+    page = {
         "title": "Test article admin title",
         "article_image": {"url": "foobar.png"},
         "article_body_text": "<p>Lorem ipsum</p>",
@@ -590,6 +461,13 @@ def test_article_detail_page_social_share_links_no_title(
             "slug": "how-to-write-an-export-plan",
         },
         "page_type": "ArticlePage",
+        "tree_based_breadcrumbs": [
+            {"url": "/advice/", "title": "Topic title"},
+            {"url": "/advice/create-an-export-plan/", "title": "List title"},
+            {"url": (
+                "/advice/create-an-export-plan/how-to-write-an-export-plan/"),
+                "title": "How to write an export plan"},
+        ]
     }
 
     url = reverse(
@@ -599,7 +477,7 @@ def test_article_detail_page_social_share_links_no_title(
 
     mock_get_page.return_value = create_response(
         status_code=200,
-        json_body=test_article_page
+        json_body=page
     )
 
     response = client.get(url)
@@ -629,10 +507,8 @@ def test_article_detail_page_social_share_links_no_title(
     assert soup.find(id='share-email').attrs['href'] == email_link
 
 
-def test_country_guide_fact_sheet_displays_if_given_title(
-        mock_get_page, client, settings
-):
-
+def test_country_guide_fact_sheet_displays_if_given_title():
+    context = {}
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
@@ -644,20 +520,13 @@ def test_country_guide_fact_sheet_displays_if_given_title(
             'columns': []
         }
     }
+    context['page'] = page
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
-    url = reverse(
-        'country-guide',
-        kwargs={'slug': 'japan'}
-    )
-    response = client.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    html = render_to_string('article/country_guide.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
 
     assert soup.find(id='country-guide-section-three')
-    assert 'Fact sheet title' in str(response.content)
+    assert 'Fact sheet title' in html
 
 
 @pytest.mark.parametrize('intro_ctas', (

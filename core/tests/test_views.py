@@ -50,9 +50,10 @@ def test_landing_page_redirect(client):
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_landing_page(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
     page = {
+        'title': 'great.gov.uk',
+        'page_type': 'HomePage',
         'news_title': 'News',
         'news_description': '<p>Lorem ipsum</p>',
         'articles': [
@@ -63,6 +64,9 @@ def test_landing_page(mock_get_page, client, settings):
             {'landing_page_title': 'Guidance 1'},
             {'landing_page_title': 'Guidance 2'},
         ],
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+        ]
     }
 
     mock_get_page.return_value = create_response(
@@ -89,25 +93,9 @@ def test_landing_page(mock_get_page, client, settings):
 def test_landing_page_video_url(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     settings.FEATURE_FLAGS['LANDING_PAGE_EU_EXIT_BANNER_ON'] = False
-
-    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/videp.mp4'
-
-    url = reverse('landing-page')
-    response = client.get(url)
-    assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
-        'https://example.com/videp.mp4'
-    )
-    assert b'https://example.com/videp.mp4' in response.content
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_news_and_export_journey_off(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
-
     page = {
+        'title': 'great.gov.uk',
+        'page_type': 'HomePage',
         'news_title': 'News',
         'news_description': '<p>Lorem ipsum</p>',
         'articles': [
@@ -118,19 +106,23 @@ def test_landing_page_news_and_export_journey_off(
             {'landing_page_title': 'Guidance 1'},
             {'landing_page_title': 'Guidance 2'},
         ],
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+        ]
     }
 
     mock_get_page.return_value = create_response(
         status_code=200,
         json_body=page
     )
+    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
 
     url = reverse('landing-page')
-
     response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == [views.LandingPageView.template_name]
+    assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
+        'https://example.com/video.mp4'
+    )
+    assert b'https://example.com/video.mp4' in response.content
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -138,9 +130,10 @@ def test_landing_page_template_news_feature_flag_on(
     mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
 
     page = {
+        'title': 'great.gov.uk',
+        'page_type': 'HomePage',
         'news_title': 'News',
         'news_description': '<p>Lorem ipsum</p>',
         'articles': [
@@ -151,6 +144,9 @@ def test_landing_page_template_news_feature_flag_on(
             {'landing_page_title': 'Guidance 1'},
             {'landing_page_title': 'Guidance 2'},
         ],
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+        ]
     }
 
     mock_get_page.return_value = create_response(
@@ -173,6 +169,8 @@ def test_landing_page_template_news_feature_flag_off(
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
     page = {
+        'title': 'great.gov.uk',
+        'page_type': 'HomePage',
         'news_title': 'News',
         'news_description': '<p>Lorem ipsum</p>',
         'articles': [
@@ -183,6 +181,9 @@ def test_landing_page_template_news_feature_flag_off(
             {'landing_page_title': 'Guidance 1'},
             {'landing_page_title': 'Guidance 2'},
         ],
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+        ]
     }
 
     mock_get_page.return_value = create_response(
@@ -255,8 +256,11 @@ def test_terms_conditions_cms(
     url = reverse(view)
     page = {
         'title': 'the page',
-        'industries': [{'title': 'good 1'}],
         'meta': {'languages': ['en-gb']},
+        'page_type': 'TermsAndConditionsPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/terms-and-conditions/', 'title': 'the page'},
+        ]
     }
     mock_get_t_and_c_page.return_value = create_response(
         status_code=200,
@@ -290,6 +294,10 @@ def test_privacy_cookies_cms(
         'title': 'the page',
         'industries': [{'title': 'good 1'}],
         'meta': {'languages': ['en-gb']},
+        'page_type': 'PrivacyAndCookiesPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/privacy-and-cookies/', 'title': 'the page'},
+        ]
     }
     mock_get_p_and_c_page.return_value = create_response(
         status_code=200,
@@ -512,7 +520,15 @@ cms_urls_slugs = (
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @pytest.mark.parametrize('url,slug', cms_urls_slugs)
 def test_cms_pages_cms_client_params(mock_get, client, url, slug):
-    mock_get.return_value = create_response(status_code=200)
+    mock_get.return_value = create_response(
+        status_code=200,
+        json_body={
+            'title': 'The page',
+            'page_type': 'GenericPage',
+            'meta': {'languages': (['en-gb', 'English'])},
+            'tree_based_breadcrumbs': [],
+        }
+    )
 
     response = client.get(url, {'draft_token': '123'})
 
@@ -551,6 +567,8 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
         'title': 'Performance dashboard',
         'heading': 'great.gov.uk',
         'description': 'Lorem ipsum dolor sit amet.',
+        'page_type': 'PerformanceDashboardPage',
+        'tree_based_breadcrumbs': [],
     }
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -566,14 +584,6 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
     assert response.template_name == ['core/performance_dashboard.html']
 
 
-def test_performance_dashboard_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON'] = False
-
-    response = client.get('performance-dashboard')
-
-    assert response.status_code == 404
-
-
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_privacy_cookies_subpage(mock_get_page, client, settings):
     url = reverse('privacy-and-cookies-subpage', kwargs={
@@ -582,6 +592,8 @@ def test_privacy_cookies_subpage(mock_get_page, client, settings):
     page = {
         'title': 'Fair Processing Notice Zendesk',
         'body': 'Lorem ipsum dolor sit amet.',
+        'page_type': 'PrivacyAndCookiesPage',
+        'tree_based_breadcrumbs': [],
     }
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -590,7 +602,7 @@ def test_privacy_cookies_subpage(mock_get_page, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == ['core/privacy_subpage.html']
+    assert response.template_name == ['core/info_page.html']
 
     assert page['title'] in str(response.content)
     assert page['body'] in str(response.content)
@@ -606,6 +618,11 @@ def test_international_contact_page_context(client, settings):
 
 
 campaign_page_all_fields = {
+    'title': 'Campaign page',
+    'page_type': 'CampaignPage',
+    'tree_based_breadcrumbs': [
+        {'title': 'Campaign page', 'url': '/campaigns/foo/'}
+    ],
     'campaign_heading': 'Campaign heading',
     'campaign_hero_image': {'url': 'campaign_hero_image.jpg'},
     'cta_box_button_text': 'CTA box button text',
@@ -756,6 +773,11 @@ def test_marketing_campaign_campaign_page_all_fields(
 
 
 campaign_page_required_fields = {
+    'title': 'Campaign page',
+    'page_type': 'CampaignPage',
+    'tree_based_breadcrumbs': [
+        {'title': 'Campaign page', 'url': '/campaigns/foo/'}
+    ],
     'campaign_heading': 'Campaign heading',
     'campaign_hero_image': None,
     'cta_box_button_text': 'CTA box button text',

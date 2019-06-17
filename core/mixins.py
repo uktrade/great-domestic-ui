@@ -38,12 +38,6 @@ class PrototypeFeatureFlagMixin(NotFoundOnDisabledFeature):
         return settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON']
 
 
-class PerformanceDashboardFeatureFlagMixin(NotFoundOnDisabledFeature):
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['PERFORMANCE_DASHBOARD_ON']
-
-
 class MarketAccessFeatureFlagMixin(NotFoundOnDisabledFeature):
     @property
     def flag(self):

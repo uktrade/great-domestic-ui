@@ -64,6 +64,7 @@ def test_international_form_cms_retrieval_ok(
 ):
     mock_lookup_by_slug.return_value = create_response(
         status_code=200, json_body={
+            'page_type': 'ContactPage',
             'first_name': {
                 'label': 'Given name'
             },
@@ -73,7 +74,6 @@ def test_international_form_cms_retrieval_ok(
             'disclaimer': 'disclaim',
         }
     )
-    settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
 
     url = reverse('eu-exit-international-contact-form')
 

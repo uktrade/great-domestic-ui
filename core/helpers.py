@@ -189,6 +189,14 @@ GA_DATA_MAPPING = {
         'site_section': 'Search',
         'site_subsection': '',
     },
+    'CaseStudyPage': {
+        'site_section': 'ExporterStories',
+        'site_subsection': '',
+    },
+    'ContactPage': {
+        'site_section': 'Contact',
+        'site_subsection': '',
+    },
 }
 
 
