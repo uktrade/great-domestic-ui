@@ -18,7 +18,9 @@
                 <div class="column-one-half">
                     <form method="post">
                         <div class="">
-                            <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
+                            {% block step_title_container %}
+                                <h3 class="heading-medium">{% block step_title %}{% endblock %}</h3>
+                            {% endblock %}
                             {% csrf_token %}
                             {% block extra_contents %}{% endblock %}
                             <div class="input-field-container">
@@ -36,7 +38,7 @@
                                 <button type="submit" class="button button">{% block submit_button_label %}Continue{% endblock %}</button>
                             </div>
                             {% if wizard.steps.prev %}
-                                <a id="previous-button" class="link" href="{% url 'uk-export-finance-lead-generation-form' step=wizard.steps.prev %}">Back</button>
+                                <a id="previous-button" class="link" href="{% url 'uk-export-finance-lead-generation-form' step=wizard.steps.prev %}">Back</a>
                             {% endif %}
                         </div>
                     </form>
