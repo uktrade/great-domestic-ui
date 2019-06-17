@@ -551,7 +551,9 @@ def test_cms_pages_cms_client_params(mock_get, client, url, slug):
             'title': 'The page',
             'page_type': 'GenericPage',
             'meta': {'languages': (['en-gb', 'English'])},
-            'tree_based_breadcrumbs': [],
+            'tree_based_breadcrumbs': [
+                {'title': 'The page', 'url': '/'}
+            ],
         }
     )
 
@@ -593,7 +595,9 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
         'heading': 'great.gov.uk',
         'description': 'Lorem ipsum dolor sit amet.',
         'page_type': 'PerformanceDashboardPage',
-        'tree_based_breadcrumbs': [],
+        'tree_based_breadcrumbs': [
+            {'title': 'The page', 'url': '/'}
+        ],
     }
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -618,7 +622,9 @@ def test_privacy_cookies_subpage(mock_get_page, client, settings):
         'title': 'Fair Processing Notice Zendesk',
         'body': 'Lorem ipsum dolor sit amet.',
         'page_type': 'PrivacyAndCookiesPage',
-        'tree_based_breadcrumbs': [],
+        'tree_based_breadcrumbs': [
+            {'title': 'The page', 'url': '/'}
+        ],
     }
     mock_get_page.return_value = create_response(
         status_code=200,
