@@ -4,29 +4,6 @@ from directory_cms_client.client import cms_api_client
 from directory_components.helpers import SocialLinkBuilder
 
 from core.helpers import handle_cms_response
-from .helpers import unslugify
-
-
-class BreadcrumbsMixin:
-
-    def get_context_data(self, *args, **kwargs):
-        parts = self.request.path.split('/')
-        url_fragments = [part for part in parts if part]
-
-        breadcrumbs = []
-
-        for index, slug in enumerate(url_fragments):
-            url = '/'.join(url_fragments[0:index+1])
-            breadcrumb = {
-                'url': '/' + url + '/',
-                'label': unslugify(slug)
-            }
-            breadcrumbs.append(breadcrumb)
-
-        return super().get_context_data(
-            breadcrumbs=breadcrumbs,
-            *args, **kwargs
-        )
 
 
 class GetCMSTagMixin:

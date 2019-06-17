@@ -4,6 +4,7 @@
 ## Pre-release
 
 **Implemented enhancements:**
+- XOT-763 - Update GA360 tagging. **[Relies on this feature in directory-cms](https://github.com/uktrade/directory-cms/pull/487)**
 
 **Fixed bugs:**
 - TT-1449 - Added fieldset and legend html elements on related form fields

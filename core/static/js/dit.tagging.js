@@ -11,28 +11,23 @@ dit.tagging.domestic = (new function() {
     $(document).ready(function() {
       switch(page) {
         case 'LandingPage':
-          addTaggingForEuExitBanner();
-          addTaggingForHeroBannerVideo();
-          addTaggingForServiceTeasers();
-          addTaggingForAdviceTeasers();
-          addTaggingForExporterStories();
+          addTaggingForLandingPage();
         break;
 
         case 'ArticleListingPage':
           addTaggingForArticleList();
         break;
 
-        case 'MarketPage':
-          addTaggingForOpportunities();
-          addTaggingForNextSteps();
+        case 'CountryGuidePage':
+          addTaggingForCountryGuidePage();
         break;
 
         case 'MarketsLandingPage':
-          addTaggingForMarketCtas();
+          addTaggingForMarketsLandingPage();
         break;
 
         case 'AdviceLandingPage':
-          addTaggingForAdviceCtas();
+          addTaggingForAdviceLandingPage();
         break;
 
         case 'SearchResultsPage':
@@ -48,52 +43,49 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForEuExitBanner() {
+  function addTaggingForLandingPage() {
     $(".eu-exit-banner a").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'ContentLink',
         'type': 'EuExit',
         'element': 'EuExitBanner',
         'value': $(this).text().trim()
       });
     });
-  }
 
-  function addTaggingForHeroBannerVideo() {
     $("#hero-campaign-section-watch-video-button").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'ContentLink',
         'type': 'Video',
         'element': 'HeroBannerVideoLink'
       });
     });
-  }
 
-  function addTaggingForServiceTeasers() {
     $("#services a").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'Cta',
         'type': 'Service',
         'element': 'Link',
         'value': $(this).find('h3').text().trim()
       });
     });
-  }
 
-  function addTaggingForAdviceTeasers() {
     $("#resource-advice a").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'Cta',
         'type': 'Advice',
         'element': 'Link',
         'value': $(this).find('h3').text().trim()
       });
     });
-  }
 
-  function addTaggingForExporterStories() {
-    $("#carousel h3 a").on("click", function() {
+    $("#carousel .casestudy-link").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'Cta',
         'type': 'ExporterStory',
         'element': 'Link',
@@ -102,20 +94,10 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForSearch() {
-    $("#search-results-information .search").on("submit", function() {
-      window.dataLayer.push({
-        'action': 'Search',
-        'type': 'General',
-        'element': 'SearchForm',
-        'value': $(this).find("input[name='q']").val().trim()
-      });
-    });
-  }
-
   function addTaggingForArticleList() {
     $("#article-list-page .article a").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'ContentLink',
         'type': $(".article-list-page h1").text().trim(),
         'element': 'Article',
@@ -124,30 +106,28 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForOpportunities() {
+  function addTaggingForCountryGuidePage() {
     $("#country-guide-accordions .ExpanderControl").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'ExpressInterest',
         'element': 'ExpanderControl',
         'value': $(this).text().trim()
       });
     });
 
-    $(".sector-ctas a").on("click", function() {
-      // Selector is quite fragile and could be benefit from
-      // use of functional class names in the target code.
+    $("#country-guide-intro-ctas li .intro-cta-link").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'Cta',
-        'type': $(this).parents("li").children().eq(0).text().trim().trim(),
-        'element': 'SectorRelatedCta',
+        'element': 'IntroRelatedCta',
         'value': $(this).text().trim()
       });
     });
-  }
 
-  function addTaggingForNextSteps() {
     $("#country-guide-need-help-section .cta-link").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'Cta',
         'element': 'NextStepCta',
         'value': $(this).text().trim()
@@ -155,9 +135,10 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForMarketCtas() {
-    $(".topic-list-section .card-link").on("click", function() {
+  function addTaggingForMarketsLandingPage() {
+    $("#markets-list-section .card-link").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'Cta',
         'element': 'MarketCta',
         'value': $(this).find("h3").text().trim()
@@ -165,9 +146,10 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForAdviceCtas() {
-    $(".topic-list-section .card-link").on("click", function() {
+  function addTaggingForAdviceLandingPage() {
+    $("#advice-list-section .card-link").on("click", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'Cta',
         'element': 'AdviceCta',
         'value': $(this).find("h3").text().trim()
@@ -175,9 +157,22 @@ dit.tagging.domestic = (new function() {
     });
   }
 
-  function addTaggingForServiceCtas() {
-    $(".card-link").on("click", function() {
+  function addTaggingForSearch() {
+    $("#search-form").on("submit", function() {
       window.dataLayer.push({
+        'event': 'gaEvent',
+        'action': 'Search',
+        'type': 'General',
+        'element': 'SearchForm',
+        'value': $("#search-again-input").val().trim()
+      });
+    });
+  }
+
+  function addTaggingForServiceCtas() {
+    $("#services-list-section .card-link").on("click", function() {
+      window.dataLayer.push({
+        'event': 'gaEvent',
         'action': 'Cta',
         'element': 'ServiceCta',
         'value': $(this).find("h3").text().trim()

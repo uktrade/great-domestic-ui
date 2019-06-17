@@ -82,7 +82,6 @@ DEBUG_SET_ENV_VARS := \
 	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
 	export EUEXIT_AGENT_EMAIL=test@example.com; \
 	export FIND_A_SUPPLIER_CONTACT_URL=http://supplier.trade.great:8005/industries/contact/; \
-	export FEATURE_EXPORT_JOURNEY_ENABLED=false; \
 	export FEATURE_MARKET_ACCESS_ENABLED=false; \
 	export FEATURE_MARKET_ACCESS_GOV_LINK_ENABLED=true; \
 	export FEATURE_LANDING_PAGE_EU_EXIT_BANNER_ENABLED=true; \

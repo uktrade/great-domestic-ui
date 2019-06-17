@@ -7,7 +7,8 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
-from core.mixins import GetCMSPageMixin, PrepopulateFormMixin
+from core.mixins import (
+    GetCMSPageMixin, PrepopulateFormMixin, SetGA360ValuesMixin)
 from euexit import forms, mixins
 
 
@@ -15,12 +16,14 @@ SESSION_KEY_FORM_INGRESS_URL = 'FORM_INGRESS_URL'
 
 
 class BaseInternationalContactFormView(
+    SetGA360ValuesMixin,
     GetCMSPageMixin,
     PrepopulateFormMixin,
     mixins.HideLanguageSelectorMixin,
     CountryDisplayMixin,
     FormView,
 ):
+    page_type = 'ContactPage'
 
     def get(self, *args, **kwargs):
         self.request.session[SESSION_KEY_FORM_INGRESS_URL] = (
@@ -56,11 +59,12 @@ class BaseInternationalContactFormView(
 
 
 class BaseContactView(
+    SetGA360ValuesMixin,
     GetCMSPageMixin,
     mixins.HideLanguageSelectorMixin,
     TemplateView
 ):
-    pass
+    page_type = 'ContactPage'
 
 
 class InternationalContactFormView(BaseInternationalContactFormView):
