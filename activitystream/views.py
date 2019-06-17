@@ -54,7 +54,7 @@ class SearchView(TemplateView):
                     'breadcrumbs': breadcrumbs
                 }
             else:
-                return helpers.parse_results(response, query, page)
+                return helpers.parse_results(response, query, page, submitted)
 
 
 class SearchKeyPagesView(TemplateView):
