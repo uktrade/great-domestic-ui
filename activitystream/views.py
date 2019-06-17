@@ -8,11 +8,12 @@ from django.urls import reverse_lazy
 
 from activitystream import helpers, forms
 from article.mixins import BreadcrumbsMixin
+from core.mixins import SetGA360ValuesMixin
 
 logger = logging.getLogger(__name__)
 
 
-class SearchView(TemplateView):
+class SearchView(SetGA360ValuesMixin, TemplateView):
     """ Search results page.
 
         URL parameters: 'q'    String to be searched
@@ -21,8 +22,12 @@ class SearchView(TemplateView):
         We should use BreadcrumbMixin, however it does not work
     """
     template_name = 'search.html'
+    page_type = 'SearchResultsPage'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        results = {}
+
         query = self.request.GET.get('q', '')
         submitted = self.request.GET.get('submitted', '')
         page = helpers.sanitise_page(self.request.GET.get('page', '1'))
@@ -31,11 +36,13 @@ class SearchView(TemplateView):
 
         try:
             response = helpers.search_with_activitystream(elasticsearch_query)
+
         except RequestException:
             logger.error(
-                "Activity Stream connection for"
+                "Activity Stream connection for "
                 "Search failed. Query: '{}'".format(query))
-            return {
+
+            results = {
                 'error_status_code': 500,
                 'error_message': "Activity Stream connection failed",
                 'query': query,
@@ -43,9 +50,10 @@ class SearchView(TemplateView):
                 'submitted': submitted,
                 'breadcrumbs': breadcrumbs
             }
+
         else:
             if response.status_code != 200:
-                return {
+                results = {
                     'error_message': response.content,
                     'error_status_code': response.status_code,
                     'query': query,
@@ -53,8 +61,11 @@ class SearchView(TemplateView):
                     'submitted': submitted,
                     'breadcrumbs': breadcrumbs
                 }
+
             else:
-                return helpers.parse_results(response, query, page, submitted)
+                results = helpers.parse_results(response, query, page, submitted)
+
+        return {**context, **results}
 
 
 class SearchKeyPagesView(TemplateView):

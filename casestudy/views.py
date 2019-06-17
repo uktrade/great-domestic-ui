@@ -3,9 +3,12 @@ from django.views.generic import TemplateView
 from casestudy import casestudies
 from core.helpers import build_social_links
 from core.views import SetEtagMixin
+from core.mixins import SetGA360ValuesMixin
 
 
-class BaseCaseStudyView(TemplateView):
+class BaseCaseStudyView(SetGA360ValuesMixin, TemplateView):
+    page_type = 'CaseStudyPage'
+
     def get_context_data(self, *args, **kwargs):
         social_links = build_social_links(
             request=self.request, title=self.casestudy.title
