@@ -35,7 +35,32 @@ def test_interstitial_page_exopps(client):
     'core.helpers.GeoLocationRedirector.country_language',
     PropertyMock(return_value='fr')
 )
-def test_landing_page_redirect(client):
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_landing_page_redirect(mock_get_page, client):
+
+    page = {
+        'title': 'great.gov.uk',
+        'page_type': 'HomePage',
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [
+            {'article_title': 'News article 1'},
+            {'article_title': 'News article 2'},
+        ],
+        'guidance': [
+            {'landing_page_title': 'Guidance 1'},
+            {'landing_page_title': 'Guidance 2'},
+        ],
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+        ]
+    }
+
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+
     url = reverse('landing-page')
 
     response = client.get(url)
