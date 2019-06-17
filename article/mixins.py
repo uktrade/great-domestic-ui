@@ -4,7 +4,6 @@ from directory_cms_client.client import cms_api_client
 from directory_components.helpers import SocialLinkBuilder
 
 from core.helpers import handle_cms_response
-from .helpers import unslugify
 
 
 class GetCMSTagMixin:
