@@ -144,7 +144,7 @@ def test_search_feedback_submit_success(mock_save, client):
         'result_found': 'no',
         'search_target': 'Test',
         'reason_for_site_visit': 'Test',
-        'from_search_query': '',
+        'from_search_query': 'hello',
         'from_search_page':  1,
         'contactable':  'yes',
         'contact_name': 'Test',
@@ -155,7 +155,7 @@ def test_search_feedback_submit_success(mock_save, client):
 
     assert response.status_code == 302
     assert response.url == \
-        f"{reverse('search-feedback')}?page=1&query=&submitted=true"
+        f"{reverse('search')}?page=1&q=hello&submitted=true"
 
     assert mock_save.call_count == 1
     assert mock_save.call_args == call(

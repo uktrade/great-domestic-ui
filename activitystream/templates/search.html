@@ -2,6 +2,7 @@
 
 {% load static from staticfiles %}
 {% load humanize %}
+{% load message_box_with_icon from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -25,7 +26,9 @@
 
 <section id="search-results-information">
   <div class="container">
-
+    {% if submitted %}
+      {% message_box_with_icon icon="✓" heading="Your feedback has been sent" %}      
+    {% endif %}
     {% block breadcrumbs %}
       {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
     {% endblock %}

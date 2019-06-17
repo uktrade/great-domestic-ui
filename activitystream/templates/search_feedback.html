@@ -2,7 +2,6 @@
 
 {% load static from staticfiles %}
 {% load humanize %}
-{% load message_box_with_icon from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -28,10 +27,6 @@
       {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
     {% endblock %}
     <h1 class="heading-xlarge">Tell us how you found the new search feature</h1>
-    {% if submitted %}
-      {% message_box_with_icon icon="✓" heading="Your feedback has been sent" %}      
-      <a href="{% url 'search' %}?page={{ page }}&q={{ query }}" class="font-xsmall">Return to your search</a>
-    {% endif %}
   </div>
 </section>
 

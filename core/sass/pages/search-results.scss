@@ -87,7 +87,7 @@
   }
 
   .container {
-    padding-top: #{$spacing-4 * 5};
+    padding-top: $spacing-4;
     position: relative;
   }
 
@@ -121,14 +121,9 @@
 
   .message-box-with-icon{
     h3.box-heading, p.box-description{
-      font-size: 40px;
       margin: 0;
     }
-    .message-box-icon{
-      font-size: 52px;
-      font-weight: bold;
-      width: 100px
-    }
+    margin: 10px 0 10px 0;
   }
 
 }

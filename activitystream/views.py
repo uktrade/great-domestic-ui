@@ -24,6 +24,7 @@ class SearchView(TemplateView):
 
     def get_context_data(self, **kwargs):
         query = self.request.GET.get('q', '')
+        submitted = self.request.GET.get('submitted', '')
         page = helpers.sanitise_page(self.request.GET.get('page', '1'))
         elasticsearch_query = helpers.format_query(query, page)
         breadcrumbs = [{'url': '/search/', 'label': 'Search'}]
@@ -39,6 +40,7 @@ class SearchView(TemplateView):
                 'error_message': "Activity Stream connection failed",
                 'query': query,
                 'current_page': page,
+                'submitted': submitted,
                 'breadcrumbs': breadcrumbs
             }
         else:
@@ -48,6 +50,7 @@ class SearchView(TemplateView):
                     'error_status_code': response.status_code,
                     'query': query,
                     'current_page': page,
+                    'submitted': submitted,
                     'breadcrumbs': breadcrumbs
                 }
             else:
@@ -68,8 +71,8 @@ class SearchFeedbackFormView(BreadcrumbsMixin, FormView):
     def get_success_url(self):
         page = self.request.POST['from_search_page']
         query = self.request.POST['from_search_query']
-        return f"{reverse_lazy('search-feedback')}\
-?page={page}&query={query}&submitted=true"
+        return f"{reverse_lazy('search')}\
+?page={page}&q={query}&submitted=true"
 
     def form_valid(self, form):
         email = form.cleaned_data['contact_email'] or \
