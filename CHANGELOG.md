@@ -5,6 +5,7 @@
 
 **Implemented enhancements:**
 - CMS-1561 - Move CTAs on country guide page
+- XOT-763 - Update GA360 tagging
 
 **Fixed bugs:**
 
