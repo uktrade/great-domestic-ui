@@ -4,6 +4,7 @@
 ## Pre-release
 
 **Implemented enhancements:**
+- XOT-763 - Add tagging for domestic header
 - XOT-763 - Update GA360 tagging. **[Relies on this feature in directory-cms](https://github.com/uktrade/directory-cms/pull/487)**
 
 **Fixed bugs:**
@@ -11,7 +12,7 @@
 - TT-1450 - accessibility change h2 to h1
 - TT-1452 - add label to contact us captcha's
 - TT-1454/TT-1453 duplicate ids and empty links on finance contact-us
-- XOT-934 Deleted unused CSS files from UKEF templates 
+- XOT-934 Deleted unused CSS files from UKEF templates
 
 
 ## [2019.06.06](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.06)
