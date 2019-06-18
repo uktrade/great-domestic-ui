@@ -7,6 +7,7 @@
 - [No ticket] - Fix missing breadcrumbs on services landing page
 - XOT-763 - Add tagging for domestic header
 - XOT-763 - Update GA360 tagging. **[Relies on this feature in directory-cms](https://github.com/uktrade/directory-cms/pull/487)**
+- TT-1547 - Add redirects for events
 
 **Fixed bugs:**
 - TT-1449 - Added fieldset and legend html elements on related form fields
