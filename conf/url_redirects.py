@@ -8,6 +8,16 @@ from core.views import (
 
 redirects = [
     url(
+        r'^(?i)trskorea /$',
+        QuerystringRedirectView.as_view(
+            url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'
+        )
+    ),
+    url(
+        r'^(?i)ukti/$',
+        QuerystringRedirectView.as_view(url=reverse_lazy('landing-page'))
+    ),
+    url(
         r'^future/$',
         QuerystringRedirectView.as_view(
             url=(
