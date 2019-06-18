@@ -4,8 +4,6 @@ from captcha.fields import ReCaptchaField
 from directory_components import fields, widgets
 from directory_forms_api_client import forms
 
-from conf import settings
-
 
 class FeedbackForm(forms.ZendeskAPIForm):
     result_found = fields.ChoiceField(

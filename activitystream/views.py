@@ -62,7 +62,9 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
                 }
 
             else:
-                results = helpers.parse_results(response, query, page, submitted)
+                results = helpers.parse_results(
+                    response, query, page, submitted
+                )
 
         return {**context, **results}
 
