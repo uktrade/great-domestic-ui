@@ -69,7 +69,6 @@ class CompanyDetailsForm(forms.Form):
 
     export_status = fields.MultipleChoiceField(
         label='',
-        help_text='Select all that apply to your business:',
         widget=widgets.CheckboxSelectInlineLabelMultiple(
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,
@@ -104,4 +103,4 @@ class HelpForm(forms.Form):
             'conditions</a> of the great.gov.uk service.'
         )
     )
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(label_suffix='')

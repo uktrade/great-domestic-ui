@@ -15,12 +15,35 @@
 {% endblock %}
 
 {% block head_js_ga360 %}
-  {{ block.super }}
+  <script type="text/javascript">
+    window.dataLayer = window.dataLayer || [];
+  </script>
   {% if ga360 %}
+    <script src="{% static 'directory_components/js/dit.tagging.domesticHeader.js' %}"></script>
     <script src="{% static 'js/dit.tagging.js' %}"></script>
     <script id="ga360-script">
-      window.dataLayer.push({ 'pageCategory': '{{ ga360.page_type }}' });
-      dit.tagging.domestic.init('{{ ga360.page_type }}');
+      window.dataLayer.push({
+        {% if ga360.page_id == 'TopicLandingPage' %}
+        'pageCategory': '{{ ga360.site_subsection }}LandingPage',
+        {% else %}
+        'pageCategory': '{{ ga360.page_id }}',
+        {% endif %}
+        'site_section': '{{ ga360.site_section }}',
+        'site_subsection': '{{ ga360.site_subsection }}',
+        'businessUnit': '{{ ga360.business_unit }}',
+        'siteLanguage': '{{ ga360.site_language }}',
+        'userID': '{{ ga360.user_id }}',
+        'loginStatus': '{{ ga360.login_status }}',
+      });
+
+      dit.tagging.domestic.init(
+        {% if ga360.page_id == 'TopicLandingPage' %}
+        '{{ ga360.site_subsection }}LandingPage',
+        {% else %}
+        '{{ ga360.page_id }}',
+        {% endif %}
+      );
+      dit.tagging.domesticHeader.init();
     </script>
   {% endif %}
 {% endblock %}

@@ -5,6 +5,7 @@ import requests_mock
 
 from django.views.generic import TemplateView
 from django.utils import translation
+from django.http.response import Http404
 
 from core import mixins
 
@@ -127,13 +128,25 @@ def test_retrieve_company_profile_mixin_name_guessing(
         assert mixin.guess_family_name == last_name
 
 
-def test_ga360_mixin(rf):
-    class TestView(mixins.GA360Mixin, TemplateView):
+def test_prototype_feature_flag_mixin_on(rf, settings):
+    class TestView(mixins.PrototypeFeatureFlagMixin, TemplateView):
         template_name = 'core/base.html'
-        ga360_payload = {'page_type': 'TestPageType'}
+
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = True
 
     request = rf.get('/')
+
     response = TestView.as_view()(request)
 
-    assert response.context_data['ga360']
-    assert response.context_data['ga360']['page_type'] == 'TestPageType'
+    assert response.status_code == 200
+
+
+def test_prototype_feature_flag_mixin_off(rf, settings):
+    class TestView(mixins.PrototypeFeatureFlagMixin, TemplateView):
+        template_name = 'core/base.html'
+
+    settings.FEATURE_FLAGS['PROTOTYPE_PAGES_ON'] = False
+
+    request = rf.get('/')
+    with pytest.raises(Http404):
+        TestView.as_view()(request)

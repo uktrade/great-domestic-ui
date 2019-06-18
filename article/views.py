@@ -7,15 +7,15 @@ from directory_components.mixins import CountryDisplayMixin
 from .mixins import (
     GetCMSTagMixin,
     ArticleSocialLinksMixin,
-    BreadcrumbsMixin,
 )
 from core.mixins import (
     PrototypeFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSComponentMixin,
     GetCMSPageMixin,
-    GA360Mixin,
+    SetGA360ValuesForCMSPageMixin,
 )
+
 from euexit.mixins import HideLanguageSelectorMixin
 
 TEMPLATE_MAPPING = {
@@ -23,7 +23,11 @@ TEMPLATE_MAPPING = {
     'SuperregionPage': 'article/superregion.html',
     'CountryGuidePage': 'article/country_guide.html',
     'ArticleListingPage': 'article/article_list.html',
-    'ArticlePage': 'article/article_detail.html'
+    'ArticlePage': 'article/article_detail.html',
+    'CampaignPage': 'core/campaign.html',
+    'PerformanceDashboardPage': 'core/performance_dashboard.html',
+    'PerformanceDashboardNotesPage': 'core/performance_dashboard_notes.html',
+    'PrivacyAndCookiesPage': 'core/info_page.html',
 }
 
 
@@ -34,8 +38,7 @@ class TemplateChooserMixin:
 
 
 class CMSPageView(
-    GA360Mixin,
-    BreadcrumbsMixin,
+    SetGA360ValuesForCMSPageMixin,
     ArticleSocialLinksMixin,
     TemplateChooserMixin,
     GetCMSPageMixin,
@@ -46,13 +49,8 @@ class CMSPageView(
         return self.kwargs['slug']
 
 
-class AdviceListingPage(CMSPageView):
-    ga360_payload = {'page_type': 'ArticleListingPage'}
-
-
 class MarketsPageView(CMSPageView):
     template_name = 'article/markets_landing_page.html'
-    ga360_payload = {'page_type': 'MarketsLandingPage'}
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -71,7 +69,6 @@ class MarketsPageView(CMSPageView):
 class CountryGuidePageView(CMSPageView):
     num_of_statistics = 0
     section_three_num_of_subsections = 0
-    ga360_payload = {'page_type': 'MarketPage'}
 
     def count_data_with_field(self, list_of_data, field):
         filtered_list = [item for item in list_of_data if item[field]]
@@ -94,13 +91,11 @@ class CountryGuidePageView(CMSPageView):
                 case_study['title'] and case_study['image']
 
             accordion['num_of_subsections'] = self.count_data_with_field(
-                accordion['subsections'],
-                'heading'
-            )
+                accordion['subsections'], 'heading')
+
             accordion['num_of_statistics'] = self.count_data_with_field(
-                accordion['statistics'],
-                'number'
-            )
+                accordion['statistics'], 'number')
+
             accordion['neither_case_study_nor_statistics'] = \
                 not case_study['is_viable'] and \
                 not accordion['num_of_statistics']
