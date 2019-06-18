@@ -16,7 +16,7 @@
                 for (var element of document.querySelectorAll('[data-contentpath-field]')) {
                     addAnnotatableSection(element.dataset.contentpathField, element);
                 }
-            });
+            }, {% if moderation_enabled %}true{% else %}false{% endif %});
         });
     </script>
 {% endif %}

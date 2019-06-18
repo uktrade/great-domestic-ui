@@ -1,8 +1,4 @@
-body {
-    position: relative;
-}
-
-.review-bar {
+.moderation-bar {
   background-color: #333;
   border-radius: 2px;
   bottom: 0;
@@ -13,8 +9,9 @@ body {
   padding: 10px;
   position: fixed;
   right: 20%;
+  z-index: 1000;
 
-  .review-modal {
+  &__modal {
     background-color: white;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -49,7 +46,7 @@ body {
     }
   }
 
-  .reviewer-status {
+  &__status {
     background-color: #7b7a7a;
     display: flex;
     justify-content: space-between;

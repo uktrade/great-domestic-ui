@@ -109,6 +109,26 @@ export interface CommentUpdate {
     resolvedThisSession?: boolean,
 }
 
+export type ModerationStatus = 'approved' | 'needs-changes' | null;
+export type ModerationErrorCode = 'status-required' | 'comment-required' | 'comment-too-long' | null;
+export type ModerationSubmitStage = 'not-submitted' | 'submitting' | 'errored' | 'submitted';
+
+export interface ModerationState {
+    statusBoxOpen: boolean,
+    status: ModerationStatus,
+    comment: string,
+    errors: Set<ModerationErrorCode>,
+    submitStage: ModerationSubmitStage,
+}
+
+export interface ModerationStateUpdate {
+    statusBoxOpen?: boolean,
+    status?: ModerationStatus,
+    comment?: string,
+    errors?: Set<ModerationErrorCode>,
+    submitStage?: ModerationSubmitStage,
+}
+
 interface GlobalSettings {
     commentsEnabled: boolean,
     showResolvedComments: boolean,
@@ -122,6 +142,7 @@ export interface GlobalSettingsUpdate {
 interface State {
     comments: {[commentId: number]: Comment},
     focusedComment: number|null,
+    moderation: ModerationState,
     settings: GlobalSettings,
 }
 
@@ -129,6 +150,13 @@ function initialState(): State {
     return {
         comments: {},
         focusedComment: null,
+        moderation: {
+            statusBoxOpen: false,
+            status: null,
+            comment: '',
+            errors: new Set(),
+            submitStage: 'not-submitted',
+        },
         settings: {
             commentsEnabled: true,
             showResolvedComments: false,
@@ -238,11 +266,20 @@ export function reducer(state: State|undefined, action: actions.Action) {
             delete state.comments[action.commentId].replies[action.replyId]
             break;
 
+        case actions.UPDATE_MODERATION_STATE:
+            state = Object.assign({}, state, {
+                moderation: Object.assign({}, state.moderation, action.update),
+            });
+            break;
+
         case actions.UPDATE_GLOBAL_SETTINGS:
             state = Object.assign({}, state, {
                 settings: Object.assign({}, state.settings, action.update),
             });
+            break;
     }
+
+    console.log(action)
 
     return state;
 }

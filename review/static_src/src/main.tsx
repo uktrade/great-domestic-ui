@@ -6,14 +6,15 @@ import APIClient from './api';
 import {Annotation, AnnotatableSection} from './utils/annotation';
 import {LayoutController} from './utils/layout';
 import {getNextCommentId, getNextReplyId} from './utils/sequences';
-import {Comment, CommentReply, reducer, Author, Store} from './state';
+import {Comment, CommentReply, reducer, Author, Store, ModerationState} from './state';
 import {addComment, addReply, setFocusedComment} from './actions';
 import CommentComponent from './components/Comment';
 import TopbarComponent from './components/Topbar';
+import ModerationBarComponent from './components/ModerationBar';
 
 import './main.scss';
 
-function renderCommentsUi(store: Store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[]): React.ReactElement {
+function renderCommentsUi(store: Store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[], moderationEnabled: boolean, moderationState: ModerationState): React.ReactElement {
     let { commentsEnabled, showResolvedComments } = store.getState().settings;
     let commentsToRender = comments;
 
@@ -27,15 +28,36 @@ function renderCommentsUi(store: Store, api: APIClient, layout: LayoutController
     }
     let commentsRendered = commentsToRender.map(comment => <CommentComponent key={comment.localId} store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comment={comment} />);
 
+    let moderationBar = <></>;
+
+    if (moderationEnabled) {
+        moderationBar = <ModerationBarComponent store={store} api={api} {...moderationState} />;
+    }
+
     return <div>
         <TopbarComponent store={store} />
         <ol className="comments-list">
             {commentsRendered}
         </ol>
+        {moderationBar}
     </div>;
 }
 
-function initCommentsApp(element: HTMLElement, api: APIClient, authorName: string, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void) {
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function moderationLockCoroutine(api: APIClient) {
+    // A coroutine that pings the "ExtendModerationLock" endpoint every minute
+    // while the browser window is open
+
+    while (true) {
+        await api.extendModerationLock();
+        await sleep(1000 * 60);
+    }
+}
+
+function initCommentsApp(element: HTMLElement, api: APIClient, authorName: string, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void, moderationEnabled: boolean) {
     let annotatableSections: {[contentPath: string]: AnnotatableSection} = {};
     let focusedComment: number|null = null;
 
@@ -43,6 +65,11 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
     let layout = new LayoutController();
 
     let defaultAuthor = new Author(authorName);
+
+    if (moderationEnabled) {
+        // Launch moderation lock coroutine
+        moderationLockCoroutine(api);
+    }
 
     store.subscribe(() => {
         let state = store.getState();
@@ -76,13 +103,13 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
             focusedComment = state.focusedComment;
         }
 
-        ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList), element, () => {
+        ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList, moderationEnabled, state.moderation), element, () => {
             // Render again if layout has changed (eg, a comment was added, deleted or resized)
             // This will just update the "top" style attributes in the comments to get them to move
             if (layout.isDirty) {
                 layout.refresh();
 
-                ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList), element);
+                ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList, moderationEnabled, state.moderation), element);
             }
         });
     });
