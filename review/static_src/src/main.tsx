@@ -71,7 +71,7 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
         moderationLockCoroutine(api);
     }
 
-    store.subscribe(() => {
+    let render = () => {
         let state = store.getState();
         let commentList: Comment[] = [];
 
@@ -112,7 +112,11 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
                 ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList, moderationEnabled, state.moderation), element);
             }
         });
-    });
+    };
+
+    render();
+
+    store.subscribe(render);
 
     let newComment = (annotation: Annotation) => {
         let commentId = getNextCommentId();
