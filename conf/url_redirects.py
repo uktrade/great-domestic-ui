@@ -8,7 +8,7 @@ from core.views import (
 
 redirects = [
     url(
-        r'^(?i)trskorea /$',
+        r'^(?i)trskorea/$',
         QuerystringRedirectView.as_view(
             url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'
         )
