@@ -15,7 +15,7 @@
 
 <section id="breadcrumb-section">
   {% block breadcrumbs %}
-    {% include 'article/components/breadcrumbs.html' with breadcrumbs=breadcrumbs %}
+    {% include 'article/components/cms_breadcrumbs.html' %}
   {% endblock %}
 </section>
 
@@ -29,7 +29,7 @@
       {% if page.intro_ctas %}
       <div class="column-quarter-l links">
         <div class="panel-vertical-narrow content-list padding-top-30">
-          <ul>
+          <ul id="country-guide-intro-ctas">
             {% for cta in page.intro_ctas %}
             <li>
               {% if cta.title and cta.link %}

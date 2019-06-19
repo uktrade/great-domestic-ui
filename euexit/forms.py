@@ -76,10 +76,7 @@ class InternationalContactForm(
         widget=Textarea,
         validators=[no_html, not_contains_url_or_email]
     )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
+    captcha = ReCaptchaField(label_suffix='')
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )
@@ -102,10 +99,7 @@ class DomesticContactForm(
         widget=Textarea,
         validators=[no_html, not_contains_url_or_email]
     )
-    captcha = ReCaptchaField(
-        label='',
-        label_suffix='',
-    )
+    captcha = ReCaptchaField(label_suffix='')
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL
     )

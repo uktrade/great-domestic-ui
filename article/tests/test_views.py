@@ -37,40 +37,18 @@ def test_news_list_page_feature_flag_off(client, settings):
     assert response.status_code == 404
 
 
-def test_breadcrumbs_mixin(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['EXPORT_JOURNEY_ON'] = False
-
-    url = reverse('create-an-export-plan-article', kwargs={'slug': 'foo'})
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={
-            'page_type': 'ArticlePage'
-        }
-    )
-    response = client.get(url)
-
-    breadcrumbs = response.context_data['breadcrumbs']
-    assert breadcrumbs == [
-        {
-            'url': '/advice/',
-            'label': 'Advice'
-        },
-        {
-            'url': '/advice/create-an-export-plan/',
-            'label': 'Create an export plan'
-        },
-        {
-            'url': '/advice/create-an-export-plan/foo/',
-            'label': 'Foo'
-        },
-    ]
-
-
 def test_community_article_view(mock_get_page, client):
     mock_get_page.return_value = create_response(200, {
         "meta": {"slug": "foo"},
+        "title": "Community article",
         "page_type": "ArticlePage",
+        "tree_based_breadcrumbs": [
+            {"url": "/advice/", "title": "Topic title"},
+            {"url": "/advice/create-an-export-plan/", "title": "List title"},
+            {"url": (
+                "/advice/create-an-export-plan/how-to-write-an-export-plan/"),
+                "title": "How to write an export plan"},
+        ]
     })
     url = reverse('community-article')
 
@@ -91,6 +69,10 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
+        'tree_based_breadcrumbs': [
+            {'url': '/markets/', 'title': 'Markets'},
+            {'url': '/markets/japan/', 'title': 'Japan'},
+        ],
         'heading': 'Heading',
         'statistics': [
             {'number': '1'},
@@ -175,6 +157,10 @@ def test_get_country_guide_page_viable_accordion(
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
+        'tree_based_breadcrumbs': [
+            {'url': '/markets/', 'title': 'Markets'},
+            {'url': '/markets/japan/', 'title': 'Japan'},
+        ],
         'heading': 'Heading',
         'statistics': [],
         'accordions': [viable_accordion],
@@ -249,6 +235,10 @@ def test_get_country_guide_page_non_viable_accordion(
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
+        'tree_based_breadcrumbs': [
+            {'url': '/markets/', 'title': 'Markets'},
+            {'url': '/markets/japan/', 'title': 'Japan'},
+        ],
         'heading': 'Heading',
         'statistics': [],
         'accordions': [non_viable_accordion],
@@ -278,6 +268,10 @@ def test_get_country_guide_page_viable_case_study(mock_get_page, client):
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
+        'tree_based_breadcrumbs': [
+            {'url': '/markets/', 'title': 'Markets'},
+            {'url': '/markets/japan/', 'title': 'Japan'},
+        ],
         'heading': 'Heading',
         'statistics': [],
         'accordions': [{
@@ -319,6 +313,10 @@ def test_get_country_guide_page_neither_case_study_nor_statistics(
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
+        'tree_based_breadcrumbs': [
+            {'url': '/markets/', 'title': 'Markets'},
+            {'url': '/markets/japan/', 'title': 'Japan'},
+        ],
         'heading': 'Heading',
         'statistics': [],
         'accordions': [{
@@ -359,6 +357,10 @@ def test_get_markets_page_renames_heading_to_landing_page_title(
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/markets/', 'title': 'Markets'},
+            {'url': '/markets/japan/', 'title': 'Japan'},
+        ],
         'child_pages': [
             {
                 'heading': 'heading'

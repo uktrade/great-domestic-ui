@@ -14,6 +14,19 @@ def clear_django_cache():
 
 
 @pytest.fixture
+def dummy_cms_page():
+    return {
+        'title': 'test',
+        'meta': {
+            'languages': [
+                ['en-gb', 'English'],
+            ]
+        },
+        'page_type': ''
+    }
+
+
+@pytest.fixture
 def sso_user():
     return SSOUser(
         id=999,

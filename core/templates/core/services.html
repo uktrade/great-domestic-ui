@@ -1,6 +1,6 @@
 {% extends 'article/topic_list_base.html' %}
 
-{% load card from directory_components %}
+{% load card breadcrumbs from directory_components %}
 {% load static %}
 
 {% block head_js %}
@@ -20,8 +20,14 @@
   </section>
 {% endblock %}
 
+{% block breadcrumbs %}
+<div class="container">
+  {% breadcrumbs left_url='/' left_label='great.gov.uk' right_label='Services' %}
+</div>
+{% endblock %}
+
 {% block child_pages %}
-  <section class="background-stone-30">
+  <section id="services-list-section" class="background-stone-30">
     <div class="container padding-top-60 background-stone-30">
       <div class="flex-grid">
         <div class="column-third-xl column-half-l column-full-m">
