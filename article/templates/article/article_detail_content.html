@@ -2,7 +2,7 @@
 {% load add_export_elements_classes from directory_components %}
 
 {% block breadcrumbs %}
-  {% include 'article/components/cms_breadcrumbs.html' %}
+  {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
 {% endblock %}
 
 <article class="article-main {{ view.slug }}-article">
