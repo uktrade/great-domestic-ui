@@ -1,4 +1,4 @@
-django==1.11.20
+django==1.11.21
 django-environ==0.4.5
 django-extensions==1.9.0
 django-formtools==2.0
