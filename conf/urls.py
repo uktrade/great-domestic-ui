@@ -653,43 +653,43 @@ community_urls = [
 
 ukef_urls = [
     url(
-        r"^get-finance/$",
+        r"^(?i)get-finance/$",
         skip_ga360(ukef.views.HomeView.as_view()),
         name='get-finance',
     ),
     url(
-        r"^trade-finance/$",
+        r"^(?i)trade-finance/$",
         skip_ga360(finance.views.TradeFinanceView.as_view()),
         name='trade-finance'
     ),
     url(
-        r"^project-finance/$",
+        r"^(?i)project-finance/$",
         skip_ga360(ukef.views.LandingView.as_view()),
         name='project-finance',
     ),
     url(
-        r"^uk-export-contact-form/$",
+        r"^(?i)uk-export-contact-form/$",
         skip_ga360(ukef.views.ContactView.as_view()),
         {'slug': 'uk-export-contact'},
         name='uk-export-contact',
     ),
     url(
-        r"^uk-export-contact-form-success/$",
+        r"^(?i)uk-export-contact-form-success/$",
         skip_ga360(ukef.views.SuccessPageView.as_view()),
         name='uk-export-contract-success'
     ),
     url(
-        r"^how-we-assess-your-project/$",
+        r"^(?i)how-we-assess-your-project/$",
         skip_ga360(ukef.views.HowWeAssessPageView.as_view()),
         name='how-we-assess-your-project'
     ),
     url(
-        r"^what-we-offer-you/$",
+        r"^(?i)what-we-offer-you/$",
         skip_ga360(ukef.views.WhatWeOfferView.as_view()),
         name='what-we-offer-you'
     ),
     url(
-        r"^country-cover/$",
+        r"^(?i)country-cover/$",
         skip_ga360(ukef.views.CountryCoverView.as_view()),
         name='country-cover'
     ),
