@@ -1,6 +1,6 @@
 {% extends 'article/topic_list_base.html' %}
 
-{% load card from directory_components %}
+{% load card breadcrumbs from directory_components %}
 {% load static %}
 
 {% block head_js %}
@@ -18,6 +18,12 @@
       </div>
     </div>
   </section>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="container">
+  {% breadcrumbs left_url='/' left_label='great.gov.uk' right_label='Services' %}
+</div>
 {% endblock %}
 
 {% block child_pages %}

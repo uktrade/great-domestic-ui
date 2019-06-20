@@ -46,7 +46,7 @@
   padding: 0 0 $spacing-2 0;
   overflow: hidden;
 
-  a {
+  a.bland {
     color: inherit;
     cursor: default;
     text-decoration: none;
@@ -55,6 +55,10 @@
   p {
     @include body-l;
     margin-bottom: 5px;
+  }
+
+  .added-margin-bottom{
+    margin-bottom: 30px;
   }
 
   .actions {
@@ -83,7 +87,7 @@
   }
 
   .container {
-    padding-top: #{$spacing-4 * 5};
+    padding-top: $spacing-4;
     position: relative;
   }
 
@@ -114,6 +118,14 @@
     max-width: 600px;
     width: 80%;
   }
+
+  .message-box-with-icon{
+    h3.box-heading, p.box-description{
+      margin: 0;
+    }
+    margin: 10px 0 10px 0;
+  }
+
 }
 
 #search-results-list {
@@ -122,3 +134,16 @@
   }
 }
 
+.breadcrumbs{
+  background-color: transparent;
+  padding: 0;
+  border-bottom: none;
+}
+
+#id_result_found, #id_contactable{
+  margin-top: 10px;
+  .multiple-choice{
+    clear: none;
+    margin-right: 15px;
+  }
+}
