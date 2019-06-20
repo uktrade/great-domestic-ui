@@ -4,10 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "webpack --mode=development",
-    "lint": "prettier --write --tab-width=4 --single-quote src/**/*.{ts,tsx,scss}",
-    "dist": "webpack --mode=production",
-    "watch": "webpack --mode=development --watch"
+    "build": "webpack --mode=production",
+    "watch": "webpack --mode=development --watch",
+    "lint": "prettier --write src/**/*.{ts,tsx,scss}"
   },
   "author": "",
   "license": "ISC",
