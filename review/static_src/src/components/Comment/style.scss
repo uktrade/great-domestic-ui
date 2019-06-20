@@ -6,7 +6,8 @@
     border: 1px solid #ccc;
     transition: top 0.5s ease 0s, right 0.5s ease 0s, height 0.5s ease 0s;
 
-    &__header-info, &__header-resolved {
+    &__header-info,
+    &__header-resolved {
         display: inline-block;
     }
 
@@ -36,7 +37,8 @@
         margin: 0;
     }
 
-    &__text, &__actions {
+    &__text,
+    &__actions {
         padding-left: 20px;
         margin: 0;
     }
@@ -54,7 +56,8 @@
         }
     }
 
-    &__edit-actions, &__reply-actions {
+    &__edit-actions,
+    &__reply-actions {
         padding: 10px;
         width: 100%;
         background-color: #f7f7f7;
