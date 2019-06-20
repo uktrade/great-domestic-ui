@@ -2,42 +2,53 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as dateFormat from 'dateformat';
 
-import {Author, Comment, CommentReply, Store} from '../../state';
-import {updateComment, deleteComment, setFocusedComment, addReply} from '../../actions';
+import { Author, Comment, CommentReply, Store } from '../../state';
+import {
+    updateComment,
+    deleteComment,
+    setFocusedComment,
+    addReply
+} from '../../actions';
 import APIClient from '../../api';
-import {LayoutController} from '../../utils/layout';
-import {getNextReplyId} from '../../utils/sequences';
+import { LayoutController } from '../../utils/layout';
+import { getNextReplyId } from '../../utils/sequences';
 import CommentReplyComponent, { saveCommentReply } from '../CommentReply';
 
 import './style.scss';
 
 async function saveComment(comment: Comment, store: Store, api: APIClient) {
-    store.dispatch(updateComment(comment.localId, {
-        mode: 'saving',
-    }));
+    store.dispatch(
+        updateComment(comment.localId, {
+            mode: 'saving'
+        })
+    );
 
     try {
         let commentData = await api.saveComment(comment);
 
-        store.dispatch(updateComment(comment.localId, {
-            mode: 'default',
-            remoteId: commentData.id,
-            author: Author.fromApi(commentData.author),
-            date: Date.parse(commentData.created_at),
-        }));
+        store.dispatch(
+            updateComment(comment.localId, {
+                mode: 'default',
+                remoteId: commentData.id,
+                author: Author.fromApi(commentData.author),
+                date: Date.parse(commentData.created_at)
+            })
+        );
     } catch (err) {
-        store.dispatch(updateComment(comment.localId, {
-            mode: 'save_error',
-        }));
+        store.dispatch(
+            updateComment(comment.localId, {
+                mode: 'save_error'
+            })
+        );
     }
 }
 
 export interface CommentProps {
-    store: Store,
-    comment: Comment,
-    api: APIClient,
-    layout: LayoutController,
-    defaultAuthor: Author,
+    store: Store;
+    comment: Comment;
+    api: APIClient;
+    layout: LayoutController;
+    defaultAuthor: Author;
 }
 
 export default class CommentComponent extends React.Component<CommentProps> {
@@ -46,47 +57,60 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let title, date, resolved;
 
         if (comment.mode == 'creating') {
-            title = "New comment";
-            date = "";
+            title = 'New comment';
+            date = '';
             resolved = <></>;
         } else {
             title = comment.author.name;
-            date = dateFormat(comment.date, "h:MM mmmm d");
+            date = dateFormat(comment.date, 'h:MM mmmm d');
 
             let toggleResolved = async (e: React.MouseEvent) => {
                 e.preventDefault();
 
                 let isResolved = !comment.isResolved;
 
-                store.dispatch(updateComment(comment.localId, {
-                    isResolved,
-                    updatingResolvedStatus: true,
-                    resolvedThisSession: true,
-                }));
+                store.dispatch(
+                    updateComment(comment.localId, {
+                        isResolved,
+                        updatingResolvedStatus: true,
+                        resolvedThisSession: true
+                    })
+                );
 
                 await api.saveCommentResolvedStatus(comment, isResolved);
 
-                store.dispatch(updateComment(comment.localId, {
-                    updatingResolvedStatus: false,
-                }));
+                store.dispatch(
+                    updateComment(comment.localId, {
+                        updatingResolvedStatus: false
+                    })
+                );
             };
 
-            resolved = <div className="comment__header-resolved">
-                <label htmlFor="resolved">Resolved</label>
-                <input name="resolved" type="checkbox" onClick={toggleResolved} checked={comment.isResolved} />
-            </div>;
+            resolved = (
+                <div className="comment__header-resolved">
+                    <label htmlFor="resolved">Resolved</label>
+                    <input
+                        name="resolved"
+                        type="checkbox"
+                        onClick={toggleResolved}
+                        checked={comment.isResolved}
+                    />
+                </div>
+            );
         }
 
-        return <div className="comment__header">
-            <div className="comment__header-info">
-                <h2>{title}</h2>
-                <p className="comment__date">{date}</p>
+        return (
+            <div className="comment__header">
+                <div className="comment__header-info">
+                    <h2>{title}</h2>
+                    <p className="comment__date">{date}</p>
+                </div>
+                {resolved}
             </div>
-            {resolved}
-        </div>;
+        );
     }
 
-    renderReplies({hideNewReply = false} = {}): React.ReactFragment {
+    renderReplies({ hideNewReply = false } = {}): React.ReactFragment {
         let { comment, store, api, defaultAuthor } = this.props;
 
         if (!comment.remoteId) {
@@ -97,21 +121,28 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onChangeNewReply = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                newReply: e.target.value,
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    newReply: e.target.value
+                })
+            );
         };
 
         let onClickSendReply = async (e: React.MouseEvent) => {
             e.preventDefault();
 
             let replyId = getNextReplyId();
-            let reply = new CommentReply(replyId, defaultAuthor, Date.now(), {text: comment.newReply, mode: 'saving'});
+            let reply = new CommentReply(replyId, defaultAuthor, Date.now(), {
+                text: comment.newReply,
+                mode: 'saving'
+            });
             store.dispatch(addReply(comment.localId, reply));
 
-            store.dispatch(updateComment(comment.localId, {
-                newReply: '',
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    newReply: ''
+                })
+            );
 
             await saveCommentReply(comment, reply, store, api);
         };
@@ -119,37 +150,57 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onClickCancelReply = (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                newReply: '',
-            }));
-        }
+            store.dispatch(
+                updateComment(comment.localId, {
+                    newReply: ''
+                })
+            );
+        };
 
         let replies = [];
         for (const replyId in comment.replies) {
             const reply = comment.replies[replyId];
-            replies.push(<CommentReplyComponent key={reply.localId} store={store} api={api} comment={comment} reply={reply} />);
+            replies.push(
+                <CommentReplyComponent
+                    key={reply.localId}
+                    store={store}
+                    api={api}
+                    comment={comment}
+                    reply={reply}
+                />
+            );
         }
 
         let replyActions = <></>;
         if (!hideNewReply && comment.isFocused && comment.newReply.length > 0) {
-            replyActions = <div className="comment__reply-actions">
-                <button onClick={onClickSendReply}>Send Reply</button>
-                <button onClick={onClickCancelReply}>Cancel</button>
-            </div>;
+            replyActions = (
+                <div className="comment__reply-actions">
+                    <button onClick={onClickSendReply}>Send Reply</button>
+                    <button onClick={onClickCancelReply}>Cancel</button>
+                </div>
+            );
         }
 
         let replyTextarea = <></>;
         if (!hideNewReply && (comment.isFocused || comment.newReply)) {
-            replyTextarea = <textarea className="comment__reply-input" placeholder="Write a comment back" value={comment.newReply} onChange={onChangeNewReply} style={{resize: 'none'}} />;
+            replyTextarea = (
+                <textarea
+                    className="comment__reply-input"
+                    placeholder="Write a comment back"
+                    value={comment.newReply}
+                    onChange={onChangeNewReply}
+                    style={{ resize: 'none' }}
+                />
+            );
         }
 
-        return <>
-            <ul className="comment__replies">
-                {replies}
-            </ul>
-            {replyTextarea}
-            {replyActions}
-        </>;
+        return (
+            <>
+                <ul className="comment__replies">{replies}</ul>
+                {replyTextarea}
+                {replyActions}
+            </>
+        );
     }
 
     renderCreating(): React.ReactFragment {
@@ -158,9 +209,11 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                text: e.target.value,
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    text: e.target.value
+                })
+            );
         };
 
         let onSave = async (e: React.MouseEvent) => {
@@ -175,14 +228,21 @@ export default class CommentComponent extends React.Component<CommentProps> {
             comment.annotation.onDelete();
         };
 
-        return <>
-            {this.renderHeader()}
-            <textarea className="comment__input" value={comment.text} onChange={onChangeText} style={{resize: 'none'}} />
-            <div className="comment__edit-actions">
-                <button onClick={onSave}>Add Comment</button>
-                <button onClick={onCancel}>Cancel</button>
-            </div>
-        </>;
+        return (
+            <>
+                {this.renderHeader()}
+                <textarea
+                    className="comment__input"
+                    value={comment.text}
+                    onChange={onChangeText}
+                    style={{ resize: 'none' }}
+                />
+                <div className="comment__edit-actions">
+                    <button onClick={onSave}>Add Comment</button>
+                    <button onClick={onCancel}>Cancel</button>
+                </div>
+            </>
+        );
     }
 
     renderEditing(): React.ReactFragment {
@@ -191,9 +251,11 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                text: e.target.value,
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    text: e.target.value
+                })
+            );
         };
 
         let onSave = async (e: React.MouseEvent) => {
@@ -205,34 +267,43 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onCancel = (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                mode: 'default',
-                text: comment.editPreviousText,
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    mode: 'default',
+                    text: comment.editPreviousText
+                })
+            );
         };
 
-        return <>
-            {this.renderHeader()}
-            <textarea className="comment__input" value={comment.text} onChange={onChangeText} style={{resize: 'none'}} />
-            <div className="comment__edit-actions">
-                <button onClick={onSave}>Save</button>
-                <button onClick={onCancel}>Cancel</button>
-            </div>
-            {this.renderReplies({hideNewReply: true})}
-        </>;
+        return (
+            <>
+                {this.renderHeader()}
+                <textarea
+                    className="comment__input"
+                    value={comment.text}
+                    onChange={onChangeText}
+                    style={{ resize: 'none' }}
+                />
+                <div className="comment__edit-actions">
+                    <button onClick={onSave}>Save</button>
+                    <button onClick={onCancel}>Cancel</button>
+                </div>
+                {this.renderReplies({ hideNewReply: true })}
+            </>
+        );
     }
 
     renderSaving(): React.ReactFragment {
         let { comment } = this.props;
 
-        return <>
-            {this.renderHeader()}
-            <p className="comment__text">{comment.text}</p>
-            <div className="comment__actions">
-                Saving...
-            </div>
-            {this.renderReplies({hideNewReply: true})}
-        </>;
+        return (
+            <>
+                {this.renderHeader()}
+                <p className="comment__text">{comment.text}</p>
+                <div className="comment__actions">Saving...</div>
+                {this.renderReplies({ hideNewReply: true })}
+            </>
+        );
     }
 
     renderSaveError(): React.ReactFragment {
@@ -244,14 +315,21 @@ export default class CommentComponent extends React.Component<CommentProps> {
             await saveComment(comment, store, api);
         };
 
-        return <>
-            {this.renderHeader()}
-            <p className="comment__text">{comment.text}</p>
-            <div className="comment__actions">
-            <span className="comment-reply__error">Save error <a href="#" onClick={onClickRetry}>Retry</a></span>
-            </div>
-            {this.renderReplies({hideNewReply: true})}
-        </>;
+        return (
+            <>
+                {this.renderHeader()}
+                <p className="comment__text">{comment.text}</p>
+                <div className="comment__actions">
+                    <span className="comment-reply__error">
+                        Save error{' '}
+                        <a href="#" onClick={onClickRetry}>
+                            Retry
+                        </a>
+                    </span>
+                </div>
+                {this.renderReplies({ hideNewReply: true })}
+            </>
+        );
     }
 
     renderDeleteConfirm(): React.ReactFragment {
@@ -260,9 +338,11 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onClickDelete = async (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                mode: 'deleting',
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    mode: 'deleting'
+                })
+            );
 
             await api.deleteComment(comment);
 
@@ -273,34 +353,44 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onClickCancel = (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                mode: 'default',
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    mode: 'default'
+                })
+            );
         };
 
-        return <>
-            {this.renderHeader()}
-            <p className="comment__text">{comment.text}</p>
-            <div className="comment__actions">
-                <span className="comment__confirm-delete">Are you sure?</span>
-                <a href="#" onClick={onClickDelete}>Delete</a>
-                <a href="#" onClick={onClickCancel}>Cancel</a>
-            </div>
-            {this.renderReplies({hideNewReply: true})}
-        </>;
+        return (
+            <>
+                {this.renderHeader()}
+                <p className="comment__text">{comment.text}</p>
+                <div className="comment__actions">
+                    <span className="comment__confirm-delete">
+                        Are you sure?
+                    </span>
+                    <a href="#" onClick={onClickDelete}>
+                        Delete
+                    </a>
+                    <a href="#" onClick={onClickCancel}>
+                        Cancel
+                    </a>
+                </div>
+                {this.renderReplies({ hideNewReply: true })}
+            </>
+        );
     }
 
     renderDeleting(): React.ReactFragment {
         let { comment } = this.props;
 
-        return <>
-            {this.renderHeader()}
-            <p className="comment__text">{comment.text}</p>
-            <div className="comment__actions">
-                Deleting...
-            </div>
-            {this.renderReplies({hideNewReply: true})}
-        </>;
+        return (
+            <>
+                {this.renderHeader()}
+                <p className="comment__text">{comment.text}</p>
+                <div className="comment__actions">Deleting...</div>
+                {this.renderReplies({ hideNewReply: true })}
+            </>
+        );
     }
 
     renderDefault(): React.ReactFragment {
@@ -309,29 +399,39 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onClickEdit = async (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                mode: 'editing',
-                editPreviousText: comment.text,
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    mode: 'editing',
+                    editPreviousText: comment.text
+                })
+            );
         };
 
         let onClickDelete = async (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateComment(comment.localId, {
-                mode: 'delete_confirm',
-            }));
+            store.dispatch(
+                updateComment(comment.localId, {
+                    mode: 'delete_confirm'
+                })
+            );
         };
 
-        return <>
-            {this.renderHeader()}
-            <p className="comment__text">{comment.text}</p>
-            <div className="comment__actions">
-                <a href="#" onClick={onClickEdit}>Edit</a>
-                <a href="#" onClick={onClickDelete}>Delete</a>
-            </div>
-            {this.renderReplies()}
-        </>;
+        return (
+            <>
+                {this.renderHeader()}
+                <p className="comment__text">{comment.text}</p>
+                <div className="comment__actions">
+                    <a href="#" onClick={onClickEdit}>
+                        Edit
+                    </a>
+                    <a href="#" onClick={onClickDelete}>
+                        Delete
+                    </a>
+                </div>
+                {this.renderReplies()}
+            </>
+        );
     }
 
     render() {
@@ -373,11 +473,25 @@ export default class CommentComponent extends React.Component<CommentProps> {
             );
         };
 
-        let top = this.props.layout.getCommentPosition(this.props.comment.localId);
+        let top = this.props.layout.getCommentPosition(
+            this.props.comment.localId
+        );
         let right = this.props.comment.isFocused ? 50 : 0;
-        return <li key={this.props.comment.localId} className="comment" style={{position: 'absolute', top: `${top}px`, right: `${right}px`}} data-comment-id={this.props.comment.localId} onClick={onClick}>
-            {inner}
-        </li>;
+        return (
+            <li
+                key={this.props.comment.localId}
+                className="comment"
+                style={{
+                    position: 'absolute',
+                    top: `${top}px`,
+                    right: `${right}px`
+                }}
+                data-comment-id={this.props.comment.localId}
+                onClick={onClick}
+            >
+                {inner}
+            </li>
+        );
     }
 
     componentDidMount() {
@@ -389,8 +503,14 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 element.querySelector('textarea').focus();
             }
 
-            this.props.layout.setCommentElement(this.props.comment.localId, element);
-            this.props.layout.setCommentHeight(this.props.comment.localId, element.offsetHeight);
+            this.props.layout.setCommentElement(
+                this.props.comment.localId,
+                element
+            );
+            this.props.layout.setCommentHeight(
+                this.props.comment.localId,
+                element.offsetHeight
+            );
         }
 
         this.props.comment.annotation.show();
@@ -407,7 +527,10 @@ export default class CommentComponent extends React.Component<CommentProps> {
 
         // Keep height up to date so that other comments will be moved out of the way
         if (element instanceof HTMLElement) {
-            this.props.layout.setCommentHeight(this.props.comment.localId, element.offsetHeight);
+            this.props.layout.setCommentHeight(
+                this.props.comment.localId,
+                element.offsetHeight
+            );
         }
     }
 }

@@ -3,27 +3,27 @@ let annotator: any = require('annotator');
 import './annotator.scss';
 
 export interface Range {
-    start: string,
-    startOffset: number,
-    end: string,
-    endOffset: number,
+    start: string;
+    startOffset: number;
+    end: string;
+    endOffset: number;
 }
 
 export interface AnnotationInfo {
-    quote: string,
-    ranges: Range[],
+    quote: string;
+    ranges: Range[];
 }
 
 export interface Annotation {
-    contentPath: string,
-    annotation: AnnotationInfo,
-    highlights: HTMLElement[],
-    onDelete(): void,
-    onFocus(): void,
-    onUnfocus(): void,
-    show(): void,
-    hide(): void,
-    setOnClickHandler: (handler: any) => void,
+    contentPath: string;
+    annotation: AnnotationInfo;
+    highlights: HTMLElement[];
+    onDelete(): void;
+    onFocus(): void;
+    onUnfocus(): void;
+    show(): void;
+    hide(): void;
+    setOnClickHandler: (handler: any) => void;
 }
 
 // trim strips whitespace from either end of a string.
@@ -39,8 +39,11 @@ function trim(s: string): string {
 
 // annotationFactory returns a function that can be used to construct an
 // annotation from a list of selected ranges.
-function annotationFactory(contextEl: HTMLElement, ignoreSelector: string): (ranges: any[]) => AnnotationInfo {
-    return function (ranges: any[]) {
+function annotationFactory(
+    contextEl: HTMLElement,
+    ignoreSelector: string
+): (ranges: any[]) => AnnotationInfo {
+    return function(ranges: any[]) {
         var text = [],
             serializedRanges: Range[] = [];
 
@@ -65,7 +68,12 @@ export class AnnotatableSection {
     adder: any;
     selector: any;
 
-    constructor(contentPath: string, element: HTMLElement, onNewComment: (annotation: Annotation) => void, selectionEnabled: () => boolean) {
+    constructor(
+        contentPath: string,
+        element: HTMLElement,
+        onNewComment: (annotation: Annotation) => void,
+        selectionEnabled: () => boolean
+    ) {
         this.contentPath = contentPath;
         this.element = element;
 
@@ -92,7 +100,10 @@ export class AnnotatableSection {
         });
     }
 
-    addAnnotation(annotationInfo: AnnotationInfo, highlights?: HTMLElement[]): Annotation {
+    addAnnotation(
+        annotationInfo: AnnotationInfo,
+        highlights?: HTMLElement[]
+    ): Annotation {
         // Draw highlights if they don't exist yet
         if (!highlights) {
             highlights = this.highlighter.draw(annotationInfo);
@@ -122,7 +133,9 @@ export class AnnotatableSection {
         };
 
         // This is called to register a callback so the corresponding comment can be focused when the highlight is clicked
-        let setOnClickHandler = (handler: (this: GlobalEventHandlers, ev: MouseEvent) => any) => {
+        let setOnClickHandler = (
+            handler: (this: GlobalEventHandlers, ev: MouseEvent) => any
+        ) => {
             for (let highlight of highlights) {
                 highlight.onclick = handler;
             }
@@ -141,6 +154,16 @@ export class AnnotatableSection {
             }
         };
 
-        return {contentPath: this.contentPath, annotation: annotationInfo, highlights, onDelete, onFocus, onUnfocus, setOnClickHandler, show, hide};
+        return {
+            contentPath: this.contentPath,
+            annotation: annotationInfo,
+            highlights,
+            onDelete,
+            onFocus,
+            onUnfocus,
+            setOnClickHandler,
+            show,
+            hide
+        };
     }
 }

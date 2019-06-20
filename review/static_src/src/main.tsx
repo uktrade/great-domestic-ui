@@ -1,20 +1,35 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {createStore} from 'redux';
+import { createStore } from 'redux';
 
 import APIClient from './api';
-import {Annotation, AnnotatableSection} from './utils/annotation';
-import {LayoutController} from './utils/layout';
-import {getNextCommentId, getNextReplyId} from './utils/sequences';
-import {Comment, CommentReply, reducer, Author, Store, ModerationState} from './state';
-import {addComment, addReply, setFocusedComment} from './actions';
+import { Annotation, AnnotatableSection } from './utils/annotation';
+import { LayoutController } from './utils/layout';
+import { getNextCommentId, getNextReplyId } from './utils/sequences';
+import {
+    Comment,
+    CommentReply,
+    reducer,
+    Author,
+    Store,
+    ModerationState
+} from './state';
+import { addComment, addReply, setFocusedComment } from './actions';
 import CommentComponent from './components/Comment';
 import TopbarComponent from './components/Topbar';
 import ModerationBarComponent from './components/ModerationBar';
 
 import './main.scss';
 
-function renderCommentsUi(store: Store, api: APIClient, layout: LayoutController, defaultAuthor: Author, comments: Comment[], moderationEnabled: boolean, moderationState: ModerationState): React.ReactElement {
+function renderCommentsUi(
+    store: Store,
+    api: APIClient,
+    layout: LayoutController,
+    defaultAuthor: Author,
+    comments: Comment[],
+    moderationEnabled: boolean,
+    moderationState: ModerationState
+): React.ReactElement {
     let { commentsEnabled, showResolvedComments } = store.getState().settings;
     let commentsToRender = comments;
 
@@ -26,21 +41,36 @@ function renderCommentsUi(store: Store, api: APIClient, layout: LayoutController
             return !(comment.isResolved && !comment.resolvedThisSession);
         });
     }
-    let commentsRendered = commentsToRender.map(comment => <CommentComponent key={comment.localId} store={store} api={api} layout={layout} defaultAuthor={defaultAuthor} comment={comment} />);
+    let commentsRendered = commentsToRender.map(comment => (
+        <CommentComponent
+            key={comment.localId}
+            store={store}
+            api={api}
+            layout={layout}
+            defaultAuthor={defaultAuthor}
+            comment={comment}
+        />
+    ));
 
     let moderationBar = <></>;
 
     if (moderationEnabled) {
-        moderationBar = <ModerationBarComponent store={store} api={api} {...moderationState} />;
+        moderationBar = (
+            <ModerationBarComponent
+                store={store}
+                api={api}
+                {...moderationState}
+            />
+        );
     }
 
-    return <div>
-        <TopbarComponent store={store} />
-        <ol className="comments-list">
-            {commentsRendered}
-        </ol>
-        {moderationBar}
-    </div>;
+    return (
+        <div>
+            <TopbarComponent store={store} />
+            <ol className="comments-list">{commentsRendered}</ol>
+            {moderationBar}
+        </div>
+    );
 }
 
 function sleep(ms: number) {
@@ -57,9 +87,20 @@ async function moderationLockCoroutine(api: APIClient) {
     }
 }
 
-function initCommentsApp(element: HTMLElement, api: APIClient, authorName: string, addAnnotatableSections: (addAnnotatableSection: (contentPath: string, element: HTMLElement) => void) => void, moderationEnabled: boolean) {
-    let annotatableSections: {[contentPath: string]: AnnotatableSection} = {};
-    let focusedComment: number|null = null;
+function initCommentsApp(
+    element: HTMLElement,
+    api: APIClient,
+    authorName: string,
+    addAnnotatableSections: (
+        addAnnotatableSection: (
+            contentPath: string,
+            element: HTMLElement
+        ) => void
+    ) => void,
+    moderationEnabled: boolean
+) {
+    let annotatableSections: { [contentPath: string]: AnnotatableSection } = {};
+    let focusedComment: number | null = null;
 
     let store = createStore(reducer);
     let layout = new LayoutController();
@@ -103,15 +144,38 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
             focusedComment = state.focusedComment;
         }
 
-        ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList, moderationEnabled, state.moderation), element, () => {
-            // Render again if layout has changed (eg, a comment was added, deleted or resized)
-            // This will just update the "top" style attributes in the comments to get them to move
-            if (layout.isDirty) {
-                layout.refresh();
+        ReactDOM.render(
+            renderCommentsUi(
+                store,
+                api,
+                layout,
+                defaultAuthor,
+                commentList,
+                moderationEnabled,
+                state.moderation
+            ),
+            element,
+            () => {
+                // Render again if layout has changed (eg, a comment was added, deleted or resized)
+                // This will just update the "top" style attributes in the comments to get them to move
+                if (layout.isDirty) {
+                    layout.refresh();
 
-                ReactDOM.render(renderCommentsUi(store, api, layout, defaultAuthor, commentList, moderationEnabled, state.moderation), element);
+                    ReactDOM.render(
+                        renderCommentsUi(
+                            store,
+                            api,
+                            layout,
+                            defaultAuthor,
+                            commentList,
+                            moderationEnabled,
+                            state.moderation
+                        ),
+                        element
+                    );
+                }
             }
-        });
+        );
     };
 
     render();
@@ -127,10 +191,12 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
         });
 
         // Let layout engine know the annotation so it would position the comment correctly
-        layout.setCommentAnnotation(commentId, annotation)
+        layout.setCommentAnnotation(commentId, annotation);
 
         // Create the comment
-        store.dispatch(addComment(Comment.makeNew(commentId, annotation, defaultAuthor)));
+        store.dispatch(
+            addComment(Comment.makeNew(commentId, annotation, defaultAuthor))
+        );
 
         // Focus the comment
         store.dispatch(setFocusedComment(commentId));
@@ -141,7 +207,12 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
     };
 
     addAnnotatableSections((contentPath, element) => {
-        annotatableSections[contentPath] = new AnnotatableSection(contentPath, element, newComment, selectionEnabled);
+        annotatableSections[contentPath] = new AnnotatableSection(
+            contentPath,
+            element,
+            newComment,
+            selectionEnabled
+        );
     });
 
     // Fetch existing comments
@@ -149,18 +220,20 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
         for (let comment of comments) {
             let section = annotatableSections[comment.content_path];
             if (!section) {
-                continue
+                continue;
             }
 
             // Create annotation
             let annotation = section.addAnnotation({
                 quote: comment.quote,
-                ranges: [{
-                    start: comment.start_xpath,
-                    startOffset: comment.start_offset,
-                    end: comment.end_xpath,
-                    endOffset: comment.end_offset,
-                }]
+                ranges: [
+                    {
+                        start: comment.start_xpath,
+                        startOffset: comment.start_offset,
+                        end: comment.end_xpath,
+                        endOffset: comment.end_offset
+                    }
+                ]
             });
 
             let commentId = getNextCommentId();
@@ -174,20 +247,31 @@ function initCommentsApp(element: HTMLElement, api: APIClient, authorName: strin
             layout.setCommentAnnotation(commentId, annotation);
 
             // Create comment
-            store.dispatch(addComment(Comment.fromApi(commentId, annotation, comment)));
+            store.dispatch(
+                addComment(Comment.fromApi(commentId, annotation, comment))
+            );
 
             // Create replies
             for (let reply of comment.replies) {
-                store.dispatch(addReply(commentId, CommentReply.fromApi(getNextReplyId(), reply)));
+                store.dispatch(
+                    addReply(
+                        commentId,
+                        CommentReply.fromApi(getNextReplyId(), reply)
+                    )
+                );
             }
         }
     });
 
     // Unfocus when document body is clicked
-    document.body.addEventListener('click',  e => {
+    document.body.addEventListener('click', e => {
         if (e.target instanceof HTMLElement) {
             // ignore if click target is a comment or a highlight
-            if (!e.target.closest('#comments .comment, .annotator-hl, .annotator-adder')) {
+            if (
+                !e.target.closest(
+                    '#comments .comment, .annotator-hl, .annotator-adder'
+                )
+            ) {
                 // Running store.dispatch directly here seems to prevent the event from being handled anywhere else
                 setTimeout(() => {
                     store.dispatch(setFocusedComment(null));

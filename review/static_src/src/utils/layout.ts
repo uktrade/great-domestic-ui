@@ -1,16 +1,16 @@
-import {Annotation} from './annotation';
+import { Annotation } from './annotation';
 
-const GAP = 20.0;  // Gap between comments in pixels
-const TOP_MARGIN = 100.0;  // Spacing from the top to the first comment in pixels
-const OFFSET = -50;  // How many pixels from the annotation position should the comments be placed?
+const GAP = 20.0; // Gap between comments in pixels
+const TOP_MARGIN = 100.0; // Spacing from the top to the first comment in pixels
+const OFFSET = -50; // How many pixels from the annotation position should the comments be placed?
 
 export class LayoutController {
-    commentElements: {[commentId: number]: HTMLElement} = {};
-    commentAnnotations: {[commentId: number]: Annotation} = {};
-    commentDesiredPositions: {[commentId: number]: number} = {};
-    commentHeights: {[commentId: number]: number} = {};
-    focusedComment: number|null = null;
-    commentCalculatedPositions: {[commentId: number]: number} = {};
+    commentElements: { [commentId: number]: HTMLElement } = {};
+    commentAnnotations: { [commentId: number]: Annotation } = {};
+    commentDesiredPositions: { [commentId: number]: number } = {};
+    commentHeights: { [commentId: number]: number } = {};
+    focusedComment: number | null = null;
+    commentCalculatedPositions: { [commentId: number]: number } = {};
     isDirty: boolean = false;
 
     setCommentElement(commentId: number, element: HTMLElement) {
@@ -64,11 +64,11 @@ export class LayoutController {
         }
 
         interface Block {
-            position: number,
-            height: number,
-            comments: number[],
-            containsFocusedComment: boolean,
-            focusedCommentPosition: number,
+            position: number;
+            height: number;
+            comments: number[];
+            containsFocusedComment: boolean;
+            focusedCommentPosition: number;
         }
 
         // Build list of blocks (starting with one for each comment)
@@ -78,9 +78,11 @@ export class LayoutController {
                 position: this.commentDesiredPositions[commentId],
                 height: this.commentHeights[commentId],
                 comments: [parseInt(commentId)],
-                containsFocusedComment: this.focusedComment && commentId == this.focusedComment.toString(),
-                focusedCommentPosition: 0,
-            })
+                containsFocusedComment:
+                    this.focusedComment &&
+                    commentId == this.focusedComment.toString(),
+                focusedCommentPosition: 0
+            });
         }
 
         // Sort blocks
@@ -91,11 +93,14 @@ export class LayoutController {
         while (overlaps) {
             overlaps = false;
             let newBlocks: Block[] = [];
-            let previousBlock: Block|null = null;
+            let previousBlock: Block | null = null;
 
             for (let block of blocks) {
                 if (previousBlock) {
-                    if (previousBlock.position + previousBlock.height + GAP > block.position) {
+                    if (
+                        previousBlock.position + previousBlock.height + GAP >
+                        block.position
+                    ) {
                         overlaps = true;
 
                         // Merge the blocks
@@ -103,20 +108,29 @@ export class LayoutController {
 
                         if (block.containsFocusedComment) {
                             previousBlock.containsFocusedComment = true;
-                            previousBlock.focusedCommentPosition = block.focusedCommentPosition + previousBlock.height;
+                            previousBlock.focusedCommentPosition =
+                                block.focusedCommentPosition +
+                                previousBlock.height;
                         }
                         previousBlock.height += block.height;
 
                         // Make sure comments don't disappear off the top of the page
                         // But only if a comment isn't focused
-                        if (!this.focusedComment && previousBlock.position < TOP_MARGIN + OFFSET) {
-                            previousBlock.position = TOP_MARGIN + previousBlock.height - OFFSET;
+                        if (
+                            !this.focusedComment &&
+                            previousBlock.position < TOP_MARGIN + OFFSET
+                        ) {
+                            previousBlock.position =
+                                TOP_MARGIN + previousBlock.height - OFFSET;
                         }
 
                         // If this block contains the focused comment, position it so
                         // the focused comment is in it's desired position
                         if (previousBlock.containsFocusedComment) {
-                            previousBlock.position = this.commentDesiredPositions[this.focusedComment] - previousBlock.focusedCommentPosition;
+                            previousBlock.position =
+                                this.commentDesiredPositions[
+                                    this.focusedComment
+                                ] - previousBlock.focusedCommentPosition;
                         }
 
                         continue;
@@ -150,5 +164,3 @@ export class LayoutController {
         }
     }
 }
-
-

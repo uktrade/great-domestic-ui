@@ -1,36 +1,36 @@
-import {Comment, CommentReply, ModerationStatus} from './state';
+import { Comment, CommentReply, ModerationStatus } from './state';
 
 export interface ReviewerApi {
-    name: string,
+    name: string;
 }
 
 export interface CommentReplyApi {
-    id: number,
-    author: ReviewerApi,
-    text: string,
-    created_at: string,
-    updated_at: string,
+    id: number;
+    author: ReviewerApi;
+    text: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface CommentApi {
-    id: number,
-    author: ReviewerApi,
-    quote: string,
-    text: string,
-    created_at: string,
-    updated_at: string,
-    is_resolved: boolean,
-    replies: CommentReplyApi[],
-    content_path: string,
-    start_xpath: string,
-    start_offset: number,
-    end_xpath: string,
-    end_offset: number,
+    id: number;
+    author: ReviewerApi;
+    quote: string;
+    text: string;
+    created_at: string;
+    updated_at: string;
+    is_resolved: boolean;
+    replies: CommentReplyApi[];
+    content_path: string;
+    start_xpath: string;
+    start_offset: number;
+    end_xpath: string;
+    end_offset: number;
 }
 
 export interface ModerationRespondApi {
-    status: ModerationStatus,
-    comment: string,
+    status: ModerationStatus;
+    comment: string;
 }
 
 export default class APIClient {
@@ -45,7 +45,7 @@ export default class APIClient {
     async fetchAllComments(): Promise<CommentApi[]> {
         let response = await fetch(`${this.baseUrl}/comments/`, {
             headers: {
-                'X-Review-Token': this.reviewToken,
+                'X-Review-Token': this.reviewToken
             }
         });
 
@@ -81,18 +81,20 @@ export default class APIClient {
             method,
             headers: {
                 'Content-Type': 'application/json',
-                'X-Review-Token': this.reviewToken,
+                'X-Review-Token': this.reviewToken
             },
             body: JSON.stringify(<CommentApi>{
                 quote: comment.annotation.annotation.quote,
                 text: comment.text,
-                is_resolved: comment.isResolved,  // FIXME: Might blat resolution done by someone else
+                is_resolved: comment.isResolved, // FIXME: Might blat resolution done by someone else
                 content_path: comment.annotation.contentPath,
-                start_xpath: comment.annotation.annotation.ranges[0].start || '.',
-                start_offset: comment.annotation.annotation.ranges[0].startOffset,
+                start_xpath:
+                    comment.annotation.annotation.ranges[0].start || '.',
+                start_offset:
+                    comment.annotation.annotation.ranges[0].startOffset,
                 end_xpath: comment.annotation.annotation.ranges[0].end || '.',
-                end_offset: comment.annotation.annotation.ranges[0].endOffset,
-            }),
+                end_offset: comment.annotation.annotation.ranges[0].endOffset
+            })
         });
 
         return await response.json();
@@ -103,8 +105,8 @@ export default class APIClient {
             await fetch(`${this.baseUrl}/comments/${comment.remoteId}/`, {
                 method: 'DELETE',
                 headers: {
-                    'X-Review-Token': this.reviewToken,
-                },
+                    'X-Review-Token': this.reviewToken
+                }
             });
         }
     }
@@ -116,12 +118,15 @@ export default class APIClient {
         await fetch(`${this.baseUrl}/comments/${comment.remoteId}/resolved/`, {
             method,
             headers: {
-                'X-Review-Token': this.reviewToken,
+                'X-Review-Token': this.reviewToken
             }
         });
     }
 
-    async saveCommentReply(comment: Comment, reply: CommentReply): Promise<CommentReplyApi> {
+    async saveCommentReply(
+        comment: Comment,
+        reply: CommentReply
+    ): Promise<CommentReplyApi> {
         let url = `${this.baseUrl}/comments/${comment.remoteId}/replies/`;
         let method = 'POST';
 
@@ -134,11 +139,11 @@ export default class APIClient {
             method,
             headers: {
                 'Content-Type': 'application/json',
-                'X-Review-Token': this.reviewToken,
+                'X-Review-Token': this.reviewToken
             },
             body: JSON.stringify(<CommentReplyApi>{
-                text: reply.text,
-            }),
+                text: reply.text
+            })
         });
 
         return await response.json();
@@ -146,12 +151,15 @@ export default class APIClient {
 
     async deleteCommentReply(comment: Comment, reply: CommentReply) {
         if (reply.remoteId) {
-            await fetch(`${this.baseUrl}/comments/${comment.remoteId}/replies/${reply.remoteId}/`, {
-                method: 'DELETE',
-                headers: {
-                    'X-Review-Token': this.reviewToken,
-                },
-            });
+            await fetch(
+                `${this.baseUrl}/comments/${comment.remoteId}/replies/${reply.remoteId}/`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'X-Review-Token': this.reviewToken
+                    }
+                }
+            );
         }
     }
 
@@ -159,7 +167,7 @@ export default class APIClient {
         await fetch(`${this.baseUrl}/moderation/lock/`, {
             method: 'PUT',
             headers: {
-                'X-Review-Token': this.reviewToken,
+                'X-Review-Token': this.reviewToken
             }
         });
     }
@@ -169,12 +177,12 @@ export default class APIClient {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-Review-Token': this.reviewToken,
+                'X-Review-Token': this.reviewToken
             },
             body: JSON.stringify(<ModerationRespondApi>{
                 status,
-                comment,
-            }),
+                comment
+            })
         });
     }
 }

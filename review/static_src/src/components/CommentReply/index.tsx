@@ -7,21 +7,32 @@ import { updateReply, deleteReply } from '../../actions';
 
 import './style.scss';
 
-export async function saveCommentReply(comment: Comment, reply: CommentReply, store: Store, api: APIClient) {
-    store.dispatch(updateReply(comment.localId, reply.localId, {
-        mode: 'saving',
-    }));
+export async function saveCommentReply(
+    comment: Comment,
+    reply: CommentReply,
+    store: Store,
+    api: APIClient
+) {
+    store.dispatch(
+        updateReply(comment.localId, reply.localId, {
+            mode: 'saving'
+        })
+    );
 
     try {
         await api.saveCommentReply(comment, reply);
 
-        store.dispatch(updateReply(comment.localId, reply.localId, {
-            mode: 'default',
-        }));
+        store.dispatch(
+            updateReply(comment.localId, reply.localId, {
+                mode: 'default'
+            })
+        );
     } catch (err) {
-        store.dispatch(updateReply(comment.localId, reply.localId, {
-            mode: 'save_error',
-        }));
+        store.dispatch(
+            updateReply(comment.localId, reply.localId, {
+                mode: 'save_error'
+            })
+        );
     }
 }
 
@@ -35,30 +46,37 @@ export interface CommentReplyProps {
 class CommentReplyHeader extends React.Component<CommentReplyProps> {
     render() {
         let { reply } = this.props;
-        return <div className="comment-reply__header">
-            <hr/>
-            <div className="comment-reply__header-info">
-                <h2>{reply.author.name}</h2>
-                <p className="comment-reply__date">{dateFormat(reply.date, "h:MM mmmm d")}</p>
+        return (
+            <div className="comment-reply__header">
+                <hr />
+                <div className="comment-reply__header-info">
+                    <h2>{reply.author.name}</h2>
+                    <p className="comment-reply__date">
+                        {dateFormat(reply.date, 'h:MM mmmm d')}
+                    </p>
+                </div>
+                <div className="comment-reply__header-actions">
+                    {this.props.children}
+                </div>
             </div>
-            <div className="comment-reply__header-actions">
-                {this.props.children}
-            </div>
-        </div>;
+        );
     }
 }
 
-export default class CommentReplyComponent extends React.Component<CommentReplyProps> {
-
+export default class CommentReplyComponent extends React.Component<
+    CommentReplyProps
+> {
     renderEditing(): React.ReactFragment {
         let { comment, reply, store, api } = this.props;
 
         let onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
             e.preventDefault();
 
-            store.dispatch(updateReply(comment.localId, reply.localId, {
-                text: e.target.value,
-            }));
+            store.dispatch(
+                updateReply(comment.localId, reply.localId, {
+                    text: e.target.value
+                })
+            );
         };
 
         let onSave = async (e: React.MouseEvent) => {
@@ -70,30 +88,41 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
             e.preventDefault();
 
             comment.annotation.onDelete();
-            store.dispatch(updateReply(comment.localId, reply.localId, {
-                mode: 'default',
-                text: comment.editPreviousText,
-            }));
+            store.dispatch(
+                updateReply(comment.localId, reply.localId, {
+                    mode: 'default',
+                    text: comment.editPreviousText
+                })
+            );
         };
 
-        return <>
-            <CommentReplyHeader {...this.props}>
-                <button onClick={onSave}>Save</button>
-                <button onClick={onCancel}>Cancel</button>
-            </CommentReplyHeader>
-            <textarea className="comment-reply__input" value={reply.text} onChange={onChangeText} style={{resize: 'none'}} />
-        </>;
+        return (
+            <>
+                <CommentReplyHeader {...this.props}>
+                    <button onClick={onSave}>Save</button>
+                    <button onClick={onCancel}>Cancel</button>
+                </CommentReplyHeader>
+                <textarea
+                    className="comment-reply__input"
+                    value={reply.text}
+                    onChange={onChangeText}
+                    style={{ resize: 'none' }}
+                />
+            </>
+        );
     }
 
     renderSaving(): React.ReactFragment {
         let { reply } = this.props;
 
-        return <>
-            <CommentReplyHeader {...this.props}>
-                Saving...
-            </CommentReplyHeader>
-            <p className="comment-reply__text">{reply.text}</p>
-        </>;
+        return (
+            <>
+                <CommentReplyHeader {...this.props}>
+                    Saving...
+                </CommentReplyHeader>
+                <p className="comment-reply__text">{reply.text}</p>
+            </>
+        );
     }
 
     renderSaveError(): React.ReactFragment {
@@ -105,12 +134,19 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
             await saveCommentReply(comment, reply, store, api);
         };
 
-        return <>
-            <CommentReplyHeader {...this.props}>
-                <span className="comment-reply__error">Save error <a href="#" onClick={onClickRetry}>Retry</a></span>
-            </CommentReplyHeader>
-            <p className="comment-reply__text">{reply.text}</p>
-        </>;
+        return (
+            <>
+                <CommentReplyHeader {...this.props}>
+                    <span className="comment-reply__error">
+                        Save error{' '}
+                        <a href="#" onClick={onClickRetry}>
+                            Retry
+                        </a>
+                    </span>
+                </CommentReplyHeader>
+                <p className="comment-reply__text">{reply.text}</p>
+            </>
+        );
     }
 
     renderDeleteConfirm(): React.ReactFragment {
@@ -119,9 +155,11 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         let onClickDelete = async (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateReply(comment.localId, reply.localId, {
-                mode: 'deleting',
-            }));
+            store.dispatch(
+                updateReply(comment.localId, reply.localId, {
+                    mode: 'deleting'
+                })
+            );
 
             await api.deleteCommentReply(comment, reply);
 
@@ -131,30 +169,42 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         let onClickCancel = (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateReply(comment.localId, reply.localId, {
-                mode: 'default',
-            }));
+            store.dispatch(
+                updateReply(comment.localId, reply.localId, {
+                    mode: 'default'
+                })
+            );
         };
 
-        return <>
-            <CommentReplyHeader {...this.props}>
-                <span className="comment-reply__confirm-delete">Are you sure?</span>
-                <a href="#" onClick={onClickDelete}>Delete</a>
-                <a href="#" onClick={onClickCancel}>Cancel</a>
-            </CommentReplyHeader>
-            <p className="comment-reply__text">{reply.text}</p>
-        </>;
+        return (
+            <>
+                <CommentReplyHeader {...this.props}>
+                    <span className="comment-reply__confirm-delete">
+                        Are you sure?
+                    </span>
+                    <a href="#" onClick={onClickDelete}>
+                        Delete
+                    </a>
+                    <a href="#" onClick={onClickCancel}>
+                        Cancel
+                    </a>
+                </CommentReplyHeader>
+                <p className="comment-reply__text">{reply.text}</p>
+            </>
+        );
     }
 
     renderDeleting(): React.ReactFragment {
         let { reply } = this.props;
 
-        return <>
-            <CommentReplyHeader {...this.props}>
-                Deleting...
-            </CommentReplyHeader>
-            <p className="comment-reply__text">{reply.text}</p>
-        </>;
+        return (
+            <>
+                <CommentReplyHeader {...this.props}>
+                    Deleting...
+                </CommentReplyHeader>
+                <p className="comment-reply__text">{reply.text}</p>
+            </>
+        );
     }
 
     renderDefault(): React.ReactFragment {
@@ -163,27 +213,37 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
         let onClickEdit = async (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateReply(comment.localId, reply.localId, {
-                mode: 'editing',
-                editPreviousText: reply.text,
-            }));
+            store.dispatch(
+                updateReply(comment.localId, reply.localId, {
+                    mode: 'editing',
+                    editPreviousText: reply.text
+                })
+            );
         };
 
         let onClickDelete = async (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(updateReply(comment.localId, reply.localId, {
-                mode: 'delete_confirm',
-            }));
+            store.dispatch(
+                updateReply(comment.localId, reply.localId, {
+                    mode: 'delete_confirm'
+                })
+            );
         };
 
-        return <>
-            <CommentReplyHeader {...this.props}>
-                <a href="#" onClick={onClickEdit}>Edit</a>
-                <a href="#" onClick={onClickDelete}>Delete</a>
-            </CommentReplyHeader>
-            <p className="comment-reply__text">{reply.text}</p>
-        </>;
+        return (
+            <>
+                <CommentReplyHeader {...this.props}>
+                    <a href="#" onClick={onClickEdit}>
+                        Edit
+                    </a>
+                    <a href="#" onClick={onClickDelete}>
+                        Delete
+                    </a>
+                </CommentReplyHeader>
+                <p className="comment-reply__text">{reply.text}</p>
+            </>
+        );
     }
 
     render() {
@@ -215,8 +275,14 @@ export default class CommentReplyComponent extends React.Component<CommentReplyP
                 break;
         }
 
-        return <li key={this.props.reply.localId} className="comment-reply" data-reply-id={this.props.reply.localId}>
-            {inner}
-        </li>;
+        return (
+            <li
+                key={this.props.reply.localId}
+                className="comment-reply"
+                data-reply-id={this.props.reply.localId}
+            >
+                {inner}
+            </li>
+        );
     }
 }
