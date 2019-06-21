@@ -38,7 +38,7 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_slug(
-            slug=slugs.GREAT_HOME,
+            slug='export-readiness-app',
             draft_token=self.request.GET.get('draft_token'),
         )
         return helpers.handle_cms_response_allow_404(response)
