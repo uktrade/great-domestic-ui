@@ -294,17 +294,13 @@ class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
         try:
             details = helpers.retrieve_regional_office(data['postcode'])
         except requests.exceptions.RequestException:
-            # post code may be incorrect or a server error may have occurred.
-            # Set empty as GovUK notify errors if any variables are missing.
-            data['dit_regional_office_name'] = ''
-            data['dit_regional_office_email'] = ''
+            pass
         else:
             if details:
                 data['dit_regional_office_name'] = details['name']
                 data['dit_regional_office_email'] = details['email']
-            else:
-                data['dit_regional_office_name'] = ''
-                data['dit_regional_office_email'] = ''
+        data.setdefault('dit_regional_office_name', '')
+        data.setdefault('dit_regional_office_email', '')
         return data
 
 
