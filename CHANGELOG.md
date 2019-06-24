@@ -18,8 +18,11 @@
 - TT-1450 - accessibility change h2 to h1
 - TT-1452 - add label to contact us captcha's
 - TT-1454/TT-1453 duplicate ids and empty links on finance contact-us
+- XOT-913 Fixed various content issues on UKEF pages
 - XOT-934 Deleted unused CSS files from UKEF templates
 - XOT-913 Fixed various content issues on UKEF pages
+- XOT-939 Fixed camel case URLs redirection for UKEF pages
+- No ticket - upgrade django to fix vulnerability
 
 - XOT-939 Fixed camel case URLs redirection for UKEF pages
 - No ticket - upgrade django to fix vulnerability
