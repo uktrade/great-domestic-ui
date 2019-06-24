@@ -3,9 +3,15 @@
 
 ## Pre-release
 
+## [2019.06.19](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.19)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.06...2019.06.19)
+
 **Implemented enhancements:**
+- XOT-906 - Add feedback form to search
+- [No ticket] - Fix missing breadcrumbs on services landing page
 - XOT-763 - Add tagging for domestic header
 - XOT-763 - Update GA360 tagging. **[Relies on this feature in directory-cms](https://github.com/uktrade/directory-cms/pull/487)**
+- TT-1547 - Add redirects for events
 
 **Fixed bugs:**
 - TT-1449 - Added fieldset and legend html elements on related form fields
@@ -15,6 +21,8 @@
 - XOT-934 Deleted unused CSS files from UKEF templates
 - XOT-913 Fixed various content issues on UKEF pages
 
+- XOT-939 Fixed camel case URLs redirection for UKEF pages
+- No ticket - upgrade django to fix vulnerability
 
 ## [2019.06.06](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.06)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.04...2019.06.06)
