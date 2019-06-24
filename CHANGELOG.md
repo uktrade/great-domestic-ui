@@ -3,6 +3,9 @@
 
 ## Pre-release
 
+**Fixed bugs:**
+- TT-1579 invalid postcode fails on contact us
+
 ## [2019.06.19](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.19)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.06...2019.06.19)
 
