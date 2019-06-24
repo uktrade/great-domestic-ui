@@ -4,7 +4,7 @@ import pytest
 from requests.exceptions import ConnectionError
 from unittest.mock import Mock
 
-from activitystream import helpers
+from search import helpers
 
 
 @pytest.mark.parametrize('page,safe_output', (

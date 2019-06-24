@@ -12,7 +12,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:1",
-        "type": "Service",
         "dit:greatDomesticUI:searchResultType": "Service",
         "name": "Get finance - Homepage",
         "content": "When it comes to exporting, having a great product or service is only half the story. Putting the right finance and insurance in place can make the difference, helping you to win contracts, fulfil orders and get paid.",
@@ -25,7 +24,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:2",
-        "type": "Service",
         "dit:greatDomesticUI:searchResultType": "Service",
         "name": "Department for International Trade - Homepage",
         "content": "Thousands of businesses like yours have increased their sales, growth and stability by selling overseas. Explore the potential of exporting with guidance, services and support from the Department for International Trade.",
@@ -38,7 +36,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:3",
-        "type": "Service",
         "dit:greatDomesticUI:searchResultType": "Service",
         "name": "Find Export Opportunities - Homepage",
         "content": "Search 18,024 export sales leads and pitch your company to overseas buyers who are looking for products and services like yours.",
@@ -51,7 +48,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:4",
-        "type": "Service",
         "dit:greatDomesticUI:searchResultType": "Service",
         "name": "DIT Events - Homepage",
         "content": "Events are one of the most effective ways to support companies looking for trade opportunities. DIT's calendar of events is updated regularly with both UK and overseas events as well as overseas missions, and opportunities across the Tradeshow Access Programme (TAP).",
@@ -64,7 +60,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:5",
-        "type": "Service",
         "dit:greatDomesticUI:searchResultType": "Service",
         "name": "Selling Online Overseas - Homepage",
         "content": "Find online global marketplaces. Identify and apply to sell with marketplaces to reach international consumers",
@@ -77,7 +72,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:6",
-        "type": "Service",
         "dit:greatDomesticUI:searchResultType": "Service",
         "name": "Business Profiles (Find a Buyer) - Homepage",
         "content": "Your business profile on great.gov.uk will let buyers find you. Give companies looking to buy from your industry an easy way to find you. Showcase your company. Highlight your company's projects and experience to give buyers insight into what you do. Pull in the right leads. Attract more business by connecting with the right international buyers.",
@@ -90,7 +84,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:7",
-        "type": "Service",
         "dit:greatDomesticUI:searchResultType": "Service",
         "name": "Advice - Homepage",
         "content": "Explore the potential of exporting with guidance and support from the Department for International Trade.",
@@ -103,7 +96,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:8",
-        "type": "Article",
         "dit:greatDomesticUI:searchResultType": "Article",
         "name": "Guidance on how to prepare for EU Exit",
         "content": "The United Kingdom (UK) is leaving the European Union (EU). Leaving the EU means a number of changes that will affect businesses and individual citizens. Use the information below to find out how to prepare and the steps you may need to take.",

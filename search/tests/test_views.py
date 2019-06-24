@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 from freezegun import freeze_time
 
-from activitystream import views
+from search import views, helpers, serializers
 
 
 def test_search_view(client, settings):
@@ -31,7 +31,7 @@ def test_search_view(client, settings):
                     '_id': 'dit:exportOpportunities:Opportunity:2',
                     '_score': 0.2876821,
                     '_source': {
-                        'type': 'Opportunities',
+                        'dit:greatDomesticUI:searchResultType': 'Opportunities',
                         'title': 'France - Data analysis services',
                         'content':
                         'The purpose of this contract is to analyze...',
@@ -43,7 +43,7 @@ def test_search_view(client, settings):
                     '_id': 'dit:exportOpportunities:Opportunity:2',
                     '_score': 0.18232156,
                     '_source': {
-                        'type': 'Opportunities',
+                        'dit:greatDomesticUI:searchResultType': 'Opportunities',
                         'title': 'Germany - snow clearing',
                         'content':
                         'Winter services for the properties1) Former...',
@@ -60,13 +60,13 @@ def test_search_view(client, settings):
         assert response.status_code == 200
         assert context['results'] == [
                 {
-                  "type": "Opportunities",
+                  "dit:greatDomesticUI:searchResultType": "Opportunities",
                   "title": "France - Data analysis services",
                   "content": "The purpose of this contract is to analyze...",
                   "url": "www.great.gov.uk/opportunities/1"
                 },
                 {
-                  "type": "Opportunities",
+                  "dit:greatDomesticUI:searchResultType": "Opportunities",
                   "title": "Germany - snow clearing",
                   "content": "Winter services for the properties1) Former...",
                   "url": "www.great.gov.uk/opportunities/2"
@@ -120,6 +120,16 @@ def test_search_view(client, settings):
         # This can be handled on the front end as we wish
         assert context['error_message'] == "Activity Stream connection failed"
         assert context['error_status_code'] == 500
+
+
+def test_search_order(client):
+    response = client.get(reverse('search'), data={'q': 'qwerty123'})
+    context = response.context_data
+
+    assert response.status_code == 200
+    assert results.length == 4
+    assert results[0]["dit:greatDomesticUI:searchResultType"] == "Service"
+    assert results[-1]["dit:greatDomesticUI:searchResultType"] == "Opportunity"
 
 
 def test_search_key_pages_view(client):

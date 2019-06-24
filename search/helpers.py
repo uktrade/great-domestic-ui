@@ -6,7 +6,7 @@ from django.conf import settings
 from mohawk import Sender
 from raven.contrib.django.raven_compat.models import client
 
-from activitystream import serializers
+from search import serializers
 
 RESULTS_PER_PAGE = 10
 

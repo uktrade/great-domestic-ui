@@ -44,6 +44,12 @@ class MarketAccessFeatureFlagMixin(NotFoundOnDisabledFeature):
         return settings.FEATURE_FLAGS['MARKET_ACCESS_ON']
 
 
+class TestSearchAPIFeatureFlagMixin(NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['TEST_SEARCH_API_PAGES_ON']
+
+
 class GetCMSPageMixin:
 
     @cached_property
