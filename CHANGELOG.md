@@ -3,6 +3,10 @@
 
 ## Pre-release
 
+**Fixed bugs:**
+
+- TT-1580 - Prevent duplicate "company type" showing on contact form
+
 ## [2019.06.19](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.19)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.06...2019.06.19)
 
