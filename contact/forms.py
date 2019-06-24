@@ -299,8 +299,12 @@ class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
             data['dit_regional_office_name'] = ''
             data['dit_regional_office_email'] = ''
         else:
-            data['dit_regional_office_name'] = details['name']
-            data['dit_regional_office_email'] = details['email']
+            if details:
+                data['dit_regional_office_name'] = details['name']
+                data['dit_regional_office_email'] = details['email']
+            else:
+                data['dit_regional_office_name'] = ''
+                data['dit_regional_office_email'] = ''
         return data
 
 
