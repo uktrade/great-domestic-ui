@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "build": "webpack --mode=production",
-    "watch": "webpack --mode=development --watch",
+    "start": "webpack --mode=development --watch",
     "lint": "prettier --write src/**/*.{ts,tsx,scss}"
   },
   "author": "",
