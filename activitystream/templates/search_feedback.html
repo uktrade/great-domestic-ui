@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 {% load humanize %}
-
+{% load i18n %}
 {% block head_css %}
 {{ block.super }}
 <link href="{% static 'styles/default.css' %}" rel="stylesheet" type="text/css" />
@@ -22,11 +22,18 @@
 
 {% block content %}
 <section id="search-results-information">
+
+  {% block breadcrumbs %}
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="{% url 'landing-page' %}">Great.gov.uk</a>
+        &rsaquo; <a href="{% url 'search' %}">Search</a>
+        &rsaquo; {% trans 'Feedback' %}
+      </div>      
+    </div>
+  {% endblock %}
   <div class="container">
-    {% block breadcrumbs %}
-      {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
-    {% endblock %}
-    <h1 class="heading-xlarge">Tell us how you found the new search feature</h1>
+    <h1 class="heading-xlarge">Tell us how you found searching our website</h1>
   </div>
 </section>
 
@@ -37,7 +44,6 @@
   {{ form.non_field_errors }}
   {% include 'core/includes/form_field.html' with field=form.result_found %}
   {% include 'core/includes/form_field.html' with field=form.search_target %}
-  {% include 'core/includes/form_field.html' with field=form.reason_for_site_visit %}
   {{ form.from_search_query.as_hidden }}
   {{ form.from_search_page.as_hidden }}
   {% include 'core/includes/form_field.html' with field=form.contactable %}

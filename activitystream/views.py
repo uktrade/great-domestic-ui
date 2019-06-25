@@ -17,8 +17,6 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
 
         URL parameters: 'q'    String to be searched
                         'page' Int results page number
-
-        We should use BreadcrumbMixin, however it does not work
     """
     template_name = 'search.html'
     page_type = 'SearchResultsPage'
@@ -26,47 +24,41 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         results = {}
-
         query = self.request.GET.get('q', '')
         submitted = self.request.GET.get('submitted', '')
         page = helpers.sanitise_page(self.request.GET.get('page', '1'))
-        elasticsearch_query = helpers.format_query(query, page)
-        breadcrumbs = [{'url': '/search/', 'label': 'Search'}]
+
+        common = {
+            'submitted': submitted,
+            'query': query,
+            'current_page': page
+        }
 
         try:
+            elasticsearch_query = helpers.format_query(query, page)
             response = helpers.search_with_activitystream(elasticsearch_query)
-
         except RequestException:
             logger.error(
                 "Activity Stream connection for "
                 "Search failed. Query: '{}'".format(query))
-
             results = {
                 'error_status_code': 500,
-                'error_message': "Activity Stream connection failed",
-                'query': query,
-                'current_page': page,
-                'submitted': submitted,
-                'breadcrumbs': breadcrumbs
+                'error_message': "Activity Stream connection failed"
             }
-
         else:
             if response.status_code != 200:
                 results = {
                     'error_message': response.content,
                     'error_status_code': response.status_code,
-                    'query': query,
-                    'current_page': page,
-                    'submitted': submitted,
-                    'breadcrumbs': breadcrumbs
+
                 }
 
             else:
                 results = helpers.parse_results(
-                    response, query, page, submitted
+                    response, query, page
                 )
 
-        return {**context, **results}
+        return {**context, **common, **results}
 
 
 class SearchKeyPagesView(TemplateView):
@@ -121,7 +113,6 @@ class SearchFeedbackFormView(SetGA360ValuesMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'submitted': self.request.GET.get('submitted', ''),
             'page': self.request.GET.get('page', ''),
             'q': self.request.GET.get('q', '')
         })

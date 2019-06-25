@@ -18,7 +18,7 @@ def sanitise_page(page):
         return 1
 
 
-def parse_results(response, query, page, submitted):
+def parse_results(response, query, page):
     current_page = int(page)
     content = json.loads(response.content)
 
@@ -53,10 +53,8 @@ def parse_results(response, query, page, submitted):
         last_item_number = (current_page)*RESULTS_PER_PAGE
 
     return {
-        'query': query,
         'results': results,
         'total_results': total_results,
-        'current_page': current_page,
         'total_pages': total_pages,
         'previous_page': current_page - 1,
         'next_page': current_page + 1,
@@ -65,8 +63,7 @@ def parse_results(response, query, page, submitted):
         'show_first_page': show_first_page,
         'show_last_page': show_last_page,
         'first_item_number': first_item_number,
-        'last_item_number': last_item_number,
-        'submitted': submitted
+        'last_item_number': last_item_number
     }
 
 

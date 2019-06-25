@@ -3,6 +3,7 @@ import pytest
 
 from requests.exceptions import ConnectionError
 from unittest.mock import Mock
+from django.conf import settings
 
 from activitystream import helpers
 
@@ -71,8 +72,7 @@ def test_parse_results(page, prev_pages,
         }
     })
     response = Mock(status=200, content=mock_results)
-    assert helpers.parse_results(response, "services", page, '') == {
-       'query': "services",
+    assert helpers.parse_results(response, "services", page) == {
        'results': [{
             "type": "Opportunities",
             "title": "France - Data analysis services",
@@ -86,7 +86,6 @@ def test_parse_results(page, prev_pages,
             "url": "www.great.gov.uk/opportunities/2"
         }],
        'total_results': 100,
-       'current_page': page,
        'total_pages': 10,
        'previous_page': page-1,
        'next_page': page+1,
@@ -95,8 +94,7 @@ def test_parse_results(page, prev_pages,
        'show_first_page': show_first_page,
        'show_last_page': show_last_page,
        'first_item_number': first_item_number,
-       'last_item_number': last_item_number,
-       'submitted': ''
+       'last_item_number': last_item_number
     }
 
 
@@ -112,11 +110,9 @@ def test_parse_results_error(page, prev_pages,
                              last_item_number):
     mock_results = json.dumps({'error': 'Incorrect alias used'})
     response = Mock(status=200, content=mock_results)
-    assert helpers.parse_results(response, 'services', page, 'true') == {
-        'query': 'services',
+    assert helpers.parse_results(response, 'services', page) == {
         'results': [],
         'total_results': 0,
-        'current_page': page,
         'total_pages': 1,
         'previous_page': page-1,
         'next_page': page+1,
@@ -125,8 +121,7 @@ def test_parse_results_error(page, prev_pages,
         'show_first_page': show_first_page,
         'show_last_page': show_last_page,
         'first_item_number': first_item_number,
-        'last_item_number': last_item_number,
-        'submitted': 'true'
+        'last_item_number': last_item_number
     }
 
 
@@ -203,10 +198,18 @@ def test_format_query():
 
 
 def test_search_with_activitystream():
-    """ Simply check that it doesn't expload,
+    key = settings.ACTIVITY_STREAM_API_ACCESS_KEY
+    if not key or key == 'debug':
+        """ If not connected to activitystream dev,
+        simply check that it doesn't expload,
         and instead raises correct no-connection error
-    """
-    with pytest.raises(ConnectionError):
-        helpers.search_with_activitystream(
+        """
+        with pytest.raises(ConnectionError):
+            helpers.search_with_activitystream(
+                helpers.format_query("Test", 1)
+            )
+    else:
+        response = helpers.search_with_activitystream(
             helpers.format_query("Test", 1)
         )
+        assert 'hits' in json.loads(response.content)
