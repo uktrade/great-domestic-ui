@@ -33,7 +33,7 @@
       {% else %}
         <p class="added-margin-bottom">No results found. Please try again</p>
       {% endif %}
-      <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
+      <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link" style="display: none;">
         Did you find what you were looking for?
       </a>
 
