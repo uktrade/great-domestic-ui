@@ -43,6 +43,27 @@ async function saveComment(comment: Comment, store: Store, api: APIClient) {
     }
 }
 
+async function doDeleteComment(comment: Comment, store: Store, api: APIClient) {
+    store.dispatch(
+        updateComment(comment.localId, {
+            mode: 'deleting'
+        })
+    );
+
+    try {
+        await api.deleteComment(comment);
+
+        store.dispatch(deleteComment(comment.localId));
+        comment.annotation.onDelete();
+    } catch (err) {
+        store.dispatch(
+            updateComment(comment.localId, {
+                mode: 'delete_error'
+            })
+        );
+    }
+}
+
 export interface CommentProps {
     store: Store;
     comment: Comment;
@@ -339,16 +360,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
         let onClickDelete = async (e: React.MouseEvent) => {
             e.preventDefault();
 
-            store.dispatch(
-                updateComment(comment.localId, {
-                    mode: 'deleting'
-                })
-            );
-
-            await api.deleteComment(comment);
-
-            store.dispatch(deleteComment(comment.localId));
-            comment.annotation.onDelete();
+            await doDeleteComment(comment, store, api);
         };
 
         let onClickCancel = (e: React.MouseEvent) => {
@@ -389,6 +401,32 @@ export default class CommentComponent extends React.Component<CommentProps> {
                 {this.renderHeader()}
                 <p className="comment__text">{comment.text}</p>
                 <div className="comment__actions">Deleting...</div>
+                {this.renderReplies({ hideNewReply: true })}
+            </>
+        );
+    }
+
+    renderDeleteError(): React.ReactFragment {
+        let { comment, store, api } = this.props;
+
+        let onClickRetry = async (e: React.MouseEvent) => {
+            e.preventDefault();
+
+            await doDeleteComment(comment, store, api);
+        };
+
+        return (
+            <>
+                {this.renderHeader()}
+                <p className="comment__text">{comment.text}</p>
+                <div className="comment__actions">
+                    <span className="comment-reply__error">
+                        Delete error{' '}
+                        <a href="#" onClick={onClickRetry}>
+                            Retry
+                        </a>
+                    </span>
+                </div>
                 {this.renderReplies({ hideNewReply: true })}
             </>
         );
@@ -468,6 +506,10 @@ export default class CommentComponent extends React.Component<CommentProps> {
 
             case 'deleting':
                 inner = this.renderDeleting();
+                break;
+
+            case 'delete_error':
+                inner = this.renderDeleteError();
                 break;
 
             default:
