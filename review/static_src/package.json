@@ -28,6 +28,8 @@
     "webpack-cli": "^3.3.2"
   },
   "dependencies": {
-    "wagtail-review-ui": "^0.1.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "wagtail-review-ui": "^0.1.3"
   }
 }
