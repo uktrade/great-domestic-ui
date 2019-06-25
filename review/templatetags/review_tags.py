@@ -21,6 +21,7 @@ def review(context):
             'review_enabled': True,
             'moderation_enabled': decoded.get('moderation_enabled', False),
             'review_token': review_token,
+            'reviewer_id': decoded['reviewer_id'],
             'reviewer_name': decoded['reviewer_name'],
         }
     else:
@@ -28,5 +29,6 @@ def review(context):
             'review_enabled': False,
             'moderation_enabled': False,
             'review_token': None,
+            'reviewer_id': None,
             'reviewer_name': '',
         }

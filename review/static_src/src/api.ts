@@ -1,6 +1,7 @@
 import { Comment, CommentReply, ModerationStatus } from './state';
 
 export interface ReviewerApi {
+    id: number;
     name: string;
 }
 

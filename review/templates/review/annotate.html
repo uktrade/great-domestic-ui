@@ -12,7 +12,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             var commentsElement = document.getElementById('comments');
             var commentsApi = new CommentsAPI('http://localhost:8010/api/review', '{{ review_token|escapejs }}');
-            initCommentsApp(commentsElement, commentsApi, '{{ reviewer_name|escapejs }}', function (addAnnotatableSection) {
+            initCommentsApp(commentsElement, commentsApi, '{{ reviewer_id|escapejs }}', '{{ reviewer_name|escapejs }}', function (addAnnotatableSection) {
                 for (var element of document.querySelectorAll('[data-contentpath-field]')) {
                     addAnnotatableSection(element.dataset.contentpathField, element);
                 }

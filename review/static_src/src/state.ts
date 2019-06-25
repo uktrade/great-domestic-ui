@@ -2,21 +2,27 @@ import { Store } from 'redux';
 
 import { Annotation } from './utils/annotation';
 import * as actions from './actions';
-import { CommentApi, CommentReplyApi } from './api';
+import { CommentApi, CommentReplyApi, ReviewerApi } from './api';
 
 export class Author {
+    id: number;
     name: string;
 
-    constructor(name: string) {
+    constructor(id: number, name: string) {
+        this.id = id;
         this.name = name;
     }
 
-    static unknown(): Author {
-        return new Author('Unknown');
+    isSameAs(other: Author): boolean {
+        return this.id == other.id;
     }
 
-    static fromApi(data: any): Author {
-        return new Author(data.name);
+    static unknown(): Author {
+        return new Author(0, 'Unknown');
+    }
+
+    static fromApi(data: ReviewerApi): Author {
+        return new Author(data.id, data.name);
     }
 }
 

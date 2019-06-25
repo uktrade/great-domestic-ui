@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as dateFormat from 'dateformat';
 
-import { Comment, CommentReply, Store } from '../../state';
+import { Comment, CommentReply, Store, Author } from '../../state';
 import APIClient from '../../api';
 import { updateReply, deleteReply } from '../../actions';
 
@@ -41,6 +41,7 @@ export interface CommentReplyProps {
     reply: CommentReply;
     store: Store;
     api: APIClient;
+    user: Author;
 }
 
 class CommentReplyHeader extends React.Component<CommentReplyProps> {
@@ -231,15 +232,24 @@ export default class CommentReplyComponent extends React.Component<
             );
         };
 
-        return (
-            <>
-                <CommentReplyHeader {...this.props}>
+        let actions = <></>;
+        if (this.props.user.isSameAs(reply.author)) {
+            actions = (
+                <>
                     <a href="#" onClick={onClickEdit}>
                         Edit
                     </a>
                     <a href="#" onClick={onClickDelete}>
                         Delete
                     </a>
+                </>
+            );
+        }
+
+        return (
+            <>
+                <CommentReplyHeader {...this.props}>
+                    {actions}
                 </CommentReplyHeader>
                 <p className="comment-reply__text">{reply.text}</p>
             </>

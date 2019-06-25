@@ -25,7 +25,7 @@ function renderCommentsUi(
     store: Store,
     api: APIClient,
     layout: LayoutController,
-    defaultAuthor: Author,
+    user: Author,
     comments: Comment[],
     moderationEnabled: boolean,
     moderationState: ModerationState
@@ -47,7 +47,7 @@ function renderCommentsUi(
             store={store}
             api={api}
             layout={layout}
-            defaultAuthor={defaultAuthor}
+            user={user}
             comment={comment}
         />
     ));
@@ -90,6 +90,7 @@ async function moderationLockCoroutine(api: APIClient) {
 function initCommentsApp(
     element: HTMLElement,
     api: APIClient,
+    authorId: number,
     authorName: string,
     addAnnotatableSections: (
         addAnnotatableSection: (
@@ -105,7 +106,7 @@ function initCommentsApp(
     let store = createStore(reducer);
     let layout = new LayoutController();
 
-    let defaultAuthor = new Author(authorName);
+    let user = new Author(authorId, authorName);
 
     if (moderationEnabled) {
         // Launch moderation lock coroutine
@@ -149,7 +150,7 @@ function initCommentsApp(
                 store,
                 api,
                 layout,
-                defaultAuthor,
+                user,
                 commentList,
                 moderationEnabled,
                 state.moderation
@@ -166,7 +167,7 @@ function initCommentsApp(
                             store,
                             api,
                             layout,
-                            defaultAuthor,
+                            user,
                             commentList,
                             moderationEnabled,
                             state.moderation
@@ -195,7 +196,7 @@ function initCommentsApp(
 
         // Create the comment
         store.dispatch(
-            addComment(Comment.makeNew(commentId, annotation, defaultAuthor))
+            addComment(Comment.makeNew(commentId, annotation, user))
         );
 
         // Focus the comment

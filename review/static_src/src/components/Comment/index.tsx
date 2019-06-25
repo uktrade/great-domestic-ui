@@ -48,7 +48,7 @@ export interface CommentProps {
     comment: Comment;
     api: APIClient;
     layout: LayoutController;
-    defaultAuthor: Author;
+    user: Author;
 }
 
 export default class CommentComponent extends React.Component<CommentProps> {
@@ -111,7 +111,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
     }
 
     renderReplies({ hideNewReply = false } = {}): React.ReactFragment {
-        let { comment, store, api, defaultAuthor } = this.props;
+        let { comment, store, api, user } = this.props;
 
         if (!comment.remoteId) {
             // Hide replies UI if the comment itself isn't saved yet
@@ -132,7 +132,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
             e.preventDefault();
 
             let replyId = getNextReplyId();
-            let reply = new CommentReply(replyId, defaultAuthor, Date.now(), {
+            let reply = new CommentReply(replyId, user, Date.now(), {
                 text: comment.newReply,
                 mode: 'saving'
             });
@@ -165,6 +165,7 @@ export default class CommentComponent extends React.Component<CommentProps> {
                     key={reply.localId}
                     store={store}
                     api={api}
+                    user={user}
                     comment={comment}
                     reply={reply}
                 />
@@ -417,10 +418,9 @@ export default class CommentComponent extends React.Component<CommentProps> {
             );
         };
 
-        return (
-            <>
-                {this.renderHeader()}
-                <p className="comment__text">{comment.text}</p>
+        let actions = <></>;
+        if (this.props.user.isSameAs(comment.author)) {
+            actions = (
                 <div className="comment__actions">
                     <a href="#" onClick={onClickEdit}>
                         Edit
@@ -429,6 +429,14 @@ export default class CommentComponent extends React.Component<CommentProps> {
                         Delete
                     </a>
                 </div>
+            );
+        }
+
+        return (
+            <>
+                {this.renderHeader()}
+                <p className="comment__text">{comment.text}</p>
+                {actions}
                 {this.renderReplies()}
             </>
         );
