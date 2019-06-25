@@ -34,6 +34,10 @@ dit.tagging.domestic = (new function() {
           addTaggingForSearch();
         break;
 
+        case 'SearchFeedbackPage':
+          addTaggingForSearchFeedback();
+        break;
+
         case 'ServicesLandingPage':
           addTaggingForServiceCtas();
         break;
@@ -165,6 +169,18 @@ dit.tagging.domestic = (new function() {
         'type': 'General',
         'element': 'SearchForm',
         'value': $("#search-again-input").val().trim()
+      });
+    });
+  }
+
+  function addTaggingForSearchFeedback() {
+    $("#search-form").on("submit", function() {
+      window.dataLayer.push({
+        'event': 'gaEvent',
+        'action': 'Search',
+        'type': 'General',
+        'element': 'SearchForm',
+        'value': $("#id_from_search_query").val().trim()
       });
     });
   }

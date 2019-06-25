@@ -187,6 +187,11 @@ urlpatterns = [
         activitystream.views.SearchView.as_view(),
         name='search'
     ),
+    url(
+        r'^search/feedback/$',
+        activitystream.views.SearchFeedbackFormView.as_view(),
+        name='search-feedback'
+    )
 ]
 
 deprecated_urls = [

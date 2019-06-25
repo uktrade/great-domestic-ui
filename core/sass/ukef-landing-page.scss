@@ -43,8 +43,14 @@
     text-transform:none;
   }
 
+  .card {
+    min-height: 185px;
+    height: auto;
+  }
+
   .card-link{
-    min-height: 265px;
+    min-height: 185px;
+    height: auto;
   }
 
   .your-next-step-section{

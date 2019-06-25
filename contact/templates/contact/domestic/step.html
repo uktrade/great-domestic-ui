@@ -19,15 +19,19 @@
         var companyTypeOther = document.getElementById('id_company_type_1');
         var otherInputs = document.getElementById('id_company_type_other-container');
         var companyTypeContainer = document.getElementById('id_company_type_0-container');
+        var companyTypeLabel = companyTypeContainer.getElementsByTagName('label')[0];
 
         GOVUK.utils.toggleRadioOtherOnClick(companyTypeOther, otherInputs);
 
         GOVUK.utils.toggleFieldsetClassOnClick(
             [companyTypeContainer],
             companyTypeOther,
-            "Company Type",
+            companyTypeLabel.innerHTML,
             "form-label"
         );
+        // toggleFieldsetClassOnClick populates the fielset legend with the
+        // value in companyTypeLabel, so clear it to avoid duplicates.
+        companyTypeLabel.innerHTML = '';
 
     </script>
 {% endblock %}
