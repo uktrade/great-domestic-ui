@@ -32,9 +32,6 @@
 - XOT-939 Fixed camel case URLs redirection for UKEF pages
 - No ticket - upgrade django to fix vulnerability
 
-- XOT-939 Fixed camel case URLs redirection for UKEF pages
-- No ticket - upgrade django to fix vulnerability
-
 ## [2019.06.06](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.06)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.04...2019.06.06)
 
