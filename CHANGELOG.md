@@ -3,6 +3,9 @@
 
 ## Pre-release
 
+## [2019.06.26](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.26)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.19...2019.06.26)
+
 **Implemented enhancements:**
 - XOT-906 - Add feedback form to search
 
