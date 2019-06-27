@@ -12,7 +12,7 @@ from search import views, helpers, serializers
 def test_search_view(client, settings):
     """ We mock the call to ActivityStream """
 
-    with patch('activitystream.helpers.search_with_activitystream') as search:
+    with patch('search.helpers.search_with_activitystream') as search:
         mock_results = json.dumps({
             'took': 17,
             'timed_out': False,
@@ -127,6 +127,8 @@ def test_search_order(client):
     context = response.context_data
 
     assert response.status_code == 200
+
+    results = response.context_data['results']
     assert results.length == 4
     assert results[0]["dit:greatDomesticUI:searchResultType"] == "Service"
     assert results[-1]["dit:greatDomesticUI:searchResultType"] == "Opportunity"
