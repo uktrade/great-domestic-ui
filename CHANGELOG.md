@@ -3,6 +3,9 @@
 
 ## Pre-release
 
+## [2019.06.26](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.26)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.19...2019.06.26)
+
 **Implemented enhancements:**
 - XOT-906 - Add feedback form to search
 
@@ -26,9 +29,6 @@
 - TT-1452 - add label to contact us captcha's
 - TT-1454/TT-1453 duplicate ids and empty links on finance contact-us
 - XOT-934 Deleted unused CSS files from UKEF templates
-- XOT-939 Fixed camel case URLs redirection for UKEF pages
-- No ticket - upgrade django to fix vulnerability
-
 - XOT-939 Fixed camel case URLs redirection for UKEF pages
 - No ticket - upgrade django to fix vulnerability
 
