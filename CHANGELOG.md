@@ -5,6 +5,7 @@
 
 **Implemented enhancements:**
 - XOT-906 - Add feedback form to search
+- XOT-914 - Add automated tests for search sort order
 
 **Fixed bugs:**
 - TT-1580 - Prevent duplicate "company type" showing on contact form
