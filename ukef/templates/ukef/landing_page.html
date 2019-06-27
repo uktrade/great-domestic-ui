@@ -25,7 +25,10 @@
 
   <section id="breadcrumbs-section" class="breadcrumbs-section">
     <div class="container">
-      {% breadcrumbs 'Project Finance' %}<a href="/">Great.gov.uk</a><a href="{% url 'get-finance' %}">UKEF</a>{% endbreadcrumbs %}
+      {% breadcrumbs 'Project Finance' %}
+        <a href="/">Great.gov.uk</a>
+        <a href="{% url 'get-finance' %}">UKEF</a>
+      {% endbreadcrumbs %}
     </div>
   </section>
 
