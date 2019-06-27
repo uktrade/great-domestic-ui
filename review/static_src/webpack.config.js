@@ -5,9 +5,6 @@ module.exports = {
   externals: {
     annotator: 'annotator',
   },
-  resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ]
-  },
   output: {
     path: path.resolve(__dirname, '../static/review'),
     filename: 'bundle.js',
