@@ -211,6 +211,25 @@ def test_domestic_contact_form_serialize_data_office_lookup_not_found(
     assert data['dit_regional_office_email'] == ''
 
 
+def test_domestic_contact_form_serialize_data_office_lookup_none_returned(
+    domestic_data
+):
+    form = forms.ShortNotifyForm(data=domestic_data)
+
+    assert form.is_valid()
+
+    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
+        postcode='ABC123'
+    )
+    with requests_mock.mock() as mock:
+        mock.get(url, json=None)
+
+    data = form.serialized_data
+
+    assert data['dit_regional_office_name'] == ''
+    assert data['dit_regional_office_email'] == ''
+
+
 def test_feedback_form_serialize_data(captcha_stub):
     form = forms.FeedbackForm(
         data={

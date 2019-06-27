@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 from freezegun import freeze_time
 
-from search import views, helpers, serializers
+from search import views
 
 
 def test_search_view(client, settings):
@@ -124,7 +124,6 @@ def test_search_view(client, settings):
 
 def test_search_order(client):
     response = client.get(reverse('search'), data={'q': 'qwerty123'})
-    context = response.context_data
 
     assert response.status_code == 200
 

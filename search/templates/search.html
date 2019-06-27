@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
+{% load i18n %}
 {% load humanize %}
 {% load message_box_with_icon from directory_components %}
 
@@ -16,13 +17,22 @@
 {% block content %}
 
 <section id="search-results-information">
+
+  {% if submitted %}
+    <div class="container">
+      {% message_box_with_icon icon="✓" heading="Your feedback has been sent" %}
+    </div>
+  {% endif %}
+
+  {% block breadcrumbs %}
+    <div class="container">
+      <div class="breadcrumbs">
+        <a href="{% url 'landing-page' %}">Great.gov.uk</a>
+        &rsaquo; {% trans 'Search' %}
+      </div>      
+    </div>
+  {% endblock %}
   <div class="container">
-    {% if submitted %}
-      {% message_box_with_icon icon="✓" heading="Your feedback has been sent" %}      
-    {% endif %}
-    {% block breadcrumbs %}
-      {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
-    {% endblock %}
     <h1 class="heading-xlarge">Search results for<span class=""> {{ query }}</span></h1>
 
     <div class="actions">
@@ -31,7 +41,7 @@
           {{ total_results|intcomma }} result{{ total_results|pluralize }} found<span class="verbose"> for {{ query }}</span>
         </a></p>
       {% else %}
-        <p class="added-margin-bottom">No results found. Please try again</p>
+        <p class="added-margin-bottom">No results found. Please try again.</p>
       {% endif %}
       <a href="{% url 'search-feedback' %}?page={{ current_page }}&q={{ query }}" class="font-xsmall link">
         Did you find what you were looking for?

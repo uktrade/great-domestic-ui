@@ -417,7 +417,9 @@ FEATURE_FLAGS = {
     # used by directory-components
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),
     'UKEF_PAGES_ON': env.bool('FEATURE_UKEF_PAGES_ENABLED', False),
-    'TEST_SEARCH_API_PAGES_ON': env.bool('FEATURE_TEST_SEARCH_API_PAGES_ENABLED', False),
+    'TEST_SEARCH_API_PAGES_ON': env.bool(
+        'FEATURE_TEST_SEARCH_API_PAGES_ENABLED', False
+    ),
 }
 
 # UK Export Finance
