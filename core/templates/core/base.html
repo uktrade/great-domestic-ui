@@ -10,6 +10,11 @@
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
 {% endblock %}
 
+{% block header_js %}
+  {{ block.super }}
+  <script src="{% static 'directory_components/js/dit.components.greatDomesticHeader.js' %}"></script>
+{% endblock %}
+
 {% block head_other %}
     {% include 'core/browser-checks.html' %}
 {% endblock %}
