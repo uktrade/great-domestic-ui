@@ -31,7 +31,7 @@ def test_search_view(client, settings):
                     '_id': 'dit:exportOpportunities:Opportunity:2',
                     '_score': 0.2876821,
                     '_source': {
-                        'dit:greatDomesticUI:searchResultType': 'Opportunities',
+                        'type': ['Document', 'dit:Opportunity'],
                         'title': 'France - Data analysis services',
                         'content':
                         'The purpose of this contract is to analyze...',
@@ -43,7 +43,7 @@ def test_search_view(client, settings):
                     '_id': 'dit:exportOpportunities:Opportunity:2',
                     '_score': 0.18232156,
                     '_source': {
-                        'dit:greatDomesticUI:searchResultType': 'Opportunities',
+                        'type': ['Document', 'dit:Opportunity'],
                         'title': 'Germany - snow clearing',
                         'content':
                         'Winter services for the properties1) Former...',
@@ -60,16 +60,16 @@ def test_search_view(client, settings):
         assert response.status_code == 200
         assert context['results'] == [
                 {
-                  "dit:greatDomesticUI:searchResultType": "Opportunities",
-                  "title": "France - Data analysis services",
-                  "content": "The purpose of this contract is to analyze...",
-                  "url": "www.great.gov.uk/opportunities/1"
+                  'type': ['Document', 'dit:Opportunity'],
+                  'title': 'France - Data analysis services',
+                  'content': 'The purpose of this contract is to analyze...',
+                  'url': 'www.great.gov.uk/opportunities/1'
                 },
                 {
-                  "dit:greatDomesticUI:searchResultType": "Opportunities",
-                  "title": "Germany - snow clearing",
-                  "content": "Winter services for the properties1) Former...",
-                  "url": "www.great.gov.uk/opportunities/2"
+                  'type': ['Document', 'dit:Opportunity'],
+                  'title': 'Germany - snow clearing',
+                  'content': 'Winter services for the properties1) Former...',
+                  'url': 'www.great.gov.uk/opportunities/2'
                 }
             ]
 
@@ -129,9 +129,9 @@ def test_search_order(client):
     assert response.status_code == 200
 
     results = response.context_data['results']
-    assert results.length == 4
-    assert results[0]["dit:greatDomesticUI:searchResultType"] == "Service"
-    assert results[-1]["dit:greatDomesticUI:searchResultType"] == "Opportunity"
+    assert len(results) == 4
+    assert results[0]["type"][1] == "dit:Service"
+    assert results[-1]["type"][1] == "dit:Opportunity"
 
 
 def test_search_key_pages_view(client):

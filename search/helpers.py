@@ -127,6 +127,30 @@ def format_query(query, page):
                             'query': 'Event',
                             'boost': 10000
                         }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Article',
+                            'boost': 10000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Market',
+                            'boost': 10000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Service',
+                            'boost': 20000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Event',
+                            'boost': 10000
+                        }
                     }}
                 ],
                 'filter': [
@@ -136,7 +160,12 @@ def format_query(query, page):
                             'Opportunity',
                             'Market',
                             'Service',
-                            'Event'
+                            'Event',
+                            'dit:Article',
+                            'dit:Opportunity',
+                            'dit:Market',
+                            'dit:Service',
+                            'dit:Event'
                         ]
                     }}
                 ]

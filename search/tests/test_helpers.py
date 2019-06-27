@@ -49,7 +49,7 @@ def test_parse_results(page, prev_pages,
                 '_id': 'dit:exportOpportunities:Opportunity:2',
                 '_score': 0.2876821,
                 '_source': {
-                    'type': 'Opportunities',
+                    'type': ['Document', 'dit:Opportunity'],
                     'title': 'France - Data analysis services',
                     'content':
                     'The purpose of this contract is to analyze...',
@@ -61,7 +61,7 @@ def test_parse_results(page, prev_pages,
                 '_id': 'dit:exportOpportunities:Opportunity:2',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': 'Opportunities',
+                    'type': ['Document', 'dit:Opportunity'],
                     'title': 'Germany - snow clearing',
                     'content':
                     'Winter services for the properties1) Former...',
@@ -72,18 +72,18 @@ def test_parse_results(page, prev_pages,
     })
     response = Mock(status=200, content=mock_results)
     assert helpers.parse_results(response, "services", page, '') == {
-       'query': "services",
+       'query': 'services',
        'results': [{
-            "type": "Opportunities",
-            "title": "France - Data analysis services",
-            "content": "The purpose of this contract is to analyze...",
-            "url": "www.great.gov.uk/opportunities/1"
+            'type': ['Document', 'dit:Opportunity'],
+            'title': 'France - Data analysis services',
+            'content': 'The purpose of this contract is to analyze...',
+            'url': 'www.great.gov.uk/opportunities/1'
         },
         {
-            "type": "Opportunities",
-            "title": "Germany - snow clearing",
-            "content": "Winter services for the properties1) Former...",
-            "url": "www.great.gov.uk/opportunities/2"
+            'type': ['Document', 'dit:Opportunity'],
+            'title': 'Germany - snow clearing',
+            'content': 'Winter services for the properties1) Former...',
+            'url': 'www.great.gov.uk/opportunities/2'
         }],
        'total_results': 100,
        'current_page': page,
