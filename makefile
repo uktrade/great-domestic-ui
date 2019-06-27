@@ -122,10 +122,6 @@ TEST_SET_ENV_VARS := \
 	export CONTACT_EXPORTING_AGENT_SUBJECT=exporting-subject; \
 	export COMPANIES_HOUSE_API_KEY=debug; \
 	export CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=domesitc-enquiries@example.com; \
-	export ACTIVITY_STREAM_API_URL=https://www.nonworkingdomaintoraiseconnectionerror.com; \
-	export ACTIVITY_STREAM_API_SECRET_KEY=debug; \
-	export ACTIVITY_STREAM_API_ACCESS_KEY=debug; \
-	export ACTIVITY_STREAM_API_IP_WHITELIST=debug; \
 	export CONTACT_DEFRA_AGENT_EMAIL_ADDRESS=debug; \
 	export CONTACT_BEIS_AGENT_EMAIL_ADDRESS=debug
 
