@@ -191,7 +191,12 @@ def test_format_query():
                             'Opportunity',
                             'Market',
                             'Service',
-                            'Event'
+                            'Event',
+                            'dit:Article',
+                            'dit:Opportunity',
+                            'dit:Market',
+                            'dit:Service',
+                            'dit:Event'
                         ]
                     }}
                 ]
