@@ -8,6 +8,8 @@
 
 **Implemented enhancements:**
 - XOT-906 - Add feedback form to search
+- CMS-1666 - Upgraded directory-components to version 20.0.0 (Updated breadcrumbs tags and GA360 stuff to reflect the latest changes)
+- CMS-1666 - Upgraded directory-constants to 18.0.0
 
 **Fixed bugs:**
 - TT-1580 - Prevent duplicate "company type" showing on contact form

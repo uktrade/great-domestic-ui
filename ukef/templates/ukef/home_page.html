@@ -26,7 +26,7 @@
 
 	<section id="breadcrumbs-section" class="breadcrumbs-section">
 		<div class="container">
-			{% breadcrumbs left_url='/' left_label='Great.gov.uk' right_label='UKEF' %}
+			{% breadcrumbs 'UKEF' %}<a href="/">Great.gov.uk</a>{% endbreadcrumbs %}
 		</div>
 	</section>
 
@@ -45,7 +45,7 @@
 
 	<section id="card-list-section" class="card-list-section padding-vertical-60 background-stone-30">
 		<div class="container">
-			<div class="card-grid margin-top-30">
+			<div class="flex-grid margin-top-30">
 				<div class="column-half-l column-full">
 					<div class="card" id="small-and-medium-businesses">
 						<a class="card-link" href="{% url 'trade-finance' %}" id="small-and-medium-businesses-link">
