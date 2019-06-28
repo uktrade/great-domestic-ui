@@ -177,3 +177,8 @@ def test_search_feedback_submit_success(mock_save, captcha_stub, client):
         service_name='Great.gov.uk Search',
         form_url='/search/feedback/'
     )
+
+
+def test_search_test_api_view(client):
+    response = client.get(reverse('search-test-api'))
+    assert response.status_code == 200
