@@ -14,7 +14,7 @@ clint
 directory-validators==5.0.1
 sigauth==4.0.1
 directory-healthcheck==1.0.1
-directory-components==16.4.0
+directory-components==20.0.0
 geoip2==2.9.0
 django-ipware==2.1.0
 django-redis==4.8.0
