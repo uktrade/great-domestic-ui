@@ -1,0 +1,40 @@
+{% extends 'article/base.html' %}
+
+{% load static %}
+{% load article_tags %}
+{% load add_export_elements_classes from directory_components %}
+
+{% block head_title %}{{ page.article_title }} - great.gov.uk{% endblock %}
+
+{% block og_image %}{% if page.article_image %}{{ page.article_image.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block meta_description %}{% get_meta_description page %}{% endblock %}
+
+{% block css_layout_class %}article-detail-page{% endblock css_layout_class %}
+
+{% block content %}
+
+<section id="article">
+  {% include 'article/marketing_article_detail_content.html' %}
+</section>
+
+{% block related_content_cards %}
+	<section id="contact-us-section" class="contact-us-section padding-vertical-60 background-stone-30">
+		<div class="card-grid">
+			<div class="column-sixth"></div>
+			<div class="column-seven-ninths">
+				<div class="card-grid">
+					<div class="column-half">
+						<h2 class="heading-large">{{ page.cta_title }}</h2>
+						<p class="font-small margin-bottom-45">{{ page.cta_teaser }}</p>
+						<div>
+							<a href="{{ page.cta_link }}" class="button button-arrow-small">{{ page.cta_link_label }}</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% endblock %}
