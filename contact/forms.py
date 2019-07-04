@@ -270,6 +270,7 @@ class BaseShortForm(forms.Form):
     family_name = fields.CharField(label='Last name')
     email = fields.EmailField()
     company_type = fields.ChoiceField(
+        label='Company type',
         label_suffix='',
         widget=widgets.RadioSelect(),
         choices=COMPANY_TYPE_CHOICES,
@@ -305,13 +306,6 @@ class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
 
 
 class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
-
-    # Overriding this field from BaseShortForm
-    company_type = fields.ChoiceField(
-        label="",
-        widget=widgets.RadioSelect(),
-        choices=COMPANY_TYPE_CHOICES,
-    )
 
     @property
     def full_name(self):

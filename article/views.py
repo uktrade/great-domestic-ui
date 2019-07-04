@@ -24,6 +24,7 @@ TEMPLATE_MAPPING = {
     'CountryGuidePage': 'article/country_guide.html',
     'ArticleListingPage': 'article/article_list.html',
     'ArticlePage': 'article/article_detail.html',
+    'MarketingArticlePage': 'article/marketing_article_detail.html',
     'CampaignPage': 'core/campaign.html',
     'PerformanceDashboardPage': 'core/performance_dashboard.html',
     'PerformanceDashboardNotesPage': 'core/performance_dashboard_notes.html',
