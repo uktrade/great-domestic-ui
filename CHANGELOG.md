@@ -5,6 +5,7 @@
 
 ### Fixed bugs
 - TT-1602 - Fix radio buttons on /contact/domestic/
+- No ticket - Upgrade vulnerable django version to django 1.11.22
 
 ## [2019.06.26](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.26)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.19...2019.06.26)
