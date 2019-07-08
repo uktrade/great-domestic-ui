@@ -52,3 +52,12 @@ class FeedbackForm(forms.ZendeskAPIForm):
             'required': ('Check the box to confirm that you’re human')
         }
     )
+
+    @property
+    def serialized_data(self):
+        del self.cleaned_data['captcha']
+        del self.cleaned_data['from_search_query']
+        del self.cleaned_data['from_search_page']
+        del self.cleaned_data['ingress_url']
+        return self.cleaned_data
+
