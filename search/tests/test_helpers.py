@@ -3,8 +3,9 @@ import pytest
 
 from requests.exceptions import ConnectionError
 from unittest.mock import Mock
+from django.conf import settings
 
-from activitystream import helpers
+from search import helpers
 
 
 @pytest.mark.parametrize('page,safe_output', (
@@ -49,7 +50,7 @@ def test_parse_results(page, prev_pages,
                 '_id': 'dit:exportOpportunities:Opportunity:2',
                 '_score': 0.2876821,
                 '_source': {
-                    'type': 'Opportunities',
+                    'type': ['Document', 'dit:Opportunity'],
                     'title': 'France - Data analysis services',
                     'content':
                     'The purpose of this contract is to analyze...',
@@ -61,7 +62,7 @@ def test_parse_results(page, prev_pages,
                 '_id': 'dit:exportOpportunities:Opportunity:2',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': 'Opportunities',
+                    'type': ['Document', 'dit:Opportunity'],
                     'title': 'Germany - snow clearing',
                     'content':
                     'Winter services for the properties1) Former...',
@@ -71,22 +72,20 @@ def test_parse_results(page, prev_pages,
         }
     })
     response = Mock(status=200, content=mock_results)
-    assert helpers.parse_results(response, "services", page, '') == {
-       'query': "services",
+    assert helpers.parse_results(response, "services", page) == {
        'results': [{
-            "type": "Opportunities",
-            "title": "France - Data analysis services",
-            "content": "The purpose of this contract is to analyze...",
-            "url": "www.great.gov.uk/opportunities/1"
+            'type': ['Document', 'dit:Opportunity'],
+            'title': 'France - Data analysis services',
+            'content': 'The purpose of this contract is to analyze...',
+            'url': 'www.great.gov.uk/opportunities/1'
         },
         {
-            "type": "Opportunities",
-            "title": "Germany - snow clearing",
-            "content": "Winter services for the properties1) Former...",
-            "url": "www.great.gov.uk/opportunities/2"
+            'type': ['Document', 'dit:Opportunity'],
+            'title': 'Germany - snow clearing',
+            'content': 'Winter services for the properties1) Former...',
+            'url': 'www.great.gov.uk/opportunities/2'
         }],
        'total_results': 100,
-       'current_page': page,
        'total_pages': 10,
        'previous_page': page-1,
        'next_page': page+1,
@@ -95,8 +94,7 @@ def test_parse_results(page, prev_pages,
        'show_first_page': show_first_page,
        'show_last_page': show_last_page,
        'first_item_number': first_item_number,
-       'last_item_number': last_item_number,
-       'submitted': ''
+       'last_item_number': last_item_number
     }
 
 
@@ -112,11 +110,9 @@ def test_parse_results_error(page, prev_pages,
                              last_item_number):
     mock_results = json.dumps({'error': 'Incorrect alias used'})
     response = Mock(status=200, content=mock_results)
-    assert helpers.parse_results(response, 'services', page, 'true') == {
-        'query': 'services',
+    assert helpers.parse_results(response, 'services', page) == {
         'results': [],
         'total_results': 0,
-        'current_page': page,
         'total_pages': 1,
         'previous_page': page-1,
         'next_page': page+1,
@@ -125,8 +121,7 @@ def test_parse_results_error(page, prev_pages,
         'show_first_page': show_first_page,
         'show_last_page': show_last_page,
         'first_item_number': first_item_number,
-        'last_item_number': last_item_number,
-        'submitted': 'true'
+        'last_item_number': last_item_number
     }
 
 
@@ -182,6 +177,30 @@ def test_format_query():
                             'query': 'Event',
                             'boost': 10000
                         }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Article',
+                            'boost': 10000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Market',
+                            'boost': 10000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Service',
+                            'boost': 20000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Event',
+                            'boost': 10000
+                        }
                     }}
                 ],
                 'filter': [
@@ -191,7 +210,12 @@ def test_format_query():
                             'Opportunity',
                             'Market',
                             'Service',
-                            'Event'
+                            'Event',
+                            'dit:Article',
+                            'dit:Opportunity',
+                            'dit:Market',
+                            'dit:Service',
+                            'dit:Event'
                         ]
                     }}
                 ]
@@ -203,10 +227,18 @@ def test_format_query():
 
 
 def test_search_with_activitystream():
-    """ Simply check that it doesn't expload,
+    key = settings.ACTIVITY_STREAM_API_ACCESS_KEY
+    if not key or key == 'debug':
+        """ If not connected to activitystream dev,
+        simply check that it doesn't expload,
         and instead raises correct no-connection error
-    """
-    with pytest.raises(ConnectionError):
-        helpers.search_with_activitystream(
+        """
+        with pytest.raises(ConnectionError):
+            helpers.search_with_activitystream(
+                helpers.format_query("Test", 1)
+            )
+    else:
+        response = helpers.search_with_activitystream(
             helpers.format_query("Test", 1)
         )
+        assert 'hits' in json.loads(response.content)
