@@ -1,4 +1,4 @@
-from activitystream import forms
+from search import forms
 
 
 def test_cleaned_form(captcha_stub):
