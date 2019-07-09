@@ -6,8 +6,9 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 
+from core.mixins import SetGA360ValuesMixin
 from search import helpers, forms
-from core.mixins import SetGA360ValuesMixin, TestSearchAPIFeatureFlagMixin
+from search.mixins import TestSearchAPIFeatureFlagMixin
 
 logger = logging.getLogger(__name__)
 
