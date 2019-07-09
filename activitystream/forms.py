@@ -58,4 +58,3 @@ class FeedbackForm(forms.ZendeskAPIForm):
         del self.cleaned_data['captcha']
         del self.cleaned_data['ingress_url']
         return self.cleaned_data
-
