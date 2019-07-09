@@ -1,9 +1,9 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
-{% load i18n %}
 {% load humanize %}
 {% load message_box_with_icon from directory_components %}
+{% load breadcrumbs from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -24,14 +24,13 @@
     </div>
   {% endif %}
 
-  {% block breadcrumbs %}
-    <div class="container">
-      <div class="breadcrumbs">
-        <a href="{% url 'landing-page' %}">Great.gov.uk</a>
-        &rsaquo; {% trans 'Search' %}
-      </div>      
-    </div>
-  {% endblock %}
+  <div class="container">
+    {% breadcrumbs 'Feedback' %}
+      <a href="{% url 'landing-page' %}">Great.gov.uk</a>
+      <a href="{% url 'search' %}">Search</a>
+    {% endbreadcrumbs %}
+  </div>
+
   <div class="container">
     <h1 class="heading-xlarge">Search results for<span class=""> {{ query }}</span></h1>
 
