@@ -55,6 +55,6 @@ class FeedbackForm(forms.ZendeskAPIForm):
 
     @property
     def serialized_data(self):
-        del self.cleaned_data['captcha']
-        del self.cleaned_data['ingress_url']
+        if 'captcha' in self.cleaned_data:
+            del self.cleaned_data['captcha']
         return self.cleaned_data
