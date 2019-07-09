@@ -5,7 +5,7 @@ from requests.exceptions import ConnectionError
 from unittest.mock import Mock
 from django.conf import settings
 
-from activitystream import helpers
+from search import helpers
 
 
 @pytest.mark.parametrize('page,safe_output', (
@@ -50,7 +50,7 @@ def test_parse_results(page, prev_pages,
                 '_id': 'dit:exportOpportunities:Opportunity:2',
                 '_score': 0.2876821,
                 '_source': {
-                    'type': 'Opportunities',
+                    'type': ['Document', 'dit:Opportunity'],
                     'title': 'France - Data analysis services',
                     'content':
                     'The purpose of this contract is to analyze...',
@@ -62,7 +62,7 @@ def test_parse_results(page, prev_pages,
                 '_id': 'dit:exportOpportunities:Opportunity:2',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': 'Opportunities',
+                    'type': ['Document', 'dit:Opportunity'],
                     'title': 'Germany - snow clearing',
                     'content':
                     'Winter services for the properties1) Former...',
@@ -74,16 +74,16 @@ def test_parse_results(page, prev_pages,
     response = Mock(status=200, content=mock_results)
     assert helpers.parse_results(response, "services", page) == {
        'results': [{
-            "type": "Opportunities",
-            "title": "France - Data analysis services",
-            "content": "The purpose of this contract is to analyze...",
-            "url": "www.great.gov.uk/opportunities/1"
+            'type': ['Document', 'dit:Opportunity'],
+            'title': 'France - Data analysis services',
+            'content': 'The purpose of this contract is to analyze...',
+            'url': 'www.great.gov.uk/opportunities/1'
         },
         {
-            "type": "Opportunities",
-            "title": "Germany - snow clearing",
-            "content": "Winter services for the properties1) Former...",
-            "url": "www.great.gov.uk/opportunities/2"
+            'type': ['Document', 'dit:Opportunity'],
+            'title': 'Germany - snow clearing',
+            'content': 'Winter services for the properties1) Former...',
+            'url': 'www.great.gov.uk/opportunities/2'
         }],
        'total_results': 100,
        'total_pages': 10,
@@ -177,6 +177,30 @@ def test_format_query():
                             'query': 'Event',
                             'boost': 10000
                         }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Article',
+                            'boost': 10000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Market',
+                            'boost': 10000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Service',
+                            'boost': 20000
+                        }
+                    }},
+                    {'match': {
+                        'type': {
+                            'query': 'dit:Event',
+                            'boost': 10000
+                        }
                     }}
                 ],
                 'filter': [
@@ -186,7 +210,12 @@ def test_format_query():
                             'Opportunity',
                             'Market',
                             'Service',
-                            'Event'
+                            'Event',
+                            'dit:Article',
+                            'dit:Opportunity',
+                            'dit:Market',
+                            'dit:Service',
+                            'dit:Event'
                         ]
                     }}
                 ]

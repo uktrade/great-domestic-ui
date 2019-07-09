@@ -6,8 +6,9 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 
-from activitystream import helpers, forms
 from core.mixins import SetGA360ValuesMixin
+from search import helpers, forms
+from search.mixins import TestSearchAPIFeatureFlagMixin
 
 logger = logging.getLogger(__name__)
 
@@ -117,3 +118,25 @@ class SearchFeedbackFormView(SetGA360ValuesMixin, FormView):
             'q': self.request.GET.get('q', '')
         })
         return context
+
+
+class TestSearchAPIView(TestSearchAPIFeatureFlagMixin, TemplateView):
+    """ Due to shifts in the search order provided, we need to
+    set up tests for the search order. The challenge is that
+    all GDUI does is send an elasticsearch query to the elasticsearch
+    database which sits inside the Activity Stream project. Therefore we
+    can’t create fixtures in the DB. Also, f we mock the
+    database response, then the test doesn’t test anything.
+
+    Another approach would be to test against the staging or
+    dev Elasticsearch database... but the results are not guaranteed to
+    stay fixed as there are content changes to the data.
+
+    The solution decided on is to feed into the dev database only
+    a set of data with an obscure search term (i.e. all have the
+    keyword “query123”). The test runs a search for
+    that query and tests the sort order of the results. Creating the test feed
+    is done by creating a test API within Great Domestic, which is this.
+    This is only consumed by the activitystream dev environment.
+    """
+    template_name = 'test-search-api-pages.json'

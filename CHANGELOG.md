@@ -7,6 +7,7 @@
 - XOT-922 - Marketing Article Page template
 - CMS-1666 - Upgraded directory-components to version 20.0.0 (Updated breadcrumbs tags and GA360 stuff to reflect the latest changes)
 - CMS-1666 - Upgraded directory-constants to 18.0.0
+- XOT-914 - Add automated tests for search sort order
 
 ### Fixed bugs
 - TT-1602 - Fix radio buttons on /contact/domestic/

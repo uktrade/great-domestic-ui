@@ -15,7 +15,7 @@ def parse_search_results(content):
         ).rstrip()
 
     def format_events_url(result):
-        if result['type'] == "Event":
+        if "dit:Event" in result['type'] or "Event" in result['type']:
             url = parse_url(result['url'])
             result['url'] = urls.SERVICES_EVENTS + url.request_uri
 

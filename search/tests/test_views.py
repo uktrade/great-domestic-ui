@@ -6,13 +6,13 @@ from django.core.urlresolvers import reverse
 
 from freezegun import freeze_time
 
-from activitystream import views
+from search import views
 
 
 def test_search_view(client, settings):
     """ We mock the call to ActivityStream """
 
-    with patch('activitystream.helpers.search_with_activitystream') as search:
+    with patch('search.helpers.search_with_activitystream') as search:
         mock_results = json.dumps({
             'took': 17,
             'timed_out': False,
@@ -31,7 +31,7 @@ def test_search_view(client, settings):
                     '_id': 'dit:exportOpportunities:Opportunity:2',
                     '_score': 0.2876821,
                     '_source': {
-                        'type': 'Opportunities',
+                        'type': ['Document', 'dit:Opportunity'],
                         'title': 'France - Data analysis services',
                         'content':
                         'The purpose of this contract is to analyze...',
@@ -43,7 +43,7 @@ def test_search_view(client, settings):
                     '_id': 'dit:exportOpportunities:Opportunity:2',
                     '_score': 0.18232156,
                     '_source': {
-                        'type': 'Opportunities',
+                        'type': ['Document', 'dit:Opportunity'],
                         'title': 'Germany - snow clearing',
                         'content':
                         'Winter services for the properties1) Former...',
@@ -60,16 +60,16 @@ def test_search_view(client, settings):
         assert response.status_code == 200
         assert context['results'] == [
                 {
-                  "type": "Opportunities",
-                  "title": "France - Data analysis services",
-                  "content": "The purpose of this contract is to analyze...",
-                  "url": "www.great.gov.uk/opportunities/1"
+                  'type': ['Document', 'dit:Opportunity'],
+                  'title': 'France - Data analysis services',
+                  'content': 'The purpose of this contract is to analyze...',
+                  'url': 'www.great.gov.uk/opportunities/1'
                 },
                 {
-                  "type": "Opportunities",
-                  "title": "Germany - snow clearing",
-                  "content": "Winter services for the properties1) Former...",
-                  "url": "www.great.gov.uk/opportunities/2"
+                  'type': ['Document', 'dit:Opportunity'],
+                  'title': 'Germany - snow clearing',
+                  'content': 'Winter services for the properties1) Former...',
+                  'url': 'www.great.gov.uk/opportunities/2'
                 }
             ]
 
@@ -122,6 +122,17 @@ def test_search_view(client, settings):
         assert context['error_status_code'] == 500
 
 
+def test_search_order(client):
+    response = client.get(reverse('search'), data={'q': 'qwerty123'})
+
+    assert response.status_code == 200
+
+    results = response.context_data['results']
+    assert len(results) == 4
+    assert results[0]["type"][1] == "dit:Service"
+    assert results[-1]["type"][1] == "dit:Opportunity"
+
+
 def test_search_key_pages_view(client):
     response = client.get(reverse('search-key-pages'))
     feed_parsed = json.loads(response.content)
@@ -166,3 +177,8 @@ def test_search_feedback_submit_success(mock_save, captcha_stub, client):
         service_name='Great.gov.uk Search',
         form_url='/search/feedback/'
     )
+
+
+def test_search_test_api_view(client):
+    response = client.get(reverse('search-test-api'))
+    assert response.status_code == 200
