@@ -140,6 +140,9 @@
   font-size: 16px;
   line-height: 1.25;
 }
+.breadcrumbs li:after{
+  margin: 0px 6px 0px 6px;
+}
 
 #id_result_found, #id_contactable{
   margin-top: 10px;

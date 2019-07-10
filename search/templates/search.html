@@ -24,12 +24,12 @@
     </div>
   {% endif %}
 
-  
   <div class="container">
-    {% breadcrumbs "Search" %}
+    {% breadcrumbs 'Search' %}
       <a href="{% url 'landing-page' %}">Great.gov.uk</a>
     {% endbreadcrumbs %}
   </div>
+
   <div class="container">
     <h1 class="heading-xlarge">Search results for<span class=""> {{ query }}</span></h1>
 
