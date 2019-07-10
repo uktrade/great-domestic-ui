@@ -650,7 +650,7 @@ community_urls = [
     ),
     url(
         r"^community/success/$",
-        community.views.CommunitySuccessPageView.as_view(),
+        skip_ga360(community.views.CommunitySuccessPageView.as_view()),
         name='community-join-success'
     ),
     url(

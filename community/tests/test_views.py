@@ -32,3 +32,11 @@ def test_community_join_form_notify_success(
             template_id=settings.COMMUNITY_ENQUIRIES_USER_NOTIFY_TEMPLATE_ID
         )
     ]
+
+
+def test_community_success_view(client):
+    url = reverse('community-join-success')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
