@@ -2,7 +2,7 @@
 {% load add_export_elements_classes from directory_components %}
 
 {% block breadcrumbs %}
-  {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
+  {% include 'article/components/cms_breadcrumbs.html' %}
 {% endblock %}
 
 <article class="article-main {{ slug }}-article">
@@ -24,7 +24,6 @@
           {% endif %}
           <p class="subheading">Last updated {{ page.last_published_at|parse_date }}</p>
         </div>
-
         {% block article_tags %}
           {% if features.PROTOTYPE_PAGES_ON and page.tags %}
             <div class="column-quarter">

@@ -29,7 +29,7 @@
 
   .type {
     @include body-s;
-    color: $grey-2;
+    color: $mid-grey;
     display: block;
   }
 }
@@ -113,7 +113,7 @@
 
   .text {
     @include body-m;
-    color: $grey-2;
+    color: $mid-grey;
     height: 50px;
     max-width: 600px;
     width: 80%;

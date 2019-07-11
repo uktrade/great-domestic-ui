@@ -41,6 +41,13 @@
     padding-top: 30px;
   }
 
+  // elements
+
+  .article-content table td,
+  .article-content table th {
+    border-bottom: 1px solid $mid-grey;
+  }
+
   @media (max-width: 640px) {
     .column-seven-ninths {
       width: 100%;
@@ -52,3 +59,6 @@
     }
   }
 }
+
+
+
