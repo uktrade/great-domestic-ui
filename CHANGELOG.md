@@ -4,6 +4,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-958 - bugfixes for XOT-922 (css changes, added cms_breadcrumbs, fixed template footer markup and hide block if fields not populated)
 - XOT-922 - Marketing Article Page template
 - CMS-1666 - Upgraded directory-components to version 20.0.0 (Updated breadcrumbs tags and GA360 stuff to reflect the latest changes)
 - CMS-1666 - Upgraded directory-constants to 18.0.0

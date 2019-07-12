@@ -214,7 +214,7 @@ def test_marketing_article_detail_page_related_content_not_rendered():
         },
         "page_type": "MarketingArticlePage",
     }
-    
+
     context['page'] = page
 
     html = render_to_string('article/marketing_article_detail.html', context)
@@ -222,8 +222,7 @@ def test_marketing_article_detail_page_related_content_not_rendered():
     assert '<section id="contact-us-section"' not in html
 
 
-
-def test_marketing_article_detail_page_related_content_button_not_rendered_without_link():
+def test_marketing_article_detail_content_button_not_rendered_without_link():
     context = {}
     page = {
         "title": "Test article admin title",
@@ -241,12 +240,12 @@ def test_marketing_article_detail_page_related_content_button_not_rendered_witho
         },
         "page_type": "MarketingArticlePage",
     }
-    
+
     context['page'] = page
 
     html = render_to_string('article/marketing_article_detail.html', context)
 
-    assert 'class="button button-arrow-small"' not in html 
+    assert 'class="button button-arrow-small"' not in html
 
 
 test_news_list_page = {
