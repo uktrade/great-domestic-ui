@@ -41,11 +41,17 @@
     padding-top: 30px;
   }
 
-  // elements
+  .column-quarter .content-list:last-child {
+    margin-bottom: 30px;
+  }
 
   .article-content table td,
   .article-content table th {
     border-bottom: 1px solid $mid-grey;
+  }
+
+  .article-content hr {
+    background: $mid-grey;
   }
 
   @media (max-width: 640px) {
@@ -56,6 +62,10 @@
 
     .article-content {
       margin-left: 0;
+    }
+
+    .content-list.related-cta-content {
+        display: none;
     }
   }
 }
