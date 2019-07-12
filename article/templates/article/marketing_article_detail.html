@@ -18,23 +18,39 @@
   {% include 'article/marketing_article_detail_content.html' %}
 </section>
 
-{% block related_content_cards %}
-	<section id="contact-us-section" class="contact-us-section padding-vertical-60 background-stone-30">
-		<div class="card-grid">
-			<div class="column-sixth"></div>
-			<div class="column-seven-ninths">
-				<div class="card-grid">
-					<div class="column-half">
-						<h2 class="heading-large">{{ page.cta_title }}</h2>
-						<p class="font-small margin-bottom-45">{{ page.cta_teaser }}</p>
-						<div>
-							<a href="{{ page.cta_link }}" class="button button-arrow-small">{{ page.cta_link_label }}</a>
+
+{% block related_article_content %}
+
+
+{% if page.cta_title or page.cta_teaser or page.cta_link_label %}
+<section id="contact-us-section" class="contact-us-section padding-vertical-60 background-stone-30">
+		<div class="container">
+			<div class="grid-row">
+				<div class="column-three-quarters">
+					<div class="grid-row">
+							<div class="column-seven-ninths">
+								<div class="grid-row">
+									<div class="column">
+										{% if page.cta_title %}
+										<h2 class="heading-large">{{ page.cta_title }}</h2>
+										{% endif %}
+										{% if page.cta_teaser %}
+										<p class="font-small margin-bottom-45">{{ page.cta_teaser }}</p>
+										{% endif %}
+										{% if page.cta_link_label and page.cta_link %}
+										<div>
+											<a href="{{ page.cta_link }}" class="button button-arrow-small">{{ page.cta_link_label }}</a>
+										</div>
+										{% endif %}
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 	</section>
+	{% endif %}
 {% endblock %}
 
 {% endblock %}
