@@ -16,8 +16,12 @@
 {% block content %}
 <section id="get-finance-hero" class="get-finance-hero hero padding-top-0 padding-bottom-30" style="background-image: url({{ page.hero_image.url }})">
   <div class="container">
-		{% url 'get-finance' as get_finance_url %}
-		{% breadcrumbs left_url='/' left_label='Great.gov.uk' middle_url=get_finance_url middle_label='UKEF' right_label='Trade Finance' %}
+
+    {% breadcrumbs 'Trade Finance' %}
+      <a href="/">Great.gov.uk</a>
+      <a href="{% url 'get-finance' %}">UKEF</a>
+    {% endbreadcrumbs %}
+
     <img src="{% static 'images/UKEF-logo.png' %}" alt="UK Export Finance" class="ukef-logo float-right" width="148">
 
     <div class="grid-row">
@@ -39,7 +43,7 @@
                 <h2 class="heading-large margin-top-30 margin-bottom-45">{{ page.advantages_title }}</h2>
             </div>
         </div>
-        <div class="card-grid advantages-list-container">
+        <div class="flex-grid advantages-list-container">
             <div class="column-half-l column-third-xl service-card padding-bottom-30">
               <div class="image-container">
                 <img src="{{ page.advantages_one_icon.url}}" width="40" class="float-left" />
@@ -71,7 +75,7 @@
 
 <section id="get-finance-video" class="get-finance-video padding-vertical-60 background-stone-30">
   <div class="container">
-    <div class="card-grid reverse-columns-s">
+    <div class="flex-grid reverse-columns-s">
       <div class="column-half-l wrap-tight evidence-section">
         {{ page.evidence|add_export_elements_classes }}
       </div>
