@@ -1,4 +1,4 @@
-from directory_components import forms, fields, widgets
+from directory_components import forms
 from django.utils.safestring import mark_safe
 
 from django.forms import Textarea, TextInput
@@ -12,30 +12,30 @@ class AboutForm(forms.Form):
         'Other'
     )
 
-    firstname = fields.CharField(
+    firstname = forms.CharField(
         label='First name',
         error_messages={
             'required': 'Enter your first name'
         }
     )
 
-    lastname = fields.CharField(
+    lastname = forms.CharField(
         label='Last name',
         error_messages={
             'required': 'Enter your last name'
         }
     )
 
-    jobtitle = fields.CharField(
+    jobtitle = forms.CharField(
         label='Job title',
         error_messages={
             'required': 'Enter your job title'
         }
     )
 
-    business_type = fields.ChoiceField(
+    business_type = forms.ChoiceField(
         label='Business type',
-        widget=widgets.RadioSelect(
+        widget=forms.RadioSelect(
             attrs={'id': 'checkbox-single'},
             use_nice_ids=True,
         ),
@@ -44,27 +44,27 @@ class AboutForm(forms.Form):
             'required': 'Tell us your business type'
         }
     )
-    other_business_type = fields.CharField(
+    other_business_type = forms.CharField(
         label='Tell us about your organisation',
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False
     )
 
-    company_name = fields.CharField(
+    company_name = forms.CharField(
         label='Business or organisation name',
         error_messages={
             'required': 'Enter your business or organisation name'
         }
     )
 
-    email = fields.EmailField(
+    email = forms.EmailField(
         label='Email address',
         error_messages={
             'required': 'Enter your email address'
         }
     )
 
-    phone = fields.CharField(
+    phone = forms.CharField(
         label='Telephone number',
         error_messages={
             'required': 'Enter your telephone number'
@@ -87,7 +87,7 @@ class ProblemDetailsForm(forms.Form):
 
     error_css_class = 'input-field-container has-error'
 
-    location = fields.CharField(
+    location = forms.CharField(
         label='Where are you trying to export to or invest in?',
         error_messages={
             'required': (
@@ -95,7 +95,7 @@ class ProblemDetailsForm(forms.Form):
             )
         }
     )
-    product_service = fields.CharField(
+    product_service = forms.CharField(
         label='What goods or services do you want to export?',
         help_text='Or tell us about an investment you want to make',
         error_messages={
@@ -104,7 +104,7 @@ class ProblemDetailsForm(forms.Form):
             )
         }
     )
-    problem_summary = fields.CharField(
+    problem_summary = forms.CharField(
         label=mark_safe(
             (
                 '<p>Tell us about your problem, including: </p>'
@@ -129,7 +129,7 @@ class ProblemDetailsForm(forms.Form):
             'required': 'Tell us about the problem you’re facing'
         }
     )
-    impact = fields.CharField(
+    impact = forms.CharField(
         label=(
             'How has the problem affected your business or '
             'industry, or how could it affect it?'
@@ -142,7 +142,7 @@ class ProblemDetailsForm(forms.Form):
             )
         }
     )
-    resolve_summary = fields.CharField(
+    resolve_summary = forms.CharField(
         label=mark_safe(
             (
                 '<p>Tell us about any steps you’ve taken '
@@ -162,9 +162,9 @@ class ProblemDetailsForm(forms.Form):
             )
         }
     )
-    eu_exit_related = fields.ChoiceField(
+    eu_exit_related = forms.ChoiceField(
         label='Is your problem caused by or related to EU Exit?',
-        widget=widgets.RadioSelect(
+        widget=forms.RadioSelect(
             use_nice_ids=True, attrs={'id': 'radio-one'}
         ),
         choices=(

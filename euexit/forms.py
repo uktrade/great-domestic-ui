@@ -1,6 +1,6 @@
 from captcha.fields import ReCaptchaField
 from directory_constants import choices, urls
-from directory_components import forms, fields, widgets
+from directory_components import forms
 from directory_forms_api_client.forms import ZendeskActionMixin
 from directory_validators.common import not_contains_url_or_email
 from directory_validators.company import no_html
@@ -26,7 +26,7 @@ TERMS_LABEL = mark_safe(
 
 class FieldsMutationMixin:
     def __init__(self, field_attributes, disclaimer, *args, **kwargs):
-        for field_name, field in self.base_fields.items():
+        for field_name, field in self.base_forms.items():
             attributes = field_attributes.get(field_name)
             if attributes:
                 field.__dict__.update(attributes)
@@ -58,26 +58,26 @@ class SerializeMixin:
 class InternationalContactForm(
     FieldsMutationMixin, SerializeMixin, ZendeskActionMixin, forms.Form
 ):
-    first_name = fields.CharField()
-    last_name = fields.CharField()
-    email = fields.EmailField()
-    organisation_type = fields.ChoiceField(
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.EmailField()
+    organisation_type = forms.ChoiceField(
         label_suffix='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=COMPANY_CHOICES,
     )
-    company_name = fields.CharField()
-    country = fields.ChoiceField(
+    company_name = forms.CharField()
+    country = forms.ChoiceField(
         choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
         widget=Select(),
     )
-    city = fields.CharField()
-    comment = fields.CharField(
+    city = forms.CharField()
+    comment = forms.CharField(
         widget=Textarea,
         validators=[no_html, not_contains_url_or_email]
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL
     )
 
@@ -86,20 +86,20 @@ class DomesticContactForm(
     FieldsMutationMixin, SerializeMixin, ZendeskActionMixin, forms.Form
 ):
 
-    first_name = fields.CharField()
-    last_name = fields.CharField()
-    email = fields.EmailField()
-    organisation_type = fields.ChoiceField(
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.EmailField()
+    organisation_type = forms.ChoiceField(
         label_suffix='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=COMPANY_CHOICES
     )
-    company_name = fields.CharField()
-    comment = fields.CharField(
+    company_name = forms.CharField()
+    comment = forms.CharField(
         widget=Textarea,
         validators=[no_html, not_contains_url_or_email]
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL
     )

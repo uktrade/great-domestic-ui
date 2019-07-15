@@ -7,7 +7,7 @@
       {% for listing in page.child_pages %}
         {% if listing.articles_count > 0 %}
           <div class="column-full column-third-l column-half-m">
-            {% include 'article/components/landing_page_card.html' with listing=listing %}
+            {% include 'article/components/landing_page_card.html' with url=listing.full_path img_src=listing.hero_image_thumbnail.url title=listing.landing_page_title last_published_at=listing.last_published_at articles_count=listing.articles_count %}
           </div>
         {% endif %}
       {% endfor %}

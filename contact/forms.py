@@ -1,5 +1,5 @@
 from captcha.fields import ReCaptchaField
-from directory_components import forms, fields, widgets
+from directory_components import forms
 from directory_constants import choices, urls
 from directory_forms_api_client.forms import (
     GovNotifyActionMixin, ZendeskActionMixin
@@ -11,7 +11,6 @@ from django.forms import Textarea, TextInput, TypedChoiceField
 from django.utils.html import mark_safe
 
 from contact import constants, helpers
-from contact.fields import IntegerField
 
 
 TERMS_LABEL = mark_safe(
@@ -79,9 +78,9 @@ class LocationRoutingForm(forms.Form):
         (constants.DOMESTIC, 'The UK'),
         (constants.INTERNATIONAL, 'Outside the UK'),
     )
-    choice = fields.ChoiceField(
+    choice = forms.ChoiceField(
         label='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=CHOICES,
     )
 
@@ -101,9 +100,9 @@ class DomesticRoutingForm(forms.Form):
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
         (constants.OTHER, 'Other'),
     )
-    choice = fields.ChoiceField(
+    choice = forms.ChoiceField(
         label='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=CHOICES,  # possibly update by mixin
     )
 
@@ -115,9 +114,9 @@ class GreatServicesRoutingForm(forms.Form):
         (constants.GREAT_ACCOUNT, 'Your account on great.gov.uk'),
         (constants.OTHER, 'Other'),
     )
-    choice = fields.ChoiceField(
+    choice = forms.ChoiceField(
         label='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=CHOICES,
     )
 
@@ -131,9 +130,9 @@ class ExportOpportunitiesRoutingForm(forms.Form):
         (constants.ALERTS, 'My daily alerts are not relevant to me'),
         (constants.OTHER, 'Other'),
     )
-    choice = fields.ChoiceField(
+    choice = forms.ChoiceField(
         label='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=CHOICES,
     )
 
@@ -167,9 +166,9 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
         ),
         (constants.OTHER, 'Other'),
     )
-    choice = fields.ChoiceField(
+    choice = forms.ChoiceField(
         label='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=CHOICES,
     )
 
@@ -184,9 +183,9 @@ class InternationalRoutingForm(
         (constants.EUEXIT, 'EU exit enquiries'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
-    choice = fields.ChoiceField(
+    choice = forms.ChoiceField(
         label='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=CHOICES,  # possibly updated by mixin
     )
 
@@ -236,22 +235,22 @@ class ExportingIntoUKRoutingForm(forms.Form):
         ),
         (constants.OTHER, 'Other'),
     )
-    choice = fields.ChoiceField(
+    choice = forms.ChoiceField(
         label='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=CHOICES,
     )
 
 
 class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
-    name = fields.CharField()
-    email = fields.EmailField()
-    comment = fields.CharField(
+    name = forms.CharField()
+    email = forms.EmailField()
+    comment = forms.CharField(
         label='Feedback',
         widget=Textarea,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL
     )
 
@@ -262,29 +261,29 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
 
 
 class BaseShortForm(forms.Form):
-    comment = fields.CharField(
+    comment = forms.CharField(
         label='Please give us as much detail as you can',
         widget=Textarea,
     )
-    given_name = fields.CharField(label='First name')
-    family_name = fields.CharField(label='Last name')
-    email = fields.EmailField()
-    company_type = fields.ChoiceField(
+    given_name = forms.CharField(label='First name')
+    family_name = forms.CharField(label='Last name')
+    email = forms.EmailField()
+    company_type = forms.ChoiceField(
         label='Company type',
         label_suffix='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=COMPANY_TYPE_CHOICES,
     )
-    company_type_other = fields.ChoiceField(
+    company_type_other = forms.ChoiceField(
         label='Type of organisation',
         label_suffix='',
         choices=(('', 'Please select'),) + COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
-    organisation_name = fields.CharField()
-    postcode = fields.CharField()
+    organisation_name = forms.CharField()
+    postcode = forms.CharField()
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = fields.BooleanField(label=TERMS_LABEL)
+    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
 class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
@@ -323,20 +322,20 @@ class InternationalContactForm(
         ('OTHER', 'Other type of organisation'),
     )
 
-    given_name = fields.CharField()
-    family_name = fields.CharField()
-    email = fields.EmailField(label='Email address')
-    organisation_type = fields.ChoiceField(
+    given_name = forms.CharField()
+    family_name = forms.CharField()
+    email = forms.EmailField(label='Email address')
+    organisation_type = forms.ChoiceField(
         label_suffix='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=ORGANISATION_TYPE_CHOICES
     )
-    organisation_name = fields.CharField(label='Your organisation name')
-    country_name = fields.ChoiceField(
+    organisation_name = forms.CharField(label='Your organisation name')
+    country_name = forms.ChoiceField(
         choices=[('', 'Please select')] + choices.COUNTRY_CHOICES,
     )
-    city = fields.CharField(label='City')
-    comment = fields.CharField(
+    city = forms.CharField(label='City')
+    comment = forms.CharField(
         label='Tell us how we can help',
         help_text=(
             'Do not include personal information or anything of a '
@@ -345,13 +344,13 @@ class InternationalContactForm(
         widget=Textarea,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL
     )
 
 
 class CommentForm(forms.Form):
-    comment = fields.CharField(
+    comment = forms.CharField(
         label='',
         widget=Textarea,
     )
@@ -359,11 +358,11 @@ class CommentForm(forms.Form):
 
 class PersonalDetailsForm(forms.Form):
 
-    first_name = fields.CharField(label='First name')
-    last_name = fields.CharField(label='Last name')
-    position = fields.CharField(label='Position in organisation')
-    email = fields.EmailField(label='Email address')
-    phone = fields.CharField(label='Phone')
+    first_name = forms.CharField(label='First name')
+    last_name = forms.CharField(label='Last name')
+    position = forms.CharField(label='Position in organisation')
+    email = forms.EmailField(label='Email address')
+    phone = forms.CharField(label='Phone')
 
 
 class BusinessDetailsForm(forms.Form):
@@ -378,53 +377,53 @@ class BusinessDetailsForm(forms.Form):
         ('50m+', '£50,000,000+')
     )
 
-    company_type = fields.ChoiceField(
+    company_type = forms.ChoiceField(
         label_suffix='',
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         choices=COMPANY_TYPE_CHOICES,
     )
-    companies_house_number = fields.CharField(
+    companies_house_number = forms.CharField(
         label='Companies House number',
         required=False,
     )
-    company_type_other = fields.ChoiceField(
+    company_type_other = forms.ChoiceField(
         label_suffix='',
         choices=(('', 'Please select'),) + COMPANY_TYPE_OTHER_CHOICES,
         required=False,
     )
-    organisation_name = fields.CharField()
-    postcode = fields.CharField()
-    industry = fields.ChoiceField(
+    organisation_name = forms.CharField()
+    postcode = forms.CharField()
+    industry = forms.ChoiceField(
         choices=INDUSTRY_CHOICES,
     )
-    industry_other = fields.CharField(
+    industry_other = forms.CharField(
         label='Type in your industry',
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False,
     )
-    turnover = fields.ChoiceField(
+    turnover = forms.ChoiceField(
         label='Annual turnover (optional)',
         choices=TURNOVER_OPTIONS,
         required=False,
     )
-    employees = fields.ChoiceField(
+    employees = forms.ChoiceField(
         label='Number of employees (optional)',
         choices=(('', 'Please select'),) + choices.EMPLOYEES,
         required=False,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL
     )
 
 
 class SellingOnlineOverseasBusiness(forms.Form):
-    company_name = fields.CharField(required=True)
-    soletrader = fields.BooleanField(
+    company_name = forms.CharField(required=True)
+    soletrader = forms.BooleanField(
         label='I don\'t have a company number',
         required=False,
     )
-    company_number = fields.CharField(
+    company_number = forms.CharField(
         label='Companies House Number',
         help_text=(
             'The number you received when '
@@ -432,10 +431,10 @@ class SellingOnlineOverseasBusiness(forms.Form):
         ),
         required=False,  # Only need if soletrader false - see clean (below)
     )
-    company_postcode = fields.CharField(
+    company_postcode = forms.CharField(
         required=True,
     )
-    website_address = fields.CharField(
+    website_address = forms.CharField(
         label='Company website',
         help_text='Website address, where we can see your products online.',
         max_length=255,
@@ -461,15 +460,15 @@ class SellingOnlineOverseasBusinessDetails(forms.Form):
 
     )
 
-    turnover = fields.ChoiceField(
+    turnover = forms.ChoiceField(
         label='Turnover last year',
         help_text=(
             'You may use 12 months rolling or last year\'s annual turnover.'
         ),
         choices=TURNOVER_OPTIONS,
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
     )
-    sku_count = IntegerField(
+    sku_count = forms.IntegerField(
         label='How many stock keeping units (SKUs) do you have?',
         help_text=(
             'A stock keeping unit is an individual item, such as a product '
@@ -484,7 +483,7 @@ class SellingOnlineOverseasBusinessDetails(forms.Form):
         label_suffix='',
         coerce=lambda x: x == 'True',
         choices=[(True, 'Yes'), (False, 'No')],
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
         required=False,
     )
 
@@ -496,13 +495,13 @@ class SellingOnlineOverseasExperience(forms.Form):
         ('Yes, regularly', 'Yes, regularly')
     )
 
-    experience = fields.ChoiceField(
+    experience = forms.ChoiceField(
         label='Have you sold products online to customers outside the UK?',
         choices=EXPERIENCE_OPTIONS,
-        widget=widgets.RadioSelect(),
+        widget=forms.RadioSelect(),
     )
 
-    description = fields.CharField(
+    description = forms.CharField(
         label='Pitch your business to this marketplace',
         help_text=(
             'Your pitch is important and the information you provide may be '
@@ -515,17 +514,17 @@ class SellingOnlineOverseasExperience(forms.Form):
 
 
 class SellingOnlineOverseasContactDetails(forms.Form):
-    contact_name = fields.CharField()
-    contact_email = fields.EmailField(
+    contact_name = forms.CharField()
+    contact_email = forms.EmailField(
         label='Email address'
     )
-    phone = fields.CharField(label='Telephone number')
-    email_pref = fields.BooleanField(
+    phone = forms.CharField(label='Telephone number')
+    email_pref = forms.BooleanField(
         label='I prefer to be contacted by email',
         required=False,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL
     )
 
@@ -533,7 +532,7 @@ class SellingOnlineOverseasContactDetails(forms.Form):
 class OfficeFinderForm(forms.Form):
     MESSAGE_NOT_FOUND = 'The postcode you entered does not exist'
 
-    postcode = fields.CharField(
+    postcode = forms.CharField(
         label='Enter your postcode',
         help_text='For example SW1A 2AA',
     )
