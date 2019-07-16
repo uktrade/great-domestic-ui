@@ -5,6 +5,7 @@
 @import 'partials/colours';
 @import 'partials/vars';
 @import 'partials/mixins';
+@import 'partials/cards';
 
 @import 'components/carousel';
 
@@ -72,6 +73,7 @@
 body.webp-enabled {
   #hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-champion-500.webp') }
 }
+
 
 // Sections
 
