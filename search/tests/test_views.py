@@ -124,15 +124,13 @@ def test_search_view(client, settings):
 
 def test_search_order(client):
     response = client.get(reverse('search'), data={'q': 'qwerty123'})
-    import pdb; pdb.set_trace();
 
     assert response.status_code == 200
 
-    import pdb; pdb.set_trace();
     results = response.context_data['results']
     assert len(results) == 4
-    assert results[0]["type"][1] == "Service"
-    assert results[-1]["type"][1] == "Opportunity"
+    assert results[0]["type"] == "Service"
+    assert results[-1]["type"] == "Export opportunity"
 
 
 def test_search_key_pages_view(client):
