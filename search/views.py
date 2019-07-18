@@ -24,6 +24,8 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+        import pdb; pdb.set_trace();
+
         results = {}
         query = self.request.GET.get('q', '')
         submitted = self.request.GET.get('submitted', '')
@@ -38,6 +40,7 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
         try:
             elasticsearch_query = helpers.format_query(query, page)
             response = helpers.search_with_activitystream(elasticsearch_query)
+            import pdb; pdb.set_trace();
         except RequestException:
             logger.error(
                 "Activity Stream connection for "
@@ -50,8 +53,7 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
             if response.status_code != 200:
                 results = {
                     'error_message': response.content,
-                    'error_status_code': response.status_code,
-
+                    'error_status_code': response.status_code
                 }
 
             else:

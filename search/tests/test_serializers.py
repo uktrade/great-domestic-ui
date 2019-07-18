@@ -1,7 +1,7 @@
 from search import serializers
 
 
-def test_parse_results():
+def test_parse_search_results():
     content = {
         'took': 17,
         'timed_out': False,
@@ -95,35 +95,35 @@ r-2018) and the full",
     }
 
     assert serializers.parse_search_results(content) == [{
-        'type': ['Document', 'dit:Opportunity'],
+        'type': 'Export opportunity',
         'title': 'France - Data analysis services',
         'content': 'The purpose of this contract is to analyze Python\
  For Loops. A for loop is used for iterating over a sequence (that is\
   either a list, a tuple, a dictionary, a ...',
         'url': 'www.great.gov.uk/opportunities/1'
     }, {
-        'type': ['Document', 'dit:Opportunity'],
+        'type': 'Export opportunity',
         'title': 'Germany - snow clearing',
         'content': 'Winter services for the properties1) Former...',
         'url': 'www.great.gov.uk/opportunities/2'
     }, {
-        'type': ['Document', 'dit:Article'],
+        'type': 'Article',
         'title': 'Test Shortening Content',
         'content': 'The UK and the EU have agreed a draft agreement\
  on withdrawing from the EU. Read the Prime Minister\'s statement and\
  the full',
         'url': 'www.great.gov.uk/opportunities/3'
     }, {
-        'type': ['Document', 'dit:Article'],
+        'type': 'Article',
         'title': 'Test No Content',
         'url': 'www.great.gov.uk/opportunities/4',
         'content': ''
     }, {
-        'type': ['Document', 'dit:Article'],
+        'type': 'Article',
         'title': 'Test No URL',
         'content': 'Here is the content',
     }, {
-        'type': ['Document', 'dit:Event'],
+        'type': 'Event',
         'title': 'Test Event URL Parsing',
         'content': 'Great event',
         'url': 'https://www.events.great.gov.uk/\
