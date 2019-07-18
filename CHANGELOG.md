@@ -5,16 +5,27 @@
 
 ### Implemented enhancements
 - XOT-958 - bugfixes for XOT-922 (css changes, added cms_breadcrumbs, fixed template footer markup and hide block if fields not populated)
-- XOT-922 - Marketing Article Page template
-- CMS-1666 - Upgraded directory-components to version 20.0.0 (Updated breadcrumbs tags and GA360 stuff to reflect the latest changes)
-- CMS-1666 - Upgraded directory-constants to 18.0.0
 - XOT-914 - Add automated tests for search sort order
 - XOT-906 - Update wording on search feedbac form
 
 ### Fixed bugs
 - TT-1602 - Fix radio buttons on /contact/domestic/
-- No ticket - Upgrade vulnerable django version to django 1.11.22
 - No ticket - Fixed no GA bug on /community/success/
+
+## [2019.07.16](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.07.16)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.26...2019.07.16)
+
+### Implemented enhancements
+
+XOT-922 - Marketing Article Page template [this relies on CMS change]
+CMS-1666 - Upgraded directory-components to version 20.0.0 (Updated breadcrumbs tags and GA360 stuff to reflect the latest changes)
+CMS-1666 - Upgraded directory-constants to 18.0.0
+
+### Fixed bugs
+
+TT-1602 - Fix radio buttons on /contact/domestic/
+No ticket - Upgrade vulnerable django version to django 1.11.22
+
 
 ## [2019.06.26](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.06.26)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.06.19...2019.06.26)
