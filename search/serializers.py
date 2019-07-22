@@ -27,7 +27,7 @@ def parse_search_results(content):
 
     def format_display_type(result):
         mappings = {
-            'dit:Event':  'Event',
+            'dit:Event': 'Event',
             'Event': 'Event',
             'dit:Opportunity': 'Export opportunity',
             'Opportunity': 'Export opportunity',
