@@ -6,7 +6,8 @@
 ### Implemented enhancements
 - XOT-958 - bugfixes for XOT-922 (css changes, added cms_breadcrumbs, fixed template footer markup and hide block if fields not populated)
 - XOT-914 - Add automated tests for search sort order
-- XOT-906 - Update wording on search feedbac form
+- XOT-906 - Update wording on search feedback form
+- XOT-943 - Rename market and opportunity search classifiers in Search
 
 ### Fixed bugs
 - TT-1602 - Fix radio buttons on /contact/domestic/

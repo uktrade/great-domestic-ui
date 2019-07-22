@@ -60,13 +60,13 @@ def test_search_view(client, settings):
         assert response.status_code == 200
         assert context['results'] == [
                 {
-                  'type': ['Document', 'dit:Opportunity'],
+                  'type': 'Export opportunity',
                   'title': 'France - Data analysis services',
                   'content': 'The purpose of this contract is to analyze...',
                   'url': 'www.great.gov.uk/opportunities/1'
                 },
                 {
-                  'type': ['Document', 'dit:Opportunity'],
+                  'type': 'Export opportunity',
                   'title': 'Germany - snow clearing',
                   'content': 'Winter services for the properties1) Former...',
                   'url': 'www.great.gov.uk/opportunities/2'
@@ -129,8 +129,8 @@ def test_search_order(client):
 
     results = response.context_data['results']
     assert len(results) == 4
-    assert results[0]["type"][1] == "dit:Service"
-    assert results[-1]["type"][1] == "dit:Opportunity"
+    assert results[0]["type"] == "Service"
+    assert results[-1]["type"] == "Export opportunity"
 
 
 def test_search_key_pages_view(client):

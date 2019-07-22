@@ -24,6 +24,7 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
+
         results = {}
         query = self.request.GET.get('q', '')
         submitted = self.request.GET.get('submitted', '')
@@ -50,8 +51,7 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
             if response.status_code != 200:
                 results = {
                     'error_message': response.content,
-                    'error_status_code': response.status_code,
-
+                    'error_status_code': response.status_code
                 }
 
             else:

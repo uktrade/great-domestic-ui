@@ -74,13 +74,13 @@ def test_parse_results(page, prev_pages,
     response = Mock(status=200, content=mock_results)
     assert helpers.parse_results(response, "services", page) == {
        'results': [{
-            'type': ['Document', 'dit:Opportunity'],
+            'type': 'Export opportunity',
             'title': 'France - Data analysis services',
             'content': 'The purpose of this contract is to analyze...',
             'url': 'www.great.gov.uk/opportunities/1'
         },
         {
-            'type': ['Document', 'dit:Opportunity'],
+            'type': 'Export opportunity',
             'title': 'Germany - snow clearing',
             'content': 'Winter services for the properties1) Former...',
             'url': 'www.great.gov.uk/opportunities/2'
