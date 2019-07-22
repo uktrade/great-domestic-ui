@@ -19,7 +19,7 @@ import euexit.views
 import finance.views
 import marketaccess.views
 import community.views
-import activitystream.views
+import search.views
 import ukef.views
 
 from conf.url_redirects import redirects
@@ -179,18 +179,23 @@ urlpatterns = [
     ),
     url(
         r'^search/key-pages/$',
-        skip_ga360(activitystream.views.SearchKeyPagesView.as_view()),
+        skip_ga360(search.views.SearchKeyPagesView.as_view()),
         name='search-key-pages'
     ),
     url(
         r'^search/$',
-        activitystream.views.SearchView.as_view(),
+        search.views.SearchView.as_view(),
         name='search'
     ),
     url(
         r'^search/feedback/$',
-        activitystream.views.SearchFeedbackFormView.as_view(),
+        search.views.SearchFeedbackFormView.as_view(),
         name='search-feedback'
+    ),
+    url(
+        r'^search/test-api/$',
+        skip_ga360(search.views.TestSearchAPIView.as_view()),
+        name='search-test-api'
     )
 ]
 
@@ -645,7 +650,7 @@ community_urls = [
     ),
     url(
         r"^community/success/$",
-        community.views.CommunitySuccessPageView.as_view(),
+        skip_ga360(community.views.CommunitySuccessPageView.as_view()),
         name='community-join-success'
     ),
     url(

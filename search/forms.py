@@ -15,16 +15,12 @@ class FeedbackForm(forms.ZendeskAPIForm):
         ]
     )
     search_target = fields.CharField(
-       label='What were you looking to find?',
+       label=('What were you looking to find? '
+              'Please provide as much detail as possible.'),
        widget=Textarea(
          attrs={'rows': 4, 'cols': 15}
        )
     )
-    reason_for_site_visit = fields.CharField(
-        label='Why did you visit this site today?',
-        widget=Textarea(
-          attrs={'rows': 4, 'cols': 15}
-        ))
     from_search_query = fields.CharField(widget=HiddenInput(),
                                          required=False)
     from_search_page = IntegerField(widget=HiddenInput(),
@@ -56,3 +52,9 @@ class FeedbackForm(forms.ZendeskAPIForm):
             'required': ('Check the box to confirm that you’re human')
         }
     )
+
+    @property
+    def serialized_data(self):
+        if 'captcha' in self.cleaned_data:
+            del self.cleaned_data['captcha']
+        return self.cleaned_data
