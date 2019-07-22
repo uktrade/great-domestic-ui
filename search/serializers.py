@@ -2,6 +2,8 @@ import markdown2
 from bs4 import BeautifulSoup
 from urllib3.util import parse_url
 
+from django.utils.text import Truncator
+
 from directory_constants import urls
 
 
@@ -20,21 +22,25 @@ def parse_search_results(content):
             result['url'] = urls.SERVICES_EVENTS + url.request_uri
 
     def abridge_long_contents(result):
-        if ('content' in result) and (len(result['content']) > 160):
-            result['content'] = result['content'][0:160] + '...'
+        if 'content' in result:
+            result['content'] = Truncator(result['content']).chars(160)
 
     def format_display_type(result):
-        if "dit:Event" in result['type'] or "Event" in result['type']:
-            result['type'] = 'Event'
-        if "dit:Opportunity" in result['type'] or \
-                "Opportunity" in result['type']:
-            result['type'] = 'Export opportunity'
-        if "dit:Market" in result['type'] or "Market" in result['type']:
-            result['type'] = 'Online marketplace'
-        if "dit:Article" in result['type'] or "Article" in result['type']:
-            result['type'] = 'Article'
-        if "dit:Service" in result['type'] or "Service" in result['type']:
-            result['type'] = 'Service'
+        mappings = {
+            'dit:Event':  'Event',
+            'Event': 'Event',
+            'dit:Opportunity': 'Export opportunity',
+            'Opportunity': 'Export opportunity',
+            'Market': 'Online marketplace',
+            'dit:Market': 'Online marketplace',
+            'Article': 'Article',
+            'dit:Article': 'Article',
+            'Service': 'Service',
+            'dit:Service': 'Service'
+        }
+        for value, replacement in mappings.items():
+            if value in result['type']:
+                result['type'] = replacement
 
     results = [hit['_source'] for hit in content['hits']['hits']]
 

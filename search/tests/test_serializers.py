@@ -99,7 +99,7 @@ r-2018) and the full",
         'title': 'France - Data analysis services',
         'content': 'The purpose of this contract is to analyze Python\
  For Loops. A for loop is used for iterating over a sequence (that is\
-  either a list, a tuple, a dictionary, a ...',
+  either a list, a tuple, a dictionary,...',
         'url': 'www.great.gov.uk/opportunities/1'
     }, {
         'type': 'Export opportunity',
