@@ -163,7 +163,7 @@ class ProblemDetailsForm(forms.Form):
         }
     )
     eu_exit_related = fields.ChoiceField(
-        label='Is your problem caused by or related to EU Exit?',
+        label='Is your problem caused by or related to Brexit?',
         widget=widgets.RadioSelect(
             use_nice_ids=True, attrs={'id': 'radio-one'}
         ),
@@ -172,7 +172,7 @@ class ProblemDetailsForm(forms.Form):
             ('No', 'No')
         ),
         error_messages={
-            'required': 'Tell us if your problem is related to EU Exit'
+            'required': 'Tell us if your problem is related to Brexit'
         }
     )
 

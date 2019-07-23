@@ -169,5 +169,5 @@ def test_problem_details_error_messages():
         'even if this is your first step'
     )]
     form.errors['eu_exit_related'] == [
-        'Tell us if your problem is related to EU Exit'
+        'Tell us if your problem is related to Brexit'
     ]
