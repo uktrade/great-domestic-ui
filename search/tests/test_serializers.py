@@ -1,7 +1,7 @@
-from activitystream import serializers
+from search import serializers
 
 
-def test_parse_results():
+def test_parse_search_results():
     content = {
         'took': 17,
         'timed_out': False,
@@ -20,7 +20,7 @@ def test_parse_results():
                 '_id': 'dit:exportOpportunities:Opportunity:2',
                 '_score': 0.2876821,
                 '_source': {
-                    'type': 'Opportunities',
+                    'type': ['Document', 'dit:Opportunity'],
                     'title': 'France - Data analysis services',
                     'content':
                     'The purpose of this contract is to analyze Python\
@@ -37,7 +37,7 @@ def test_parse_results():
                 '_id': 'dit:exportOpportunities:Opportunity:2',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': 'Opportunities',
+                    'type': ['Document', 'dit:Opportunity'],
                     'title': 'Germany - snow clearing',
                     'content':
                     'Winter services for the properties1) Former...',
@@ -49,7 +49,7 @@ def test_parse_results():
                 '_id': 'dit:exportOpportunities:Opportunity:3',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': 'Article',
+                    'type': ['Document', 'dit:Article'],
                     'title': 'Test Shortening Content',
                     'content':
                     "The UK and the EU have agreed a draft agreement\
@@ -64,7 +64,7 @@ r-2018) and the full",
                 '_id': 'dit:exportOpportunities:Opportunity:4',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': 'Article',
+                    'type': ['Document', 'dit:Article'],
                     'title': 'Test No Content',
                     'url': 'www.great.gov.uk/opportunities/4'
                 }
@@ -74,7 +74,7 @@ r-2018) and the full",
                 '_id': 'dit:exportOpportunities:Opportunity:5',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': 'Article',
+                    'type': ['Document', 'dit:Article'],
                     'title': 'Test No URL',
                     'content': 'Here is the content'
                 }
@@ -84,7 +84,7 @@ r-2018) and the full",
                 '_id': 'dit:exportOpportunities:Event:1',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': 'Event',
+                    'type': ['Document', 'dit:Event'],
                     'title': 'Test Event URL Parsing',
                     'content': 'Great event',
                     'url': 'https://eu.eventscloud.com\
@@ -95,14 +95,14 @@ r-2018) and the full",
     }
 
     assert serializers.parse_search_results(content) == [{
-        'type': 'Opportunities',
+        'type': 'Export opportunity',
         'title': 'France - Data analysis services',
         'content': 'The purpose of this contract is to analyze Python\
  For Loops. A for loop is used for iterating over a sequence (that is\
-  either a list, a tuple, a dictionary, a ...',
+  either a list, a tuple, a dictionary,...',
         'url': 'www.great.gov.uk/opportunities/1'
     }, {
-        'type': 'Opportunities',
+        'type': 'Export opportunity',
         'title': 'Germany - snow clearing',
         'content': 'Winter services for the properties1) Former...',
         'url': 'www.great.gov.uk/opportunities/2'

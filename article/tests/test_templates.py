@@ -160,6 +160,94 @@ def test_article_detail_page_related_content():
     ).select('h3')[0].text == 'Related article 2'
 
 
+def test_marketing_article_detail_page_related_content():
+    context = {}
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "http://www.great.gov.uk",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "bar",
+        },
+        "page_type": "MarketingArticlePage",
+    }
+    context['page'] = page
+
+    html = render_to_string('article/marketing_article_detail.html', context)
+
+    soup = BeautifulSoup(html, 'html.parser')
+    assert soup.find(
+        id='contact-us-section'
+    ).select('h2')[0].text == 'CTA title'
+
+    assert soup.find(
+        id='contact-us-section'
+    ).select('p')[0].text == 'CTA teaser text'
+
+    assert soup.find(
+        id='contact-us-section'
+    ).select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
+
+
+def test_marketing_article_detail_page_related_content_not_rendered():
+    context = {}
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": '',
+        "cta_teaser": '',
+        "cta_link_label": "",
+        "cta_link": "",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "bar",
+        },
+        "page_type": "MarketingArticlePage",
+    }
+
+    context['page'] = page
+
+    html = render_to_string('article/marketing_article_detail.html', context)
+
+    assert '<section id="contact-us-section"' not in html
+
+
+def test_marketing_article_detail_content_button_not_rendered_without_link():
+    context = {}
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "bar",
+        },
+        "page_type": "MarketingArticlePage",
+    }
+
+    context['page'] = page
+
+    html = render_to_string('article/marketing_article_detail.html', context)
+
+    assert 'class="button button-arrow-small"' not in html
+
+
 test_news_list_page = {
     'title': 'News CMS admin title',
     'landing_page_title': 'News',
