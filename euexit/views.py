@@ -72,7 +72,7 @@ class InternationalContactFormView(BaseInternationalContactFormView):
     form_class = forms.InternationalContactForm
     template_name = 'euexit/international-contact-form.html'
     success_url = reverse_lazy('eu-exit-international-contact-form-success')
-    subject = 'EU exit international contact form'
+    subject = 'Brexit international contact form'
 
     def get_form_initial(self):
         if self.company_profile:
@@ -93,7 +93,7 @@ class DomesticContactFormView(BaseInternationalContactFormView):
     form_class = forms.DomesticContactForm
     template_name = 'euexit/domestic-contact-form.html'
     success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
-    subject = 'EU exit contact form'
+    subject = 'Brexit contact form'
 
     def get_form_initial(self):
         if self.company_profile:

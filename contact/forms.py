@@ -96,7 +96,7 @@ class DomesticRoutingForm(forms.Form):
             'great.gov.uk account and services support'
         ),
         (constants.FINANCE, 'UK Export Finance (UKEF)'),
-        (constants.EUEXIT, 'EU exit enquiries'),  # possibly removed by mixin
+        (constants.EUEXIT, 'Brexit enquiries'),  # possibly removed by mixin
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
         (constants.OTHER, 'Other'),
@@ -181,7 +181,7 @@ class InternationalRoutingForm(
         (constants.INVESTING, 'Investing in the UK'),
         (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
         (constants.BUYING, 'Find a UK business partner'),
-        (constants.EUEXIT, 'EU exit enquiries'),  # possibly removed by mixin
+        (constants.EUEXIT, 'Brexit enquiries'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
     choice = fields.ChoiceField(
