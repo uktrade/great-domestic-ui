@@ -363,7 +363,7 @@ def test_international_landing_page_news_section_on(
         'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
-        'banner_label': 'EU exit updates',
+        'banner_label': 'Brexit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
         'meta': {'languages': component_languages},
     }
@@ -372,7 +372,7 @@ def test_international_landing_page_news_section_on(
     response = client.get(url, {'lang': activated_language})
 
     assert response.template_name == ['core/landing_page_international.html']
-    assert 'EU exit updates' in str(response.content)
+    assert 'Brexit updates' in str(response.content)
     assert '<p class="body-text">Lorem ipsum.</p>' in str(response.content)
 
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -395,7 +395,7 @@ def test_international_landing_page_news_section_off(
     mock_get_component.return_value = create_response(
         status_code=200,
         json_body={
-            'banner_label': 'EU exit updates',
+            'banner_label': 'Brexit updates',
             'banner_content': '<p>Lorem ipsum.</p>',
             'meta': {'languages': [['en-gb', 'English']]},
         }
@@ -404,7 +404,7 @@ def test_international_landing_page_news_section_off(
     url = reverse('landing-page-international')
     response = client.get(url)
 
-    assert 'EU exit updates' not in str(response.content)
+    assert 'Brexit updates' not in str(response.content)
 
 
 @patch('core.views.InternationalLandingPageView.cms_component',
@@ -421,7 +421,7 @@ def test_international_landing_page_no_articles(
         'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
-        'banner_label': 'EU exit updates',
+        'banner_label': 'Brexit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
         'meta': {'languages': [['en-gb', 'English']]},
     }
@@ -429,7 +429,7 @@ def test_international_landing_page_no_articles(
     url = reverse('landing-page-international')
     response = client.get(url)
 
-    assert 'EU exit updates' not in str(response.content)
+    assert 'Brexit updates' not in str(response.content)
 
 
 @patch('core.views.InternationalLandingPageView.cms_component',
@@ -450,7 +450,7 @@ def test_international_landing_view_translations(
         'meta': {'languages': [['en-gb', 'English']]},
     }
     mock_get_component.return_value = {
-        'banner_label': 'EU exit updates',
+        'banner_label': 'Brexit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
         'meta': {'languages': [['en-gb', 'English']]},
     }
