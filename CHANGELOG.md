@@ -1,7 +1,13 @@
 # Changelog
 
-
 ## Pre-release
+
+
+
+
+
+## [2019.07.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.07.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.07.16...2019.07.23)
 
 ### Implemented enhancements
 - TT-1678 - Rename EU exit to Brexit
