@@ -1,7 +1,13 @@
 # Changelog
 
-
 ## Pre-release
+
+
+
+
+
+## [2019.07.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.07.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.07.16...2019.07.23)
 
 ### Implemented enhancements
 - XOT-958 - bugfixes for XOT-922 (css changes, added cms_breadcrumbs, fixed template footer markup and hide block if fields not populated)
