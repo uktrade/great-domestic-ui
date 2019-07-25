@@ -669,7 +669,7 @@ marketing_urls = [
         ),
     url(
             r"^marketing/success/$",
-            skip_ga360(community.views.CommunitySuccessPageView.as_view()),
+            skip_ga360(marketing.views.MarketingSuccessPageView.as_view()),
             name='marketing-join-success'
         ),
 ]

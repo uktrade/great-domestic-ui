@@ -8,7 +8,7 @@ from core.helpers import NotifySettings
 
 
 class MarketingJoinFormPageView(BaseNotifyFormView):
-    template_name = 'community/join-form.html'
+    template_name = 'marketing/join-form.html'
     form_class = forms.CommunityJoinForm
     success_url = reverse_lazy('marketing-join-success')
     notify_settings = NotifySettings(
@@ -18,5 +18,5 @@ class MarketingJoinFormPageView(BaseNotifyFormView):
     )
 
 
-class CommunitySuccessPageView(TemplateView):
-    template_name = 'community/join-success.html'
+class MarketingSuccessPageView(TemplateView):
+    template_name = 'marketing/join-success.html'
