@@ -34,7 +34,7 @@
 			<h1 class="heading-large">Sign up to become an Export Advocate</h1>
 			<div class="question">
 				<div class="exred-triage-form">
-					<form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
+					<form action="{% url 'marketing-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
 						{% csrf_token %}
 						{% render_form form %}
 						<button type="submit" class="button button">Submit</button>

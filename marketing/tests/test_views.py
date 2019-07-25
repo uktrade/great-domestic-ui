@@ -11,11 +11,11 @@ from community import forms, views
 def test_community_join_form_notify_success(
     mock_save, mock_form_session, client, valid_community_form_data
 ):
-    url = reverse('community-join-form')
+    url = reverse('marketing-join-form')
     response = client.post(url, valid_community_form_data)
 
     assert response.status_code == 302
-    assert response.url == reverse('community-join-success')
+    assert response.url == reverse('marketing-join-success')
     assert mock_save.call_count == 2
     assert mock_save.call_args_list == [
         mock.call(
@@ -35,7 +35,7 @@ def test_community_join_form_notify_success(
 
 
 def test_community_success_view(client):
-    url = reverse('community-join-success')
+    url = reverse('marketing-join-success')
 
     response = client.get(url)
 

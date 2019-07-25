@@ -10,7 +10,7 @@ from core.helpers import NotifySettings
 class MarketingJoinFormPageView(BaseNotifyFormView):
     template_name = 'community/join-form.html'
     form_class = forms.CommunityJoinForm
-    success_url = reverse_lazy('community-join-success')
+    success_url = reverse_lazy('marketing-join-success')
     notify_settings = NotifySettings(
         agent_template=settings.COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID,
         agent_email=settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS,
