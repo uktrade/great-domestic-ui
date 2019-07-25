@@ -663,12 +663,12 @@ community_urls = [
 
 marketing_urls = [
     url(
-            r"^marketing/join/$",
+            r"^local-export-support/apply/$",
             marketing.views.MarketingJoinFormPageView.as_view(),
             name='marketing-join-form'
         ),
     url(
-            r"^marketing/success/$",
+            r"^local-export-support/success/$",
             skip_ga360(marketing.views.MarketingSuccessPageView.as_view()),
             name='marketing-join-success'
         ),
