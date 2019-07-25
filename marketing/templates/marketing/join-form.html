@@ -16,7 +16,7 @@
 {% block content %}
 	<section class="questions">
 		{% block breadcrumbs %}
-			{% include 'community/breadcrumbs.html' with current_page_label='Export Advocates Form' %}
+			{% include 'marketing/breadcrumbs.html' with current_page_label='Export Advocates Form' %}
 		{% endblock %}
 		<div class="container">
 			<div class="column-full">
@@ -36,7 +36,7 @@
 						<fieldset class="margin-bottom-20">
 							<h2 class="heading-medium margin-bottom-50">About your business</h2>
 							{% include 'core/includes/form_field.html' with field=form.company_name %}
-							<div style="width: 50%">
+							<div class="width-half">
 							{% include 'core/includes/form_field.html' with field=form.company_postcode %}
 							</div>
 							{% include 'core/includes/form_field.html' with field=form.annual_turnover %}
