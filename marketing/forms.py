@@ -44,12 +44,32 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'invalid': _('Please enter an UK phone number')
         }
     )
-    company_name = fields.CharField(
-        label=_('Business name'),
+    job_title = fields.CharField(
+        label=_('Job title'),
         max_length=50,
         error_messages={
-            'required': _('Enter your business name'),
+            'required': _('Enter your job title'),
         }
+    )
+    company_postcode = fields.CharField(
+        label=_('Business postcode'),
+        max_length=50,
+        error_messages={
+            'required': _('Enter your business postcode'),
+        }
+    )
+    annual_turnover = fields.ChoiceField(
+            label=_('Annual turnover'),
+            choices=(
+                ('Less than £500K', 'Less than £500K'),
+                ('£500K to £2M', '£500K to £2M'),
+                ('£2M to £5M', '£2M to £5M'),
+                ('£5M to £10M', '£5M to £10M'),
+                ('£10M to £50M', '£10M to £50M'),
+                ('£50M or higher', '£50M or higher')
+            ),
+            widget=widgets.RadioSelect,
+            required=False,
     )
     company_location = fields.CharField(
         label=_('Business  location'),
@@ -98,14 +118,6 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             widget=widgets.RadioSelect,
             error_messages={'required': _('Please answer this question')}
     )
-    advertising_feedback = fields.ChoiceField(
-        label=_('Where did you hear about becoming an Export Advocate?'),
-        choices=choices.HEARD_ABOUT_CHOICES,
-        error_messages={
-            'required': _('Please tell us where you heard about'
-                          ' becoming an Export Advocate'),
-        }
-    )
     advertising_feedback_other = fields.CharField(
         label=_('Please specify'),
         widget=TextInput(attrs={'class': 'js-field-other'}),
@@ -139,7 +151,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
         data = super().serialized_data
         sector_mapping = dict(choices.COMPANY_SECTOR_CHOICES)
         employees_number_mapping = dict(choices.EMPLOYEES_NUMBER_CHOICES)
-        advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOICES)
+        # advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOICES)
         if data.get('sector_other'):
             sector_label = data.get('sector_other')
         else:
@@ -147,12 +159,12 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
         data['sector_label'] = sector_label
         if data.get('advertising_feedback_other'):
             advertising_feedback_label = data.get('advertising_feedback_other')
-        else:
-            advertising_feedback_label = advertising_feedback_mapping.get(
-                data['advertising_feedback']
-            )
-        data['advertising_feedback_label'] = advertising_feedback_label
-        data['employees_number_label'] = employees_number_mapping.get(
-            data['employees_number']
-        )
+        # else:
+        #     advertising_feedback_label = advertising_feedback_mapping.get(
+        #         data['advertising_feedback']
+        #     )
+        # data['advertising_feedback_label'] = advertising_feedback_label
+        # data['employees_number_label'] = employees_number_mapping.get(
+        #     data['employees_number']
+        # )
         return data
