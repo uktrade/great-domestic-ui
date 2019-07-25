@@ -7,11 +7,11 @@ from directory_components import fields, widgets
 from django.forms import TextInput, forms
 from django.utils.translation import ugettext_lazy as _
 
-from community import constants as choices
+from marketing import constants as choices
 from contact.forms import TERMS_LABEL
 
 
-class CommunityJoinForm(GovNotifyActionMixin, Form):
+class MarketingJoinForm(GovNotifyActionMixin, Form):
     name = fields.CharField(
         label=_('Full name'),
         min_length=2,
@@ -20,6 +20,16 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
             'required': _('Enter your full name')
         }
     )
+
+    maiden_name = fields.CharField(
+        label=_('Maiden name'),
+        min_length=2,
+        max_length=50,
+        error_messages={
+            'required': _('Enter your maiden name')
+        }
+    )
+
     email = fields.EmailField(
         label=_('Email address'),
         error_messages={
@@ -59,7 +69,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
     )
     sector = fields.ChoiceField(
         label=_('Sector'),
-        choices=choices.COMPANY_SECTOR_CHOISES,
+        choices=choices.COMPANY_SECTOR_CHOICES,
         error_messages={
             'required': _('Choose a sector'),
         }
@@ -83,7 +93,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
     )
     employees_number = fields.ChoiceField(
         label=_('Number of employees'),
-        choices=choices.EMPLOYEES_NUMBER_CHOISES,
+        choices=choices.EMPLOYEES_NUMBER_CHOICES,
         error_messages={
             'required': _('Choose a number'),
         }
@@ -99,7 +109,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
     )
     advertising_feedback = fields.ChoiceField(
         label=_('Where did you hear about becoming an Export Advocate?'),
-        choices=choices.HEARD_ABOUT_CHOISES,
+        choices=choices.HEARD_ABOUT_CHOICES,
         error_messages={
             'required': _('Please tell us where you heard about'
                           ' becoming an Export Advocate'),
@@ -136,9 +146,9 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
     @property
     def serialized_data(self):
         data = super().serialized_data
-        sector_mapping = dict(choices.COMPANY_SECTOR_CHOISES)
-        employees_number_mapping = dict(choices.EMPLOYEES_NUMBER_CHOISES)
-        advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOISES)
+        sector_mapping = dict(choices.COMPANY_SECTOR_CHOICES)
+        employees_number_mapping = dict(choices.EMPLOYEES_NUMBER_CHOICES)
+        advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOICES)
         if data.get('sector_other'):
             sector_label = data.get('sector_other')
         else:
