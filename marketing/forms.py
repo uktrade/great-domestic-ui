@@ -12,15 +12,22 @@ from contact.forms import TERMS_LABEL
 
 
 class MarketingJoinForm(GovNotifyActionMixin, Form):
-    name = fields.CharField(
-        label=_('Full name'),
+    first_name = fields.CharField(
+        label=_('First name'),
         min_length=2,
         max_length=50,
         error_messages={
-            'required': _('Enter your full name')
+            'required': _('Enter your first name')
         }
     )
-
+    last_name = fields.CharField(
+        label=_('Last name'),
+        min_length=2,
+        max_length=50,
+        error_messages={
+            'required': _('Enter your last name')
+        }
+    )
     email = fields.EmailField(
         label=_('Email address'),
         error_messages={
@@ -51,8 +58,15 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'required': _('Enter your job title'),
         }
     )
+    company_name = fields.CharField(
+        label=_('Business name'),
+        max_length=50,
+        error_messages={
+            'required': _('Enter your business name'),
+        }
+    )
     company_postcode = fields.CharField(
-        label=_('Business postcode'),
+        label=_('Business  postcode'),
         max_length=50,
         error_messages={
             'required': _('Enter your business postcode'),
@@ -71,40 +85,10 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             widget=widgets.RadioSelect,
             required=False,
     )
-    company_location = fields.CharField(
-        label=_('Business  location'),
-        max_length=50,
-        error_messages={
-            'required': _('Enter your business location'),
-        }
-    )
-    sector = fields.ChoiceField(
-        label=_('Sector'),
-        choices=choices.COMPANY_SECTOR_CHOICES,
-        error_messages={
-            'required': _('Choose a sector'),
-        }
-    )
-    sector_other = fields.CharField(
-        label=_('Please specify'),
-        widget=TextInput(attrs={'class': 'js-field-other'}),
-        required=False,
-    )
-    company_website = fields.CharField(
-        label=_('Website'),
-        max_length=255,
-        help_text=_('Enter the home page address'),
-        error_messages={
-            'required': _('Enter a website address in the correct format, '
-                          'like https://www.example.com or www.company.com'),
-            'invalid': _('Enter a website address in the correct format, '
-                         'like https://www.example.com or www.company.com')
-        },
-        required=False
-    )
     employees_number = fields.ChoiceField(
         label=_('Number of employees'),
         choices=choices.EMPLOYEES_NUMBER_CHOICES,
+        widget=widgets.RadioSelect,
         error_messages={
             'required': _('Choose a number'),
         }
@@ -118,11 +102,6 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             widget=widgets.RadioSelect,
             error_messages={'required': _('Please answer this question')}
     )
-    advertising_feedback_other = fields.CharField(
-        label=_('Please specify'),
-        widget=TextInput(attrs={'class': 'js-field-other'}),
-        required=False,
-    )
 
     terms_agreed = fields.BooleanField(
         label=TERMS_LABEL,
@@ -135,7 +114,8 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
         label_suffix='',
         error_messages={
             'required': _('Check the box to confirm that you’re human')
-        }
+        },
+        required = False,
     )
 
     def clean_phone_number(self):
@@ -149,22 +129,6 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
     @property
     def serialized_data(self):
         data = super().serialized_data
-        sector_mapping = dict(choices.COMPANY_SECTOR_CHOICES)
         employees_number_mapping = dict(choices.EMPLOYEES_NUMBER_CHOICES)
-        # advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOICES)
-        if data.get('sector_other'):
-            sector_label = data.get('sector_other')
-        else:
-            sector_label = sector_mapping.get(data['sector'])
-        data['sector_label'] = sector_label
-        if data.get('advertising_feedback_other'):
-            advertising_feedback_label = data.get('advertising_feedback_other')
-        # else:
-        #     advertising_feedback_label = advertising_feedback_mapping.get(
-        #         data['advertising_feedback']
-        #     )
-        # data['advertising_feedback_label'] = advertising_feedback_label
-        # data['employees_number_label'] = employees_number_mapping.get(
-        #     data['employees_number']
-        # )
+        data['employees_number_label'] = employees_number_mapping.get(data['employees_number'])
         return data

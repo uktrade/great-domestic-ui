@@ -9,18 +9,6 @@
 
 {% block body_js %}
     <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
-    <script type="text/javascript">
-
-        var sectorSelect = document.getElementById('id_sector');
-        var sectorOther = document.getElementById('id_sector_other');
-        var advertisingFeedbackSelect = document.getElementById('id_advertising_feedback');
-        var advertisingFeedbackOther = document.getElementById('id_advertising_feedback_other');
-
-        GOVUK.utils.toggleOtherOnSelect(sectorOther, sectorSelect);
-        GOVUK.utils.toggleOtherOnSelect(advertisingFeedbackOther, advertisingFeedbackSelect);
-
-    </script>
-
 
 {% endblock %}
 
@@ -31,12 +19,35 @@
 			{% include 'community/breadcrumbs.html' with current_page_label='Export Advocates Form' %}
 		{% endblock %}
 		<div class="container">
-			<h1 class="heading-large">Sign up to SIGN UP FOR A GREAT CAMPAIGN!!11!!</h1>
-			<div class="question">
+			<div class="column-full">
 				<div class="exred-triage-form">
 					<form action="{% url 'marketing-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
 						{% csrf_token %}
-						{% render_form form %}
+
+						<fieldset class="margin-bottom-20">
+							<h2 class="heading-medium margin-bottom-50">Your details</h2>
+
+							{% include 'core/includes/form_field.html' with field=form.first_name %}
+							{% include 'core/includes/form_field.html' with field=form.last_name %}
+							{% include 'core/includes/form_field.html' with field=form.email %}
+							{% include 'core/includes/form_field.html' with field=form.phone_number %}
+							{% include 'core/includes/form_field.html' with field=form.job_title %}
+						</fieldset>
+						<fieldset class="margin-bottom-20">
+							<h2 class="heading-medium margin-bottom-50">About your business</h2>
+							{% include 'core/includes/form_field.html' with field=form.company_name %}
+							<div style="width: 50%">
+							{% include 'core/includes/form_field.html' with field=form.company_postcode %}
+							</div>
+							{% include 'core/includes/form_field.html' with field=form.annual_turnover %}
+							{% include 'core/includes/form_field.html' with field=form.employees_number %}
+							{% include 'core/includes/form_field.html' with field=form.currently_export %}
+						</fieldset>
+						<fieldset>
+							{% include 'core/includes/form_field.html' with field=form.terms_agreed %}
+							{% include 'core/includes/form_field.html' with field=form.captcha %}
+						</fieldset>
+
 						<button type="submit" class="button button">Submit</button>
 					</form>
 				</div>
@@ -44,3 +55,4 @@
 		</div>
 	</section>
 {% endblock %}
+

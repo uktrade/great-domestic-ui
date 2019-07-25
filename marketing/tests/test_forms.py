@@ -1,58 +1,43 @@
 import pytest
 
-from community import forms
-from community import constants
+from marketing import forms
+from marketing import constants
 
 
-def test_community_form_validations(valid_community_form_data):
-    form = forms.CommunityJoinForm(data=valid_community_form_data)
+def test_marketing_form_validations(valid_marketing_form_data):
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
-    assert form.cleaned_data['name'] == valid_community_form_data['name']
-    assert form.cleaned_data['email'] == valid_community_form_data['email']
+    assert form.cleaned_data['first_name'] == valid_marketing_form_data['first_name']
+    assert form.cleaned_data['email'] == valid_marketing_form_data['email']
 
-    # validate the form with blank 'company_website' field
-    valid_community_form_data['company_website'] = ''
-    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    #validate the form with blank 'annual_turnover' field
+    valid_marketing_form_data['annual_turnover'] = ''
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
-    assert form.cleaned_data['name'] == valid_community_form_data['name']
-    assert form.cleaned_data['email'] == valid_community_form_data['email']
-    assert form.cleaned_data['company_website'] == ''
+    assert form.cleaned_data['first_name'] == valid_marketing_form_data['first_name']
+    assert form.cleaned_data['email'] == valid_marketing_form_data['email']
+    assert form.cleaned_data['annual_turnover'] == ''
 
 
-def test_community_form_api_serialization(valid_community_form_data):
-    form = forms.CommunityJoinForm(data=valid_community_form_data)
+def test_marketing_form_api_serialization(valid_marketing_form_data):
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
-
     api_data = form.serialized_data
-    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
-        form.serialized_data['sector']
-    )
-    assert api_data['sector_label'] == sector_label
-    employees_number_label = dict(constants.EMPLOYEES_NUMBER_CHOISES).get(
+    employees_number_label = dict(constants.EMPLOYEES_NUMBER_CHOICES).get(
         form.serialized_data['employees_number']
     )
     assert api_data['employees_number_label'] == employees_number_label
 
 
-def test_community_form_api_serialization_with_other_options(
-        valid_community_form_data_with_other_options
+def test_marketing_form_api_serialization_with_other_options(
+        valid_marketing_form_data_with_other_options
 ):
-    form = forms.CommunityJoinForm(
-        data=valid_community_form_data_with_other_options
+    form = forms.MarketingJoinForm(
+        data=valid_marketing_form_data_with_other_options
     )
     assert form.is_valid()
 
-    api_data = form.serialized_data
-    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
-        form.serialized_data['sector']
-    )
-    assert sector_label == 'Other'
-    assert api_data['sector_other'] == 'Game Development'
-    advertising_feedback_label = dict(constants.HEARD_ABOUT_CHOISES).get(
-        form.serialized_data['advertising_feedback']
-    )
-    assert advertising_feedback_label == 'Other'
-    assert api_data['advertising_feedback_other'] == 'Friends'
+#    TO BE UPDATED WITH ANNUAL-TURNOVER
 
 
 @pytest.mark.parametrize(
@@ -70,12 +55,12 @@ def test_community_form_api_serialization_with_other_options(
                 'currently_export': 'no',
                 'advertising_feedback': '4',
             },
-            'name',
-            'Enter your full name'
+            'first_name',
+            'Enter your first name'
         ),
         (
             {
-                'name': 'Test name',
+                'first_name': 'Test',
                 'phone_number': '+447500192913',
                 'company_name': 'Limited',
                 'company_location': 'London',
@@ -91,7 +76,7 @@ def test_community_form_api_serialization_with_other_options(
         ),
         (
             {
-                'name': 'Test name',
+                'first_name': 'Test name',
                 'email': 'test@test.com',
                 'phone_number': '++00192913',  # invalid field data
                 'company_name': 'Limited',
@@ -107,7 +92,7 @@ def test_community_form_api_serialization_with_other_options(
         ),
         (
             {
-                'name': 'Test name',
+                'first_name': 'Test name',
                 'email': 'test@test.com',
                 'company_name': 'Limited',
                 'company_location': 'London',
@@ -122,30 +107,30 @@ def test_community_form_api_serialization_with_other_options(
         ),
     )
 )
-def test_community_form_validation_errors(
+def test_marketing_form_validation_errors(
         invalid_data, invalid_field, error_message
 ):
-    form = forms.CommunityJoinForm(data=invalid_data)
+    form = forms.MarketingJoinForm(data=invalid_data)
     assert not form.is_valid()
     assert invalid_field in form.errors
     assert form.errors[invalid_field][0] == error_message
 
 
-def test_phone_number_validation(valid_community_form_data):
-    form = forms.CommunityJoinForm(data=valid_community_form_data)
+def test_phone_number_validation(valid_marketing_form_data):
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
 
     # validate a phone number without country code
-    valid_community_form_data['phone_number'] = '07501234567'
-    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    valid_marketing_form_data['phone_number'] = '07501234567'
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
 
-    # validate a phone number with spaces
-    valid_community_form_data['phone_number'] = '+44 0750 123 45 67'
-    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    # # validate a phone number with spaces
+    valid_marketing_form_data['phone_number'] = '+44 0750 123 45 67'
+    form = forms. MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
 
-    # validate a phone number with country code
-    valid_community_form_data['phone_number'] = '+447501234567'
-    form = forms.CommunityJoinForm(data=valid_community_form_data)
+    # # validate a phone number with country code
+    valid_marketing_form_data['phone_number'] = '+447501234567'
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
