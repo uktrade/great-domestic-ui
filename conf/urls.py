@@ -19,6 +19,7 @@ import euexit.views
 import finance.views
 import marketaccess.views
 import community.views
+import marketing.views
 import search.views
 import ukef.views
 
@@ -660,6 +661,14 @@ community_urls = [
     ),
 ]
 
+marketing_urls = [
+    url(
+            r"^marketing/join/$",
+            marketing.views.MarketingJoinFormPageView.as_view(),
+            name='marketing-join-form'
+        ),
+]
+
 
 ukef_urls = [
     url(
@@ -715,3 +724,4 @@ urlpatterns += contact_urls
 urlpatterns += marketaccess_urls
 urlpatterns += community_urls
 urlpatterns += ukef_urls
+urlpatterns += marketing_urls
