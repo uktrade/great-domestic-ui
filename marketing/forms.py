@@ -21,15 +21,6 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
         }
     )
 
-    maiden_name = fields.CharField(
-        label=_('Maiden name'),
-        min_length=2,
-        max_length=50,
-        error_messages={
-            'required': _('Enter your maiden name')
-        }
-    )
-
     email = fields.EmailField(
         label=_('Email address'),
         error_messages={
