@@ -12,6 +12,8 @@ from contact.forms import TERMS_LABEL
 
 COMPANY_POSTCODE_REGEX = re.compile(r'\b[A-Z,a-z]{1,2}[0-9][A-Z,a-z,0-9]?[0-9][ABD-HJLNP-UW-Z,abd-hjlnp-uw-z]{2}\b')
 PHONE_NUMBER_REGEX = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
+
+
 class MarketingJoinForm(GovNotifyActionMixin, Form):
     first_name = fields.CharField(
         label=_('First name'),
