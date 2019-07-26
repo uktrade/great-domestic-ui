@@ -10,7 +10,7 @@ def test_marketing_form_validations(valid_marketing_form_data):
     assert form.cleaned_data['first_name'] == valid_marketing_form_data['first_name']
     assert form.cleaned_data['email'] == valid_marketing_form_data['email']
 
-    #validate the form with blank 'annual_turnover' field
+    # validate the form with blank 'annual_turnover' field
     valid_marketing_form_data['annual_turnover'] = ''
     form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()

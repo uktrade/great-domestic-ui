@@ -4,7 +4,7 @@ from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components.forms import Form
 from directory_components import fields, widgets
-from django.forms import TextInput, forms
+from django.forms import forms
 from django.utils.translation import ugettext_lazy as _
 
 from marketing import constants as choices
@@ -69,7 +69,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
     company_postcode = fields.CharField(
         label=_('Business postcode'),
         max_length=50,
-         error_messages={
+        error_messages={
             'required': _('Enter your business postcode'),
             'invalid': _('Please enter a UK postcode')
         }
@@ -78,12 +78,12 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             label=_('Annual turnover'),
             help_text=_('This information will help us tailor our response and advise on the services we can provide.'),
             choices=(
-            ('Less than £500K', 'Less than £500K'),
-            ('£500K to £2M', '£500K to £2M'),
-            ('£2M to £5M', '£2M to £5M'),
-            ('£5M to £10M', '£5M to £10M'),
-            ('£10M to £50M', '£10M to £50M'),
-            ('£50M or higher', '£50M or higher')
+                ('Less than £500K', 'Less than £500K'),
+                ('£500K to £2M', '£500K to £2M'),
+                ('£2M to £5M', '£2M to £5M'),
+                ('£5M to £10M', '£5M to £10M'),
+                ('£10M to £50M', '£10M to £50M'),
+                ('£50M or higher', '£50M or higher')
             ),
             widget=widgets.RadioSelect,
             required=False,
