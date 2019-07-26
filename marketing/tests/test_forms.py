@@ -139,7 +139,7 @@ def test_postcode_validation(valid_marketing_form_data):
     form = forms. MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
 
-     # # validate a postcode with mixed case
+    # # validate a postcode with mixed case
     valid_marketing_form_data['company_postcode'] = 'w1a 1Aa'
     form = forms. MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
