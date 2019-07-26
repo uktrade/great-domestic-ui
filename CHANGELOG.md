@@ -3,7 +3,7 @@
 ## Pre-release
 
 
-## Implemented enchancements
+### Implemented enchancements
 - XOT-977 - Add marketing campaigns form, original clone of community join-form
 
 
