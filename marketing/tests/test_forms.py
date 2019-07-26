@@ -29,17 +29,6 @@ def test_marketing_form_api_serialization(valid_marketing_form_data):
     assert api_data['employees_number_label'] == employees_number_label
 
 
-def test_marketing_form_api_serialization_with_other_options(
-        valid_marketing_form_data_with_other_options
-):
-    form = forms.MarketingJoinForm(
-        data=valid_marketing_form_data_with_other_options
-    )
-    assert form.is_valid()
-
-#    TO BE UPDATED WITH ANNUAL-TURNOVER
-
-
 @pytest.mark.parametrize(
     'invalid_data,invalid_field,error_message',
     (
