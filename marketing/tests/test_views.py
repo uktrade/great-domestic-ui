@@ -3,16 +3,16 @@ from unittest import mock
 from django.conf import settings
 from django.urls import reverse
 
-from community import forms, views
+from marketing import forms, views
 
 
-@mock.patch.object(views.CommunityJoinFormPageView, 'form_session_class')
-@mock.patch.object(forms.CommunityJoinForm, 'save')
-def test_community_join_form_notify_success(
-    mock_save, mock_form_session, client, valid_community_form_data
+@mock.patch.object(views.MarketingJoinFormPageView, 'form_session_class')
+@mock.patch.object(forms.MarketingJoinForm, 'save')
+def test_marketing_join_form_notify_success(
+    mock_save, mock_form_session, client, valid_marketing_form_data
 ):
     url = reverse('marketing-join-form')
-    response = client.post(url, valid_community_form_data)
+    response = client.post(url, valid_marketing_form_data)
 
     assert response.status_code == 302
     assert response.url == reverse('marketing-join-success')
@@ -34,7 +34,7 @@ def test_community_join_form_notify_success(
     ]
 
 
-def test_community_success_view(client):
+def test_marketing_success_view(client):
     url = reverse('marketing-join-success')
 
     response = client.get(url)

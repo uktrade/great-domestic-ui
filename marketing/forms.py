@@ -10,7 +10,8 @@ from django.utils.translation import ugettext_lazy as _
 from marketing import constants as choices
 from contact.forms import TERMS_LABEL
 
-
+COMPANY_POSTCODE_REGEX = re.compile(r'\b[A-Z,a-z]{1,2}[0-9][A-Z,a-z,0-9]?[0-9][ABD-HJLNP-UW-Z,abd-hjlnp-uw-z]{2}\b')
+PHONE_NUMBER_REGEX = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
 class MarketingJoinForm(GovNotifyActionMixin, Form):
     first_name = fields.CharField(
         label=_('First name'),
@@ -37,7 +38,6 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
                          ' like name@example.com'),
         }
     )
-    phone_number_regex = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
     phone_number = fields.CharField(
         label=_('UK telephone number'),
         min_length=8,
@@ -65,7 +65,6 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'required': _('Enter your business name'),
         }
     )
-    company_postcode_regex = re.compile(r'\b[A-Z,a-z]{1,2}[0-9][A-Z,a-z,0-9]?[0-9][ABD-HJLNP-UW-Z,abd-hjlnp-uw-z]{2}\b')
     company_postcode = fields.CharField(
         label=_('Business postcode'),
         max_length=50,
@@ -124,7 +123,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
         phone_number = self.cleaned_data.get(
             'phone_number', ''
         ).replace(' ', '')
-        if not self.phone_number_regex.match(phone_number):
+        if not PHONE_NUMBER_REGEX.match(phone_number):
             raise forms.ValidationError(_('Please enter an UK phone number'))
         return phone_number
 
@@ -132,7 +131,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
         company_postcode = self.cleaned_data.get(
             'company_postcode', ''
         ).replace(' ', '')
-        if not self.company_postcode_regex.match(company_postcode):
+        if not COMPANY_POSTCODE_REGEX.match(company_postcode):
             raise forms.ValidationError(_('Please enter a UK postcode'))
         return company_postcode
 
