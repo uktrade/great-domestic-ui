@@ -16,14 +16,11 @@
 
 <section id="breadcrumbs-section" class="breadcrumbs-section">
 	<div class="container">
-		<nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
-			<ol>
-				<li><a href="/">Great.gov.uk</a></li>
-				<li><a href="{% url 'get-finance' %}">UKEF</a></li>
-				<li><a href="{% url 'project-finance' %}">Project Finance</a></li>
-				<li aria-current="page">How we assess your project</li>
-			</ol>
-		</nav>
+		{% breadcrumbs 'How we assess your project' %}
+			<a href="/">Great.gov.uk</a>
+			<a href="{% url 'get-finance' %}">UKEF</a>
+			<a href="{% url 'project-finance' %}">Project Finance</a>
+		{% endbreadcrumbs %}
 	</div>
 </section>
 

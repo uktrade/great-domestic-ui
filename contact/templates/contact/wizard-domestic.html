@@ -1,6 +1,6 @@
 {% extends "core/base.html" %}
 {% load static from staticfiles %}
-{% load render_form from directory_components %}
+{% load breadcrumbs render_form from directory_components %}
 
 {% block sharing_metadata %}{% endblock %}
 
@@ -10,9 +10,12 @@
 {% endblock %}
 
 {% block content %}
-    {% block breadcrumbs %}
-        {% include 'contact/breadcrumbs.html' %}
-    {% endblock %}
+    <div class="container">
+        {% breadcrumbs 'Contact' %}
+            <a href="{% url 'landing-page' %}">Home</a>
+            <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+        {% endbreadcrumbs %}
+    </div>
     <div class="container">
         <form method="post" enctype="multipart/form-data" class="{% block form_class %}lg-2{% endblock %}">
             <div class="exred-triage-form">

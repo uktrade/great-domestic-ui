@@ -1,8 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
-{% load hero from directory_components %}
-{% load message_box from directory_components %}
+{% load breadcrumbs message_box hero from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -20,14 +19,10 @@
 {% hero hero_text="Report a trade barrier" background_image_url=hero_image %}
 <section>
     <div class="container">
-        <div class="breadcrumbs">
-          <ol>
-            <li><a href="{% url 'landing-page' %}">great.gov.uk</a></li>
-            <li> Trade barriers </li>
-            <li> Report a trade barrier </li>
-            {{ content_image_url }}
-          </ol>
-        </div>
+        {% breadcrumbs 'Report a trade barrier' %}
+            <a href="{% url 'landing-page' %}">great.gov.uk</a>
+            <a href="{% url 'market-access' %}">Trade barriers</a>
+        {% endbreadcrumbs %}
         <div class="grid-row">
             <div class="column-two-thirds">
                 <p class="lede">

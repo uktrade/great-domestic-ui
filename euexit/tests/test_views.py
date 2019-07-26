@@ -36,7 +36,11 @@ def company_profile(authed_client):
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_international_form(mock_lookup_by_slug, client):
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={'disclaimer': 'disclaim'}
+        status_code=200,
+        json_body={
+            'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
+        }
     )
 
     response = client.get(reverse('eu-exit-international-contact-form'))
@@ -72,6 +76,7 @@ def test_international_form_cms_retrieval_ok(
                 'label': 'Family name'
             },
             'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example',
         }
     )
 
@@ -95,7 +100,11 @@ def test_international_form_submit(
     mock_save, mock_lookup_by_slug, settings, client, captcha_stub
 ):
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={'disclaimer': 'disclaim'}
+        status_code=200,
+        json_body={
+            'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
+        }
     )
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
     settings.EU_EXIT_ZENDESK_SUBDOMAIN = 'eu-exit-subdomain'
@@ -152,6 +161,7 @@ def test_form_success_page(
         json_body={
             'body_text': 'what next',
             'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
         }
     )
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
@@ -162,6 +172,7 @@ def test_form_success_page(
     assert response.context_data['page'] == {
         'body_text': 'what next',
         'disclaimer': 'disclaim',
+        'breadcrumbs_label': 'Example page',
     }
     assert response.context_data['hide_language_selector'] is True
 
@@ -169,7 +180,11 @@ def test_form_success_page(
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_domestic_form(mock_lookup_by_slug, client):
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={'disclaimer': 'disclaim'}
+        status_code=200,
+        json_body={
+            'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
+        }
     )
 
     response = client.get(reverse('eu-exit-domestic-contact-form'))
@@ -203,6 +218,7 @@ def test_domestic_form_cms_retrieval_ok(mock_lookup_by_slug, settings, client):
                 'label': 'Family name'
             },
             'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
         }
     )
 
@@ -226,7 +242,11 @@ def test_domestic_form_submit(
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
     settings.EU_EXIT_ZENDESK_SUBDOMAIN = 'eu-exit-subdomain'
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={'disclaimer': 'disclaim'}
+        status_code=200,
+        json_body={
+            'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
+        }
     )
 
     url = reverse('eu-exit-domestic-contact-form')
@@ -268,7 +288,11 @@ def test_domestic_form_submit(
 def test_form_urls(mock_lookup_by_slug, client, url, settings):
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
     mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={'disclaimer': 'disclaim'}
+        status_code=200,
+        json_body={
+            'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example',
+        }
     )
 
     response = client.get(url, {}, HTTP_REFERER='http://www.google.com')
@@ -289,7 +313,10 @@ def test_form_urls_no_referer(mock_lookup_by_slug, settings, client, url):
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
     mock_lookup_by_slug.return_value = create_response(
         status_code=200,
-        json_body={'disclaimer': 'disclaim'}
+        json_body={
+            'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
+        }
     )
 
     response = client.get(url, {})
@@ -304,7 +331,10 @@ def test_form_urls_no_referer(mock_lookup_by_slug, settings, client, url):
 def test_international_prepopulate(mock_lookup_by_slug, client):
     mock_lookup_by_slug.return_value = create_response(
         status_code=200,
-        json_body={'disclaimer': 'disclaim'}
+        json_body={
+            'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
+        }
     )
     url = reverse('eu-exit-international-contact-form')
     response = client.get(url)
@@ -326,7 +356,10 @@ def test_international_prepopulate(mock_lookup_by_slug, client):
 def test_domestic_prepopulate(mock_lookup_by_slug, client):
     mock_lookup_by_slug.return_value = create_response(
         status_code=200,
-        json_body={'disclaimer': 'disclaim'}
+        json_body={
+            'disclaimer': 'disclaim',
+            'breadcrumbs_label': 'Example page',
+        }
     )
     url = reverse('eu-exit-domestic-contact-form')
     response = client.get(url)

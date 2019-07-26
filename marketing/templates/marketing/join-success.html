@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static from staticfiles %}
 
-{% load add_export_elements_classes from directory_components %}
+{% load add_export_elements_classes breadcrumbs from directory_components %}
 
 {% block head_css %}
     {{ block.super }}
@@ -10,9 +10,9 @@
 
 {% block content %}
     <div class="container">
-		{% block breadcrumbs %}
-			{% include 'marketing/breadcrumbs.html' with current_page_label='Marketing Template page' %}
-		{% endblock %}
+        {% breadcrumbs 'Sent' %}
+            <a href="{% url 'landing-page' %}">great.gov.uk</a>
+        {% endbreadcrumbs %}
         <div class="grid-row">
             <div class="column-two-thirds">
                 <div id="success-message-container">

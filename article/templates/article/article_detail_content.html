@@ -2,7 +2,14 @@
 {% load add_export_elements_classes from directory_components %}
 
 {% block breadcrumbs %}
-  {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
+  {% with current_page=breadcrumbs|last %}
+    {% breadcrumbs current_page.title %}
+      <a href="{% url 'landing-page' %}">great.gov.uk</a>
+      {% for crumb in breadcrumbs|slice:':-1' %}
+        <a href="{{ crumb.url }}">{{ crumb.title }}</a>
+      {% endfor %}
+    {% endbreadcrumbs %}
+  {% endwith %}
 {% endblock %}
 
 <article class="article-main {{ view.slug }}-article">

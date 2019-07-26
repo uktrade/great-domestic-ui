@@ -1,5 +1,7 @@
 {% extends 'article/article_list.html' %}
+
 {% load parse_date from article_tags %}
+{% load breadcrumbs from directory_components %}
 
 {% block css_layout_class %}article-list-page tag-list-page{% endblock css_layout_class %}
 
@@ -14,16 +16,13 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<div class="container">
-  <div class="breadcrumbs">
-    <ol>
-      <li>
-        <a href="{% url 'landing-page' %}">great.gov.uk</a>
-      </li>
-      <li aria-current="page">Articles with tag: {{ page.name }}</li>
-    </ol>
+  <div class="container">
+  {% with current_page='Articles with tag: '|add:page.name %}
+    {% breadcrumbs current_page %}
+      <a href="{% url 'landing-page' %}">great.gov.uk</a>
+    {% endbreadcrumbs %}
+  {% endwith %}
   </div>
-</div>
 {% endblock %}
 
 {% block content_list %}

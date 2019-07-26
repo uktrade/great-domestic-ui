@@ -1,5 +1,6 @@
 {% extends "core/base.html" %}
-{% load render_form from directory_components %}
+
+{% load breadcrumbs render_form from directory_components %}
 {% load static from staticfiles %}
 
 {% block head_css %}
@@ -9,15 +10,16 @@
 
 {% block body_js %}
     <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
-
 {% endblock %}
 
 
 {% block content %}
 	<section>
-		{% block breadcrumbs %}
-			{% include 'marketing/breadcrumbs.html' with current_page_label='Local export support form' %}
-		{% endblock %}
+		<div class="container">
+			{% breadcrumbs 'Local export support form' %}
+				<a href="{% url 'landing-page' %}">great.gov.uk</a>
+			{% endbreadcrumbs %}
+		</div>
 		<div class="container">
 			<div class="column-full">
 				<div class="exred-triage-form">

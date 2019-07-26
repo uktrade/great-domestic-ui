@@ -1,6 +1,12 @@
-{% load message_box from directory_components %}
+{% load breadcrumbs message_box from directory_components %}
 
-{% include 'contact/breadcrumbs.html' %}
+<div class="container">
+    {% breadcrumbs 'Submitted' %}
+        <a href="{% url 'landing-page' %}">Home</a>
+        <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+    {% endbreadcrumbs %}
+</div>
+
 <section>
   <div class="container">
       <div class="grid-row">

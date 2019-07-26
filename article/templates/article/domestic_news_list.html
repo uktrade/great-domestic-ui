@@ -1,6 +1,6 @@
 {% extends 'article/article_list.html' %}
 
-{% load cta_box from directory_components %}
+{% load breadcrumbs cta_box from directory_components %}
 {% load parse_date from article_tags %}
 
 {% block css_layout_class %}article-list-page{% endblock css_layout_class %}
@@ -20,14 +20,9 @@
 
 {% block breadcrumbs %}
 <div class="container">
-  <nav class="breadcrumbs">
-    <ol>
-      <li>
-        <a href="{% url 'landing-page' %}">great.gov.uk</a>
-      </li>
-      <li aria-current="page">{{ page.landing_page_title }}</li>
-    </ol>
-  </nav>
+  {% breadcrumbs page.landing_page_title %}
+    <a href="{% url 'landing-page' %}">great.gov.uk</a>
+  {% endbreadcrumbs %}
 </div>
 {% endblock %}
 

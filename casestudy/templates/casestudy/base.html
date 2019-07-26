@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 {% load progressive_image from image_tags %}
-{% load static_absolute from directory_components %}
+{% load casestudy.title static_absolute from directory_components %}
 
 {% block head_css %}
     {{ block.super }}
@@ -13,12 +13,9 @@
 
 {% block content %}
 <div class="container">
-    <div class="breadcrumbs body-text">
-      <ol>
-        <li><a href="{% url 'landing-page' %}">Export</a></li>
-        <li aria-current="page">{{ casestudy.title }}</li>
-      </ol>
-    </div>
+    {% breadcrumbs casestudy.title%}
+        <a href="{% url 'landing-page' %}">Export</a>
+    {% endbreadcrumbs %}
 
     <article id="top">
         <div class="container">

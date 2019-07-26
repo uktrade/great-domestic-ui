@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load static from staticfiles %}
-{% load render_form from directory_components %}
+{% load breadcrumbs render_form from directory_components %}
 
 {% block sharing_metadata %}{% endblock %}
 
@@ -13,7 +13,11 @@
 {% block content %}
     <section>
         <div class="container">
-            {% include 'finance/lead_generation_form/breadcrumbs.html' %}
+            {% breadcrumbs 'Contact Us' %}
+                <a href="/">Great.gov.uk</a>
+                <a href="{% url 'get-finance' %}">UKEF</a>
+                <a href="{% url 'trade-finance' %}">Trade Finance</a>
+            {% endbreadcrumbs %}
             <div class="grid-row">
                 <div class="column-one-half">
                     <form method="post">

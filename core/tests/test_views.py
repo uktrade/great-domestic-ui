@@ -615,9 +615,10 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_privacy_cookies_subpage(mock_get_page, client, settings):
-    url = reverse('privacy-and-cookies-subpage', kwargs={
-        'slug': 'fair-processing-notice-zendesk'
-    })
+    url = reverse(
+        'privacy-and-cookies-subpage',
+        kwargs={'slug': 'fair-processing-notice-zendesk'}
+    )
     page = {
         'title': 'Fair Processing Notice Zendesk',
         'body': 'Lorem ipsum dolor sit amet.',

@@ -1,6 +1,7 @@
 {% extends 'contact/wizard-domestic.html' %}
 
 {% load static from static %}
+{% load breadcrumbs from directory_components %}
 
 {% block head_css %}
     {{ block.super }}
@@ -8,7 +9,12 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    {% include 'contact/breadcrumbs.html' with current_page_label=market_name %}
+    <div class="container">
+        {% breadcrumbs market_name %}
+            <a href="{% url 'landing-page' %}">Home</a>
+            <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+        {% endbreadcrumbs %}
+    </div>
 {% endblock %}
 
 {% block step_title_container %}
