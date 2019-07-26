@@ -126,7 +126,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'phone_number', ''
         ).replace(' ', '')
         if not PHONE_NUMBER_REGEX.match(phone_number):
-            raise forms.ValidationError(_('Please enter an UK phone number'))
+            raise forms.ValidationError(_('Please enter a UK phone number'))
         return phone_number
 
     def clean_company_postcode(self):

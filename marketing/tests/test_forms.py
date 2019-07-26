@@ -77,7 +77,7 @@ def test_marketing_form_api_serialization(valid_marketing_form_data):
                 'advertising_feedback': '4',
             },
             'phone_number',
-            'Please enter an UK phone number'
+            'Please enter a UK phone number'
         ),
         (
             {
@@ -123,3 +123,28 @@ def test_phone_number_validation(valid_marketing_form_data):
     valid_marketing_form_data['phone_number'] = '+447501234567'
     form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
+
+
+def test_postcode_validation(valid_marketing_form_data):
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
+    assert form.is_valid()
+
+    # validate a phone number without spaces
+    valid_marketing_form_data['company_postcode'] = 'W1A 1AA'
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
+    assert form.is_valid()
+
+    # # validate a postcode with spaces
+    valid_marketing_form_data['company_postcode'] = 'W1A 1AA'
+    form = forms. MarketingJoinForm(data=valid_marketing_form_data)
+    assert form.is_valid()
+
+     # # validate a postcode with mixed case
+    valid_marketing_form_data['company_postcode'] = 'w1a 1Aa'
+    form = forms. MarketingJoinForm(data=valid_marketing_form_data)
+    assert form.is_valid()
+
+    # # check invalid postcode format fails
+    valid_marketing_form_data['company_postcode'] = 'W1A W1A'
+    form = forms.MarketingJoinForm(data=valid_marketing_form_data)
+    assert form.is_valid() is False
