@@ -37,7 +37,7 @@
 					<form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
 						{% csrf_token %}
 						{% render_form form %}
-						<button type="submit" class="button button">Submit</button>
+						<button type="submit" class="button">Submit</button>
 					</form>
 				</div>
 			</div>

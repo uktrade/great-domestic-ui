@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'contact',
     'marketaccess',
     'community',
+    'marketing',
     'search',
     'ukef',
 ]

@@ -3,7 +3,8 @@
 ## Pre-release
 
 
-
+### Implemented enchancements
+- XOT-977 - Add marketing campaigns form, original clone of community join-form
 
 
 ## [2019.07.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.07.23)
