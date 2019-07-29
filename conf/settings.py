@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'contact',
     'marketaccess',
     'community',
+    'marketing',
     'search',
     'ukef',
 ]
@@ -439,7 +440,7 @@ DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME = env.str(
     'DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME', 'directory'
 )
 
-# EU exit
+# Brexit
 EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
 
 # Contact

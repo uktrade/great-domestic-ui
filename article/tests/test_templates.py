@@ -289,7 +289,7 @@ def test_international_news_list_page():
         'features': {'NEWS_SECTION_ON': True}
     }
     cms_component = {
-        'banner_label': 'EU exit updates',
+        'banner_label': 'Brexit updates',
         'banner_content': '<p>Lorem ipsum.</p>',
         'meta': {'languages': [['en-gb', 'English']]},
     }
