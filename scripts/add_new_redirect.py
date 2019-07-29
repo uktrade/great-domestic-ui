@@ -45,17 +45,17 @@ def insert_new(new_code, file_path):
 def main():
     redirect_from = input(color(
         "Enter the path you wish to redirect FROM (do not start with '/'):\n",
-        fg='purple', style='bold'))
+        fg='purple', style='bold')).strip()
     redirect_to = input(color(
         "Enter the url you wish to redirect TO (with a trailing '/'):\n",
-        fg='purple', style='bold'))
+        fg='purple', style='bold')).strip()
     redirect_name = input(color(
         "Enter the name of the redirect:\n",
-        fg='purple', style='bold'))
+        fg='purple', style='bold')).strip()
     confirm = (
         "Create {} that redirects "
         "from /{}/ to {}. Is this correct? y/n\n").format(
-        redirect_name, redirect_from, redirect_to)
+        redirect_name, redirect_from, redirect_to).strip()
 
     user_continue = input(color(confirm, fg='blue', style='bold'))
 
