@@ -1,9 +1,9 @@
 {% extends "core/base.html" %}
-{% load render_form from directory_components %}
+{% load breadcrumbs render_form from directory_components %}
 {% load static from staticfiles %}
 
 {% block head_css %}
-	{{ block.super }}
+    {{ block.super }}
     <link href="{% static 'styles/community-form.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
@@ -26,21 +26,23 @@
 
 
 {% block content %}
-	<section class="questions">
-		{% block breadcrumbs %}
-			{% include 'community/breadcrumbs.html' with current_page_label='Export Advocates Form' %}
-		{% endblock %}
-		<div class="container">
-			<h1 class="heading-large">Sign up to become an Export Advocate</h1>
-			<div class="question">
-				<div class="exred-triage-form">
-					<form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
-						{% csrf_token %}
-						{% render_form form %}
-						<button type="submit" class="button">Submit</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</section>
+    <section class="questions">
+        {% breadcrumbs 'Export Advocates Form' %}
+          <a href="/">great.gov.uk</a>
+          <a href="{% url 'community-article' %}">Community</a>
+        {% endbreadcrumbs %}
+
+        <div class="container">
+            <h1 class="heading-large">Sign up to become an Export Advocate</h1>
+            <div class="question">
+                <div class="exred-triage-form">
+                    <form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
+                        {% csrf_token %}
+                        {% render_form form %}
+                        <button type="submit" class="button">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

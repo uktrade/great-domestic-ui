@@ -1,5 +1,7 @@
 {% extends 'article/base.html' %}
 
+{% load breadcrumbs from directory_components %}
+
 {% block css_layout_class %}article-list-page{% endblock css_layout_class %}
 
 {% block content %}
@@ -14,9 +16,9 @@
   </section>
 {% endblock %}
 
-{% block breadcrumbs %}
-  {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
-{% endblock %}
+<div class="container">
+  {% include 'core/breadcrumbs_cms.html' %}
+</div>
 
 {% block child_pages %}{% endblock %}
 

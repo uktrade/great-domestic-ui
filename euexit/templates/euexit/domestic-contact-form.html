@@ -1,6 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
 
 {% block head_css %}
     {{ block.super }}
@@ -8,13 +9,19 @@
 {% endblock %}
 
 {% block content %}
-  {% block breascrumbs %}
-    {% url 'landing-page' as landing_page %}
-    {% url 'eu-exit-news-list' as news_list %}
-    {% include 'euexit/breadcrumbs.html' with home_breadcrumbs_url=landing_page news_breadcrumbs_url=news_list %}
-  {% endblock %}
+    {% block breadcrumbs %}  
+        <div class="container">
+            {% breadcrumbs page.breadcrumbs_label %}
+                <a href="/">great.gov.uk</a>
+                {% if features.NEWS_SECTION_ON %}
+                    <a href="{% url 'eu-exit-news-list' %}">Brexit news</a>
+                {% endif %}
+                <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+            {% endbreadcrumbs %}
+        </div>
+    {% endblock %}
 
-  {% block form_content %}
-    {% include 'euexit/form-contents.html' %}
-  {% endblock %}
+    {% block form_content %}
+        {% include 'euexit/form-contents.html' %}
+    {% endblock %}
 {% endblock %}
