@@ -4,19 +4,17 @@
 
 {% block css_layout_class %}article-detail-page news-detail-page{% endblock %}
 
-{% block breadcrumbs %}
-  <div class="container">
+<div class="container">
     {% breadcrumbs page.article_title %}
-      <a href="{% url 'landing-page' %}">great.gov.uk</a>
-      <a href="{% url 'eu-exit-news-list' %}">Brexit news</a>
+        <a href="{% url 'landing-page' %}">great.gov.uk</a>
+        <a href="{% url 'eu-exit-news-list' %}">Brexit news</a>
     {% endbreadcrumbs %}
-  </div>
-{% endblock %}
+</div>
 
 {% block content %}
 
 <section id="article">
-  {% include 'article/domestic_news_detail_content.html' %}
+    {% include 'article/domestic_news_detail_content.html' %}
 </section>
 
 {% endblock %}

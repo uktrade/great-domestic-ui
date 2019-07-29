@@ -1,16 +1,10 @@
 {% load parse_date from article_tags %}
 {% load add_export_elements_classes breadcrumbs from directory_components %}
 
-{% block breadcrumbs %}
-  {% with current_page=breadcrumbs|last %}
-    {% breadcrumbs current_page.title %}
-      <a href="{% url 'landing-page' %}">great.gov.uk</a>
-      {% for crumb in breadcrumbs|slice:':-1' %}
-        <a href="{{ crumb.url }}">{{ crumb.title }}</a>
-      {% endfor %}
-    {% endbreadcrumbs %}
-  {% endwith %}
-{% endblock %}
+
+<div class="container">
+  {% include 'core/breadcrumbs_cms.html' %}
+</div>
 
 <article class="article-main {{ view.slug }}-article">
   <div class="container">

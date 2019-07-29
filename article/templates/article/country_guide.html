@@ -13,17 +13,8 @@
 
 {% include 'directory_components/hero.html' with background_image_url=page.hero_image.url hero_text=page.heading hero_subheading=page.sub_heading %}
 
-<section id="breadcrumb-section">
-  {% block breadcrumbs %}
-    {% with current_page=breadcrumbs|last %}
-      {% breadcrumbs current_page.title %}
-        <a href="{% url 'landing-page' %}">great.gov.uk</a>
-        {% for crumb in breadcrumbs|slice:':-1' %}
-          <a href="{{ crumb.url }}">{{ crumb.title }}</a>
-        {% endfor %}
-      {% endbreadcrumbs %}
-    {% endwith %}
-  {% endblock %}
+<section class="container">
+  {% include 'core/breadcrumbs_cms.html' %}
 </section>
 
 {% if page.heading_teaser %}

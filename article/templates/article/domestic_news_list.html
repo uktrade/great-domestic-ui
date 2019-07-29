@@ -18,14 +18,11 @@
 </section>
 {% endblock %}
 
-{% block breadcrumbs %}
-<div class="container">
+{% block breadcrumbs %} 
   {% breadcrumbs page.landing_page_title %}
     <a href="{% url 'landing-page' %}">great.gov.uk</a>
   {% endbreadcrumbs %}
-</div>
 {% endblock %}
-
 
 {% block content_list %}
 

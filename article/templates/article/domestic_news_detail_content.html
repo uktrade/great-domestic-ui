@@ -3,14 +3,14 @@
 {% load parse_date from article_tags %}
 {% load add_export_elements_classes breadcrumbs from directory_components %}
 
-{% block breadcrumbs %}
 <div class="container">
-  {% breadcrumbs page.article_title %}
-    <a href="{% url 'landing-page' %}">great.gov.uk</a>
-    <a href="{% url 'eu-exit-news-list' %}">Brexit news</a>
-  {% endbreadcrumbs %}
+  {% block breadcrumbs %}
+    {% breadcrumbs page.article_title %}
+      <a href="{% url 'landing-page' %}">great.gov.uk</a>
+      <a href="{% url 'eu-exit-news-list' %}">Brexit news</a>
+    {% endbreadcrumbs %}
+  {% endblock %}
 </div>
-{% endblock %}
 
 {% block article_tags %}{% endblock %}
 

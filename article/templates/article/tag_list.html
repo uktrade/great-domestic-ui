@@ -16,13 +16,11 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-  <div class="container">
   {% with current_page='Articles with tag: '|add:page.name %}
     {% breadcrumbs current_page %}
       <a href="{% url 'landing-page' %}">great.gov.uk</a>
     {% endbreadcrumbs %}
   {% endwith %}
-  </div>
 {% endblock %}
 
 {% block content_list %}

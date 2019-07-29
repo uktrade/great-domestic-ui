@@ -19,10 +19,11 @@
 {% endblock %}
 
 <section id="{% block page_id %}article-list-page{% endblock %}">
-
-  {% block breadcrumbs %}
-    {% include 'core/includes/breadcrumb.html' with breadcrumbs=breadcrumbs %}
-  {% endblock %}
+  <div class="container">
+    {% block breadcrumbs %}
+      {% include 'core/breadcrumbs_cms.html' %}
+    {% endblock %}
+  </div>
 
   <div class="container">
 
