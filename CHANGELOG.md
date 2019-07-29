@@ -4,6 +4,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- CMS-1743 - Add redirect for Australia events
 - XOT-958 - bugfixes for XOT-922 (css changes, added cms_breadcrumbs, fixed template footer markup and hide block if fields not populated)
 - XOT-914 - Add automated tests for search sort order
 - XOT-906 - Update wording on search feedback form
