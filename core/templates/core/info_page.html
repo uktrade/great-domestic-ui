@@ -14,7 +14,7 @@
   {% block breadcrumbs %}
     {% with current_page=page.tree_based_breadcrumbs|last %}
       {% breadcrumbs current_page.title %}
-        <a href="{% url 'landing-page' %}">great.gov.uk</a>
+        <a href="/">great.gov.uk</a>
         {% for crumb in page.tree_based_breadcrumbs|slice:':-1' %}
           <a href="{{ crumb.url }}">{{ crumb.title }}</a>
         {% endfor %}

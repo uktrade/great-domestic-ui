@@ -14,9 +14,6 @@
 {% block breadcrumbs %}
 
 <div class="container">
-  {% breadcrumbs page.title %}
-    <a href="/">great.gov.uk</a>
-    <a href="{% url 'performance-dashboard' %}">Performance dashboard</a>
-  {% endbreadcrumbs %}
+  {% include 'core/breadcrumbs_cms.html' %}
 </div>
 {% endblock %}

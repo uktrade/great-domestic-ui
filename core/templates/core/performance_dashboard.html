@@ -16,16 +16,7 @@ Performance dashboard - great.gov.uk
 {% block content %}
 
 <div class="container">
-  {% if page.landing_dashboard %}
-    {% breadcrumbs 'Performance dashboard' %}
-      <a href="/">great.gov.uk</a>
-    {% endbreadcrumbs %}
-  {% else %}
-    {% breadcrumbs page.heading %}
-      <a href="/">great.gov.uk</a>
-      <a href="{% url 'performance-dashboard' %}">Performance dashboard</a>
-    {% endbreadcrumbs %}
-  {% endif %}
+  {% include 'core/breadcrumbs_cms.html' %}
 </div>
 
 <section>

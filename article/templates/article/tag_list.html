@@ -18,7 +18,7 @@
 {% block breadcrumbs %}
   {% with current_page='Articles with tag: '|add:page.name %}
     {% breadcrumbs current_page %}
-      <a href="{% url 'landing-page' %}">great.gov.uk</a>
+      <a href="/">great.gov.uk</a>
     {% endbreadcrumbs %}
   {% endwith %}
 {% endblock %}
