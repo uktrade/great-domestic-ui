@@ -14,15 +14,13 @@
 
 {% block content %}
 
-<section id="breadcrumbs-section" class="breadcrumbs-section">
-	<div class="container">
-		{% breadcrumbs 'How we assess your project' %}
-			<a href="/">Great.gov.uk</a>
-			<a href="{% url 'get-finance' %}">UKEF</a>
-			<a href="{% url 'project-finance' %}">Project Finance</a>
-		{% endbreadcrumbs %}
-	</div>
-</section>
+<div class="container">
+	{% breadcrumbs 'How we assess your project' %}
+		<a href="/">great.gov.uk</a>
+		<a href="{% url 'get-finance' %}">UKEF</a>
+		<a href="{% url 'project-finance' %}">Project Finance</a>
+	{% endbreadcrumbs %}
+</div>
 
 <section id="article-how-we-assess-your-project">
 	<article class="article-main how-we-assess-your-project-article">

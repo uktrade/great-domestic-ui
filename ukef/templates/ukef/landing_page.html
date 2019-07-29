@@ -23,14 +23,12 @@
     </div>
   </section>
 
-  <section id="breadcrumbs-section" class="breadcrumbs-section">
-    <div class="container">
-      {% breadcrumbs 'Project Finance' %}
-        <a href="/">Great.gov.uk</a>
-        <a href="{% url 'get-finance' %}">UKEF</a>
-      {% endbreadcrumbs %}
-    </div>
-  </section>
+  <div class="container">
+    {% breadcrumbs 'Project Finance' %}
+      <a href="/">great.gov.uk</a>
+      <a href="{% url 'get-finance' %}">UKEF</a>
+    {% endbreadcrumbs %}
+  </div>
 
   <section id="teaser-section" class="teaser-section padding-bottom-60">
     <div class="container">
