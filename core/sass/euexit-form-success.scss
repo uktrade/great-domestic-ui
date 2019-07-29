@@ -1,4 +1,3 @@
-@import 'partials/form-submission-success.scss';
 @import 'partials/colours';
 
 .message-box {
@@ -7,9 +6,4 @@
 
 #content {
   background: $white;
-
-  .breadcrumbs {
-    border-bottom: 0;
-    margin-bottom: 30px;
-  }
 }

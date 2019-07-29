@@ -1,6 +1,5 @@
 @import 'partials/colours';
 @import 'components/form-wizard';
-@import 'components/breadcrumbs';
 
 #content {
   background: $white;
@@ -11,11 +10,6 @@
 
   .body-text {
     margin-bottom: 50px;
-  }
-
-  .breadcrumbs {
-    background-color: transparent;
-    border-bottom: 0;
   }
 
   .form-label,

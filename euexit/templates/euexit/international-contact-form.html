@@ -11,13 +11,13 @@
 {% block content %}
     {% block breadcrumbs %}  
         <div class="container">
-            {% breadcrumbs page.breadcrumbs_label %}
-                <a href="{% url 'landing-page-international' %}">great.gov.uk</a>
-                {% if features.NEWS_SECTION_ON %}
-                    <a href="{% url 'international-eu-exit-news-list' %}">Brexit news</a>
-                {% endif %}
-                <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
-            {% endbreadcrumbs %}
+            <div class="margin-bottom-30">
+                {% breadcrumbs page.breadcrumbs_label %}
+                    <a href="{% url 'landing-page-international' %}">great.gov.uk</a>
+                    {% if features.NEWS_SECTION_ON %}<a href="{% url 'international-eu-exit-news-list' %}">Brexit news</a>{% endif %}
+                    <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+                {% endbreadcrumbs %}
+            </div>
         </div>
     {% endblock %}
 
