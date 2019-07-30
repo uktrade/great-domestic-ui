@@ -143,6 +143,8 @@ LANGUAGE_COOKIE_DEPRECATED_NAME = 'django-language'
 # Django's default value for LANGUAGE_COOKIE_DOMAIN is None
 LANGUAGE_COOKIE_DOMAIN = env.str('LANGUAGE_COOKIE_DOMAIN', None)
 
+CSRF_COOKIE_HTTPONLY = True
+
 # https://github.com/django/django/blob/master/django/conf/locale/__init__.py
 LANGUAGES = [
     ('en-gb', 'English'),               # English
