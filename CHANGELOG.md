@@ -7,12 +7,12 @@
 - CMS-1743 - Add redirect for Australia events
 - XOT-977 - Add marketing campaigns form, original clone of community join-form
 - No ticket - Consistent use of breadcrumbs component
+- TT-1678 - Rename EU exit to Brexit
 
 ## [2019.07.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.07.23)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.07.16...2019.07.23)
 
 ### Implemented enhancements
-- TT-1678 - Rename EU exit to Brexit
 - XOT-958 - bugfixes for XOT-922 (css changes, added cms_breadcrumbs, fixed template footer markup and hide block if fields not populated)
 - XOT-914 - Add automated tests for search sort order
 - XOT-906 - Update wording on search feedback form
