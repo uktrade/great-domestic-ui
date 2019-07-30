@@ -2,7 +2,7 @@
 
 {% load static %}
 {% load article_tags %}
-{% load add_export_elements_classes from directory_components %}
+{% load breadcrumbs add_export_elements_classes from directory_components %}
 
 {% block head_title %}UK Export Finance - How we assess your project{% endblock %}
 
@@ -14,18 +14,13 @@
 
 {% block content %}
 
-<section id="breadcrumbs-section" class="breadcrumbs-section">
-	<div class="container">
-		<nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
-			<ol>
-				<li><a href="/">Great.gov.uk</a></li>
-				<li><a href="{% url 'get-finance' %}">UKEF</a></li>
-				<li><a href="{% url 'project-finance' %}">Project Finance</a></li>
-				<li aria-current="page">How we assess your project</li>
-			</ol>
-		</nav>
-	</div>
-</section>
+<div class="container">
+	{% breadcrumbs 'How we assess your project' %}
+		<a href="/">great.gov.uk</a>
+		<a href="{% url 'get-finance' %}">UKEF</a>
+		<a href="{% url 'project-finance' %}">Project Finance</a>
+	{% endbreadcrumbs %}
+</div>
 
 <section id="article-how-we-assess-your-project">
 	<article class="article-main how-we-assess-your-project-article">

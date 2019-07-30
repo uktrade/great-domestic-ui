@@ -1,8 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
-{% load add_export_elements_classes from directory_components %}
-{% load directory_components %}
+{% load add_export_elements_classes breadcrumbs from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -18,7 +17,7 @@
   <div class="container">
 
     {% breadcrumbs 'Trade Finance' %}
-      <a href="/">Great.gov.uk</a>
+      <a href="/">great.gov.uk</a>
       <a href="{% url 'get-finance' %}">UKEF</a>
     {% endbreadcrumbs %}
 

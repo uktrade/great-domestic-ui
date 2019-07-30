@@ -1,27 +1,20 @@
 {% extends 'article/article_detail.html' %}
 
+{% load breadcrumbs from directory_components %}
+
 {% block css_layout_class %}article-detail-page news-detail-page{% endblock %}
 
-{% block breadcrumbs %}
-  <div class="container">
-    <div class="breadcrumbs">
-      <ol>
-        <li>
-          <a href="{% url 'landing-page' %}">great.gov.uk</a>
-        </li>
-        <li>
-          <a href="{% url 'eu-exit-news-list' %}">EU exit news</a>
-        </li>
-        <li aria-current="page">{{ page.article_title }}</li>
-      </ol>
-    </div>
-  </div>
-{% endblock %}
+<div class="container">
+    {% breadcrumbs page.article_title %}
+        <a href="/">great.gov.uk</a>
+        <a href="{% url 'eu-exit-news-list' %}">Brexit news</a>
+    {% endbreadcrumbs %}
+</div>
 
 {% block content %}
 
 <section id="article">
-  {% include 'article/domestic_news_detail_content.html' %}
+    {% include 'article/domestic_news_detail_content.html' %}
 </section>
 
 {% endblock %}

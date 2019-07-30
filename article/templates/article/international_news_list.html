@@ -1,6 +1,6 @@
 {% extends 'core/base_international.html' %}
 
-{% load banner hero cta_box add_export_elements_classes from directory_components %}
+{% load banner breadcrumbs hero cta_box add_export_elements_classes from directory_components %}
 {% load parse_date from article_tags %}
 {% load static %}
 
@@ -27,14 +27,9 @@
 <section id="article-list-page">
   <div class="container">
     {% block breadcrumbs %}
-      <div class="breadcrumbs" dir="ltr">
-        <ol>
-          <li>
-            <a href="{% url 'landing-page-international' %}">great.gov.uk</a>
-          </li>
-          <li aria-current="page">{{ page.landing_page_title }}</li>
-        </ol>
-      </div>
+      {% breadcrumbs page.landing_page_title %}
+        <a href="{% url 'landing-page-international' %}">great.gov.uk international</a>
+      {% endbreadcrumbs %}
       {% if cms_component %}
         <div class="banner-container" dir="{{ component_is_rtl|yesno:'rtl,ltr' }}">
           {% banner banner_content=cms_component.banner_content badge_content=cms_component.banner_label %}
@@ -61,7 +56,7 @@
 
 <div class="container" dir="ltr">
   {% url 'eu-exit-international-contact-form' as contact_url %}
-  {% cta_box box_id='eu-exit-cta-box' description='If you still have a question about EU exit, contact Department for International Trade and one of our experts will try to help you.' button_text='Contact us' button_url=contact_url %}
+  {% cta_box box_id='eu-exit-cta-box' description='If you still have a question about Brexit, contact Department for International Trade and one of our experts will try to help you.' button_text='Contact us' button_url=contact_url %}
 </div>
 
 {% endblock %}

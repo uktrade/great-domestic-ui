@@ -1,6 +1,6 @@
 {% extends "core/base.html" %}
 {% load static from staticfiles %}
-{% load add_export_elements_classes from directory_components %}
+{% load add_export_elements_classes breadcrumbs from directory_components %}
 
 {% block sharing_metadata %}{% endblock %}
 
@@ -10,7 +10,12 @@
 {% endblock %}
 
 {% block content %}
-    {% include 'contact/breadcrumbs.html' %}
+    <div class="container">
+        {% breadcrumbs 'Guidance' %}
+            <a href="/">great.gov.uk</a>
+            <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
+        {% endbreadcrumbs %}
+    </div>
     <div class="container">
         <section>
             {{ page.body|add_export_elements_classes }}

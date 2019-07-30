@@ -1,6 +1,6 @@
 {% extends 'article/base.html' %}
 {% load static %}
-{% load cta_box add_export_elements_classes from directory_components %}
+{% load breadcrumbs cta_box add_export_elements_classes from directory_components %}
 
 {% block css_layout_class %}campaign-page{% endblock css_layout_class %}
 
@@ -8,15 +8,9 @@
 <section class="hero hero-generic padding-0" id="campaign-hero" {% if page.campaign_hero_image %}style="background-image: url('{{ page.campaign_hero_image.url }}')"{% endif %}>
 
   <div class="container white-text">
-    <div class="breadcrumbs">
-      <ol>
-        <li>
-          <a href="{% url 'landing-page' %}">great.gov.uk</a>
-        </li>
-        <li aria-current="page">{{ page.campaign_heading }}</li>
-      </ol>
-    </div>
-
+    {% breadcrumbs page.campaign_heading %}
+      <a href="/">great.gov.uk</a>
+    {% endbreadcrumbs %}
     <div class="hero-title">
       <h1 id="campaign-hero-heading" class="heading-hero-generic">{{ page.campaign_heading }}</h1>
     </div>
