@@ -9,6 +9,7 @@
 - XOT-977 - Add marketing campaigns form, original clone of community join-form
 - No ticket - Consistent use of breadcrumbs component
 - TT-1678 - Rename EU exit to Brexit
+- XOT-968 - Fix security issues raised by latest pen test
 
 ## [2019.07.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.07.23)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.07.16...2019.07.23)
