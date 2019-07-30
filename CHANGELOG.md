@@ -4,6 +4,7 @@
 
 
 ### Implemented enchancements
+- feature/XOT-977-form-first-marketing-campaign
 - XOT-977 - change postcode to use ukpostcodeutils, update breadcrumb text
 - CMS-1743 - Add redirect for Australia events
 - XOT-977 - Add marketing campaigns form, original clone of community join-form
