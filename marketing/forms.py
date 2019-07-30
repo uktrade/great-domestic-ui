@@ -9,8 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from marketing import constants as choices
 from contact.forms import TERMS_LABEL
+from ukpostcodeutils import validation
 
-COMPANY_POSTCODE_REGEX = re.compile(r'\b[A-Z,a-z]{1,2}[0-9][A-Z,a-z,0-9]?[0-9][ABD-HJLNP-UW-Z,abd-hjlnp-uw-z]{2}\b')
 PHONE_NUMBER_REGEX = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
 
 
@@ -130,10 +130,11 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
         return phone_number
 
     def clean_company_postcode(self):
+
         company_postcode = self.cleaned_data.get(
             'company_postcode', ''
-        ).replace(' ', '')
-        if not COMPANY_POSTCODE_REGEX.match(company_postcode):
+        ).replace(' ', '').upper()
+        if not validation.is_valid_postcode(company_postcode):
             raise forms.ValidationError(_('Please enter a UK postcode'))
         return company_postcode
 
