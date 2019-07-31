@@ -492,10 +492,7 @@ def test_article_detail_page_social_share_links(
         ]
     }
 
-    url = reverse(
-        'create-an-export-plan-article',
-        kwargs={'slug': 'how-to-write-an-export-plan'}
-    )
+    url = '/advice/create-an-export-plan/how-to-write-an-export-plan/'
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -558,10 +555,7 @@ def test_article_detail_page_social_share_links_no_title(
         ]
     }
 
-    url = reverse(
-        'create-an-export-plan-article',
-        kwargs={'slug': 'how-to-write-an-export-plan'}
-    )
+    url = '/advice/create-an-export-plan/how-to-write-an-export-plan/'
 
     mock_get_page.return_value = create_response(
         status_code=200,

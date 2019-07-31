@@ -309,92 +309,14 @@ article_urls = [
         name='advice',
     ),
     url(
-        r"^advice/create-an-export-plan/$",
+        r"^advice/(?P<slug>[\w-]+)/$",
         article.views.CMSPageView.as_view(),
-        {'slug': 'create-an-export-plan'},
-        name='create-an-export-plan',
+        name='advice-article-list',
     ),
     url(
-        r"^advice/create-an-export-plan/(?P<slug>[\w-]+)/$",
+        r"^advice/(?P<list>[\w-]+)/(?P<slug>[\w-]+)/$",
         article.views.CMSPageView.as_view(),
-        name='create-an-export-plan-article',
-    ),
-    url(
-        r"^advice/find-an-export-market/$",
-        article.views.CMSPageView.as_view(),
-        {'slug': 'find-an-export-market'},
-        name='find-an-export-market',
-    ),
-    url(
-        r"^advice/find-an-export-market/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
-        name='find-an-export-market-article',
-    ),
-    url(
-        r"^advice/define-route-to-market/$",
-        article.views.CMSPageView.as_view(),
-        {'slug': 'define-route-to-market'},
-        name='define-route-to-market',
-    ),
-    url(
-        r"^advice/define-route-to-market/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
-        name='define-route-to-market-article',
-    ),
-    url(
-        r"^advice/get-export-finance-and-funding/$",
-        article.views.CMSPageView.as_view(),
-        {'slug': 'get-export-finance-and-funding'},
-        name='get-export-finance-and-funding',
-    ),
-    url(
-        r"^advice/get-export-finance-and-funding/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
-        name='get-export-finance-and-funding-article',
-    ),
-    url(
-        r"^advice/manage-payment-for-export-orders/$",
-        article.views.CMSPageView.as_view(),
-        {'slug': 'manage-payment-for-export-orders'},
-        name='manage-payment-for-export-orders',
-    ),
-    url(
-        r"^advice/manage-payment-for-export-orders/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
-        name='manage-payment-for-export-orders-article',
-    ),
-    url(
-        r"^advice/prepare-to-do-business-in-a-foreign-country/$",
-        article.views.CMSPageView.as_view(),
-        {'slug': 'prepare-to-do-business-in-a-foreign-country'},
-        name='prepare-to-do-business-in-a-foreign-country',
-    ),
-    url(
-        r"^advice/prepare-to-do-business-in-a-foreign-country/(?P<slug>[\w-]+)/$",  # noqa
-        article.views.CMSPageView.as_view(),
-        name='prepare-to-do-business-in-a-foreign-country-article',
-    ),
-    url(
-        r"^advice/manage-legal-and-ethical-compliance/$",
-        article.views.CMSPageView.as_view(),
-        {'slug': 'manage-legal-and-ethical-compliance'},
-        name='manage-legal-and-ethical-compliance',
-    ),
-    url(
-        r"^advice/manage-legal-and-ethical-compliance/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
-        name='manage-legal-and-ethical-compliance-article',
-    ),
-    url(
-        r"^advice/prepare-for-export-procedures-and-logistics/$",
-        article.views.CMSPageView.as_view(),
-        {'slug': 'prepare-for-export-procedures-and-logistics'},
-        name='prepare-for-export-procedures-and-logistics',
-    ),
-    url(
-        r"^advice/prepare-for-export-procedures-and-logistics/(?P<slug>[\w-]+)/$",  # noqa
-        article.views.CMSPageView.as_view(),
-        name='prepare-for-export-procedures-and-logistics-article',
+        name='advice-article',
     ),
     url(
         r"^markets/$",
