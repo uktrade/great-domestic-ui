@@ -1,7 +1,6 @@
 import pytest
 from unittest.mock import patch
 from bs4 import BeautifulSoup
-from django.urls import reverse
 from django.template.loader import render_to_string
 
 from core.tests.helpers import create_response
