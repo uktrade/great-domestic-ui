@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enchancements
+- XOT-977 - text change
 - XOT-977 - change postcode to use ukpostcodeutils, update breadcrumb text
 
 
