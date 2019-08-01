@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enchancements
+- XOT-977 - change url to relative
 - XOT-977 - additional text changes to marketing form success page
 - CMS-1762 - Make advice article urls less restrictive to allow content editors to publish without dev work
 - XOT-977 - text change
