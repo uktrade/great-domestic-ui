@@ -1,19 +1,12 @@
 {% extends 'article/domestic_news_detail_content.html' %}
 
+{% load breadcrumbs from directory_components %}
+
 {% block breadcrumbs %}
-<div class="container">
-  <nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
-    <ol>
-      <li>
-        <a href="{% url 'landing-page-international' %}">great.gov.uk</a>
-      </li>
-      <li>
-        <a href="{% url 'international-eu-exit-news-list' %}">EU exit news</a>
-      </li>
-      <li aria-current="page">{{ page.article_title }}</li>
-    </ol>
-  </nav>
-</div>
+    {% breadcrumbs page.article_title %}
+        <a href="{% url 'landing-page-international' %}">great.gov.uk international</a>
+        <a href="{% url 'international-eu-exit-news-list' %}">Brexit news</a>
+    {% endbreadcrumbs %}
 {% endblock %}
 
 {% block article_tags %}{% endblock %}
@@ -22,7 +15,7 @@
 <footer>
   <nav class="grid-row">
     <div class="column-seven-twelfths margin-left-2-cols">
-      <span class="font-xsmall">Back to <a href="{% url 'international-eu-exit-news-list' %}" class="link">EU exit news</a></span>
+      <span class="font-xsmall">Back to <a href="{% url 'international-eu-exit-news-list' %}" class="link">Brexit news</a></span>
     </div>
     <div class="column-quarter">
       <a class="float-right font-xsmall link" href="#content">Back to top</a>

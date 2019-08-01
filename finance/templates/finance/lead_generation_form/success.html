@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static from staticfiles %}
 
-{% load add_export_elements_classes from directory_components %}
+{% load add_export_elements_classes breadcrumbs from directory_components %}
 
 {% block head_css %}
     {{ block.super }}
@@ -11,7 +11,11 @@
 {% block head_title %}UK Export Finance - We have received your details{% endblock %}
 {% block content %}
     <div class="container">
-        {% include 'finance/lead_generation_form/breadcrumbs.html' %}
+        {% breadcrumbs 'Contact Us' %}
+            <a href="/">great.gov.uk</a>
+            <a href="{% url 'get-finance' %}">UKEF</a>
+            <a href="{% url 'trade-finance' %}">Trade Finance</a>
+        {% endbreadcrumbs %}
         <div class="grid-row">
             <div class="column-two-thirds">
                 <div id="success-message-container">

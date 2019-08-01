@@ -1,5 +1,7 @@
 {% extends 'core/info_page.html' %}
+
 {% load static from staticfiles %}
+{% load breadcrumbs from directory_components %}
 
 {% block head_css %}
     {{ block.super }}
@@ -12,16 +14,6 @@
 {% block breadcrumbs %}
 
 <div class="container">
-  <div class="breadcrumbs body-text">
-    <ol>
-      <li>
-        <a href="/">great.gov.uk</a>
-      </li>
-      <li>
-        <a href="{% url 'performance-dashboard' %}">Performance dashboard</a>
-      </li>
-      <li aria-current="page">{{ page.title }}</li>
-    </ol>
-  </div>
+  {% include 'core/breadcrumbs_cms.html' %}
 </div>
 {% endblock %}

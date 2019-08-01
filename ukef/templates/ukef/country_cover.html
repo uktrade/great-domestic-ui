@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
-{% load add_export_elements_classes from directory_components %}
+{% load add_export_elements_classes breadcrumbs from directory_components %}
 
 {% block head_css %}
 	{{ block.super }}
@@ -23,18 +23,13 @@
 		</div>
 	</section>
 
-	<section id="breadcrumbs-section" class="breadcrumbs-section">
-		<div class="container">
-			<nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
-				<ol>
-					<li><a href="/">Great.gov.uk</a></li>
-					<li><a href="{% url 'get-finance' %}">UKEF</a></li>
-					<li><a href="{% url 'project-finance' %}">Project Finance</a></li>
-					<li aria-current="page">Check our country cover</li>
-				</ol>
-			</nav>
-		</div>
-	</section>
+	<div class="container">
+		{% breadcrumbs 'Check our country cover' %}
+			<a href="/">great.gov.uk</a>
+			<a href="{% url 'get-finance' %}">UKEF</a>
+			<a href="{% url 'project-finance' %}">Project Finance</a>
+		{% endbreadcrumbs %}
+	</div>
 
 	<section id="teaser-section" class="teaser-section">
 		<div class="container">

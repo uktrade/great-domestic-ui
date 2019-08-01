@@ -8,6 +8,12 @@ from core.views import (
 
 redirects = [
     url(
+        r'^australia-event-calendar/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=australia'),
+        name='australia-event-calendar'
+    ),
+    url(
         r'^(?i)trskorea/$',
         QuerystringRedirectView.as_view(
             url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'

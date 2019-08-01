@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load render_form from directory_components %}
+{% load breadcrumbs render_form from directory_components %}
 {% load static from staticfiles %}
 
 {% block head_css %}
@@ -22,19 +22,13 @@
 {% endblock %}
 
 {% block content %}
-  <section id="breadcrumbs-section" class="breadcrumbs-section">
-    <div class="container">
-      <nav class="breadcrumbs" aria-label="breadcrumb" role="navigation">
-        <ol>
-          <li><a href="/">Great.gov.uk </a></li>
-          <li><a href="{% url 'get-finance' %}">UKEF</a></li>
-          <li><a href="{% url 'project-finance' %}">Project Finance</a></li>
-          <li aria-current="page">Get in touch</li>
-        </ol>
-      </nav>
-    </div>
-  </section>
-
+  <div class="container">
+      {% breadcrumbs 'Get in touch' %}
+          <a href="/">great.gov.uk</a>
+          <a href="{% url 'get-finance' %}">UKEF</a>
+          <a href="{% url 'project-finance' %}">Project Finance</a>
+      {% endbreadcrumbs %}
+  </div>
 
   <section id="teaser-section" class="teaser-section background-stone-30 padding-top-60">
     <div class="container">

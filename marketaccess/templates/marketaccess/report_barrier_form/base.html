@@ -1,8 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load static from staticfiles %}
-{% load render_form from directory_components %}
-{% load message_box from directory_components %}
+{% load breadcrumbs message_box render_form from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -14,13 +13,10 @@
 {% block content %}
     <section>
         <div class="container">
-            <div class="breadcrumbs">
-                <ol>
-                    <li><a href="{% url 'landing-page' %}">Great.gov.uk</a></li>
-                    <li> Trade barriers </li>
-                    <li> Report a trade barrier </li>
-                </ol>
-            </div>
+            {% breadcrumbs 'Report a trade barrier' %}
+                <a href="/">great.gov.uk</a>
+                <a href="{% url 'market-access' %}">Trade barriers</a>
+            {% endbreadcrumbs %}
             <div class="grid-row">
                 <div class="column-one-half"></div>
                     <form method="post">

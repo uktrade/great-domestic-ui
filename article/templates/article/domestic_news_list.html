@@ -18,19 +18,9 @@
 </section>
 {% endblock %}
 
-{% block breadcrumbs %}
-<div class="container">
-  <nav class="breadcrumbs">
-    <ol>
-      <li>
-        <a href="{% url 'landing-page' %}">great.gov.uk</a>
-      </li>
-      <li aria-current="page">{{ page.landing_page_title }}</li>
-    </ol>
-  </nav>
-</div>
+{% block breadcrumbs %} 
+    {% include 'core/breadcrumbs_cms.html' %}
 {% endblock %}
-
 
 {% block content_list %}
 
@@ -47,6 +37,6 @@
 {% block list_footer %}
     <div class="container">
       {% url 'eu-exit-domestic-contact-form' as contact_url %}
-      {% cta_box box_id='eu-exit-cta-box' description='If you still have a question about EU exit, contact Department for International Trade and one of our experts will try to help you.' button_text='Contact us' button_url=contact_url %}
+      {% cta_box box_id='eu-exit-cta-box' description='If you still have a question about Brexit, contact Department for International Trade and one of our experts will try to help you.' button_text='Contact us' button_url=contact_url %}
     </div>
 {% endblock %}
