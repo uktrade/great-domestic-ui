@@ -130,7 +130,7 @@ def test_postcode_validation(valid_marketing_form_data):
     assert form.is_valid()
 
     # validate a phone number without spaces
-    valid_marketing_form_data['company_postcode'] = 'W1A 1AA'
+    valid_marketing_form_data['company_postcode'] = 'W1A1AA'
     form = forms.MarketingJoinForm(data=valid_marketing_form_data)
     assert form.is_valid()
 

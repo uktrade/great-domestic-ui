@@ -53,6 +53,10 @@ requests==2.21.0
 sigauth==4.0.1
 six==1.12.0               # via django-extensions, jsonschema, mohawk, pyrsistent, python-dateutil, w3lib
 tzlocal==1.5.1            # via dateparser
+uk-postcode-utils==1.0
 urllib3==1.24.3
 w3lib==1.20.0             # via directory-client-core
 whitenoise==3.1
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools==41.0.1        # via jsonschema

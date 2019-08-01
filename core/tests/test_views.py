@@ -920,14 +920,31 @@ def test_marketing_campaign_page_feature_flag_off(
 
 
 @pytest.mark.parametrize('view_name', ['triage-start', 'custom-page'])
-def test_triage_views(view_name, client):
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_triage_views(mock_get_page, view_name, client):
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={
+            'title': 'Advice',
+            'page_type': 'TopicLandingPage',
+        }
+    )
+
     url = reverse(view_name)
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
     assert response.template_name == ['core/service_no_longer_available.html']
 
 
-def test_triage_wizard_view(client):
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_triage_wizard_view(mock_get_page, client):
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body={
+            'title': 'Advice',
+            'page_type': 'TopicLandingPage',
+        }
+    )
     url = reverse('triage-wizard', kwargs={'step': 'foo'})
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK

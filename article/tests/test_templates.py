@@ -1,7 +1,6 @@
 import pytest
 from unittest.mock import patch
 from bs4 import BeautifulSoup
-from django.urls import reverse
 from django.template.loader import render_to_string
 
 from core.tests.helpers import create_response
@@ -492,10 +491,7 @@ def test_article_detail_page_social_share_links(
         ]
     }
 
-    url = reverse(
-        'create-an-export-plan-article',
-        kwargs={'slug': 'how-to-write-an-export-plan'}
-    )
+    url = '/advice/create-an-export-plan/how-to-write-an-export-plan/'
 
     mock_get_page.return_value = create_response(
         status_code=200,
@@ -558,10 +554,7 @@ def test_article_detail_page_social_share_links_no_title(
         ]
     }
 
-    url = reverse(
-        'create-an-export-plan-article',
-        kwargs={'slug': 'how-to-write-an-export-plan'}
-    )
+    url = '/advice/create-an-export-plan/how-to-write-an-export-plan/'
 
     mock_get_page.return_value = create_response(
         status_code=200,

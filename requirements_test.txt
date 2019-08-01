@@ -76,6 +76,10 @@ sigauth==4.0.1
 six==1.11.0               # via django-extensions, freezegun, jsonschema, mohawk, more-itertools, pip-tools, pyrsistent, pytest, pytest-xdist, python-dateutil, requests-mock, w3lib
 termcolor==1.1.0          # via pytest-sugar
 tzlocal==1.5.1            # via dateparser
+uk-postcode-utils==1.0
 urllib3==1.24.2
 w3lib==1.19.0             # via directory-client-core
 whitenoise==3.1
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools==41.0.1        # via jsonschema, pytest

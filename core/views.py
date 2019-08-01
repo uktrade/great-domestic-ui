@@ -217,7 +217,8 @@ class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/info_page_international.html'
 
 
-class ServiceNoLongerAvailableView(TemplateView):
+class ServiceNoLongerAvailableView(mixins.GetCMSPageMixin, TemplateView):
+    slug = 'advice'
     template_name = 'core/service_no_longer_available.html'
 
 
