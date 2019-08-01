@@ -919,9 +919,9 @@ def test_marketing_campaign_page_feature_flag_off(
     assert response.status_code == 404
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @pytest.mark.parametrize('view_name', ['triage-start', 'custom-page'])
-def test_triage_views(view_name, mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_triage_views(mock_get_page, view_name, client):
     mock_get_page.return_value = create_response(
         status_code=200,
         json_body={
