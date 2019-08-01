@@ -2,9 +2,14 @@
 
 ## Pre-release
 
-
 ### Implemented enchancements
 - XOT-977 - change postcode to use ukpostcodeutils, update breadcrumb text
+
+
+## [2019.08.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.01)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.07.23...2019.08.01)
+
+### Implemented enchancements
 - CMS-1743 - Add redirect for Australia events
 - XOT-977 - Add marketing campaigns form, original clone of community join-form
 - No ticket - Consistent use of breadcrumbs component
