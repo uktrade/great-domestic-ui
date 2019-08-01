@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enchancements
+- CMS-1762 - Make advice article urls less restrictive to allow content editors to publish without dev work
 - XOT-977 - text change
 - XOT-977 - change postcode to use ukpostcodeutils, update breadcrumb text
 

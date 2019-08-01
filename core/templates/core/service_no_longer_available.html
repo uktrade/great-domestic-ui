@@ -13,13 +13,9 @@
         <p>You can still read our advice on how to sell your goods and services overseas.</p>
         <p>Read about how to:</p>
         <ul class="list list-bullet">
-          <li><a href="{% url 'find-an-export-market' %}" class="link">Find the right marketplace for your business</a></li>
-          <li><a href="{% url 'define-route-to-market' %}" class="link">Find the best route to market</a></li>
-          <li><a href="{% url 'get-export-finance-and-funding' %}" class="link">Get export finance and funding</a></li>
-          <li><a href="{% url 'manage-payment-for-export-orders' %}" class="link">Manage payment for export orders</a></li>
-          <li><a href="{% url 'prepare-to-do-business-in-a-foreign-country' %}" class="link">Prepare to do business in a foreign country</a></li>
-          <li><a href="{% url 'manage-legal-and-ethical-compliance' %}" class="link">Manage legal and ethical compliance </a></li>
-          <li><a href="{% url 'prepare-for-export-procedures-and-logistics' %}" class="link">Prepare for export procedures and logistics</a></li>
+          {% for listing in page.child_pages %}
+            <li><a href="{{ listing.full_path }}" class="link">{{ listing.title }}</a></li>
+          {% endfor %}
         </ul>
       </div>
     </div>
