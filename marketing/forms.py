@@ -77,7 +77,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
     )
     annual_turnover = fields.ChoiceField(
             label=_('Annual turnover'),
-            help_text=_('This information will help us tailor our response and advise on the services we can provide.'),
+            help_text=_('This information will help us tailor our response and advice on the services we can provide.'),
             choices=(
                 ('Less than £500K', 'Less than £500K'),
                 ('£500K to £2M', '£500K to £2M'),
