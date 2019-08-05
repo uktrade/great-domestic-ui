@@ -33,8 +33,6 @@ DEBUG = env.bool('DEBUG', False)
 # PaaS, we can open ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-SITE_ID = 1
-
 INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
@@ -59,16 +57,7 @@ INSTALLED_APPS = [
     'marketing',
     'search',
     'ukef',
-    'django.contrib.sites',
-    'django.contrib.redirects',
 ]
-
-DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': ':memory:',
-  }
-}
 
 MIDDLEWARE_CLASSES = [
     'directory_components.middleware.MaintenanceModeMiddleware',
@@ -87,7 +76,6 @@ MIDDLEWARE_CLASSES = [
     'directory_components.middleware.PersistLocaleMiddleware',
     'directory_components.middleware.ForceDefaultLocale',
     'directory_components.middleware.CountryMiddleware',
-    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
 ]
 
 ROOT_URLCONF = 'conf.urls'
