@@ -2,7 +2,9 @@
 {% load add_export_elements_classes breadcrumbs from directory_components %}
 
 <div class="container">
-  {% include 'core/breadcrumbs_cms.html' %}
+  {% breadcrumbs page.title %}
+    <a href="/">great.gov.uk</a>
+  {% endbreadcrumbs %}
 </div>
 
 <article class="article-main {{ slug }}-article">

@@ -10,18 +10,19 @@
 
 {% block content %}
     <div class="container">
-        {% breadcrumbs 'Sent' %}
+        {% breadcrumbs 'Local Export Support Success' %}
             <a href="/">great.gov.uk</a>
-            <a href="{% url 'marketing-join-form' %}">Join</a>
         {% endbreadcrumbs %}
         <div class="grid-row">
             <div class="column-two-thirds">
                 <div id="success-message-container">
-                    <h1 class="heading-medium">Sign-up completed. Thank you</h1>
+                    <h1 class="heading-medium">Thank you for contacting us</h1>
                 </div>
                 <h2 class="heading-medium">What happens next</h2>
-                <p>We'll be in touch within 2 weeks to find out more about your export story and discuss your next steps.</p>
-				<a class="link" href="https://www.facebook.com/groups/252347388759344/">Join the Exporting is GREAT Facebook community</a>
+                <p>We'll be in touch within 2 weeks to give you more information about the type of support that might be available to you.</p>
+                <p>In the meantime, you can:</p>
+                <p><a class="link" href="https://www.facebook.com/groups/252347388759344/" title="Join the Exporting is GREAT Facebook community">Join the Exporting is GREAT Facebook community</a></p>
+                <p><a class="link" href="{% url 'community-article' %}" title="Become an Export Advocate">Become an Export Advocate</a></p>
                 <div>
                     <br/>
                     <a href="{{ services_urls.exred }}">Continue to great.gov.uk</a>

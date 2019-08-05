@@ -2,6 +2,17 @@
 
 ## Pre-release
 
+### Implemented enchancements
+- XOT-977 - breadcrumb change using cms page.title
+- XOT-977 - change url to relative
+- XOT-977 - additional text changes to marketing form success page
+- CMS-1762 - Make advice article urls less restrictive to allow content editors to publish without dev work
+- XOT-977 - text change
+- XOT-977 - change postcode to use ukpostcodeutils, update breadcrumb text
+
+
+## [2019.08.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.01)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.07.23...2019.08.01)
 
 ### Implemented enchancements
 - CMS-1743 - Add redirect for Australia events
