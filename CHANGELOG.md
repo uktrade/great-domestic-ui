@@ -10,6 +10,9 @@
 - XOT-977 - text change
 - XOT-977 - change postcode to use ukpostcodeutils, update breadcrumb text
 
+### fixed bugs
+- XOT-991 - add container div to community export advocates form to fix alignment issue
+
 
 ## [2019.08.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.01)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.07.23...2019.08.01)
