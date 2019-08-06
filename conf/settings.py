@@ -69,7 +69,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
-    'core.middleware.CoreMiddleware',
+    'core.middleware.RedirectMiddleware',
     'directory_components.middleware.CheckGATags',
     'directory_components.middleware.NoCacheMiddlware',
     'directory_components.middleware.LocaleQuerystringMiddleware',

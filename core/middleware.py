@@ -10,12 +10,12 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
-class CoreMiddleware(object):
+class RedirectMiddleware(object):
 
     def process_request(self, request):
-        url = request.get_full_path().split('/')[1]
+        url = request.path
         if url and url != '':
-            response = api_client.redirects.lookup_redirect_by_url(source_url=url)
+            response = api_client.redirects.lookup_by_url(source_url=url)
             if response != None and 'id' in response.keys():
-                return redirect(response['target_url'], permanent=False)
+                return redirect(response['target_url'])
         pass
