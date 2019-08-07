@@ -69,13 +69,13 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'sso.middleware.SSOUserMiddleware',
-    'core.middleware.RedirectMiddleware',
     'directory_components.middleware.CheckGATags',
     'directory_components.middleware.NoCacheMiddlware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
     'directory_components.middleware.PersistLocaleMiddleware',
     'directory_components.middleware.ForceDefaultLocale',
     'directory_components.middleware.CountryMiddleware',
+    'core.middleware.RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'conf.urls'

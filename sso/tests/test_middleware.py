@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 
 from sso import middleware
 
+from core.middleware import RedirectMiddleware
 
 def api_response_ok(*args, **kwargs):
     return Mock(
@@ -21,6 +22,8 @@ def api_response_ok(*args, **kwargs):
 def api_response_bad():
     return Mock(ok=False)
 
+def redirect_response_ok():
+    return Mock({'id': 1, 'target_url': 'https://gov.uk/exit'})
 
 def test_sso_middleware_installed(settings):
     assert 'sso.middleware.SSOUserMiddleware' in settings.MIDDLEWARE_CLASSES
@@ -57,6 +60,18 @@ def test_sso_middleware_bad_response(settings, client):
     response = client.get(reverse('casestudy-york-bag'))
 
     assert response._request.sso_user is None
+
+
+def test_redirect_middleware_installed(settings):
+    assert 'core.middleware.RedirectMiddleware' in settings.MIDDLEWARE_CLASSES
+
+
+@patch('directory_api_client.api_client.redirects', redirect_response_ok)
+def test_redirect_middleware_response(settings, client):
+    settings.MIDDLEWARE_CLASSES = ['core.middleware.RedirectMiddleware']
+    response = RedirectMiddleware()
+
+    assert response is not None
 
 
 @pytest.mark.parametrize(
