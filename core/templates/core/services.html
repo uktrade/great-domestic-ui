@@ -22,7 +22,9 @@
 
 {% block breadcrumbs %}
     <div class="container">
-        {% breadcrumbs 'Services' %}<a href="/">great.gov.uk</a>{% endbreadcrumbs %}
+        {% breadcrumbs 'Services' %}
+          <a href="{% url 'landing-page' %}">great.gov.uk</a>
+        {% endbreadcrumbs %}
     </div>
 {% endblock %}
 
