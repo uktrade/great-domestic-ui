@@ -9,7 +9,6 @@ import core.helpers
 
 casestudy_views_under_test = [
     (views.CasestudyHelloBabyView, reverse('casestudy-hello-baby')),
-    (views.CasestudyMarketplaceView, reverse('casestudy-online-marketplaces')),
     (views.CasestudyYorkBagView, reverse('casestudy-york-bag')),
 ]
 
