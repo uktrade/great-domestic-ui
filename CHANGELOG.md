@@ -3,6 +3,15 @@
 ## Pre-release
 
 ### Implemented enchancements
+
+### Fixed bugs
+- XOT-991 - add container div to community export advocates form to fix alignment issue
+
+
+## [2019.08.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.05)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.01...2019.08.05)
+
+### Implemented enchancements
 - XOT-977 - breadcrumb change using cms page.title
 - XOT-977 - change url to relative
 - XOT-977 - additional text changes to marketing form success page
