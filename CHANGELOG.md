@@ -6,6 +6,7 @@
 - GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
 
 ### Fixed bugs
+- GTRANSFORM-241 - Content tweak
 - No ticket - Fix card images being stretched, fix missing services page breadcrumbs
 - XOT-991 - add container div to community export advocates form to fix alignment issue
 
