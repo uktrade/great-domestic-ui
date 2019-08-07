@@ -1,0 +1,19 @@
+{% load static from staticfiles %}
+{% load card from directory_components %}
+
+<div class="container">
+  <div class="grid-row">
+    <div class="column-full column-two-thirds-m column-half-l">
+      <h2 id="case-studies-section-title" class="heading-large">Exporters share their story</h2>
+      <p id="case-studies-section-description" class="body-text">Read what other UK businesses have to say about their experiences with exporting and the decisions they made to secure the future of their business.</p>
+    </div>
+  </div>
+  <div class="grid-row">
+      {% for casestudy in casestudies %}
+        <div class="column-third-xl column-half-l">
+          {% static casestudy.image_url as image_url %}
+          {% card img_src=image_url url=casestudy.url title=casestudy.title %}
+        </div>
+      {% endfor %}
+  </div>
+</div>

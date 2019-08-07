@@ -53,7 +53,6 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
         return super().get_context_data(
             page=self.page,
             casestudies=[
-                casestudies.MARKETPLACE,
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
             ],
