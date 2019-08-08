@@ -16,7 +16,7 @@ directory-api-client==14.0.0
 directory-ch-client==2.0.0
 directory-client-core==5.1.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
 directory-cms-client==10.0.0
-directory-components==20.0.0
+directory-components==27.4.0
 directory-constants==18.0.0
 directory-forms-api-client==4.0.0
 directory-healthcheck==1.0.1
@@ -57,6 +57,3 @@ uk-postcode-utils==1.0
 urllib3==1.24.3
 w3lib==1.20.0             # via directory-client-core
 whitenoise==3.1
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.0.1        # via jsonschema
