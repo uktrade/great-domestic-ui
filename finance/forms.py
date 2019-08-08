@@ -1,6 +1,6 @@
 from captcha.fields import ReCaptchaField
 from directory_constants import choices, urls
-from directory_components import forms, fields, widgets
+from directory_components import forms
 
 from django.forms import Textarea, TextInput
 from django.utils.html import mark_safe
@@ -14,9 +14,9 @@ class CategoryForm(forms.Form):
         'Offering competitive but secure payment terms',
         'Guidance on export finance and insurance',
     )
-    categories = fields.MultipleChoiceField(
+    categories = forms.MultipleChoiceField(
         label='',
-        widget=widgets.CheckboxSelectInlineLabelMultiple(
+        widget=forms.CheckboxSelectInlineLabelMultiple(
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,
         ),
@@ -27,11 +27,11 @@ class CategoryForm(forms.Form):
 class PersonalDetailsForm(forms.Form):
     error_css_class = 'input-field-container has-error'
 
-    firstname = fields.CharField(label='Your first name')
-    lastname = fields.CharField(label='Your last name')
-    position = fields.CharField(label='Position in company')
-    email = fields.EmailField(label='Email address')
-    phone = fields.CharField(label='Phone')
+    firstname = forms.CharField(label='Your first name')
+    lastname = forms.CharField(label='Your last name')
+    position = forms.CharField(label='Position in company')
+    email = forms.EmailField(label='Email address')
+    phone = forms.CharField(label='Phone')
 
 
 class CompanyDetailsForm(forms.Form):
@@ -48,28 +48,28 @@ class CompanyDetailsForm(forms.Form):
 
     error_css_class = 'input-field-container has-error'
 
-    trading_name = fields.CharField(label='Registered name')
-    company_number = fields.CharField(
+    trading_name = forms.CharField(label='Registered name')
+    company_number = forms.CharField(
         label='Companies House number', required=False
     )
-    address_line_one = fields.CharField(label='Building and street')
-    address_line_two = fields.CharField(label='', required=False)
-    address_town_city = fields.CharField(label='Town or city')
-    address_county = fields.CharField(label='County')
-    address_post_code = fields.CharField(label='Postcode')
-    industry = fields.ChoiceField(
+    address_line_one = forms.CharField(label='Building and street')
+    address_line_two = forms.CharField(label='', required=False)
+    address_town_city = forms.CharField(label='Town or city')
+    address_county = forms.CharField(label='County')
+    address_post_code = forms.CharField(label='Postcode')
+    industry = forms.ChoiceField(
         initial='thing',
         choices=INDUSTRY_CHOICES
     )
-    industry_other = fields.CharField(
+    industry_other = forms.CharField(
         label='Type in your industry',
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False,
     )
 
-    export_status = fields.MultipleChoiceField(
+    export_status = forms.MultipleChoiceField(
         label='',
-        widget=widgets.CheckboxSelectInlineLabelMultiple(
+        widget=forms.CheckboxSelectInlineLabelMultiple(
             attrs={'id': 'checkbox-multiple'},
             use_nice_ids=True,
         ),
@@ -87,7 +87,7 @@ class CompanyDetailsForm(forms.Form):
 class HelpForm(forms.Form):
     error_css_class = 'input-field-container has-error'
 
-    comment = fields.CharField(
+    comment = forms.CharField(
         label='',
         help_text='Tell us about your export experience, including any '
                   'challenges you are facing. We’re particularly '
@@ -96,7 +96,7 @@ class HelpForm(forms.Form):
                   'bank or a broker.',
         widget=Textarea,
     )
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=mark_safe(
             'Tick this box to accept the '
             f'<a href="{urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '

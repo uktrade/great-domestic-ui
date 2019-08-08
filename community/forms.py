@@ -3,8 +3,8 @@ import re
 from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components.forms import Form
-from directory_components import fields, widgets
-from django.forms import TextInput, forms
+from directory_components import forms
+from django.forms import TextInput
 from django.utils.translation import ugettext_lazy as _
 
 from community import constants as choices
@@ -12,7 +12,7 @@ from contact.forms import TERMS_LABEL
 
 
 class CommunityJoinForm(GovNotifyActionMixin, Form):
-    name = fields.CharField(
+    name = forms.CharField(
         label=_('Full name'),
         min_length=2,
         max_length=50,
@@ -20,7 +20,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
             'required': _('Enter your full name')
         }
     )
-    email = fields.EmailField(
+    email = forms.EmailField(
         label=_('Email address'),
         error_messages={
             'required': _('Enter an email address in the correct format,'
@@ -30,7 +30,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         }
     )
     phone_number_regex = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
-    phone_number = fields.CharField(
+    phone_number = forms.CharField(
         label=_('UK telephone number'),
         min_length=8,
         help_text=_('This can be a landline or mobile number'),
@@ -43,33 +43,33 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
             'invalid': _('Please enter an UK phone number')
         }
     )
-    company_name = fields.CharField(
+    company_name = forms.CharField(
         label=_('Business name'),
         max_length=50,
         error_messages={
             'required': _('Enter your business name'),
         }
     )
-    company_location = fields.CharField(
+    company_location = forms.CharField(
         label=_('Business  location'),
         max_length=50,
         error_messages={
             'required': _('Enter your business location'),
         }
     )
-    sector = fields.ChoiceField(
+    sector = forms.ChoiceField(
         label=_('Sector'),
         choices=choices.COMPANY_SECTOR_CHOISES,
         error_messages={
             'required': _('Choose a sector'),
         }
     )
-    sector_other = fields.CharField(
+    sector_other = forms.CharField(
         label=_('Please specify'),
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False,
     )
-    company_website = fields.CharField(
+    company_website = forms.CharField(
         label=_('Website'),
         max_length=255,
         help_text=_('Enter the home page address'),
@@ -81,23 +81,23 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
         },
         required=False
     )
-    employees_number = fields.ChoiceField(
+    employees_number = forms.ChoiceField(
         label=_('Number of employees'),
         choices=choices.EMPLOYEES_NUMBER_CHOISES,
         error_messages={
             'required': _('Choose a number'),
         }
     )
-    currently_export = fields.ChoiceField(
+    currently_export = forms.ChoiceField(
             label=_('Do you currently export?'),
             choices=(
                 ('yes', 'Yes'),
                 ('no', 'No')
             ),
-            widget=widgets.RadioSelect,
+            widget=forms.RadioSelect,
             error_messages={'required': _('Please answer this question')}
     )
-    advertising_feedback = fields.ChoiceField(
+    advertising_feedback = forms.ChoiceField(
         label=_('Where did you hear about becoming an Export Advocate?'),
         choices=choices.HEARD_ABOUT_CHOISES,
         error_messages={
@@ -105,13 +105,13 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
                           ' becoming an Export Advocate'),
         }
     )
-    advertising_feedback_other = fields.CharField(
+    advertising_feedback_other = forms.CharField(
         label=_('Please specify'),
         widget=TextInput(attrs={'class': 'js-field-other'}),
         required=False,
     )
 
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL,
         error_messages={
             'required': _('You must agree to the terms and conditions'
