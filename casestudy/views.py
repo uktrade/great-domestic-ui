@@ -25,11 +25,6 @@ class CasestudyHelloBabyView(SetEtagMixin, BaseCaseStudyView):
     casestudy = casestudies.HELLO_BABY
 
 
-class CasestudyMarketplaceView(SetEtagMixin, BaseCaseStudyView):
-    template_name = 'casestudy/marketplace.html'
-    casestudy = casestudies.MARKETPLACE
-
-
 class CasestudyYorkBagView(SetEtagMixin, BaseCaseStudyView):
     template_name = 'casestudy/york-bag.html'
     casestudy = casestudies.YORK

@@ -15,7 +15,7 @@
     <div class="flex-grid">
       {% for listing in page.advice %}
         {% if listing.articles_count > 0 %}
-          <div class="column-third-l column-half-m column-full">
+          <div class="column-third-xl column-half-l">
             {% with teaser as listing.list_teaser|default:listing.seo_description %}
               <div class="card" id="{{ listing.meta.slug }}-card">
                 <a class="card-link" href="{{ listing.full_path }}" id="{{ listing.meta.slug }}-link">

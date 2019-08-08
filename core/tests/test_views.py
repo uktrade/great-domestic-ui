@@ -108,7 +108,6 @@ def test_landing_page(mock_get_page, client, settings):
     assert response.template_name == [
         views.LandingPageView.template_name]
     assert response.context_data['casestudies'] == [
-        casestudies.MARKETPLACE,
         casestudies.HELLO_BABY,
         casestudies.YORK,
     ]

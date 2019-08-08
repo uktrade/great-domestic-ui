@@ -3,6 +3,18 @@
 ## Pre-release
 
 ### Implemented enchancements
+- GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
+
+### Fixed bugs
+- GTRANSFORM-241 - Content tweak
+- No ticket - Fix card images being stretched, fix missing services page breadcrumbs
+- XOT-991 - add container div to community export advocates form to fix alignment issue
+
+
+## [2019.08.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.05)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.01...2019.08.05)
+
+### Implemented enchancements
 - XOT-977 - breadcrumb change using cms page.title
 - XOT-977 - change url to relative
 - XOT-977 - additional text changes to marketing form success page
