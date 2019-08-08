@@ -1,6 +1,6 @@
 {% extends 'article/topic_list_base.html' %}
 
-{% load breadcrumbs card from directory_components %}
+{% load breadcrumbs hero card from directory_components %}
 {% load static %}
 
 {% block head_js %}
@@ -11,13 +11,7 @@
 
 {% block hero %}
   {% static 'images/placeholder.jpg' as hero_image %}
-  <section class="hero hero-generic padding-0" style="background-image: url('{{ hero_image }}')">
-    <div class="container">
-      <div class="hero-title-compact">
-        <h1 class="heading-hero-generic" id="hero-heading">Services</h1>
-      </div>
-    </div>
-  </section>
+  {% hero background_image_url=hero_image hero_text='Services' large_title=True %}
 {% endblock %}
 
 {% block breadcrumbs %}

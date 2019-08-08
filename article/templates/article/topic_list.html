@@ -1,17 +1,1 @@
 {% extends 'article/topic_list_base.html' %}
-
-{% block child_pages %}
-<section id="{{ page.meta.slug }}-list-section" class="topic-list-section">
-  <div class="container">
-    <div class="flex-grid">
-      {% for listing in page.child_pages %}
-        {% if listing.articles_count > 0 %}
-          <div class="column-third-xl column-half-l">
-            {% include 'article/components/landing_page_card.html' with listing=listing %}
-          </div>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
-{% endblock child_pages %}
