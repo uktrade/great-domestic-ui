@@ -15,6 +15,7 @@
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.01...2019.08.05)
 
 ### Implemented enchancements
+- XOT-989 - remove Content from breadcrumbs for SOO market sign up
 - XOT-977 - breadcrumb change using cms page.title
 - XOT-977 - change url to relative
 - XOT-977 - additional text changes to marketing form success page
