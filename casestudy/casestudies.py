@@ -24,20 +24,6 @@ HELLO_BABY = CaseStudy(
     image_description='A group of people involved with Hello Baby',
 )
 
-MARKETPLACE = CaseStudy(
-    title="Online marketplaces propel FreestyleXtreme",
-    description=(
-        'Like many businesses, Bristol-based specialist sports retailer '
-        'FreestyleXtreme has seen considerable growth through online '
-        'sales overseas.'
-    ),
-    image_url='images/stories/freestylextreme.jpg',
-    image_url_webp='images/stories/freestylextreme.webp',
-    url=reverse_lazy('casestudy-online-marketplaces'),
-    image_description='A group of fashionable extreme sports aficionados',
-
-)
-
 YORK = CaseStudy(
     title="York bag retailer goes global with e-commerce",
     description=(

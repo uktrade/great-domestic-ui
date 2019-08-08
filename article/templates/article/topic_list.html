@@ -6,7 +6,7 @@
     <div class="flex-grid">
       {% for listing in page.child_pages %}
         {% if listing.articles_count > 0 %}
-          <div class="column-full column-third-l column-half-m">
+          <div class="column-third-xl column-half-l">
             {% include 'article/components/landing_page_card.html' with listing=listing %}
           </div>
         {% endif %}
