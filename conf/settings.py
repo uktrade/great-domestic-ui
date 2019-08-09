@@ -394,8 +394,6 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 FEATURE_FLAGS = {
     'NEW_INTERNATIONAL_HEADER_ON': env.bool(
         'FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED', False),
-    'HEADER_SEARCH_ON': True,  # to be removed from directory-components
-    'NEW_HEADER_FOOTER_ON': True,  # to be removed from directory-components
     'PROTOTYPE_PAGES_ON': env.bool('FEATURE_PROTOTYPE_PAGES_ENABLED', False),
     'CAMPAIGN_PAGES_ON': env.bool('FEATURE_CAMPAIGN_PAGES_ENABLED', False),
     'NEWS_SECTION_ON': env.bool('FEATURE_NEWS_SECTION_ENABLED', False),

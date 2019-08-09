@@ -1,0 +1,7 @@
+{% load card from directory_components %}
+
+{% for card in cards %}
+  <div class="column-third-xl column-half-l">
+    {% card url=card.full_path img_src=card.hero_image_thumbnail.url title=card.title updated_at=card.last_published_at articles_count=card.articles_count %}
+  </div>
+{% endfor %}

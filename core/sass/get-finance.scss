@@ -7,6 +7,10 @@
     position: relative;
     z-index: 0;
 
+    .breadcrumbs a {
+      color: $white;
+    }
+
     &:after {
       background: linear-gradient(to bottom left, transparent 20%, rgba(0,0,0,0.9) 100%);
       position: absolute;

@@ -1,19 +1,13 @@
 {% extends 'article/base.html' %}
 
-{% load breadcrumbs from directory_components %}
+{% load breadcrumbs hero from directory_components %}
 
 {% block css_layout_class %}article-list-page{% endblock css_layout_class %}
 
 {% block content %}
 
 {% block hero %}
-  <section class="hero hero-generic padding-0" {% if page.hero_image %}style="background-image: url('{{ page.hero_image.url }}')"{% endif %}>
-    <div class="container">
-      <div class="hero-title-compact">
-        <h1 class="heading-hero-generic{% if page.breadcrumbs_label|length > 15 %}-compact{% endif %}" id="hero-heading">{{ page.landing_page_title }}</h1>
-      </div>
-    </div>
-  </section>
+  {% hero background_image_url=page.hero_image.url hero_text=page.landing_page_title large_title=True %}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -22,6 +16,16 @@
 </div>
 {% endblock %}
 
-{% block child_pages %}{% endblock %}
+{% block intro_section %}{% endblock %}
+
+{% block child_pages %}
+<section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 padding-top-60">
+  <div class="container">
+    <div class="flex-grid">
+      {% include 'article/components/card_grid.html' with cards=page.child_pages %}
+    </div>
+  </div>
+</section>
+{% endblock %}
 
 {% endblock %}
