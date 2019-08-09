@@ -25,6 +25,7 @@
 - CMS-1762 - Make advice article urls less restrictive to allow content editors to publish without dev work
 - XOT-977 - text change
 - XOT-977 - change postcode to use ukpostcodeutils, update breadcrumb text
+- XOT-968 - Fix security issues raised by latest pen test
 
 
 ## [2019.08.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.01)
