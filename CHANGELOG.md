@@ -6,6 +6,7 @@
 
 ### Fixed bugs
 - XOT-991 - add container div to community export advocates form to fix alignment issue
+- XOT-989 - add breadcrumb block to wizard-domestic to allow overrides
 
 
 ## [2019.08.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.05)
