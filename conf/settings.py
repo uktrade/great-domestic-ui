@@ -143,8 +143,6 @@ LANGUAGE_COOKIE_DEPRECATED_NAME = 'django-language'
 # Django's default value for LANGUAGE_COOKIE_DOMAIN is None
 LANGUAGE_COOKIE_DOMAIN = env.str('LANGUAGE_COOKIE_DOMAIN', None)
 
-CSRF_COOKIE_HTTPONLY = True
-
 # https://github.com/django/django/blob/master/django/conf/locale/__init__.py
 LANGUAGES = [
     ('en-gb', 'English'),               # English
@@ -325,6 +323,7 @@ RAVEN_CONFIG = {
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE', True)
 CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
 
 # Companies House
 COMPANIES_HOUSE_API_KEY = env.str('COMPANIES_HOUSE_API_KEY')
