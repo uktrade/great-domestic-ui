@@ -3,6 +3,8 @@ import re
 from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components import forms
+
+from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from marketing import constants as choices
@@ -125,7 +127,7 @@ class MarketingJoinForm(GovNotifyActionMixin, forms.Form):
             'phone_number', ''
         ).replace(' ', '')
         if not PHONE_NUMBER_REGEX.match(phone_number):
-            raise forms.ValidationError(_('Please enter a UK phone number'))
+            raise ValidationError(_('Please enter a UK phone number'))
         return phone_number
 
     def clean_company_postcode(self):
@@ -134,7 +136,7 @@ class MarketingJoinForm(GovNotifyActionMixin, forms.Form):
             'company_postcode', ''
         ).replace(' ', '').upper()
         if not validation.is_valid_postcode(company_postcode):
-            raise forms.ValidationError(_('Please enter a UK postcode'))
+            raise ValidationError(_('Please enter a UK postcode'))
         return company_postcode
 
     @property

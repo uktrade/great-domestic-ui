@@ -4,7 +4,7 @@ from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyActionMixin
 from directory_components.forms import Form
 from directory_components import forms
-from django.forms import TextInput
+from django.forms import TextInput, ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from community import constants as choices
@@ -130,7 +130,7 @@ class CommunityJoinForm(GovNotifyActionMixin, Form):
             'phone_number', ''
         ).replace(' ', '')
         if not self.phone_number_regex.match(phone_number):
-            raise forms.ValidationError(_('Please enter an UK phone number'))
+            raise ValidationError(_('Please enter an UK phone number'))
         return phone_number
 
     @property
