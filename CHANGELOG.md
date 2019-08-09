@@ -4,11 +4,13 @@
 
 ### Implemented enchancements
 - GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
+- No ticket - Remove number of guides and publish date from cards, remove number of articles from article listing page hero.
 
 ### Fixed bugs
 - GTRANSFORM-241 - Content tweak
 - No ticket - Fix card images being stretched, fix missing services page breadcrumbs
 - XOT-991 - add container div to community export advocates form to fix alignment issue
+- No ticket - Fix card images missing on homepage and topic landing pages, fix breadcrumb alignment on info pages.
 
 
 ## [2019.08.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.05)
