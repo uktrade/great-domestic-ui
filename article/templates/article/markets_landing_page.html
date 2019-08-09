@@ -2,10 +2,11 @@
 
 {% load banner from directory_components %}
 
-{% block child_pages %}
-<section id="markets-list-section" class="topic-list-section background-stone-30">
-  <div class="container padding-vertical-60">
+{% block intro_section %}
+<section id="markets-banner-section" class="topic-list-section background-stone-30 padding-top-60 padding-bottom-0">
+  <div class="container">
     {% banner banner_content='<p>There are more export market guides coming soon. If you have a question about an export market read the <a rel="noopener noreferrer" target="_blank" href="https://www.gov.uk/government/collections/exporting-country-guides">exporting guides</a> on GOV.UK, or <a rel="noopener noreferrer" target="_blank" href="https://www.great.gov.uk/contact/triage/location/">get in touch</a>.</p>' %}
+
     {% if page.teaser %}
     <div class="grid-row margin-top-60">
       <div class="column-full column-half-l font-medium">
@@ -13,13 +14,7 @@
       </div>
     </div>
     {% endif %}
-    <div class="flex-grid margin-top-60">
-      {% for listing in page.child_pages %}
-          <div class="column-full column-third-l column-half-m">
-            {% include 'article/components/landing_page_card.html' with listing=listing %}
-          </div>
-      {% endfor %}
-    </div>
+
   </div>
 </section>
-{% endblock child_pages %}
+{% endblock %}

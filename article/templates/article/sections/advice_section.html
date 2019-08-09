@@ -13,31 +13,7 @@
     </div>
 
     <div class="flex-grid">
-      {% for listing in page.advice %}
-        {% if listing.articles_count > 0 %}
-          <div class="column-third-l column-half-m column-full">
-            {% with teaser as listing.list_teaser|default:listing.seo_description %}
-              <div class="card" id="{{ listing.meta.slug }}-card">
-                <a class="card-link" href="{{ listing.full_path }}" id="{{ listing.meta.slug }}-link">
-                  <div class="card-image"
-                    {% if listing.hero_image_thumbnail %}role="image"
-                    style="background-image: url('{{ listing.hero_image_thumbnail.url }}');"{% endif %}
-                    aria-label="{{ listing.landing_page_title }}"
-                    title="{{ listing.landing_page_title }}"
-                    id="{{ listing.meta.slug }}-image">
-                    <p class="visually-hidden">{{ listing.landing_page_title }}</p>
-                  </div>
-                  <div class="card-inner">
-                    <h3 class="heading-large" id="{{ listing.meta.slug }}-title">{{ listing.landing_page_title }}</h3>
-                      <p class="description subheading">Updated {{ listing.last_published_at|parse_date }}</p>
-                      <p class="description subheading">{{ listing.articles_count }} guide{{ listing.articles_count|pluralize }}</p>
-                  </div>
-                </a>
-              </div>
-            {% endwith %}
-          </div>
-        {% endif %}
-      {% endfor %}
+      {% include 'article/components/card_grid.html' with cards=page.advice %}
     </div>
 
   </div>

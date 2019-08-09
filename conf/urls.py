@@ -155,11 +155,6 @@ urlpatterns = [
         name='casestudy-hello-baby'
     ),
     url(
-        r'^story/online-marketplaces-propel-freestyle-xtreme-sales/$',
-        casestudy.views.CasestudyMarketplaceView.as_view(),
-        name='casestudy-online-marketplaces'
-    ),
-    url(
         r'^story/york-bag-retailer-goes-global-via-e-commerce/$',
         casestudy.views.CasestudyYorkBagView.as_view(),
         name='casestudy-york-bag'

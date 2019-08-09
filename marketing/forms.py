@@ -2,9 +2,9 @@ import re
 
 from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyActionMixin
-from directory_components.forms import Form
-from directory_components import fields, widgets
-from django.forms import forms
+from directory_components import forms
+
+from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from marketing import constants as choices
@@ -14,8 +14,8 @@ from ukpostcodeutils import validation
 PHONE_NUMBER_REGEX = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
 
 
-class MarketingJoinForm(GovNotifyActionMixin, Form):
-    first_name = fields.CharField(
+class MarketingJoinForm(GovNotifyActionMixin, forms.Form):
+    first_name = forms.CharField(
         label=_('First name'),
         min_length=2,
         max_length=50,
@@ -23,7 +23,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'required': _('Enter your first name')
         }
     )
-    last_name = fields.CharField(
+    last_name = forms.CharField(
         label=_('Last name'),
         min_length=2,
         max_length=50,
@@ -31,7 +31,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'required': _('Enter your last name')
         }
     )
-    email = fields.EmailField(
+    email = forms.EmailField(
         label=_('Email address'),
         error_messages={
             'required': _('Enter an email address in the correct format,'
@@ -40,7 +40,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
                          ' like name@example.com'),
         }
     )
-    phone_number = fields.CharField(
+    phone_number = forms.CharField(
         label=_('UK telephone number'),
         min_length=8,
         help_text=_('This can be a landline or mobile number'),
@@ -53,21 +53,21 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'invalid': _('Please enter a UK phone number')
         }
     )
-    job_title = fields.CharField(
+    job_title = forms.CharField(
         label=_('Job title'),
         max_length=50,
         error_messages={
             'required': _('Enter your job title'),
         }
     )
-    company_name = fields.CharField(
+    company_name = forms.CharField(
         label=_('Business name'),
         max_length=50,
         error_messages={
             'required': _('Enter your business name'),
         }
     )
-    company_postcode = fields.CharField(
+    company_postcode = forms.CharField(
         label=_('Business postcode'),
         max_length=50,
         error_messages={
@@ -75,9 +75,10 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'invalid': _('Please enter a UK postcode')
         }
     )
-    annual_turnover = fields.ChoiceField(
+    annual_turnover = forms.ChoiceField(
             label=_('Annual turnover'),
-            help_text=_('This information will help us tailor our response and advice on the services we can provide.'),
+            help_text=_(
+                'This information will help us tailor our response and advice on the services we can provide.'),
             choices=(
                 ('Less than £500K', 'Less than £500K'),
                 ('£500K to £2M', '£500K to £2M'),
@@ -86,28 +87,28 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
                 ('£10M to £50M', '£10M to £50M'),
                 ('£50M or higher', '£50M or higher')
             ),
-            widget=widgets.RadioSelect,
+            widget=forms.RadioSelect,
             required=False,
     )
-    employees_number = fields.ChoiceField(
+    employees_number = forms.ChoiceField(
         label=_('Number of employees'),
         choices=choices.EMPLOYEES_NUMBER_CHOICES,
-        widget=widgets.RadioSelect,
+        widget=forms.RadioSelect,
         error_messages={
             'required': _('Choose a number'),
         }
     )
-    currently_export = fields.ChoiceField(
+    currently_export = forms.ChoiceField(
             label=_('Do you currently export?'),
             choices=(
                 ('yes', 'Yes'),
                 ('no', 'No')
             ),
-            widget=widgets.RadioSelect,
+            widget=forms.RadioSelect,
             error_messages={'required': _('Please answer this question')}
     )
 
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL,
         error_messages={
             'required': _('You must agree to the terms and conditions'
@@ -126,7 +127,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'phone_number', ''
         ).replace(' ', '')
         if not PHONE_NUMBER_REGEX.match(phone_number):
-            raise forms.ValidationError(_('Please enter a UK phone number'))
+            raise ValidationError(_('Please enter a UK phone number'))
         return phone_number
 
     def clean_company_postcode(self):
@@ -135,7 +136,7 @@ class MarketingJoinForm(GovNotifyActionMixin, Form):
             'company_postcode', ''
         ).replace(' ', '').upper()
         if not validation.is_valid_postcode(company_postcode):
-            raise forms.ValidationError(_('Please enter a UK postcode'))
+            raise ValidationError(_('Please enter a UK postcode'))
         return company_postcode
 
     @property

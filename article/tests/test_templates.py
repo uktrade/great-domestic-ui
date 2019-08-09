@@ -63,25 +63,23 @@ def test_landing_page_news_section():
 def test_article_advice_page(mock_get_page, client, settings):
     context = {}
     page = {
-        'title': 'Markets CMS admin title',
+        'title': 'Markets title',
         'landing_page_title': 'Markets',
         'hero_image': {'url': 'markets.jpg'},
         'child_pages': [
             {
-                'landing_page_title': 'Africa market information',
+                'title': 'Africa market information',
                 'full_path': '/markets/africa/',
                 'hero_image': {'url': 'africa.png'},
                 'hero_image_thumbnail': {'url': 'africa.jpg'},
                 'articles_count': 0,
-                'last_published_at': '2018-10-01T15:15:53.927833Z'
             },
             {
-                'landing_page_title': 'Asia market information',
+                'title': 'Asia market information',
                 'full_path': '/markets/asia/',
                 'hero_image': {'url': 'asia.png'},
                 'hero_image_thumbnail': {'url': 'asia.jpg'},
                 'articles_count': 3,
-                'last_published_at': '2018-10-01T15:16:30.583279Z'
             }
         ],
         "page_type": "TopicLandingPage",
@@ -95,11 +93,10 @@ def test_article_advice_page(mock_get_page, client, settings):
     assert page['landing_page_title'] in html
 
     assert 'Asia market information' in html
-    assert 'Africa market information' not in html
+    assert 'Africa market information' in html
     assert 'markets.jpg' in html
     assert 'asia.jpg' in html
-    assert 'africa.jpg' not in html
-    assert '01 October 2018' in html
+    assert 'africa.jpg' in html
 
 
 def test_article_detail_page_related_content():

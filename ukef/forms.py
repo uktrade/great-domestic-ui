@@ -4,8 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from directory_constants.choices import COUNTRY_CHOICES
 from directory_forms_api_client.forms import GovNotifyActionMixin
-from directory_components.forms import Form
-from directory_components import fields, widgets
+from directory_components import forms
 
 from contact.forms import TERMS_LABEL
 
@@ -13,8 +12,8 @@ COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
 
 
-class UKEFContactForm(GovNotifyActionMixin, Form):
-    full_name = fields.CharField(
+class UKEFContactForm(GovNotifyActionMixin, forms.Form):
+    full_name = forms.CharField(
         label=_('Full name'),
         min_length=2,
         max_length=50,
@@ -22,14 +21,14 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
             'required': _('Enter your full name')
         }
     )
-    job_title = fields.CharField(
+    job_title = forms.CharField(
         label=_('Job title'),
         max_length=50,
         error_messages={
             'required': _('Enter your job title'),
         }
     )
-    email = fields.EmailField(
+    email = forms.EmailField(
         label=_('Business email address'),
         error_messages={
             'required': _('Enter an email address in the correct format,'
@@ -38,14 +37,14 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
                          ' like name@example.com'),
         }
     )
-    business_name = fields.CharField(
+    business_name = forms.CharField(
         label=_('Business name'),
         max_length=50,
         error_messages={
             'required': _('Enter your business name'),
         }
     )
-    business_website = fields.CharField(
+    business_website = forms.CharField(
         label=_('Business website'),
         max_length=255,
         error_messages={
@@ -56,12 +55,12 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
         },
         required=False
     )
-    country = fields.ChoiceField(
+    country = forms.ChoiceField(
         label=_('Which country are you based in?'),
         widget=Select(),
         choices=COUNTRIES
     )
-    like_to_discuss = fields.ChoiceField(
+    like_to_discuss = forms.ChoiceField(
         label=_(
             'Do you have a specific project or proposal you’d like to discuss?'
         ),
@@ -69,23 +68,23 @@ class UKEFContactForm(GovNotifyActionMixin, Form):
             ('no', 'No'),
             ('yes', 'Yes'),
         ),
-        widget=widgets.RadioSelect,
+        widget=forms.RadioSelect,
         error_messages={'required': _('Please answer this question')}
     )
-    like_to_discuss_other = fields.ChoiceField(
+    like_to_discuss_other = forms.ChoiceField(
         label=_('Which country is the project located in?'),
         widget=Select(),
         choices=COUNTRIES,
         required=False
     )
-    how_can_we_help = fields.CharField(
+    how_can_we_help = forms.CharField(
         label=_('How can we help?'),
         help_text=_(
             'Please tell us briefly what type of support you’re looking for'
         ),
         widget=Textarea
     )
-    terms_agreed = fields.BooleanField(
+    terms_agreed = forms.BooleanField(
         label=TERMS_LABEL,
         error_messages={
             'required': _('You must agree to the terms and conditions'
