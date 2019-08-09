@@ -16,23 +16,6 @@
 
 {% block css_layout_class %}international-page{% endblock %}
 
-{% block header_js %}
-  {% if features.NEW_INTERNATIONAL_HEADER_ON %}
-    <script src="{% static 'directory_components/js/dit.responsive.js' %}"></script>
-    <script src="{% static 'directory_components/js/dit.utils.js' %}"></script>
-    <script src="{% static 'directory_components/js/dit.classes.Dropdown.js' %}"></script>
-    <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
-    <script src="{% static 'directory_components/js/dit.components.countrySelector.js' %}"></script>
-    <script src="{% static 'directory_components/js/dit.components.languageSelectorDropdown.js' %}"></script>
-    <script src="{% static 'directory_components/js/dit.components.greatInternationalHeader.js' %}"></script>
-  {% else %}
-    <script src="{% static 'directory_components/js/dit.classes.Modal.js' %}"></script>
-    <script src="{% static 'js/dit.components.languageSelector.js' %}"></script>
-    <script src="{% static 'js/international.js' %}"></script>
-    <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
-  {% endif %}
-{% endblock %}
-
 {% block head_other %}
   {% include 'core/browser-checks.html' %}
 {% endblock %}
