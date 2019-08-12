@@ -1,3 +1,6 @@
+{% load static %}
+{% load card from directory_components %}
+
 
 <section id="services" class="services-section padding-top-30 background-stone-30">
   <div class="container">
@@ -10,47 +13,20 @@
 
     <div class="flex-grid">
       <div class="column-third-xl column-half-l">
-        <div class="card" id="services-section-find-a-buyer">
-          <a class="card-link" href="{{ services_urls.fab }}">
-            <div class="card-image" id="services-section-find-a-buyer-image" role="image" aria-label="Create a business profile" title="Create a business profile">
-              <p class="visually-hidden">Create a business profile</p>
-            </div>
-            <div class="card-inner">
-              <h3 class="heading-large">Create a business profile</h3>
-              <p class="description">Create your free business profile and promote your company to overseas buyers.</p>
-            </div>
-          </a>
-        </div>
+        {% static 'images/thumbnail-business-profile.jpg' as fab_image %}
+        {% card card_id='services-section-find-a-buyer' url=services_urls.fab img_src=fab_image title='Create a business profile' description='Create your free business profile and promote your company to overseas buyers.' %}
       </div>
 
       <div class="column-third-xl column-half-l">
-        <div class="card" id="services-section-selling-online-overseas">
-          <a class="card-link" href="{{ services_urls.soo }}">
-            <div class="card-image" id="services-section-selling-online-overseas-image" role="image" aria-label="Find online marketplaces" title="Find online marketplaces">
-              <p class="visually-hidden">Find online marketplaces</p>
-            </div>
-            <div class="card-inner">
-              <h3 class="heading-large">Find online marketplaces</h3>
-              <p class="description">Identify and apply to sell with marketplaces to reach international consumers.</p>
-            </div>
-          </a>
-        </div>
+        {% static 'images/thumbnail-soo.jpg' as soo_image %}
+        {% card card_id='services-section-selling-online-overseas' url=services_urls.soo img_src=soo_image title='Find online marketplaces' description='Identify and apply to sell with marketplaces to reach international consumers.' %}
       </div>
 
       <div class="column-third-xl column-half-l">
-        <div class="card" id="services-section-export-opportunities">
-          {% url 'export-opportunities' as exopps_url %}
-          <a class="card-link" href="{{ exopps_url }}">
-            <div class="card-image" id="services-section-export-opportunities-image" role="image" aria-label="Find export opportunities" title="Find export opportunities">
-              <p class="visually-hidden">Find export opportunities</p>
-            </div>
-            <div class="card-inner">
-              <h3 class="heading-large">Find export opportunities</h3>
-              <p class="description">Search for opportunities and pitch your company to overseas buyers who are looking for products and services like yours.</p>
-            </div>
-          </a>
-        </div>
+        {% static 'images/thumbnail-exopps.jpg' as exopps_image %}
+        {% card card_id='services-section-export-opportunities' url=services_urls.exopps img_src=exopps_image title='Find export opportunities' description='Search for opportunities and pitch your company to overseas buyers who are looking for products and services like yours.' %}
       </div>
     </div>
+
   </div>
 </section>
