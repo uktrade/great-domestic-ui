@@ -8,6 +8,7 @@
 
 
 ### Fixed bugs
+- GTRANSFORM-241 (Follow-up) - Fix services cards images not being displayed
 - GTRANSFORM-241 - Content tweak
 - No ticket - Fix card images being stretched, fix missing services page breadcrumbs
 - XOT-991 - add container div to community export advocates form to fix alignment issue
