@@ -446,6 +446,9 @@ EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
 INVEST_CONTACT_URL = env.str(
     'INVEST_CONTACT_URL', 'https://invest.great.gov.uk/contact/'
 )
+CAPITAL_INVEST_CONTACT_URL = env.str(
+    'CAPITAL_INVEST_CONTACT_URL', 'https://great.gov.uk/international/content/capital-invest/contact/'
+)
 FIND_A_SUPPLIER_CONTACT_URL = env.str(
     'FIND_A_SUPPLIER_CONTACT_URL',
     'https://trade.great.gov.uk/industries/contact/'
