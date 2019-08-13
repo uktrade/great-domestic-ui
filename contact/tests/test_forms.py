@@ -311,7 +311,7 @@ def test_selling_online_overseas_business_invalid_form():
 
 
 @pytest.mark.parametrize('value', (True, False,))
-def test_this_routing_forms_capital_invest_feature_flag_on(value, feature_flags):
+def test_routing_forms_capital_invest_feature_flag(value, feature_flags):
     feature_flags['CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON'] = value
     choices = forms.InternationalRoutingForm().fields['choice'].choices
 

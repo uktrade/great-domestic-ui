@@ -185,7 +185,7 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
 
 
 class InternationalRoutingForm(
-    ExportingToUKOptionFeatureFlagMixin, forms.Form
+    ExportingToUKOptionFeatureFlagMixin, CapitalInvestContactInTriageFeatureFlagMixin, forms.Form
 ):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
