@@ -13,7 +13,7 @@
 - No ticket - Fix card images being stretched, fix missing services page breadcrumbs
 - XOT-991 - add container div to community export advocates form to fix alignment issue
 - XOT-989 - add breadcrumb block to wizard-domestic to allow overrides
-
+- No ticket - Upgrade django to 1.11.23
 
 ## [2019.08.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.05)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.01...2019.08.05)
