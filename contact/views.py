@@ -134,6 +134,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
         },
         constants.INTERNATIONAL: {
             constants.INVESTING: settings.INVEST_CONTACT_URL,
+            constants.CAPITAL_INVEST: settings.CAPITAL_INVEST_CONTACT_URL,
             constants.EXPORTING_TO_UK: build_exporting_guidance_url(
                 slugs.HELP_EXPORTING_TO_UK
             ),
