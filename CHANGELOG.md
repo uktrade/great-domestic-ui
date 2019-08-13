@@ -3,6 +3,14 @@
 ## Pre-release
 
 ### Implemented enchancements
+
+### Fixed bugs
+
+
+## [2019.08.13](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.13)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.05...2019.08.13)
+
+### Implemented enchancements
 - GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
 - No ticket - Remove number of guides and publish date from cards, remove number of articles from article listing page hero.
 - CI-427 - Added Capital Invest contact form to International triage
