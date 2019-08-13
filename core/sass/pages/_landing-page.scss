@@ -6,8 +6,6 @@
 @import 'partials/vars';
 @import 'partials/mixins';
 
-@import 'components/carousel';
-
 #header-bar .account-links li:nth-child(3) {
   margin-left: 5px;
 }
@@ -19,7 +17,8 @@
   .hero {
     position: relative;
     padding: 1em 0;
-    background-position: top center;
+    background-position: center center;
+    background-size: cover;
 
     .heading-hero-domestic span {
       padding: 8px 15px 5px;
@@ -65,9 +64,6 @@
   background-image: url('/static/images/hero/export-hp-hero-champion-500.jpg');
 
 }
-#services-section-find-a-buyer-image { background-image: url('/static/images/export-hp-fab.jpg') }
-#services-section-selling-online-overseas-image { background-image: url('/static/images/export-hp-online-market.jpg') }
-#services-section-export-opportunities-image { background-image: url('/static/images/export-hp-export-opportunities.jpg') }
 
 body.webp-enabled {
   #hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-champion-500.webp') }

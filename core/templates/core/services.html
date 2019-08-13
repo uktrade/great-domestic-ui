@@ -1,6 +1,6 @@
 {% extends 'article/topic_list_base.html' %}
 
-{% load breadcrumbs card from directory_components %}
+{% load breadcrumbs hero card from directory_components %}
 {% load static %}
 
 {% block head_js %}
@@ -11,13 +11,7 @@
 
 {% block hero %}
   {% static 'images/placeholder.jpg' as hero_image %}
-  <section class="hero hero-generic padding-0" style="background-image: url('{{ hero_image }}')">
-    <div class="container">
-      <div class="hero-title-compact">
-        <h1 class="heading-hero-generic" id="hero-heading">Services</h1>
-      </div>
-    </div>
-  </section>
+  {% hero background_image_url=hero_image hero_text='Services' large_title=True %}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -33,34 +27,34 @@
     <div class="container padding-top-60 background-stone-30">
       <div class="flex-grid">
         <div class="column-third-xl column-half-l column-full-m">
-          {% static 'images/export-hp-fab.jpg' as fab_image %}
+          {% static 'images/thumbnail-business-profile.jpg' as fab_image %}
           {% card url=services_urls.fab card_id='find-a-buyer' img_src=fab_image heading='Create a business profile' description='Create your free business profile and promote your company to overseas buyers.' %}
         </div>
 
         <div class="column-third-xl column-half-l column-full-m">
-          {% static 'images/export-hp-online-market.jpg' as soo_image %}
+          {% static 'images/thumbnail-soo.jpg' as soo_image %}
           {% card url=services_urls.soo card_id='selling-online-overseas' img_src=soo_image heading='Find online marketplaces' description='Identify and apply to sell with marketplaces to reach international consumers.' %}
         </div>
 
         <div class="column-third-xl column-half-l column-full-m">
-          {% static 'images/export-hp-export-opportunities.jpg' as exopps_image %}
+          {% static 'images/thumbnail-exopps.jpg' as exopps_image %}
           {% url 'export-opportunities' as exopps_url %}
           {% card url=exopps_url card_id='export-opportunities' img_src=exopps_image heading='Find export opportunities' description='Search for opportunities and pitch your company to overseas buyers who are looking for products and services like yours.' %}
         </div>
 
         <div class="column-third-xl column-half-l column-full-m">
-          {% static 'images/get_finance_hero.jpg' as ukef_image %}
+          {% static 'images/thumbnail-ukef.jpg' as ukef_image %}
           {% url 'get-finance' as ukef_url %}
           {% card url=ukef_url card_id='uk-export-finance' img_src=ukef_image heading='UK Export Finance' description='Get the finance you need to compete and grow.' %}
         </div>
 
         <div class="column-third-xl column-half-l column-full-m">
-          {% static 'images/events.jpg' as events_image %}
+          {% static 'images/thumbnail-events.jpg' as events_image %}
           {% card url=services_urls.events card_id='events' img_src=events_image heading='Find events and visits' description='Attend events and see how visits by ministers can support your trade deals.' %}
         </div>
 
         <div class="column-third-xl column-half-l column-full-m">
-          {% static 'images/govuk.png' as eori_image %}
+          {% static 'images/thumbnail-govuk.jpg' as eori_image %}
           {% card url='https://www.gov.uk/eori' card_id='govuk-eori' img_src=eori_image heading='Get an EORI number' description='To move goods into or out of the EU you need an Economic Operator Registration and Identification (EORI) number.' %}
         </div>
 

@@ -19,7 +19,7 @@ from casestudy import casestudies
 from directory_constants import slugs
 
 
-def test_interstitial_page_exopps(client):
+def test_exopps_redirect(client):
     url = reverse('export-opportunities')
     response = client.get(url)
 

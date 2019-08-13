@@ -4,12 +4,18 @@
 
 ### Implemented enchancements
 - GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
+- No ticket - Remove number of guides and publish date from cards, remove number of articles from article listing page hero.
+- XOT-989 - remove Content from breadcrumbs for SOO market sign up
+- XOT-968 - Fix security issues raised by latest pen test
+
 
 ### Fixed bugs
+- GTRANSFORM-241 (Follow-up) - Fix services cards images not being displayed
 - GTRANSFORM-241 - Content tweak
 - No ticket - Fix card images being stretched, fix missing services page breadcrumbs
 - XOT-991 - add container div to community export advocates form to fix alignment issue
-
+- XOT-989 - add breadcrumb block to wizard-domestic to allow overrides
+- No ticket - Upgrade django to 1.11.23
 
 ## [2019.08.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.05)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.01...2019.08.05)

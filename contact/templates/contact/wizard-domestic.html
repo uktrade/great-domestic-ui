@@ -10,12 +10,14 @@
 {% endblock %}
 
 {% block content %}
+{% block breadcrumbs %}
     <div class="container">
         {% breadcrumbs 'Contact' %}
             <a href="/">great.gov.uk</a>
             <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
         {% endbreadcrumbs %}
     </div>
+{% endblock %}
     <div class="container">
         <form method="post" enctype="multipart/form-data" class="{% block form_class %}lg-2{% endblock %}">
             <div class="exred-triage-form">

@@ -2,11 +2,12 @@ from directory_constants import slugs
 from directory_forms_api_client.actions import PardotAction
 from directory_forms_api_client.helpers import Sender
 from formtools.wizard.views import NamedUrlSessionWizardView
-
 from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.base import TemplateView
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
 
 from core import mixins
 from finance import forms
@@ -22,6 +23,7 @@ class TradeFinanceView(
     slug = slugs.GREAT_GET_FINANCE
 
 
+@method_decorator(never_cache, name='dispatch')
 class GetFinanceLeadGenerationFormView(
     mixins.PrepopulateFormMixin,
     mixins.PreventCaptchaRevalidationMixin,
