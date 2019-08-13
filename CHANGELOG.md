@@ -5,7 +5,7 @@
 ### Implemented enchancements
 - GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
 - No ticket - Remove number of guides and publish date from cards, remove number of articles from article listing page hero.
-- CI-427 - Added Capital Invest contact form to International triage
+- CI-427 - Added Capital Invest contact form to International triage behind feature flag `CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON`
 
 ### Fixed bugs
 - GTRANSFORM-241 (Follow-up) - Fix services cards images not being displayed

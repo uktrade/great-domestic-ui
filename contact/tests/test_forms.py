@@ -316,4 +316,3 @@ def test_routing_forms_capital_invest_feature_flag_on(value, feature_flags):
 
     choices = forms.InternationalRoutingForm().fields['choice'].choices
     assert any(value == constants.CAPITAL_INVEST for value, label in choices) is value
-
