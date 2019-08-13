@@ -189,13 +189,12 @@ class InternationalRoutingForm(
 ):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
+        (constants.CAPITAL_INVEST, 'Capital Investment in the UK'),
         (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
         (constants.BUYING, 'Find a UK business partner'),
         (constants.EUEXIT, 'Brexit enquiries'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
-    if settings.FEATURE_FLAGS['CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON']:
-        CHOICES = CHOICES[: 1] + ((constants.CAPITAL_INVEST, 'Capital Investment in the UK'),) + CHOICES[1:]
 
     choice = forms.ChoiceField(
         label='',
