@@ -50,6 +50,16 @@ class ExportingToUKOptionFeatureFlagMixin:
             ]
 
 
+class CapitalInvestContactInTriageFeatureFlagMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not settings.FEATURE_FLAGS['CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON']:
+            self.fields['choice'].choices = [
+                (value, label) for value, label in self.CHOICES
+                if value != constants.CAPITAL_INVEST
+            ]
+
+
 class NewUserRegOptionFeatureFlagMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
