@@ -420,6 +420,9 @@ FEATURE_FLAGS = {
     'TEST_SEARCH_API_PAGES_ON': env.bool(
         'FEATURE_TEST_SEARCH_API_PAGES_ENABLED', False
     ),
+    'CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON': env.bool(
+        'FEATURE_CAPITAL_INVEST_CONTACT_IN_TRIAGE_ENABLED', False
+    ),
 }
 
 # UK Export Finance

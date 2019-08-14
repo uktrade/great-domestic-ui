@@ -4,6 +4,7 @@
 
 ### Implemented enchancements
 - CI-427 - Added Capital Invest contact form to International triage
+- CI-427 - Added Capital Invest contact form to International triage behind feature flag `CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON`
 
 ### Fixed bugs
 
