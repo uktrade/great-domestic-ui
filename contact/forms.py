@@ -50,6 +50,16 @@ class ExportingToUKOptionFeatureFlagMixin:
             ]
 
 
+class CapitalInvestContactInTriageFeatureFlagMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not settings.FEATURE_FLAGS['CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON']:
+            self.fields['choice'].choices = [
+                (value, label) for value, label in self.CHOICES
+                if value != constants.CAPITAL_INVEST
+            ]
+
+
 class NewUserRegOptionFeatureFlagMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -175,7 +185,7 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
 
 
 class InternationalRoutingForm(
-    ExportingToUKOptionFeatureFlagMixin, forms.Form
+    ExportingToUKOptionFeatureFlagMixin, CapitalInvestContactInTriageFeatureFlagMixin, forms.Form
 ):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
@@ -185,6 +195,7 @@ class InternationalRoutingForm(
         (constants.EUEXIT, 'Brexit enquiries'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
+
     choice = forms.ChoiceField(
         label='',
         widget=forms.RadioSelect(),
