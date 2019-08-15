@@ -2,6 +2,7 @@ from directory_constants import slugs
 
 import directory_components.views
 from directory_components.decorators import skip_ga360
+from directory_constants import urls
 import directory_healthcheck.views
 
 from django.conf import settings
@@ -636,6 +637,20 @@ ukef_urls = [
     ),
 ]
 
+international_redirects_urls = [
+    url(
+        r'^trade/$',
+        skip_ga360(core.views.InternationalRedirectView.as_view()),
+        name='international-trade-home'
+    ),
+    url(
+        r'^trade/(?P<path>[\w\-/]*)/$',
+        skip_ga360(core.views.InternationalRedirectView.as_view()),
+        name='international-trade'
+    ),
+
+]
+
 urlpatterns += legacy_urls
 urlpatterns += deprecated_urls
 urlpatterns += euexit_urls
@@ -647,3 +662,5 @@ urlpatterns += marketaccess_urls
 urlpatterns += community_urls
 urlpatterns += ukef_urls
 urlpatterns += marketing_urls
+if settings.FEATURE_FLAGS['GREAT_INTERNATIONAL_REDIRECTS_ON']:
+    urlpatterns += international_redirects_urls
