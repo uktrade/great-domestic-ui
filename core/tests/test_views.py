@@ -3,7 +3,7 @@ from unittest.mock import call, patch, PropertyMock
 
 import requests
 
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, resolve
 from django.conf import settings
 from django.views.generic import TemplateView
 
@@ -12,7 +12,6 @@ import pytest
 import requests_mock
 from rest_framework import status
 
-from conf.tests.test_urls import reload_urlconf
 from core import helpers, views
 from core.tests.helpers import create_response
 from casestudy import casestudies
@@ -1038,8 +1037,8 @@ def test_international_header_on(mock_get_page, client, settings):
 
 
 def test_international_trade_redirect_home(client):
-    settings.FEATURE_FLAGS['GREAT_INTERNATIONAL_REDIRECTS_ON'] = True
-    reload_urlconf(settings)
     url = reverse('international-trade-home')
+    match = resolve(url)
+    import pdb; pdb.set_trace()
     response = client.get(url)
     assert response.status_code == 302

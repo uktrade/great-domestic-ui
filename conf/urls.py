@@ -662,5 +662,4 @@ urlpatterns += marketaccess_urls
 urlpatterns += community_urls
 urlpatterns += ukef_urls
 urlpatterns += marketing_urls
-if settings.FEATURE_FLAGS['GREAT_INTERNATIONAL_REDIRECTS_ON']:
-    urlpatterns += international_redirects_urls
+urlpatterns += international_redirects_urls
