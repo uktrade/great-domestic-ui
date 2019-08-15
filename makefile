@@ -95,7 +95,7 @@ DEBUG_SET_ENV_VARS := \
 	export LANGUAGE_COOKIE_DOMAIN=.trade.great; \
 	export ACTIVITY_STREAM_API_SECRET_KEY=debug; \
 	export ACTIVITY_STREAM_API_ACCESS_KEY=debug; \
-	export ACTIVITY_STREAM_API_URL=debug; \
+	export ACTIVITY_STREAM_API_URL=http://test.com; \
 	export ACTIVITY_STREAM_API_IP_WHITELIST=debug
 
 TEST_SET_ENV_VARS := \

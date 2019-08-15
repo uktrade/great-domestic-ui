@@ -1,4 +1,5 @@
 import logging
+from urllib.parse import urljoin
 
 from directory_components.mixins import (
     CountryDisplayMixin, EnableTranslationsMixin
@@ -283,16 +284,10 @@ class InternationalRedirectView(RedirectView):
     query_string = True
 
     def get_redirect_url(self, *args, **kwargs):
-        import ipdb; ipdb.set_trace()
-
-    @staticmethod
-    def _normalise_path(path):
-        """
-        Make sure path is lowercase without the / at the ends
-        """
-        path = path.lower()
-        if path.startswith('/'):
-            path = path[1:]
-        if path.endswith('/'):
-            path = path[:-1]
-        return path
+        if self.request.path == '/trade/':
+            return urljoin(urls.GREAT_INTERNATIONAL, 'trade/')
+        else:
+            return urljoin(
+                urls.GREAT_INTERNATIONAL,
+                f'trade/incoming/{self.request.path[6:]}'  # remove /trade/
+            )
