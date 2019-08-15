@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 
 import requests
 
-from django.core.urlresolvers import reverse, resolve
+from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
 

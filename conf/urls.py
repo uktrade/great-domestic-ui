@@ -2,7 +2,6 @@ from directory_constants import slugs
 
 import directory_components.views
 from directory_components.decorators import skip_ga360
-from directory_constants import urls
 import directory_healthcheck.views
 
 from django.conf import settings
