@@ -15,7 +15,7 @@ class FeedbackForm(ZendeskAPIForm):
         ]
     )
     search_target = forms.CharField(
-       label=('Whether yes or no, please let us know what you were searching for'),
+       label='Whether yes or no, please let us know what you were searching for',
        widget=Textarea(
          attrs={'rows': 4, 'cols': 15}
        )
@@ -25,7 +25,7 @@ class FeedbackForm(ZendeskAPIForm):
     from_search_page = IntegerField(
         widget=HiddenInput(), required=False)
     contactable = forms.ChoiceField(
-        label=('May we contact you with some brief follow-up questions on your experience?'),
+        label='May we contact you with some brief follow-up questions on your experience?',
         widget=forms.RadioSelect(),
         choices=[
           ('yes', 'Yes'),
