@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enchancements
+- GTRANSFORM-345 - missed external links attributes added to case studies
 - GTRANSFORM-346 - Directory Component upgrade 27.6.0 - footer and card component changes
 - GTRANSFORM-345 - add external link helper text
 - CI-427 - Added Capital Invest contact form to International triage behind feature flag `CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON`
