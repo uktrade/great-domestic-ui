@@ -1,9 +1,7 @@
 import json
 import pytest
 
-from requests.exceptions import ConnectionError
 from unittest.mock import Mock
-from django.conf import settings
 
 from search import helpers
 
