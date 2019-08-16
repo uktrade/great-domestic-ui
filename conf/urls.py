@@ -2,6 +2,7 @@ from directory_constants import slugs
 
 import directory_components.views
 from directory_components.decorators import skip_ga360
+from directory_constants.urls import build_great_international_url
 import directory_healthcheck.views
 
 from django.conf import settings
@@ -143,10 +144,7 @@ urlpatterns = [
     ),
     url(
         r"^export-opportunities/$",
-        RedirectView.as_view(
-            url=settings.SERVICES_EXOPPS_ACTUAL,
-            permanent=False
-        ),
+        RedirectView.as_view(url=settings.SERVICES_EXOPPS_ACTUAL),
         name='export-opportunities'
     ),
     url(
@@ -636,6 +634,19 @@ ukef_urls = [
     ),
 ]
 
+international_redirects_urls = [
+    url(
+        r'^trade/$',
+        RedirectView.as_view(url=build_great_international_url('trade/'), query_string=True),
+        name='international-trade-home'
+    ),
+    url(
+        r'^trade/(?P<path>[\w\-/]*)/$',
+        RedirectView.as_view(url=build_great_international_url('trade/incoming/%(path)s'), query_string=True),
+        name='international-trade'
+    ),
+]
+
 urlpatterns += legacy_urls
 urlpatterns += deprecated_urls
 urlpatterns += euexit_urls
@@ -647,3 +658,4 @@ urlpatterns += marketaccess_urls
 urlpatterns += community_urls
 urlpatterns += ukef_urls
 urlpatterns += marketing_urls
+urlpatterns += international_redirects_urls
