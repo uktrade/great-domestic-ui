@@ -1,4 +1,6 @@
 import json
+
+import pytest
 import requests
 
 from unittest.mock import patch, Mock, call
@@ -122,6 +124,7 @@ def test_search_view(client, settings):
         assert context['error_status_code'] == 500
 
 
+@pytest.mark.xfail
 def test_search_order(client):
     response = client.get(reverse('search'), data={'q': 'qwerty123'})
 

@@ -16,7 +16,7 @@ from core import helpers, views
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
-from directory_constants import slugs
+from directory_constants import slugs, urls
 
 
 def test_exopps_redirect(client):
@@ -1034,3 +1034,20 @@ def test_international_header_on(mock_get_page, client, settings):
 
     assert soup.find(id='great-global-header-logo')
     assert soup.find(id='great-global-footer-logo')
+
+
+def test_international_trade_redirect_home(client):
+    url = reverse('international-trade-home')
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == urls.build_great_international_url('trade/')
+
+
+def test_international_trade_redirect(client):
+    url = reverse('international-trade', kwargs={'path': 'foo/bar'})
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == urls.build_great_international_url('trade/incoming/foo/bar')

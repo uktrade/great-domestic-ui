@@ -422,7 +422,7 @@ FEATURE_FLAGS = {
     ),
     'CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON': env.bool(
         'FEATURE_CAPITAL_INVEST_CONTACT_IN_TRIAGE_ENABLED', False
-    ),
+    )
 }
 
 # UK Export Finance
