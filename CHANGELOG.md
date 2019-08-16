@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enchancements
+- XOT-1007 - change content on search contact form, upgrade directory components to remove lazy loading and fix hero alignment - 27.8.0
 - GTRANSFORM-345 - missed external links attributes added to case studies
 - GTRANSFORM-346 - Directory Component upgrade 27.6.0 - footer and card component changes
 - GTRANSFORM-345 - add external link helper text
