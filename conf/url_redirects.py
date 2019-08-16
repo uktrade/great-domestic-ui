@@ -8,6 +8,12 @@ from core.views import (
 
 redirects = [
     url(
+        r'^new-zealand-event-calendar/$',
+        QuerystringRedirectView.as_view(
+            url='http://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=zealand'),
+        name='new-zealand-redirect'
+    ),
+    url(
         r'^story/online-marketplaces-propel-freestyle-xtreme-sales/$',
         QuerystringRedirectView.as_view(url=reverse_lazy('landing-page')),
         name='casestudy-online-marketplaces'
