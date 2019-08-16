@@ -1,5 +1,4 @@
 import logging
-from urllib.parse import urljoin
 
 from directory_components.mixins import (
     CountryDisplayMixin, EnableTranslationsMixin
@@ -280,16 +279,3 @@ class BaseNotifyFormView(
 class ServicesView(mixins.SetGA360ValuesMixin, TemplateView):
     template_name = 'core/services.html'
     page_type = 'ServicesLandingPage'
-
-
-class InternationalRedirectView(RedirectView):
-    query_string = True
-
-    def get_redirect_url(self, *args, **kwargs):
-        if self.request.path == '/trade/':
-            return urljoin(urls.GREAT_INTERNATIONAL, 'trade/')
-        else:
-            return urljoin(
-                urls.GREAT_INTERNATIONAL,
-                f'trade/incoming/{self.request.path[6:]}'  # remove /trade/
-            )

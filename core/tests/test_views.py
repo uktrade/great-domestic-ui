@@ -1,6 +1,5 @@
 import http
 from unittest.mock import call, patch, PropertyMock
-from urllib.parse import urljoin
 
 import requests
 
@@ -1040,12 +1039,15 @@ def test_international_header_on(mock_get_page, client, settings):
 def test_international_trade_redirect_home(client):
     url = reverse('international-trade-home')
     response = client.get(url)
+
     assert response.status_code == 302
-    assert response.url == urljoin(urls.GREAT_INTERNATIONAL, 'trade/')
+    assert response.url == urls.build_great_international_url('trade/')
 
 
 def test_international_trade_redirect(client):
-    url = reverse('international-trade', kwargs={'path': '/foo/bar'})
+    url = reverse('international-trade', kwargs={'path': 'foo/bar'})
+
     response = client.get(url)
+
     assert response.status_code == 302
-    assert response.url == urljoin(urls.GREAT_INTERNATIONAL, 'trade/incoming/foo/bar/')
+    assert response.url == urls.build_great_international_url('trade/incoming/foo/bar')
