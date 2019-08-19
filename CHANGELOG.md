@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enchancements
+- XOT-1007 - remove hyperlink from title
 - XOT-1007 - change content on search contact form
 - GTRANSFORM-345 - missed external links attributes added to case studies
 - GTRANSFORM-346 - Directory Component upgrade 27.6.0 - footer and card component changes
