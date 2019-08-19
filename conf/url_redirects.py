@@ -10,7 +10,7 @@ redirects = [
     url(
         r'^new-zealand-event-calendar/$',
         QuerystringRedirectView.as_view(
-            url='http://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=zealand'),
+            url='https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=zealand'),
         name='new-zealand-redirect'
     ),
     url(
