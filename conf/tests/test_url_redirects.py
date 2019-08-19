@@ -107,7 +107,7 @@ def test_privacy_international_redirect(path, client):
 redirects = [
     (
         '/new-zealand-event-calendar/',
-        'http://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=zealand'
+        'https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=zealand'
     ),
     (
         '/story/online-marketplaces-propel-freestyle-xtreme-sales/',
