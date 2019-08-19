@@ -1051,3 +1051,20 @@ def test_international_trade_redirect(client):
 
     assert response.status_code == 302
     assert response.url == urls.build_great_international_url('trade/incoming/foo/bar')
+
+
+def test_international_investment_support_directory_redirect_home(client):
+    url = reverse('international-investment-support-directory-home')
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == urls.build_great_international_url('investment-support-directory/')
+
+
+def test_international_investment_support_directory_redirect(client):
+    url = reverse('international-investment-support-directory', kwargs={'path': 'foo/bar'})
+
+    response = client.get(url)
+
+    assert response.status_code == 302
+    assert response.url == urls.build_great_international_url('investment-support-directory/foo/bar')

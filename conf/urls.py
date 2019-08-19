@@ -645,6 +645,22 @@ international_redirects_urls = [
         RedirectView.as_view(url=build_great_international_url('trade/incoming/%(path)s'), query_string=True),
         name='international-trade'
     ),
+    url(
+        r'^investment-support-directory/$',
+        RedirectView.as_view(
+            url=build_great_international_url('investment-support-directory/'),
+            query_string=True
+        ),
+        name='international-investment-support-directory-home'
+    ),
+    url(
+        r'^investment-support-directory/(?P<path>[\w\-/]*)/$',
+        RedirectView.as_view(
+            url=build_great_international_url('investment-support-directory/%(path)s'),
+            query_string=True
+        ),
+        name='international-investment-support-directory'
+    ),
 ]
 
 urlpatterns += legacy_urls
