@@ -273,7 +273,6 @@ redirects = [
         '/export/selling-online-overseas/',
         'https://selling-online-overseas.export.great.gov.uk'
     ),
-    ('/trade/', 'https://trade.great.gov.uk'),
     ('/uk/privacy-policy/', 'privacy-and-cookies'),
     ('/uk/terms-and-conditions/', 'terms-and-conditions'),
     ('/int/', 'landing-page-international'),

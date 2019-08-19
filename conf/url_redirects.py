@@ -247,10 +247,6 @@ redirects = [
         ),
     ),
     url(
-        r'^trade/$',
-        QuerystringRedirectView.as_view(url='https://trade.great.gov.uk'),
-    ),
-    url(
         r'^uk/privacy-policy/$',
         QuerystringRedirectView.as_view(pattern_name='privacy-and-cookies'),
     ),

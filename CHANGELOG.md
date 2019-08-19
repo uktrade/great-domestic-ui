@@ -3,10 +3,13 @@
 ## Pre-release
 
 ### Implemented enchancements
+- XOT-1007 - change content on search contact form
+- GTRANSFORM-345 - missed external links attributes added to case studies
 - GTRANSFORM-346 - Directory Component upgrade 27.6.0 - footer and card component changes
 - GTRANSFORM-345 - add external link helper text
 - CI-427 - Added Capital Invest contact form to International triage behind feature flag `CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON`
 - CMS-1764 - Added redirect for New Zealand events
+- CMS-1756 - International trade and investment support directory redirect
 
 ### Fixed bugs
 
