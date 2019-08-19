@@ -55,7 +55,7 @@
 
         <div class="column-third-xl column-half-l column-full-m">
           {% static 'images/thumbnail-govuk.jpg' as eori_image %}
-          {% card url='https://www.gov.uk/eori' card_id='govuk-eori' img_src=eori_image heading='Get an EORI number' description='To move goods into or out of the EU you need an Economic Operator Registration and Identification (EORI) number.' %}
+          {% card url='https://www.gov.uk/eori' card_id='govuk-eori' img_src=eori_image heading='Get an EORI number' description='To move goods into or out of the EU you need an Economic Operator Registration and Identification (EORI) number.' external_link=True %}
         </div>
 
         {% if features.MARKET_ACCESS_ON %}
