@@ -2,7 +2,14 @@
 
 ## Pre-release
 
-### Implemented enchancements
+### Implemented enhancements
+- CMS-1824 - Red arrows redirect
+- No ticket - Tidied up form choices with feature flags
+
+## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.13...2019.08.20)
+
+### Implemented enhancements
 - XOT-1007 - remove hyperlink from title
 - XOT-1007 - change content on search contact form
 - GTRANSFORM-345 - missed external links attributes added to case studies
@@ -19,7 +26,7 @@
 ## [2019.08.13](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.13)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.05...2019.08.13)
 
-### Implemented enchancements
+### Implemented enhancements
 - GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
 - No ticket - Remove number of guides and publish date from cards, remove number of articles from article listing page hero.
 - XOT-989 - remove Content from breadcrumbs for SOO market sign up
@@ -36,7 +43,7 @@
 ## [2019.08.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.05)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.01...2019.08.05)
 
-### Implemented enchancements
+### Implemented enhancements
 - XOT-977 - breadcrumb change using cms page.title
 - XOT-977 - change url to relative
 - XOT-977 - additional text changes to marketing form success page
@@ -48,7 +55,7 @@
 ## [2019.08.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.01)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.07.23...2019.08.01)
 
-### Implemented enchancements
+### Implemented enhancements
 - CMS-1743 - Add redirect for Australia events
 - XOT-977 - Add marketing campaigns form, original clone of community join-form
 - No ticket - Consistent use of breadcrumbs component
