@@ -45,7 +45,7 @@ class ExportingToUKOptionFeatureFlagMixin:
         super().__init__(*args, **kwargs)
         if not settings.FEATURE_FLAGS['EXPORTING_TO_UK_ON']:
             self.fields['choice'].choices = [
-                (value, label) for value, label in self.CHOICES
+                (value, label) for value, label in self.fields['choice'].choices
                 if value != constants.EXPORTING_TO_UK
             ]
 
@@ -55,7 +55,7 @@ class CapitalInvestContactInTriageFeatureFlagMixin:
         super().__init__(*args, **kwargs)
         if not settings.FEATURE_FLAGS['CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON']:
             self.fields['choice'].choices = [
-                (value, label) for value, label in self.CHOICES
+                (value, label) for value, label in self.fields['choice'].choices
                 if value != constants.CAPITAL_INVEST
             ]
 
@@ -65,7 +65,7 @@ class NewUserRegOptionFeatureFlagMixin:
         super().__init__(*args, **kwargs)
         if not settings.FEATURE_FLAGS['NEW_REGISTRATION_JOURNEY_ON']:
             self.fields['choice'].choices = [
-                (value, label) for value, label in self.CHOICES
+                (value, label) for value, label in self.fields['choice'].choices
                 if value != constants.COMPANY_NOT_FOUND
             ]
 

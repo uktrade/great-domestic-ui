@@ -13,6 +13,7 @@
 - CMS-1756 - International trade and investment support directory redirect
 
 ### Fixed bugs
+- No ticket - Fixed capital invest contact form in triage being behind a feature flag
 
 
 ## [2019.08.13](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.13)
