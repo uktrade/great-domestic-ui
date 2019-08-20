@@ -3,6 +3,12 @@
 ## Pre-release
 
 ### Implemented enchancements
+- No ticket - Tidied up form choices with feature flags
+
+## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.13...2019.08.20)
+
+### Implemented enchancements
 - XOT-1007 - remove hyperlink from title
 - XOT-1007 - change content on search contact form
 - GTRANSFORM-345 - missed external links attributes added to case studies
@@ -11,7 +17,6 @@
 - CI-427 - Added Capital Invest contact form to International triage behind feature flag `CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON`
 - CMS-1764 - Added redirect for New Zealand events
 - CMS-1756 - International trade and investment support directory redirect
-- No ticket - Tidied up form choices with feature flags
 
 ### Fixed bugs
 - No ticket - Fixed capital invest contact form in triage being behind a feature flag
