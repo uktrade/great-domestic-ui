@@ -11,6 +11,7 @@
 - CI-427 - Added Capital Invest contact form to International triage behind feature flag `CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON`
 - CMS-1764 - Added redirect for New Zealand events
 - CMS-1756 - International trade and investment support directory redirect
+- No ticket - Tidied up getting form choices with feature flags
 
 ### Fixed bugs
 - No ticket - Fixed capital invest contact form in triage being behind a feature flag
