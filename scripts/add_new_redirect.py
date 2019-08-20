@@ -20,7 +20,7 @@ redirect_template = (
     "        name='{}'\n"
     '    ),\n'
 )
-test_template = "    ('/{}/', '{}'),\n"
+test_template = "    (\n        '/{}/',\n        '{}'\n    ),\n"
 
 
 def file_string(filepath):
