@@ -40,36 +40,6 @@ INDUSTRY_CHOICES = (
 )
 
 
-class ExportingToUKOptionFeatureFlagMixin:
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not settings.FEATURE_FLAGS['EXPORTING_TO_UK_ON']:
-            self.fields['choice'].choices = [
-                (value, label) for value, label in self.fields['choice'].choices
-                if value != constants.EXPORTING_TO_UK
-            ]
-
-
-class CapitalInvestContactInTriageFeatureFlagMixin:
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not settings.FEATURE_FLAGS['CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON']:
-            self.fields['choice'].choices = [
-                (value, label) for value, label in self.fields['choice'].choices
-                if value != constants.CAPITAL_INVEST
-            ]
-
-
-class NewUserRegOptionFeatureFlagMixin:
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not settings.FEATURE_FLAGS['NEW_REGISTRATION_JOURNEY_ON']:
-            self.fields['choice'].choices = [
-                (value, label) for value, label in self.fields['choice'].choices
-                if value != constants.COMPANY_NOT_FOUND
-            ]
-
-
 class NoOpForm(forms.Form):
     pass
 
@@ -148,58 +118,70 @@ class ExportOpportunitiesRoutingForm(forms.Form):
     )
 
 
-class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
-    CHOICES = (
-        (
-            constants.NO_VERIFICATION_EMAIL,
-            'I have not received my email confirmation'
-        ),
+def choice_is_enabled(value):
+    flagged_choices = {
+        constants.EXPORTING_TO_UK: 'EXPORTING_TO_UK_ON',
+        constants.CAPITAL_INVEST: 'CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON',
+        constants.COMPANY_NOT_FOUND: 'NEW_REGISTRATION_JOURNEY_ON'
+    }
+
+    if value not in flagged_choices:
+        return True
+
+    return settings.FEATURE_FLAGS[flagged_choices[value]]
+
+
+def great_account_choices():
+    all_choices = (
+        (constants.NO_VERIFICATION_EMAIL, 'I have not received my email confirmation'),
         (constants.PASSWORD_RESET, 'I need to reset my password'),
-        (
-            constants.COMPANY_NOT_FOUND,  # possibly update by mixin
-            'I cannot find my company'
-        ),
-        (
-            constants.COMPANIES_HOUSE_LOGIN,
-            'My Companies House login is not working'
-        ),
-        (
-            constants.VERIFICATION_CODE,
-            'I do not know where to enter my verification code'
-        ),
-        (
-            constants.NO_VERIFICATION_LETTER,
-            'I have not received my letter containing the verification code'
-        ),
-        (
-            constants.NO_VERIFICATION_MISSING,
-            'I have not received a verification code'
-        ),
+        (constants.COMPANY_NOT_FOUND, 'I cannot find my company'),
+        (constants.COMPANIES_HOUSE_LOGIN, 'My Companies House login is not working'),
+        (constants.VERIFICATION_CODE, 'I do not know where to enter my verification code'),
+        (constants.NO_VERIFICATION_LETTER, 'I have not received my letter containing the verification code'),
+        (constants.NO_VERIFICATION_MISSING, 'I have not received a verification code'),
         (constants.OTHER, 'Other'),
     )
+
+    return ((value, label) for value, label in all_choices if choice_is_enabled(value))
+
+
+class GreatAccountRoutingForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['choice'].choices = great_account_choices()
+
     choice = forms.ChoiceField(
         label='',
         widget=forms.RadioSelect(),
-        choices=CHOICES,
+        choices=[],
     )
 
 
-class InternationalRoutingForm(
-    ExportingToUKOptionFeatureFlagMixin, CapitalInvestContactInTriageFeatureFlagMixin, forms.Form
-):
-    CHOICES = (
+def international_choices():
+    all_choices = (
         (constants.INVESTING, 'Investing in the UK'),
         (constants.CAPITAL_INVEST, 'Capital Investment in the UK'),
         (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
         (constants.BUYING, 'Find a UK business partner'),
-        (constants.EUEXIT, 'Brexit enquiries'),  # possibly removed by mixin
+        (constants.EUEXIT, 'Brexit enquiries'),
         (constants.OTHER, 'Other'),
     )
+
+    return ((value, label) for value, label in all_choices if choice_is_enabled(value))
+
+
+class InternationalRoutingForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['choice'].choices = international_choices()
 
     choice = forms.ChoiceField(
         label='',
         widget=forms.RadioSelect(),
-        choices=CHOICES,  # possibly updated by mixin
+        choices=[],
     )
 
 
