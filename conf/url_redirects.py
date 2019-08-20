@@ -8,10 +8,10 @@ from core.views import (
 
 redirects = [
     url(
-        r'^red-arrows/$',
+        r'^redarrows/$',
         QuerystringRedirectView.as_view(
-            url='https://www.events.great.gov.uk/red-arrows-north-america-tour/'),
-        name='red-arrows-redirect'
+            url='https://www.events.great.gov.uk/redarrows-north-america-tour/'),
+        name='redarrows-redirect'
     ),
     url(
         r'^new-zealand-event-calendar/$',
