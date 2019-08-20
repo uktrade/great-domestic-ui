@@ -106,6 +106,10 @@ def test_privacy_international_redirect(path, client):
 # the first element needs to end with a slash
 redirects = [
     (
+        '/new-zealand-event-calendar/',
+        'https://www.events.great.gov.uk/ehome/trade-events-calendar/all-events?keyword=zealand'
+    ),
+    (
         '/story/online-marketplaces-propel-freestyle-xtreme-sales/',
         '/'
     ),
@@ -269,7 +273,6 @@ redirects = [
         '/export/selling-online-overseas/',
         'https://selling-online-overseas.export.great.gov.uk'
     ),
-    ('/trade/', 'https://trade.great.gov.uk'),
     ('/uk/privacy-policy/', 'privacy-and-cookies'),
     ('/uk/terms-and-conditions/', 'terms-and-conditions'),
     ('/int/', 'landing-page-international'),

@@ -7,7 +7,7 @@ from directory_forms_api_client.forms import ZendeskAPIForm
 
 class FeedbackForm(ZendeskAPIForm):
     result_found = forms.ChoiceField(
-        label='Did you find what you were looking for?',
+        label='Did you find what you were looking for on the site today?',
         widget=forms.RadioSelect(),
         choices=[
           ('yes', 'Yes'),
@@ -15,8 +15,7 @@ class FeedbackForm(ZendeskAPIForm):
         ]
     )
     search_target = forms.CharField(
-       label=('What were you looking to find? '
-              'Please provide as much detail as possible.'),
+       label='Whether yes or no, please let us know what you were searching for',
        widget=Textarea(
          attrs={'rows': 4, 'cols': 15}
        )
@@ -26,8 +25,7 @@ class FeedbackForm(ZendeskAPIForm):
     from_search_page = IntegerField(
         widget=HiddenInput(), required=False)
     contactable = forms.ChoiceField(
-        label=('May we contact you with'
-               ' follow-up questions about your experience?'),
+        label='May we contact you with some brief follow-up questions on your experience?',
         widget=forms.RadioSelect(),
         choices=[
           ('yes', 'Yes'),

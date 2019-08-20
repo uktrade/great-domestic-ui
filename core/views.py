@@ -154,7 +154,11 @@ class StaticViewSitemap(sitemaps.Sitemap):
         from conf.url_redirects import redirects
 
         excluded_pages = [
-            'triage-wizard'
+            'triage-wizard',
+            'international-trade',
+            'international-trade-home',
+            'international-investment-support-directory-home',
+            'international-investment-support-directory',
         ]
         dynamic_cms_page_url_names = [
             'privacy-and-cookies-subpage',

@@ -420,6 +420,9 @@ FEATURE_FLAGS = {
     'TEST_SEARCH_API_PAGES_ON': env.bool(
         'FEATURE_TEST_SEARCH_API_PAGES_ENABLED', False
     ),
+    'CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON': env.bool(
+        'FEATURE_CAPITAL_INVEST_CONTACT_IN_TRIAGE_ENABLED', False
+    )
 }
 
 # UK Export Finance
@@ -445,6 +448,9 @@ EU_EXIT_ZENDESK_SUBDOMAIN = env.str('EU_EXIT_ZENDESK_SUBDOMAIN')
 # Contact
 INVEST_CONTACT_URL = env.str(
     'INVEST_CONTACT_URL', 'https://invest.great.gov.uk/contact/'
+)
+CAPITAL_INVEST_CONTACT_URL = env.str(
+    'CAPITAL_INVEST_CONTACT_URL', 'https://great.gov.uk/international/content/capital-invest/contact/'
 )
 FIND_A_SUPPLIER_CONTACT_URL = env.str(
     'FIND_A_SUPPLIER_CONTACT_URL',

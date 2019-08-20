@@ -45,8 +45,18 @@ class ExportingToUKOptionFeatureFlagMixin:
         super().__init__(*args, **kwargs)
         if not settings.FEATURE_FLAGS['EXPORTING_TO_UK_ON']:
             self.fields['choice'].choices = [
-                (value, label) for value, label in self.CHOICES
+                (value, label) for value, label in self.fields['choice'].choices
                 if value != constants.EXPORTING_TO_UK
+            ]
+
+
+class CapitalInvestContactInTriageFeatureFlagMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not settings.FEATURE_FLAGS['CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON']:
+            self.fields['choice'].choices = [
+                (value, label) for value, label in self.fields['choice'].choices
+                if value != constants.CAPITAL_INVEST
             ]
 
 
@@ -55,7 +65,7 @@ class NewUserRegOptionFeatureFlagMixin:
         super().__init__(*args, **kwargs)
         if not settings.FEATURE_FLAGS['NEW_REGISTRATION_JOURNEY_ON']:
             self.fields['choice'].choices = [
-                (value, label) for value, label in self.CHOICES
+                (value, label) for value, label in self.fields['choice'].choices
                 if value != constants.COMPANY_NOT_FOUND
             ]
 
@@ -175,15 +185,17 @@ class GreatAccountRoutingForm(NewUserRegOptionFeatureFlagMixin, forms.Form):
 
 
 class InternationalRoutingForm(
-    ExportingToUKOptionFeatureFlagMixin, forms.Form
+    ExportingToUKOptionFeatureFlagMixin, CapitalInvestContactInTriageFeatureFlagMixin, forms.Form
 ):
     CHOICES = (
         (constants.INVESTING, 'Investing in the UK'),
+        (constants.CAPITAL_INVEST, 'Capital Investment in the UK'),
         (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
         (constants.BUYING, 'Find a UK business partner'),
         (constants.EUEXIT, 'Brexit enquiries'),  # possibly removed by mixin
         (constants.OTHER, 'Other'),
     )
+
     choice = forms.ChoiceField(
         label='',
         widget=forms.RadioSelect(),

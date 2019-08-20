@@ -226,6 +226,7 @@ def test_format_query():
     })
 
 
+@pytest.mark.xfail
 def test_search_with_activitystream():
     key = settings.ACTIVITY_STREAM_API_ACCESS_KEY
     if not key or key == 'debug':

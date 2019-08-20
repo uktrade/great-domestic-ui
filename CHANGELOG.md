@@ -3,11 +3,27 @@
 ## Pre-release
 
 ### Implemented enchancements
+- XOT-1007 - remove hyperlink from title
+- XOT-1007 - change content on search contact form
+- GTRANSFORM-345 - missed external links attributes added to case studies
+- GTRANSFORM-346 - Directory Component upgrade 27.6.0 - footer and card component changes
+- GTRANSFORM-345 - add external link helper text
+- CI-427 - Added Capital Invest contact form to International triage behind feature flag `CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON`
+- CMS-1764 - Added redirect for New Zealand events
+- CMS-1756 - International trade and investment support directory redirect
+
+### Fixed bugs
+- No ticket - Fixed capital invest contact form in triage being behind a feature flag
+
+
+## [2019.08.13](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.13)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.05...2019.08.13)
+
+### Implemented enchancements
 - GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
 - No ticket - Remove number of guides and publish date from cards, remove number of articles from article listing page hero.
 - XOT-989 - remove Content from breadcrumbs for SOO market sign up
 - XOT-968 - Fix security issues raised by latest pen test
-
 
 ### Fixed bugs
 - GTRANSFORM-241 (Follow-up) - Fix services cards images not being displayed
