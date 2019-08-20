@@ -2,6 +2,9 @@
 
 ## Pre-release
 
+## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.13...2019.08.20)
+
 ### Implemented enchancements
 - XOT-1007 - remove hyperlink from title
 - XOT-1007 - change content on search contact form
