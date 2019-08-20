@@ -2,6 +2,7 @@
 
 ## Pre-release
 
+### Implemented enchancements
 - No ticket - Tidied up form choices with feature flags
 
 ## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
