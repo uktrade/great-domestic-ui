@@ -155,7 +155,7 @@ class GreatAccountRoutingForm(forms.Form):
     choice = forms.ChoiceField(
         label='',
         widget=forms.RadioSelect(),
-        choices=[],
+        choices=[],  # array overridden by constructor
     )
 
 
@@ -181,7 +181,7 @@ class InternationalRoutingForm(forms.Form):
     choice = forms.ChoiceField(
         label='',
         widget=forms.RadioSelect(),
-        choices=[],
+        choices=[],  # array overridden by constructor
     )
 
 
