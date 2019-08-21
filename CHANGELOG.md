@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- CMS-1824 - Fix redirect
 - CMS-1824 - Red arrows redirect
 - No ticket - Tidied up form choices with feature flags
 
