@@ -107,7 +107,7 @@ def test_privacy_international_redirect(path, client):
 redirects = [
     (
         '/redarrows/',
-        'https://www.events.great.gov.uk/redarrows-north-america-tour/'
+        'https://www.events.great.gov.uk/red-arrows-north-america-tour/'
     ),
     (
         '/new-zealand-event-calendar/',
