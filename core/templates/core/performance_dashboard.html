@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
-{% load add_export_elements_classes breadcrumbs from directory_components %}
+{% load add_export_elements_classes add_href_target breadcrumbs from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -28,7 +28,7 @@ Performance dashboard - great.gov.uk
       <h2 class="heading-large">{{ page.heading }}</h2>
       <div class="grid-row">
         <div class="column-half">
-          {{ page.description|safe|add_export_elements_classes }}
+          {{ page.description|safe|add_export_elements_classes|add_href_target:request|safe }}
           <p>Visit <a href="{{ page.product_link }}" class="link">{{ page.heading }}</a></p>
         </div>
       </div>
@@ -40,7 +40,7 @@ Performance dashboard - great.gov.uk
             <p class="number bold-xlarge">{{ page.data_number_row_one }}</p>
             <p class="date font-xsmall">{{ page.data_period_row_one }}</p>
             <div class="data-description">
-              {{ page.data_description_row_one|safe|add_export_elements_classes }}
+              {{ page.data_description_row_one|safe|add_export_elements_classes|add_href_target:request|safe }}
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@ Performance dashboard - great.gov.uk
             <p class="number bold-xlarge">{{ page.data_number_row_two }}</p>
             <p class="date font-xsmall">{{ page.data_period_row_two }}</p>
             <div class="data-description">
-              {{ page.data_description_row_two|safe|add_export_elements_classes }}
+              {{ page.data_description_row_two|safe|add_export_elements_classes|add_href_target:request|safe }}
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@ Performance dashboard - great.gov.uk
             <p class="number bold-xlarge">{{ page.data_number_row_three }}</p>
             <p class="date font-xsmall">{{ page.data_period_row_three }}</p>
             <div class="data-description">
-              {{ page.data_description_row_three|safe|add_export_elements_classes }}
+              {{ page.data_description_row_three|safe|add_export_elements_classes|add_href_target:request|safe }}
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@ Performance dashboard - great.gov.uk
             <p class="number bold-xlarge">{{ page.data_number_row_four }}</p>
             <p class="date font-xsmall">{{ page.data_period_row_four }}</p>
             <div class="data-description">
-              {{ page.data_description_row_four|safe|add_export_elements_classes }}
+              {{ page.data_description_row_four|safe|add_export_elements_classes|add_href_target:request|safe }}
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ Performance dashboard - great.gov.uk
       {% if page.guidance_notes %}
       <div class="grid-row">
         <div class="column-half">
-          {{ page.guidance_notes|add_export_elements_classes }}
+          {{ page.guidance_notes|add_export_elements_classes|add_href_target:request|safe }}
         </div>
       </div>
       {% endif %}

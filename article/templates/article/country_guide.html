@@ -1,6 +1,6 @@
 {% extends 'article/base.html' %}
 {% load static %}
-{% load breadcrumbs card image_with_caption cta_link cta_card add_export_elements_classes convert_headings_to override_elements_css_class statistics_card_grid from directory_components %}
+{% load breadcrumbs card image_with_caption cta_link cta_card add_export_elements_classes convert_headings_to override_elements_css_class statistics_card_grid add_href_target from directory_components %}
 
 {% block css_layout_class %}country-guide-page{% endblock %}
 
@@ -48,7 +48,7 @@
   <div class="container">
     <div class="grid-row">
       <div class="column-full column-half-l section-one-body">
-        {{ page.section_one_body|convert_headings_to:'h2'|add_export_elements_classes|override_elements_css_class:'h2,heading-medium'|safe }}
+        {{ page.section_one_body|convert_headings_to:'h2'|add_export_elements_classes|override_elements_css_class:'h2,heading-medium'|safe|add_href_target:request|safe }}
       </div>
       <div class="column-full column-half-l">
         {% image_with_caption image_url=page.section_one_image.url main_caption=page.section_one_image_caption sub_caption=page.section_one_image_caption_company %}
@@ -69,7 +69,7 @@
     <div class="grid-row">
       <div class="column-full column-two-thirds-m column-half-l">
         <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
-        <p>{{ page.section_two_teaser }}</p>
+        <p>{{ page.section_two_teaser|add_href_target:request|safe }}</p>
       </div>
     </div>
   </div>
@@ -105,7 +105,7 @@
                 <p class="font-small">{{ column.teaser }}</p>
                 <hr>
                 {% endif %}
-                {{ column.body|convert_headings_to:'h4'|add_export_elements_classes|override_elements_css_class:'h4,heading-small'|safe }}
+                {{ column.body|convert_headings_to:'h4'|add_export_elements_classes|override_elements_css_class:'h4,heading-small'|safe|add_href_target:request|safe }}
               </div>
             </div>
           </div>
@@ -132,7 +132,7 @@
       </div>
       <div class="column-full column-half-l column-third-xl margin-bottom-30 margin-bottom-0-xl">
         {% static 'images/country-guide-gov-uk.png' as market_guide_image_url %}
-        {% cta_card with_arrow=True image_url=market_guide_image_url text=market_guide_cta_text url=page.help_market_guide_cta_link %}
+        {% cta_card with_arrow=True image_url=market_guide_image_url text=market_guide_cta_text url=page.help_market_guide_cta_link external_link=True %}
       </div>
       <div class="column-full column-half-l column-third-xl margin-bottom-0">
         {% static 'images/country-guide-contact.png' as contact_us_image_url %}
