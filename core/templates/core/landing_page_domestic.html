@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 {% load progressive_image from image_tags %}
-{% load static_absolute add_export_elements_classes from directory_components %}
+{% load static_absolute add_export_elements_classes add_href_target from directory_components %}
 
 {% block og_image %}{% static_absolute 'images/hero/export-hp-hero-500.png' %}{% endblock %}
 
@@ -53,7 +53,7 @@
   <br>
   <div class="container eu-exit-banner">
      <div>
-       <h2>{{ page.banner_label }}</h2>{{ page.banner_content|add_export_elements_classes|safe }}
+       <h2>{{ page.banner_label }}</h2>{{ page.banner_content|add_export_elements_classes|safe|add_href_target:request|safe }}
      </div>
   </div>
 {% endif %}

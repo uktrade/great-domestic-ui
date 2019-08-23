@@ -1,6 +1,6 @@
 {% extends "core/base.html" %}
 {% load static from staticfiles %}
-{% load add_export_elements_classes breadcrumbs from directory_components %}
+{% load add_export_elements_classes add_href_target breadcrumbs from directory_components %}
 
 {% block sharing_metadata %}{% endblock %}
 
@@ -18,7 +18,7 @@
     </div>
     <div class="container">
         <section>
-            {{ page.body|add_export_elements_classes }}
+            {{ page.body|add_export_elements_classes|add_href_target:request|safe }}
         </section>
         <p id="further-help-link">Still need help? <a class="link" href="{% url 'contact-us-domestic' %}">Submit an enquiry</a></p>
     </div>

@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GTRANSFORM-338 - adding add_href_tag to cms content pages
 - CMS-1824 - Fix redirect
 - CMS-1824 - Red arrows redirect
 - No ticket - Tidied up form choices with feature flags

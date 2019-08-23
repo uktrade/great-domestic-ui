@@ -38,7 +38,7 @@ def test_article_detail_page_no_related_content():
     assert 'Related content' not in html
 
 
-def test_landing_page_news_section():
+def test_landing_page_news_section(rf):
 
     context = {
         'page': {
@@ -49,7 +49,8 @@ def test_landing_page_news_section():
                 {'article_title': 'News article 2'},
             ],
         },
-        'features': {'NEWS_SECTION_ON': True}
+        'features': {'NEWS_SECTION_ON': True},
+        'request': rf.get('/')
     }
 
     html = render_to_string('core/landing_page_domestic.html', context)
@@ -300,9 +301,10 @@ def test_international_news_list_page():
     assert 'Dolor sit amet' in html
 
 
-def test_domestic_news_article_detail_page():
+def test_domestic_news_article_detail_page(rf):
     context = {
-        'features': {'NEWS_SECTION_ON': True}
+        'features': {'NEWS_SECTION_ON': True},
+        'request': rf.get('/')
     }
 
     page = {
@@ -341,9 +343,10 @@ def test_domestic_news_article_detail_page():
     assert '<p class="body-text">Lorem ipsum</p>' in html
 
 
-def test_international_news_article_detail_page():
+def test_international_news_article_detail_page(rf):
     context = {
-        'features': {'NEWS_SECTION_ON': True}
+        'features': {'NEWS_SECTION_ON': True},
+        'request': rf.get('/')
     }
 
     page = {
@@ -585,8 +588,8 @@ def test_article_detail_page_social_share_links_no_title(
     assert soup.find(id='share-email').attrs['href'] == email_link
 
 
-def test_country_guide_fact_sheet_displays_if_given_title():
-    context = {}
+def test_country_guide_fact_sheet_displays_if_given_title(rf):
+    context = {'request': rf.get('/')}
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
@@ -623,9 +626,10 @@ def test_country_guide_fact_sheet_displays_if_given_title():
         }
     ],
 ))
-def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page):
+def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page, rf):
     context = {
-        'page': dummy_cms_page
+        'page': dummy_cms_page,
+        'request': rf.get('/')
     }
 
     context['page']['heading_teaser'] = 'Teaser'
@@ -638,9 +642,10 @@ def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page):
     assert len(ctas) == 0
 
 
-def test_country_guide_complete_intro_ctas(dummy_cms_page):
+def test_country_guide_complete_intro_ctas(dummy_cms_page, rf):
     context = {
-        'page': dummy_cms_page
+        'page': dummy_cms_page,
+        'request': rf.get('/')
     }
 
     intro_ctas = [
@@ -668,9 +673,10 @@ def test_country_guide_complete_intro_ctas(dummy_cms_page):
     assert len(ctas) == 3
 
 
-def test_country_guide_no_intro_ctas(dummy_cms_page):
+def test_country_guide_no_intro_ctas(dummy_cms_page, rf):
     context = {
-        'page': dummy_cms_page
+        'page': dummy_cms_page,
+        'request': rf.get('/')
     }
 
     context['page']['heading_teaser'] = 'Teaser'
@@ -680,3 +686,23 @@ def test_country_guide_no_intro_ctas(dummy_cms_page):
     ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
 
     assert len(ctas) == 0
+
+
+def test_country_guide_add_href_target(dummy_cms_page, rf):
+    request = rf.get('/')
+    request.META['HTTP_HOST'] = 'example.com'
+    context = {
+        'page': dummy_cms_page,
+        'request': request
+    }
+
+    context['page']['section_one_body'] = '<a href="http://www.google.co.uk">Here is an external link</a>'
+
+    html = render_to_string('article/country_guide.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+    links = soup.select('#country-guide-section-one a')
+
+    assert len(links) == 1
+    assert links[0].attrs['title'] == 'Opens in a new window'
+    assert links[0].attrs['target'] == '_blank'
+    assert links[0].attrs['rel'] == ['noopener', 'noreferrer']

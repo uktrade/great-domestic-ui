@@ -1,4 +1,4 @@
-{% load add_export_elements_classes from directory_components %}
+{% load add_export_elements_classes add_href_target from directory_components %}
 {% load parse_date from article_tags %}
 
 {% if page.articles %}
@@ -8,7 +8,7 @@
       <div class="column-full column-two-thirds-m column-half-l">
         <h2 class="heading-large">{{ page.news_title }}</h2>
 
-        {{ page.news_description|add_export_elements_classes }}
+        {{ page.news_description|add_export_elements_classes|add_href_target:request|safe  }}
 
         <ul class="content-list">
           {% for article in page.articles %}
