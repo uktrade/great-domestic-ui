@@ -50,7 +50,7 @@ def test_landing_page_news_section(rf):
             ],
         },
         'features': {'NEWS_SECTION_ON': True},
-         'request': rf.get('/')
+        'request': rf.get('/')
     }
 
     html = render_to_string('core/landing_page_domestic.html', context)
@@ -59,7 +59,6 @@ def test_landing_page_news_section(rf):
     assert '<p class="body-text">Lorem ipsum</p>' in html
     assert 'News article 1' in html
     assert 'News article 2' in html
-
 
 
 def test_article_advice_page(mock_get_page, client, settings):
@@ -347,7 +346,7 @@ def test_domestic_news_article_detail_page(rf):
 def test_international_news_article_detail_page(rf):
     context = {
         'features': {'NEWS_SECTION_ON': True},
-         'request': rf.get('/')
+        'request': rf.get('/')
     }
 
     page = {
@@ -687,6 +686,7 @@ def test_country_guide_no_intro_ctas(dummy_cms_page, rf):
     ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
 
     assert len(ctas) == 0
+
 
 def test_country_guide_add_href_target(dummy_cms_page, rf):
     request = rf.get('/')
