@@ -1,5 +1,5 @@
 {% extends "core/base.html" %}
-{% load breadcrumbs render_form from directory_components %}
+{% load breadcrumbs from directory_components %}
 {% load static from staticfiles %}
 
 {% block head_css %}
@@ -19,7 +19,7 @@
         <p>[Body]</p>
         <form method="post" class="width-half">
             {% csrf_token %}
-            {% render_form form %}
+            {{ form }}
             <button type="submit" class="button">Submit</button>
         </form>
     </div>

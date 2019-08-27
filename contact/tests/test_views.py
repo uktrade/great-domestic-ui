@@ -1283,7 +1283,7 @@ def test_export_voucher_submit(mock_gov_notify_action, mock_form_session_class, 
         'companies_house_number': data['companies_house_number'],
         'first_name': data['first_name'],
         'last_name': data['last_name'],
-        'email': settings.EXPORT_VOUCHERS_AGENT_EMAIL,
+        'email': data['email'],
         'exported_to_eu': data['exported_to_eu'],
     })
 

@@ -1,4 +1,3 @@
-{% load render_form from directory_components %}
 {% load add_export_elements_classes from directory_components %}
 
 <div class="container">
@@ -11,7 +10,7 @@
     <div class="grid-row">
         <div class="column-two-thirds">
             <form method="post">
-                {% render_form form %}
+                {{ form }}
                 <button class="button">{{ page.submit_button_text }}</button>
             </form>
         </div>
