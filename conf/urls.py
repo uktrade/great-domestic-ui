@@ -666,12 +666,12 @@ international_redirects_urls = [
 export_vouchers_urls = [
     url(
         r'^export-vouchers/$',
-        skip_ga360(contact.views.ExportVoucherFormView.as_view()),
+        contact.views.ExportVoucherFormView.as_view(),
         name='export-voucher-form'
     ),
     url(
         r'^export-vouchers/sent/$',
-        skip_ga360(contact.views.ExportVoucherSuccessView.as_view()),
+        contact.views.ExportVoucherSuccessView.as_view(),
         name='export-voucher-success'
     )
 ]
