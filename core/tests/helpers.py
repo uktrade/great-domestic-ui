@@ -4,7 +4,7 @@ import sys
 import requests
 
 from django.conf import settings
-from django.urls import clear_url_caches, reverse
+from django.urls import clear_url_caches
 
 
 def create_response(status_code, json_body={}, content=None):

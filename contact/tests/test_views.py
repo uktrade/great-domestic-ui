@@ -1272,7 +1272,7 @@ def test_export_voucher_submit(mock_gov_notify_action, mock_form_session_class, 
     assert mock_gov_notify_action.call_count == 1
     assert mock_gov_notify_action.call_args == mock.call(
         template_id=settings.EXPORT_VOUCHERS_GOV_NOTIFY_TEMPLATE_ID,
-        email_address=data['email'],
+        email_address=settings.EXPORT_VOUCHERS_AGENT_EMAIL,
         form_url=reverse('export-voucher-form'),
         form_session=mock_form_session_class(),
         sender=Sender(email_address=data['email'], country_code=None,),

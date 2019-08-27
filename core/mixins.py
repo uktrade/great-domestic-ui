@@ -20,12 +20,6 @@ class NotFoundOnDisabledFeature:
         return super().dispatch(*args, **kwargs)
 
 
-class CampaignPagesFeatureFlagMixin(NotFoundOnDisabledFeature):
-    @property
-    def flag(self):
-        return settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON']
-
-
 class NewsSectionFeatureFlagMixin(NotFoundOnDisabledFeature):
     @property
     def flag(self):
