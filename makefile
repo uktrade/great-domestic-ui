@@ -92,7 +92,9 @@ DEBUG_SET_ENV_VARS := \
 	export FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED=true; \
 	export FEATURE_UKEF_PAGES_ENABLED=true; \
 	export FEATURE_TEST_SEARCH_API_PAGES_ENABLED=true; \
-	export LANGUAGE_COOKIE_DOMAIN=.trade.great
+	export LANGUAGE_COOKIE_DOMAIN=.trade.great; \
+	export FEATURE_EXPORT_VOUCHERS_ENABLED=true; \
+	export EXPORT_VOUCHERS_AGENT_EMAIL=export_vouchers@example.com
 
 TEST_SET_ENV_VARS := \
 	export DIRECTORY_FORMS_API_BASE_URL=http://forms.trade.great:8011; \

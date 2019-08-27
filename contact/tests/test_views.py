@@ -1,6 +1,8 @@
 from unittest import mock
 
 from directory_api_client.client import api_client
+from directory_forms_api_client.helpers import Sender
+
 from directory_constants import slugs
 import pytest
 import requests_mock
@@ -11,7 +13,7 @@ from django.core.cache import cache
 from django.urls import reverse
 
 from contact import constants, forms, views
-from core.tests.helpers import create_response
+from core.tests.helpers import create_response, reload_urlconf
 
 
 def build_wizard_url(step):
@@ -1247,3 +1249,51 @@ def test_exporting_to_uk_feature_flag_off(url, client, settings):
     response = client.get(url)
 
     assert response.status_code == 404
+
+
+@mock.patch.object(views.FormSessionMixin, 'form_session_class')
+@mock.patch('contact.forms.ExportVoucherForm.action_class')
+def test_export_voucher_submit(mock_gov_notify_action, mock_form_session_class, client, captcha_stub):
+    url = reverse('export-voucher-form')
+    data = {
+        'company_name': 'Example corp',
+        'companies_house_number': '012345678',
+        'first_name': 'Jim',
+        'last_name': 'Example',
+        'email': 'jim@example.com',
+        'exported_to_eu': True,
+        'g-recaptcha-response': captcha_stub,
+        'terms_agreed': True,
+    }
+    response = client.post(url, data=data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('export-voucher-success')
+    assert mock_gov_notify_action.call_count == 1
+    assert mock_gov_notify_action.call_args == mock.call(
+        template_id=settings.EXPORT_VOUCHERS_GOV_NOTIFY_TEMPLATE_ID,
+        email_address=data['email'],
+        form_url=reverse('export-voucher-form'),
+        form_session=mock_form_session_class(),
+        sender=Sender(email_address=data['email'], country_code=None,),
+    )
+    assert mock_gov_notify_action().save.call_count == 1
+    assert mock_gov_notify_action().save.call_args == mock.call({
+        'company_name': data['company_name'],
+        'companies_house_number': data['companies_house_number'],
+        'first_name': data['first_name'],
+        'last_name': data['last_name'],
+        'email': settings.EXPORT_VOUCHERS_AGENT_EMAIL,
+        'exported_to_eu': data['exported_to_eu'],
+    })
+
+
+@pytest.mark.parametrize('enabled', (True, False))
+@pytest.mark.parametrize('url', (reverse('export-voucher-success'), reverse('export-voucher-form')))
+def test_export_voucher_feature_flag(enabled, url, client, settings):
+    settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON'] = enabled
+    reload_urlconf()
+
+    response = client.get(url)
+
+    assert response.status_code == 200 if enabled else 404, response.status_code

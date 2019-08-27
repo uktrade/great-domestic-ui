@@ -245,9 +245,7 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
         widget=Textarea,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = forms.BooleanField(
-        label=TERMS_LABEL
-    )
+    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
     @property
     def full_name(self):
@@ -339,9 +337,7 @@ class InternationalContactForm(
         widget=Textarea,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = forms.BooleanField(
-        label=TERMS_LABEL
-    )
+    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
 class CommentForm(forms.Form):
@@ -407,9 +403,7 @@ class BusinessDetailsForm(forms.Form):
         required=False,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = forms.BooleanField(
-        label=TERMS_LABEL
-    )
+    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
 class SellingOnlineOverseasBusiness(forms.Form):
@@ -519,9 +513,7 @@ class SellingOnlineOverseasContactDetails(forms.Form):
         required=False,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = forms.BooleanField(
-        label=TERMS_LABEL
-    )
+    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
 class OfficeFinderForm(forms.Form):
@@ -540,3 +532,25 @@ class TradeOfficeContactForm(
     SerializeDataMixin, GovNotifyActionMixin, BaseShortForm
 ):
     pass
+
+
+class ExportVoucherForm(SerializeDataMixin, GovNotifyActionMixin, forms.Form):
+    company_name = forms.CharField()
+    companies_house_number = forms.CharField(
+        label='Companies House number',
+        required=False,
+        container_css_classes='js-disabled-only',
+    )
+    first_name = forms.CharField(label='First name')
+    last_name = forms.CharField(label='Last name')
+    email = forms.EmailField()
+    exported_to_eu = TypedChoiceField(
+        label='Have you exported to the EU in the last 12 months?',
+        label_suffix='',
+        coerce=lambda x: x == 'True',
+        choices=[(True, 'Yes'), (False, 'No')],
+        widget=forms.RadioSelect(),
+        required=False,
+    )
+    captcha = ReCaptchaField(label_suffix='')
+    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
