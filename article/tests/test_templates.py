@@ -455,9 +455,10 @@ def test_tag_list_page():
     assert 'New to exporting' in html
 
 
-def test_landing_page_header_footer():
+def test_landing_page_header_footer(rf):
+    request = rf.get('/')
 
-    html = render_to_string('core/landing_page_domestic.html', {})
+    html = render_to_string('core/landing_page_domestic.html', {'request': request})
 
     assert '/static/js/home' in html
 

@@ -61,7 +61,7 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
         )
 
 
-class CampaignPageView(mixins.CampaignPagesFeatureFlagMixin, CMSPageView):
+class CampaignPageView(CMSPageView):
 
     def get_context_data(self, *args, **kwargs):
         kwargs['slug'] = self.slug

@@ -1,5 +1,4 @@
 {% extends "core/base.html" %}
-{% load breadcrumbs render_form from directory_components %}
 {% load static from staticfiles %}
 
 {% block head_css %}
@@ -40,7 +39,7 @@
                 <div class="exred-triage-form">
                     <form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
                         {% csrf_token %}
-                        {% render_form form %}
+                        {{ form }}
                         <button type="submit" class="button">Submit</button>
                     </form>
                 </div>

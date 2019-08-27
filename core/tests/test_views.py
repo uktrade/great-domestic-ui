@@ -116,7 +116,6 @@ def test_landing_page(mock_get_page, client, settings):
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_landing_page_video_url(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    settings.FEATURE_FLAGS['LANDING_PAGE_EU_EXIT_BANNER_ON'] = False
     page = {
         'title': 'great.gov.uk',
         'page_type': 'HomePage',
@@ -722,11 +721,7 @@ campaign_page_all_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_campaign_page_all_fields(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON'] = True
-
+def test_marketing_campaign_campaign_page_all_fields(mock_get_page, client, settings):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(
@@ -840,11 +835,7 @@ campaign_page_required_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_page_required_fields(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON'] = True
-
+def test_marketing_campaign_page_required_fields(mock_get_page, client, settings):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(
@@ -899,23 +890,6 @@ def test_marketing_campaign_page_required_fields(
     assert soup.select(
         "li[aria-current='page']"
         )[0].text == campaign_page_required_fields['campaign_heading']
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_page_feature_flag_off(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON'] = False
-
-    url = reverse('campaign-page', kwargs={'slug': 'test-page'})
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=campaign_page_required_fields
-    )
-    response = client.get(url)
-
-    assert response.status_code == 404
 
 
 @pytest.mark.parametrize('view_name', ['triage-start', 'custom-page'])

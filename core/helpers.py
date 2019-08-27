@@ -16,6 +16,7 @@ from django.shortcuts import Http404, redirect
 from django.utils.functional import cached_property
 from django.utils import translation
 
+
 NotifySettings = collections.namedtuple(
     'NotifySettings', ['agent_template', 'agent_email', 'user_template']
 )
