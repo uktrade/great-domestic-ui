@@ -30,16 +30,13 @@
     <script type="text/javascript">
         var companyName = document.getElementById('id_company_name');
         var companiesHouseInput =  document.getElementById('id_companies_house_number');
-        function createCompaniesHouseLookup() {
-          $(document.body).on(
+        $(document.body).on(
             "click.SelectiveLookupCloseAll",
             GOVUK.components.SelectiveLookup.closeAll
-          );
-          return new GOVUK.components.CompaniesHouseNameLookup(
+        );
+        new GOVUK.components.CompaniesHouseNameLookup(
             $(companyName),
             $(companiesHouseInput)
-          );
-        }
-        createCompaniesHouseLookup();
+        );
     </script>
 {% endblock %}
