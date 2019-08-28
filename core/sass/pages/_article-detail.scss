@@ -32,6 +32,58 @@
     padding-bottom: 60px;
   }
 
+  .article-content > * {
+    &:not(.quote) {
+      padding-left: $cols-3;
+    }
+  }
+
+  .quote {
+    background-color: $stone-light;
+    width: calc(100vw - 10px);
+    margin-left: -30px;
+    margin-bottom: $spacing-3;
+    padding-left: calc(25% + 30px);
+    .body-text {
+        width: 75%;
+        max-width: calc(930px - 25%);
+        float: left;
+        margin: 0 auto;
+
+        @include quote;
+        display: block;
+        margin-bottom: $spacing-4;
+
+        &:before {
+          color: $stone;
+          content: '“';
+          display: block;
+          font-family: sans-serif;
+          font-size: 120px;
+          font-weight: 600;
+          height: 60px;
+          left: -5px;
+          line-height: 120px;
+          position: relative;
+      }
+   }
+
+   &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+   @media (min-width: 1261px) {
+      margin-left: calc(600px - 50vw);
+      padding-left: calc((50vw - 600px) + 25%);
+
+    }
+
+
+
+  }
+
   .content-list li a {
     display: block;
   }

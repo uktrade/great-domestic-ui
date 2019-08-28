@@ -52,7 +52,7 @@
           <img src="{{ page.article_image.url }}" alt="" class="width-full">
         {% endif %}
         <section class="grid-row">
-          <div class="column-seven-ninths article-content">
+          <div class="article-content">
             {{ page.article_body_text|add_export_elements_classes|add_href_target:request|safe  }}
           </div>
         </section>
