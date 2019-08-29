@@ -90,7 +90,7 @@ def test_tos_international_redirect(path, client):
     )
 
     assert response.status_code == http.client.FOUND
-    assert response.url == reverse('terms-and-conditions-international')
+    assert response.url == reverse('terms-and-conditions')
 
 
 @pytest.mark.parametrize('path', TOS_AND_PRIVACY_REDIRECT_LANGUAGES)
@@ -100,11 +100,17 @@ def test_privacy_international_redirect(path, client):
     )
 
     assert response.status_code == http.client.FOUND
-    assert response.url == reverse('privacy-and-cookies-international')
+    assert response.url == reverse('privacy-and-cookies')
 
 
 # the first element needs to end with a slash
 redirects = [
+    (
+        '/eu-exit-news/contact/', reverse('brexit-contact-form')
+    ),
+    (
+        '/eu-exit-news/contact/success/', reverse('brexit-contact-form-success')
+    ),
     (
         '/redarrows/',
         'https://www.events.great.gov.uk/red-arrows-north-america-tour/'
@@ -171,33 +177,30 @@ redirects = [
     ('/beijingexpo2019/',
      'https://www.events.great.gov.uk/ehome/index.php?eventid=200188985&'),
     ('/expo2020/', 'https://www.events.trade.gov.uk/dubai-expo-2020/'),
-    ('/invest/', 'https://invest.great.gov.uk'),
-    ('/int/invest/', 'https://invest.great.gov.uk/int'),
-    ('/us/invest/', 'https://invest.great.gov.uk/us'),
-    ('/cn/invest/', 'https://invest.great.gov.uk/cn'),
-    ('/de/invest/', 'https://invest.great.gov.uk/de'),
-    ('/in/invest/', 'https://invest.great.gov.uk/in'),
+    ('/invest/', '/international/invest'),
+    ('/int/invest/', '/international/invest'),
+    ('/us/invest/', '/international/invest'),
+    ('/cn/invest/', '/international/invest?lang=zh-hans'),
+    ('/de/invest/', '/international/invest?lang=de'),
+    ('/in/invest/', '/international/invest'),
 
-    ('/es/invest/', 'https://invest.great.gov.uk/es'),
-    ('/int/es/invest/', 'https://invest.great.gov.uk/int/es'),
-    ('/int/zh/invest/', 'https://invest.great.gov.uk/int/zh'),
-    ('/int/pt/invest/', 'https://invest.great.gov.uk/int/pt'),
-    ('/br/invest/', 'https://invest.great.gov.uk/br'),
-    ('/int/de/invest/', 'https://invest.great.gov.uk/int/de'),
-    ('/jp/invest/', 'https://invest.great.gov.uk/jp'),
-    ('/int/ja/invest/', 'https://invest.great.gov.uk/int/ja'),
-    ('/int/ar/invest/', 'https://invest.great.gov.uk/int/ar'),
+    ('/es/invest/', '/international/invest?lang=es'),
+    ('/int/es/invest/', '/international/invest?lang=es'),
+    ('/int/zh/invest/', '/international/invest?lang=zh-hans'),
+    ('/int/pt/invest/', '/international/invest?lang=pt'),
+    ('/br/invest/', '/international/invest'),
+    ('/int/de/invest/', '/international/invest?lang=de'),
+    ('/jp/invest/', '/international/invest?lang=ja'),
+    ('/int/ja/invest/', '/international/invest?lang=ja'),
+    ('/int/ar/invest/', '/international/invest'),
     ('/study/', 'https://study-uk.britishcouncil.org'),
     ('/visit/', 'https://www.visitbritain.com/gb/en'),
     ('/export/', 'landing-page'),
     ('/export/new/', '/advice/'),
     ('/export/occasional/', '/advice/'),
     ('/export/regular/', '/advice/'),
-    ('/export/opportunities/', 'https://opportunities.export.great.gov.uk/'),
-    (
-        '/opportunities/',
-        'https://opportunities.export.great.gov.uk/'
-    ),
+    ('/export/opportunities/', '/export-opportunities/'),
+    ('/opportunities/', '/export-opportunities/'),
     (
         (
             '/opportunities/usa-'
@@ -205,7 +208,7 @@ redirects = [
             '-innovation-network-hiin-rfp/'
         ),
         (
-            'https://opportunities.export.great.gov.uk/opportunities/usa-'
+            '/export-opportunities/usa-'
             'centre-for-medicare-and-medicaid-services-hospital-improvement'
             '-innovation-network-hiin-rfp/'
         )
@@ -218,7 +221,7 @@ redirects = [
             '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
         ),
         (
-            'https://opportunities.export.great.gov.uk/opportunities/usa-'
+            '/export-opportunities/usa-'
             'centre-for-medicare-and-medicaid-services-hospital-improvement'
             '-innovation-network-hiin-rfp/'
             '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
@@ -230,7 +233,7 @@ redirects = [
             'mexico-craft-beer-distributor-looking-for-international-brands/'
         ),
         (
-            'https://opportunities.export.great.gov.uk/opportunities/'
+            '/export-opportunities/'
             'mexico-craft-beer-distributor-looking-for-international-brands/'
         )
     ),
@@ -241,7 +244,7 @@ redirects = [
             '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
         ),
         (
-            'https://opportunities.export.great.gov.uk/opportunities/'
+            '/export-opportunities/'
             'mexico-craft-beer-distributor-looking-for-international-brands/'
             '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
         )
@@ -253,7 +256,7 @@ redirects = [
             '-suppliers-to-help-develop-exhibition/'
         ),
         (
-            'https://opportunities.export.great.gov.uk/opportunities/'
+            '/export-opportunities/'
             'taiwan-2018-flora-expo-seeking'
             '-suppliers-to-help-develop-exhibition/'
         )
@@ -266,23 +269,23 @@ redirects = [
             '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
         ),
         (
-            'https://opportunities.export.great.gov.uk/opportunities/'
+            '/export-opportunities/'
             'taiwan-2018-flora-expo-seeking'
             '-suppliers-to-help-develop-exhibition/'
             '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
         )
     ),
-    ('/export/find-a-buyer/', 'https://find-a-buyer.export.great.gov.uk'),
+    ('/export/find-a-buyer/', '/find-a-buyer/'),
     (
         '/export/selling-online-overseas/',
-        'https://selling-online-overseas.export.great.gov.uk'
+        '/selling-online-overseas/'
     ),
     ('/uk/privacy-policy/', 'privacy-and-cookies'),
     ('/uk/terms-and-conditions/', 'terms-and-conditions'),
-    ('/int/', 'landing-page-international'),
+    ('/int/', '/international/'),
     ('/uk/', 'landing-page'),
-    ('/in/', 'landing-page-international'),
-    ('/us/', 'landing-page-international'),
+    ('/in/', '/international/'),
+    ('/us/', '/international/'),
     ('/innovation/', (
         'https://www.events.trade.gov.uk/'
         'the-great-festival-of-innovation-hong-kong-2018/'
@@ -291,14 +294,9 @@ redirects = [
         'https://www.great.gov.uk/?utm_source=Mailing&utm_medium'
         '=Brochure&utm_campaign=ExportBrochureCY'
     )),
-    ('/verify/', (
-        'https://find-a-buyer.export.great.gov.uk/'
-        'verify/letter-confirm/'
-    )),
-    ('/legal/', (
-        'https://trade.great.gov.uk/'
-        'campaign/legal-is-great/singapore/'
-    )),
+    (
+        '/verify/', '/find-a-buyer/verify/letter-confirm/'
+    ),
     ('/kr/', (
         'https://www.events.trade.gov.uk/invest-in-great---korea'
         '?utm_source=print&utm_campaign=korean_winter_olympics_invest'
@@ -502,37 +500,37 @@ def test_redirects_no_trailing_slash(url, expected, client):
 
         (
                 '/market-research/do-research-first/',
-                '/advice/find-an-export-market/plan-export-market-research'
+                '/advice/find-an-export-market/plan-export-market-research/'
         ),
 
         (
                 '/market-research/define-market-potential/',
-                '/advice/find-an-export-market/define-export-market-potential'
+                '/advice/find-an-export-market/define-export-market-potential/'
         ),
 
         (
                 '/market-research/analyse-the-competition/',
-                '/advice/find-an-export-market/define-export-market-potential'
+                '/advice/find-an-export-market/define-export-market-potential/'
         ),
 
         (
                 '/market-research/research-your-market/',
-                '/advice/find-an-export-market/field-research-in-export-markets'  # NOQA
+                '/advice/find-an-export-market/field-research-in-export-markets/'  # NOQA
         ),
 
         (
                 '/market-research/visit-a-trade-show/',
-                '/advice/find-an-export-market/trade-shows'
+                '/advice/find-an-export-market/trade-shows/'
         ),
 
         (
                 '/market-research/doing-business-with-integrity/',
-                '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets/'  # NOQA
         ),
 
         (
                 '/market-research/know-the-relevant-legislation/',
-                '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets/'  # NOQA
         ),
 
         (
@@ -542,57 +540,57 @@ def test_redirects_no_trailing_slash(url, expected, client):
 
         (
                 '/business-planning/make-an-export-plan/',
-                '/advice/create-an-export-plan/how-to-create-an-export-plan'
+                '/advice/create-an-export-plan/how-to-create-an-export-plan/'
         ),
 
         (
                 '/business-planning/find-a-route-to-market/',
-                '/advice/define-route-to-market/routes-to-market'
+                '/advice/define-route-to-market/routes-to-market/'
         ),
 
         (
                 '/business-planning/sell-overseas-directly/',
-                '/advice/define-route-to-market/sell-overseas-directly'
+                '/advice/define-route-to-market/sell-overseas-directly/'
         ),
 
         (
                 '/business-planning/use-an-overseas-agent/',
-                '/advice/define-route-to-market/export-agents'
+                '/advice/define-route-to-market/export-agents/'
         ),
 
         (
                 '/business-planning/choosing-an-agent-or-distributor/',
-                '/advice/define-route-to-market/export-agents'
+                '/advice/define-route-to-market/export-agents/'
         ),
 
         (
                 '/business-planning/use-a-distributor/',
-                '/advice/define-route-to-market/export-distributors'
+                '/advice/define-route-to-market/export-distributors/'
         ),
 
         (
                 '/business-planning/license-your-product-or-service/',
-                '/advice/define-route-to-market/create-a-licensing-agreement'
+                '/advice/define-route-to-market/create-a-licensing-agreement/'
         ),
 
         (
                 '/business-planning/licensing-and-franchising/',
-                '/advice/define-route-to-market/create-a-licensing-agreement'
+                '/advice/define-route-to-market/create-a-licensing-agreement/'
         ),
 
         (
                 '/business-planning/franchise-your-business/',
-                '/advice/define-route-to-market/create-a-franchise-agreement'
+                '/advice/define-route-to-market/create-a-franchise-agreement/'
         ),
 
         (
                 '/business-planning/start-a-joint-venture/',
-                '/advice/define-route-to-market/create-a-joint-venture-agreement'  # NOQA
+                '/advice/define-route-to-market/create-a-joint-venture-agreement/'  # NOQA
         ),
 
         (
                 '/business-planning/set-up-an-overseas-operation/',
-                '/advice/define-route-to-market/set-up-a-business-abroad'
+                '/advice/define-route-to-market/set-up-a-business-abroad/'
         ),
 
         (
@@ -602,37 +600,37 @@ def test_redirects_no_trailing_slash(url, expected, client):
 
         (
                 '/finance/choose-the-right-finance/',
-                '/advice/get-export-finance-and-funding/choose-the-right-finance'  # NOQA
+                '/advice/get-export-finance-and-funding/choose-the-right-finance/'  # NOQA
         ),
 
         (
                 '/finance/get-money-to-export/',
-                '/advice/get-export-finance-and-funding/choose-the-right-finance'  # NOQA
+                '/advice/get-export-finance-and-funding/choose-the-right-finance/'  # NOQA
         ),
 
         (
                 '/finance/get-export-finance/',
-                '/advice/get-export-finance-and-funding/get-export-finance'
+                '/advice/get-export-finance-and-funding/get-export-finance/'
         ),
 
         (
                 '/finance/get-finance-support-from-government/',
-                '/advice/get-export-finance-and-funding/get-export-finance'
+                '/advice/get-export-finance-and-funding/get-export-finance/'
         ),
 
         (
                 '/finance/raise-money-by-borrowing/',
-                '/advice/get-export-finance-and-funding/raise-money-by-borrowing'  # NOQA
+                '/advice/get-export-finance-and-funding/raise-money-by-borrowing/'  # NOQA
         ),
 
         (
                 '/finance/borrow-against-assets/',
-                '/advice/get-export-finance-and-funding/borrow-against-assets'
+                '/advice/get-export-finance-and-funding/borrow-against-assets/'
         ),
 
         (
                 '/finance/raise-money-with-investment/',
-                '/advice/get-export-finance-and-funding/raise-money-with-investment'  # NOQA
+                '/advice/get-export-finance-and-funding/raise-money-with-investment/'  # NOQA
         ),
         (
                 '/getting-paid/',
@@ -641,27 +639,27 @@ def test_redirects_no_trailing_slash(url, expected, client):
 
         (
                 '/getting-paid/invoice-currency-and-contents/',
-                '/advice/manage-payment-for-export-orders/payment-methods-for-exporters'  # NOQA
+                '/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'  # NOQA
         ),
 
         (
                 '/getting-paid/consider-how-youll-get-paid/',
-                '/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice'  # NOQA
+                '/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice/'  # NOQA
         ),
 
         (
                 '/getting-paid/decide-when-youll-get-paid/',
-                '/advice/manage-payment-for-export-orders/decide-when-youll-get-paid-for-export-orders'  # NOQA
+                '/advice/manage-payment-for-export-orders/decide-when-youll-get-paid-for-export-orders/'  # NOQA
         ),
 
         (
                 '/getting-paid/payment-methods/',
-                '/advice/manage-payment-for-export-orders/payment-methods-for-exporters'  # NOQA
+                '/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'  # NOQA
         ),
 
         (
                 '/getting-paid/insure-against-non-payment/',
-                '/advice/manage-payment-for-export-orders/insure-against-non-payment'  # NOQA
+                '/advice/manage-payment-for-export-orders/insure-against-non-payment/'  # NOQA
         ),
 
         (
@@ -671,22 +669,22 @@ def test_redirects_no_trailing_slash(url, expected, client):
 
         (
                 '/customer-insight/meet-your-customers/',
-                '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market'  # NOQA
+                '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'  # NOQA
         ),
 
         (
                 '/customer-insight/know-your-customers/',
-                '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/understand-business-risks-in-overseas-markets/'  # NOQA
         ),
 
         (
                 '/customer-insight/manage-language-differences/',
-                '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market'  # NOQA
+                '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'  # NOQA
         ),
 
         (
                 '/customer-insight/understand-your-customers-culture/',
-                '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market'  # NOQA
+                '/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'  # NOQA
         ),
 
         (
@@ -696,56 +694,56 @@ def test_redirects_no_trailing_slash(url, expected, client):
 
         (
                 '/operations-and-compliance/internationalise-your-website/',
-                '/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website'  # NOQA
+                '/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website/'  # NOQA
         ),
 
         (
                 '/operations-and-compliance/match-your-website-to-your-audience/',  # NOQA
-                '/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website'  # NOQA
+                '/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website/'  # NOQA
         ),
 
         (
                 '/operations-and-compliance/protect-your-intellectual-property/',  # NOQA
-                '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'  # NOQA
         ),
 
         (
                 '/operations-and-compliance/types-of-intellectual-property/',
-                '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'  # NOQA
         ),
 
         (
                 '/operations-and-compliance/know-what-ip-you-have/',
-                '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'  # NOQA
         ),
 
         (
                 '/operations-and-compliance/international-ip-protection/',
-                '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'  # NOQA
         ),
         (
                 '/operations-and-compliance/report-corruption/',
-                '/advice/manage-legal-and-ethical-compliance/report-corruption-and-human-rights-violations'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/report-corruption-and-human-rights-violations/'  # NOQA
         ),
         (
                 '/operations-and-compliance/anti-bribery-and-corruption-training/',  # NOQA
-                '/advice/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training'  # NOQA
+                '/advice/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training/'  # NOQA
         ),
         (
                 '/operations-and-compliance/plan-the-logistics/',
-                '/advice/prepare-for-export-procedures-and-logistics/plan-logistics-for-exporting'  # NOQA
+                '/advice/prepare-for-export-procedures-and-logistics/plan-logistics-for-exporting/'  # NOQA
         ),
         (
                 '/operations-and-compliance/get-your-export-documents-right/',
-                '/advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right'  # NOQA
+                '/advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right/'  # NOQA
         ),
         (
                 '/operations-and-compliance/use-a-freight-forwarder/',
-                '/advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export'  # NOQA
+                '/advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export/'  # NOQA
         ),
         (
                 '/operations-and-compliance/use-incoterms-in-contracts/',
-                '/advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts'  # NOQA
+                '/advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts/'  # NOQA
         ),
         (
                 '/new/next-steps/',

@@ -193,55 +193,6 @@ urlpatterns = [
     )
 ]
 
-deprecated_urls = [
-    # URLS TO BE REMOVED
-    url(
-        r"^about/$",
-        skip_ga360(core.views.AboutView.as_view()),
-        name='about'
-    ),
-    url(
-        r"^international/$",
-        skip_ga360(core.views.InternationalLandingPageView.as_view()),
-        name='landing-page-international'
-    ),
-    url(
-        r"^international/contact/$",
-        skip_ga360(core.views.InternationalContactPageView.as_view()),
-        name='contact-page-international'
-    ),
-    url(
-        r"^international/privacy-and-cookies/$",
-        skip_ga360(core.views.PrivacyCookiesInternationalCMS.as_view()),
-        name='privacy-and-cookies-international'
-    ),
-    url(
-        r"^international/terms-and-conditions/$",
-        skip_ga360(core.views.TermsConditionsInternationalCMS.as_view()),
-        name='terms-and-conditions-international'
-    ),
-    url(
-        r'^international/eu-exit-news/contact/$',
-        skip_ga360(euexit.views.InternationalContactFormView.as_view()),
-        name='eu-exit-international-contact-form'
-    ),
-    url(
-        r'^international/eu-exit-news/contact/success/$',
-        skip_ga360(euexit.views.InternationalContactSuccessView.as_view()),
-        name='eu-exit-international-contact-form-success'
-    ),
-    url(
-        r"^international/eu-exit-news/$",
-        skip_ga360(article.views.InternationalNewsListPageView.as_view()),
-        name='international-eu-exit-news-list',
-    ),
-    url(
-        r"^international/eu-exit-news/(?P<slug>[\w-]+)/$",
-        skip_ga360(article.views.InternationalNewsArticleDetailView.as_view()),
-        name='international-eu-exit-news-detail',
-    ),
-]
-
 legacy_urls = [
     url(
         r'^triage/(?P<step>.+)/$',
@@ -263,28 +214,28 @@ legacy_urls = [
 
 euexit_urls = [
     url(
-        r'^eu-exit-news/contact/$',
+        r'^brexit/contact/$',
         euexit.views.DomesticContactFormView.as_view(),
-        name='eu-exit-domestic-contact-form'
+        name='brexit-contact-form'
     ),
     url(
-        r'^eu-exit-news/contact/success/$',
+        r'^brexit/contact/success/$',
         euexit.views.DomesticContactSuccessView.as_view(),
-        name='eu-exit-domestic-contact-form-success'
+        name='brexit-contact-form-success'
     ),
 ]
 
 
 news_urls = [
     url(
-        r"^eu-exit-news/$",
+        r"^brexit/$",
         article.views.NewsListPageView.as_view(),
-        name='eu-exit-news-list',
+        name='brexit-news-list',
     ),
     url(
-        r"^eu-exit-news/(?P<slug>[\w-]+)/$",
+        r"^brexit/(?P<slug>[\w-]+)/$",
         article.views.NewsArticleDetailView.as_view(),
-        name='eu-exit-news-detail',
+        name='brexit-news-detail',
     ),
 ]
 
@@ -678,7 +629,6 @@ export_vouchers_urls = [
 
 
 urlpatterns += legacy_urls
-urlpatterns += deprecated_urls
 urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += news_urls

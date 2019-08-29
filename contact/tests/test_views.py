@@ -140,7 +140,7 @@ def domestic_form_data(captcha_stub):
     (
         constants.DOMESTIC,
         constants.EUEXIT,
-        reverse('eu-exit-domestic-contact-form'),
+        reverse('brexit-contact-form'),
     ),
     (
         constants.DOMESTIC,
@@ -249,11 +249,6 @@ def domestic_form_data(captcha_stub):
         constants.INTERNATIONAL,
         constants.BUYING,
         settings.FIND_A_SUPPLIER_CONTACT_URL,
-    ),
-    (
-        constants.INTERNATIONAL,
-        constants.EUEXIT,
-        reverse('eu-exit-international-contact-form'),
     ),
     (
         constants.INTERNATIONAL,

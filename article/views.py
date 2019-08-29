@@ -2,8 +2,6 @@ from directory_constants import slugs
 
 from django.views.generic import TemplateView
 
-from directory_components.mixins import CountryDisplayMixin
-
 from .mixins import (
     GetCMSTagMixin,
     ArticleSocialLinksMixin,
@@ -11,12 +9,9 @@ from .mixins import (
 from core.mixins import (
     PrototypeFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
-    GetCMSComponentMixin,
     GetCMSPageMixin,
     SetGA360ValuesForCMSPageMixin,
 )
-
-from euexit.mixins import HideLanguageSelectorMixin
 
 TEMPLATE_MAPPING = {
     'TopicLandingPage': 'article/topic_list.html',
@@ -145,26 +140,6 @@ class NewsArticleDetailView(
     @property
     def slug(self):
         return self.kwargs['slug']
-
-
-class InternationalNewsListPageView(
-    CountryDisplayMixin,
-    NewsSectionFeatureFlagMixin,
-    GetCMSPageMixin,
-    GetCMSComponentMixin,
-    HideLanguageSelectorMixin,
-    TemplateView,
-):
-    template_name = 'article/international_news_list.html'
-    component_slug = slugs.COMPONENTS_BANNER_DOMESTIC
-    slug = slugs.EUEXIT_INTERNATIONAL_NEWS
-
-
-class InternationalNewsArticleDetailView(
-    CountryDisplayMixin,
-    NewsArticleDetailView
-):
-    template_name = 'article/international_news_detail.html'
 
 
 class CommunityArticlePageView(CMSPageView):
