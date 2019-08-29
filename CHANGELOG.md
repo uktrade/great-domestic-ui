@@ -8,6 +8,7 @@
 - CMS-1824 - Red arrows redirect
 - No ticket - Tidied up form choices with feature flags
 - No ticket - Add export vouchers form
+- XOT-914 - Add search sort order healthcheck
 
 ## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.13...2019.08.20)
