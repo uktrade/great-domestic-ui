@@ -1,11 +1,10 @@
-{% load parse_date from article_tags %}
+{% load parse_date remove_underscore from article_tags %}
 {% load add_export_elements_classes add_href_target breadcrumbs from directory_components %}
 
 
 <div class="container">
   {% include 'core/breadcrumbs_cms.html' %}
 </div>
-
 <article class="article-main {{ view.slug }}-article">
   <div class="container">
 
@@ -15,6 +14,7 @@
           {% include 'directory_components/social_share_links.html' %}
         </div>
         <div class="column-seven-twelfths">
+          <p class="subheading">{{ page.type_of_article|capfirst|remove_underscore }}</p>
           <h1 class="heading-xlarge">{{ page.article_title }}</h1>
           {% if page.article_teaser %}
             <div class="text">
@@ -45,12 +45,21 @@
 
       </div>
     </header>
-
     <div class="grid-row">
       <div class="column-three-quarters">
         {% if page.article_image %}
           <img src="{{ page.article_image.url }}" alt="" class="width-full">
         {% endif %}
+
+        {% if page.article_video %}
+        <div class="video-container">
+          <video controls data-ga-class="hpo-video" class="width-full">
+              <source src="{{ page.article_video.url }}" type="video/{{ page.article_video.file_extension }}">
+              <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ page.article_video.url }}">link to the video</a> instead.</p>
+          </video>
+        </div>
+        {% endif %}
+
         <section class="grid-row">
           <div class="article-content">
             {{ page.article_body_text|add_export_elements_classes|add_href_target:request|safe  }}

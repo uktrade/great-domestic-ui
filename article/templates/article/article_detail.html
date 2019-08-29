@@ -18,9 +18,36 @@
   {% include 'article/article_detail_content.html' %}
 </section>
 
-{% block related_content_cards %}
-  {% if page.related_pages %}
-    {% include 'article/article_related_content_cards.html' %}
+{% block related_ctas %}
+
+  {% if page.cta_title or page.cta_teaser or page.cta_link_label and page.cta_link %}
+  <section class="padding-vertical-60 background-stone-30">
+		<div class="container">
+			<div class="grid-row">
+				<div class="column-three-quarters">
+					<div class="grid-row">
+							<div class="column-seven-ninths">
+								<div class="grid-row">
+									<div class="column">
+										{% if page.cta_title %}
+										<h2 class="heading-large">{{ page.cta_title }}</h2>
+										{% endif %}
+										{% if page.cta_teaser %}
+										<p class="font-small margin-bottom-45">{{ page.cta_teaser }}</p>
+										{% endif %}
+										{% if page.cta_link_label and page.cta_link %}
+										<div>
+											<a href="{{ page.cta_link }}" class="button">{{ page.cta_link_label }}</a>
+										</div>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
   {% endif %}
 {% endblock %}
 
