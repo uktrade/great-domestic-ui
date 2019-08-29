@@ -281,26 +281,6 @@ def test_news_list_page_feature_flag_on():
     assert 'Dolor sit amet' in html
 
 
-def test_international_news_list_page():
-    context = {
-        'features': {'NEWS_SECTION_ON': True}
-    }
-    cms_component = {
-        'banner_label': 'Brexit updates',
-        'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': [['en-gb', 'English']]},
-    }
-    context['page'] = test_news_list_page
-    context['cms_component'] = cms_component
-
-    html = render_to_string('article/international_news_list.html', context)
-
-    assert test_news_list_page['title'] not in html
-    assert test_news_list_page['landing_page_title'] in html
-    assert 'Lorem ipsum' in html
-    assert 'Dolor sit amet' in html
-
-
 def test_domestic_news_article_detail_page(rf):
     context = {
         'features': {'NEWS_SECTION_ON': True},
@@ -340,43 +320,6 @@ def test_domestic_news_article_detail_page(rf):
     assert 'Test news title' in html
     assert 'Test news teaser' in html
     assert 'Test tag' not in html
-    assert '<p class="body-text">Lorem ipsum</p>' in html
-
-
-def test_international_news_article_detail_page(rf):
-    context = {
-        'features': {'NEWS_SECTION_ON': True},
-        'request': rf.get('/')
-    }
-
-    page = {
-        "title": "Test article admin title",
-        "article_title": "Test news title",
-        "article_teaser": "Test news teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "",
-        "related_article_one_title": "",
-        "related_article_one_teaser": "",
-        "related_article_two_url": "",
-        "related_article_two_title": "",
-        "related_article_two_teaser": "",
-        "related_article_three_url": "",
-        "related_article_three_title": "",
-        "related_article_three_teaser": "",
-        "full_path": "/markets/foo/bar/",
-        "last_published_at": "2018-10-09T16:25:13.142357Z",
-        "meta": {
-            "slug": "foo",
-        },
-        "page_type": "ArticlePage",
-    }
-    context['page'] = page
-
-    html = render_to_string('article/international_news_detail.html', context)
-
-    assert 'Test news title' in html
-    assert 'Test news teaser' in html
     assert '<p class="body-text">Lorem ipsum</p>' in html
 
 

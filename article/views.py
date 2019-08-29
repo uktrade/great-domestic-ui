@@ -147,25 +147,5 @@ class NewsArticleDetailView(
         return self.kwargs['slug']
 
 
-class InternationalNewsListPageView(
-    CountryDisplayMixin,
-    NewsSectionFeatureFlagMixin,
-    GetCMSPageMixin,
-    GetCMSComponentMixin,
-    HideLanguageSelectorMixin,
-    TemplateView,
-):
-    template_name = 'article/international_news_list.html'
-    component_slug = slugs.COMPONENTS_BANNER_DOMESTIC
-    slug = slugs.EUEXIT_INTERNATIONAL_NEWS
-
-
-class InternationalNewsArticleDetailView(
-    CountryDisplayMixin,
-    NewsArticleDetailView
-):
-    template_name = 'article/international_news_detail.html'
-
-
 class CommunityArticlePageView(CMSPageView):
     slug = 'community'

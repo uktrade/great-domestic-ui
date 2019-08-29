@@ -14,7 +14,7 @@
             {% breadcrumbs page.breadcrumbs_label %}
                 <a href="/">great.gov.uk</a>
                 {% if features.NEWS_SECTION_ON %}
-                    <a href="{% url 'eu-exit-news-list' %}">Brexit news</a>
+                    <a href="{% url 'brexit-news-list' %}">Brexit news</a>
                 {% endif %}
                 <a href="{% url 'contact-us-routing-form' step='location' %}">Contact us</a>
             {% endbreadcrumbs %}

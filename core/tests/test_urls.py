@@ -6,34 +6,19 @@ from django.urls import reverse
     'view_name,expected_url',
     (
         (
-            'landing-page', '/'),
-        (
-            'landing-page-international',
-            '/international/'
+            'landing-page', '/'
         ),
         (
             'not-found',
             '/not-found/'
         ),
         (
-            'about',
-            '/about/'
-        ),
-        (
             'privacy-and-cookies',
             '/privacy-and-cookies/'
         ),
         (
-            'privacy-and-cookies-international',
-            '/international/privacy-and-cookies/'
-        ),
-        (
             'terms-and-conditions',
             '/terms-and-conditions/'
-        ),
-        (
-            'terms-and-conditions-international',
-            '/international/terms-and-conditions/'
         ),
         (
             'get-finance',
