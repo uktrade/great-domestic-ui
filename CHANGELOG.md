@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 - CMS-1754 - Rename EU Exit urls to Brexit
+- CMS-1839 - Use correct header on international contact success page
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
 - CMS-1824 - Fix redirect
