@@ -5,7 +5,6 @@ import requests
 import requests_mock
 
 from django.shortcuts import Http404
-from django.urls import reverse
 
 from core import helpers
 from core.management.commands.download_geolocation_data import (

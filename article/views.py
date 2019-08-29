@@ -2,8 +2,6 @@ from directory_constants import slugs
 
 from django.views.generic import TemplateView
 
-from directory_components.mixins import CountryDisplayMixin
-
 from .mixins import (
     GetCMSTagMixin,
     ArticleSocialLinksMixin,
@@ -11,12 +9,9 @@ from .mixins import (
 from core.mixins import (
     PrototypeFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
-    GetCMSComponentMixin,
     GetCMSPageMixin,
     SetGA360ValuesForCMSPageMixin,
 )
-
-from euexit.mixins import HideLanguageSelectorMixin
 
 TEMPLATE_MAPPING = {
     'TopicLandingPage': 'article/topic_list.html',

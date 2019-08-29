@@ -1,6 +1,5 @@
 from unittest import mock
 
-from directory_constants import choices
 import pytest
 
 from django.urls import reverse
