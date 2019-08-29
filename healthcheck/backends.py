@@ -18,7 +18,7 @@ class SearchSortBackend(BaseHealthCheckBackend):
             if (len(results) == 4) and \
                (results[0]["type"] == "Service") and \
                (results[-1]["type"] == "Export opportunity"):
-                    ordering_success = True
+                ordering_success = True
 
         if not ordering_success:
             raise ServiceReturnedUnexpectedResult(
