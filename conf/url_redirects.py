@@ -8,6 +8,16 @@ from core.views import (
 
 redirects = [
     url(
+        r'^eu-exit-news/contact/$',
+        QuerystringRedirectView.as_view(pattern_name='brexit-contact-form'),
+        name='eu-exit-brexit-contact-redirect'
+    ),
+    url(
+        r'^eu-exit-news/contact/success/$',
+        QuerystringRedirectView.as_view(pattern_name='brexit-contact-form-success'),
+        name='eu-exit-brexit-contact-success-redirect'
+    ),
+    url(
         r'^redarrows/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/red-arrows-north-america-tour/'),
@@ -21,7 +31,7 @@ redirects = [
     ),
     url(
         r'^story/online-marketplaces-propel-freestyle-xtreme-sales/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('landing-page')),
+        QuerystringRedirectView.as_view(pattern_name='landing-page'),
         name='casestudy-online-marketplaces'
     ),
     url(
@@ -38,7 +48,7 @@ redirects = [
     ),
     url(
         r'^(?i)ukti/$',
-        QuerystringRedirectView.as_view(url=reverse_lazy('landing-page'))
+        QuerystringRedirectView.as_view(pattern_name='landing-page')
     ),
     url(
         r'^future/$',
@@ -118,75 +128,73 @@ redirects = [
     ),
     url(
         r'^invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk'),
+        QuerystringRedirectView.as_view(url='/international/invest'),
     ),
     url(
         r'^int/invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/int'),
+        QuerystringRedirectView.as_view(url='/international/invest'),
     ),
     url(
         r'^us/invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/us'),
+        QuerystringRedirectView.as_view(url='/international/invest'),
     ),
     url(
         r'^es/invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/es'),
+        QuerystringRedirectView.as_view(url='/international/invest?lang=es'),
     ),
     url(
         r'^int/es/invest/$',
         QuerystringRedirectView.as_view(
-            url='https://invest.great.gov.uk/int/es',
+            url='/international/invest?lang=es',
         ),
     ),
     url(
         r'^cn/invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/cn'),
+        QuerystringRedirectView.as_view(url='/international/invest?lang=zh-hans'),
     ),
     url(
         r'^int/zh/invest/$',
         QuerystringRedirectView.as_view(
-            url='https://invest.great.gov.uk/int/zh',
+            url='/international/invest?lang=zh-hans',
         ),
     ),
     url(
         r'^int/pt/invest/$',
         QuerystringRedirectView.as_view(
-            url='https://invest.great.gov.uk/int/pt',
+            url='/international/invest?lang=pt',
         ),
     ),
     url(
         r'^br/invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/br'),
+        QuerystringRedirectView.as_view(url='/international/invest'),
     ),
     url(
         r'^de/invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/de'),
+        QuerystringRedirectView.as_view(url='/international/invest?lang=de'),
     ),
     url(
         r'^int/de/invest/$',
         QuerystringRedirectView.as_view(
-            url='https://invest.great.gov.uk/int/de',
+            url='/international/invest?lang=de',
         ),
     ),
     url(
         r'^jp/invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/jp'),
+        QuerystringRedirectView.as_view(url='/international/invest?lang=ja'),
     ),
     url(
         r'^int/ja/invest/$',
         QuerystringRedirectView.as_view(
-            url='https://invest.great.gov.uk/int/ja',
+            url='/international/invest?lang=ja',
         ),
     ),
     url(
         r'^in/invest/$',
-        QuerystringRedirectView.as_view(url='https://invest.great.gov.uk/in'),
+        QuerystringRedirectView.as_view(url='/international/invest'),
     ),
     url(
         r'^int/ar/invest/$',
-        QuerystringRedirectView.as_view(
-            url='https://invest.great.gov.uk/int/ar',
-        ),
+        QuerystringRedirectView.as_view(url='/international/invest'),
     ),
     url(
         r'^study/$',
@@ -225,31 +233,31 @@ redirects = [
     url(
         r'^export/opportunities/$',
         QuerystringRedirectView.as_view(
-            url='https://opportunities.export.great.gov.uk/',
+            url='/export-opportunities/',
         ),
     ),
     url(
         r'^opportunities/$',
         QuerystringRedirectView.as_view(
-            url='https://opportunities.export.great.gov.uk/',
+            url='/export-opportunities/',
         ),
     ),
     url(
         r'^opportunities/(?P<slug>[-\w]+)/$',
-        # Redirects to https://opportunities.export.great.gov.uk/opportunities
+        # Redirects to /export-opportunities/
         # with the slug and query parameters
         OpportunitiesRedirectView.as_view(),
     ),
     url(
         r'^export/find-a-buyer/$',
         QuerystringRedirectView.as_view(
-            url='https://find-a-buyer.export.great.gov.uk',
+            url='/find-a-buyer/',
         ),
     ),
     url(
         r'^export/selling-online-overseas/$',
         QuerystringRedirectView.as_view(
-            url='https://selling-online-overseas.export.great.gov.uk',
+            url='/selling-online-overseas/',
         ),
     ),
     url(
@@ -266,21 +274,15 @@ redirects = [
     ),
     url(
         r'^int/$',
-        TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-        ),
+        TranslationRedirectView.as_view(url='/international/'),
     ),
     url(
         r'^in/$',
-        TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-        ),
+        TranslationRedirectView.as_view(url='/international/'),
     ),
     url(
         r'^us/$',
-        TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
-        ),
+        TranslationRedirectView.as_view(url='/international/'),
     ),
     url(
         r'^innovation/$',
@@ -304,18 +306,14 @@ redirects = [
         r'^verify/$',
         QuerystringRedirectView.as_view(
             url=(
-                'https://find-a-buyer.export.great.gov.uk/'
-                'verify/letter-confirm/'
+                '/find-a-buyer/verify/letter-confirm/'
             ),
         ),
     ),
     url(
         r'^legal/$',
         QuerystringRedirectView.as_view(
-            url=(
-                'https://trade.great.gov.uk/'
-                'campaign/legal-is-great/singapore/'
-            ),
+            url='/international/content/industries/legal-services/',
         ),
     ),
     url(
@@ -342,7 +340,7 @@ international_redirects = [
     url(
         r'^int/{path}/$'.format(path=redirect[0]),
         TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
+            url='/international/',
             language=redirect[1],
         ),
     ) for redirect in INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING
@@ -357,7 +355,7 @@ international_redirects += [
     url(
         r'^{path}/$'.format(path=redirect[0]),
         TranslationRedirectView.as_view(
-            pattern_name='landing-page-international',
+            url='/international/',
             language=redirect[1],
         ),
     ) for redirect in (
@@ -376,7 +374,7 @@ tos_redirects = [
     url(
         r'^int/{path}/terms-and-conditions/$'.format(path=language),
         QuerystringRedirectView.as_view(
-            pattern_name='terms-and-conditions-international',
+            pattern_name='terms-and-conditions',
         ),
     ) for language in TOS_AND_PRIVACY_REDIRECT_LANGUAGES
 ]
@@ -387,7 +385,7 @@ privacy_redirects = [
             path=language
         ),
         QuerystringRedirectView.as_view(
-            pattern_name='privacy-and-cookies-international',
+            pattern_name='privacy-and-cookies',
         ),
     ) for language in TOS_AND_PRIVACY_REDIRECT_LANGUAGES
 ]
@@ -480,43 +478,43 @@ articles_redirects = [
     url(
         r'^market-research/do-research-first/$',
         QuerystringRedirectView.as_view(
-            url='/advice/find-an-export-market/plan-export-market-research'
+            url='/advice/find-an-export-market/plan-export-market-research/'
         )
     ),
     url(
         r'^market-research/define-market-potential/$',
         QuerystringRedirectView.as_view(
-            url='/advice/find-an-export-market/define-export-market-potential'
+            url='/advice/find-an-export-market/define-export-market-potential/'
         )
     ),
     url(
         r'^market-research/analyse-the-competition/$',
         QuerystringRedirectView.as_view(
-            url='/advice/find-an-export-market/define-export-market-potential'
+            url='/advice/find-an-export-market/define-export-market-potential/'
         )
     ),
     url(
         r'^market-research/research-your-market/$',
         QuerystringRedirectView.as_view(
-            url='/advice/find-an-export-market/field-research-in-export-markets'  # NOQA
+            url='/advice/find-an-export-market/field-research-in-export-markets/'
         )
     ),
     url(
         r'^market-research/visit-a-trade-show/$',
         QuerystringRedirectView.as_view(
-            url='/advice/find-an-export-market/trade-shows'
+            url='/advice/find-an-export-market/trade-shows/'
         )
     ),
     url(
         r'^market-research/doing-business-with-integrity/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets/'
         )
     ),
     url(
         r'^market-research/know-the-relevant-legislation/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets/'
         )
     ),
     url(
@@ -528,67 +526,67 @@ articles_redirects = [
     url(
         r'^business-planning/make-an-export-plan/$',
         QuerystringRedirectView.as_view(
-            url='/advice/create-an-export-plan/how-to-create-an-export-plan'
+            url='/advice/create-an-export-plan/how-to-create-an-export-plan/'
         )
     ),
     url(
         r'^business-planning/find-a-route-to-market/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/routes-to-market'
+            url='/advice/define-route-to-market/routes-to-market/'
         )
     ),
     url(
         r'^business-planning/sell-overseas-directly/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/sell-overseas-directly'
+            url='/advice/define-route-to-market/sell-overseas-directly/'
         )
     ),
     url(
         r'^business-planning/use-an-overseas-agent/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/export-agents'
+            url='/advice/define-route-to-market/export-agents/'
         )
     ),
     url(
         r'^business-planning/choosing-an-agent-or-distributor/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/export-agents'
+            url='/advice/define-route-to-market/export-agents/'
         )
     ),
     url(
         r'^business-planning/use-a-distributor/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/export-distributors'
+            url='/advice/define-route-to-market/export-distributors/'
         )
     ),
     url(
         r'^business-planning/license-your-product-or-service/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/create-a-licensing-agreement'
+            url='/advice/define-route-to-market/create-a-licensing-agreement/'
         )
     ),
     url(
         r'^business-planning/licensing-and-franchising/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/create-a-licensing-agreement'
+            url='/advice/define-route-to-market/create-a-licensing-agreement/'
         )
     ),
     url(
         r'^business-planning/franchise-your-business/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/create-a-franchise-agreement'
+            url='/advice/define-route-to-market/create-a-franchise-agreement/'
         )
     ),
     url(
         r'^business-planning/start-a-joint-venture/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/create-a-joint-venture-agreement'  # NOQA
+            url='/advice/define-route-to-market/create-a-joint-venture-agreement/'
         )
     ),
     url(
         r'^business-planning/set-up-an-overseas-operation/$',
         QuerystringRedirectView.as_view(
-            url='/advice/define-route-to-market/set-up-a-business-abroad'
+            url='/advice/define-route-to-market/set-up-a-business-abroad/'
         )
     ),
     url(
@@ -600,43 +598,43 @@ articles_redirects = [
     url(
         r'^finance/choose-the-right-finance/$',
         QuerystringRedirectView.as_view(
-            url='/advice/get-export-finance-and-funding/choose-the-right-finance'  # NOQA
+            url='/advice/get-export-finance-and-funding/choose-the-right-finance/'
         )
     ),
     url(
         r'^finance/get-money-to-export/$',
         QuerystringRedirectView.as_view(
-            url='/advice/get-export-finance-and-funding/choose-the-right-finance'  # NOQA
+            url='/advice/get-export-finance-and-funding/choose-the-right-finance/'
         )
     ),
     url(
         r'^finance/get-export-finance/$',
         QuerystringRedirectView.as_view(
-            url='/advice/get-export-finance-and-funding/get-export-finance'
+            url='/advice/get-export-finance-and-funding/get-export-finance/'
         )
     ),
     url(
         r'^finance/get-finance-support-from-government/$',
         QuerystringRedirectView.as_view(
-            url='/advice/get-export-finance-and-funding/get-export-finance'
+            url='/advice/get-export-finance-and-funding/get-export-finance/'
         )
     ),
     url(
         r'^finance/raise-money-by-borrowing/$',
         QuerystringRedirectView.as_view(
-            url='/advice/get-export-finance-and-funding/raise-money-by-borrowing'  # NOQA
+            url='/advice/get-export-finance-and-funding/raise-money-by-borrowing/'
         )
     ),
     url(
         r'^finance/borrow-against-assets/$',
         QuerystringRedirectView.as_view(
-            url='/advice/get-export-finance-and-funding/borrow-against-assets'
+            url='/advice/get-export-finance-and-funding/borrow-against-assets/'
         )
     ),
     url(
         r'^finance/raise-money-with-investment/$',
         QuerystringRedirectView.as_view(
-            url='/advice/get-export-finance-and-funding/raise-money-with-investment'  # NOQA
+            url='/advice/get-export-finance-and-funding/raise-money-with-investment/'
         )
     ),
     url(
@@ -648,31 +646,31 @@ articles_redirects = [
     url(
         r'^getting-paid/invoice-currency-and-contents/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters'  # NOQA
+            url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'
         )
     ),
     url(
         r'^getting-paid/consider-how-to-get-paid/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice'  # NOQA
+            url='/advice/manage-payment-for-export-orders/how-to-create-an-export-invoice/'
         )
     ),
     url(
         r'^getting-paid/decide-when-to-get-paid/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders'  # NOQA
+            url='/advice/manage-payment-for-export-orders/decide-when-to-get-paid-for-export-orders/'
         )
     ),
     url(
         r'^getting-paid/payment-methods/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters'  # NOQA
+            url='/advice/manage-payment-for-export-orders/payment-methods-for-exporters/'
         )
     ),
     url(
         r'^getting-paid/insure-against-non-payment/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-payment-for-export-orders/insure-against-non-payment'  # NOQA
+            url='/advice/manage-payment-for-export-orders/insure-against-non-payment/'
         )
     ),
     url(
@@ -684,25 +682,25 @@ articles_redirects = [
     url(
         r'^customer-insight/meet-your-customers/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market'  # NOQA
+            url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'
         )
     ),
     url(
         r'^customer-insight/know-your-customers/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/understand-business-risk-in-overseas-markets/'
         )
     ),
     url(
         r'^customer-insight/manage-language-differences/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market'  # NOQA
+            url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'
         )
     ),
     url(
         r'^customer-insight/understand-your-customers-culture/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market'  # NOQA
+            url='/advice/prepare-to-do-business-in-a-foreign-country/understand-the-business-culture-in-the-market/'
         )
     ),
     url(
@@ -714,73 +712,73 @@ articles_redirects = [
     url(
         r'^operations-and-compliance/internationalise-your-website/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website'  # NOQA
+            url='/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website/'
         )
     ),
     url(
         r'^operations-and-compliance/match-your-website-to-your-audience/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website'  # NOQA
+            url='/advice/prepare-to-do-business-in-a-foreign-country/internationalise-your-website/'
         )
     ),
     url(
         r'^operations-and-compliance/protect-your-intellectual-property/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'
         )
     ),
     url(
         r'^operations-and-compliance/types-of-intellectual-property/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'
         )
     ),
     url(
         r'^operations-and-compliance/know-what-ip-you-have/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'
         )
     ),
     url(
         r'^operations-and-compliance/international-ip-protection/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/protect-your-intellectual-property-when-exporting/'
         )
     ),
     url(
         r'^operations-and-compliance/report-corruption/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/report-corruption-and-human-rights-violations'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/report-corruption-and-human-rights-violations/'
         )
     ),
     url(
         r'^operations-and-compliance/anti-bribery-and-corruption-training/$',
         QuerystringRedirectView.as_view(
-            url='/advice/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training'  # NOQA
+            url='/advice/manage-legal-and-ethical-compliance/anti-bribery-and-corruption-training/'
         )
     ),
     url(
         r'^operations-and-compliance/plan-the-logistics/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-for-export-procedures-and-logistics/plan-logistics-for-exporting'  # NOQA
+            url='/advice/prepare-for-export-procedures-and-logistics/plan-logistics-for-exporting/'
         )
     ),
     url(
         r'^operations-and-compliance/get-your-export-documents-right/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right'  # NOQA
+            url='/advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right/'
         )
     ),
     url(
         r'^operations-and-compliance/use-a-freight-forwarder/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export'  # NOQA
+            url='/advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export/'
         )
     ),
     url(
         r'^operations-and-compliance/use-incoterms-in-contracts/$',
         QuerystringRedirectView.as_view(
-            url='/advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts'  # NOQA
+            url='/advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts/'
         )
     ),
     url(

@@ -5,7 +5,6 @@ import requests
 import requests_mock
 
 from django.shortcuts import Http404
-from django.urls import reverse
 
 from core import helpers
 from core.management.commands.download_geolocation_data import (
@@ -203,7 +202,7 @@ def test_geolocation_end_to_end(rf, ip_address, language, settings):
 
     assert redirector.should_redirect is True
     url, querysrtring = redirector.get_response().url.split('?')
-    assert url == reverse('landing-page-international')
+    assert url == '/international/'
     assert 'lang=' + language in querysrtring
     assert 'a=b' in querysrtring
 

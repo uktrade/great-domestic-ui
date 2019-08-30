@@ -73,7 +73,7 @@ def test_sso_middleware_timeout(
         'sso.middleware.SSOUserMiddleware'
     ]
 
-    response = client.get(reverse('about'))
+    response = client.get(reverse('services'))
 
     assert response.status_code == 200
 
