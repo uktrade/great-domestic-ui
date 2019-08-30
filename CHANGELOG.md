@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-920 - combined article/case study/blog template, full width quote section from cms content
 - CMS-1754 - Rename EU Exit urls to Brexit
 - CMS-1839 - Use correct header on international contact success page
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
