@@ -100,27 +100,6 @@ def test_article_advice_page(mock_get_page, client, settings):
     assert 'africa.jpg' in html
 
 
-def test_article_detail_page_type_of_article_format(rf):
-    context = {
-        'request': rf.get('/')
-    }
-    page = {
-        "title": "Test article admin title",
-        "article_title": "Test article",
-        "article_teaser": "Test teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "type_of_article": "case_study",
-        "page_type": "ArticlePage",
-    }
-    context['page'] = page
-
-    html = render_to_string('article/article_detail.html', context)
-
-    assert 'Case study' in html
-    assert 'case_study' not in html
-
-
 def test_article_detail_page_related_content(rf):
     context = {
         'request': rf.get('/')
