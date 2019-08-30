@@ -25,10 +25,3 @@ def get_meta_description(page, **kwargs):
         body_text = html.findAll(text=True)
         description = ''.join(body_text)[:META_DESCRIPTION_TEXT_LENGTH]
     return description
-
-
-@register.filter
-def remove_underscore(article_type):
-    print(article_type)
-    fmt_article_type = article_type.replace('_', ' ')
-    return fmt_article_type
