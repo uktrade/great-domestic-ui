@@ -127,7 +127,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
                 'uk-export-finance-lead-generation-form',
                 kwargs={'step': 'contact'}
             ),
-            constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
+            constants.EUEXIT: reverse_lazy('brexit-contact-form'),
             constants.EVENTS: reverse_lazy('contact-us-events-form'),
             constants.DSO: reverse_lazy('contact-us-dso-form'),
             constants.OTHER: reverse_lazy('contact-us-enquiries'),
@@ -735,3 +735,30 @@ class SellingOnlineOverseasSuccessView(DomesticSuccessView):
             **kwargs,
             next_url_text='Go back to Selling Online Overseas'
         )
+
+
+class ExportVoucherFormView(mixins.SetGA360ValuesMixin, FormSessionMixin, FormView):
+    page_type = 'ContactPage'
+    template_name = 'contact/export-voucher-form.html'
+    success_url = reverse_lazy('export-voucher-success')
+    form_class = forms.ExportVoucherForm
+
+    def form_valid(self, form):
+        sender = Sender(
+            email_address=form.cleaned_data['email'],
+            country_code=None,
+        )
+        response = form.save(
+            template_id=settings.EXPORT_VOUCHERS_GOV_NOTIFY_TEMPLATE_ID,
+            email_address=settings.EXPORT_VOUCHERS_AGENT_EMAIL,
+            form_url=self.request.get_full_path(),
+            form_session=self.form_session,
+            sender=sender,
+        )
+        response.raise_for_status()
+        return super().form_valid(form)
+
+
+class ExportVoucherSuccessView(mixins.SetGA360ValuesMixin, TemplateView):
+    page_type = 'ContactPage'
+    template_name = 'contact/export-voucher-success.html'

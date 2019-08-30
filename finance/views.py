@@ -11,14 +11,9 @@ from django.utils.decorators import method_decorator
 
 from core import mixins
 from finance import forms
-from ukef.mixins import UKEFPagesFeatureFlagMixin
 
 
-class TradeFinanceView(
-    UKEFPagesFeatureFlagMixin,
-    mixins.GetCMSPageMixin,
-    TemplateView
-):
+class TradeFinanceView(mixins.GetCMSPageMixin, TemplateView):
     template_name = 'finance/trade_finance.html'
     slug = slugs.GREAT_GET_FINANCE
 

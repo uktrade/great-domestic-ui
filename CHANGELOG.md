@@ -3,9 +3,15 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-920 - combined article/case study/blog template, full width quote section from cms content
+- CMS-1754 - Rename EU Exit urls to Brexit
+- CMS-1839 - Use correct header on international contact success page
+- No ticket - Cleaned up old redirects to use new urls, removed old international pages
+- GTRANSFORM-338 - adding add_href_tag to cms content pages
 - CMS-1824 - Fix redirect
 - CMS-1824 - Red arrows redirect
 - No ticket - Tidied up form choices with feature flags
+- No ticket - Add export vouchers form
 
 ## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.13...2019.08.20)

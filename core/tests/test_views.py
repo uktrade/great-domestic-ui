@@ -1,4 +1,3 @@
-import http
 from unittest.mock import call, patch, PropertyMock
 
 import requests
@@ -67,7 +66,7 @@ def test_landing_page_redirect(mock_get_page, client):
 
     assert response.status_code == 302
     assert response.url == (
-        reverse('landing-page-international') + '?lang=' + 'fr'
+        '/international/' + '?lang=' + 'fr'
     )
     assert response.cookies[helpers.GeoLocationRedirector.COOKIE_NAME].value
 
@@ -116,7 +115,6 @@ def test_landing_page(mock_get_page, client, settings):
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_landing_page_video_url(mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    settings.FEATURE_FLAGS['LANDING_PAGE_EU_EXIT_BANNER_ON'] = False
     page = {
         'title': 'great.gov.uk',
         'page_type': 'HomePage',
@@ -242,10 +240,6 @@ def test_robots(client):
     'view,expected_template',
     (
         (
-            'about',
-            'core/about.html'
-        ),
-        (
             'not-found',
             '404.html'
         ),
@@ -266,10 +260,6 @@ def test_templates(view, expected_template, client):
         (
             'terms-and-conditions',
             'core/info_page.html'
-        ),
-        (
-            'terms-and-conditions-international',
-            'core/info_page_international.html'
         ),
     )
 )
@@ -296,24 +286,10 @@ def test_terms_conditions_cms(
     assert response.template_name == [expected_template]
 
 
-@pytest.mark.parametrize(
-    'view,expected_template',
-    (
-        (
-            'privacy-and-cookies',
-            'core/info_page.html'
-        ),
-        (
-            'privacy-and-cookies-international',
-            'core/info_page_international.html'
-        ),
-    )
-)
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_privacy_cookies_cms(
-    mock_get_p_and_c_page, view, expected_template, client
-):
-    url = reverse(view)
+def test_privacy_cookies_cms(mock_get_page, client):
+    expected_template = 'core/info_page.html'
+    url = reverse('privacy-and-cookies')
     page = {
         'title': 'the page',
         'industries': [{'title': 'good 1'}],
@@ -323,7 +299,7 @@ def test_privacy_cookies_cms(
             {'url': '/privacy-and-cookies/', 'title': 'the page'},
         ]
     }
-    mock_get_p_and_c_page.return_value = create_response(
+    mock_get_page.return_value = create_response(
         status_code=200,
         json_body=page
     )
@@ -331,131 +307,6 @@ def test_privacy_cookies_cms(
 
     assert response.status_code == 200
     assert response.template_name == [expected_template]
-
-
-@pytest.mark.parametrize(
-    'activated_language,component_languages,direction',
-    (
-        (
-            'ar', [['ar', 'العربيّة'], ['en-gb', 'English']], 'rtl'
-        ),
-        (
-            'en-gb', [['ar', 'العربيّة'], ['en-gb', 'English']], 'ltr'
-        ),
-        (
-            'zh-hans', [['ar', 'العربيّة'], ['en-gb', 'English']], 'ltr'
-        ),
-    )
-)
-@patch('core.views.InternationalLandingPageView.cms_component',
-       new_callable=PropertyMock)
-@patch('core.views.InternationalLandingPageView.page',
-       new_callable=PropertyMock)
-def test_international_landing_page_news_section_on(
-    mock_get_page, mock_get_component, activated_language,
-    component_languages, direction, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
-    mock_get_page.return_value = {
-        'title': 'the page',
-        'articles_count': 1,
-        'meta': {'languages': [['en-gb', 'English']]},
-    }
-    mock_get_component.return_value = {
-        'banner_label': 'Brexit updates',
-        'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': component_languages},
-    }
-
-    url = reverse('landing-page-international')
-    response = client.get(url, {'lang': activated_language})
-
-    assert response.template_name == ['core/landing_page_international.html']
-    assert 'Brexit updates' in str(response.content)
-    assert '<p class="body-text">Lorem ipsum.</p>' in str(response.content)
-
-    soup = BeautifulSoup(response.content, 'html.parser')
-    component = soup.select('.banner-container')[0]
-    assert component.attrs['dir'] == direction
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('core.views.InternationalLandingPageView.page',
-       new_callable=PropertyMock)
-def test_international_landing_page_news_section_off(
-    mock_get_page, mock_get_component, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    mock_get_page.return_value = {
-        'title': 'the page',
-        'articles_count': 1,
-        'meta': {'languages': [['en-gb', 'English']]},
-    }
-    mock_get_component.return_value = create_response(
-        status_code=200,
-        json_body={
-            'banner_label': 'Brexit updates',
-            'banner_content': '<p>Lorem ipsum.</p>',
-            'meta': {'languages': [['en-gb', 'English']]},
-        }
-    )
-
-    url = reverse('landing-page-international')
-    response = client.get(url)
-
-    assert 'Brexit updates' not in str(response.content)
-
-
-@patch('core.views.InternationalLandingPageView.cms_component',
-       new_callable=PropertyMock)
-@patch('core.views.InternationalLandingPageView.page',
-       new_callable=PropertyMock)
-def test_international_landing_page_no_articles(
-    mock_get_page, mock_get_component, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    mock_get_page.return_value = {
-        'title': 'the page',
-        'articles_count': 0,
-        'meta': {'languages': [['en-gb', 'English']]},
-    }
-    mock_get_component.return_value = {
-        'banner_label': 'Brexit updates',
-        'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': [['en-gb', 'English']]},
-    }
-
-    url = reverse('landing-page-international')
-    response = client.get(url)
-
-    assert 'Brexit updates' not in str(response.content)
-
-
-@patch('core.views.InternationalLandingPageView.cms_component',
-       new_callable=PropertyMock)
-@patch('core.views.InternationalLandingPageView.page',
-       new_callable=PropertyMock)
-@pytest.mark.parametrize("lang", ['ar', 'es', 'zh-hans', 'pt', 'de', 'ja'])
-def test_international_landing_view_translations(
-    mock_get_page, mock_get_component, lang, client
-):
-    response = client.get(
-        reverse('landing-page-international'),
-        {'lang': lang}
-    )
-    mock_get_page.return_value = {
-        'title': 'the page',
-        'articles_count': 0,
-        'meta': {'languages': [['en-gb', 'English']]},
-    }
-    mock_get_component.return_value = {
-        'banner_label': 'Brexit updates',
-        'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': [['en-gb', 'English']]},
-    }
-
-    assert response.status_code == http.client.OK
-    assert response.cookies['django_language'].value == lang
 
 
 @pytest.mark.parametrize('method,expected', (
@@ -514,13 +365,6 @@ def test_cached_views_not_dynamic(rf, settings, view_class):
         assert response.status_code == 200
 
 
-def test_about_view(client):
-    response = client.get(reverse('about'))
-
-    assert response.status_code == 200
-    assert response.template_name == [views.AboutView.template_name]
-
-
 cms_urls_slugs = (
     (
         reverse('privacy-and-cookies'),
@@ -528,14 +372,6 @@ cms_urls_slugs = (
     ),
     (
         reverse('terms-and-conditions'),
-        slugs.GREAT_TERMS_AND_CONDITIONS,
-    ),
-    (
-        reverse('privacy-and-cookies-international'),
-        slugs.GREAT_PRIVACY_AND_COOKIES,
-    ),
-    (
-        reverse('terms-and-conditions-international'),
         slugs.GREAT_TERMS_AND_CONDITIONS,
     ),
 )
@@ -570,8 +406,6 @@ def test_cms_pages_cms_client_params(mock_get, client, url, slug):
 cms_urls = (
     reverse('privacy-and-cookies'),
     reverse('terms-and-conditions'),
-    reverse('privacy-and-cookies-international'),
-    reverse('terms-and-conditions-international'),
 )
 
 
@@ -637,15 +471,6 @@ def test_privacy_cookies_subpage(mock_get_page, client, settings):
 
     assert page['title'] in str(response.content)
     assert page['body'] in str(response.content)
-
-
-def test_international_contact_page_context(client, settings):
-    url = reverse('contact-page-international')
-    response = client.get(url)
-
-    assert response.context_data['invest_contact_us_url'] == (
-        'http://invest.trade.great:8012/contact/'
-    )
 
 
 campaign_page_all_fields = {
@@ -722,11 +547,7 @@ campaign_page_all_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_campaign_page_all_fields(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON'] = True
-
+def test_marketing_campaign_campaign_page_all_fields(mock_get_page, client, settings):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(
@@ -840,11 +661,7 @@ campaign_page_required_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_page_required_fields(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON'] = True
-
+def test_marketing_campaign_page_required_fields(mock_get_page, client, settings):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(
@@ -899,23 +716,6 @@ def test_marketing_campaign_page_required_fields(
     assert soup.select(
         "li[aria-current='page']"
         )[0].text == campaign_page_required_fields['campaign_heading']
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_page_feature_flag_off(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['CAMPAIGN_PAGES_ON'] = False
-
-    url = reverse('campaign-page', kwargs={'slug': 'test-page'})
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=campaign_page_required_fields
-    )
-    response = client.get(url)
-
-    assert response.status_code == 404
 
 
 @pytest.mark.parametrize('view_name', ['triage-start', 'custom-page'])
@@ -998,42 +798,6 @@ def test_companies_house_search_internal(mocked_ch_client, client, settings):
 
     assert response.status_code == 200
     assert response.content == b'[{"name": "Smashing corp"}]'
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_international_header_off(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEW_INTERNATIONAL_HEADER_ON'] = False
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
-
-    url = reverse('landing-page-international')
-
-    response = client.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    assert not soup.find(id='great-global-header-logo')
-    assert not soup.find(id='great-global-footer-logo')
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_international_header_on(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEW_INTERNATIONAL_HEADER_ON'] = True
-
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
-
-    url = reverse('landing-page-international')
-
-    response = client.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    assert soup.find(id='great-global-header-logo')
-    assert soup.find(id='great-global-footer-logo')
 
 
 def test_international_trade_redirect_home(client):

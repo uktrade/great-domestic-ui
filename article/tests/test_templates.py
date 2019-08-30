@@ -38,7 +38,7 @@ def test_article_detail_page_no_related_content():
     assert 'Related content' not in html
 
 
-def test_landing_page_news_section():
+def test_landing_page_news_section(rf):
 
     context = {
         'page': {
@@ -49,7 +49,8 @@ def test_landing_page_news_section():
                 {'article_title': 'News article 2'},
             ],
         },
-        'features': {'NEWS_SECTION_ON': True}
+        'features': {'NEWS_SECTION_ON': True},
+        'request': rf.get('/')
     }
 
     html = render_to_string('core/landing_page_domestic.html', context)
@@ -99,19 +100,27 @@ def test_article_advice_page(mock_get_page, client, settings):
     assert 'africa.jpg' in html
 
 
-def test_article_detail_page_related_content():
-    context = {}
+def test_article_detail_page_related_content(rf):
+    context = {
+        'request': rf.get('/')
+    }
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
         "article_teaser": "Test teaser",
         "article_image": {"url": "foobar.png"},
         "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "http://www.great.gov.uk",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "bar",
+        },
         "related_pages": [
             {
                 "article_title": "Related article 1",
-                "article_teaser": "Related article 1 teaser",
-                "article_image_thumbnail": {"url": "related_article_one.jpg"},
                 "full_path": "/markets/test/test-one",
                 "meta": {
                     "slug": "test-one",
@@ -119,15 +128,39 @@ def test_article_detail_page_related_content():
             },
             {
                 "article_title": "Related article 2",
-                "article_teaser": "Related article 2 teaser",
-                "article_image_thumbnail": {"url": "related_article_two.jpg"},
                 "full_path": "/markets/test/test-two",
                 "meta": {
                     "slug": "test-two",
                 }
             },
         ],
-        "full_path": "/markets/foo/bar/",
+        "page_type": "ArticlePage",
+    }
+    context['page'] = page
+    html = render_to_string('article/article_detail.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+
+    assert 'Related content' in html
+    assert soup.find(id='related-content').select('li a')[0].attrs['href'] == '/markets/test/test-one'
+    assert soup.find(id='related-content').select('li a')[0].text == 'Related article 1'
+    assert soup.find(id='related-content').select('li a')[1].attrs['href'] == '/markets/test/test-two'
+    assert soup.find(id='related-content').select('li a')[1].text == 'Related article 2'
+
+
+def test_article_detail_page_related_content_footer(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "http://www.great.gov.uk",
         "last_published_at": "2018-10-09T16:25:13.142357Z",
         "meta": {
             "slug": "bar",
@@ -138,22 +171,93 @@ def test_article_detail_page_related_content():
 
     html = render_to_string('article/article_detail.html', context)
 
-    assert 'Related content' in html
     soup = BeautifulSoup(html, 'html.parser')
+    assert soup.find(
+        id='article_related_content_footer'
+    ).select('h2')[0].text == 'CTA title'
 
     assert soup.find(
-        id='related-article-test-one-link'
-    ).attrs['href'] == '/markets/test/test-one'
-    assert soup.find(
-        id='related-article-test-two-link'
-    ).attrs['href'] == '/markets/test/test-two'
+        id='article_related_content_footer'
+    ).select('p')[0].text == 'CTA teaser text'
 
     assert soup.find(
-        id='related-article-test-one'
-    ).select('h3')[0].text == 'Related article 1'
-    assert soup.find(
-        id='related-article-test-two'
-    ).select('h3')[0].text == 'Related article 2'
+        id='article_related_content_footer'
+    ).select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
+
+
+def test_article_detail_page_related_content_footer_not_rendered(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": '',
+        "cta_teaser": '',
+        "cta_link_label": "",
+        "cta_link": "",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "bar",
+        },
+        "page_type": "ArticlePage",
+    }
+
+    context['page'] = page
+
+    html = render_to_string('article/article_detail.html', context)
+
+    assert '<section id="article_related_content_footer"' not in html
+
+
+def test_article_detail_page_media_rendered(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "article_video": {
+            "url": "test.mp4",
+            "file_extension": "mp4"
+        }
+    }
+
+    context['page'] = page
+
+    html = render_to_string('article/article_detail.html', context)
+
+    soup = BeautifulSoup(html, 'html.parser')
+    src = soup.find(id='article-video').select('source')[0]
+
+    assert '<div class="video-container">' in html
+    assert src.attrs['src'] == 'test.mp4'
+    assert src.attrs['type'] == 'video/mp4'
+
+
+def test_article_detail_page_media_not_rendered(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "http://www.great.gov.uk",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+    }
+
+    context['page'] = page
+
+    html = render_to_string('article/article_detail.html', context)
+
+    assert '<div class="video-container">' not in html
 
 
 def test_marketing_article_detail_page_related_content():
@@ -175,21 +279,12 @@ def test_marketing_article_detail_page_related_content():
         "page_type": "MarketingArticlePage",
     }
     context['page'] = page
-
     html = render_to_string('article/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
-    assert soup.find(
-        id='contact-us-section'
-    ).select('h2')[0].text == 'CTA title'
-
-    assert soup.find(
-        id='contact-us-section'
-    ).select('p')[0].text == 'CTA teaser text'
-
-    assert soup.find(
-        id='contact-us-section'
-    ).select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
+    assert soup.find(id='contact-us-section').select('h2')[0].text == 'CTA title'
+    assert soup.find(id='contact-us-section').select('p')[0].text == 'CTA teaser text'
+    assert soup.find(id='contact-us-section').select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
 
 
 def test_marketing_article_detail_page_related_content_not_rendered():
@@ -280,29 +375,10 @@ def test_news_list_page_feature_flag_on():
     assert 'Dolor sit amet' in html
 
 
-def test_international_news_list_page():
+def test_domestic_news_article_detail_page(rf):
     context = {
-        'features': {'NEWS_SECTION_ON': True}
-    }
-    cms_component = {
-        'banner_label': 'Brexit updates',
-        'banner_content': '<p>Lorem ipsum.</p>',
-        'meta': {'languages': [['en-gb', 'English']]},
-    }
-    context['page'] = test_news_list_page
-    context['cms_component'] = cms_component
-
-    html = render_to_string('article/international_news_list.html', context)
-
-    assert test_news_list_page['title'] not in html
-    assert test_news_list_page['landing_page_title'] in html
-    assert 'Lorem ipsum' in html
-    assert 'Dolor sit amet' in html
-
-
-def test_domestic_news_article_detail_page():
-    context = {
-        'features': {'NEWS_SECTION_ON': True}
+        'features': {'NEWS_SECTION_ON': True},
+        'request': rf.get('/')
     }
 
     page = {
@@ -338,42 +414,6 @@ def test_domestic_news_article_detail_page():
     assert 'Test news title' in html
     assert 'Test news teaser' in html
     assert 'Test tag' not in html
-    assert '<p class="body-text">Lorem ipsum</p>' in html
-
-
-def test_international_news_article_detail_page():
-    context = {
-        'features': {'NEWS_SECTION_ON': True}
-    }
-
-    page = {
-        "title": "Test article admin title",
-        "article_title": "Test news title",
-        "article_teaser": "Test news teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "",
-        "related_article_one_title": "",
-        "related_article_one_teaser": "",
-        "related_article_two_url": "",
-        "related_article_two_title": "",
-        "related_article_two_teaser": "",
-        "related_article_three_url": "",
-        "related_article_three_title": "",
-        "related_article_three_teaser": "",
-        "full_path": "/markets/foo/bar/",
-        "last_published_at": "2018-10-09T16:25:13.142357Z",
-        "meta": {
-            "slug": "foo",
-        },
-        "page_type": "ArticlePage",
-    }
-    context['page'] = page
-
-    html = render_to_string('article/international_news_detail.html', context)
-
-    assert 'Test news title' in html
-    assert 'Test news teaser' in html
     assert '<p class="body-text">Lorem ipsum</p>' in html
 
 
@@ -452,9 +492,10 @@ def test_tag_list_page():
     assert 'New to exporting' in html
 
 
-def test_landing_page_header_footer():
+def test_landing_page_header_footer(rf):
+    request = rf.get('/')
 
-    html = render_to_string('core/landing_page_domestic.html', {})
+    html = render_to_string('core/landing_page_domestic.html', {'request': request})
 
     assert '/static/js/home' in html
 
@@ -585,8 +626,8 @@ def test_article_detail_page_social_share_links_no_title(
     assert soup.find(id='share-email').attrs['href'] == email_link
 
 
-def test_country_guide_fact_sheet_displays_if_given_title():
-    context = {}
+def test_country_guide_fact_sheet_displays_if_given_title(rf):
+    context = {'request': rf.get('/')}
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
@@ -623,9 +664,10 @@ def test_country_guide_fact_sheet_displays_if_given_title():
         }
     ],
 ))
-def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page):
+def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page, rf):
     context = {
-        'page': dummy_cms_page
+        'page': dummy_cms_page,
+        'request': rf.get('/')
     }
 
     context['page']['heading_teaser'] = 'Teaser'
@@ -638,9 +680,10 @@ def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page):
     assert len(ctas) == 0
 
 
-def test_country_guide_complete_intro_ctas(dummy_cms_page):
+def test_country_guide_complete_intro_ctas(dummy_cms_page, rf):
     context = {
-        'page': dummy_cms_page
+        'page': dummy_cms_page,
+        'request': rf.get('/')
     }
 
     intro_ctas = [
@@ -668,9 +711,10 @@ def test_country_guide_complete_intro_ctas(dummy_cms_page):
     assert len(ctas) == 3
 
 
-def test_country_guide_no_intro_ctas(dummy_cms_page):
+def test_country_guide_no_intro_ctas(dummy_cms_page, rf):
     context = {
-        'page': dummy_cms_page
+        'page': dummy_cms_page,
+        'request': rf.get('/')
     }
 
     context['page']['heading_teaser'] = 'Teaser'
@@ -680,3 +724,23 @@ def test_country_guide_no_intro_ctas(dummy_cms_page):
     ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
 
     assert len(ctas) == 0
+
+
+def test_country_guide_add_href_target(dummy_cms_page, rf):
+    request = rf.get('/')
+    request.META['HTTP_HOST'] = 'example.com'
+    context = {
+        'page': dummy_cms_page,
+        'request': request
+    }
+
+    context['page']['section_one_body'] = '<a href="http://www.google.co.uk">Here is an external link</a>'
+
+    html = render_to_string('article/country_guide.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+    links = soup.select('#country-guide-section-one a')
+
+    assert len(links) == 1
+    assert links[0].attrs['title'] == 'Opens in a new window'
+    assert links[0].attrs['target'] == '_blank'
+    assert links[0].attrs['rel'] == ['noopener', 'noreferrer']

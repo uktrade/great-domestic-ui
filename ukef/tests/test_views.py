@@ -55,50 +55,10 @@ from ukef import forms
         )
     )
 )
-def test_ukef_views_while_feature_flag_enabled(
-    client, page_url, page_content, expected_status_code, settings
-):
-    settings.FEATURE_FLAGS['UKEF_PAGES_ON'] = True
+def test_ukef_views_while_feature_flag_enabled(client, page_url, page_content, expected_status_code, settings):
     response = client.get(page_url)
     assert response.status_code == expected_status_code
     assert page_content['title'] in str(response.rendered_content)
-
-
-@pytest.mark.parametrize(
-    'page_url,expected_status_code',
-    (
-        (
-            reverse('get-finance'),
-            404
-        ),
-        (
-            reverse('project-finance'),
-            404
-        ),
-        (
-            reverse('uk-export-contact'),
-            404
-        ),
-        (
-            reverse('how-we-assess-your-project'),
-            404
-        ),
-        (
-            reverse('what-we-offer-you'),
-            404
-        ),
-        (
-            reverse('country-cover'),
-            404
-        ),
-    )
-)
-def test_ukef_views_while_feature_flag_disabled(
-    client, page_url, expected_status_code, settings
-):
-    settings.FEATURE_FLAGS['UKEF_PAGES_ON'] = False
-    response = client.get(page_url)
-    assert response.status_code == expected_status_code
 
 
 @mock.patch.object(views.ContactView, 'form_session_class')
