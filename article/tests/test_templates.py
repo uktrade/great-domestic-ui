@@ -117,8 +117,6 @@ def test_article_detail_page_type_of_article_format(rf):
 
     html = render_to_string('article/article_detail.html', context)
 
-    soup = BeautifulSoup(html, 'html.parser')
-
     assert 'Case study' in html
     assert 'case_study' not in html
 
@@ -164,45 +162,10 @@ def test_article_detail_page_related_content(rf):
     soup = BeautifulSoup(html, 'html.parser')
 
     assert 'Related content' in html
-
-    assert soup.find(
-        id='related-content'
-    ).select('li a')[0].attrs['href'] == '/markets/test/test-one'
-    assert soup.find(
-        id='related-content'
-    ).select('li a')[0].text == 'Related article 1'
-    assert soup.find(
-        id='related-content'
-    ).select('li a')[1].attrs['href']  == '/markets/test/test-two'
-    assert soup.find(
-        id='related-content'
-    ).select('li a')[1].text == 'Related article 2'
-
-
-def test_article_detail_page_no_related_content(rf):
-    context = {
-        'request': rf.get('/')
-    }
-    page = {
-        "title": "Test article admin title",
-        "article_title": "Test article",
-        "article_teaser": "Test teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "cta_title": 'CTA title',
-        "cta_teaser": 'CTA teaser text',
-        "cta_link_label": "CTA link label",
-        "cta_link": "http://www.great.gov.uk",
-        "last_published_at": "2018-10-09T16:25:13.142357Z",
-        "meta": {
-            "slug": "bar",
-        },
-        "page_type": "ArticlePage",
-    }
-    context['page'] = page
-    html = render_to_string('article/article_detail.html', context)
-
-    assert 'Related content' not in html
+    assert soup.find(id='related-content').select('li a')[0].attrs['href'] == '/markets/test/test-one'
+    assert soup.find(id='related-content').select('li a')[0].text == 'Related article 1'
+    assert soup.find(id='related-content').select('li a')[1].attrs['href']  == '/markets/test/test-two'
+    assert soup.find(id='related-content').select('li a')[1].text == 'Related article 2'
 
 
 def test_article_detail_page_related_content_footer(rf):
@@ -340,17 +303,9 @@ def test_marketing_article_detail_page_related_content():
     html = render_to_string('article/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
-    assert soup.find(
-        id='contact-us-section'
-    ).select('h2')[0].text == 'CTA title'
-
-    assert soup.find(
-        id='contact-us-section'
-    ).select('p')[0].text == 'CTA teaser text'
-
-    assert soup.find(
-        id='contact-us-section'
-    ).select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
+    assert soup.find(id='contact-us-section').select('h2')[0].text == 'CTA title'
+    assert soup.find(id='contact-us-section').select('p')[0].text == 'CTA teaser text'
+    assert soup.find(id='contact-us-section').select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
 
 
 def test_marketing_article_detail_page_related_content_not_rendered():

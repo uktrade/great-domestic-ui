@@ -26,6 +26,7 @@ def get_meta_description(page, **kwargs):
         description = ''.join(body_text)[:META_DESCRIPTION_TEXT_LENGTH]
     return description
 
+
 @register.filter
 def remove_underscore(article_type):
     print(article_type)
