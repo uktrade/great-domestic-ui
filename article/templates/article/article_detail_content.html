@@ -47,9 +47,6 @@
     </header>
     <div class="grid-row">
       <div class="column-three-quarters">
-        {% if page.article_image %}
-          <img src="{{ page.article_image.url }}" alt="" class="width-full">
-        {% endif %}
         {% if page.article_video %}
         <div class="video-container">
           <video controls class="width-full" id="article-video">
@@ -57,6 +54,9 @@
               <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ page.article_video.url }}">link to the video</a> instead.</p>
           </video>
         </div>
+        {% endif %}
+        {% if page.article_image and not page.article_video %}
+          <img src="{{ page.article_image.url }}" alt="" class="width-full">
         {% endif %}
 
         <section class="grid-row">
