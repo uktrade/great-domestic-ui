@@ -164,7 +164,7 @@ def test_article_detail_page_related_content(rf):
     assert 'Related content' in html
     assert soup.find(id='related-content').select('li a')[0].attrs['href'] == '/markets/test/test-one'
     assert soup.find(id='related-content').select('li a')[0].text == 'Related article 1'
-    assert soup.find(id='related-content').select('li a')[1].attrs['href']  == '/markets/test/test-two'
+    assert soup.find(id='related-content').select('li a')[1].attrs['href'] == '/markets/test/test-two'
     assert soup.find(id='related-content').select('li a')[1].text == 'Related article 2'
 
 
@@ -250,7 +250,7 @@ def test_article_detail_page_media_rendered(rf):
     html = render_to_string('article/article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
-    src = soup.find( id='article-video').select('source')[0]
+    src = soup.find(id='article-video').select('source')[0]
 
     assert '<div class="video-container">' in html
     assert src.attrs['src'] == 'test.mp4'
@@ -262,7 +262,7 @@ def test_article_detail_page_media_not_rendered(rf):
         'request': rf.get('/')
     }
     page = {
-       "title": "Test article admin title",
+        "title": "Test article admin title",
         "article_title": "Test article",
         "article_teaser": "Test teaser",
         "article_image": {"url": "foobar.png"},
