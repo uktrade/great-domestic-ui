@@ -127,7 +127,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
                 'uk-export-finance-lead-generation-form',
                 kwargs={'step': 'contact'}
             ),
-            constants.EUEXIT: reverse_lazy('eu-exit-domestic-contact-form'),
+            constants.EUEXIT: reverse_lazy('brexit-contact-form'),
             constants.EVENTS: reverse_lazy('contact-us-events-form'),
             constants.DSO: reverse_lazy('contact-us-dso-form'),
             constants.OTHER: reverse_lazy('contact-us-enquiries'),

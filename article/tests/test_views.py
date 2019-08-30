@@ -30,7 +30,7 @@ markets_pages = [
 def test_news_list_page_feature_flag_off(client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
-    url = reverse('eu-exit-news-list')
+    url = reverse('brexit-news-list')
 
     response = client.get(url)
 
