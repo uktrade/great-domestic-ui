@@ -16,7 +16,7 @@
 
   <div class="panel-vertical-narrow content-list">
     <h2 class="heading heading-small">Related content</h2>
-    <ul>
+    <ul id="related-content">
       {% for article in page.related_pages %}
         <li>
           <h3 class="heading-small"><a href="{{ article.full_path }}" class="link">{{ article.article_title }}</a></h3>

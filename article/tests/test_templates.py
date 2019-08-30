@@ -100,19 +100,50 @@ def test_article_advice_page(mock_get_page, client, settings):
     assert 'africa.jpg' in html
 
 
-def test_article_detail_page_related_content():
-    context = {}
+def test_article_detail_page_type_of_article_format(rf):
+    context = {
+        'request': rf.get('/')
+    }
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
         "article_teaser": "Test teaser",
         "article_image": {"url": "foobar.png"},
         "article_body_text": "<p>Lorem ipsum</p>",
+        "type_of_article": "case_study",
+        "page_type": "ArticlePage",
+    }
+    context['page'] = page
+
+    html = render_to_string('article/article_detail.html', context)
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    assert 'Case study' in html
+    assert 'case_study' not in html
+
+
+def test_article_detail_page_related_content(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "http://www.great.gov.uk",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "bar",
+        },
         "related_pages": [
             {
                 "article_title": "Related article 1",
-                "article_teaser": "Related article 1 teaser",
-                "article_image_thumbnail": {"url": "related_article_one.jpg"},
                 "full_path": "/markets/test/test-one",
                 "meta": {
                     "slug": "test-one",
@@ -120,15 +151,74 @@ def test_article_detail_page_related_content():
             },
             {
                 "article_title": "Related article 2",
-                "article_teaser": "Related article 2 teaser",
-                "article_image_thumbnail": {"url": "related_article_two.jpg"},
                 "full_path": "/markets/test/test-two",
                 "meta": {
                     "slug": "test-two",
                 }
             },
         ],
-        "full_path": "/markets/foo/bar/",
+        "page_type": "ArticlePage",
+    }
+    context['page'] = page
+    html = render_to_string('article/article_detail.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+
+    assert 'Related content' in html
+
+    assert soup.find(
+        id='related-content'
+    ).select('li a')[0].attrs['href'] == '/markets/test/test-one'
+    assert soup.find(
+        id='related-content'
+    ).select('li a')[0].text == 'Related article 1'
+    assert soup.find(
+        id='related-content'
+    ).select('li a')[1].attrs['href']  == '/markets/test/test-two'
+    assert soup.find(
+        id='related-content'
+    ).select('li a')[1].text == 'Related article 2'
+
+
+def test_article_detail_page_no_related_content(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "http://www.great.gov.uk",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "bar",
+        },
+        "page_type": "ArticlePage",
+    }
+    context['page'] = page
+    html = render_to_string('article/article_detail.html', context)
+
+    assert 'Related content' not in html
+
+
+def test_article_detail_page_related_content_footer(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "http://www.great.gov.uk",
         "last_published_at": "2018-10-09T16:25:13.142357Z",
         "meta": {
             "slug": "bar",
@@ -139,22 +229,93 @@ def test_article_detail_page_related_content():
 
     html = render_to_string('article/article_detail.html', context)
 
-    assert 'Related content' in html
     soup = BeautifulSoup(html, 'html.parser')
+    assert soup.find(
+        id='article_related_content_footer'
+    ).select('h2')[0].text == 'CTA title'
 
     assert soup.find(
-        id='related-article-test-one-link'
-    ).attrs['href'] == '/markets/test/test-one'
-    assert soup.find(
-        id='related-article-test-two-link'
-    ).attrs['href'] == '/markets/test/test-two'
+        id='article_related_content_footer'
+    ).select('p')[0].text == 'CTA teaser text'
 
     assert soup.find(
-        id='related-article-test-one'
-    ).select('h3')[0].text == 'Related article 1'
-    assert soup.find(
-        id='related-article-test-two'
-    ).select('h3')[0].text == 'Related article 2'
+        id='article_related_content_footer'
+    ).select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
+
+
+def test_article_detail_page_related_content_footer_not_rendered(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": '',
+        "cta_teaser": '',
+        "cta_link_label": "",
+        "cta_link": "",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "bar",
+        },
+        "page_type": "ArticlePage",
+    }
+
+    context['page'] = page
+
+    html = render_to_string('article/article_detail.html', context)
+
+    assert '<section id="article_related_content_footer"' not in html
+
+
+def test_article_detail_page_media_rendered(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+        "article_video": {
+            "url": "test.mp4",
+            "file_extension": "mp4"
+        }
+    }
+
+    context['page'] = page
+
+    html = render_to_string('article/article_detail.html', context)
+
+    soup = BeautifulSoup(html, 'html.parser')
+    src = soup.find( id='article-video').select('source')[0]
+
+    assert '<div class="video-container">' in html
+    assert src.attrs['src'] == 'test.mp4'
+    assert src.attrs['type'] == 'video/mp4'
+
+
+def test_article_detail_page_media_not_rendered(rf):
+    context = {
+        'request': rf.get('/')
+    }
+    page = {
+       "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "cta_title": 'CTA title',
+        "cta_teaser": 'CTA teaser text',
+        "cta_link_label": "CTA link label",
+        "cta_link": "http://www.great.gov.uk",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+    }
+
+    context['page'] = page
+
+    html = render_to_string('article/article_detail.html', context)
+
+    assert '<div class="video-container">' not in html
 
 
 def test_marketing_article_detail_page_related_content():
@@ -176,7 +337,6 @@ def test_marketing_article_detail_page_related_content():
         "page_type": "MarketingArticlePage",
     }
     context['page'] = page
-
     html = render_to_string('article/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')

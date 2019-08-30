@@ -38,7 +38,7 @@
 
   .quote {
     background-color: $stone-light;
-    width: calc(100vw - 15px);
+    width: calc(100vw);
     margin-left: -30px;
     margin-bottom: $spacing-3;
     padding: 30px;
@@ -120,12 +120,12 @@
       &:not(.column-seven-ninths) {
         & > * {
             &:not(.quote) {
-              padding-left: calc(25% - 19px);
+              padding-left: calc((100% / 9 * 2) + 5px);
             }
         }
       }
       .quote {
-        padding-left:  calc(25% + 10px);
+        padding-left: calc((100% / 9 * 2) + 35px);
           .body-text {
             max-width: calc(980px - 25%);
             width: 75%;
@@ -135,9 +135,16 @@
     }
     @media (min-width: 1261px) {
       .article-content {
+        &:not(.column-seven-ninths) {
+          & > * {
+              &:not(.quote) {
+                padding-left: calc((100% / 9 * 2) + 5px);
+              }
+          }
+        }
         .quote {
-          margin-left: calc(606px - 50vw);
-          padding-left: calc((50vw - 626px) + 25%);
+          margin-left: calc(600px - 50vw);
+          padding-left: calc((50vw - 600px) + (100% / 9 * 2) + 5px);
         }
       }
     }

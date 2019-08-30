@@ -50,10 +50,9 @@
         {% if page.article_image %}
           <img src="{{ page.article_image.url }}" alt="" class="width-full">
         {% endif %}
-
         {% if page.article_video %}
         <div class="video-container">
-          <video controls data-ga-class="hpo-video" class="width-full">
+          <video controls class="width-full" id="article-video">
               <source src="{{ page.article_video.url }}" type="video/{{ page.article_video.file_extension }}">
               <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ page.article_video.url }}">link to the video</a> instead.</p>
           </video>
@@ -66,7 +65,6 @@
           </div>
         </section>
       </div>
-
       {% block related_content %}
         {% include 'article/article_related_content_list.html' %}
       {% endblock %}
