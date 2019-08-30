@@ -157,7 +157,7 @@ class ProblemDetailsForm(forms.Form):
         widget=Textarea,
         error_messages={
             'required': (
-                'Tell us what you’ve done to resolve your ',
+                'Tell us what you’ve done to resolve your '
                 'problem, even if this is your first step'
             )
         }
