@@ -11,6 +11,7 @@
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
 - No ticket - Add export vouchers form
+- No ticket - Ensure market access summary page reflects the forms, add missing answers to questions
 
 ## [2019.08.21](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.21)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.20...2019.08.21)
