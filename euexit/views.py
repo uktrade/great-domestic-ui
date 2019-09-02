@@ -71,7 +71,7 @@ class InternationalContactFormView(BaseInternationalContactFormView):
     slug = slugs.EUEXIT_INTERNATIONAL_FORM
     form_class = forms.InternationalContactForm
     template_name = 'euexit/international-contact-form.html'
-    success_url = reverse_lazy('eu-exit-international-contact-form-success')
+    success_url = reverse_lazy('brexit-contact-form-success')
     subject = 'Brexit international contact form'
 
     def get_form_initial(self):

@@ -4,6 +4,7 @@
 
 ### Implemented enhancements
 - GTRANSFORM-363 - Ensure market access summary page reflects the forms, add missing answers to questions
+- CMS-1754 - (Follow-up) Fix incorrect success url in international Brexit form
 - No ticket - remove comma in report-trade-barriers 'Tell us what you’ve done to resolve your problem, even if this is your first step' error msg, that causes error message to render incorrectly
 - No ticket - Fix /legal redirect
 - XOT-920 - combined article/case study/blog template, full width quote section from cms content
