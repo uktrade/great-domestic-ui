@@ -162,7 +162,7 @@ class GreatAccountRoutingForm(forms.Form):
 def international_choices():
     all_choices = (
         (constants.INVESTING, 'Investing in the UK'),
-        (constants.CAPITAL_INVEST, 'Capital Investment in the UK'),
+        (constants.CAPITAL_INVEST, 'Capital investment in the UK'),
         (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
         (constants.BUYING, 'Find a UK business partner'),
         (constants.EUEXIT, 'Brexit enquiries'),
