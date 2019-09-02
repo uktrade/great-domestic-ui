@@ -5,7 +5,6 @@
 <div class="container">
   {% include 'core/breadcrumbs_cms.html' %}
 </div>
-
 <article class="article-main {{ view.slug }}-article">
   <div class="container">
 
@@ -15,6 +14,7 @@
           {% include 'directory_components/social_share_links.html' %}
         </div>
         <div class="column-seven-twelfths">
+          <p class="subheading">{{ page.type_of_article }}</p>
           <h1 class="heading-xlarge">{{ page.article_title }}</h1>
           {% if page.article_teaser %}
             <div class="text">
@@ -45,19 +45,26 @@
 
       </div>
     </header>
-
     <div class="grid-row">
       <div class="column-three-quarters">
-        {% if page.article_image %}
+        {% if page.article_video %}
+        <div class="video-container">
+          <video controls class="width-full" id="article-video">
+              <source src="{{ page.article_video.url }}" type="video/{{ page.article_video.file_extension }}">
+              <p>Your browser doesn't support HTML5 video. Here is a <a class="link" href="{{ page.article_video.url }}">link to the video</a> instead.</p>
+          </video>
+        </div>
+        {% endif %}
+        {% if page.article_image and not page.article_video %}
           <img src="{{ page.article_image.url }}" alt="" class="width-full">
         {% endif %}
+
         <section class="grid-row">
-          <div class="column-seven-ninths article-content">
+          <div class="article-content">
             {{ page.article_body_text|add_export_elements_classes|add_href_target:request|safe  }}
           </div>
         </section>
       </div>
-
       {% block related_content %}
         {% include 'article/article_related_content_list.html' %}
       {% endblock %}
