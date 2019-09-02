@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GTRANSFORM-363 - Ensure market access summary page reflects the forms, add missing answers to questions
 - CMS-1754 - (Follow-up) Fix incorrect success url in international Brexit form
 - No ticket - remove comma in report-trade-barriers 'Tell us what you’ve done to resolve your problem, even if this is your first step' error msg, that causes error message to render incorrectly
 - No ticket - Fix /legal redirect
@@ -12,6 +13,7 @@
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
 - No ticket - Add export vouchers form
+
 
 ## [2019.08.21](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.21)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.20...2019.08.21)
