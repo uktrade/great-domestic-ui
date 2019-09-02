@@ -3,7 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
-- No ticket - remove comma that causes error message to render incorrectly
+- No ticket - remove comma in report-trade-barriers 'Tell us what you’ve done to resolve your problem, even if this is your first step' error msg, that causes error message to render incorrectly
 - XOT-920 - combined article/case study/blog template, full width quote section from cms content
 - CMS-1754 - Rename EU Exit urls to Brexit
 - CMS-1839 - Use correct header on international contact success page
