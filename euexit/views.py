@@ -92,7 +92,7 @@ class DomesticContactFormView(BaseInternationalContactFormView):
     slug = slugs.EUEXIT_DOMESTIC_FORM
     form_class = forms.DomesticContactForm
     template_name = 'euexit/domestic-contact-form.html'
-    success_url = reverse_lazy('eu-exit-domestic-contact-form-success')
+    success_url = reverse_lazy('brexit-contact-form-success')
     subject = 'Brexit contact form'
 
     def get_form_initial(self):

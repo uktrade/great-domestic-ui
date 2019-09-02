@@ -1,7 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load static from staticfiles %}
-{% load breadcrumbs message_box render_form from directory_components %}
+{% load breadcrumbs message_box from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -34,7 +34,7 @@
                                         {{ form }}
                                     {% endfor %}
                                 {% else %}
-                                    {% render_form form %}
+                                    {{ form }}
                                 {% endif %}
                             </div>
                             <div>

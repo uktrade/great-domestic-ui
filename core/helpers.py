@@ -11,10 +11,10 @@ from ipware import get_client_ip
 
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2
-from django.urls import reverse
 from django.shortcuts import Http404, redirect
 from django.utils.functional import cached_property
 from django.utils import translation
+
 
 NotifySettings = collections.namedtuple(
     'NotifySettings', ['agent_template', 'agent_email', 'user_template']
@@ -122,7 +122,7 @@ class GeoLocationRedirector:
         params = self.request.GET.dict()
         params[self.LANGUAGE_PARAM] = self.country_language
         url = '{url}?{querystring}'.format(
-            url=reverse('landing-page-international'),
+            url='/international/',
             querystring=urllib.parse.urlencode(params)
         )
         response = redirect(url)

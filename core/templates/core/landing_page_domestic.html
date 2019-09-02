@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 {% load progressive_image from image_tags %}
-{% load static_absolute add_export_elements_classes from directory_components %}
+{% load static_absolute add_export_elements_classes add_href_target from directory_components %}
 
 {% block og_image %}{% static_absolute 'images/hero/export-hp-hero-500.png' %}{% endblock %}
 
@@ -21,8 +21,6 @@
 {% block css_layout_class %}landing-page{% endblock %}
 
 {% block content %}
-
-{% include 'core/includes/language_selector.html' %}
 
 <div class="js-enabled-only">
   <div id="header-beta-bar" class="header-beta-bar beta">
@@ -49,14 +47,12 @@
   </div>
 </section>
 
-{% if features.LANDING_PAGE_EU_EXIT_BANNER_ON %}
-  <br>
-  <div class="container eu-exit-banner">
-     <div>
-       <h2>{{ page.banner_label }}</h2>{{ page.banner_content|add_export_elements_classes|safe }}
-     </div>
-  </div>
-{% endif %}
+<br>
+<div class="container eu-exit-banner">
+   <div>
+     <h2>{{ page.banner_label }}</h2>{{ page.banner_content|add_export_elements_classes|safe|add_href_target:request|safe }}
+   </div>
+</div>
 
 {% if features.NEWS_SECTION_ON %}
   {% include 'article/sections/news_section.html' %}

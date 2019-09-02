@@ -61,7 +61,7 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
         )
 
 
-class CampaignPageView(mixins.CampaignPagesFeatureFlagMixin, CMSPageView):
+class CampaignPageView(CMSPageView):
 
     def get_context_data(self, *args, **kwargs):
         kwargs['slug'] = self.slug
@@ -131,7 +131,7 @@ class OpportunitiesRedirectView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         redirect_url = '{export_opportunities_url}{slug}/'.format(
             export_opportunities_url=(
-                'https://opportunities.export.great.gov.uk/opportunities/'
+                '/export-opportunities/'
             ),
             slug=kwargs.get('slug', '')
         )
@@ -178,7 +178,6 @@ class StaticViewSitemap(sitemaps.Sitemap):
         excluded_pages += dynamic_cms_page_url_names
         excluded_pages += [url.name for url in urls.article_urls]
         excluded_pages += [url.name for url in urls.news_urls]
-        excluded_pages += [url.name for url in urls.deprecated_urls]
 
         return [
             item.name for item in urls.urlpatterns

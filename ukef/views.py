@@ -6,18 +6,17 @@ from django.views.generic import TemplateView
 from core.helpers import NotifySettings
 from core.views import BaseNotifyFormView
 from ukef.forms import UKEFContactForm
-from ukef.mixins import UKEFPagesFeatureFlagMixin
 
 
-class HomeView(UKEFPagesFeatureFlagMixin, TemplateView):
+class HomeView(TemplateView):
     template_name = 'ukef/home_page.html'
 
 
-class LandingView(UKEFPagesFeatureFlagMixin, TemplateView):
+class LandingView(TemplateView):
     template_name = 'ukef/landing_page.html'
 
 
-class ContactView(UKEFPagesFeatureFlagMixin, BaseNotifyFormView):
+class ContactView(BaseNotifyFormView):
     template_name = 'ukef/contact_form.html'
     form_class = UKEFContactForm
     success_url = reverse_lazy('uk-export-contract-success')
@@ -33,7 +32,7 @@ class ContactView(UKEFPagesFeatureFlagMixin, BaseNotifyFormView):
         return super().form_valid(form)
 
 
-class SuccessPageView(UKEFPagesFeatureFlagMixin, TemplateView):
+class SuccessPageView(TemplateView):
     template_name = 'ukef/contact_form_success.html'
 
     def get(self, *args, **kwargs):
@@ -46,13 +45,13 @@ class SuccessPageView(UKEFPagesFeatureFlagMixin, TemplateView):
         return super().get_context_data(**kwargs)
 
 
-class HowWeAssessPageView(UKEFPagesFeatureFlagMixin, TemplateView):
+class HowWeAssessPageView(TemplateView):
     template_name = 'ukef/how_we_assess.html'
 
 
-class WhatWeOfferView(UKEFPagesFeatureFlagMixin, TemplateView):
+class WhatWeOfferView(TemplateView):
     template_name = 'ukef/what_we_offer.html'
 
 
-class CountryCoverView(UKEFPagesFeatureFlagMixin, TemplateView):
+class CountryCoverView(TemplateView):
     template_name = 'ukef/country_cover.html'

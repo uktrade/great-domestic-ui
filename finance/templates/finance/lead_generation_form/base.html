@@ -32,10 +32,10 @@
                                 {% if wizard.form.forms %}
                                     {{ wizard.form.management_form }}
                                     {% for form in wizard.form.forms %}
-                                        {% render_form form %}
+                                        {{ form }}
                                     {% endfor %}
                                 {% else %}
-                                    {% render_form form %}
+                                    {{ form }}
                                 {% endif %}
                             </div>
                             <div>
