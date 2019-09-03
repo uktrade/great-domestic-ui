@@ -3,7 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
-- CMS-1754 - (Follow-up) Fix incorrect success url in international Brexit form
+- CMS-1754 - (Follow-up) Remove unused international form views (now in great international UI), move international Brexit contact form url into settings
 - No ticket - remove comma in report-trade-barriers 'Tell us what you’ve done to resolve your problem, even if this is your first step' error msg, that causes error message to render incorrectly
 - No ticket - Fix /legal redirect
 - XOT-920 - combined article/case study/blog template, full width quote section from cms content
