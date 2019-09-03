@@ -139,9 +139,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
                 slugs.HELP_EXPORTING_TO_UK
             ),
             constants.BUYING: settings.FIND_A_SUPPLIER_CONTACT_URL,
-            constants.EUEXIT: reverse_lazy(
-                'eu-exit-international-contact-form'
-            ),
+            constants.EUEXIT: settings.EU_EXIT_INTERNATIONAL_CONTACT_URL,
             constants.OTHER: reverse_lazy('contact-us-international'),
         },
         constants.EXPORT_OPPORTUNITIES: {
