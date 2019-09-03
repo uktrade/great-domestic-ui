@@ -526,6 +526,8 @@ class SellingOnlineOverseasFormView(
                 'company_postcode': self.company_profile['postal_code'],
                 'website_address': self.company_profile['website'],
             })
+        elif step == self.EXPERIENCE and self.company_profile:
+            initial['description'] = self.company_profile['summary']
         elif step == self.CONTACT_DETAILS and self.company_profile:
             initial.update({
                 'contact_name': self.company_profile['postal_full_name'],
