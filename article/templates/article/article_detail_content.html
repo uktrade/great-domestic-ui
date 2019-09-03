@@ -1,7 +1,6 @@
 {% load parse_date from article_tags %}
 {% load add_export_elements_classes add_href_target breadcrumbs from directory_components %}
 
-
 <div class="container">
   {% include 'core/breadcrumbs_cms.html' %}
 </div>
@@ -14,8 +13,13 @@
           {% include 'directory_components/social_share_links.html' %}
         </div>
         <div class="column-seven-twelfths">
-          <p class="subheading">{{ page.type_of_article }}</p>
+          {% if page.type_of_article %}
+            <p class="subheading">{{ page.type_of_article }}</p>
+          {% endif %}
           <h1 class="heading-xlarge">{{ page.article_title }}</h1>
+          {% if page.article_subheading %}
+            <h2 class="heading-medium">{{ page.article_subheading }}</h2>
+          {% endif %}
           {% if page.article_teaser %}
             <div class="text">
               <p>
@@ -25,7 +29,6 @@
           {% endif %}
           <p class="subheading">Last updated {{ page.last_published_at|parse_date }}</p>
         </div>
-
         {% block article_tags %}
           {% if features.PROTOTYPE_PAGES_ON and page.tags %}
             <div class="column-quarter">
