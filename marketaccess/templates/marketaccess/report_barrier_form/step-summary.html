@@ -17,28 +17,28 @@
         <dt class="bold-small">Job title</dt>
         <dd class="font-small">{{all_cleaned_data.jobtitle}}</dd>
         <dt class="bold-small">Business type</dt>
-        <dd class="font-small">{{all_cleaned_data.categories}}</dd>
-        {% if all_cleaned_data.categories == "Other" %}
+        <dd class="font-small">{{all_cleaned_data.business_type}}</dd>
+        {% if all_cleaned_data.business_type == "Other" %}
             <dt class="bold-small">Tell us about your organisation</dt>
-            <dd class="font-small">{{all_cleaned_data.organisation_description}}</dd>
+            <dd class="font-small">{{all_cleaned_data.other_business_type}}</dd>
         {% endif %}
         <dt class="bold-small">Business or organisation name</dt>
         <dd class="font-small">{{all_cleaned_data.company_name}}</dd>
         <dt class="bold-small">Email</dt>
         <dd class="font-small">{{all_cleaned_data.email}}</dd>
-        <dt class="bold-small">Phone</dt>
+        <dt class="bold-small">Telephone number</dt>
         <dd class="font-small">{{all_cleaned_data.phone}}</dd>
     </dl>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='about' %}?from=summary">Change answers</a>
     <h2 class="heading-medium">Describe your problem</h2>
     <dl>
+        <dt class="bold-small">Where are you trying to export to or invest in?</dt>
+        <dd class="font-small">{{all_cleaned_data.location}}</dd>
         <dt class="bold-small">What goods or services do you want to export?</dt>
         <dd class="font-small">{{all_cleaned_data.product_service}}</dd>
-        <dt class="bold-small">Where are you trying to export to?</dt>
-        <dd class="font-small">{{all_cleaned_data.location}}</dd>
         <dt class="bold-small">Tell us about your problem</dt>
         <dd class="font-small">{{all_cleaned_data.problem_summary}}</dd>
-        <dt class="bold-small">How has the problem affected your business?</dt>
+        <dt class="bold-small">How has the problem affected your business or industry, or how could it affect it?</dt>
         <dd class="font-small">{{all_cleaned_data.impact}}</dd>
         <dt class="bold-small">Tell us about any steps you’ve taken to resolve the problem</dt>
         <dd class="font-small">{{all_cleaned_data.resolve_summary}}</dd>

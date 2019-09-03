@@ -81,6 +81,7 @@ def company_profile(authed_client):
             'address_line_2': 'Near Fake Town',
             'country': 'FRANCE',
             'locality': 'Paris',
+            'summary': 'Makes widgets',
             'website': 'http://www.example.com',
         }
     )
@@ -1011,7 +1012,7 @@ def test_selling_online_overseas_contact_form_submission(
         {
             view_name + '-current_step': 'your-experience',
             'your-experience-experience': 'Not yet',
-            'your-experience-description': 'help!',
+            'your-experience-description': 'Makes widgets',
         }
     )
     assert response.status_code == 302
@@ -1060,7 +1061,7 @@ def test_selling_online_overseas_contact_form_submission(
         'sku_count': 12,
         'trademarked': True,
         'experience': 'Not yet',
-        'description': 'help!',
+        'description': 'Makes widgets',
         'contact_name': 'Foo Example',
         'contact_email': 'test@example.com',
         'phone': '0324234243',
@@ -1139,7 +1140,9 @@ def test_selling_online_overseas_contact_form_initial_data(client):
     response_three = client.get(
         reverse('contact-us-soo', kwargs={'step': 'your-experience'}),
     )
-    assert response_three.context_data['form'].initial == {}
+    assert response_three.context_data['form'].initial == {
+        'description': 'Makes widgets'
+    }
 
     response_four = client.get(
         reverse('contact-us-soo', kwargs={'step': 'contact-details'}),

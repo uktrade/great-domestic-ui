@@ -4,6 +4,8 @@
 
 ### Implemented enhancements
 - CMS-1754 - (Follow-up) Remove unused international form views (now in great international UI), move international Brexit contact form url into settings
+- XOT-920 - hide article type to prevent rendering of None and add missing subheading field
+- GTRANSFORM-363 - Ensure market access summary page reflects the forms, add missing answers to questions
 - No ticket - remove comma in report-trade-barriers 'Tell us what you’ve done to resolve your problem, even if this is your first step' error msg, that causes error message to render incorrectly
 - No ticket - Fix /legal redirect
 - XOT-920 - combined article/case study/blog template, full width quote section from cms content
@@ -13,6 +15,7 @@
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
 - No ticket - Add export vouchers form
 
+
 ## [2019.08.21](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.21)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.20...2019.08.21)
 
@@ -20,6 +23,8 @@
 - CMS-1824 - Fix redirect
 - CMS-1824 - Red arrows redirect
 - No ticket - Tidied up form choices with feature flags
+- No ticket - Tidied up form choices with feature flags
+- XOT-1028 - Sightly update SSO contribution to SOO application form
 
 ## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.13...2019.08.20)
