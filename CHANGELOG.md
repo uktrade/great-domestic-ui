@@ -2,6 +2,12 @@
 
 ## Pre-release
 
+### Hotfix
+- No ticket - Fix /community/join/ breadcrumbs
+
+## [2019.09.04](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04)
+
 ### Implemented enhancements
 - CMS-1754 - (Follow-up) Remove unused international form views (now in great international UI), move international Brexit contact form url into settings
 - No ticket - route marketaccess requests to EU Exit zendesk
