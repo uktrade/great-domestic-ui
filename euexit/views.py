@@ -67,27 +67,6 @@ class BaseContactView(
     page_type = 'ContactPage'
 
 
-class InternationalContactFormView(BaseInternationalContactFormView):
-    slug = slugs.EUEXIT_INTERNATIONAL_FORM
-    form_class = forms.InternationalContactForm
-    template_name = 'euexit/international-contact-form.html'
-    success_url = reverse_lazy('eu-exit-international-contact-form-success')
-    subject = 'Brexit international contact form'
-
-    def get_form_initial(self):
-        if self.company_profile:
-            return {
-                'email': self.request.sso_user.email,
-                'company_name': self.company_profile['name'],
-                'postcode': self.company_profile['postal_code'],
-                'first_name': self.guess_given_name,
-                'last_name': self.guess_family_name,
-                'organisation_type': forms.COMPANY,
-                'country': self.company_profile['country'],
-                'city': self.company_profile['locality'],
-            }
-
-
 class DomesticContactFormView(BaseInternationalContactFormView):
     slug = slugs.EUEXIT_DOMESTIC_FORM
     form_class = forms.DomesticContactForm
@@ -105,11 +84,6 @@ class DomesticContactFormView(BaseInternationalContactFormView):
                 'last_name': self.guess_family_name,
                 'organisation_type': forms.COMPANY,
             }
-
-
-class InternationalContactSuccessView(CountryDisplayMixin, BaseContactView):
-    template_name = 'euexit/international-contact-form-success.html'
-    slug = slugs.EUEXIT_FORM_SUCCESS
 
 
 class DomesticContactSuccessView(BaseContactView):
