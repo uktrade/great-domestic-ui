@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- No ticket - route marketaccess requests to EU Exit zendesk
 - No ticket - fix typo in email market access review form step
 - XOT-920 - hide article type to prevent rendering of None and add missing subheading field
 - GTRANSFORM-363 - Ensure market access summary page reflects the forms, add missing answers to questions
