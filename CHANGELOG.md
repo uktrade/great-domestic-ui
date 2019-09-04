@@ -4,6 +4,8 @@
 
 ### Implemented enhancements
 - CMS-1754 - (Follow-up) Remove unused international form views (now in great international UI), move international Brexit contact form url into settings
+- No ticket - route marketaccess requests to EU Exit zendesk
+- No ticket - fix typo in email market access review form step
 - XOT-920 - hide article type to prevent rendering of None and add missing subheading field
 - GTRANSFORM-363 - Ensure market access summary page reflects the forms, add missing answers to questions
 - No ticket - remove comma in report-trade-barriers 'Tell us what you’ve done to resolve your problem, even if this is your first step' error msg, that causes error message to render incorrectly
