@@ -26,7 +26,6 @@
 - CMS-1839 - Use correct header on international contact success page
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
-- No ticket - Add export vouchers form
 - XOT-1028 - Sightly update SSO contribution to SOO application form
 
 
