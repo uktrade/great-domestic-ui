@@ -1,17 +1,44 @@
 # Changelog
 
 ## Pre-release
+- XOT-914 - Add search sort order healthcheck
+
+
+## [2019.09.04_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04_1)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04_1)
+
+### Hotfix
+- No ticket - Fix /community/join/ breadcrumbs
+
+## [2019.09.04](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04)
 
 ### Implemented enhancements
+- CMS-1754 - (Follow-up) Remove unused international form views (now in great international UI), move international Brexit contact form url into settings
+- No ticket - route marketaccess requests to EU Exit zendesk
+- No ticket - fix typo in email market access review form step
+- XOT-920 - hide article type to prevent rendering of None and add missing subheading field
+- GTRANSFORM-363 - Ensure market access summary page reflects the forms, add missing answers to questions
+- No ticket - remove comma in report-trade-barriers 'Tell us what you’ve done to resolve your problem, even if this is your first step' error msg, that causes error message to render incorrectly
+- No ticket - Fix /legal redirect
+- XOT-920 - combined article/case study/blog template, full width quote section from cms content
 - CMS-1754 - Rename EU Exit urls to Brexit
 - CMS-1839 - Use correct header on international contact success page
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
+- No ticket - Add export vouchers form
+- XOT-1028 - Sightly update SSO contribution to SOO application form
+
+
+## [2019.08.21](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.21)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.20...2019.08.21)
+
+### Implemented enhancements
 - CMS-1824 - Fix redirect
 - CMS-1824 - Red arrows redirect
 - No ticket - Tidied up form choices with feature flags
 - No ticket - Add export vouchers form
-- XOT-914 - Add search sort order healthcheck
+
 
 ## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.13...2019.08.20)
