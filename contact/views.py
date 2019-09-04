@@ -139,9 +139,7 @@ class RoutingFormView(FormSessionMixin, NamedUrlSessionWizardView):
                 slugs.HELP_EXPORTING_TO_UK
             ),
             constants.BUYING: settings.FIND_A_SUPPLIER_CONTACT_URL,
-            constants.EUEXIT: reverse_lazy(
-                'eu-exit-international-contact-form'
-            ),
+            constants.EUEXIT: settings.EU_EXIT_INTERNATIONAL_CONTACT_URL,
             constants.OTHER: reverse_lazy('contact-us-international'),
         },
         constants.EXPORT_OPPORTUNITIES: {
@@ -526,6 +524,8 @@ class SellingOnlineOverseasFormView(
                 'company_postcode': self.company_profile['postal_code'],
                 'website_address': self.company_profile['website'],
             })
+        elif step == self.EXPERIENCE and self.company_profile:
+            initial['description'] = self.company_profile['summary']
         elif step == self.CONTACT_DETAILS and self.company_profile:
             initial.update({
                 'contact_name': self.company_profile['postal_full_name'],
