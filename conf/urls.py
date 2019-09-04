@@ -615,17 +615,17 @@ international_redirects_urls = [
 ]
 
 export_vouchers_urls = [
-    url(    
-        r'^export-vouchers/$',  
-        contact.views.ExportVoucherFormView.as_view(),  
-        name='export-voucher-form'  
-    ),  
-    url(    
-        r'^export-vouchers/sent/$', 
-        contact.views.ExportVoucherSuccessView.as_view(),   
-        name='export-voucher-success'   
-    )   
-]   
+    url(
+        r'^export-vouchers/$',
+        contact.views.ExportVoucherFormView.as_view(),
+        name='export-voucher-form'
+    ),
+    url(
+        r'^export-vouchers/sent/$',
+        contact.views.ExportVoucherSuccessView.as_view(),
+        name='export-voucher-success'
+    )
+]
 
 
 urlpatterns += legacy_urls
@@ -640,5 +640,5 @@ urlpatterns += ukef_urls
 urlpatterns += marketing_urls
 urlpatterns += international_redirects_urls
 
-if settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON']:   
+if settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON']:
     urlpatterns += export_vouchers_urls
