@@ -27,6 +27,7 @@
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
 - XOT-1028 - Sightly update SSO contribution to SOO application form
+- No ticket - Add export vouchers form
 
 
 ## [2019.08.21](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.21)
@@ -36,7 +37,6 @@
 - CMS-1824 - Fix redirect
 - CMS-1824 - Red arrows redirect
 - No ticket - Tidied up form choices with feature flags
-- No ticket - Add export vouchers form
 
 
 ## [2019.08.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.20)
