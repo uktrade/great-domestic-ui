@@ -2,6 +2,9 @@
 
 ## Pre-release
 
+### Implemented enhancements
+- No ticket - Add trade barriers to search
+
 
 ## [2019.09.04_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04_1)
