@@ -1,6 +1,7 @@
 # Changelog
 
 ## Pre-release
+- XOT-914 - Add search sort order healthcheck
 
 ### Implemented enhancements
 - No ticket - Add trade barriers to search
@@ -28,8 +29,8 @@
 - CMS-1839 - Use correct header on international contact success page
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
-- No ticket - Add export vouchers form
 - XOT-1028 - Sightly update SSO contribution to SOO application form
+- No ticket - Add export vouchers form
 
 
 ## [2019.08.21](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.21)

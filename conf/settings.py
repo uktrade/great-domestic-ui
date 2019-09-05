@@ -17,6 +17,7 @@ import os
 import environ
 from directory_constants import cms
 import directory_healthcheck.backends
+import healthcheck.backends
 
 env = environ.Env()
 env.read_env()
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'marketing',
     'search',
     'ukef',
+    'healthcheck',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -351,6 +353,7 @@ DIRECTORY_HEALTHCHECK_BACKENDS = [
     directory_healthcheck.backends.APIBackend,
     directory_healthcheck.backends.SingleSignOnBackend,
     directory_healthcheck.backends.FormsAPIBackend,
+    healthcheck.backends.SearchSortBackend,
 ]
 
 # Comtrade API
