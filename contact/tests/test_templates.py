@@ -1,9 +1,4 @@
-import pytest
-from unittest.mock import patch
-from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
-
-from core.tests.helpers import create_response
 
 
 def test_cms_guidance_descriptive_page_title_is_rendered(rf):
@@ -26,6 +21,4 @@ def test_contact_domestic_descriptive_page_title_override_is_rendered():
     html = render_to_string('contact/domestic/step.html')
 
     assert 'Tell us how we can help - great.gov.uk' in html
-
-
 
