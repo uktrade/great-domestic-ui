@@ -2,7 +2,7 @@ from directory_constants import slugs
 
 import directory_components.views
 from directory_components.decorators import skip_ga360
-from directory_constants.urls import build_great_international_url
+from directory_constants.urls import international
 import directory_healthcheck.views
 
 from django.conf import settings
@@ -588,18 +588,18 @@ ukef_urls = [
 international_redirects_urls = [
     url(
         r'^trade/$',
-        RedirectView.as_view(url=build_great_international_url('trade/'), query_string=True),
+        RedirectView.as_view(url=international.TRADE_HOME, query_string=True),
         name='international-trade-home'
     ),
     url(
         r'^trade/(?P<path>[\w\-/]*)/$',
-        RedirectView.as_view(url=build_great_international_url('trade/incoming/%(path)s'), query_string=True),
+        RedirectView.as_view(url=international.TRADE_HOME + '/incoming/%(path)s', query_string=True),
         name='international-trade'
     ),
     url(
         r'^investment-support-directory/$',
         RedirectView.as_view(
-            url=build_great_international_url('investment-support-directory/'),
+            url=international.EXPAND_ISD_HOME,
             query_string=True
         ),
         name='international-investment-support-directory-home'
@@ -607,7 +607,7 @@ international_redirects_urls = [
     url(
         r'^investment-support-directory/(?P<path>[\w\-/]*)/$',
         RedirectView.as_view(
-            url=build_great_international_url('investment-support-directory/%(path)s'),
+            url=international.EXPAND_ISD_HOME + '/%(path)s',
             query_string=True
         ),
         name='international-investment-support-directory'

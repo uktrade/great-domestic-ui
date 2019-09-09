@@ -1,6 +1,7 @@
 from captcha.fields import ReCaptchaField
 from directory_components import forms
-from directory_constants import choices, urls
+from directory_constants import choices
+from directory_constants.urls import domestic as domestic_urls
 from directory_forms_api_client.forms import (
     GovNotifyActionMixin, ZendeskActionMixin
 )
@@ -16,7 +17,7 @@ from contact.fields import IntegerField
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
-    f'<a href="{urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
+    f'<a href="{domestic_urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
     'conditions</a> of the great.gov.uk service.'
 )
 

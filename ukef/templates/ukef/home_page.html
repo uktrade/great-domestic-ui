@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% load static from staticfiles %}
-{% load breadcrumbs from directory_components %}
+{% load breadcrumbs hero from directory_components %}
 
 {% block head_css %}
 {{ block.super }}
@@ -13,15 +13,13 @@
 {% block css_layout_class %}uk-export-finance{% endblock %}
 
 {% block content %}
-	<section id="get-finance-hero" class="hero hero-generic uk-export-finance-hero" style="background-image: url({% static 'images/get_finance_hero.jpg' %})">
-		<div class="container">
-			<div class="hero-title-compact width-full">
-				<h1 class="heading-hero-generic-compact hero-title width-full" id="hero-heading">
-					Get finance
-				</h1>
-			</div>
-		</div>
-	</section>
+
+  {% static 'images/finance/get-finance-hero-xlarge.jpg' as hero_xlarge %}
+  {% static 'images/finance/get-finance-hero-large.png' as hero_large %}
+  {% static 'images/finance/get-finance-hero-medium.png' as hero_medium %}
+  {% static 'images/finance/get-finance-hero-small.png' as hero_small %}
+
+  {% hero xlarge_image=hero_xlarge large_image=hero_large medium_image=hero_medium small_image=hero_small hero_text='Get finance' %}
 
 
 	<div class="container">
