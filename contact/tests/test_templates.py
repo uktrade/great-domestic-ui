@@ -21,5 +21,3 @@ def test_contact_domestic_descriptive_page_title_override_is_rendered():
     html = render_to_string('contact/domestic/step.html')
 
     assert 'Tell us how we can help - great.gov.uk' in html
-
-
