@@ -1,6 +1,7 @@
 # Changelog
 
 ## Pre-release
+- GTRANSFORM-213 - add labels to textareas identified in accessibility audit
 - GTRANSFORM-238 - page heading fixes
 - GTRANSFORM-238 - use page heading in the page title
 - XOT-914 - Add search sort order healthcheck
