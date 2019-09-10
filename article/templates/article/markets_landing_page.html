@@ -1,11 +1,11 @@
 {% extends 'article/topic_list_base.html' %}
 
-{% load banner add_href_target from directory_components %}
+{% load informative_banner from directory_components %}
 
 {% block intro_section %}
 <section id="markets-banner-section" class="topic-list-section background-stone-30 padding-top-60 padding-bottom-0">
   <div class="container">
-    {% banner banner_content='<p>There are more export market guides coming soon. If you have a question about an export market read the <a rel="noopener noreferrer" target="_blank" href="https://www.gov.uk/government/collections/exporting-country-guides" title="Opens in a new window">exporting guides</a> on GOV.UK, or <a rel="noopener noreferrer" target="_blank" href="https://www.great.gov.uk/contact/triage/location/">get in touch</a>.</p>' %}
+    {% informative_banner banner_content='<p>More market guides are coming soon. <br/><a rel="noopener noreferrer" target="_blank" href="https://www.gov.uk/government/collections/exporting-country-guides" title="Opens in a new window">Find out how to export to specific countries in a no-deal Brexit</a>.</p>' %}
 
     {% if page.teaser %}
     <div class="grid-row margin-top-60">
@@ -14,6 +14,22 @@
       </div>
     </div>
     {% endif %}
+
+  </div>
+</section>
+{% endblock %}
+
+{% block footer_section %}
+<section id="markets-landing-footer-section" class="topic-list-section padding-top-60 padding-bottom-60">
+  <div class="container">
+
+    <div class="grid-row">
+      <div class="column-full column-half-l font-medium">
+          <h3>Looking for specific market tarrifs and regulations?</h3>
+          <p><a href="#" class="black-text">Go to market access database</a></p>
+      </div>
+    </div>
+
 
   </div>
 </section>
