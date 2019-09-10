@@ -88,13 +88,12 @@ class HelpForm(forms.Form):
     error_css_class = 'input-field-container has-error'
 
     comment = forms.CharField(
-        label='',
-        help_text='Tell us about your export experience, including any '
+        label='Tell us about your export experience, including any '
                   'challenges you are facing. We’re particularly '
                   'interested in the markets you have exported to '
                   'and whether you have already spoken to your '
                   'bank or a broker.',
-        widget=Textarea,
+        widget=Textarea(attrs={'class': 'margin-top-15'}),
     )
     terms_agreed = forms.BooleanField(
         label=mark_safe(
