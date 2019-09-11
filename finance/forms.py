@@ -90,9 +90,9 @@ class HelpForm(forms.Form):
     comment = forms.CharField(
         label='Tell us about your export experience, including any challenges you are facing.',
         help_text=(
-            'We’re particularly interested in the markets you '
-            'have exported to and whether you have already '
-            'spoken to your bank or a broker. '
+            "We're particularly interested in the markets you "
+            "have exported to and whether you have already "
+            "spoken to your bank or a broker. "
         ),
         widget=Textarea(attrs={'class': 'margin-top-15'}),
     )
