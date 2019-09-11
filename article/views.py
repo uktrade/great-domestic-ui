@@ -119,10 +119,6 @@ class TagListPageView(
     def slug(self):
         return self.kwargs['slug']
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        return context
-
 
 class NewsListPageView(
     NewsSectionFeatureFlagMixin, SetGA360ValuesMixin, GetCMSPageMixin, TemplateView,
