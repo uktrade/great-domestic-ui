@@ -201,6 +201,10 @@ GA_DATA_MAPPING = {
         'site_section': 'Contact',
         'site_subsection': '',
     },
+    'TagListPage': {
+        'site_section': 'Articles',
+        'site_subsection': 'TagList',
+    }
 }
 
 
