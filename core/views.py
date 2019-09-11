@@ -33,7 +33,13 @@ class SetEtagMixin:
 
 
 class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
-    template_name = 'core/landing_page_domestic.html'
+
+    @property
+    def template_name(self):
+        if self.request.GET.get('nh'):
+            return 'core/landing_page_alternate.html'
+
+        return 'core/landing_page_domestic.html'
 
     @cached_property
     def page(self):

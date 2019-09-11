@@ -832,3 +832,21 @@ def test_international_investment_support_directory_redirect(client):
 
     assert response.status_code == 302
     assert response.url == urls.build_great_international_url('investment-support-directory/foo/bar')
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_new_landing_page_querystring(mock_page, client):
+    mock_page.return_value = create_response(
+        200, {
+            'page_type': 'HomePage',
+            'tree_based_breadcrumbs': [
+                {'title': 'great.gov.uk', 'url': '/'}
+            ],
+        }
+    )
+    url = '/?nh=1'
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/landing_page_alternate.html']
