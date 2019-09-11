@@ -835,13 +835,35 @@ def test_international_investment_support_directory_redirect(client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_new_landing_page_querystring(mock_page, client):
+def test_new_landing_page_querystring_old_cms_page(mock_page, client):
     mock_page.return_value = create_response(
         200, {
             'page_type': 'HomePage',
             'tree_based_breadcrumbs': [
                 {'title': 'great.gov.uk', 'url': '/'}
             ],
+        }
+    )
+    url = '/?nh=1'
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/landing_page_domestic.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_new_landing_page_querystring_new_cms_page(mock_page, client):
+    mock_page.return_value = create_response(
+        200, {
+            'page_type': 'HomePage',
+            'tree_based_breadcrumbs': [
+                {'title': 'great.gov.uk', 'url': '/'}
+            ],
+            'how_dit_helps_title': '',
+            'hero_text': '',
+            'questions_section_title': '',
+            'what_is_new_title': '',
         }
     )
     url = '/?nh=1'

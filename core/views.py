@@ -36,7 +36,14 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
 
     @property
     def template_name(self):
-        if self.request.GET.get('nh'):
+        alt_landing_page_requested = self.request.GET.get('nh')
+        cms_page_has_new_fields = (
+            'how_dit_helps_title' in self.page.keys() and
+            'hero_text' in self.page.keys() and
+            'questions_section_title' in self.page.keys() and
+            'what_is_new_title' in self.page.keys()
+        )
+        if cms_page_has_new_fields and alt_landing_page_requested:
             return 'core/landing_page_alternate.html'
 
         return 'core/landing_page_domestic.html'
