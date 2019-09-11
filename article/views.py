@@ -125,12 +125,11 @@ class TagListPageView(
 
 
 class NewsListPageView(
-    NewsSectionFeatureFlagMixin,
-    GetCMSPageMixin,
-    TemplateView,
+    NewsSectionFeatureFlagMixin, SetGA360ValuesMixin, GetCMSPageMixin, TemplateView,
 ):
     template_name = 'article/domestic_news_list.html'
     slug = slugs.EUEXIT_DOMESTIC_NEWS
+    page_type = 'NewsList'
 
 
 class NewsArticleDetailView(

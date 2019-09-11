@@ -25,6 +25,7 @@ import search.views
 import ukef.views
 
 from conf.url_redirects import redirects
+from core.helpers import build_great_international_url
 
 
 sitemaps = {
@@ -593,7 +594,7 @@ international_redirects_urls = [
     ),
     url(
         r'^trade/(?P<path>[\w\-/]*)/$',
-        RedirectView.as_view(url=international.TRADE_HOME + '/incoming/%(path)s', query_string=True),
+        RedirectView.as_view(url=build_great_international_url('trade/incoming/%(path)s'), query_string=True),
         name='international-trade'
     ),
     url(
@@ -607,7 +608,7 @@ international_redirects_urls = [
     url(
         r'^investment-support-directory/(?P<path>[\w\-/]*)/$',
         RedirectView.as_view(
-            url=international.EXPAND_ISD_HOME + '/%(path)s',
+            url=build_great_international_url('investment-support-directory/%(path)s'),
             query_string=True
         ),
         name='international-investment-support-directory'

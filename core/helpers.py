@@ -15,6 +15,8 @@ from django.shortcuts import Http404, redirect
 from django.utils.functional import cached_property
 from django.utils import translation
 
+from directory_constants.helpers import get_url
+
 
 NotifySettings = collections.namedtuple(
     'NotifySettings', ['agent_template', 'agent_email', 'user_template']
@@ -204,9 +206,18 @@ GA_DATA_MAPPING = {
     'TagListPage': {
         'site_section': 'Articles',
         'site_subsection': 'TagList',
+    },
+    'NewsList': {
+        'site_section': 'Articles',
+        'site_subsection': 'BrexitNews',
     }
 }
 
 
 def get_ga_data_for_page(page_type):
     return GA_DATA_MAPPING[page_type]
+
+
+build_great_international_url = partial(
+    urljoin, get_url('DIRECTORY_CONSTANTS_URL_INTERNATIONAL', 'https://great.gov.uk/international/')
+)

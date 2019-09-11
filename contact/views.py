@@ -728,7 +728,7 @@ class SellingOnlineOverseasSuccessView(DomesticSuccessView):
     slug = slugs.HELP_FORM_SUCCESS_SOO
 
     def get_next_url(self):
-        return urls.SERVICES_SOO
+        return urls.domestic.SELLING_OVERSEAS
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(

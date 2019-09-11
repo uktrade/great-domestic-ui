@@ -24,7 +24,9 @@
   {% if page.hero_image or page.hero_medium or page.hero_image_thumbnail or page.article_image_thumbnail %}
     <meta property="og:image" content="{% firstof page.hero_image_thumbnail.url page.article_image_thumbnail.url page.hero_medium.url page.hero_image.url %}">
   {% else %}
-    <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
+    {% if request %}
+      <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
+    {% endif %}
   {% endif %}
 {% endblock %}
 
