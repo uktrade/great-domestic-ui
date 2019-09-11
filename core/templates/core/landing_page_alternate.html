@@ -11,7 +11,7 @@
 
 {% block content %}
 
-{% hero_with_cta xlarge_image=page.hero_xlarge.url large_image=page.hero_large.url medium_image=page.hero_medium.url heading='Brexit: get your business ready to export' cta_text='Export checklist' cta_link='/' %}
+{% hero_with_cta xlarge_image=page.hero_xlarge.url large_image=page.hero_large.url medium_image=page.hero_medium.url heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_linked_page %}
 
 {% key_facts items=page.how_dit_helps_columns heading=page.how_dit_helps_title %}
 
