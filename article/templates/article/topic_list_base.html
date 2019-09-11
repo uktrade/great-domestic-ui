@@ -7,7 +7,7 @@
 {% block content %}
 
 {% block hero %}
-  {% hero background_image_url=page.hero_image.url hero_text=page.landing_page_title large_title=True %}
+  {% hero xlarge_image=page.hero_xlarge.url large_image=page.hero_large.url medium_image=page.hero_medium.url small_image=page.hero_small.url hero_text=page.landing_page_title %}
 {% endblock %}
 
 {% block breadcrumbs %}

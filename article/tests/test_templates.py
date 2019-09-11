@@ -90,7 +90,7 @@ def test_article_advice_page(mock_get_page, client, settings):
 
     html = render_to_string('article/topic_list.html', context)
 
-    assert page['title'] not in html
+    assert page['title'] in html
     assert page['landing_page_title'] in html
 
     assert 'Asia market information' in html
@@ -369,7 +369,7 @@ def test_news_list_page_feature_flag_on():
 
     html = render_to_string('article/domestic_news_list.html', context)
 
-    assert test_news_list_page['title'] not in html
+    assert test_news_list_page['title'] in html
     assert test_news_list_page['landing_page_title'] in html
     assert 'Lorem ipsum' in html
     assert 'Dolor sit amet' in html
@@ -488,8 +488,7 @@ def test_tag_list_page():
     assert '02 October' in html
     assert 'Article 1 title' in html
     assert 'Article 2 title' in html
-    assert '2 articles with tag:' in html
-    assert 'New to exporting' in html
+    assert 'Articles with tag: New to exporting' in html
 
 
 def test_landing_page_header_footer(rf):

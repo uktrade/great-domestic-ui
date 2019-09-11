@@ -104,8 +104,7 @@ def test_landing_page(mock_get_page, client, settings):
 
     assert response.status_code == 200
     assert '/static/js/home' in str(response.content)
-    assert response.template_name == [
-        views.LandingPageView.template_name]
+    assert response.template_name == ['core/landing_page_domestic.html']
     assert response.context_data['casestudies'] == [
         casestudies.HELLO_BABY,
         casestudies.YORK,
@@ -181,7 +180,7 @@ def test_landing_page_template_news_feature_flag_on(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [views.LandingPageView.template_name]
+    assert response.template_name == ['core/landing_page_domestic.html']
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -217,7 +216,7 @@ def test_landing_page_template_news_feature_flag_off(
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == [views.LandingPageView.template_name]
+    assert response.template_name == ['core/landing_page_domestic.html']
 
 
 def test_sitemaps(client):
@@ -805,7 +804,7 @@ def test_international_trade_redirect_home(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == urls.build_great_international_url('trade/')
+    assert response.url == urls.international.TRADE_HOME
 
 
 def test_international_trade_redirect(client):
@@ -814,7 +813,9 @@ def test_international_trade_redirect(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == urls.build_great_international_url('trade/incoming/foo/bar')
+    print('response url: ' + response.url)
+    print('expected url: ' + urls.international.TRADE_HOME + 'incoming/foo/bar')
+    assert response.url == urls.international.TRADE_HOME + 'incoming/foo/bar'
 
 
 def test_international_investment_support_directory_redirect_home(client):
@@ -822,7 +823,7 @@ def test_international_investment_support_directory_redirect_home(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == urls.build_great_international_url('investment-support-directory/')
+    assert response.url == urls.international.EXPAND_ISD_HOME
 
 
 def test_international_investment_support_directory_redirect(client):
@@ -831,4 +832,44 @@ def test_international_investment_support_directory_redirect(client):
     response = client.get(url)
 
     assert response.status_code == 302
-    assert response.url == urls.build_great_international_url('investment-support-directory/foo/bar')
+    assert response.url == urls.international.EXPAND_ISD_HOME + 'foo/bar'
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_new_landing_page_querystring_old_cms_page(mock_page, client):
+    mock_page.return_value = create_response(
+        200, {
+            'page_type': 'HomePage',
+            'tree_based_breadcrumbs': [
+                {'title': 'great.gov.uk', 'url': '/'}
+            ],
+        }
+    )
+    url = '/?nh=1'
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/landing_page_domestic.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_new_landing_page_querystring_new_cms_page(mock_page, client):
+    mock_page.return_value = create_response(
+        200, {
+            'page_type': 'HomePage',
+            'tree_based_breadcrumbs': [
+                {'title': 'great.gov.uk', 'url': '/'}
+            ],
+            'how_dit_helps_title': '',
+            'hero_text': '',
+            'questions_section_title': '',
+            'what_is_new_title': '',
+        }
+    )
+    url = '/?nh=1'
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == ['core/landing_page_alternate.html']

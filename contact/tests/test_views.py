@@ -840,7 +840,7 @@ def test_always_landing_for_soo_ingress_url_on_success(
     )
     # when the success page is viewed
     with mock.patch(
-        'directory_constants.urls.SERVICES_SOO',
+        'directory_constants.urls.domestic.SELLING_OVERSEAS',
         mocked_soo_landing
     ):
         response = client.get(
