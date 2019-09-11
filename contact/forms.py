@@ -342,8 +342,8 @@ class InternationalContactForm(
 
 class CommentForm(forms.Form):
     comment = forms.CharField(
-        label='',
-        widget=Textarea,
+        label='Provide as much detail as possible below to help us better understand your enquiry.',
+        widget=Textarea(attrs={'class': 'margin-top-15'}),
     )
 
 
