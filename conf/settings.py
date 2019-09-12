@@ -20,7 +20,8 @@ import directory_healthcheck.backends
 import healthcheck.backends
 
 env = environ.Env()
-env.read_env()
+for env_file in env.list('ENV_FILES', default=[]):
+    env.read_env(f'conf/env/{env_file}')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -175,7 +176,10 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_HOST = env.str('STATIC_HOST', '')
 STATIC_URL = STATIC_HOST + '/static/'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = env.str(
+    'STATICFILES_STORAGE',
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+)
 
 # Logging for development
 if DEBUG:
