@@ -341,7 +341,7 @@ def test_set_etag_mixin(rf, method, expected):
             return super().get(*args, **kwargs)
 
     request = getattr(rf, method)('/')
-    request.sso_user = None
+    request.user = None
     view = MyView.as_view()
     response = view(request)
 
@@ -784,13 +784,11 @@ def test_companies_house_search_api_success(mock_search, client, settings):
     assert response.content == b'[{"name": "Smashing corp"}]'
 
 
-@patch('core.helpers.CompanyCHClient')
-def test_companies_house_search_internal(mocked_ch_client, client, settings):
+@patch('core.helpers.ch_search_api_client.company.search_companies')
+def test_companies_house_search_internal(mock_search_companies, client, settings):
     settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = True
 
-    mocked_ch_client().search_companies.return_value = create_response(
-        200, {'items': [{'name': 'Smashing corp'}]}
-    )
+    mock_search_companies.return_value = create_response(200, {'items': [{'name': 'Smashing corp'}]})
     url = reverse('api-internal-companies-house-search')
 
     response = client.get(url, data={'term': 'thing'})

@@ -68,7 +68,7 @@ def test_get_cms_component_mixin_is_bidi_cms_component_not_bidi(
 
 def test_retrieve_company_profile_mixin_not_logged_in(rf):
     request = rf.get('/')
-    request.sso_user = None
+    request.user = None
     mixin = mixins.PrepopulateFormMixin()
     mixin.request = request
 
@@ -77,7 +77,7 @@ def test_retrieve_company_profile_mixin_not_logged_in(rf):
 
 def test_retrieve_company_profile_mixin_success(rf):
     request = rf.get('/')
-    request.sso_user = mock.Mock(session_id=123)
+    request.user = mock.Mock(session_id=123)
     mixin = mixins.PrepopulateFormMixin()
     mixin.request = request
     url = 'http://api.trade.great:8000/supplier/company/'
@@ -93,7 +93,7 @@ def test_retrieve_company_profile_mixin_success(rf):
 
 def test_retrieve_company_profile_mixin_not_ok(rf):
     request = rf.get('/')
-    request.sso_user = mock.Mock(session_id=123)
+    request.user = mock.Mock(session_id=123)
     mixin = mixins.PrepopulateFormMixin()
     mixin.request = request
     url = 'http://api.trade.great:8000/supplier/company/'
@@ -115,7 +115,7 @@ def test_retrieve_company_profile_mixin_name_guessing(
     rf, full_name, first_name, last_name
 ):
     request = rf.get('/')
-    request.sso_user = mock.Mock(session_id=123)
+    request.user = mock.Mock(session_id=123)
     mixin = mixins.PrepopulateFormMixin()
     mixin.request = request
     url = 'http://api.trade.great:8000/supplier/company/'

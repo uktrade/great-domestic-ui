@@ -7,6 +7,7 @@ import directory_healthcheck.views
 
 from django.conf import settings
 from django.conf.urls import include, url
+from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps.views import sitemap
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -392,9 +393,9 @@ contact_urls = [
     ),
     url(
         r'^contact/selling-online-overseas/(?P<step>.+)/$',
-        skip_ga360(contact.views.SellingOnlineOverseasFormView.as_view(
+        login_required(skip_ga360(contact.views.SellingOnlineOverseasFormView.as_view(
             url_name='contact-us-soo', done_step_name='finished'
-        )),
+        ))),
         name='contact-us-soo'
     ),
     url(

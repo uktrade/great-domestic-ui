@@ -22,7 +22,6 @@ from core import mixins
 from core.helpers import NotifySettings
 from core.views import BaseNotifyFormView
 from contact import constants, forms, helpers
-from sso.utils import SSOLoginRequiredMixin
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
@@ -69,7 +68,7 @@ class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
     def get_form_initial(self):
         if self.company_profile:
             return {
-                'email': self.request.sso_user.email,
+                'email': self.request.user.email,
                 'company_type': forms.LIMITED,
                 'organisation_name': self.company_profile['name'],
                 'postcode': self.company_profile['postal_code'],
@@ -83,7 +82,7 @@ class PrepopulateInternationalFormMixin:
     def get_form_initial(self):
         if self.company_profile:
             return {
-                'email': self.request.sso_user.email,
+                'email': self.request.user.email,
                 'organisation_name': self.company_profile['name'],
                 'country_name': self.company_profile['country'],
                 'city': self.company_profile['locality'],
@@ -299,7 +298,7 @@ class ExportingAdviceFormView(
         initial = super().get_form_initial(step)
         if step == self.PERSONAL and self.company_profile:
             initial.update({
-                'email': self.request.sso_user.email,
+                'email': self.request.user.email,
                 'phone': self.company_profile['mobile_number'],
                 'first_name': self.guess_given_name,
                 'last_name': self.guess_family_name,
@@ -319,7 +318,7 @@ class ExportingAdviceFormView(
         return initial
 
     def send_user_message(self, form_data):
-        action = actions.GovNotifyAction(
+        action = actions.GovNotifyEmailAction(
             template_id=settings.CONTACT_EXPORTING_USER_NOTIFY_TEMPLATE_ID,
             email_address=form_data['email'],
             form_url=reverse(
@@ -376,7 +375,7 @@ class FeedbackFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
     def get_form_initial(self):
         if self.company_profile:
             return {
-                'email': self.request.sso_user.email,
+                'email': self.request.user.email,
                 'name': self.company_profile['postal_full_name'],
             }
 
@@ -456,7 +455,7 @@ class ExortingToUKGuidanceView(
 
 
 class SellingOnlineOverseasFormView(
-    SSOLoginRequiredMixin, mixins.PreventCaptchaRevalidationMixin,
+    mixins.PreventCaptchaRevalidationMixin,
     FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
@@ -497,7 +496,7 @@ class SellingOnlineOverseasFormView(
 
     def get_cache_prefix(self):
         return 'selling_online_overseas_form_view_{}'.format(
-            self.request.sso_user.id)
+            self.request.user.id)
 
     def get_form_data_cache(self):
         return cache.get(self.get_cache_prefix(), None)
@@ -529,7 +528,7 @@ class SellingOnlineOverseasFormView(
         elif step == self.CONTACT_DETAILS and self.company_profile:
             initial.update({
                 'contact_name': self.company_profile['postal_full_name'],
-                'contact_email': self.request.sso_user.email,
+                'contact_email': self.request.user.email,
                 'phone': self.company_profile['mobile_number'],
             })
         return initial

@@ -77,7 +77,7 @@ class DomesticContactFormView(BaseInternationalContactFormView):
     def get_form_initial(self):
         if self.company_profile:
             return {
-                'email': self.request.sso_user.email,
+                'email': self.request.user.email,
                 'company_name': self.company_profile['name'],
                 'postcode': self.company_profile['postal_code'],
                 'first_name': self.guess_given_name,

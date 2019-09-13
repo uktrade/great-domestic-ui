@@ -6,7 +6,7 @@ from functools import partial
 from urllib.parse import urljoin
 
 from directory_api_client.client import api_client
-from directory_ch_client.company import CompanyCHClient
+from directory_ch_client import ch_search_api_client
 from ipware import get_client_ip
 
 from django.conf import settings
@@ -139,10 +139,8 @@ class GeoLocationRedirector:
 
 
 def get_company_profile(request):
-    if request.sso_user:
-        response = api_client.company.retrieve_private_profile(
-            sso_session_id=request.sso_user.session_id,
-        )
+    if request.user:
+        response = api_client.company.profile_retrieve(request.user.session_id)
         if response.status_code == 200:
             return response.json()
 
@@ -170,13 +168,7 @@ class CompaniesHouseClient:
     @classmethod
     def search(cls, term):
         if settings.FEATURE_FLAGS['INTERNAL_CH_ON']:
-            companies_house_client = CompanyCHClient(
-                base_url=settings.INTERNAL_CH_BASE_URL,
-                api_key=settings.INTERNAL_CH_API_KEY
-            )
-            return companies_house_client.search_companies(
-                query=term
-            )
+            return ch_search_api_client.company.search_companies(query=term)
         else:
             url = cls.endpoints['search']
             return cls.get(url, params={'q': term})

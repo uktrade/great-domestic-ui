@@ -1,7 +1,7 @@
 import re
 
 from captcha.fields import ReCaptchaField
-from directory_forms_api_client.forms import GovNotifyActionMixin
+from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from directory_components.forms import Form
 from directory_components import forms
 from django.forms import TextInput, ValidationError
@@ -11,7 +11,7 @@ from community import constants as choices
 from contact.forms import TERMS_LABEL
 
 
-class CommunityJoinForm(GovNotifyActionMixin, Form):
+class CommunityJoinForm(GovNotifyEmailActionMixin, Form):
     name = forms.CharField(
         label=_('Full name'),
         min_length=2,

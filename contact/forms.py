@@ -3,7 +3,7 @@ from directory_components import forms
 from directory_constants import choices
 from directory_constants.urls import domestic as domestic_urls
 from directory_forms_api_client.forms import (
-    GovNotifyActionMixin, ZendeskActionMixin
+    GovNotifyEmailActionMixin, ZendeskActionMixin
 )
 import requests.exceptions
 
@@ -280,7 +280,7 @@ class BaseShortForm(forms.Form):
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
-class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
+class ShortNotifyForm(SerializeDataMixin, GovNotifyEmailActionMixin, BaseShortForm):
 
     @property
     def serialized_data(self):
@@ -308,7 +308,7 @@ class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
 
 
 class InternationalContactForm(
-    SerializeDataMixin, GovNotifyActionMixin, forms.Form
+    SerializeDataMixin, GovNotifyEmailActionMixin, forms.Form
 ):
 
     ORGANISATION_TYPE_CHOICES = (
@@ -530,12 +530,12 @@ class OfficeFinderForm(forms.Form):
 
 
 class TradeOfficeContactForm(
-    SerializeDataMixin, GovNotifyActionMixin, BaseShortForm
+    SerializeDataMixin, GovNotifyEmailActionMixin, BaseShortForm
 ):
     pass
 
 
-class ExportVoucherForm(SerializeDataMixin, GovNotifyActionMixin, forms.Form):
+class ExportVoucherForm(SerializeDataMixin, GovNotifyEmailActionMixin, forms.Form):
     company_name = forms.CharField()
     companies_house_number = forms.CharField(
         label='Companies House number',

@@ -3,9 +3,10 @@ from unittest import mock
 
 import pytest
 
+from django.contrib.auth import get_user_model
 from django.core.cache import cache
 
-from sso.utils import SSOUser
+from core.tests.helpers import create_response
 
 
 @pytest.fixture(autouse=True)
@@ -26,29 +27,6 @@ def dummy_cms_page():
     }
 
 
-@pytest.fixture
-def sso_user():
-    return SSOUser(
-        id=999,
-        email='test@foo.com',
-        session_id=1
-    )
-
-
-def process_request(self, request):
-    request.sso_user = sso_user()
-
-
-@pytest.fixture
-def authed_client(client):
-    stub = mock.patch(
-        'sso.middleware.SSOUserMiddleware.process_request', process_request
-    )
-    stub.start()
-    yield client
-    stub.stop()
-
-
 @pytest.fixture()
 def captcha_stub():
     # https://github.com/praekelt/django-recaptcha#id5
@@ -62,3 +40,37 @@ def feature_flags(settings):
     # solves this issue: https://github.com/pytest-dev/pytest-django/issues/601
     settings.FEATURE_FLAGS = {**settings.FEATURE_FLAGS}
     yield settings.FEATURE_FLAGS
+
+
+@pytest.fixture
+def user():
+    SSOUser = get_user_model()
+    return SSOUser(
+        id=1,
+        pk=1,
+        email='jim@example.com',
+        session_id='123',
+    )
+
+
+@pytest.fixture(autouse=True)
+def auth_backend():
+    patch = mock.patch(
+        'directory_sso_api_client.sso_api_client.user.get_session_user',
+        return_value=create_response(404)
+    )
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture
+def client(client, auth_backend, settings):
+    def force_login(user):
+        client.cookies[settings.SSO_SESSION_COOKIE] = '123'
+        auth_backend.return_value = create_response(200, {
+            'id': user.id,
+            'email': user.email,
+            'hashed_uuid': user.hashed_uuid,
+        })
+    client.force_login = force_login
+    return client
