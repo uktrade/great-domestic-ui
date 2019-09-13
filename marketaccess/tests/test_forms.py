@@ -60,34 +60,26 @@ def test_about_form_mandatory_fields():
     assert form.fields['phone'].required is True
 
 
-def test_about_form_serialize():
-    form = forms.AboutForm(
-        data=about_form_data()
-    )
-    assert form.is_valid()
-    assert form.cleaned_data == about_form_data()
-
-
-def test_about_form_with_other_serializes():
-    form = forms.AboutForm(
-        data=about_form_data_with_other_business_type()
-    )
+def test_about_form_serialize(about_form_data):
+    form = forms.AboutForm(data=about_form_data)
 
     assert form.is_valid()
-    assert form.cleaned_data == about_form_data_with_other_business_type()
+    assert form.cleaned_data == about_form_data
 
 
-def test_other_business_type_is_required_if_other_business_type():
-    form_data = about_form_data_with_other_business_type()
-    form_data['other_business_type'] = ''
-    form = forms.AboutForm(
-        data=form_data
-    )
+def test_about_form_with_other_serializes(about_form_data_with_other_business_type):
+    form = forms.AboutForm(data=about_form_data_with_other_business_type)
+
+    assert form.is_valid()
+    assert form.cleaned_data == about_form_data_with_other_business_type
+
+
+def test_other_business_type_is_required_if_other_business_type(about_form_data_with_other_business_type):
+    about_form_data_with_other_business_type['other_business_type'] = ''
+    form = forms.AboutForm(data=about_form_data_with_other_business_type)
 
     assert len(form.errors) == 1
-    assert form.errors['other_business_type'] == [
-        'Enter your organisation'
-    ]
+    assert form.errors['other_business_type'] == ['Enter your organisation']
 
 
 def test_about_form_error_messages():
@@ -138,12 +130,10 @@ def test_problem_details_form_mandatory_fields():
     assert form.fields['eu_exit_related'].required is True
 
 
-def test_problem_details_form_serialize():
-    form = forms.ProblemDetailsForm(
-        data=problem_details_form_data()
-    )
+def test_problem_details_form_serialize(problem_details_form_data):
+    form = forms.ProblemDetailsForm(data=problem_details_form_data)
     assert form.is_valid()
-    assert form.cleaned_data == problem_details_form_data()
+    assert form.cleaned_data == problem_details_form_data
 
 
 def test_problem_details_error_messages():

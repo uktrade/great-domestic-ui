@@ -40,11 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django_extensions',
     'raven.contrib.django.raven_compat',
+    'django.contrib.contenttypes',  # required by DRF and auth, not using DB
     'django.contrib.sessions',
+    'django.contrib.auth',
     'django.contrib.sitemaps',
     'formtools',
     'corsheaders',
     'directory_constants',
+    'directory_sso_api_client',
     'core',
     'article',
     'casestudy',
@@ -60,6 +63,7 @@ INSTALLED_APPS = [
     'search',
     'ukef',
     'healthcheck',
+    'sso',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -70,8 +74,8 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'sso.middleware.SSOUserMiddleware',
     'directory_components.middleware.CheckGATags',
     'directory_components.middleware.NoCacheMiddlware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
@@ -275,7 +279,7 @@ DIRECTORY_SSO_API_CLIENT_BASE_URL = env.str('SSO_API_CLIENT_BASE_URL')
 DIRECTORY_SSO_API_CLIENT_API_KEY = env.str('SSO_SIGNATURE_SECRET')
 DIRECTORY_SSO_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_SSO_API_CLIENT_DEFAULT_TIMEOUT = 15
-SSO_PROXY_LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
+LOGIN_URL = SSO_PROXY_LOGIN_URL = env.str('SSO_PROXY_LOGIN_URL')
 SSO_PROXY_LOGOUT_URL = env.str('SSO_PROXY_LOGOUT_URL')
 SSO_PROXY_SIGNUP_URL = env.str('SSO_PROXY_SIGNUP_URL')
 SSO_PROFILE_URL = env.str('SSO_PROFILE_URL')
@@ -382,9 +386,12 @@ DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = env.int(
     60 * 60 * 24 * 30  # 30 days
 )
 
-# Internal CH
-INTERNAL_CH_BASE_URL = env.str('INTERNAL_CH_BASE_URL', '')
-INTERNAL_CH_API_KEY = env.str('INTERNAL_CH_API_KEY', '')
+# Internal Companies House search
+
+DIRECTORY_CH_SEARCH_CLIENT_BASE_URL = env.str('INTERNAL_CH_BASE_URL', '')
+DIRECTORY_CH_SEARCH_CLIENT_API_KEY = env.str('INTERNAL_CH_API_KEY', '')
+DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID = env.str('DIRECTORY_CH_SEARCH_CLIENT_SENDER_ID', 'directory')
+DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = env.str('DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT', 5)
 
 # geo location
 GEOIP_PATH = os.path.join(BASE_DIR, 'core/geolocation_data')
@@ -392,10 +399,7 @@ GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 
 GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
     'GEOLOCATION_MAXMIND_DATABASE_FILE_URL',
-    (
-        'http://geolite.maxmind.com/download/geoip/database/'
-        'GeoLite2-Country.tar.gz'
-    )
+    'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz'
 )
 
 # feature flags
@@ -607,3 +611,7 @@ EXPORT_VOUCHERS_GOV_NOTIFY_TEMPLATE_ID = env.str(
     'EXPORT_VOUCHERS_GOV_NOTIFY_TEMPLATE_ID', 'c9d3ce3a-236a-4d80-a791-a85dbc6ed377'
 )
 EXPORT_VOUCHERS_AGENT_EMAIL = env.str('EXPORT_VOUCHERS_AGENT_EMAIL')
+
+# Authentication
+AUTH_USER_MODEL = 'sso.SSOUser'
+AUTHENTICATION_BACKENDS = ['directory_sso_api_client.backends.SSOUserBackend']

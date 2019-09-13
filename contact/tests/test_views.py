@@ -1,6 +1,6 @@
 from unittest import mock
 
-from directory_api_client.client import api_client
+from directory_api_client.exporting import url_lookup_by_postcode
 from directory_forms_api_client.helpers import Sender
 
 from directory_constants import slugs
@@ -64,7 +64,9 @@ def all_office_details():
 
 
 @pytest.fixture(autouse=True)
-def company_profile(authed_client):
+def company_profile(client, user):
+    client.force_login(user)
+
     path = 'core.mixins.PrepopulateFormMixin.company_profile'
     stub = mock.patch(
         path,
@@ -462,7 +464,7 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')
-@mock.patch('directory_forms_api_client.actions.GovNotifyAction')
+@mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
 @mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch('contact.helpers.retrieve_exporting_advice_email')
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
@@ -571,12 +573,12 @@ def test_exporting_from_uk_contact_form_submission(
 
 
 @mock.patch('captcha.fields.ReCaptchaField.clean')
-@mock.patch('directory_forms_api_client.actions.GovNotifyAction')
+@mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
 @mock.patch('directory_forms_api_client.actions.EmailAction')
 @mock.patch('contact.helpers.retrieve_exporting_advice_email')
 def test_exporting_from_uk_contact_form_initial_data_business(
     mock_retrieve_exporting_advice_email, mock_email_action,
-    mock_notify_action, mock_clean, client, captcha_stub,
+    mock_notify_action, mock_clean, client, captcha_stub, user
 ):
     mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
 
@@ -585,7 +587,7 @@ def test_exporting_from_uk_contact_form_initial_data_business(
     response_one = client.get(reverse(url_name, kwargs={'step': 'personal'}))
 
     assert response_one.context_data['form'].initial == {
-        'email': 'test@foo.com',
+        'email': user.email,
         'phone': '07171771717',
         'first_name': 'Foo',
         'last_name': 'Example',
@@ -712,13 +714,13 @@ def test_zendesk_submit_success(
     )
 
 
-def test_contact_us_feedback_prepopulate(client):
+def test_contact_us_feedback_prepopulate(client, user):
     url = reverse('contact-us-feedback')
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.context_data['form'].initial == {
-        'email': 'test@foo.com',
+        'email': user.email,
         'name': 'Foo Example',
     }
 
@@ -730,12 +732,12 @@ def test_contact_us_feedback_prepopulate(client):
     reverse('contact-us-events-form'),
     reverse('office-finder-contact', kwargs={'postcode': 'FOOBAR'}),
 ))
-def test_contact_us_short_form_prepopualate(client, url):
+def test_contact_us_short_form_prepopualate(client, url, user):
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.context_data['form'].initial == {
-        'email': 'test@foo.com',
+        'email': user.email,
         'company_type': forms.LIMITED,
         'organisation_name': 'Example corp',
         'postcode': 'Foo Bar',
@@ -744,13 +746,13 @@ def test_contact_us_short_form_prepopualate(client, url):
     }
 
 
-def test_contact_us_international_prepopualate(client):
+def test_contact_us_international_prepopualate(client, user):
     url = reverse('contact-us-international')
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.context_data['form'].initial == {
-        'email': 'test@foo.com',
+        'email': user.email,
         'organisation_name': 'Example corp',
         'country_name': 'FRANCE',
         'city': 'Paris',
@@ -971,7 +973,7 @@ def test_ingress_url_cleared_on_redirect_away(
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_selling_online_overseas_contact_form_submission(
     mock_form_session, mock_zendesk_action, mock_clean, captcha_stub,
-    company_profile, sso_user, client
+    company_profile, user, client
 ):
     company_profile.return_value = None
 
@@ -1068,7 +1070,7 @@ def test_selling_online_overseas_contact_form_submission(
         'email_pref': True,
         'market': 'ebay',
     }
-    cache_key = '{}_{}'.format(view_name, + sso_user.id)
+    cache_key = '{}_{}'.format(view_name, + user.id)
     assert mock_zendesk_action().save.call_args == mock.call(expected_data)
     assert cache.get(cache_key) == expected_data
     # next request for the form will have initial values
@@ -1120,7 +1122,7 @@ def test_selling_online_overseas_contact_form_market_name(
     assert response.context['market_name'] == 'ebay'
 
 
-def test_selling_online_overseas_contact_form_initial_data(client):
+def test_selling_online_overseas_contact_form_initial_data(client, user):
     response_one = client.get(
         reverse('contact-us-soo', kwargs={'step': 'organisation'}),
     )
@@ -1149,18 +1151,14 @@ def test_selling_online_overseas_contact_form_initial_data(client):
     )
     assert response_four.context_data['form'].initial == {
         'contact_name': 'Foo Example',
-        'contact_email': 'test@foo.com',
+        'contact_email': user.email,
         'phone': '07171771717',
     }
 
 
 def test_office_finder_valid(all_office_details, client):
-    url = api_client.exporting.endpoints['lookup-by-postcode'].format(
-        postcode='ABC123'
-    )
-
     with requests_mock.mock() as mock:
-        mock.get(url, json=all_office_details)
+        mock.get(url_lookup_by_postcode.format(postcode='ABC123'), json=all_office_details)
         response = client.get(reverse('office-finder'), {'postcode': 'ABC123'})
 
     assert response.status_code == 200

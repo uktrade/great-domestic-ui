@@ -17,15 +17,15 @@ codecov==2.0.15
 contextlib2==0.5.5        # via raven
 coverage==4.5.1           # via codecov, pytest-cov
 dateparser==0.7.0
-directory-api-client==14.0.0
-directory-ch-client==2.0.0
-directory-client-core==5.0.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
-directory-cms-client==10.0.0
+directory-api-client==19.0.0
+directory-ch-client==2.1.0
+directory-client-core==6.1.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
+directory-cms-client==10.2.0
 directory-components==32.3.0
-directory-constants==20.0.0
-directory-forms-api-client==4.0.0
+directory-constants==20.1.0
+directory-forms-api-client==5.0.0
 directory-healthcheck==1.0.1
-directory-sso-api-client==5.0.0
+directory-sso-api-client==6.1.0
 directory-validators==5.0.1
 django-cors-headers==2.1.0
 django-environ==0.4.5
@@ -66,7 +66,7 @@ pytest-cov==2.7.1
 pytest-django==3.5.1
 pytest-forked==0.2        # via pytest-xdist
 pytest-sugar==0.9.1
-pytest-xdist==1.23.2
+pytest-xdist==1.29.0
 pytest==5.1.2
 python-dateutil==2.7.3    # via dateparser, freezegun
 pytz==2017.2              # via dateparser, directory-validators, django, tzlocal
