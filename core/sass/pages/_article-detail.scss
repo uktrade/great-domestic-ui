@@ -38,8 +38,7 @@
   .quote {
     background-color: $stone-light;
     width: calc(100vw);
-    margin-left: -30px;
-    margin-bottom: $spacing-3;
+    margin: 45px 0 45px -30px;
     padding: 30px;
     .body-text {
       display: block;
