@@ -1,6 +1,7 @@
 # Changelog
 
 ## Pre-release
+- XOT-920 - fix spacing style issue in cms article template
 - GTRANSFORM-213 - add labels to textareas identified in accessibility audit
 - GTRANSFORM-238 - page heading fixes
 - GTRANSFORM-238 - use page heading in the page title
