@@ -1,6 +1,5 @@
 import json
 
-import pytest
 import requests
 
 from unittest.mock import patch, Mock, call
@@ -122,18 +121,6 @@ def test_search_view(client, settings):
         # This can be handled on the front end as we wish
         assert context['error_message'] == "Activity Stream connection failed"
         assert context['error_status_code'] == 500
-
-
-@pytest.mark.xfail
-def test_search_order(client):
-    response = client.get(reverse('search'), data={'q': 'qwerty123'})
-
-    assert response.status_code == 200
-
-    results = response.context_data['results']
-    assert len(results) == 4
-    assert results[0]["type"] == "Service"
-    assert results[-1]["type"] == "Export opportunity"
 
 
 def test_search_key_pages_view(client):

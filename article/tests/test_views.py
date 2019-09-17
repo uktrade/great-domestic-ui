@@ -7,10 +7,7 @@ from core.tests.helpers import create_response
 
 @pytest.fixture
 def mock_get_page():
-    stub = patch(
-        'directory_cms_client.client.cms_api_client.lookup_by_slug',
-        return_value=create_response(status_code=200)
-    )
+    stub = patch('directory_cms_client.client.cms_api_client.lookup_by_slug', return_value=create_response())
     yield stub.start()
     stub.stop()
 
@@ -38,7 +35,7 @@ def test_news_list_page_feature_flag_off(client, settings):
 
 
 def test_community_article_view(mock_get_page, client):
-    mock_get_page.return_value = create_response(200, {
+    mock_get_page.return_value = create_response({
         "meta": {"slug": "foo"},
         "title": "Community article",
         "page_type": "ArticlePage",
@@ -107,10 +104,7 @@ def test_get_country_guide_page_attaches_array_lengths(mock_get_page, client):
         }
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse(
         'country-guide',
@@ -169,10 +163,7 @@ def test_get_country_guide_page_viable_accordion(
         }
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse(
         'country-guide',
@@ -247,10 +238,7 @@ def test_get_country_guide_page_non_viable_accordion(
         }
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse(
         'country-guide',
@@ -290,10 +278,7 @@ def test_get_country_guide_page_viable_case_study(mock_get_page, client):
         }
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse(
         'country-guide',
@@ -335,10 +320,7 @@ def test_get_country_guide_page_neither_case_study_nor_statistics(
         }
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse(
         'country-guide',
@@ -368,10 +350,7 @@ def test_get_markets_page_renames_heading_to_landing_page_title(
         ]
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse('markets')
     response = client.get(url)

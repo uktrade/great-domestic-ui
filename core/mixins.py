@@ -120,10 +120,6 @@ class PreventCaptchaRevalidationMixin:
 
 class PrepopulateFormMixin:
 
-    @cached_property
-    def company_profile(self):
-        return helpers.get_company_profile(self.request)
-
     def get_form_kwargs(self):
         form_kwargs = super().get_form_kwargs()
         form_kwargs['initial'] = self.get_form_initial()
@@ -131,14 +127,19 @@ class PrepopulateFormMixin:
 
     @property
     def guess_given_name(self):
-        if self.company_profile and self.company_profile['postal_full_name']:
-            name = self.company_profile['postal_full_name']
-            return name.split(' ')[0]
+        if self.request.user.is_authenticated:
+            if self.request.user.first_name:
+                return self.request.user.first_name
+            elif self.request.user.company and self.request.user.company['postal_full_name']:
+                name = self.request.user.company['postal_full_name']
+                return name.split(' ')[0]
 
     @property
     def guess_family_name(self):
-        if self.company_profile and self.company_profile['postal_full_name']:
-            names = self.company_profile['postal_full_name'].split(' ')
+        if self.request.user.last_name:
+            return self.request.user.last_name
+        elif self.request.user.company and self.request.user.company['postal_full_name']:
+            names = self.request.user.company['postal_full_name'].split(' ')
             return names[-1] if len(names) > 1 else None
 
 
