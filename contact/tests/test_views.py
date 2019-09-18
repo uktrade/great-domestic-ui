@@ -91,6 +91,32 @@ def company_profile(client, user):
     stub.stop()
 
 
+@pytest.fixture(autouse=True)
+def user_profile(client, user):
+    client.force_login(user)
+
+    path = 'core.mixins.PrepopulateFormMixin.user_profile'
+    stub = mock.patch(
+        path,
+        new_callable=mock.PropertyMock,
+        return_value={
+            'id': 1, 
+            'email': 'william.taylor@digital.trade.gov.uk', 
+            'hashed_uuid': '88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e', 
+            'user_profile': {
+                'first_name': 'Joe', 
+                'last_name': 'Bloggs', 
+                'job_title': 'Dev', 
+                'mobile_phone_number': '123123123'
+            },
+            'full_name': 'Joe Bloggs',
+            'mobile_phone_number': '123123123'
+        }
+    )
+    yield stub.start()
+    stub.stop()
+
+
 @pytest.fixture
 def domestic_form_data(captcha_stub):
     return {
@@ -106,7 +132,8 @@ def domestic_form_data(captcha_stub):
     }
 
 
-@pytest.mark.parametrize('current_step,choice,expected_url', (
+@pytest.mark.parametrize('current_step,choice,expected_url', 
+    (
     # location step routing
     (
         constants.LOCATION,
@@ -1150,9 +1177,9 @@ def test_selling_online_overseas_contact_form_initial_data(client, user):
         reverse('contact-us-soo', kwargs={'step': 'contact-details'}),
     )
     assert response_four.context_data['form'].initial == {
-        'contact_name': 'Foo Example',
+        'contact_name': 'Joe Bloggs',
         'contact_email': user.email,
-        'phone': '07171771717',
+        'phone': '123123123',
     }
 
 

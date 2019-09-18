@@ -124,6 +124,10 @@ class PrepopulateFormMixin:
     def company_profile(self):
         return helpers.get_company_profile(self.request)
 
+    @cached_property
+    def user_profile(self):
+        return helpers.get_user_profile(self.request)
+
     def get_form_kwargs(self):
         form_kwargs = super().get_form_kwargs()
         form_kwargs['initial'] = self.get_form_initial()

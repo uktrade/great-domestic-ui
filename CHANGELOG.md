@@ -8,7 +8,8 @@
 - GTRANSFORM-238 - use page heading in the page title
 - XOT-914 - Add search sort order healthcheck
 - XOT-1034 - Add new landing page, remove obsolete international page styling, update metadata for cms pages
-- TT-1808: Update directory components to add "no-validate" no cache middleware
+- TT-1808 - Update directory components to add "no-validate" no cache middleware
+- XOT-928 - Slight change to data pulled from SSO into SOO enquiry form
 
 ### Implemented enhancements
 - No ticket - Add trade barriers to search

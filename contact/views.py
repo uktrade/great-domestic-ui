@@ -527,9 +527,9 @@ class SellingOnlineOverseasFormView(
             initial['description'] = self.company_profile['summary']
         elif step == self.CONTACT_DETAILS and self.company_profile:
             initial.update({
-                'contact_name': self.company_profile['postal_full_name'],
+                'contact_name': self.user_profile['full_name'],
                 'contact_email': self.request.user.email,
-                'phone': self.company_profile['mobile_number'],
+                'phone': self.user_profile['mobile_phone_number'],
             })
         return initial
 

@@ -6,6 +6,7 @@ from functools import partial
 from urllib.parse import urljoin
 
 from directory_api_client.client import api_client
+from directory_sso_api_client.client import sso_api_client
 from directory_ch_client import ch_search_api_client
 from ipware import get_client_ip
 
@@ -143,6 +144,25 @@ def get_company_profile(request):
         response = api_client.company.profile_retrieve(request.user.session_id)
         if response.status_code == 200:
             return response.json()
+
+
+def get_user_profile(request):
+    if request.user:
+        response = sso_api_client.user.get_session_user(request.user.session_id)
+        if response.status_code == 200:
+            profile = response.json()
+            if profile['user_profile']:
+                if profile['user_profile']['first_name'] and profile['user_profile']['last_name']:
+                    full_name = f"{profile['user_profile']['first_name']} {profile['user_profile']['last_name']}"
+                elif profile['user_profile']['last_name']:
+                    full_name = profile['user_profile']['last_name']
+                elif profile['user_profile']['first_name']:
+                    full_name = profile['user_profile']['first_name']
+                else:
+                    full_name = ""
+                profile['mobile_phone_number'] = profile['user_profile']['mobile_phone_number']
+            profile['full_name'] = full_name
+            return profile
 
 
 class CompaniesHouseClient:
