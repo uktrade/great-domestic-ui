@@ -308,6 +308,38 @@ def test_privacy_cookies_cms(mock_get_page, client):
     assert response.template_name == [expected_template]
 
 
+@pytest.mark.parametrize(
+    'view,expected_template',
+    (
+        (
+            'accessibility-statement',
+            'core/info_page.html'
+        ),
+    )
+)
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_accessibility_statement_cms(
+    mock_get_page, view, expected_template, client
+):
+    url = reverse(view)
+    page = {
+        'title': 'the page',
+        'meta': {'languages': ['en-gb']},
+        'page_type': 'PrivacyAndCookiesPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/accessibility-statement/', 'title': 'the page'},
+        ]
+    }
+    mock_get_page.return_value = create_response(
+        status_code=200,
+        json_body=page
+    )
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [expected_template]
+
+
 @pytest.mark.parametrize('method,expected', (
     ('get', '"b013a413446c5dddaf341792c63a88c4"'),
     ('post', None),
@@ -373,6 +405,10 @@ cms_urls_slugs = (
         reverse('terms-and-conditions'),
         slugs.GREAT_TERMS_AND_CONDITIONS,
     ),
+    (
+        reverse('accessibility-statement'),
+        slugs.GREAT_ACCESSIBILITY_STATEMENT,
+    ),
 )
 
 
@@ -405,6 +441,7 @@ def test_cms_pages_cms_client_params(mock_get, client, url, slug):
 cms_urls = (
     reverse('privacy-and-cookies'),
     reverse('terms-and-conditions'),
+    reverse('accessibility-statement'),
 )
 
 
