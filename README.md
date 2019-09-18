@@ -6,7 +6,7 @@
 [![gitflow-image]][gitflow]
 [![calver-image]][calver]
 
-**GREAT.gov.uk, Domestic facing FE service - the Department for International Trade (DIT)**  
+**GREAT.gov.uk, Domestic UI for GREAT platform - the Department for International Trade (DIT)**  
 
 ---
 
@@ -15,9 +15,8 @@
 ### Installing
     $ git clone https://github.com/uktrade/great-domestic-ui
     $ cd great-domestic-ui
-    $ virtualenv .venv -p python3.6
-    $ source .venv/bin/activate
-    $ pip install -r requirements_test.txt
+    $ [create and activate virutal environment]
+    $ make install_requirements
 
 
 ### Requirements
@@ -28,41 +27,26 @@
 
 ### Configuration
 
-Secrets such as API keys and environment specific configurations are placed in `conf/.env` - a file that is not added to version control. You will need to create that file locally in order for the project to run.
+Secrets such as API keys and environment specific configurations are placed in `conf/env/secrets-do-not-commit` - a file that is not added to version control. To create a template secrets file with dummy values run `make secrets`.
 
-Here is an example `conf/.env` with placeholder values to get you going:
+### Commands
 
-```
-COMPANIES_HOUSE_API_KEY=debug
-DIRECTORY_FORMS_API_API_KEY=debug
-DIRECTORY_FORMS_API_SENDER_ID=debug
-EU_EXIT_ZENDESK_SUBDOMAIN=debug
-CONTACT_EVENTS_AGENT_EMAIL_ADDRESS=debug
-CONTACT_DSO_AGENT_EMAIL_ADDRESS=debug
-CONTACT_DIT_AGENT_EMAIL_ADDRESS=debug
-CONTACT_INTERNATIONAL_AGENT_EMAIL_ADDRESS=debug
-CONTACT_ENQUIRIES_AGENT_EMAIL_ADDRESS=debug
-EXPORTING_OPPORTUNITIES_API_BASE_URL=debug
-EXPORTING_OPPORTUNITIES_API_SECRET=debug
-EXPORTING_OPPORTUNITIES_SEARCH_URL=debug
-GET_ADDRESS_API_KEY=debug
-ACTIVITY_STREAM_API_ACCESS_KEY=123
-ACTIVITY_STREAM_API_SECRET_KEY=123
-ACTIVITY_STREAM_API_URL=http://localhost:8080/v1/objects
-ACTIVITY_STREAM_API_IP_WHITELIST=1.2.3.4,5.6.7.8
-CONTACT_DEFRA_AGENT_EMAIL_ADDRESS=debug
-CONTACT_BEIS_AGENT_EMAIL_ADDRESS=debug
-```
-
-### Running the webserver
-    $ source .venv/bin/activate
-    $ make debug_webserver
-
-You must have the directory-cms project running locally to run this project.
-
-### Running the tests
-
-    $ make debug_test
+| Command                       | Description |
+| ----------------------------- | ------------|
+| make clean                    | Delete pyc files |
+| make pytest                   | Run all tests |
+| make pytest test_foo.py       | Run all tests in file called test_foo.py |
+| make pytest -- --last-failed` | Run the last tests to fail |
+| make pytest -- -k foo         | Run the test called foo |
+| make pytest -- <foo>          | Run arbitrary pytest command |
+| make flake8                   | Run linting |
+| make manage <foo>             | Run arbitrary management command |
+| make webserver                | Run the development web server |
+| make requirements             | Compile the requirements file |
+| make install_requirements     | Installed the compile requirements file |
+| make css                      | Compile scss to css |
+| make secrets                  | Create your secret env var file |
+| redirect                      | Add a new redirect |
 
 ## CSS development
 
@@ -80,37 +64,9 @@ We add compiled CSS files to version control. This will sometimes result in conf
 
 You should not edit CSS files directly, instead edit their SCSS counterparts.
 
-### Update CSS under version control
-
-    $ make compile_css
-
-
 ## Session
 
 Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
-
-## Translations
-
-Follow the [Django documentation](https://docs.djangoproject.com/en/1.11/topics/i18n/)
-
-To create or update `.po` files:
-
-    $ make debug_manage cmd="makemessages"
-
-To compile `.mo` files (no need to add these to source code, as this is done automatically during build):
-
-    $ make debug_manage cmd="compilemessages"
-
-
-## Geolocation
-
-This product includes GeoLite2 (data created by MaxMind), available from
-[http://www.maxmind.com](http://www.maxmind.com).
-
-To download the data run the following command:
-
-    $ make debug_manage cmd="download_geolocation_data"
-
 
 ## SSO
 To make sso work locally add the following to your machine's `/etc/hosts`:

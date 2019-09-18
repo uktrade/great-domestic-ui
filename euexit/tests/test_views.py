@@ -9,7 +9,8 @@ from euexit import views
 
 
 @pytest.fixture(autouse=True)
-def company_profile(authed_client):
+def company_profile(client, user):
+    client.force_login(user)
     path = 'core.mixins.PrepopulateFormMixin.company_profile'
     stub = mock.patch(
         path,
@@ -203,7 +204,7 @@ def test_form_url_no_referer(mock_lookup_by_slug, settings, client):
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_domestic_prepopulate(mock_lookup_by_slug, client):
+def test_domestic_prepopulate(mock_lookup_by_slug, client, user):
     mock_lookup_by_slug.return_value = create_response(
         status_code=200,
         json_body={
@@ -216,7 +217,7 @@ def test_domestic_prepopulate(mock_lookup_by_slug, client):
 
     assert response.status_code == 200
     assert response.context_data['form'].initial == {
-        'email': 'test@foo.com',
+        'email': user.email,
         'company_name': 'Example corp',
         'postcode': 'Foo Bar',
         'first_name': 'Foo',

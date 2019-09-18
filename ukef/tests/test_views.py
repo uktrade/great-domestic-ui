@@ -92,7 +92,7 @@ def test_contact_form_notify_success(
 def test_contact_form_success_view_response(rf):
     user_email = 'test@test.com'
     request = rf.get(reverse('uk-export-contract-success'))
-    request.sso_user = None
+    request.user = None
     request.session = {'user_email': user_email}
     view = views.SuccessPageView.as_view()
     response = view(request)

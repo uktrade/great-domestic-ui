@@ -6,7 +6,7 @@ from functools import partial
 from urllib.parse import urljoin
 
 from directory_api_client.client import api_client
-from directory_ch_client.company import CompanyCHClient
+from directory_ch_client import ch_search_api_client
 from ipware import get_client_ip
 
 from django.conf import settings
@@ -14,6 +14,8 @@ from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import Http404, redirect
 from django.utils.functional import cached_property
 from django.utils import translation
+
+from directory_constants.helpers import get_url
 
 
 NotifySettings = collections.namedtuple(
@@ -137,10 +139,8 @@ class GeoLocationRedirector:
 
 
 def get_company_profile(request):
-    if request.sso_user:
-        response = api_client.company.retrieve_private_profile(
-            sso_session_id=request.sso_user.session_id,
-        )
+    if request.user:
+        response = api_client.company.profile_retrieve(request.user.session_id)
         if response.status_code == 200:
             return response.json()
 
@@ -168,13 +168,7 @@ class CompaniesHouseClient:
     @classmethod
     def search(cls, term):
         if settings.FEATURE_FLAGS['INTERNAL_CH_ON']:
-            companies_house_client = CompanyCHClient(
-                base_url=settings.INTERNAL_CH_BASE_URL,
-                api_key=settings.INTERNAL_CH_API_KEY
-            )
-            return companies_house_client.search_companies(
-                query=term
-            )
+            return ch_search_api_client.company.search_companies(query=term)
         else:
             url = cls.endpoints['search']
             return cls.get(url, params={'q': term})
@@ -201,8 +195,21 @@ GA_DATA_MAPPING = {
         'site_section': 'Contact',
         'site_subsection': '',
     },
+    'TagListPage': {
+        'site_section': 'Articles',
+        'site_subsection': 'TagList',
+    },
+    'NewsList': {
+        'site_section': 'Articles',
+        'site_subsection': 'BrexitNews',
+    }
 }
 
 
 def get_ga_data_for_page(page_type):
     return GA_DATA_MAPPING[page_type]
+
+
+build_great_international_url = partial(
+    urljoin, get_url('DIRECTORY_CONSTANTS_URL_INTERNATIONAL', 'https://great.gov.uk/international/')
+)

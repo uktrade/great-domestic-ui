@@ -9,7 +9,8 @@ from finance import forms, views
 
 
 @pytest.fixture(autouse=True)
-def company_profile(authed_client):
+def company_profile(client, user):
+    client.force_login(user)
     path = 'core.mixins.PrepopulateFormMixin.company_profile'
     stub = mock.patch(
         path,
@@ -203,7 +204,7 @@ def test_ukef_lead_generation_success_page(client):
     ]
 
 
-def test_test_ukef_lead_generationinitial_data(client):
+def test_test_ukef_lead_generationinitial_data(client, user):
     url_name = 'uk-export-finance-lead-generation-form'
 
     response_one = client.get(
@@ -211,7 +212,7 @@ def test_test_ukef_lead_generationinitial_data(client):
     )
 
     assert response_one.context_data['form'].initial == {
-        'email': 'test@foo.com',
+        'email': user.email,
         'phone': '07171771717',
         'firstname': 'Foo',
         'lastname': 'Example',

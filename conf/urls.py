@@ -2,11 +2,12 @@ from directory_constants import slugs
 
 import directory_components.views
 from directory_components.decorators import skip_ga360
-from directory_constants.urls import build_great_international_url
+from directory_constants.urls import international
 import directory_healthcheck.views
 
 from django.conf import settings
 from django.conf.urls import include, url
+from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps.views import sitemap
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -25,6 +26,7 @@ import search.views
 import ukef.views
 
 from conf.url_redirects import redirects
+from core.helpers import build_great_international_url
 
 
 sitemaps = {
@@ -391,9 +393,9 @@ contact_urls = [
     ),
     url(
         r'^contact/selling-online-overseas/(?P<step>.+)/$',
-        skip_ga360(contact.views.SellingOnlineOverseasFormView.as_view(
+        login_required(skip_ga360(contact.views.SellingOnlineOverseasFormView.as_view(
             url_name='contact-us-soo', done_step_name='finished'
-        )),
+        ))),
         name='contact-us-soo'
     ),
     url(
@@ -588,7 +590,7 @@ ukef_urls = [
 international_redirects_urls = [
     url(
         r'^trade/$',
-        RedirectView.as_view(url=build_great_international_url('trade/'), query_string=True),
+        RedirectView.as_view(url=international.TRADE_HOME, query_string=True),
         name='international-trade-home'
     ),
     url(
@@ -599,7 +601,7 @@ international_redirects_urls = [
     url(
         r'^investment-support-directory/$',
         RedirectView.as_view(
-            url=build_great_international_url('investment-support-directory/'),
+            url=international.EXPAND_ISD_HOME,
             query_string=True
         ),
         name='international-investment-support-directory-home'

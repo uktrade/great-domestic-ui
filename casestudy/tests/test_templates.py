@@ -14,4 +14,4 @@ def test_case_study_soo_link(settings):
     soup = BeautifulSoup(html, 'html.parser')
     soo_link = soup.find(string='Selling online overseas service').parent
 
-    assert soo_link.attrs['href'] == urls.SERVICES_SOO
+    assert soo_link.attrs['href'] == urls.domestic.SELLING_OVERSEAS

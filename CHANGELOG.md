@@ -1,6 +1,27 @@
 # Changelog
 
 ## Pre-release
+- XOT-920 - add space before/after quote
+- XOT-920 - fix spacing style issue in cms article template
+- GTRANSFORM-213 - add labels to textareas identified in accessibility audit
+- GTRANSFORM-238 - page heading fixes
+- GTRANSFORM-238 - use page heading in the page title
+- XOT-914 - Add search sort order healthcheck
+- XOT-1034 - Add new landing page, remove obsolete international page styling, update metadata for cms pages
+- TT-1808: Update directory components to add "no-validate" no cache middleware
+
+### Implemented enhancements
+- No ticket - Add trade barriers to search
+
+
+## [2019.09.04_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04_1)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04_1)
+
+### Hotfix
+- No ticket - Fix /community/join/ breadcrumbs
+
+## [2019.09.04](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04)
 
 ### Implemented enhancements
 - CMS-1754 - (Follow-up) Remove unused international form views (now in great international UI), move international Brexit contact form url into settings
@@ -15,8 +36,8 @@
 - CMS-1839 - Use correct header on international contact success page
 - No ticket - Cleaned up old redirects to use new urls, removed old international pages
 - GTRANSFORM-338 - adding add_href_tag to cms content pages
-- No ticket - Add export vouchers form
 - XOT-1028 - Sightly update SSO contribution to SOO application form
+- No ticket - Add export vouchers form
 
 
 ## [2019.08.21](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.08.21)

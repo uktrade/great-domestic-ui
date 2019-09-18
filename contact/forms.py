@@ -1,8 +1,9 @@
 from captcha.fields import ReCaptchaField
 from directory_components import forms
-from directory_constants import choices, urls
+from directory_constants import choices
+from directory_constants.urls import domestic as domestic_urls
 from directory_forms_api_client.forms import (
-    GovNotifyActionMixin, ZendeskActionMixin
+    GovNotifyEmailActionMixin, ZendeskActionMixin
 )
 import requests.exceptions
 
@@ -16,7 +17,7 @@ from contact.fields import IntegerField
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
-    f'<a href="{urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
+    f'<a href="{domestic_urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
     'conditions</a> of the great.gov.uk service.'
 )
 
@@ -279,7 +280,7 @@ class BaseShortForm(forms.Form):
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
-class ShortNotifyForm(SerializeDataMixin, GovNotifyActionMixin, BaseShortForm):
+class ShortNotifyForm(SerializeDataMixin, GovNotifyEmailActionMixin, BaseShortForm):
 
     @property
     def serialized_data(self):
@@ -307,7 +308,7 @@ class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
 
 
 class InternationalContactForm(
-    SerializeDataMixin, GovNotifyActionMixin, forms.Form
+    SerializeDataMixin, GovNotifyEmailActionMixin, forms.Form
 ):
 
     ORGANISATION_TYPE_CHOICES = (
@@ -342,8 +343,8 @@ class InternationalContactForm(
 
 class CommentForm(forms.Form):
     comment = forms.CharField(
-        label='',
-        widget=Textarea,
+        label='Provide as much detail as possible below to help us better understand your enquiry.',
+        widget=Textarea(attrs={'class': 'margin-top-15'}),
     )
 
 
@@ -529,12 +530,12 @@ class OfficeFinderForm(forms.Form):
 
 
 class TradeOfficeContactForm(
-    SerializeDataMixin, GovNotifyActionMixin, BaseShortForm
+    SerializeDataMixin, GovNotifyEmailActionMixin, BaseShortForm
 ):
     pass
 
 
-class ExportVoucherForm(SerializeDataMixin, GovNotifyActionMixin, forms.Form):
+class ExportVoucherForm(SerializeDataMixin, GovNotifyEmailActionMixin, forms.Form):
     company_name = forms.CharField()
     companies_house_number = forms.CharField(
         label='Companies House number',
