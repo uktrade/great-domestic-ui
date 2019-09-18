@@ -100,13 +100,13 @@ def user_profile(client, user):
         path,
         new_callable=mock.PropertyMock,
         return_value={
-            'id': 1, 
-            'email': 'william.taylor@digital.trade.gov.uk', 
-            'hashed_uuid': '88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e', 
+            'id': 1,
+            'email': 'william.taylor@digital.trade.gov.uk',
+            'hashed_uuid': '88f9f63c93cd30c9a471d80548ef1d4552c5546c9328c85a171f03a8c439b23e',
             'user_profile': {
-                'first_name': 'Joe', 
-                'last_name': 'Bloggs', 
-                'job_title': 'Dev', 
+                'first_name': 'Joe',
+                'last_name': 'Bloggs',
+                'job_title': 'Dev',
                 'mobile_phone_number': '123123123'
             },
             'full_name': 'Joe Bloggs',
@@ -132,8 +132,7 @@ def domestic_form_data(captcha_stub):
     }
 
 
-@pytest.mark.parametrize('current_step,choice,expected_url', 
-    (
+@pytest.mark.parametrize('current_step,choice,expected_url', (
     # location step routing
     (
         constants.LOCATION,
