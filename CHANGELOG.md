@@ -1,6 +1,7 @@
 # Changelog
 
 ## Pre-release
+- GTRANSFORM-368 setup accessibility statement footer link and add href target template tag
 - XOT-920 - add space before/after quote
 - XOT-920 - fix spacing style issue in cms article template
 - GTRANSFORM-213 - add labels to textareas identified in accessibility audit
