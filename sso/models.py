@@ -9,6 +9,4 @@ class SSOUser(directory_sso_api_client.models.SSOUser):
 
     @cached_property
     def company(self):
-        company = helpers.retrieve_company_profile(self.session_id)
-        if company:
-            return helpers.CompanyParser(company)
+        return helpers.company_profile_retrieve(self.session_id)
