@@ -63,34 +63,6 @@ def all_office_details():
     ]
 
 
-@pytest.fixture(autouse=True)
-def company_profile(client, user):
-    client.force_login(user)
-
-    path = 'core.mixins.PrepopulateFormMixin.company_profile'
-    stub = mock.patch(
-        path,
-        new_callable=mock.PropertyMock,
-        return_value={
-            'number': 1234567,
-            'name': 'Example corp',
-            'postal_code': 'Foo Bar',
-            'sectors': ['AEROSPACE'],
-            'employees': '1-10',
-            'mobile_number': '07171771717',
-            'postal_full_name': 'Foo Example',
-            'address_line_1': '123 Street',
-            'address_line_2': 'Near Fake Town',
-            'country': 'FRANCE',
-            'locality': 'Paris',
-            'summary': 'Makes widgets',
-            'website': 'http://www.example.com',
-        }
-    )
-    yield stub.start()
-    stub.stop()
-
-
 @pytest.fixture
 def domestic_form_data(captcha_stub):
     return {
@@ -448,11 +420,7 @@ def test_notify_form_submit_success(
 ))
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
-
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
 
     response = client.get(url)
 
@@ -473,7 +441,7 @@ def test_exporting_from_uk_contact_form_submission(
     mock_notify_action, mock_clean, client, captcha_stub, company_profile,
     settings
 ):
-    company_profile.return_value = None
+    company_profile.return_value = create_response(status_code=404)
     mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
 
     url_name = 'contact-us-export-advice'
@@ -607,10 +575,7 @@ def test_exporting_from_uk_contact_form_initial_data_business(
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
 
     url = reverse(
         'contact-us-export-opportunities-guidance', kwargs={'slug': 'the-slug'}
@@ -627,10 +592,7 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_exporting_to_uk_cms_retrieval(mock_lookup_by_slug, client):
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
 
     url = reverse(
         'contact-us-exporting-to-the-uk-guidance', kwargs={'slug': 'the-slug'}
@@ -778,10 +740,7 @@ def test_ingress_url_cleared_on_success(
     mock_clear, mock_lookup_by_slug, url, client, rf
 ):
     mock_clear.return_value = None
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
     # given the ingress url is set
     client.get(
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
@@ -806,10 +765,7 @@ def test_ingress_url_special_cases_on_success(
     mock_clear, mock_lookup_by_slug, url, client, rf
 ):
     mock_clear.return_value = None
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
     # /contact/<path> should always return to landing
     client.get(
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
@@ -830,10 +786,7 @@ def test_always_landing_for_soo_ingress_url_on_success(
     mock_clear, mock_lookup_by_slug, client, rf
 ):
     mock_clear.return_value = None
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
     mocked_soo_landing = 'http://testserver.com/test-path/'
     client.get(
         reverse('contact-us-soo', kwargs={'step': 'organisation'}),
@@ -865,10 +818,7 @@ def test_external_ingress_url_not_used_on_success(
     mock_clear, mock_lookup_by_slug, url, client
 ):
     mock_clear.return_value = None
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
     # given the ingress url is set
     client.get(
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
@@ -891,10 +841,7 @@ def test_ingress_url_not_set_on_success(
     mock_clear, mock_lookup_by_slug, url, client
 ):
     mock_clear.return_value = None
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
     # when the success page is viewed and there is no referer set yet
     response = client.get(
         url,
@@ -911,10 +858,7 @@ def test_ingress_url_not_set_on_success(
 def test_internal_ingress_url_used_on_first_step(
     mock_lookup_by_slug, client
 ):
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
     # when an internal ingress url is set
     response = client.get(
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
@@ -931,10 +875,7 @@ def test_internal_ingress_url_used_on_first_step(
 def test_external_ingress_url_not_used_on_first_step(
     mock_lookup_by_slug, client
 ):
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
     # when an external ingress url is set
     response = client.get(
         reverse('contact-us-routing-form', kwargs={'step': 'location'}),
@@ -975,7 +916,7 @@ def test_selling_online_overseas_contact_form_submission(
     mock_form_session, mock_zendesk_action, mock_clean, captcha_stub,
     company_profile, user, client
 ):
-    company_profile.return_value = None
+    company_profile.return_value = create_response(status_code=404)
 
     url_name = 'contact-us-soo'
     view_name = 'selling_online_overseas_form_view'
@@ -1092,7 +1033,7 @@ def test_selling_online_overseas_contact_form_submission(
 def test_selling_online_overseas_contact_form_market_name(
     mock_zendesk_action, mock_clean, captcha_stub, company_profile, client
 ):
-    company_profile.return_value = None
+    company_profile.return_value = create_response(status_code=404)
 
     url_name = 'contact-us-soo'
 
@@ -1218,10 +1159,7 @@ def test_office_finder_valid(all_office_details, client):
 def test_contact_us_office_success_next_url(
     mock_lookup_by_slug, client
 ):
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={}
-    )
+    mock_lookup_by_slug.return_value = create_response()
 
     url = reverse('contact-us-office-success', kwargs={'postcode': 'FOOBAR'})
 

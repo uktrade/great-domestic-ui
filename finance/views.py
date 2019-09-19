@@ -51,15 +51,15 @@ class GetFinanceLeadGenerationFormView(
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-        if step == self.PERSONAL_DETAILS and self.company_profile:
+        if step == self.PERSONAL_DETAILS and self.request.user.company:
             initial.update({
                 'email': self.request.user.email,
-                'phone': self.company_profile['mobile_number'],
+                'phone': self.request.user.company['mobile_number'],
                 'firstname': self.guess_given_name,
                 'lastname': self.guess_family_name,
             })
-        elif step == self.COMPANY_DETAILS and self.company_profile:
-            company = self.company_profile
+        elif step == self.COMPANY_DETAILS and self.request.user.company:
+            company = self.request.user.company
             initial.update({
                 'not_companies_house': False,
                 'company_number': company['number'],

@@ -1,6 +1,8 @@
 # Changelog
 
 ## Pre-release
+
+### Implemented enhancements
 - GTRANSFORM-368 info_page now extends article/base for missing css
 - GTRANSFORM-368 setup accessibility statement footer link and add href target template tag
 - XOT-920 - add space before/after quote
@@ -11,10 +13,10 @@
 - XOT-914 - Add search sort order healthcheck
 - XOT-1034 - Add new landing page, remove obsolete international page styling, update metadata for cms pages
 - TT-1808: Update directory components to add "no-validate" no cache middleware
-
-### Implemented enhancements
 - No ticket - Add trade barriers to search
 
+### Bug fixes
+- TT-1832 - Fix anon users unable to view feedback page
 
 ## [2019.09.04_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04_1)
