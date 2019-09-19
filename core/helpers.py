@@ -5,7 +5,7 @@ import requests
 from functools import partial
 from urllib.parse import urljoin
 
-from directory_api_client.client import api_client
+from directory_api_client import api_client
 from directory_ch_client import ch_search_api_client
 from ipware import get_client_ip
 
@@ -138,13 +138,6 @@ class GeoLocationRedirector:
         return response
 
 
-def get_company_profile(request):
-    if request.user:
-        response = api_client.company.profile_retrieve(request.user.session_id)
-        if response.status_code == 200:
-            return response.json()
-
-
 class CompaniesHouseClient:
 
     api_key = settings.COMPANIES_HOUSE_API_KEY
@@ -213,3 +206,11 @@ def get_ga_data_for_page(page_type):
 build_great_international_url = partial(
     urljoin, get_url('DIRECTORY_CONSTANTS_URL_INTERNATIONAL', 'https://great.gov.uk/international/')
 )
+
+
+def company_profile_retrieve(sso_session_id):
+    response = api_client.company.profile_retrieve(sso_session_id)
+    if response.status_code == 404:
+        return None
+    response.raise_for_status()
+    return response.json()

@@ -612,6 +612,11 @@ EXPORT_VOUCHERS_GOV_NOTIFY_TEMPLATE_ID = env.str(
 )
 EXPORT_VOUCHERS_AGENT_EMAIL = env.str('EXPORT_VOUCHERS_AGENT_EMAIL')
 
+# Required by directory components (https://github.com/uktrade/directory-components/pull/286/files)
+# These cookies are not used in domestic
+LANGUAGE_COOKIE_SECURE = env.bool('LANGUAGE_COOKIE_SECURE', True)
+COUNTRY_COOKIE_SECURE = env.bool('COUNTRY_COOKIE_SECURE', True)
+
 # Authentication
 AUTH_USER_MODEL = 'sso.SSOUser'
 AUTHENTICATION_BACKENDS = ['directory_sso_api_client.backends.SSOUserBackend']

@@ -57,7 +57,7 @@ def user():
 def auth_backend():
     patch = mock.patch(
         'directory_sso_api_client.sso_api_client.user.get_session_user',
-        return_value=create_response(404)
+        return_value=create_response(status_code=404)
     )
     yield patch.start()
     patch.stop()
@@ -67,10 +67,33 @@ def auth_backend():
 def client(client, auth_backend, settings):
     def force_login(user):
         client.cookies[settings.SSO_SESSION_COOKIE] = '123'
-        auth_backend.return_value = create_response(200, {
+        auth_backend.return_value = create_response({
             'id': user.id,
             'email': user.email,
             'hashed_uuid': user.hashed_uuid,
         })
     client.force_login = force_login
     return client
+
+
+@pytest.fixture(autouse=True)
+def company_profile(client, user):
+    client.force_login(user)
+    response = create_response({
+        'number': 1234567,
+        'name': 'Example corp',
+        'postal_code': 'Foo Bar',
+        'sectors': ['AEROSPACE'],
+        'employees': '1-10',
+        'mobile_number': '07171771717',
+        'postal_full_name': 'Foo Example',
+        'address_line_1': '123 Street',
+        'address_line_2': 'Near Fake Town',
+        'country': 'FRANCE',
+        'locality': 'Paris',
+        'summary': 'Makes widgets',
+        'website': 'http://www.example.com',
+    })
+    stub = mock.patch('directory_api_client.api_client.company.profile_retrieve', return_value=response)
+    yield stub.start()
+    stub.stop()

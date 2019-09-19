@@ -66,12 +66,12 @@ class SubmitFormOnGetMixin:
 
 class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
     def get_form_initial(self):
-        if self.company_profile:
+        if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
                 'company_type': forms.LIMITED,
-                'organisation_name': self.company_profile['name'],
-                'postcode': self.company_profile['postal_code'],
+                'organisation_name': self.request.user.company['name'],
+                'postcode': self.request.user.company['postal_code'],
                 'given_name': self.guess_given_name,
                 'family_name': self.guess_family_name,
             }
@@ -80,12 +80,12 @@ class PrepopulateShortFormMixin(mixins.PrepopulateFormMixin):
 class PrepopulateInternationalFormMixin:
 
     def get_form_initial(self):
-        if self.company_profile:
+        if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
-                'organisation_name': self.company_profile['name'],
-                'country_name': self.company_profile['country'],
-                'city': self.company_profile['locality'],
+                'organisation_name': self.request.user.company['name'],
+                'country_name': self.request.user.company['country'],
+                'city': self.request.user.company['locality'],
                 'given_name': self.guess_given_name,
                 'family_name': self.guess_family_name,
             }
@@ -296,25 +296,24 @@ class ExportingAdviceFormView(
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-        if step == self.PERSONAL and self.company_profile:
-            initial.update({
-                'email': self.request.user.email,
-                'phone': self.company_profile['mobile_number'],
-                'first_name': self.guess_given_name,
-                'last_name': self.guess_family_name,
-            })
-        elif step == self.BUSINESS and self.company_profile:
-            company = self.company_profile
-            initial.update({
-                'company_type': forms.LIMITED,
-                'companies_house_number': company['number'],
-                'organisation_name': company['name'],
-                'postcode': company['postal_code'],
-                'industry': (
-                    company['sectors'][0] if company['sectors'] else None
-                ),
-                'employees': company['employees'],
-            })
+        if self.request.user.is_authenticated and self.request.user.company:
+            if step == self.PERSONAL:
+                initial.update({
+                    'email': self.request.user.email,
+                    'phone': self.request.user.company['mobile_number'],
+                    'first_name': self.guess_given_name,
+                    'last_name': self.guess_family_name,
+                })
+            elif step == self.BUSINESS:
+                sectors = self.request.user.company['sectors']
+                initial.update({
+                    'company_type': forms.LIMITED,
+                    'companies_house_number': self.request.user.company['number'],
+                    'organisation_name': self.request.user.company['name'],
+                    'postcode': self.request.user.company['postal_code'],
+                    'industry': sectors[0] if sectors else None,
+                    'employees': self.request.user.company['employees'],
+                })
         return initial
 
     def send_user_message(self, form_data):
@@ -373,10 +372,10 @@ class FeedbackFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
     def get_form_initial(self):
-        if self.company_profile:
+        if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
-                'name': self.company_profile['postal_full_name'],
+                'name': self.request.user.company['postal_full_name'],
             }
 
 
@@ -515,22 +514,23 @@ class SellingOnlineOverseasFormView(
             for field in self.form_list[step].declared_fields:
                 if field in latest_submission_data:
                     initial[field] = latest_submission_data[field]
-        elif step == self.ORGANISATION and self.company_profile:
-            initial.update({
-                'soletrader': False,
-                'company_name': self.company_profile['name'],
-                'company_number': self.company_profile['number'],
-                'company_postcode': self.company_profile['postal_code'],
-                'website_address': self.company_profile['website'],
-            })
-        elif step == self.EXPERIENCE and self.company_profile:
-            initial['description'] = self.company_profile['summary']
-        elif step == self.CONTACT_DETAILS and self.company_profile:
-            initial.update({
-                'contact_name': self.company_profile['postal_full_name'],
-                'contact_email': self.request.user.email,
-                'phone': self.company_profile['mobile_number'],
-            })
+        elif self.request.user.is_authenticated and self.request.user.company:
+            if step == self.ORGANISATION:
+                initial.update({
+                    'soletrader': False,
+                    'company_name': self.request.user.company['name'],
+                    'company_number': self.request.user.company['number'],
+                    'company_postcode': self.request.user.company['postal_code'],
+                    'website_address': self.request.user.company['website'],
+                })
+            elif step == self.EXPERIENCE:
+                initial['description'] = self.request.user.company['summary']
+            elif step == self.CONTACT_DETAILS:
+                initial.update({
+                    'contact_name': self.request.user.company['postal_full_name'],
+                    'contact_email': self.request.user.email,
+                    'phone': self.request.user.company['mobile_number'],
+                })
         return initial
 
     def serialize_form_list(self, form_list):

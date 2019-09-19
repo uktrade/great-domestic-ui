@@ -1,9 +1,7 @@
 import json
 import pytest
 
-from requests.exceptions import ConnectionError
 from unittest.mock import Mock
-from django.conf import settings
 
 from search import helpers
 
@@ -224,22 +222,3 @@ def test_format_query():
         'from': 10,
         'size': 10
     })
-
-
-@pytest.mark.xfail
-def test_search_with_activitystream():
-    key = settings.ACTIVITY_STREAM_API_ACCESS_KEY
-    if not key or key == 'debug':
-        """ If not connected to activitystream dev,
-        simply check that it doesn't expload,
-        and instead raises correct no-connection error
-        """
-        with pytest.raises(ConnectionError):
-            helpers.search_with_activitystream(
-                helpers.format_query("Test", 1)
-            )
-    else:
-        response = helpers.search_with_activitystream(
-            helpers.format_query("Test", 1)
-        )
-        assert 'hits' in json.loads(response.content)

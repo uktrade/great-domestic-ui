@@ -8,10 +8,7 @@ from core.tests.helpers import create_response
 
 @pytest.fixture
 def mock_get_page():
-    stub = patch(
-        'directory_cms_client.client.cms_api_client.lookup_by_slug',
-        return_value=create_response(status_code=200)
-    )
+    stub = patch('directory_cms_client.client.cms_api_client.lookup_by_slug', return_value=create_response())
     yield stub.start()
     stub.stop()
 
@@ -530,10 +527,7 @@ def test_article_detail_page_social_share_links(
 
     url = '/advice/create-an-export-plan/how-to-write-an-export-plan/'
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     response = client.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -593,10 +587,7 @@ def test_article_detail_page_social_share_links_no_title(
 
     url = '/advice/create-an-export-plan/how-to-write-an-export-plan/'
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     response = client.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')

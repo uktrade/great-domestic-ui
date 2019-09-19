@@ -55,10 +55,7 @@ def test_landing_page_redirect(mock_get_page, client):
         ]
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse('landing-page')
 
@@ -93,10 +90,7 @@ def test_landing_page(mock_get_page, client, settings):
         ]
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse('landing-page')
 
@@ -132,10 +126,7 @@ def test_landing_page_video_url(mock_get_page, client, settings):
         ]
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
 
     url = reverse('landing-page')
@@ -170,10 +161,7 @@ def test_landing_page_template_news_feature_flag_on(
         ]
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse('landing-page')
 
@@ -207,10 +195,7 @@ def test_landing_page_template_news_feature_flag_off(
         ]
     }
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     url = reverse('landing-page')
     response = client.get(url)
@@ -275,10 +260,7 @@ def test_terms_conditions_cms(
             {'url': '/terms-and-conditions/', 'title': 'the page'},
         ]
     }
-    mock_get_t_and_c_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_t_and_c_page.return_value = create_response(page)
     response = client.get(url)
 
     assert response.status_code == 200
@@ -296,6 +278,35 @@ def test_privacy_cookies_cms(mock_get_page, client):
         'page_type': 'PrivacyAndCookiesPage',
         'tree_based_breadcrumbs': [
             {'url': '/privacy-and-cookies/', 'title': 'the page'},
+        ]
+    }
+    mock_get_page.return_value = create_response(page)
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert response.template_name == [expected_template]
+
+
+@pytest.mark.parametrize(
+    'view,expected_template',
+    (
+        (
+            'accessibility-statement',
+            'core/info_page.html'
+        ),
+    )
+)
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_accessibility_statement_cms(
+    mock_get_page, view, expected_template, client
+):
+    url = reverse(view)
+    page = {
+        'title': 'the page',
+        'meta': {'languages': ['en-gb']},
+        'page_type': 'PrivacyAndCookiesPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/accessibility-statement/', 'title': 'the page'},
         ]
     }
     mock_get_page.return_value = create_response(
@@ -373,23 +384,24 @@ cms_urls_slugs = (
         reverse('terms-and-conditions'),
         slugs.GREAT_TERMS_AND_CONDITIONS,
     ),
+    (
+        reverse('accessibility-statement'),
+        slugs.GREAT_ACCESSIBILITY_STATEMENT,
+    ),
 )
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @pytest.mark.parametrize('url,slug', cms_urls_slugs)
 def test_cms_pages_cms_client_params(mock_get, client, url, slug):
-    mock_get.return_value = create_response(
-        status_code=200,
-        json_body={
-            'title': 'The page',
-            'page_type': 'GenericPage',
-            'meta': {'languages': (['en-gb', 'English'])},
-            'tree_based_breadcrumbs': [
-                {'title': 'The page', 'url': '/'}
-            ],
-        }
-    )
+    mock_get.return_value = create_response({
+        'title': 'The page',
+        'page_type': 'GenericPage',
+        'meta': {'languages': (['en-gb', 'English'])},
+        'tree_based_breadcrumbs': [
+            {'title': 'The page', 'url': '/'}
+        ],
+    })
 
     response = client.get(url, {'draft_token': '123'})
 
@@ -405,6 +417,7 @@ def test_cms_pages_cms_client_params(mock_get, client, url, slug):
 cms_urls = (
     reverse('privacy-and-cookies'),
     reverse('terms-and-conditions'),
+    reverse('accessibility-statement'),
 )
 
 
@@ -431,10 +444,7 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
             {'title': 'The page', 'url': '/'}
         ],
     }
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
     response = client.get(url)
 
     assert page['title'] in str(response.content)
@@ -459,10 +469,7 @@ def test_privacy_cookies_subpage(mock_get_page, client, settings):
             {'title': 'The page', 'url': '/'}
         ],
     }
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
     response = client.get(url)
 
     assert response.status_code == 200
@@ -549,10 +556,7 @@ campaign_page_all_fields = {
 def test_marketing_campaign_campaign_page_all_fields(mock_get_page, client, settings):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=campaign_page_all_fields
-    )
+    mock_get_page.return_value = create_response(campaign_page_all_fields)
     response = client.get(url)
 
     assert response.status_code == 200
@@ -663,10 +667,7 @@ campaign_page_required_fields = {
 def test_marketing_campaign_page_required_fields(mock_get_page, client, settings):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=campaign_page_required_fields
-    )
+    mock_get_page.return_value = create_response(campaign_page_required_fields)
     response = client.get(url)
 
     assert response.status_code == 200
@@ -720,13 +721,10 @@ def test_marketing_campaign_page_required_fields(mock_get_page, client, settings
 @pytest.mark.parametrize('view_name', ['triage-start', 'custom-page'])
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_triage_views(mock_get_page, view_name, client):
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={
-            'title': 'Advice',
-            'page_type': 'TopicLandingPage',
-        }
-    )
+    mock_get_page.return_value = create_response({
+        'title': 'Advice',
+        'page_type': 'TopicLandingPage',
+    })
 
     url = reverse(view_name)
     response = client.get(url)
@@ -736,13 +734,10 @@ def test_triage_views(mock_get_page, view_name, client):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_triage_wizard_view(mock_get_page, client):
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body={
-            'title': 'Advice',
-            'page_type': 'TopicLandingPage',
-        }
-    )
+    mock_get_page.return_value = create_response({
+        'title': 'Advice',
+        'page_type': 'TopicLandingPage',
+    })
     url = reverse('triage-wizard', kwargs={'step': 'foo'})
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
@@ -762,7 +757,7 @@ def test_companies_house_search_validation_error(client, settings):
 def test_companies_house_search_api_error(mock_search, client, settings):
     settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
 
-    mock_search.return_value = create_response(400)
+    mock_search.return_value = create_response(status_code=400)
     url = reverse('api-internal-companies-house-search')
 
     with pytest.raises(requests.HTTPError):
@@ -773,9 +768,7 @@ def test_companies_house_search_api_error(mock_search, client, settings):
 def test_companies_house_search_api_success(mock_search, client, settings):
     settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
 
-    mock_search.return_value = create_response(
-        200, {'items': [{'name': 'Smashing corp'}]}
-    )
+    mock_search.return_value = create_response({'items': [{'name': 'Smashing corp'}]})
     url = reverse('api-internal-companies-house-search')
 
     response = client.get(url, data={'term': 'thing'})
@@ -788,7 +781,7 @@ def test_companies_house_search_api_success(mock_search, client, settings):
 def test_companies_house_search_internal(mock_search_companies, client, settings):
     settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = True
 
-    mock_search_companies.return_value = create_response(200, {'items': [{'name': 'Smashing corp'}]})
+    mock_search_companies.return_value = create_response({'items': [{'name': 'Smashing corp'}]})
     url = reverse('api-internal-companies-house-search')
 
     response = client.get(url, data={'term': 'thing'})
@@ -835,14 +828,12 @@ def test_international_investment_support_directory_redirect(client):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_new_landing_page_querystring_old_cms_page(mock_page, client):
-    mock_page.return_value = create_response(
-        200, {
-            'page_type': 'HomePage',
-            'tree_based_breadcrumbs': [
-                {'title': 'great.gov.uk', 'url': '/'}
-            ],
-        }
-    )
+    mock_page.return_value = create_response({
+        'page_type': 'HomePage',
+        'tree_based_breadcrumbs': [
+            {'title': 'great.gov.uk', 'url': '/'}
+        ],
+    })
     url = '/?nh=1'
 
     response = client.get(url)
@@ -853,18 +844,16 @@ def test_new_landing_page_querystring_old_cms_page(mock_page, client):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_new_landing_page_querystring_new_cms_page(mock_page, client):
-    mock_page.return_value = create_response(
-        200, {
-            'page_type': 'HomePage',
-            'tree_based_breadcrumbs': [
-                {'title': 'great.gov.uk', 'url': '/'}
-            ],
-            'how_dit_helps_title': '',
-            'hero_text': '',
-            'questions_section_title': '',
-            'what_is_new_title': '',
-        }
-    )
+    mock_page.return_value = create_response({
+        'page_type': 'HomePage',
+        'tree_based_breadcrumbs': [
+            {'title': 'great.gov.uk', 'url': '/'}
+        ],
+        'how_dit_helps_title': '',
+        'hero_text': '',
+        'questions_section_title': '',
+        'what_is_new_title': '',
+    })
     url = '/?nh=1'
 
     response = client.get(url)

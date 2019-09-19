@@ -8,31 +8,6 @@ from core.tests.helpers import create_response
 from finance import forms, views
 
 
-@pytest.fixture(autouse=True)
-def company_profile(client, user):
-    client.force_login(user)
-    path = 'core.mixins.PrepopulateFormMixin.company_profile'
-    stub = mock.patch(
-        path,
-        new_callable=mock.PropertyMock,
-        return_value={
-            'number': 1234567,
-            'name': 'Example corp',
-            'postal_code': 'Foo Bar',
-            'sectors': ['AEROSPACE'],
-            'employees': '1-10',
-            'mobile_number': '07171771717',
-            'postal_full_name': 'Foo Example',
-            'address_line_1': '123 Street',
-            'address_line_2': 'Near Fake Town',
-            'country': 'FRANCE',
-            'locality': 'Paris',
-        }
-    )
-    yield stub.start()
-    stub.stop()
-
-
 @pytest.mark.parametrize(
     'step',
     ('your-details', 'company-details', 'help')
@@ -177,10 +152,7 @@ def test_trade_finance_cms(mock_get_finance_page, client, settings):
         'industries': [{'title': 'good 1'}],
         'meta': {'languages': [['en-gb', 'English']]},
     }
-    mock_get_finance_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_finance_page.return_value = create_response(page)
     response = client.get(url)
 
     assert response.status_code == 200

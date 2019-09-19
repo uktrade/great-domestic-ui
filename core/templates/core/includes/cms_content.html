@@ -1,10 +1,10 @@
-{% load add_anchors add_export_elements_classes from directory_components %}
+{% load add_anchors add_export_elements_classes add_href_target from directory_components %}
 
 <section>
   <div class="container">
     <div class="grid-row">
       <div class="column-two-thirds">
-        {{ page.body|add_anchors:'-section'|add_export_elements_classes }}
+        {{ page.body|add_anchors:'-section'|add_export_elements_classes|add_href_target:request|safe }}
       </div>
     </div>
   </div>
