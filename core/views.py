@@ -224,6 +224,11 @@ class TermsConditionsDomesticCMS(CMSPageView):
     slug = slugs.GREAT_TERMS_AND_CONDITIONS
 
 
+class AccessibilityStatementDomesticCMS(CMSPageView):
+    template_name = 'core/info_page.html'
+    slug = slugs.GREAT_ACCESSIBILITY_STATEMENT
+
+
 # to be removed
 class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
     template_name = 'core/info_page_international.html'

@@ -145,6 +145,11 @@ urlpatterns = [
         name='terms-and-conditions'
     ),
     url(
+        r"^accessibility-statement/$",
+        core.views.AccessibilityStatementDomesticCMS.as_view(),
+        name='accessibility-statement'
+    ),
+    url(
         r"^export-opportunities/$",
         RedirectView.as_view(url=settings.SERVICES_EXOPPS_ACTUAL),
         name='export-opportunities'
