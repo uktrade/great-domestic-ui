@@ -16,6 +16,7 @@
 - XOT-1034 - Add new landing page, remove obsolete international page styling, update metadata for cms pages
 - TT-1808: Update directory components to add "no-validate" no cache middleware
 - No ticket - Add trade barriers to search
+- XOT-928 - Add user full name from new registration journey to SOO contact form
 
 ### Bug fixes
 - TT-1832 - Fix anon users unable to view feedback page
