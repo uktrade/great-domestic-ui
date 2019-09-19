@@ -2,7 +2,9 @@
 
 ## Pre-release
 
+
 ### Implemented enhancements
+- GTRANSFORM-368 update directory components version for list bullet colour
 - GTRANSFORM-368 info_page now extends article/base for missing css
 - GTRANSFORM-368 setup accessibility statement footer link and add href target template tag
 - XOT-920 - add space before/after quote
