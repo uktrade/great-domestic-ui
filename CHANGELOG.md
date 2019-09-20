@@ -20,6 +20,7 @@
 ### Bug fixes
 - XOT-1115 - Fix IE hero bug
 - TT-1832 - Fix anon users unable to view feedback page
+- TT-1816 - Upgrade directory components to fix js in non-chrome
 
 ## [2019.09.04_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04_1)
