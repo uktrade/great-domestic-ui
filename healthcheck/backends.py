@@ -8,7 +8,6 @@ from django.test import Client as TestClient
 class SearchSortBackend(BaseHealthCheckBackend):
 
     def check_status(self):
-
         client = TestClient()
         response = client.get(reverse_lazy('search'), data={'q': 'qwerty123'})
 
