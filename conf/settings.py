@@ -360,8 +360,7 @@ DIRECTORY_HEALTHCHECK_TOKEN = env.str('HEALTH_CHECK_TOKEN')
 DIRECTORY_HEALTHCHECK_BACKENDS = [
     directory_healthcheck.backends.APIBackend,
     directory_healthcheck.backends.SingleSignOnBackend,
-    directory_healthcheck.backends.FormsAPIBackend,
-    healthcheck.backends.SearchSortBackend,
+    directory_healthcheck.backends.FormsAPIBackend
 ]
 
 # Comtrade API
@@ -417,6 +416,8 @@ FEATURE_FLAGS = {
     'CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON': env.bool('FEATURE_CAPITAL_INVEST_CONTACT_IN_TRIAGE_ENABLED', False),
     'EXPORT_VOUCHERS_ON': env.bool('FEATURE_EXPORT_VOUCHERS_ENABLED', False)
 }
+if FEATURE_FLAGS['TEST_SEARCH_API_PAGES_ON']:
+    DIRECTORY_HEALTHCHECK_BACKENDS.append(healthcheck.backends.SearchSortBackend)
 
 # UK Export Finance
 UKEF_PI_TRACKER_JAVASCRIPT_URL = env.str(
