@@ -104,3 +104,16 @@ def test_contact_form_success_view_response(rf):
     view = views.SuccessPageView.as_view()
     response = view(request)
     assert response.status_code == 302
+
+
+def test_get_finance_card_bullets(client):
+    url = reverse('get-finance')
+    response = client.get(url)
+    trade_finance_bullets = ['working capital support', 'bond support', 'credit insurance']
+    project_finance_bullets = ['UKEF buyer credit guarantees', 'direct lending', 'credit and bond insurance']
+
+    for bullet in trade_finance_bullets:
+        assert f'<li>{bullet}</li>' in str(response.content)
+
+    for bullet in project_finance_bullets:
+        assert f'<li>{bullet}</li>' in str(response.content)

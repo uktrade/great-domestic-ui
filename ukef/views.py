@@ -11,6 +11,13 @@ from ukef.forms import UKEFContactForm
 class HomeView(TemplateView):
     template_name = 'ukef/home_page.html'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['trade_finance_bullets'] = ['working capital support', 'bond support', 'credit insurance']
+        context['project_finance_bullets'] = [
+            'UKEF buyer credit guarantees', 'direct lending', 'credit and bond insurance']
+        return context
+
 
 class LandingView(TemplateView):
     template_name = 'ukef/landing_page.html'

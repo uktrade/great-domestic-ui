@@ -18,6 +18,7 @@
 - No ticket - Add trade barriers to search
 
 ### Bug fixes
+- XOT-1115 - Fix IE hero bug
 - TT-1832 - Fix anon users unable to view feedback page
 
 ## [2019.09.04_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04_1)
