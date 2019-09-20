@@ -7,18 +7,7 @@ from core.views import (
     OpportunitiesRedirectView, TranslationRedirectView, QuerystringRedirectView
 )
 
-redirects = []
-
-if settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON']:
-    redirects += [
-        url(
-            r'^contact/triage/international/',
-            QuerystringRedirectView.as_view(url='/international/contact/'),
-            name='international-contact-triage-redirect'
-        )
-    ]
-
-redirects += [
+redirects = [
     url(
         r'^eu-exit-news/contact/$',
         QuerystringRedirectView.as_view(pattern_name='brexit-contact-form'),
@@ -338,6 +327,14 @@ redirects += [
         ),
     ),
 ]
+
+if settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON']:
+    redirects += [
+        url(
+            r'^contact/triage/international/',
+            QuerystringRedirectView.as_view(url='/international/contact/')
+        )
+    ]
 
 # (<lang code path>, <language to use in query parameter>)
 INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [

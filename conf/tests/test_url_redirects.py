@@ -9,7 +9,7 @@ from conf.url_redirects import (
     INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,
     INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING
 )
-
+from core.tests.helpers import reload_urlconf
 
 UTM_QUERY_PARAMS = '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
 
@@ -472,7 +472,10 @@ redirects = [
 
 
 @pytest.mark.parametrize('url,expected', redirects)
-def test_redirects(url, expected, client):
+def test_redirects(url, expected, client, settings):
+    settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON'] = True
+    reload_urlconf()
+
     response = client.get(url)
 
     assert response.status_code == http.client.FOUND
