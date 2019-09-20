@@ -2,11 +2,23 @@ from django.conf.urls import url
 from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
 
+from django.conf import settings
 from core.views import (
     OpportunitiesRedirectView, TranslationRedirectView, QuerystringRedirectView
 )
 
-redirects = [
+redirects = []
+
+if settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON']:
+    redirects += [
+        url(
+            r'^contact/triage/international/',
+            QuerystringRedirectView.as_view(url='/international/contact/'),
+            name='international-contact-triage-redirect'
+        )
+    ]
+
+redirects += [
     url(
         r'^eu-exit-news/contact/$',
         QuerystringRedirectView.as_view(pattern_name='brexit-contact-form'),

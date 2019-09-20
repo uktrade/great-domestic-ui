@@ -464,6 +464,10 @@ redirects = [
         '/advice/get-export-finance-and-funding/raise-money-with-investment/',  # NOQA
         '/advice/get-export-finance-and-funding/get-export-finance/'
     ),
+    (
+        '/contact/triage/international/',
+        '/international/contact/'
+    )
 ]
 
 
