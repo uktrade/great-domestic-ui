@@ -34,4 +34,4 @@ def test_get_full_name_with_no_details(user, company_profile):
     # Inherit the company_profile fixture and overwrite the company
     # information
     company_profile.return_value = create_response({})
-    assert user.get_full_name is ''
+    assert user.get_full_name == ''
