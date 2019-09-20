@@ -47,6 +47,16 @@ redirects = [
         )
     ),
     url(
+        r'^TRSkorea/$',
+        QuerystringRedirectView.as_view(
+            url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'
+        )
+    ),
+    url(
+        r'^UKTI/$',
+        QuerystringRedirectView.as_view(pattern_name='landing-page')
+    ),
+    url(
         r'^ukti/$',
         QuerystringRedirectView.as_view(pattern_name='landing-page')
     ),
