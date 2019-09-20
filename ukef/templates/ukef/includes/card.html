@@ -1,0 +1,20 @@
+{% extends 'directory_components/card.html' %}
+
+{% block content %}
+  {% if subheading %}
+    <p class="subheading">{{ subheading }}</p>
+  {% endif %}
+  {% if title or heading %}
+    <h3 class="heading-large">{% firstof title heading %}</h3>
+  {% endif %}
+  {% if description %}
+    <p class="description">{{ description }}</p>
+  {% endif %}
+  {% if bullets %}
+  <ul class="margin-vertical-15 list-bullet">
+    {% for bullet in bullets %}
+    <li>{{ bullet }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+{% endblock %}

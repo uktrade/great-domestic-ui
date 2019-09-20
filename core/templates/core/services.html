@@ -10,11 +10,9 @@
 {% endblock %}
 
 {% block hero %}
-  {% static 'images/services/placeholder-xlarge.png' as hero_xlarge %}
-  {% static 'images/services/placeholder-large.png' as hero_large %}
   {% static 'images/placeholder.jpg' as hero_medium %}
 
-  {% hero xlarge_image=hero_xlarge large_image=hero_large medium_image=hero_medium hero_text='Services' %}
+  {% hero image=hero_medium hero_text='Services' %}
 {% endblock %}
 
 {% block breadcrumbs %}
