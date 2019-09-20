@@ -4,6 +4,7 @@
 
 
 ### Implemented enhancements
+- XOT-1114 add video transcript to article page
 - GTRANSFORM-368 update directory components version for list bullet colour
 - GTRANSFORM-368 info_page now extends article/base for missing css
 - GTRANSFORM-368 setup accessibility statement footer link and add href target template tag
