@@ -104,10 +104,10 @@ https://github.com/uktrade?q=great
 [code-climate-image]: https://codeclimate.com/github/uktrade/great-domestic-ui/badges/issue_count.svg
 [code-climate]: https://codeclimate.com/github/uktrade/great-domestic-ui
 
-[circle-ci-image]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/master.svg?style=svg
-[circle-ci]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/master
+[circle-ci-image]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/develop.svg?style=shield
+[circle-ci]: https://circleci.com/gh/uktrade/great-domestic-ui/tree/develop
 
-[codecov-image]: https://codecov.io/gh/uktrade/great-domestic-ui/branch/master/graph/badge.svg
+[codecov-image]: https://codecov.io/gh/uktrade/great-domestic-ui/branch/develop/graph/badge.svg
 [codecov]: https://codecov.io/gh/uktrade/great-domestic-ui
 
 [gitflow-image]: https://img.shields.io/badge/Branching%20strategy-gitflow-5FBB1C.svg
