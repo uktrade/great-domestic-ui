@@ -375,7 +375,7 @@ class FeedbackFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
         if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
-                'name': self.request.user.get_full_name,
+                'name': self.request.user.get_full_name(),
             }
 
 
@@ -527,7 +527,7 @@ class SellingOnlineOverseasFormView(
                 initial['description'] = self.request.user.company['summary']
             elif step == self.CONTACT_DETAILS:
                 initial.update({
-                    'contact_name': self.request.user.get_full_name,
+                    'contact_name': self.request.user.get_full_name(),
                     'contact_email': self.request.user.email,
                     'phone': self.request.user.company['mobile_number'],
                 })

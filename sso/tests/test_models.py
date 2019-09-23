@@ -21,17 +21,17 @@ def test_retrieve_company_profile_mixin_not_ok(company_profile):
 def test_get_full_name_with_user_details(user):
     user.first_name = "Joe"
     user.last_name = "Bloggs"
-    assert user.get_full_name == "Joe Bloggs"
+    assert user.get_full_name() == "Joe Bloggs"
 
 
 def test_get_full_name_with_company_details(user, company_profile):
     # This inherits the company_profile fixture with a postal_full_name
     # of Foo Example
-    assert user.get_full_name == "Foo Example"
+    assert user.get_full_name() == "Foo Example"
 
 
 def test_get_full_name_with_no_details(user, company_profile):
     # Inherit the company_profile fixture and overwrite the company
     # information
     company_profile.return_value = create_response({})
-    assert user.get_full_name == ''
+    assert user.get_full_name() == ''
