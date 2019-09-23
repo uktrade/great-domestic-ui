@@ -8,30 +8,6 @@ from core.tests.helpers import create_response
 from finance import forms, views
 
 
-@pytest.fixture(autouse=True)
-def company_profile(authed_client):
-    path = 'core.mixins.PrepopulateFormMixin.company_profile'
-    stub = mock.patch(
-        path,
-        new_callable=mock.PropertyMock,
-        return_value={
-            'number': 1234567,
-            'name': 'Example corp',
-            'postal_code': 'Foo Bar',
-            'sectors': ['AEROSPACE'],
-            'employees': '1-10',
-            'mobile_number': '07171771717',
-            'postal_full_name': 'Foo Example',
-            'address_line_1': '123 Street',
-            'address_line_2': 'Near Fake Town',
-            'country': 'FRANCE',
-            'locality': 'Paris',
-        }
-    )
-    yield stub.start()
-    stub.stop()
-
-
 @pytest.mark.parametrize(
     'step',
     ('your-details', 'company-details', 'help')
@@ -176,10 +152,7 @@ def test_trade_finance_cms(mock_get_finance_page, client, settings):
         'industries': [{'title': 'good 1'}],
         'meta': {'languages': [['en-gb', 'English']]},
     }
-    mock_get_finance_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_finance_page.return_value = create_response(page)
     response = client.get(url)
 
     assert response.status_code == 200
@@ -203,7 +176,7 @@ def test_ukef_lead_generation_success_page(client):
     ]
 
 
-def test_test_ukef_lead_generationinitial_data(client):
+def test_test_ukef_lead_generationinitial_data(client, user):
     url_name = 'uk-export-finance-lead-generation-form'
 
     response_one = client.get(
@@ -211,7 +184,7 @@ def test_test_ukef_lead_generationinitial_data(client):
     )
 
     assert response_one.context_data['form'].initial == {
-        'email': 'test@foo.com',
+        'email': user.email,
         'phone': '07171771717',
         'firstname': 'Foo',
         'lastname': 'Example',

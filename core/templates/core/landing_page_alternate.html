@@ -1,0 +1,27 @@
+{% extends 'article/base.html' %}
+
+{% load static from staticfiles %}
+{% load directory_components %}
+
+{% block og_image %}{{ page.hero_medium.url }}{% endblock %}
+
+{% block head_title %}Welcome to great.gov.uk - export guidance and services{% endblock %}
+
+{% block css_layout_class %}landing-page{% endblock %}
+
+{% block content %}
+
+{% hero_with_cta image=page.hero_image.url heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_linked_page %}
+
+{% key_facts items=page.how_dit_helps_columns heading=page.how_dit_helps_title %}
+
+<section>
+  <div class="container">
+    <h2 class="heading-large">{{ page.questions_section_title }}</h2>
+    {% accordion_list items=page.questions %}
+  </div>
+</section>
+
+{% featured_articles heading=page.what_is_new_title items=page.what_is_new_pages %}
+
+{% endblock %}

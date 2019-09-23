@@ -10,8 +10,9 @@
 {% endblock %}
 
 {% block hero %}
-  {% static 'images/placeholder.jpg' as hero_image %}
-  {% hero background_image_url=hero_image hero_text='Services' large_title=True %}
+  {% static 'images/placeholder.jpg' as hero_medium %}
+
+  {% hero image=hero_medium hero_text='Services' %}
 {% endblock %}
 
 {% block breadcrumbs %}

@@ -1,7 +1,7 @@
 import re
 
 from captcha.fields import ReCaptchaField
-from directory_forms_api_client.forms import GovNotifyActionMixin
+from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from directory_components import forms
 
 from django.forms import ValidationError
@@ -14,7 +14,7 @@ from ukpostcodeutils import validation
 PHONE_NUMBER_REGEX = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
 
 
-class MarketingJoinForm(GovNotifyActionMixin, forms.Form):
+class MarketingJoinForm(GovNotifyEmailActionMixin, forms.Form):
     first_name = forms.CharField(
         label=_('First name'),
         min_length=2,

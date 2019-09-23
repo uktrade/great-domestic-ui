@@ -41,13 +41,23 @@ redirects = [
         name='australia-event-calendar'
     ),
     url(
-        r'^(?i)trskorea/$',
+        r'^trskorea/$',
         QuerystringRedirectView.as_view(
             url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'
         )
     ),
     url(
-        r'^(?i)ukti/$',
+        r'^TRSkorea/$',
+        QuerystringRedirectView.as_view(
+            url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'
+        )
+    ),
+    url(
+        r'^UKTI/$',
+        QuerystringRedirectView.as_view(pattern_name='landing-page')
+    ),
+    url(
+        r'^ukti/$',
         QuerystringRedirectView.as_view(pattern_name='landing-page')
     ),
     url(
@@ -60,37 +70,37 @@ redirects = [
         )
     ),
     url(
-        r'^(?i)innovation-hk/$',
+        r'^innovation-hk/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-hk',
         )
     ),
     url(
-        r'^(?i)innovation-china/$',
+        r'^innovation-china/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-china',
         )
     ),
     url(
-        r'^(?i)innovation-asean/$',
+        r'^innovation-asean/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-asean',
         )
     ),
     url(
-        r'^(?i)innovation-au-nz/$',
+        r'^innovation-au-nz/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-au-nz',
         )
     ),
     url(
-        r'^(?i)innovation-jpn/$',
+        r'^innovation-jpn/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-jpn',
         )
     ),
     url(
-        r'^(?i)innovation-kor/$',
+        r'^innovation-kor/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-kor',
         )
@@ -117,7 +127,7 @@ redirects = [
         ),
     ),
     url(
-        r'^(?i)beijingexpo2019/$',
+        r'^beijingexpo2019/$',
         RedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/index.php?eventid=200188985&'  # NOQA
         )

@@ -78,9 +78,7 @@ def test_handle_cms_response_error(status_code, exception):
 
 
 def test_handle_cms_response_ok():
-    response = core.tests.helpers.create_response(
-        status_code=200, json_body={'field': 'value'}
-    )
+    response = core.tests.helpers.create_response({'field': 'value'})
 
     assert helpers.handle_cms_response(response) == {'field': 'value'}
 
@@ -101,9 +99,7 @@ def test_handle_cms_response_allow_404_not_found():
 
 
 def test_handle_cms_response_allow_404_ok():
-    response = core.tests.helpers.create_response(
-        status_code=200, json_body={'field': 'value'}
-    )
+    response = core.tests.helpers.create_response({'field': 'value'})
     assert helpers.handle_cms_response_allow_404(response) == {
         'field': 'value'}
 

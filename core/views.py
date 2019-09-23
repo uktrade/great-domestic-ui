@@ -33,7 +33,17 @@ class SetEtagMixin:
 
 
 class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
-    template_name = 'core/landing_page_domestic.html'
+
+    @property
+    def template_name(self):
+        alt_landing_page_requested = self.request.GET.get('nh')
+        required_cms_fields = ['how_dit_helps_title', 'hero_text', 'questions_section_title', 'what_is_new_title']
+        cms_page_has_new_fields = all([key in self.page for key in required_cms_fields])
+
+        if cms_page_has_new_fields and alt_landing_page_requested:
+            return 'core/landing_page_alternate.html'
+
+        return 'core/landing_page_domestic.html'
 
     @cached_property
     def page(self):
@@ -212,6 +222,11 @@ class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
 class TermsConditionsDomesticCMS(CMSPageView):
     template_name = 'core/info_page.html'
     slug = slugs.GREAT_TERMS_AND_CONDITIONS
+
+
+class AccessibilityStatementDomesticCMS(CMSPageView):
+    template_name = 'core/info_page.html'
+    slug = slugs.GREAT_ACCESSIBILITY_STATEMENT
 
 
 # to be removed

@@ -7,7 +7,7 @@ from django.conf import settings
 from django.urls import clear_url_caches
 
 
-def create_response(status_code, json_body={}, content=None):
+def create_response(json_body={}, status_code=200, content=None):
     response = requests.Response()
     response.status_code = status_code
     response.json = lambda: json_body

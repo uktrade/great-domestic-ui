@@ -1,0 +1,151 @@
+
+// LANDING PAGE
+// ============
+
+@import 'partials/colours';
+@import 'partials/vars';
+@import 'partials/mixins';
+
+#header-bar .account-links li:nth-child(3) {
+  margin-left: 5px;
+}
+
+.landing-page-old {
+
+  // Hero
+  .hero-domestic img {
+    float: right;
+    height: 90px;
+    margin-bottom: 30px;
+  }
+
+  .hero {
+    color: $white;
+    position: relative;
+    padding: 1em 0;
+    background-position: center center;
+    background-size: cover;
+
+    .heading-hero-domestic span {
+      padding: 8px 15px 5px;
+      margin: 0 0 5px 0px;
+      text-transform: uppercase;
+      background-color: $great-red;
+      line-height: 1.2;
+      display: inline-block;
+    }
+
+    .container {
+      position: relative;
+    }
+
+    &:before {
+      background-image: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+      content: "";
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    // firefox specific styling to fix how background colour is positioned in span tags
+    @-moz-document url-prefix() {
+      & {
+        padding: 13px $spacing-4 0px $spacing-4;
+      }
+    }
+
+    // IE9+ CSS
+    @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+      & {
+        line-height: 1em;
+        padding: 10px;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+// Background images
+
+#hero-campaign-section {
+  background-image: url('/static/images/hero/export-hp-hero-champion-500.jpg');
+
+}
+
+body.webp-enabled {
+  #hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-champion-500.webp') }
+}
+
+
+// Sections
+
+.landing-page-old {
+
+  .news-section {
+    padding-bottom: 0;
+  }
+
+  .hero {
+    overflow: auto;
+
+    .heading-xlarge {
+      margin-bottom: .9375em
+    }
+  }
+
+  .community-section,
+  .triage-section,
+  .beis-section {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+
+@media (min-width: 640px) {
+  .landing-page-old {
+    .community-section,
+    .triage-section,
+    .beis-section {
+      img {
+        margin-top: 45px;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .landing-page-old .hero img {
+    height: 70px;
+  }
+}
+
+@media (max-width: 540px) {
+  .landing-page-old {
+    .hero {
+      background-position: top left;
+      padding-top: 90px;
+      padding-bottom: 2em;
+
+      img {
+        bottom: auto;
+        left: 0;
+        position: absolute;
+        right: auto;
+        top: -85px;
+      }
+    }
+  }
+
+  #hero-campaign-section {
+    background-image: url('/static/images/hero/export-hp-hero-champion-mb.png');
+      background-position: 80% 0;
+  }
+
+  body.webp-enabled  #hero-campaign-section {
+    background-image: url('/static/images/hero/export-hp-hero-champion-mb.webp');
+  }
+}

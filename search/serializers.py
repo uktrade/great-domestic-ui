@@ -1,10 +1,14 @@
 import markdown2
+from functools import partial
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from urllib3.util import parse_url
 
 from django.utils.text import Truncator
 
 from directory_constants import urls
+
+build_events_url = partial(urljoin, urls.domestic.EVENTS)
 
 
 def parse_search_results(content):
@@ -19,7 +23,7 @@ def parse_search_results(content):
     def format_events_url(result):
         if "dit:Event" in result['type'] or "Event" in result['type']:
             url = parse_url(result['url'])
-            result['url'] = urls.SERVICES_EVENTS + url.request_uri
+            result['url'] = build_events_url(url.request_uri)
 
     def abridge_long_contents(result):
         if 'content' in result:

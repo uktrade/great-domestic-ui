@@ -1,13 +1,11 @@
-from directory_api_client.client import api_client
+from directory_api_client import api_client
 
 from django.conf import settings
 import requests.exceptions
 
 
 def retrieve_regional_offices(postcode):
-    response = api_client.exporting.lookup_regional_offices_by_postcode(
-        postcode
-    )
+    response = api_client.exporting.lookup_regional_offices_by_postcode(postcode)
     response.raise_for_status()
     return response.json()
 

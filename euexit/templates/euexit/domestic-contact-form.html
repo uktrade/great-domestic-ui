@@ -7,9 +7,9 @@
     {{ block.super }}
     <link href="{% static 'styles/euexit-form.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
-
+{% block head_title %}{{ page.heading }} - great.gov.uk{% endblock %}
 {% block content %}
-    {% block breadcrumbs %}  
+    {% block breadcrumbs %}
         <div class="container">
             {% breadcrumbs page.breadcrumbs_label %}
                 <a href="/">great.gov.uk</a>

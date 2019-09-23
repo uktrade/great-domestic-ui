@@ -11,6 +11,7 @@ from core.mixins import (
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
     SetGA360ValuesForCMSPageMixin,
+    SetGA360ValuesMixin,
 )
 
 TEMPLATE_MAPPING = {
@@ -109,11 +110,10 @@ class CountryGuidePageView(CMSPageView):
 
 
 class TagListPageView(
-    PrototypeFeatureFlagMixin,
-    GetCMSTagMixin,
-    TemplateView,
+    PrototypeFeatureFlagMixin, SetGA360ValuesMixin, GetCMSTagMixin, TemplateView,
 ):
     template_name = 'article/tag_list.html'
+    page_type = 'TagListPage'
 
     @property
     def slug(self):
@@ -121,12 +121,11 @@ class TagListPageView(
 
 
 class NewsListPageView(
-    NewsSectionFeatureFlagMixin,
-    GetCMSPageMixin,
-    TemplateView,
+    NewsSectionFeatureFlagMixin, SetGA360ValuesMixin, GetCMSPageMixin, TemplateView,
 ):
     template_name = 'article/domestic_news_list.html'
     slug = slugs.EUEXIT_DOMESTIC_NEWS
+    page_type = 'NewsList'
 
 
 class NewsArticleDetailView(

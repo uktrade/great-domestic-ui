@@ -8,10 +8,7 @@ from core.tests.helpers import create_response
 
 @pytest.fixture
 def mock_get_page():
-    stub = patch(
-        'directory_cms_client.client.cms_api_client.lookup_by_slug',
-        return_value=create_response(status_code=200)
-    )
+    stub = patch('directory_cms_client.client.cms_api_client.lookup_by_slug', return_value=create_response())
     yield stub.start()
     stub.stop()
 
@@ -90,7 +87,7 @@ def test_article_advice_page(mock_get_page, client, settings):
 
     html = render_to_string('article/topic_list.html', context)
 
-    assert page['title'] not in html
+    assert page['title'] in html
     assert page['landing_page_title'] in html
 
     assert 'Asia market information' in html
@@ -369,7 +366,7 @@ def test_news_list_page_feature_flag_on():
 
     html = render_to_string('article/domestic_news_list.html', context)
 
-    assert test_news_list_page['title'] not in html
+    assert test_news_list_page['title'] in html
     assert test_news_list_page['landing_page_title'] in html
     assert 'Lorem ipsum' in html
     assert 'Dolor sit amet' in html
@@ -488,8 +485,7 @@ def test_tag_list_page():
     assert '02 October' in html
     assert 'Article 1 title' in html
     assert 'Article 2 title' in html
-    assert '2 articles with tag:' in html
-    assert 'New to exporting' in html
+    assert 'Articles with tag: New to exporting' in html
 
 
 def test_landing_page_header_footer(rf):
@@ -531,10 +527,7 @@ def test_article_detail_page_social_share_links(
 
     url = '/advice/create-an-export-plan/how-to-write-an-export-plan/'
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     response = client.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -594,10 +587,7 @@ def test_article_detail_page_social_share_links_no_title(
 
     url = '/advice/create-an-export-plan/how-to-write-an-export-plan/'
 
-    mock_get_page.return_value = create_response(
-        status_code=200,
-        json_body=page
-    )
+    mock_get_page.return_value = create_response(page)
 
     response = client.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')

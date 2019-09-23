@@ -116,6 +116,19 @@
         "keywords": "Brexit Brexit leave european union euexit",
         "url": "https://www.great.gov.uk/eu-exit-news/contact/"
       }
+    },{
+      "dit:application": "greatDomesticUi",
+      "id": "dit:greatDomesticUi:KeyPages:10:Update",
+      "type": "Update",
+      "object": {
+        "id": "dit:greatDomesticUi:KeyPages:10",
+        "type": "Service",
+        "type": ["Document", "dit:Service", "Service"],
+        "name": "Report a trade barrier",
+        "content": "Tell us if you think you’re facing a trade barrier. We might be able to help you resolve it.",
+        "keywords": "Brexit trade barrier barriers report tariff restrictions restrictions tarriffs regulation regulations",
+        "url": "https://www.https://www.great.gov.uk/report-trade-barrier/"
+      }
     }
   ]
 }
