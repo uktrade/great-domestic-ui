@@ -19,7 +19,7 @@
 - No ticket - Add trade barriers to search
 
 ### Bug fixes
-- XOT-1115 - Fix IE hero bug
+- XOT-1115 - Fix IE hero bug, fix missing image on country guide hero
 - TT-1832 - Fix anon users unable to view feedback page
 - TT-1816 - Upgrade directory components to fix js in non-chrome
 
