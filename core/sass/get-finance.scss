@@ -54,6 +54,28 @@
 
 }
 
+@media (min-width: 641px) {
+  .ukef-contact-section-cta-box {
+    .button-container {
+      .button.button-blue {
+        width: auto;
+      }
+
+    }
+  }
+}
+
+@media (min-width: 961px) {
+  .ukef-contact-section-cta-box {
+    .button-container {
+      text-align: right;
+      .button.button-blue {
+        width: auto;
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .evidence-section {
     margin-bottom: 30px;
@@ -62,7 +84,8 @@
 
 @media (max-width: 640px) {
   .get-finance {
-    .contact-section {
+    .contact-section,
+    .contact-section-bottom {
       padding-top: 0;
       padding-bottom: 30px;
 
