@@ -9,10 +9,12 @@ dit.components.video = (new function() {
 
   // Constants
   var CSS_CLASS_CONTAINER = "video-container";
-  var VIDEO_CLOSE_BUTTON_ID = "hero-campaign-section-videoplayer-close"
+  var VIDEO_CLOSE_BUTTON_ID = "campaign-section-videoplayer-close";
   var SELECTOR_ACTIVATOR = "[data-node='videoactivator']";
   var TYPE_VIDEO = "video";
   var TYPE_IFRAME = "iframe";
+  var TRANSCRIPT = '#campaign-video-transcript';
+  var TRANSCRIPT_TEXT = '#campaign-video-transcript-text';
 
 
   /* Contructor
@@ -29,7 +31,7 @@ dit.components.video = (new function() {
     var format = src.replace(/^.*\.([a-z0-9/]+)$/, "$1");
     var $source = $("<source src=\"" + src + "\" type=\"video/" + format  + "\">");
     $video.append($source);
-    this.setContent($video);
+    this.setContent([$video, $(TRANSCRIPT)]);
   }
 
   VideoDialog.loadWithIframe = function(src) {
@@ -41,6 +43,9 @@ dit.components.video = (new function() {
     var $activator = $(this.activator);
     var type = $activator.data("element");
     var url = $activator.attr("href") || $activator.data("src");
+    $(TRANSCRIPT).css({
+      display: 'block'
+    });
     switch(type) {
       case TYPE_VIDEO:
         VideoDialog.loadWithVideo.call(this, url);
@@ -87,8 +92,10 @@ dit.components.video = (new function() {
 
     $iframe.attr("width", size[0]);
     $iframe.attr("height", size[1]);
-    //t = Math.floor((o - s.height()) / 4),
-    //t > 0 && i.$content.css('margin-top', String(t > 0 ? t : 0) + 'px')
+    var transcript_height = Math.max(260, window.innerHeight - size[1] - 65 - 120);
+    $(TRANSCRIPT_TEXT).css({
+      height: transcript_height
+    });
   }
 
   function createContainer() {
@@ -106,6 +113,9 @@ dit.components.video = (new function() {
 
   function onClose() {
     $('body').removeClass('modal-open');
+    $(TRANSCRIPT).css({
+        display: 'none'
+    });
     this.$container.find('video').each(function(index, video) {
       video.pause();
     });

@@ -2,5 +2,113 @@
 // New landing page
 // =================
 
-// No styling yet!
-// Styles to be namespaced under .landing-page
+@import '../partials/typography';
+
+// NOTE: Not namespaced because these elements exist outside of the `main` element!
+.campaign-video-transcript {
+  display: none;
+
+  details {
+    border: 0;
+    padding: 0;
+  }
+
+  @media (max-width: 640px) {
+    details {
+      margin: $spacing-4 0 0;
+    }
+  }
+}
+
+.campaign-video-transcript-text {
+  overflow: auto;
+}
+
+.landing-page {
+
+  .button-video {
+    text-align: left;
+    min-width: 250px;
+    position: relative;
+
+    &:after {
+      content: '▶︎';
+      position: absolute;
+      right: 30px;
+      line-height: inherit;
+    }
+  }
+
+  .campaign-section {
+    padding: 0;
+    position: relative;
+    color: $grey;
+
+    img {
+      display: block;
+    }
+
+  }
+
+  .campaign-related-links {
+
+    a {
+      color: $white;
+      font-weight: 700;
+      font-family: $brand-font-alternative;
+
+      &:active:hover {
+        color: $great-blue;
+      }
+    }
+  }
+
+  .campaign-heading-container {
+    margin-bottom: $spacing-3;
+  }
+
+  .campaign-heading {
+    text-transform: uppercase;
+  }
+
+  .campaign-content-container {
+    padding-top: 30px;
+  }
+  @media (min-width: 769px) {
+    .campaign-section {
+      color: $white;
+    }
+
+    .campaign-content-container {
+      padding: 30px;
+      z-index: 1;
+      position: absolute;
+      overflow: visible;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .campaign-heading-container {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+
+    .campaign-heading {
+      max-width: 175px;
+      position: absolute;
+      margin-left: $spacing-3;
+      margin-top: $spacing-3;
+    }
+
+    .campaign-subsection {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+
+}
