@@ -19,6 +19,7 @@
 - No ticket - Add trade barriers to search
 
 ### Bug fixes
+- No ticket - Fix report a trade barrier link in search-key-pages.json
 - No ticket - Fix 500 error on UKEF contact form
 - XOT-1115 - Fix IE hero bug, fix missing image on country guide hero, fix text colour on trade finance hero
 - TT-1832 - Fix anon users unable to view feedback page
