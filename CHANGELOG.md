@@ -5,9 +5,16 @@
 ### Implemented enhancements
 - XOT-1078 - UKEF contact us button text issue on small resolutions
 
-## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
-[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.04_1...2019.09.23)
+- XOT-1039 - Add campaign section with video
 
+## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23...2019.09.23_1)
+
+### Hotfix
+- Re-add case insensitive urls
+
+## [2019.09.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.04_1...2019.09.23)
 
 ### Implemented enhancements
 - XOT-1114 add video transcript to article page
