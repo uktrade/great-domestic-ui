@@ -51,7 +51,7 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
             slug=slugs.GREAT_HOME,
             draft_token=self.request.GET.get('draft_token'),
         )
-        return helpers.handle_cms_response_allow_404(response)
+        return helpers.handle_cms_response(response)
 
     def get(self, request, *args, **kwargs):
         redirector = helpers.GeoLocationRedirector(self.request)
