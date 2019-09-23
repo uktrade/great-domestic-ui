@@ -75,11 +75,11 @@ class DomesticContactFormView(BaseInternationalContactFormView):
     subject = 'Brexit contact form'
 
     def get_form_initial(self):
-        if self.company_profile:
+        if self.request.user.is_authenticated and self.request.user.company:
             return {
-                'email': self.request.sso_user.email,
-                'company_name': self.company_profile['name'],
-                'postcode': self.company_profile['postal_code'],
+                'email': self.request.user.email,
+                'company_name': self.request.user.company['name'],
+                'postcode': self.request.user.company['postal_code'],
                 'first_name': self.guess_given_name,
                 'last_name': self.guess_family_name,
                 'organisation_type': forms.COMPANY,

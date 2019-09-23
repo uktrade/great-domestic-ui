@@ -5,7 +5,6 @@
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
 {% block head_js %}
-  <script src="{% static 'directory_components/js/vendor/jquery-3.3.1.min.js' %}"></script>
   <script src="{% static 'js/dit.js' %}"></script>
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
 {% endblock %}
@@ -15,19 +14,23 @@
 {% endblock %}
 
 {% block head_sharing_metadata %}
-  {% if request %}
-    {% if page.hero_image %}
-      <meta property="og:image" content="{{ page.hero_image.url }}">
-    {% else %}
+
+{% if request %}
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+{% endif %}
+
+{% block sharing_image %}
+  {% if page.hero_image or page.hero_medium or page.hero_image_thumbnail or page.article_image_thumbnail %}
+    <meta property="og:image" content="{% firstof page.hero_image_thumbnail.url page.article_image_thumbnail.url page.hero_medium.url page.hero_image.url %}">
+  {% else %}
+    {% if request %}
       <meta property="og:image" content="{% block og_image %}{% static_absolute 'directory_components/images/opengraph-image.png' %}{% endblock %}">
     {% endif %}
-    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
   {% endif %}
+{% endblock %}
 
-  {% if page.search_description or page.seo_title %}
-    <meta name="description" content="{{ page.search_description|default:page.seo_title }}">
-  {% else %}
-    <meta name="description" content="{% block meta_description %}{% endblock %}">
-  {% endif %}
+{% block sharing_description %}
+  <meta name="description" content="{% block meta_description %}{% firstof page.search_description page.teaser page.featured_description page.seo_title page.title %}{% endblock %}">
+{% endblock %}
 
 {% endblock %}

@@ -4,9 +4,11 @@
 
 .Modal-Container {
   z-index: 11;
+  position: fixed;
 
   .content {
     width: calc(100% - 60px);
+    max-height: calc(100vh - 60px);
   }
 }
 

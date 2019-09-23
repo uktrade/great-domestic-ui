@@ -12,11 +12,10 @@
 
 {% block content %}
 
-{% static 'images/market-access/report-a-barrier-banner.jpg' as hero_image %}
-{% static 'images/market-access/report-a-barrier-content.jpg' as content_image %}
+{% static 'images/market-access/report-a-barrier-banner-xlarge.png' as xlarge_hero %}
 
-{% load hero from directory_components %}
-{% hero hero_text="Report a trade barrier" background_image_url=hero_image %}
+{% hero image=xlarge_hero hero_text='Report a trade barrier' %}
+
 <section>
     <div class="container">
         {% breadcrumbs 'Report a trade barrier' %}
@@ -26,20 +25,20 @@
         <div class="grid-row">
             <div class="column-two-thirds">
                 <p class="lede">
-                    Tell us if you think you’re facing a trade barrier. We might be able to help you resolve it.  
+                    Tell us if you think you’re facing a trade barrier. We might be able to help you resolve it.
                 </p>
                 <p class="lede">
-                    A trade barrier is something that slows down, limits or prevents a UK business exporting to or investing in an overseas market. 
+                    A trade barrier is something that slows down, limits or prevents a UK business exporting to or investing in an overseas market.
                 </p>
                 <p class="lede">
-                    They can affect businesses of all sizes and at all stages of exporting, even if you’re just exploring opportunities.  
+                    They can affect businesses of all sizes and at all stages of exporting, even if you’re just exploring opportunities.
                 </p>
                 <a href="{% url 'report-ma-barrier' step='about' %}" class="button">Report a barrier</a>
             </div>
         </div>
         <div class="grid-row">
             <div class="column-two-thirds">
-                <p>If your problem is urgent, you can <a href="https://www.gov.uk/world/embassies">contact the relevant British embassy</a>. Their knowledge of local business practices and working hours might mean your barrier is resolved more quickly.</p>
+                <p>If your problem is urgent, you can <a href="https://www.gov.uk/world/embassies" target="_blank" rel="noopener noreferrer" class="link">contact the relevant British embassy</a>. Their knowledge of local business practices and working hours might mean your barrier is resolved more quickly.</p>
             </div>
         </div>
         <hr>
@@ -59,20 +58,20 @@
         <div class="grid-row">
             <div class="column-two-thirds">
                 <ol class="list big-number-list">
-                    <li> 
-                        <h3 class="heading-small">Tell us about your business</h4> 
+                    <li>
+                        <h3 class="heading-small">Tell us about your business</h4>
                         <p class="font-xsmall">What are your business details? How can we contact you?</p>
                     </li>
-                    <li> 
-                        <h3 class="heading-small">Describe your problem</h4> 
+                    <li>
+                        <h3 class="heading-small">Describe your problem</h4>
                         <p class="font-xsmall">What’s stopping your export? Is the problem still affecting your business?</p>
                     </li>
-                    <li> 
-                        <h3 class="heading-small">Tell us more about your problem</h4> 
+                    <li>
+                        <h3 class="heading-small">Tell us more about your problem</h4>
                         <p class="font-xsmall">Add any other details you think are relevant to your problem.</p>
                     </li>
-                    <li> 
-                        <h3 class="heading-small">What happens next</h4> 
+                    <li>
+                        <h3 class="heading-small">What happens next</h4>
                         <p class="font-xsmall">We’ll aim to email you within 5 working days to let you know if we can help.</p>
                     </li>
                 </ol>

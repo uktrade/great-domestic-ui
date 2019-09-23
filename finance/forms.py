@@ -1,5 +1,6 @@
 from captcha.fields import ReCaptchaField
-from directory_constants import choices, urls
+from directory_constants import choices
+from directory_constants.urls import domestic as domestic_urls
 from directory_components import forms
 
 from django.forms import Textarea, TextInput
@@ -88,18 +89,18 @@ class HelpForm(forms.Form):
     error_css_class = 'input-field-container has-error'
 
     comment = forms.CharField(
-        label='',
-        help_text='Tell us about your export experience, including any '
-                  'challenges you are facing. We’re particularly '
-                  'interested in the markets you have exported to '
-                  'and whether you have already spoken to your '
-                  'bank or a broker.',
-        widget=Textarea,
+        label='Tell us about your export experience, including any challenges you are facing.',
+        help_text=(
+            "We're particularly interested in the markets you "
+            "have exported to and whether you have already "
+            "spoken to your bank or a broker. "
+        ),
+        widget=Textarea(attrs={'class': 'margin-top-15'}),
     )
     terms_agreed = forms.BooleanField(
         label=mark_safe(
             'Tick this box to accept the '
-            f'<a href="{urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
+            f'<a href="{domestic_urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
             'conditions</a> of the great.gov.uk service.'
         )
     )

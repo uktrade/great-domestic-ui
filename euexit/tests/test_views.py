@@ -1,35 +1,9 @@
 from unittest import mock
 
-import pytest
-
 from django.urls import reverse
 
 from core.tests.helpers import create_response
 from euexit import views
-
-
-@pytest.fixture(autouse=True)
-def company_profile(authed_client):
-    path = 'core.mixins.PrepopulateFormMixin.company_profile'
-    stub = mock.patch(
-        path,
-        new_callable=mock.PropertyMock,
-        return_value={
-            'number': 1234567,
-            'name': 'Example corp',
-            'postal_code': 'Foo Bar',
-            'sectors': ['AEROSPACE'],
-            'employees': '1-10',
-            'mobile_number': '07171771717',
-            'postal_full_name': 'Foo Example',
-            'address_line_1': '123 Street',
-            'address_line_2': 'Near Fake Town',
-            'country': 'FRANCE',
-            'locality': 'Paris',
-        }
-    )
-    yield stub.start()
-    stub.stop()
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -37,14 +11,11 @@ def test_form_success_page(mock_lookup_by_slug, settings, client):
     url = reverse('brexit-contact-form-success')
     template_name = views.DomesticContactSuccessView.template_name
 
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={
-            'body_text': 'what next',
-            'disclaimer': 'disclaim',
-            'breadcrumbs_label': 'Example page',
-        }
-    )
+    mock_lookup_by_slug.return_value = create_response({
+        'body_text': 'what next',
+        'disclaimer': 'disclaim',
+        'breadcrumbs_label': 'Example page',
+    })
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
     response = client.get(url)
 
@@ -60,13 +31,10 @@ def test_form_success_page(mock_lookup_by_slug, settings, client):
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_domestic_form(mock_lookup_by_slug, client):
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={
-            'disclaimer': 'disclaim',
-            'breadcrumbs_label': 'Example page',
-        }
-    )
+    mock_lookup_by_slug.return_value = create_response({
+        'disclaimer': 'disclaim',
+        'breadcrumbs_label': 'Example page',
+    })
 
     response = client.get(reverse('brexit-contact-form'))
 
@@ -90,18 +58,16 @@ def test_domestic_form_not_found(mock_lookup_by_slug, client):
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_domestic_form_cms_retrieval_ok(mock_lookup_by_slug, settings, client):
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200, json_body={
-            'first_name': {
-                'label': 'Given name'
-            },
-            'last_name': {
-                'label': 'Family name'
-            },
-            'disclaimer': 'disclaim',
-            'breadcrumbs_label': 'Example page',
-        }
-    )
+    mock_lookup_by_slug.return_value = create_response({
+        'first_name': {
+            'label': 'Given name'
+        },
+        'last_name': {
+            'label': 'Family name'
+        },
+        'disclaimer': 'disclaim',
+        'breadcrumbs_label': 'Example page',
+    })
 
     url = reverse('brexit-contact-form')
 
@@ -122,13 +88,10 @@ def test_domestic_form_submit(
 ):
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
     settings.EU_EXIT_ZENDESK_SUBDOMAIN = 'brexit-subdomain'
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={
-            'disclaimer': 'disclaim',
-            'breadcrumbs_label': 'Example page',
-        }
-    )
+    mock_lookup_by_slug.return_value = create_response({
+        'disclaimer': 'disclaim',
+        'breadcrumbs_label': 'Example page',
+    })
 
     url = reverse('brexit-contact-form')
 
@@ -165,13 +128,10 @@ def test_domestic_form_submit(
 def test_form_urls(mock_lookup_by_slug, client, settings):
     url = reverse('brexit-contact-form')
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={
-            'disclaimer': 'disclaim',
-            'breadcrumbs_label': 'Example',
-        }
-    )
+    mock_lookup_by_slug.return_value = create_response({
+        'disclaimer': 'disclaim',
+        'breadcrumbs_label': 'Example',
+    })
 
     response = client.get(url, {}, HTTP_REFERER='http://www.google.com')
 
@@ -186,13 +146,10 @@ def test_form_urls(mock_lookup_by_slug, client, settings):
 def test_form_url_no_referer(mock_lookup_by_slug, settings, client):
     url = reverse('brexit-contact-form')
     settings.FEATURE_FLAGS['HIGH_POTENTIAL_OPPORTUNITIES_ON'] = True
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={
-            'disclaimer': 'disclaim',
-            'breadcrumbs_label': 'Example page',
-        }
-    )
+    mock_lookup_by_slug.return_value = create_response({
+        'disclaimer': 'disclaim',
+        'breadcrumbs_label': 'Example page',
+    })
 
     response = client.get(url, {})
 
@@ -203,20 +160,17 @@ def test_form_url_no_referer(mock_lookup_by_slug, settings, client):
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_domestic_prepopulate(mock_lookup_by_slug, client):
-    mock_lookup_by_slug.return_value = create_response(
-        status_code=200,
-        json_body={
-            'disclaimer': 'disclaim',
-            'breadcrumbs_label': 'Example page',
-        }
-    )
+def test_domestic_prepopulate(mock_lookup_by_slug, client, user):
+    mock_lookup_by_slug.return_value = create_response({
+        'disclaimer': 'disclaim',
+        'breadcrumbs_label': 'Example page',
+    })
     url = reverse('brexit-contact-form')
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.context_data['form'].initial == {
-        'email': 'test@foo.com',
+        'email': user.email,
         'company_name': 'Example corp',
         'postcode': 'Foo Bar',
         'first_name': 'Foo',

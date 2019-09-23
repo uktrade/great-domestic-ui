@@ -3,7 +3,7 @@ from django.forms import Select, Textarea
 from django.utils.translation import ugettext_lazy as _
 
 from directory_constants.choices import COUNTRY_CHOICES
-from directory_forms_api_client.forms import GovNotifyActionMixin
+from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from directory_components import forms
 
 from contact.forms import TERMS_LABEL
@@ -12,7 +12,7 @@ COUNTRIES = COUNTRY_CHOICES.copy()
 COUNTRIES.insert(0, ('', 'Select a country'))
 
 
-class UKEFContactForm(GovNotifyActionMixin, forms.Form):
+class UKEFContactForm(GovNotifyEmailActionMixin, forms.Form):
     full_name = forms.CharField(
         label=_('Full name'),
         min_length=2,

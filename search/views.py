@@ -77,8 +77,8 @@ class SearchFeedbackFormView(SetGA360ValuesMixin, FormView):
     def get_success_url(self):
         page = self.request.POST['from_search_page']
         query = self.request.POST['from_search_query']
-        return f"{reverse_lazy('search')}\
-?page={page}&q={query}&submitted=true"
+        url = reverse_lazy('search')
+        return f"{url}?page={page}&q={query}&submitted=true"
 
     #
     # email_address and full_name are required by FormsAPI.

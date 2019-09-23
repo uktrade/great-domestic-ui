@@ -1,13 +1,12 @@
-from unittest import mock
-
 import pytest
-import requests_mock
 
 from django.views.generic import TemplateView
 from django.utils import translation
 from django.http.response import Http404
 
 from core import mixins
+from core.tests.helpers import create_response
+from sso.models import SSOUser
 
 
 def test_translate_non_bidi_template(rf):
@@ -66,43 +65,21 @@ def test_get_cms_component_mixin_is_bidi_cms_component_not_bidi(
     assert response.context_data['cms_component'] == View.cms_component
 
 
-def test_retrieve_company_profile_mixin_not_logged_in(rf):
+@pytest.mark.parametrize('full_name,first_name,last_name', (
+    ('James Example', 'James', 'Example'),
+    ('James', 'James', None),
+    ('James Earl Jones', 'James', 'Jones'),
+    ('', None, None),
+))
+def test_retrieve_company_profile_mixin_name_guessing(rf, full_name, first_name, last_name, company_profile):
+    company_profile.return_value = create_response({'postal_full_name': full_name})
     request = rf.get('/')
-    request.sso_user = None
+    request.user = SSOUser(session_id=123)
     mixin = mixins.PrepopulateFormMixin()
     mixin.request = request
 
-    assert mixin.company_profile is None
-
-
-def test_retrieve_company_profile_mixin_success(rf):
-    request = rf.get('/')
-    request.sso_user = mock.Mock(session_id=123)
-    mixin = mixins.PrepopulateFormMixin()
-    mixin.request = request
-    url = 'http://api.trade.great:8000/supplier/company/'
-
-    expected = {'key': 'value'}
-
-    with requests_mock.mock() as mocked:
-        mocked.get(url, json=expected)
-        company_profile = mixin.company_profile
-
-    assert company_profile == expected
-
-
-def test_retrieve_company_profile_mixin_not_ok(rf):
-    request = rf.get('/')
-    request.sso_user = mock.Mock(session_id=123)
-    mixin = mixins.PrepopulateFormMixin()
-    mixin.request = request
-    url = 'http://api.trade.great:8000/supplier/company/'
-
-    with requests_mock.mock() as mocked:
-        mocked.get(url, status_code=503)
-        company_profile = mixin.company_profile
-
-    assert company_profile is None
+    assert mixin.guess_given_name == first_name
+    assert mixin.guess_family_name == last_name
 
 
 @pytest.mark.parametrize('full_name,first_name,last_name', (
@@ -111,21 +88,15 @@ def test_retrieve_company_profile_mixin_not_ok(rf):
     ('James Earl Jones', 'James', 'Jones'),
     ('', None, None),
 ))
-def test_retrieve_company_profile_mixin_name_guessing(
-    rf, full_name, first_name, last_name
-):
+def test_retrieve_company_profile_mixin_name_guessing_user(rf, full_name, first_name, last_name, company_profile):
+    company_profile.return_value = create_response(status_code=404)
     request = rf.get('/')
-    request.sso_user = mock.Mock(session_id=123)
+    request.user = SSOUser(session_id=123, first_name=first_name, last_name=last_name)
     mixin = mixins.PrepopulateFormMixin()
     mixin.request = request
-    url = 'http://api.trade.great:8000/supplier/company/'
 
-    expected = {'postal_full_name': full_name}
-
-    with requests_mock.mock() as mocked:
-        mocked.get(url, json=expected)
-        assert mixin.guess_given_name == first_name
-        assert mixin.guess_family_name == last_name
+    assert mixin.guess_given_name == first_name
+    assert mixin.guess_family_name == last_name
 
 
 def test_prototype_feature_flag_mixin_on(rf, settings):

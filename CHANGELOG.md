@@ -1,13 +1,41 @@
 # Changelog
 
 ## Pre-release
-- GTRANSFORM-238 - page heading fixes
-- GTRANSFORM-238 - use page heading in the page title
-- XOT-914 - Add search sort order healthcheck
 
 ### Implemented enhancements
-- No ticket - Add trade barriers to search
+- XOT-1039 - Add campaign section with video
 
+## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23...2019.09.23_1)
+
+### Hotfix
+- Re-add case insensitive urls
+
+## [2019.09.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.04_1...2019.09.23)
+
+### Implemented enhancements
+- XOT-1114 add video transcript to article page
+- GTRANSFORM-368 update directory components version for list bullet colour
+- GTRANSFORM-368 info_page now extends article/base for missing css
+- GTRANSFORM-368 setup accessibility statement footer link and add href target template tag
+- XOT-920 - add space before/after quote
+- XOT-920 - fix spacing style issue in cms article template
+- GTRANSFORM-213 - add labels to textareas identified in accessibility audit
+- GTRANSFORM-238 - page heading fixes
+- GTRANSFORM-238 - use page heading in the page title
+- XOT-914 - Add search sort order healthcheck with feature flag
+- XOT-1034 - Add new landing page, remove obsolete international page styling, update metadata for cms pages
+- TT-1808: Update directory components to add "no-validate" no cache middleware
+- No ticket - Add trade barriers to search
+- XOT-928 - Add user full name from new registration journey to SOO contact form
+
+### Bug fixes
+- No ticket - Fix report a trade barrier link in search-key-pages.json
+- No ticket - Fix 500 error on UKEF contact form
+- XOT-1115 - Fix IE hero bug, fix missing image on country guide hero, fix text colour on trade finance hero
+- TT-1832 - Fix anon users unable to view feedback page
+- TT-1816 - Upgrade directory components to fix js in non-chrome
 
 ## [2019.09.04_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.04_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.08.21...2019.09.04_1)

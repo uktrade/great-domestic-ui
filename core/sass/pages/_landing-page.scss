@@ -1,142 +1,114 @@
 
-// LANDING PAGE
-// ============
+// New landing page
+// =================
 
-@import 'partials/colours';
-@import 'partials/vars';
-@import 'partials/mixins';
+@import '../partials/typography';
 
-#header-bar .account-links li:nth-child(3) {
-  margin-left: 5px;
+// NOTE: Not namespaced because these elements exist outside of the `main` element!
+.campaign-video-transcript {
+  display: none;
+
+  details {
+    border: 0;
+    padding: 0;
+  }
+
+  @media (max-width: 640px) {
+    details {
+      margin: $spacing-4 0 0;
+    }
+  }
+}
+
+.campaign-video-transcript-text {
+  overflow: auto;
 }
 
 .landing-page {
 
-  // Hero
-
-  .hero {
+  .button-video {
+    text-align: left;
+    min-width: 250px;
     position: relative;
-    padding: 1em 0;
-    background-position: center center;
-    background-size: cover;
 
-    .heading-hero-domestic span {
-      padding: 8px 15px 5px;
-      margin: 0 0 5px 0px;
-      text-transform: uppercase;
+    &:after {
+      content: '▶︎';
+      position: absolute;
+      right: 30px;
+      line-height: inherit;
+    }
+  }
+
+  .campaign-section {
+    padding: 0;
+    position: relative;
+    color: $grey;
+
+    img {
+      display: block;
     }
 
-    .container {
-      position: relative;
+  }
+
+  .campaign-related-links {
+
+    a {
+      color: $white;
+      font-weight: 700;
+      font-family: $brand-font-alternative;
+
+      &:active:hover {
+        color: $great-blue;
+      }
+    }
+  }
+
+  .campaign-heading-container {
+    margin-bottom: $spacing-3;
+  }
+
+  .campaign-heading {
+    text-transform: uppercase;
+  }
+
+  .campaign-content-container {
+    padding-top: 30px;
+  }
+  @media (min-width: 769px) {
+    .campaign-section {
+      color: $white;
     }
 
-    &:before {
-      background-image: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
-      content: "";
-      height: 100%;
+    .campaign-content-container {
+      padding: 30px;
+      z-index: 1;
+      position: absolute;
+      overflow: visible;
+      top: 0;
+      bottom: 0;
       left: 0;
+      right: 0;
+    }
+
+    .campaign-heading-container {
       position: absolute;
       top: 0;
-      width: 100%;
+      bottom: 0;
+      right: 0;
+      left: 0;
     }
 
-    // firefox specific styling to fix how background colour is positioned in span tags
-    @-moz-document url-prefix() {
-      & {
-        padding: 13px $spacing-4 0px $spacing-4;
-      }
+    .campaign-heading {
+      max-width: 175px;
+      position: absolute;
+      margin-left: $spacing-3;
+      margin-top: $spacing-3;
     }
 
-    // IE9+ CSS
-    @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
-      & {
-        line-height: 1em;
-        padding: 10px;
-        padding-bottom: 0;
-      }
-    }
-  }
-}
-
-// Background images
-
-#hero-campaign-section {
-  background-image: url('/static/images/hero/export-hp-hero-champion-500.jpg');
-
-}
-
-body.webp-enabled {
-  #hero-campaign-section { background-image: url('/static/images/hero/export-hp-hero-champion-500.webp') }
-}
-
-
-// Sections
-
-.landing-page {
-
-  .news-section {
-    padding-bottom: 0;
-  }
-
-  .hero {
-    overflow: auto;
-
-    .heading-xlarge {
-      margin-bottom: .9375em
+    .campaign-subsection {
+      position: absolute;
+      bottom: 0;
     }
   }
 
-  .community-section,
-  .triage-section,
-  .beis-section {
-    img {
-      width: 100%;
-    }
-  }
-}
-
-
-@media (min-width: 640px) {
-  .landing-page {
-    .community-section,
-    .triage-section,
-    .beis-section {
-      img {
-        margin-top: 45px;
-      }
-    }
-  }
-}
-
-@media (max-width: 767px) {
-  .landing-page .hero img {
-    height: 70px;
-  }
-}
-
-@media (max-width: 540px) {
-  .landing-page {
-    .hero {
-      background-position: top left;
-      padding-top: 90px;
-      padding-bottom: 2em;
-
-      img {
-        bottom: auto;
-        left: 0;
-        position: absolute;
-        right: auto;
-        top: -85px;
-      }
-    }
-  }
-
-  #hero-campaign-section {
-    background-image: url('/static/images/hero/export-hp-hero-champion-mb.png');
-      background-position: 80% 0;
-  }
-
-  body.webp-enabled  #hero-campaign-section {
-    background-image: url('/static/images/hero/export-hp-hero-champion-mb.webp');
-  }
 }
