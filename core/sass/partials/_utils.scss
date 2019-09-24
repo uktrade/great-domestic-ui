@@ -2,6 +2,8 @@
 // UTILITY CLASSES
 // ================
 
+@import 'typography';
+
 @media (max-width: 960px) {
   .reverse-columns-l {
     flex-direction: column-reverse;
@@ -22,4 +24,9 @@
   .button-large {
     width: 100%;
   }
+}
+
+
+.font-overpass {
+  font-family: $brand-font-alternative;
 }

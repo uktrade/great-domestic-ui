@@ -3,7 +3,14 @@
 {% load static from staticfiles %}
 {% load directory_components %}
 
-{% block og_image %}{{ page.hero_medium.url }}{% endblock %}
+{% block og_image %}{{ page.hero_thumbnail.url }}{% endblock %}
+
+{% block head_js %}
+  {{ block.super }}
+  <script src="{% static 'directory_components/js/dit.classes.Modal.js' %}"></script>
+  <script src="{% static 'js/dit.components.video.js' %}"></script>
+  <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
 
 {% block head_title %}Welcome to great.gov.uk - export guidance and services{% endblock %}
 
@@ -18,10 +25,35 @@
 <section>
   <div class="container">
     <h2 class="heading-large">{{ page.questions_section_title }}</h2>
-    {% details_list items=page.questions %}
+    {% accordion_list items=page.questions %}
   </div>
 </section>
 
 {% featured_articles heading=page.what_is_new_title items=page.what_is_new_pages %}
+
+<section class="campaign-section">
+  <div class="container campaign-heading-container">
+    <h2 class="heading-large margin-0 campaign-heading">{{ page.campaign.0.heading }}</h2>
+  </div>
+  <div class="container campaign-image-container">
+    <img src="{{ page.campaign.0.image.url }}" alt="" class="width-full">
+  </div>
+  <div class="container campaign-content-container">
+    <div class="campaign-subsection padding-bottom-30 width-two-thirds-l width-half-xl wrap-tight">
+      <p class="heading-medium margin-bottom-30">{{ page.campaign.0.subheading }}</p>
+      <a href="{{ page.campaign.0.video.url }}" class="button button-video" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
+      <div class="margin-top-15 campaign-related-links">
+        {{ page.campaign.0.related_link|add_export_elements_classes }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="campaign-video-transcript" id="campaign-video-transcript">
+  <details closed>
+    <summary><span class="bold font-overpass">View video trancript</span></summary>
+    <div class="campaign-video-transcript-text" id="campaign-video-transcript-text">{{ page.campaign.0.video_transcript|add_export_elements_classes }}</div>
+  </details>
+</div>
 
 {% endblock %}

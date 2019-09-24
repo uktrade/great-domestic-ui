@@ -51,27 +51,28 @@ class GetFinanceLeadGenerationFormView(
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-        if step == self.PERSONAL_DETAILS and self.request.user.company:
-            initial.update({
-                'email': self.request.user.email,
-                'phone': self.request.user.company['mobile_number'],
-                'firstname': self.guess_given_name,
-                'lastname': self.guess_family_name,
-            })
-        elif step == self.COMPANY_DETAILS and self.request.user.company:
-            company = self.request.user.company
-            initial.update({
-                'not_companies_house': False,
-                'company_number': company['number'],
-                'trading_name': company['name'],
-                'address_line_one': company['address_line_1'],
-                'address_line_two': company['address_line_2'],
-                'address_town_city': company['locality'],
-                'address_post_code': company['postal_code'],
-                'industry': (
-                    company['sectors'][0] if company['sectors'] else None
-                ),
-            })
+        if self.request.user.is_authenticated:
+            if step == self.PERSONAL_DETAILS and self.request.user.company:
+                initial.update({
+                    'email': self.request.user.email,
+                    'phone': self.request.user.company['mobile_number'],
+                    'firstname': self.guess_given_name,
+                    'lastname': self.guess_family_name,
+                })
+            elif step == self.COMPANY_DETAILS and self.request.user.company:
+                company = self.request.user.company
+                initial.update({
+                    'not_companies_house': False,
+                    'company_number': company['number'],
+                    'trading_name': company['name'],
+                    'address_line_one': company['address_line_1'],
+                    'address_line_two': company['address_line_2'],
+                    'address_town_city': company['locality'],
+                    'address_post_code': company['postal_code'],
+                    'industry': (
+                        company['sectors'][0] if company['sectors'] else None
+                    ),
+                })
         return initial
 
     def get_template_names(self):
