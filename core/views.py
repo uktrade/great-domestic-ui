@@ -183,6 +183,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'report-ma-barrier',
             'contact-us-exporting-guidance',
             'contact-us-exporting-to-the-uk-guidance',
+            'tree-based-url',
         ]
 
         excluded_pages += dynamic_cms_page_url_names
