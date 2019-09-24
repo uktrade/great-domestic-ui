@@ -338,8 +338,9 @@ if settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON']:
     redirects += [
         url(
             r'^contact/triage/international/$',
-            QuerystringRedirectView.as_view(url='/international/contact/')
-        )
+            QuerystringRedirectView.as_view(url='/international/contact/'),
+            name="contact-triage-redirect"
+        ),
     ]
 
 # (<lang code path>, <language to use in query parameter>)

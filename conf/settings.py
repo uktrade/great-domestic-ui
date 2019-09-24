@@ -85,6 +85,7 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'conf.urls'
+ROOT_URLCONF_REDIRECTS = 'conf.url_redirects'
 
 TEMPLATES = [
     {

@@ -9,7 +9,7 @@ from conf.url_redirects import (
     INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,
     INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING
 )
-from core.tests.helpers import reload_urlconf
+from core.tests.helpers import reload_urlconf, reload_urlconf_redirects
 
 UTM_QUERY_PARAMS = '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
 
@@ -467,13 +467,14 @@ redirects = [
     (
         '/contact/triage/international/',
         '/international/contact/'
-    )
+    ),
 ]
 
 
 @pytest.mark.parametrize('url,expected', redirects)
 def test_redirects(url, expected, client, settings):
     settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON'] = True
+    reload_urlconf_redirects()
     reload_urlconf()
 
     response = client.get(url)
