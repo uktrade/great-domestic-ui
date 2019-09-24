@@ -10,6 +10,7 @@ from core.mixins import (
     PrototypeFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
+    GetCMSPageByPathMixin,
     SetGA360ValuesForCMSPageMixin,
     SetGA360ValuesMixin,
 )
@@ -44,6 +45,13 @@ class CMSPageView(
     @property
     def slug(self):
         return self.kwargs['slug']
+
+
+class CMSPageFromPathView(SetGA360ValuesForCMSPageMixin, TemplateChooserMixin, GetCMSPageByPathMixin, TemplateView):
+
+    @property
+    def path(self):
+        return self.kwargs['path']
 
 
 class MarketsPageView(CMSPageView):

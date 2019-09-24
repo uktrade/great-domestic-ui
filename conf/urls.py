@@ -649,3 +649,14 @@ urlpatterns += international_redirects_urls
 
 if settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON']:
     urlpatterns += export_vouchers_urls
+
+# Intentionally last in this file. Hardcoded urls above must always take priority
+tree_based_cms_urls = [
+    url(
+        r'^(?P<path>[\w\-/]*)/$',
+        article.views.CMSPageFromPathView.as_view(),
+        name='tree-based-url'
+    )
+]
+
+urlpatterns += tree_based_cms_urls
