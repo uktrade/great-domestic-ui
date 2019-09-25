@@ -860,3 +860,45 @@ def test_new_landing_page_querystring_new_cms_page(mock_page, client):
 
     assert response.status_code == 200
     assert response.template_name == ['core/landing_page_alternate.html']
+
+
+@pytest.mark.parametrize(
+    'page_type,expected_template',
+    [
+        ('ArticleListingPage', 'article/article_list.html'),
+        ('TopicLandingPage', 'article/topic_list.html'),
+        ('ArticlePage', 'article/article_detail.html'),
+    ]
+)
+@patch('directory_cms_client.client.cms_api_client.lookup_by_path')
+def test_cms_path_lookup(mock_page, page_type, expected_template, client):
+    mock_page.return_value = create_response({
+        'page_type': page_type,
+        'tree_based_breadcrumbs': [
+            {'title': 'great.gov.uk', 'url': '/'},
+            {'title': 'Article list', 'url': '/article-list'},
+        ],
+        'slug': 'test',
+    })
+
+    response = client.get('/test/')
+
+    assert response.status_code == 200
+    assert response.template_name == [expected_template]
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_path')
+def test_cms_path_url(mock_page, client):
+    mock_page.return_value = create_response({
+        'page_type': 'ArticlePage',
+        'tree_based_breadcrumbs': [
+            {'title': 'great.gov.uk', 'url': '/'},
+            {'title': 'Article', 'url': '/test-article/'}
+        ],
+        'meta': {'slug': 'test-article'},
+    })
+
+    response = client.get('/test-article/')
+
+    assert response.status_code == 200
+    assert response.template_name == ['article/article_detail.html']

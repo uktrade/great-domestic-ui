@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1107 - Add url for new article landing pages
 - XOT-1078 - UKEF contact us button text issue on small resolutions
 - XOT-1039 - Add campaign section with video
 
