@@ -1,0 +1,20 @@
+.four-column-card-grid {
+    .card {
+        .heading-large {
+            font-size: 16px;
+        }
+
+        .subheading {
+            font-size: 14px;
+        }
+
+        @media (min-width: 641px) {
+            .heading-large {
+                font-size: 19px;
+            }
+            .subheading {
+                font-size: 15px;
+            }
+        }
+    }
+}

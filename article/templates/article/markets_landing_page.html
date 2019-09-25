@@ -1,6 +1,6 @@
 {% extends 'article/topic_list_base.html' %}
 
-{% load informative_banner from directory_components %}
+{% load directory_components %}
 
 {% block intro_section %}
 <section id="markets-banner-section" class="topic-list-section background-stone-30 padding-top-60 padding-bottom-0">
@@ -19,18 +19,23 @@
 </section>
 {% endblock %}
 
+{% block child_pages %}
+<section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 padding-top-60 four-column-card-grid">
+  <div class="container">
+    <div class="flex-grid">
+          {% include 'article/components/four_column_card_grid.html' with cards=pagination_page subheading='custom heading' %}
+    </div>
+    {% pagination pagination_page=pagination_page %}
+  </div>
+</section>
+{% endblock %}
+
 {% block footer_section %}
 <section id="markets-landing-footer-section" class="topic-list-section padding-top-60 padding-bottom-60">
-  <div class="container">
-
-    <div class="grid-row">
-      <div class="column-full column-half-l font-medium">
-          <h3>Looking for specific market tarrifs and regulations?</h3>
-          <p><a href="#" class="black-text">Go to market access database</a></p>
-      </div>
-    </div>
-
-
+  <div class="container font-medium wrap-tight">
+    <div class="informative-banner">
+   <h3>Looking for specific market tarrifs and regulations?</h3> <p><a href="#" class="link">Go to market access database</a></p>
   </div>
+</div>
 </section>
 {% endblock %}

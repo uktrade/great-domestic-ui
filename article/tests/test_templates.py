@@ -2,8 +2,8 @@ import pytest
 from unittest.mock import patch
 from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
-
 from core.tests.helpers import create_response
+from django.urls import reverse
 
 
 @pytest.fixture
@@ -11,6 +11,123 @@ def mock_get_page():
     stub = patch('directory_cms_client.client.cms_api_client.lookup_by_slug', return_value=create_response())
     yield stub.start()
     stub.stop()
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_market_landing_pagination_page_next(mock_get_page, client):
+
+    child_page = {'heading': 'heading', 'sub_heading': 'Markets subheading'}
+
+    page = {
+        'title': 'test',
+        'page_type': 'TopicLandingPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/markets/', 'title': 'Markets'},
+            {'url': '/markets/japan/', 'title': 'Japan'},
+        ],
+        'child_pages': [
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page
+        ]
+    }
+
+    mock_get_page.return_value = create_response(page)
+
+    url = reverse('markets')
+    response = client.get(url)
+
+    assert "pagination_page" in response.context_data
+    assert len(response.context_data['pagination_page']) == 12
+    assert 'pagination-next' in str(response.content)
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
+
+    child_page = {'heading': 'heading', 'sub_heading': 'Markets subheading'}
+
+    page = {
+        'title': 'test',
+        'page_type': 'TopicLandingPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/markets/', 'title': 'Markets'},
+            {'url': '/markets/japan/', 'title': 'Japan'},
+        ],
+        'child_pages': [
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page
+        ]
+    }
+
+    mock_get_page.return_value = create_response(page)
+
+    url = reverse('markets')
+    response = client.get(url)
+
+    assert 'pagination-next' not in str(response.content)
+
+
+def test_markets_grid_uses_custom_subheading():
+    context = {
+        "subheading": "Custom subheading",
+        "page_type": "ArticlePage",
+        "meta": {
+                "slug": "foo",
+            },
+        "cards": [
+            {
+                "sub_heading": "Default subheading",
+                "title": "Brazil",
+                "full_path": "Test article",
+            }
+        ]
+    }
+
+    html = render_to_string('article/components/four_column_card_grid.html', context)
+    assert 'Custom subheading' in html
+    assert 'Default subheading' not in html
+
+
+def test_markets_grid_uses_default_subheading():
+    context = {
+        "subheading": "",
+        "page_type": "ArticlePage",
+        "meta": {
+                "slug": "foo",
+            },
+        "cards": [
+            {
+                "sub_heading": "Default subheading",
+                "title": "Brazil",
+                "full_path": "Test article",
+            }
+        ]
+    }
+
+    html = render_to_string('article/components/four_column_card_grid.html', context)
+
+    assert 'Default subheading' in html
 
 
 def test_article_detail_page_no_related_content():
