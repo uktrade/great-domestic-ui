@@ -3,6 +3,8 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1121 - add pagination to markets landing page, limit 12 per page
+- XOT-1042 - restyle markets grid and some elements of landing page
 - No ticket - Rename 'article' app folder to 'content'
 - XOT-1107 - Add url for new article landing pages
 - XOT-1078 - UKEF contact us button text issue on small resolutions
