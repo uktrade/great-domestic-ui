@@ -48,10 +48,7 @@ class CMSPageView(
 
 
 class CMSPageFromPathView(SetGA360ValuesForCMSPageMixin, TemplateChooserMixin, GetCMSPageByPathMixin, TemplateView):
-
-    @property
-    def path(self):
-        return self.kwargs['path']
+    pass
 
 
 class MarketsPageView(CMSPageView):
