@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- No ticket - Rename 'article' app to 'content'
 - XOT-1078 - UKEF contact us button text issue on small resolutions
 - XOT-1039 - Add campaign section with video
 
