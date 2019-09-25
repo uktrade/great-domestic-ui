@@ -736,7 +736,13 @@ class SellingOnlineOverseasSuccessView(DomesticSuccessView):
         )
 
 
-class ExportVoucherFormView(mixins.SetGA360ValuesMixin, FormSessionMixin, FormView):
+class ExportVoucherFeatureFlagMixin(mixins.NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON']
+
+
+class ExportVoucherFormView(ExportVoucherFeatureFlagMixin, mixins.SetGA360ValuesMixin, FormSessionMixin, FormView):
     page_type = 'ContactPage'
     template_name = 'contact/export-voucher-form.html'
     success_url = reverse_lazy('export-voucher-success')
@@ -758,6 +764,6 @@ class ExportVoucherFormView(mixins.SetGA360ValuesMixin, FormSessionMixin, FormVi
         return super().form_valid(form)
 
 
-class ExportVoucherSuccessView(mixins.SetGA360ValuesMixin, TemplateView):
+class ExportVoucherSuccessView(ExportVoucherFeatureFlagMixin, mixins.SetGA360ValuesMixin, TemplateView):
     page_type = 'ContactPage'
     template_name = 'contact/export-voucher-success.html'
