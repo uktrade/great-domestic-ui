@@ -104,7 +104,7 @@ def test_markets_grid_uses_custom_subheading():
         ]
     }
 
-    html = render_to_string('article/components/four_column_card_grid.html', context)
+    html = render_to_string('content/components/four_column_card_grid.html', context)
     assert 'Custom subheading' in html
     assert 'Default subheading' not in html
 
@@ -125,7 +125,7 @@ def test_markets_grid_uses_default_subheading():
         ]
     }
 
-    html = render_to_string('article/components/four_column_card_grid.html', context)
+    html = render_to_string('content/components/four_column_card_grid.html', context)
 
     assert 'Default subheading' in html
 
