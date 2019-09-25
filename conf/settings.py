@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'directory_constants',
     'directory_sso_api_client',
     'core',
-    'article',
+    'content',
     'casestudy',
     'finance',
     'directory_healthcheck',

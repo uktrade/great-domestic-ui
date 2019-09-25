@@ -1,5 +1,5 @@
 import pytest
-from article.helpers import unslugify
+from content.helpers import unslugify
 
 unslugify_slugs = [
     ('test-slug-one', 'Test slug one'),

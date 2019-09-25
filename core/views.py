@@ -18,7 +18,7 @@ from django.utils.functional import cached_property
 
 from casestudy import casestudies
 from core import helpers, mixins, forms
-from article.views import CMSPageView
+from content.views import CMSPageView
 from euexit.mixins import HideLanguageSelectorMixin
 
 logger = logging.getLogger(__name__)

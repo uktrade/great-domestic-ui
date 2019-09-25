@@ -15,12 +15,12 @@ from core.mixins import (
 )
 
 TEMPLATE_MAPPING = {
-    'TopicLandingPage': 'article/topic_list.html',
-    'SuperregionPage': 'article/superregion.html',
-    'CountryGuidePage': 'article/country_guide.html',
-    'ArticleListingPage': 'article/article_list.html',
-    'ArticlePage': 'article/article_detail.html',
-    'MarketingArticlePage': 'article/marketing_article_detail.html',
+    'TopicLandingPage': 'content/topic_list.html',
+    'SuperregionPage': 'content/superregion.html',
+    'CountryGuidePage': 'content/country_guide.html',
+    'ArticleListingPage': 'content/article_list.html',
+    'ArticlePage': 'content/article_detail.html',
+    'MarketingArticlePage': 'content/marketing_article_detail.html',
     'CampaignPage': 'core/campaign.html',
     'PerformanceDashboardPage': 'core/performance_dashboard.html',
     'PerformanceDashboardNotesPage': 'core/performance_dashboard_notes.html',
@@ -47,7 +47,7 @@ class CMSPageView(
 
 
 class MarketsPageView(CMSPageView):
-    template_name = 'article/markets_landing_page.html'
+    template_name = 'content/markets_landing_page.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -112,7 +112,7 @@ class CountryGuidePageView(CMSPageView):
 class TagListPageView(
     PrototypeFeatureFlagMixin, SetGA360ValuesMixin, GetCMSTagMixin, TemplateView,
 ):
-    template_name = 'article/tag_list.html'
+    template_name = 'content/tag_list.html'
     page_type = 'TagListPage'
 
     @property
@@ -123,7 +123,7 @@ class TagListPageView(
 class NewsListPageView(
     NewsSectionFeatureFlagMixin, SetGA360ValuesMixin, GetCMSPageMixin, TemplateView,
 ):
-    template_name = 'article/domestic_news_list.html'
+    template_name = 'content/domestic_news_list.html'
     slug = slugs.EUEXIT_DOMESTIC_NEWS
     page_type = 'NewsList'
 
@@ -134,7 +134,7 @@ class NewsArticleDetailView(
     GetCMSPageMixin,
     TemplateView,
 ):
-    template_name = 'article/domestic_news_detail.html'
+    template_name = 'content/domestic_news_detail.html'
 
     @property
     def slug(self):
