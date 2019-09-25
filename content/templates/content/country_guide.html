@@ -1,4 +1,4 @@
-{% extends 'article/base.html' %}
+{% extends 'content/base.html' %}
 {% load static %}
 {% load directory_components %}
 
@@ -77,7 +77,7 @@
 
 <section id="country-guide-accordions" class="accordions padding-vertical-0">
   <ul>
-    {% include 'article/components/accordions.html' with accordions=page.accordions %}
+    {% include 'content/components/accordions.html' with accordions=page.accordions %}
   </ul>
 </section>
 
