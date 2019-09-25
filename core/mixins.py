@@ -53,6 +53,23 @@ class GetCMSPageMixin:
         return super().get_context_data(page=self.page, *args, **kwargs)
 
 
+class GetCMSPageByPathMixin:
+
+    @cached_property
+    def page(self):
+        response = cms_api_client.lookup_by_path(
+            site_id=settings.DIRECTORY_CMS_SITE_ID,
+            path=self.kwargs['path'],
+            language_code=settings.LANGUAGE_CODE,
+            draft_token=self.request.GET.get('draft_token'),
+        )
+        return handle_cms_response(response)
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            page=self.page, *args, **kwargs)
+
+
 class GetCMSComponentMixin:
     @cached_property
     def cms_component(self):
