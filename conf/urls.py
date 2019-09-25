@@ -13,7 +13,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
-import article.views
+import content.views
 import casestudy.views
 import contact.views
 import core.views
@@ -236,12 +236,12 @@ euexit_urls = [
 news_urls = [
     url(
         r"^brexit/$",
-        article.views.NewsListPageView.as_view(),
+        content.views.NewsListPageView.as_view(),
         name='brexit-news-list',
     ),
     url(
         r"^brexit/(?P<slug>[\w-]+)/$",
-        article.views.NewsArticleDetailView.as_view(),
+        content.views.NewsArticleDetailView.as_view(),
         name='brexit-news-detail',
     ),
 ]
@@ -250,34 +250,34 @@ news_urls = [
 article_urls = [
     url(
         r"^tagged/(?P<slug>[\w-]+)/$",
-        article.views.TagListPageView.as_view(),
+        content.views.TagListPageView.as_view(),
         name='tag-list',
     ),
     url(
         r"^advice/$",
-        article.views.CMSPageView.as_view(),
+        content.views.CMSPageView.as_view(),
         {'slug': 'advice'},
         name='advice',
     ),
     url(
         r"^advice/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
+        content.views.CMSPageView.as_view(),
         name='advice-article-list',
     ),
     url(
         r"^advice/(?P<list>[\w-]+)/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
+        content.views.CMSPageView.as_view(),
         name='advice-article',
     ),
     url(
         r"^markets/$",
-        article.views.MarketsPageView.as_view(),
+        content.views.MarketsPageView.as_view(),
         {'slug': 'markets'},
         name='markets',
     ),
     url(
         r"^markets/(?P<slug>[\w-]+)/$",
-        article.views.CountryGuidePageView.as_view(),
+        content.views.CountryGuidePageView.as_view(),
         name='country-guide',
     ),
 ]
@@ -529,7 +529,7 @@ community_urls = [
     ),
     url(
         r'^community/$',
-        article.views.CommunityArticlePageView.as_view(),
+        content.views.CommunityArticlePageView.as_view(),
         name='community-article'
     ),
 ]
@@ -652,7 +652,7 @@ urlpatterns += export_vouchers_urls
 tree_based_cms_urls = [
     url(
         r'^(?P<path>[\w\-/]*)/$',
-        article.views.CMSPageFromPathView.as_view(),
+        content.views.CMSPageFromPathView.as_view(),
         name='tree-based-url'
     )
 ]

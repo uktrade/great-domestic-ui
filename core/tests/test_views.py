@@ -865,9 +865,9 @@ def test_new_landing_page_querystring_new_cms_page(mock_page, client):
 @pytest.mark.parametrize(
     'page_type,expected_template',
     [
-        ('ArticleListingPage', 'article/article_list.html'),
-        ('TopicLandingPage', 'article/topic_list.html'),
-        ('ArticlePage', 'article/article_detail.html'),
+        ('ArticleListingPage', 'content/article_list.html'),
+        ('TopicLandingPage', 'content/topic_list.html'),
+        ('ArticlePage', 'content/article_detail.html'),
     ]
 )
 @patch('directory_cms_client.client.cms_api_client.lookup_by_path')
@@ -901,4 +901,4 @@ def test_cms_path_url(mock_page, client):
     response = client.get('/test-article/')
 
     assert response.status_code == 200
-    assert response.template_name == ['article/article_detail.html']
+    assert response.template_name == ['content/article_detail.html']

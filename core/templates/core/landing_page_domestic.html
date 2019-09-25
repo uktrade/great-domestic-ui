@@ -1,4 +1,4 @@
-{% extends 'article/base.html' %}
+{% extends 'content/base.html' %}
 
 {% load static from staticfiles %}
 {% load progressive_image from image_tags %}
@@ -55,17 +55,17 @@
 </div>
 
 {% if features.NEWS_SECTION_ON %}
-  {% include 'article/sections/news_section.html' %}
+  {% include 'content/sections/news_section.html' %}
 {% endif %}
 
-{% include 'article/sections/community_section.html' %}
+{% include 'content/sections/community_section.html' %}
 
-{% include 'article/sections/advice_section.html' %}
+{% include 'content/sections/advice_section.html' %}
 
-{% include 'article/sections/services_section.html' %}
+{% include 'content/sections/services_section.html' %}
 
 {% include 'casestudy/casestudy_cards.html' %}
 
-{% include 'article/sections/beis_section.html' %}
+{% include 'content/sections/beis_section.html' %}
 
 {% endblock %}
