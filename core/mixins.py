@@ -55,15 +55,11 @@ class GetCMSPageMixin:
 
 class GetCMSPageByPathMixin:
 
-    @property
-    def path(self):
-        return self.kwargs['path']
-
     @cached_property
     def page(self):
         response = cms_api_client.lookup_by_path(
             site_id=settings.DIRECTORY_CMS_SITE_ID,
-            path=self.path,
+            path=self.kwargs['path'],
             language_code=settings.LANGUAGE_CODE,
             draft_token=self.request.GET.get('draft_token'),
         )

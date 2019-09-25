@@ -885,3 +885,20 @@ def test_cms_path_lookup(mock_page, page_type, expected_template, client):
 
     assert response.status_code == 200
     assert response.template_name == [expected_template]
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_path')
+def test_cms_path_url(mock_page, client):
+    mock_page.return_value = create_response({
+        'page_type': 'ArticlePage',
+        'tree_based_breadcrumbs': [
+            {'title': 'great.gov.uk', 'url': '/'},
+            {'title': 'Article', 'url': '/test-article/'}
+        ],
+        'meta': {'slug': 'test-article'},
+    })
+
+    response = client.get('/test-article/')
+
+    assert response.status_code == 200
+    assert response.template_name == ['article/article_detail.html']
