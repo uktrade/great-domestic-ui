@@ -39,6 +39,19 @@
     }
   }
 
+  .sector-potential-section {
+
+    & > .container {
+      border-bottom: 2px solid $light-grey;
+    }
+  }
+
+  .sector-potential-form {
+    select {
+      width: 100%;
+    }
+  }
+
   .campaign-section {
     padding: 0;
     position: relative;
@@ -74,6 +87,7 @@
   .campaign-content-container {
     padding-top: 30px;
   }
+
   @media (min-width: 769px) {
     .campaign-section {
       color: $white;
