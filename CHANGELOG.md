@@ -3,8 +3,13 @@
 ## Pre-release
 
 ### Implemented enhancements
+- No ticket - Rename 'article' app folder to 'content'
+- XOT-1107 - Add url for new article landing pages
 - XOT-1078 - UKEF contact us button text issue on small resolutions
 - XOT-1039 - Add campaign section with video
+
+### Fixed bugs
+- no ticket - Fix international urls in develop and staging.
 
 ## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23...2019.09.23_1)

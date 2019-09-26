@@ -13,7 +13,7 @@ from django.core.cache import cache
 from django.urls import reverse
 
 from contact import constants, forms, views
-from core.tests.helpers import create_response, reload_urlconf
+from core.tests.helpers import create_response
 
 
 def build_wizard_url(step):
@@ -1229,7 +1229,6 @@ def test_export_voucher_submit(mock_gov_notify_action, mock_form_session_class, 
 @pytest.mark.parametrize('url', (reverse('export-voucher-success'), reverse('export-voucher-form')))
 def test_export_voucher_feature_flag(enabled, url, client, settings):
     settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON'] = enabled
-    reload_urlconf()
 
     response = client.get(url)
 

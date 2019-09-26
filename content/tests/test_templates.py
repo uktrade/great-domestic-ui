@@ -31,7 +31,7 @@ def test_article_detail_page_no_related_content():
         }
     }
 
-    html = render_to_string('article/article_detail.html', context)
+    html = render_to_string('content/article_detail.html', context)
     assert 'Related content' not in html
 
 
@@ -85,7 +85,7 @@ def test_article_advice_page(mock_get_page, client, settings):
 
     context['page'] = page
 
-    html = render_to_string('article/topic_list.html', context)
+    html = render_to_string('content/topic_list.html', context)
 
     assert page['title'] in html
     assert page['landing_page_title'] in html
@@ -134,7 +134,7 @@ def test_article_detail_page_related_content(rf):
         "page_type": "ArticlePage",
     }
     context['page'] = page
-    html = render_to_string('article/article_detail.html', context)
+    html = render_to_string('content/article_detail.html', context)
     soup = BeautifulSoup(html, 'html.parser')
 
     assert 'Related content' in html
@@ -166,7 +166,7 @@ def test_article_detail_page_related_content_footer(rf):
     }
     context['page'] = page
 
-    html = render_to_string('article/article_detail.html', context)
+    html = render_to_string('content/article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
     assert soup.find(
@@ -205,7 +205,7 @@ def test_article_detail_page_related_content_footer_not_rendered(rf):
 
     context['page'] = page
 
-    html = render_to_string('article/article_detail.html', context)
+    html = render_to_string('content/article_detail.html', context)
 
     assert '<section id="article_related_content_footer"' not in html
 
@@ -223,7 +223,7 @@ def test_article_detail_page_media_rendered(rf):
 
     context['page'] = page
 
-    html = render_to_string('article/article_detail.html', context)
+    html = render_to_string('content/article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
     src = soup.find(id='article-video').select('source')[0]
@@ -252,7 +252,7 @@ def test_article_detail_page_media_not_rendered(rf):
 
     context['page'] = page
 
-    html = render_to_string('article/article_detail.html', context)
+    html = render_to_string('content/article_detail.html', context)
 
     assert '<div class="video-container">' not in html
 
@@ -276,7 +276,7 @@ def test_marketing_article_detail_page_related_content():
         "page_type": "MarketingArticlePage",
     }
     context['page'] = page
-    html = render_to_string('article/marketing_article_detail.html', context)
+    html = render_to_string('content/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
     assert soup.find(id='contact-us-section').select('h2')[0].text == 'CTA title'
@@ -305,7 +305,7 @@ def test_marketing_article_detail_page_related_content_not_rendered():
 
     context['page'] = page
 
-    html = render_to_string('article/marketing_article_detail.html', context)
+    html = render_to_string('content/marketing_article_detail.html', context)
 
     assert '<section id="contact-us-section"' not in html
 
@@ -331,7 +331,7 @@ def test_marketing_article_detail_content_button_not_rendered_without_link():
 
     context['page'] = page
 
-    html = render_to_string('article/marketing_article_detail.html', context)
+    html = render_to_string('content/marketing_article_detail.html', context)
 
     assert 'class="button button-arrow-small"' not in html
 
@@ -364,7 +364,7 @@ def test_news_list_page_feature_flag_on():
     }
     context['page'] = test_news_list_page
 
-    html = render_to_string('article/domestic_news_list.html', context)
+    html = render_to_string('content/domestic_news_list.html', context)
 
     assert test_news_list_page['title'] in html
     assert test_news_list_page['landing_page_title'] in html
@@ -406,7 +406,7 @@ def test_domestic_news_article_detail_page(rf):
 
     context['page'] = page
 
-    html = render_to_string('article/domestic_news_detail.html', context)
+    html = render_to_string('content/domestic_news_detail.html', context)
 
     assert 'Test news title' in html
     assert 'Test news teaser' in html
@@ -463,7 +463,7 @@ def test_article_list_page():
     context = {}
     context['page'] = test_list_page
 
-    html = render_to_string('article/article_list.html', context)
+    html = render_to_string('content/article_list.html', context)
 
     assert test_list_page['title'] not in html
     assert test_list_page['landing_page_title'] in html
@@ -479,7 +479,7 @@ def test_tag_list_page():
         'articles': test_articles,
     }
     context['page'] = page
-    html = render_to_string('article/tag_list.html', context)
+    html = render_to_string('content/tag_list.html', context)
 
     assert '01 October' in html
     assert '02 October' in html
@@ -533,7 +533,7 @@ def test_article_detail_page_social_share_links(
     soup = BeautifulSoup(response.content, 'html.parser')
 
     assert response.status_code == 200
-    assert response.template_name == ['article/article_detail.html']
+    assert response.template_name == ['content/article_detail.html']
 
     twitter_link = (
         'https://twitter.com/intent/tweet?text=great.gov.uk'
@@ -593,7 +593,7 @@ def test_article_detail_page_social_share_links_no_title(
     soup = BeautifulSoup(response.content, 'html.parser')
 
     assert response.status_code == 200
-    assert response.template_name == ['article/article_detail.html']
+    assert response.template_name == ['content/article_detail.html']
 
     twitter_link = (
         'https://twitter.com/intent/tweet?text=great.gov.uk%20-%20%20'
@@ -631,7 +631,7 @@ def test_country_guide_fact_sheet_displays_if_given_title(rf):
     }
     context['page'] = page
 
-    html = render_to_string('article/country_guide.html', context)
+    html = render_to_string('content/country_guide.html', context)
     soup = BeautifulSoup(html, 'html.parser')
 
     assert soup.find(id='country-guide-section-three')
@@ -663,7 +663,7 @@ def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page, rf):
     context['page']['heading_teaser'] = 'Teaser'
     context['page']['intro_ctas'] = intro_ctas
 
-    html = render_to_string('article/country_guide.html', context)
+    html = render_to_string('content/country_guide.html', context)
     soup = BeautifulSoup(html, 'html.parser')
     ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
 
@@ -694,7 +694,7 @@ def test_country_guide_complete_intro_ctas(dummy_cms_page, rf):
     context['page']['heading_teaser'] = 'Teaser'
     context['page']['intro_ctas'] = intro_ctas
 
-    html = render_to_string('article/country_guide.html', context)
+    html = render_to_string('content/country_guide.html', context)
     soup = BeautifulSoup(html, 'html.parser')
     ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
 
@@ -709,7 +709,7 @@ def test_country_guide_no_intro_ctas(dummy_cms_page, rf):
 
     context['page']['heading_teaser'] = 'Teaser'
 
-    html = render_to_string('article/country_guide.html', context)
+    html = render_to_string('content/country_guide.html', context)
     soup = BeautifulSoup(html, 'html.parser')
     ctas = soup.select('#country-guide-teaser-section .intro-cta-link')
 
@@ -726,7 +726,7 @@ def test_country_guide_add_href_target(dummy_cms_page, rf):
 
     context['page']['section_one_body'] = '<a href="http://www.google.co.uk">Here is an external link</a>'
 
-    html = render_to_string('article/country_guide.html', context)
+    html = render_to_string('content/country_guide.html', context)
     soup = BeautifulSoup(html, 'html.parser')
     links = soup.select('#country-guide-section-one a')
 
