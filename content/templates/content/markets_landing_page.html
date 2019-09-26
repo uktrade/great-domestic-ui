@@ -1,11 +1,11 @@
 {% extends 'content/topic_list_base.html' %}
 
-{% load banner add_href_target from directory_components %}
+{% load directory_components %}
 
 {% block intro_section %}
 <section id="markets-banner-section" class="topic-list-section background-stone-30 padding-top-60 padding-bottom-0">
   <div class="container">
-    {% banner banner_content='<p>There are more export market guides coming soon. If you have a question about an export market read the <a rel="noopener noreferrer" target="_blank" href="https://www.gov.uk/government/collections/exporting-country-guides" title="Opens in a new window">exporting guides</a> on GOV.UK, or <a rel="noopener noreferrer" target="_blank" href="https://www.great.gov.uk/contact/triage/location/">get in touch</a>.</p>' %}
+    {% informative_banner banner_content='<p>More market guides are coming soon. <br/><a rel="noopener noreferrer" target="_blank" href="https://www.gov.uk/government/collections/exporting-country-guides" title="Opens in a new window">Find out how to export to specific countries in a no-deal Brexit</a>.</p>' %}
 
     {% if page.teaser %}
     <div class="grid-row margin-top-60">
@@ -15,6 +15,17 @@
     </div>
     {% endif %}
 
+  </div>
+</section>
+{% endblock %}
+
+{% block child_pages %}
+<section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 padding-top-60 four-column-card-grid">
+  <div class="container">
+    <div class="flex-grid">
+          {% include 'content/components/four_column_card_grid.html' with cards=pagination_page subheading='Market guide' %}
+    </div>
+    {% pagination pagination_page=pagination_page %}
   </div>
 </section>
 {% endblock %}

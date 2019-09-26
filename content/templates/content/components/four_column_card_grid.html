@@ -1,0 +1,8 @@
+{% load card from directory_components %}
+{% for card in cards %}
+  <div class="column-quarter-xl column-third-l column-half-m">
+    {% with subheading=subheading|default:card.sub_heading  %}
+      {% card url=card.full_path img_src=card.hero_image_thumbnail.url title=card.title subheading=subheading %}
+    {% endwith %}
+  </div>
+{% endfor %}
