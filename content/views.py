@@ -67,7 +67,7 @@ class MarketsPageView(CMSPageView):
             rename_heading_field(child_page)
             for child_page in context['page']['child_pages']
         ]
-        paginator = Paginator(context['page']['child_pages'], 12)
+        paginator = Paginator(context['page']['child_pages'], 6)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
         context['pagination_page'] = pagination_page
         return context
