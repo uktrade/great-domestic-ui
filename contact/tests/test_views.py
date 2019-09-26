@@ -13,7 +13,7 @@ from django.core.cache import cache
 from django.urls import reverse
 
 from contact import constants, forms, views
-from core.tests.helpers import create_response
+from core.tests.helpers import create_response, reload_urlconf
 
 
 def build_wizard_url(step):
