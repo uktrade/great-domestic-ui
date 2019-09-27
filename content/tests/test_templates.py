@@ -16,7 +16,7 @@ def mock_get_page():
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_market_landing_pagination_page_next(mock_get_page, client):
 
-    child_page = {'heading': 'heading', 'sub_heading': 'Markets subheading'}
+    child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
     page = {
         'title': 'test',
@@ -57,7 +57,7 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
 
-    child_page = {'heading': 'heading', 'sub_heading': 'Markets subheading'}
+    child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
     page = {
         'title': 'test',
@@ -177,8 +177,7 @@ def test_landing_page_news_section(rf):
 def test_article_advice_page(mock_get_page, client, settings):
     context = {}
     page = {
-        'title': 'Markets title',
-        'landing_page_title': 'Markets',
+        'title': 'Markets',
         'hero_image': {'url': 'markets.jpg'},
         'child_pages': [
             {
@@ -204,7 +203,6 @@ def test_article_advice_page(mock_get_page, client, settings):
     html = render_to_string('content/topic_list.html', context)
 
     assert page['title'] in html
-    assert page['landing_page_title'] in html
 
     assert 'Asia market information' in html
     assert 'Africa market information' in html
@@ -450,8 +448,7 @@ def test_marketing_article_detail_content_button_not_rendered_without_link(rf):
 
 
 test_news_list_page = {
-    'title': 'News CMS admin title',
-    'landing_page_title': 'News',
+    'title': 'News',
     'articles_count': 2,
     'articles': [
         {
@@ -480,7 +477,6 @@ def test_news_list_page_feature_flag_on():
     html = render_to_string('content/domestic_news_list.html', context)
 
     assert test_news_list_page['title'] in html
-    assert test_news_list_page['landing_page_title'] in html
     assert 'Lorem ipsum' in html
     assert 'Dolor sit amet' in html
 
@@ -560,10 +556,9 @@ test_articles = [
 ]
 
 test_list_page = {
-    'title': 'List CMS admin title',
     'seo_title': 'SEO title article list',
     'search_description': 'Article list search description',
-    'landing_page_title': 'Article list landing page title',
+    'title': 'Article list landing page title',
     'hero_image': {'url': 'article_list.png'},
     'hero_teaser': 'Article list hero teaser',
     'list_teaser': '<p>Article list teaser</p>',
@@ -578,8 +573,7 @@ def test_article_list_page():
 
     html = render_to_string('content/article_list.html', context)
 
-    assert test_list_page['title'] not in html
-    assert test_list_page['landing_page_title'] in html
+    assert test_list_page['title'] in html
 
     assert '01 October' in html
     assert '02 October' in html
