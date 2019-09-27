@@ -7,8 +7,6 @@ clean:
 pytest:
 	ENV_FILES='test,dev' \
 	pytest $(ARGUMENTS) \
-	--numprocesses auto \
-	--dist=loadfile \
 	--ignore=node_modules \
 	--capture=no \
 	-Wignore::DeprecationWarning \
