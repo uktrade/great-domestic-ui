@@ -19,7 +19,7 @@ from core.mixins import (
     SetGA360ValuesMixin,
 )
 
-from core.helpers import handle_cms_response
+from core.helpers import handle_cms_response_allow_404
 
 TEMPLATE_MAPPING = {
     'TopicLandingPage': 'content/topic_list.html',
@@ -64,11 +64,9 @@ class MarketsPageView(CMSPageView):
     def filtered_countries(self):
         sector_id = self.request.GET.get('sector')
 
-        if sector_id.isdigit() and int(sector_id) != 0:
+        if sector_id and sector_id.isdigit() and int(sector_id) != 0:
             response = cms_api_client.lookup_countries_by_tag(tag_id=sector_id)
-            return handle_cms_response(response)
-
-        return None
+            return handle_cms_response_allow_404(response)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -80,13 +78,13 @@ class MarketsPageView(CMSPageView):
             markets = self.page['child_pages']
             tag_name = None
 
-        sorted_markets = sorted(markets, key=lambda x: x['title'])
+        filtered_countries = sorted(markets, key=lambda x: x['title'])
 
-        paginator = Paginator(sorted_markets, 12)
+        paginator = Paginator(filtered_countries, 12)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
 
         context['pagination_page'] = pagination_page
-        context['filtered_countries'] = sorted_markets
+        context['number_of_results'] = len(filtered_countries)
         context['tag_name'] = tag_name
         return context
 

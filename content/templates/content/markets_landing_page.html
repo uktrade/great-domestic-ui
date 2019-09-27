@@ -23,8 +23,8 @@
 <section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 padding-top-60 four-column-card-grid">
   <div class="container">
 
-    {% if filtered_countries|length > 0 and tag_name %}
-    <h2 class="font-medium margin-bottom-45">Best markets for <span class="bold">{{ tag_name }}</span> <span class="number-display highlight-circle background-active-blue">{{ filtered_countries|length }}</span></h2>
+    {% if number_of_results > 0 and tag_name %}
+    <h2 class="font-medium margin-bottom-45">Best markets for <span class="bold">{{ tag_name }}</span> <span class="number-display highlight-circle background-active-blue">{{ number_of_results }}</span></h2>
 
     {% elif tag_name %}
     <h2 class="font-medium">No results found for <span class="bold">{{ tag_name }}</span>. Please try again.</h2>
