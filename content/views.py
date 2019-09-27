@@ -60,7 +60,7 @@ class MarketsPageView(CMSPageView):
         context = super().get_context_data(*args, **kwargs)
 
         def rename_heading_field(page):
-            page['landing_page_title'] = page['heading']
+            page['landing_page_title'] = page['title']
             return page
 
         context['page']['child_pages'] = [
