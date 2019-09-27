@@ -345,7 +345,8 @@ def test_get_markets_page_renames_heading_to_landing_page_title(
         ],
         'child_pages': [
             {
-                'heading': 'heading'
+                'heading': 'heading',
+                'sub_heading': 'sub heading'
             }
         ]
     }

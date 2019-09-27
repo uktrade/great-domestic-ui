@@ -489,9 +489,7 @@ class SellingOnlineOverseasFormView(
 
     def get_form_kwargs(self, *args, **kwargs):
         # skipping `PrepopulateFormMixin.get_form_kwargs`
-        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(
-            *args, **kwargs
-        )
+        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
 
     def get_cache_prefix(self):
         return 'selling_online_overseas_form_view_{}'.format(
@@ -501,9 +499,7 @@ class SellingOnlineOverseasFormView(
         return cache.get(self.get_cache_prefix(), None)
 
     def set_form_data_cache(self, form_data):
-        cache.set(
-            self.get_cache_prefix(), form_data, SOO_SUBMISSION_CACHE_TIMEOUT
-        )
+        cache.set(self.get_cache_prefix(), form_data, SOO_SUBMISSION_CACHE_TIMEOUT)
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)

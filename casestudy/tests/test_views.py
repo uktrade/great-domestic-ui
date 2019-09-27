@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import pytest
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from casestudy import views
 import core.helpers
