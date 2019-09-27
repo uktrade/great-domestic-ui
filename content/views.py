@@ -1,8 +1,10 @@
+from django.utils.functional import cached_property
+from django.views.generic import TemplateView
+from django.core.paginator import Paginator
+
 from directory_constants import slugs
 
-from django.views.generic import TemplateView
-
-from django.core.paginator import Paginator
+from directory_cms_client.client import cms_api_client
 
 from .mixins import (
     GetCMSTagMixin,
@@ -16,6 +18,8 @@ from core.mixins import (
     SetGA360ValuesForCMSPageMixin,
     SetGA360ValuesMixin,
 )
+
+from core.helpers import handle_cms_response
 
 TEMPLATE_MAPPING = {
     'TopicLandingPage': 'content/topic_list.html',
@@ -56,20 +60,34 @@ class CMSPageFromPathView(SetGA360ValuesForCMSPageMixin, TemplateChooserMixin, G
 class MarketsPageView(CMSPageView):
     template_name = 'content/markets_landing_page.html'
 
+    @cached_property
+    def filtered_countries(self):
+        sector_id = self.request.GET.get('sector')
+
+        if sector_id.isdigit() and int(sector_id) != 0:
+            response = cms_api_client.lookup_countries_by_tag(tag_id=sector_id)
+            return handle_cms_response(response)
+
+        return None
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        def rename_heading_field(page):
-            page['landing_page_title'] = page['heading']
-            return page
+        if self.filtered_countries:
+            markets = self.filtered_countries['countries']
+            tag_name = self.filtered_countries['name']
+        else:
+            markets = self.page['child_pages']
+            tag_name = None
 
-        context['page']['child_pages'] = [
-            rename_heading_field(child_page)
-            for child_page in context['page']['child_pages']
-        ]
-        paginator = Paginator(context['page']['child_pages'], 12)
+        sorted_markets = sorted(markets, key=lambda x: x['title'])
+
+        paginator = Paginator(sorted_markets, 12)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
+
         context['pagination_page'] = pagination_page
+        context['filtered_countries'] = sorted_markets
+        context['tag_name'] = tag_name
         return context
 
 
