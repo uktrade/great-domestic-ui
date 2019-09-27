@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
 
+from django.conf import settings
 from core.views import (
     OpportunitiesRedirectView, TranslationRedirectView, QuerystringRedirectView
 )
@@ -332,6 +333,15 @@ redirects = [
         ),
     ),
 ]
+
+if settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON']:
+    redirects += [
+        url(
+            r'^contact/triage/international/$',
+            QuerystringRedirectView.as_view(url='/international/contact/'),
+            name="contact-triage-redirect"
+        ),
+    ]
 
 # (<lang code path>, <language to use in query parameter>)
 INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [
