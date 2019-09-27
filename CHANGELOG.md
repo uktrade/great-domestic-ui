@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1123 - Add filtering by industry tag to markets landing page
 - XOT-1118 - use CMS heading for page title
 - XOT-1121 - add pagination to markets landing page, limit 12 per page
 - XOT-1042 - restyle markets grid and some elements of landing page

@@ -3,6 +3,7 @@ from unittest.mock import call, patch
 from django.urls import reverse
 
 from core.tests.helpers import create_response
+from content.views import MarketsPageView
 
 
 @pytest.fixture
@@ -333,27 +334,128 @@ def test_get_country_guide_page_neither_case_study_nor_statistics(
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_get_markets_page_renames_heading_to_landing_page_title(
-    mock_get_page, client
-):
+@patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
+def test_markets_page_filters(mock_countries, mock_page, client, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
         'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
             {'url': '/markets/', 'title': 'Markets'},
-            {'url': '/markets/japan/', 'title': 'Japan'},
         ],
-        'child_pages': [
-            {
-                'heading': 'heading'
-            }
-        ]
+        'child_pages': [{'title': 'Brazil'}, {'title': 'China'}, {'title': 'India'}, {'title': 'Japan'}],
     }
 
-    mock_get_page.return_value = create_response(page)
+    mock_page.return_value = create_response(page)
 
-    url = reverse('markets')
-    response = client.get(url)
+    filtered_countries = {
+        'name': 'Tag name',
+        'countries': [{'title': 'India'}],
+    }
 
-    child_page = response.context_data['page']['child_pages'][0]
-    assert child_page['landing_page_title'] == 'heading'
+    mock_countries.return_value = create_response(filtered_countries)
+
+    request = rf.get('/markets/', {'sector': '1'})
+    response = MarketsPageView.as_view()(request, slug='markets')
+
+    response_content = str(response.render().content)
+
+    assert response.status_code == 200
+
+    assert 'Best markets for ' in response_content
+
+    assert response.context_data['pagination_page'].object_list == filtered_countries['countries']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
+def test_markets_page_filters_sort_alphabetically(mock_countries, mock_page, client, rf):
+    page = {
+        'title': 'test',
+        'page_type': 'TopicLandingPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+            {'url': '/markets/', 'title': 'Markets'},
+        ],
+        'child_pages': [{'title': 'India'}, {'title': 'Japan'}, {'title': 'Brazil'}, {'title': 'China'}],
+    }
+
+    sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['title'])
+
+    mock_page.return_value = create_response(page)
+
+    mock_countries.return_value = create_response({})
+
+    request = rf.get('/markets/', {'sector': '2'})
+    response = MarketsPageView.as_view()(request, slug='markets')
+
+    response_content = str(response.render().content)
+
+    assert response.status_code == 200
+
+    assert 'Best markets for ' not in response_content
+
+    assert response.context_data['pagination_page'].object_list == sorted_child_pages
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
+def test_markets_page_filters_invalid_param(mock_countries, mock_page, client, rf):
+    page = {
+        'title': 'test',
+        'page_type': 'TopicLandingPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+            {'url': '/markets/', 'title': 'Markets'},
+        ],
+        'child_pages': [{'title': 'Brazil'}, {'title': 'China'}, {'title': 'India'}, {'title': 'Japan'}],
+    }
+
+    mock_page.return_value = create_response(page)
+
+    mock_countries.return_value = create_response({})
+
+    request = rf.get('/markets/', {'sector': 'foo'})
+    response = MarketsPageView.as_view()(request, slug='markets')
+
+    response_content = str(response.render().content)
+
+    assert response.status_code == 200
+
+    assert 'Best markets for ' not in response_content
+
+    assert response.context_data['pagination_page'].object_list == page['child_pages']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
+def test_markets_page_filters_no_results(mock_countries, mock_page, client, rf):
+    page = {
+        'title': 'test',
+        'page_type': 'TopicLandingPage',
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+            {'url': '/markets/', 'title': 'Markets'},
+        ],
+        'child_pages': [{'title': 'India'}, {'title': 'Japan'}, {'title': 'Brazil'}, {'title': 'China'}],
+    }
+
+    mock_page.return_value = create_response(page)
+
+    filtered_countries = {
+        'name': 'Tag name',
+        'countries': [],
+    }
+
+    mock_countries.return_value = create_response(filtered_countries)
+
+    request = rf.get('/markets/', {'sector': '1'})
+    response = MarketsPageView.as_view()(request, slug='markets')
+
+    response_content = str(response.render().content)
+
+    assert response.status_code == 200
+
+    assert 'No results found for ' in response_content
+
+    assert response.context_data['pagination_page'].object_list == filtered_countries['countries']
