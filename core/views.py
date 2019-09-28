@@ -18,7 +18,7 @@ from django.utils.functional import cached_property
 
 from casestudy import casestudies
 from core import helpers, mixins, forms
-from article.views import CMSPageView
+from content.views import CMSPageView
 from euexit.mixins import HideLanguageSelectorMixin
 
 logger = logging.getLogger(__name__)
@@ -51,7 +51,7 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
             slug=slugs.GREAT_HOME,
             draft_token=self.request.GET.get('draft_token'),
         )
-        return helpers.handle_cms_response_allow_404(response)
+        return helpers.handle_cms_response(response)
 
     def get(self, request, *args, **kwargs):
         redirector = helpers.GeoLocationRedirector(self.request)
@@ -183,6 +183,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'report-ma-barrier',
             'contact-us-exporting-guidance',
             'contact-us-exporting-to-the-uk-guidance',
+            'tree-based-url',
         ]
 
         excluded_pages += dynamic_cms_page_url_names

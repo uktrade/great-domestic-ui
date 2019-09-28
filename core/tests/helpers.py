@@ -23,3 +23,13 @@ def reload_urlconf(urlconf=None):
         reload(sys.modules[urlconf])
     else:
         import_module(urlconf)
+
+
+def reload_urlconf_redirects(urlconf=None):
+    clear_url_caches()
+    if urlconf is None:
+        urlconf = settings.ROOT_URLCONF_REDIRECTS
+    if urlconf in sys.modules:
+        reload(sys.modules[urlconf])
+    else:
+        import_module(urlconf)

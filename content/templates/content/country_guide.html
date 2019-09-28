@@ -1,4 +1,4 @@
-{% extends 'article/base.html' %}
+{% extends 'content/base.html' %}
 {% load static %}
 {% load directory_components %}
 
@@ -9,6 +9,10 @@
     <script src="{% static 'js/country-guide.js' %}"></script>
 {% endblock %}
 
+{% block head_title %}
+  {{ page.title }} market guide - great.gov.uk
+{% endblock %}
+
 {% block content %}
 
 {% hero image=page.hero_image.url hero_text=page.heading hero_subheading=page.sub_heading %}
@@ -16,10 +20,10 @@
 <section class="container">
   {% include 'core/breadcrumbs_cms.html' %}
 </section>
-
 {% if page.heading_teaser %}
 <section id="country-guide-teaser-section" class="teaser-section padding-vertical-30">
   <div class="container">
+
     <div class="grid-row">
       <div class="column-three-quarters-l teaser">
         <p class="font-medium margin-bottom-60">{{ page.heading_teaser }}</p>
@@ -77,7 +81,7 @@
 
 <section id="country-guide-accordions" class="accordions padding-vertical-0">
   <ul>
-    {% include 'article/components/accordions.html' with accordions=page.accordions %}
+    {% include 'content/components/accordions.html' with accordions=page.accordions %}
   </ul>
 </section>
 

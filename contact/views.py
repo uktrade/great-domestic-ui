@@ -375,7 +375,7 @@ class FeedbackFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
         if self.request.user.is_authenticated and self.request.user.company:
             return {
                 'email': self.request.user.email,
-                'name': self.request.user.company['postal_full_name'],
+                'name': self.request.user.get_full_name(),
             }
 
 
@@ -527,7 +527,7 @@ class SellingOnlineOverseasFormView(
                 initial['description'] = self.request.user.company['summary']
             elif step == self.CONTACT_DETAILS:
                 initial.update({
-                    'contact_name': self.request.user.company['postal_full_name'],
+                    'contact_name': self.request.user.get_full_name(),
                     'contact_email': self.request.user.email,
                     'phone': self.request.user.company['mobile_number'],
                 })
@@ -736,7 +736,13 @@ class SellingOnlineOverseasSuccessView(DomesticSuccessView):
         )
 
 
-class ExportVoucherFormView(mixins.SetGA360ValuesMixin, FormSessionMixin, FormView):
+class ExportVoucherFeatureFlagMixin(mixins.NotFoundOnDisabledFeature):
+    @property
+    def flag(self):
+        return settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON']
+
+
+class ExportVoucherFormView(ExportVoucherFeatureFlagMixin, mixins.SetGA360ValuesMixin, FormSessionMixin, FormView):
     page_type = 'ContactPage'
     template_name = 'contact/export-voucher-form.html'
     success_url = reverse_lazy('export-voucher-success')
@@ -758,6 +764,6 @@ class ExportVoucherFormView(mixins.SetGA360ValuesMixin, FormSessionMixin, FormVi
         return super().form_valid(form)
 
 
-class ExportVoucherSuccessView(mixins.SetGA360ValuesMixin, TemplateView):
+class ExportVoucherSuccessView(ExportVoucherFeatureFlagMixin, mixins.SetGA360ValuesMixin, TemplateView):
     page_type = 'ContactPage'
     template_name = 'contact/export-voucher-success.html'

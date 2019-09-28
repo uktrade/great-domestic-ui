@@ -7,8 +7,6 @@ clean:
 pytest:
 	ENV_FILES='test,dev' \
 	pytest $(ARGUMENTS) \
-	--numprocesses auto \
-	--dist=loadfile \
 	--ignore=node_modules \
 	--capture=no \
 	-Wignore::DeprecationWarning \
@@ -43,4 +41,3 @@ redirect:
 	python scripts/add_new_redirect.py
 
 .PHONY: clean pytest flake8 manage webserver requirements install_requirements css secrets redirect
-
