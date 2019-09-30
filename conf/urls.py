@@ -34,26 +34,16 @@ sitemaps = {
 }
 
 
-healthcheck_urls = [
+urlpatterns = [
     url(
-        r'^$',
+        r'^healthcheck/$',
         skip_ga360(directory_healthcheck.views.HealthcheckView.as_view()),
         name='healthcheck'
     ),
     url(
-        r'^ping/$',
+        r'^healthcheck/ping/$',
         skip_ga360(directory_healthcheck.views.PingView.as_view()),
         name='ping'
-    ),
-]
-
-
-urlpatterns = [
-    url(
-        r'^healthcheck/',
-        include(
-            healthcheck_urls, namespace='healthcheck', app_name='healthcheck'
-        )
     ),
     url(
         r"^sitemap\.xml$",
@@ -550,43 +540,43 @@ marketing_urls = [
 
 ukef_urls = [
     url(
-        r"^(?i)get-finance/$",
+        r"^get-finance/$(?i)",
         skip_ga360(ukef.views.HomeView.as_view()),
         name='get-finance',
     ),
     url(
-        r"^(?i)trade-finance/$",
+        r"^trade-finance/$(?i)",
         skip_ga360(finance.views.TradeFinanceView.as_view()),
         name='trade-finance'
     ),
     url(
-        r"^(?i)project-finance/$",
+        r"^project-finance/$(?i)",
         skip_ga360(ukef.views.LandingView.as_view()),
         name='project-finance',
     ),
     url(
-        r"^(?i)uk-export-contact-form/$",
+        r"^uk-export-contact-form/$(?i)",
         skip_ga360(ukef.views.ContactView.as_view()),
         {'slug': 'uk-export-contact'},
         name='uk-export-contact',
     ),
     url(
-        r"^(?i)uk-export-contact-form-success/$",
+        r"^uk-export-contact-form-success/$(?i)",
         skip_ga360(ukef.views.SuccessPageView.as_view()),
         name='uk-export-contract-success'
     ),
     url(
-        r"^(?i)how-we-assess-your-project/$",
+        r"^how-we-assess-your-project/$(?i)",
         skip_ga360(ukef.views.HowWeAssessPageView.as_view()),
         name='how-we-assess-your-project'
     ),
     url(
-        r"^(?i)what-we-offer-you/$",
+        r"^what-we-offer-you/$(?i)",
         skip_ga360(ukef.views.WhatWeOfferView.as_view()),
         name='what-we-offer-you'
     ),
     url(
-        r"^(?i)country-cover/$",
+        r"^country-cover/$(?i)",
         skip_ga360(ukef.views.CountryCoverView.as_view()),
         name='country-cover'
     ),

@@ -2,7 +2,7 @@ from unittest.mock import call, patch, PropertyMock
 
 import requests
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
 
@@ -47,8 +47,8 @@ def test_landing_page_redirect(mock_get_page, client):
             {'article_title': 'News article 2'},
         ],
         'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
+            {'title': 'Guidance 1'},
+            {'title': 'Guidance 2'},
         ],
         'tree_based_breadcrumbs': [
             {'url': '/', 'title': 'great.gov.uk'},
@@ -82,8 +82,8 @@ def test_landing_page(mock_get_page, client, settings):
             {'article_title': 'News article 2'},
         ],
         'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
+            {'title': 'Guidance 1'},
+            {'title': 'Guidance 2'},
         ],
         'tree_based_breadcrumbs': [
             {'url': '/', 'title': 'great.gov.uk'},
@@ -118,8 +118,8 @@ def test_landing_page_video_url(mock_get_page, client, settings):
             {'article_title': 'News article 2'},
         ],
         'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
+            {'title': 'Guidance 1'},
+            {'title': 'Guidance 2'},
         ],
         'tree_based_breadcrumbs': [
             {'url': '/', 'title': 'great.gov.uk'},
@@ -153,8 +153,8 @@ def test_landing_page_template_news_feature_flag_on(
             {'article_title': 'News article 2'},
         ],
         'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
+            {'title': 'Guidance 1'},
+            {'title': 'Guidance 2'},
         ],
         'tree_based_breadcrumbs': [
             {'url': '/', 'title': 'great.gov.uk'},
@@ -187,8 +187,8 @@ def test_landing_page_template_news_feature_flag_off(
             {'article_title': 'News article 2'},
         ],
         'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
+            {'title': 'Guidance 1'},
+            {'title': 'Guidance 2'},
         ],
         'tree_based_breadcrumbs': [
             {'url': '/', 'title': 'great.gov.uk'},

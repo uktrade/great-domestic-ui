@@ -16,7 +16,7 @@ def mock_get_page():
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_market_landing_pagination_page_next(mock_get_page, client):
 
-    child_page = {'heading': 'heading', 'sub_heading': 'Markets subheading'}
+    child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
     page = {
         'title': 'test',
@@ -57,7 +57,7 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
 
-    child_page = {'heading': 'heading', 'sub_heading': 'Markets subheading'}
+    child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
     page = {
         'title': 'test',
@@ -130,23 +130,22 @@ def test_markets_grid_uses_default_subheading():
     assert 'Default subheading' in html
 
 
-def test_article_detail_page_no_related_content():
-    context = {
-        'page': {
-            "title": "Test article admin title",
-            "article_title": "Test article",
-            "article_teaser": "Test teaser",
-            "article_image": {"url": "foobar.png"},
-            "article_body_text": "<p>Lorem ipsum</p>",
-            "related_pages": [],
-            "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
-            "last_published_at": "2018-10-09T16:25:13.142357Z",
-            "meta": {
-                "slug": "foo",
-            },
-            "page_type": "ArticlePage",
-        }
+def test_article_detail_page_no_related_content(rf):
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "related_pages": [],
+        "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "foo",
+        },
+        "page_type": "ArticlePage",
     }
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/article_detail.html', context)
     assert 'Related content' not in html
@@ -178,8 +177,7 @@ def test_landing_page_news_section(rf):
 def test_article_advice_page(mock_get_page, client, settings):
     context = {}
     page = {
-        'title': 'Markets title',
-        'landing_page_title': 'Markets',
+        'title': 'Markets',
         'hero_image': {'url': 'markets.jpg'},
         'child_pages': [
             {
@@ -205,7 +203,6 @@ def test_article_advice_page(mock_get_page, client, settings):
     html = render_to_string('content/topic_list.html', context)
 
     assert page['title'] in html
-    assert page['landing_page_title'] in html
 
     assert 'Asia market information' in html
     assert 'Africa market information' in html
@@ -374,8 +371,7 @@ def test_article_detail_page_media_not_rendered(rf):
     assert '<div class="video-container">' not in html
 
 
-def test_marketing_article_detail_page_related_content():
-    context = {}
+def test_marketing_article_detail_page_related_content(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -392,7 +388,7 @@ def test_marketing_article_detail_page_related_content():
         },
         "page_type": "MarketingArticlePage",
     }
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
     html = render_to_string('content/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
@@ -401,8 +397,7 @@ def test_marketing_article_detail_page_related_content():
     assert soup.find(id='contact-us-section').select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
 
 
-def test_marketing_article_detail_page_related_content_not_rendered():
-    context = {}
+def test_marketing_article_detail_page_related_content_not_rendered(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -420,15 +415,14 @@ def test_marketing_article_detail_page_related_content_not_rendered():
         "page_type": "MarketingArticlePage",
     }
 
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
     assert '<section id="contact-us-section"' not in html
 
 
-def test_marketing_article_detail_content_button_not_rendered_without_link():
-    context = {}
+def test_marketing_article_detail_content_button_not_rendered_without_link(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -446,7 +440,7 @@ def test_marketing_article_detail_content_button_not_rendered_without_link():
         "page_type": "MarketingArticlePage",
     }
 
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
@@ -454,8 +448,7 @@ def test_marketing_article_detail_content_button_not_rendered_without_link():
 
 
 test_news_list_page = {
-    'title': 'News CMS admin title',
-    'landing_page_title': 'News',
+    'title': 'News',
     'articles_count': 2,
     'articles': [
         {
@@ -484,7 +477,6 @@ def test_news_list_page_feature_flag_on():
     html = render_to_string('content/domestic_news_list.html', context)
 
     assert test_news_list_page['title'] in html
-    assert test_news_list_page['landing_page_title'] in html
     assert 'Lorem ipsum' in html
     assert 'Dolor sit amet' in html
 
@@ -564,10 +556,9 @@ test_articles = [
 ]
 
 test_list_page = {
-    'title': 'List CMS admin title',
     'seo_title': 'SEO title article list',
     'search_description': 'Article list search description',
-    'landing_page_title': 'Article list landing page title',
+    'title': 'Article list landing page title',
     'hero_image': {'url': 'article_list.png'},
     'hero_teaser': 'Article list hero teaser',
     'list_teaser': '<p>Article list teaser</p>',
@@ -582,8 +573,7 @@ def test_article_list_page():
 
     html = render_to_string('content/article_list.html', context)
 
-    assert test_list_page['title'] not in html
-    assert test_list_page['landing_page_title'] in html
+    assert test_list_page['title'] in html
 
     assert '01 October' in html
     assert '02 October' in html

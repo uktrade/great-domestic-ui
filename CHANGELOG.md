@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1123 - Add filtering by industry tag to markets landing page
 - XOT-1118 - use CMS heading for page title
 - XOT-1121 - add pagination to markets landing page, limit 12 per page
 - XOT-1042 - restyle markets grid and some elements of landing page
@@ -10,6 +11,7 @@
 - XOT-1107 - Add url for new article landing pages
 - XOT-1078 - UKEF contact us button text issue on small resolutions
 - XOT-1039 - Add campaign section with video
+- no ticket - Upgrade to Django 2
 
 ### Fixed bugs
 - no ticket - Fix international urls in develop and staging.
