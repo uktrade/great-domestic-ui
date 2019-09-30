@@ -130,23 +130,22 @@ def test_markets_grid_uses_default_subheading():
     assert 'Default subheading' in html
 
 
-def test_article_detail_page_no_related_content():
-    context = {
-        'page': {
-            "title": "Test article admin title",
-            "article_title": "Test article",
-            "article_teaser": "Test teaser",
-            "article_image": {"url": "foobar.png"},
-            "article_body_text": "<p>Lorem ipsum</p>",
-            "related_pages": [],
-            "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
-            "last_published_at": "2018-10-09T16:25:13.142357Z",
-            "meta": {
-                "slug": "foo",
-            },
-            "page_type": "ArticlePage",
-        }
+def test_article_detail_page_no_related_content(rf):
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "related_pages": [],
+        "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
+        "meta": {
+            "slug": "foo",
+        },
+        "page_type": "ArticlePage",
     }
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/article_detail.html', context)
     assert 'Related content' not in html
@@ -372,8 +371,7 @@ def test_article_detail_page_media_not_rendered(rf):
     assert '<div class="video-container">' not in html
 
 
-def test_marketing_article_detail_page_related_content():
-    context = {}
+def test_marketing_article_detail_page_related_content(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -390,7 +388,7 @@ def test_marketing_article_detail_page_related_content():
         },
         "page_type": "MarketingArticlePage",
     }
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
     html = render_to_string('content/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
@@ -399,8 +397,7 @@ def test_marketing_article_detail_page_related_content():
     assert soup.find(id='contact-us-section').select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
 
 
-def test_marketing_article_detail_page_related_content_not_rendered():
-    context = {}
+def test_marketing_article_detail_page_related_content_not_rendered(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -418,15 +415,14 @@ def test_marketing_article_detail_page_related_content_not_rendered():
         "page_type": "MarketingArticlePage",
     }
 
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
     assert '<section id="contact-us-section"' not in html
 
 
-def test_marketing_article_detail_content_button_not_rendered_without_link():
-    context = {}
+def test_marketing_article_detail_content_button_not_rendered_without_link(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -444,7 +440,7 @@ def test_marketing_article_detail_content_button_not_rendered_without_link():
         "page_type": "MarketingArticlePage",
     }
 
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
