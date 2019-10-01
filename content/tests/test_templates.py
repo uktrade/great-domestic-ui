@@ -14,7 +14,8 @@ def mock_get_page():
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_market_landing_pagination_page_next(mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_market_landing_pagination_page_next(mock_industries, mock_get_page, client):
 
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
@@ -45,6 +46,8 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('markets')
     response = client.get(url)
@@ -55,7 +58,8 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_market_landing_pagination_page_next_not_in_html(mock_industries, mock_get_page, client):
 
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
@@ -81,6 +85,8 @@ def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('markets')
     response = client.get(url)
