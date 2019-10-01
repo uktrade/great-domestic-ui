@@ -11,7 +11,7 @@ import pytest
 import requests_mock
 from rest_framework import status
 
-from core import helpers, views
+from core import helpers, views, forms
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
@@ -69,7 +69,8 @@ def test_landing_page_redirect(mock_get_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page(mock_get_page, client, settings):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_landing_page(mock_industries, mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
     page = {
@@ -91,6 +92,8 @@ def test_landing_page(mock_get_page, client, settings):
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
 
@@ -106,7 +109,8 @@ def test_landing_page(mock_get_page, client, settings):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_video_url(mock_get_page, client, settings):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_landing_page_video_url(mock_industries, mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     page = {
         'title': 'great.gov.uk',
@@ -125,12 +129,15 @@ def test_landing_page_video_url(mock_get_page, client, settings):
             {'url': '/', 'title': 'great.gov.uk'},
         ]
     }
-
     mock_get_page.return_value = create_response(page)
-    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
 
+    content_list_industry_tags = [{'id': 3, 'name': 'Agri-technology', 'icon': None, 'pages_count': 0},]
+    mock_industries = create_response(content_list_industry_tags)
+
+    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
     url = reverse('landing-page')
     response = client.get(url)
+    assert response.status_code == 200
     assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
         'https://example.com/video.mp4'
     )
@@ -138,8 +145,9 @@ def test_landing_page_video_url(mock_get_page, client, settings):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
 def test_landing_page_template_news_feature_flag_on(
-    mock_get_page, client, settings
+    mock_industries, mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
@@ -162,6 +170,8 @@ def test_landing_page_template_news_feature_flag_on(
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
 
@@ -172,8 +182,9 @@ def test_landing_page_template_news_feature_flag_on(
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
 def test_landing_page_template_news_feature_flag_off(
-    mock_get_page, client, settings
+    mock_industries, mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
@@ -196,6 +207,8 @@ def test_landing_page_template_news_feature_flag_off(
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
     response = client.get(url)
