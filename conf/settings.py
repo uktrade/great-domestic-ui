@@ -621,3 +621,5 @@ COUNTRY_COOKIE_SECURE = env.bool('COUNTRY_COOKIE_SECURE', True)
 # Authentication
 AUTH_USER_MODEL = 'sso.SSOUser'
 AUTHENTICATION_BACKENDS = ['directory_sso_api_client.backends.SSOUserBackend']
+
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
