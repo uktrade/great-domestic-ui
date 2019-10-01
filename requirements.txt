@@ -4,39 +4,36 @@
 #
 #    pip-compile requirements.in
 #
-args==0.1.0               # via clint
 attrs==19.1.0             # via jsonschema
-beautifulsoup4==4.6.0
+beautifulsoup4==4.8.0
 certifi==2019.3.9         # via requests
 chardet==3.0.4            # via requests
-clint==0.5.1
-contextlib2==0.5.5        # via raven
-dateparser==0.7.0
-directory-api-client==19.0.0
+dateparser==0.7.2
+directory-api-client==20.0.0
 directory-ch-client==2.1.0
 directory-client-core==6.1.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
-directory-cms-client==10.2.0
+directory-cms-client==11.0.0
 directory-components==35.0.1
-directory-constants==20.3.0
+directory-constants==20.5.0
 directory-forms-api-client==5.0.0
-directory-healthcheck==1.0.1
-directory-sso-api-client==6.1.0
-directory-validators==5.0.1
-django-cors-headers==2.1.0
+directory-healthcheck==1.1.2
+directory-sso-api-client==6.2.0
+directory-validators==5.2.0
+django-cors-headers==3.1.0
 django-environ==0.4.5
-django-extensions==1.9.0
-django-formtools==2.0
+django-extensions==2.2.1
+django-formtools==2.1
 django-health-check==3.8.0  # via directory-healthcheck
 django-ipware==2.1.0
-django-recaptcha==1.2.0
-django-redis==4.8.0
-django==1.11.23
-djangorestframework==3.9.1
+django-recaptcha==2.0.5
+django-redis==4.10.0
+django==2.2.5
+djangorestframework==3.10.3
 geoip2==2.9.0
-gunicorn==19.5.0
+gunicorn==19.9.0
 idna==2.8                 # via requests
 jsonschema==3.0.1         # via directory-components
-markdown2==2.3.7
+markdown2==2.3.8
 maxminddb==1.4.1          # via geoip2
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-ch-client, directory-client-core
@@ -46,14 +43,16 @@ pillow==4.2.1             # via directory-validators
 pyrsistent==0.15.2        # via jsonschema
 python-dateutil==2.8.0    # via dateparser
 pytz==2017.2              # via dateparser, directory-validators, django, tzlocal
-raven==5.19.0
+raven==6.10.0
 redis==3.2.1              # via django-redis
 regex==2019.6.8           # via dateparser
-requests==2.21.0
-sigauth==4.0.1
+requests==2.22.0
+sigauth==4.1.1
 six==1.12.0               # via django-extensions, jsonschema, mohawk, pyrsistent, python-dateutil, w3lib
+soupsieve==1.9.4          # via beautifulsoup4
+sqlparse==0.3.0           # via django
 tzlocal==1.5.1            # via dateparser
 uk-postcode-utils==1.0
 urllib3==1.24.3
 w3lib==1.20.0             # via directory-client-core
-whitenoise==3.1
+whitenoise==4.1.4

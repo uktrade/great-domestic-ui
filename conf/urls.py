@@ -13,7 +13,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
-import article.views
+import content.views
 import casestudy.views
 import contact.views
 import core.views
@@ -34,26 +34,16 @@ sitemaps = {
 }
 
 
-healthcheck_urls = [
+urlpatterns = [
     url(
-        r'^$',
+        r'^healthcheck/$',
         skip_ga360(directory_healthcheck.views.HealthcheckView.as_view()),
         name='healthcheck'
     ),
     url(
-        r'^ping/$',
+        r'^healthcheck/ping/$',
         skip_ga360(directory_healthcheck.views.PingView.as_view()),
         name='ping'
-    ),
-]
-
-
-urlpatterns = [
-    url(
-        r'^healthcheck/',
-        include(
-            healthcheck_urls, namespace='healthcheck', app_name='healthcheck'
-        )
     ),
     url(
         r"^sitemap\.xml$",
@@ -236,12 +226,12 @@ euexit_urls = [
 news_urls = [
     url(
         r"^brexit/$",
-        article.views.NewsListPageView.as_view(),
+        content.views.NewsListPageView.as_view(),
         name='brexit-news-list',
     ),
     url(
         r"^brexit/(?P<slug>[\w-]+)/$",
-        article.views.NewsArticleDetailView.as_view(),
+        content.views.NewsArticleDetailView.as_view(),
         name='brexit-news-detail',
     ),
 ]
@@ -250,34 +240,34 @@ news_urls = [
 article_urls = [
     url(
         r"^tagged/(?P<slug>[\w-]+)/$",
-        article.views.TagListPageView.as_view(),
+        content.views.TagListPageView.as_view(),
         name='tag-list',
     ),
     url(
         r"^advice/$",
-        article.views.CMSPageView.as_view(),
+        content.views.CMSPageView.as_view(),
         {'slug': 'advice'},
         name='advice',
     ),
     url(
         r"^advice/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
+        content.views.CMSPageView.as_view(),
         name='advice-article-list',
     ),
     url(
         r"^advice/(?P<list>[\w-]+)/(?P<slug>[\w-]+)/$",
-        article.views.CMSPageView.as_view(),
+        content.views.CMSPageView.as_view(),
         name='advice-article',
     ),
     url(
         r"^markets/$",
-        article.views.MarketsPageView.as_view(),
+        content.views.MarketsPageView.as_view(),
         {'slug': 'markets'},
         name='markets',
     ),
     url(
         r"^markets/(?P<slug>[\w-]+)/$",
-        article.views.CountryGuidePageView.as_view(),
+        content.views.CountryGuidePageView.as_view(),
         name='country-guide',
     ),
 ]
@@ -529,7 +519,7 @@ community_urls = [
     ),
     url(
         r'^community/$',
-        article.views.CommunityArticlePageView.as_view(),
+        content.views.CommunityArticlePageView.as_view(),
         name='community-article'
     ),
 ]
@@ -550,43 +540,43 @@ marketing_urls = [
 
 ukef_urls = [
     url(
-        r"^(?i)get-finance/$",
+        r"^get-finance/$(?i)",
         skip_ga360(ukef.views.HomeView.as_view()),
         name='get-finance',
     ),
     url(
-        r"^(?i)trade-finance/$",
+        r"^trade-finance/$(?i)",
         skip_ga360(finance.views.TradeFinanceView.as_view()),
         name='trade-finance'
     ),
     url(
-        r"^(?i)project-finance/$",
+        r"^project-finance/$(?i)",
         skip_ga360(ukef.views.LandingView.as_view()),
         name='project-finance',
     ),
     url(
-        r"^(?i)uk-export-contact-form/$",
+        r"^uk-export-contact-form/$(?i)",
         skip_ga360(ukef.views.ContactView.as_view()),
         {'slug': 'uk-export-contact'},
         name='uk-export-contact',
     ),
     url(
-        r"^(?i)uk-export-contact-form-success/$",
+        r"^uk-export-contact-form-success/$(?i)",
         skip_ga360(ukef.views.SuccessPageView.as_view()),
         name='uk-export-contract-success'
     ),
     url(
-        r"^(?i)how-we-assess-your-project/$",
+        r"^how-we-assess-your-project/$(?i)",
         skip_ga360(ukef.views.HowWeAssessPageView.as_view()),
         name='how-we-assess-your-project'
     ),
     url(
-        r"^(?i)what-we-offer-you/$",
+        r"^what-we-offer-you/$(?i)",
         skip_ga360(ukef.views.WhatWeOfferView.as_view()),
         name='what-we-offer-you'
     ),
     url(
-        r"^(?i)country-cover/$",
+        r"^country-cover/$(?i)",
         skip_ga360(ukef.views.CountryCoverView.as_view()),
         name='country-cover'
     ),
@@ -646,6 +636,15 @@ urlpatterns += community_urls
 urlpatterns += ukef_urls
 urlpatterns += marketing_urls
 urlpatterns += international_redirects_urls
+urlpatterns += export_vouchers_urls
 
-if settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON']:
-    urlpatterns += export_vouchers_urls
+# Intentionally last in this file. Hardcoded urls above must always take priority
+tree_based_cms_urls = [
+    url(
+        r'^(?P<path>[\w\-/]*)/$',
+        content.views.CMSPageFromPathView.as_view(),
+        name='tree-based-url'
+    )
+]
+
+urlpatterns += tree_based_cms_urls

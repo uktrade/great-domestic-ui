@@ -4,10 +4,18 @@
 
 ### Implemented enhancements
 - XOT-928 - Upgrade DirectorySSOApiClient to 6.2.0
+- XOT-1123 - Add filtering by industry tag to markets landing page
+- XOT-1118 - use CMS heading for page title
+- XOT-1121 - add pagination to markets landing page, limit 12 per page
+- XOT-1042 - restyle markets grid and some elements of landing page
+- No ticket - Rename 'article' app folder to 'content'
+- XOT-1107 - Add url for new article landing pages
 - XOT-1078 - UKEF contact us button text issue on small resolutions
 - XOT-1039 - Add campaign section with video
+- no ticket - Upgrade to Django 2
 
 ### Fixed bugs
+- XOT-1042 - remove extra container markup
 - no ticket - Fix international urls in develop and staging.
 
 ## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
@@ -33,6 +41,7 @@
 - XOT-1034 - Add new landing page, remove obsolete international page styling, update metadata for cms pages
 - TT-1808: Update directory components to add "no-validate" no cache middleware
 - No ticket - Add trade barriers to search
+- CI-501 - Added redirect from `/contact/triage/international/` to new great-international-ui url `/international/contact`
 - XOT-928 - Add user full name from new registration journey to SOO contact form
 
 ### Bug fixes

@@ -1,4 +1,4 @@
-{% extends 'article/base.html' %}
+{% extends 'content/base.html' %}
 {% load static %}
 {% load hero add_export_elements_classes from directory_components %}
 {% load parse_date from article_tags %}
@@ -8,7 +8,7 @@
 {% block content %}
 
 {% block hero %}
-  {% hero image=page.hero_image.url hero_text=page.landing_page_title %}
+  {% hero image=page.hero_image.url hero_text=page.title %}
 {% endblock %}
 
 <section id="{% block page_id %}article-list-page{% endblock %}">

@@ -1,6 +1,10 @@
+from django.utils.functional import cached_property
+from django.views.generic import TemplateView
+from django.core.paginator import Paginator
+
 from directory_constants import slugs
 
-from django.views.generic import TemplateView
+from directory_cms_client.client import cms_api_client
 
 from .mixins import (
     GetCMSTagMixin,
@@ -10,17 +14,20 @@ from core.mixins import (
     PrototypeFeatureFlagMixin,
     NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
+    GetCMSPageByPathMixin,
     SetGA360ValuesForCMSPageMixin,
     SetGA360ValuesMixin,
 )
 
+from core.helpers import handle_cms_response_allow_404
+
 TEMPLATE_MAPPING = {
-    'TopicLandingPage': 'article/topic_list.html',
-    'SuperregionPage': 'article/superregion.html',
-    'CountryGuidePage': 'article/country_guide.html',
-    'ArticleListingPage': 'article/article_list.html',
-    'ArticlePage': 'article/article_detail.html',
-    'MarketingArticlePage': 'article/marketing_article_detail.html',
+    'TopicLandingPage': 'content/topic_list.html',
+    'SuperregionPage': 'content/superregion.html',
+    'CountryGuidePage': 'content/country_guide.html',
+    'ArticleListingPage': 'content/article_list.html',
+    'ArticlePage': 'content/article_detail.html',
+    'MarketingArticlePage': 'content/marketing_article_detail.html',
     'CampaignPage': 'core/campaign.html',
     'PerformanceDashboardPage': 'core/performance_dashboard.html',
     'PerformanceDashboardNotesPage': 'core/performance_dashboard_notes.html',
@@ -46,20 +53,39 @@ class CMSPageView(
         return self.kwargs['slug']
 
 
+class CMSPageFromPathView(SetGA360ValuesForCMSPageMixin, TemplateChooserMixin, GetCMSPageByPathMixin, TemplateView):
+    pass
+
+
 class MarketsPageView(CMSPageView):
-    template_name = 'article/markets_landing_page.html'
+    template_name = 'content/markets_landing_page.html'
+
+    @cached_property
+    def filtered_countries(self):
+        sector_id = self.request.GET.get('sector')
+
+        if sector_id and sector_id.isdigit() and int(sector_id) != 0:
+            response = cms_api_client.lookup_countries_by_tag(tag_id=sector_id)
+            return handle_cms_response_allow_404(response)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        def rename_heading_field(page):
-            page['landing_page_title'] = page['heading']
-            return page
+        if self.filtered_countries:
+            markets = self.filtered_countries['countries']
+            tag_name = self.filtered_countries['name']
+        else:
+            markets = self.page['child_pages']
+            tag_name = None
 
-        context['page']['child_pages'] = [
-            rename_heading_field(child_page)
-            for child_page in context['page']['child_pages']
-        ]
+        filtered_countries = sorted(markets, key=lambda x: x['title'])
+
+        paginator = Paginator(filtered_countries, 12)
+        pagination_page = paginator.page(self.request.GET.get('page', 1))
+
+        context['pagination_page'] = pagination_page
+        context['number_of_results'] = len(filtered_countries)
+        context['tag_name'] = tag_name
         return context
 
 
@@ -112,7 +138,7 @@ class CountryGuidePageView(CMSPageView):
 class TagListPageView(
     PrototypeFeatureFlagMixin, SetGA360ValuesMixin, GetCMSTagMixin, TemplateView,
 ):
-    template_name = 'article/tag_list.html'
+    template_name = 'content/tag_list.html'
     page_type = 'TagListPage'
 
     @property
@@ -123,7 +149,7 @@ class TagListPageView(
 class NewsListPageView(
     NewsSectionFeatureFlagMixin, SetGA360ValuesMixin, GetCMSPageMixin, TemplateView,
 ):
-    template_name = 'article/domestic_news_list.html'
+    template_name = 'content/domestic_news_list.html'
     slug = slugs.EUEXIT_DOMESTIC_NEWS
     page_type = 'NewsList'
 
@@ -134,7 +160,7 @@ class NewsArticleDetailView(
     GetCMSPageMixin,
     TemplateView,
 ):
-    template_name = 'article/domestic_news_detail.html'
+    template_name = 'content/domestic_news_detail.html'
 
     @property
     def slug(self):

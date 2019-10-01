@@ -591,7 +591,10 @@ def test_guidance_view_cms_retrieval(mock_lookup_by_slug, client):
 
 
 @mock.patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_exporting_to_uk_cms_retrieval(mock_lookup_by_slug, client):
+def test_exporting_to_uk_cms_retrieval(mock_lookup_by_slug, client, settings):
+    settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON'] = False
+    reload_urlconf()
+
     mock_lookup_by_slug.return_value = create_response()
 
     url = reverse(
@@ -1226,7 +1229,6 @@ def test_export_voucher_submit(mock_gov_notify_action, mock_form_session_class, 
 @pytest.mark.parametrize('url', (reverse('export-voucher-success'), reverse('export-voucher-form')))
 def test_export_voucher_feature_flag(enabled, url, client, settings):
     settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON'] = enabled
-    reload_urlconf()
 
     response = client.get(url)
 

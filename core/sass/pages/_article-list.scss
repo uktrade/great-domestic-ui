@@ -1,11 +1,15 @@
 
-// NEWS LIST PAGE
+// ARTICLE LIST PAGE
 // =================
 
 @import 'partials/colours';
 
 
 .article-list-page {
+
+  .number-display {
+    margin-left: 10px;
+  }
 
   .information-banner {
     background-color: $white;
