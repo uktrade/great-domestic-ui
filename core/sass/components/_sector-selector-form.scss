@@ -40,12 +40,11 @@
       float: left;
     }
     .quick-link {
-      color: $grey;
       text-decoration: none;
     }
     .sector-name {
       font-weight: 600;
-      border-bottom: 1px solid $grey;
+      text-decoration: underline;
     }
     .quick-links-icon {
       height: 60px;
