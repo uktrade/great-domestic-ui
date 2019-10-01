@@ -840,15 +840,18 @@ def test_international_investment_support_directory_redirect(client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_new_landing_page_querystring_old_cms_page(mock_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_new_landing_page_querystring_old_cms_page(mock_industries, mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'HomePage',
         'tree_based_breadcrumbs': [
             {'title': 'great.gov.uk', 'url': '/'}
         ],
     })
-    url = '/?nh=1'
 
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
+    url = '/?nh=1'
     response = client.get(url)
 
     assert response.status_code == 200
@@ -856,7 +859,8 @@ def test_new_landing_page_querystring_old_cms_page(mock_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_new_landing_page_querystring_new_cms_page(mock_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_new_landing_page_querystring_new_cms_page(mock_industries, mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'HomePage',
         'tree_based_breadcrumbs': [
@@ -867,8 +871,10 @@ def test_new_landing_page_querystring_new_cms_page(mock_page, client):
         'questions_section_title': '',
         'what_is_new_title': '',
     })
-    url = '/?nh=1'
 
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
+    url = '/?nh=1'
     response = client.get(url)
 
     assert response.status_code == 200
