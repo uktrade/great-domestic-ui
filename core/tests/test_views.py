@@ -217,6 +217,50 @@ def test_landing_page_template_news_feature_flag_off(
     assert response.template_name == ['core/landing_page_domestic.html']
 
 
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_top_sectors_returned(
+    mock_industries, mock_get_page, client, settings
+):
+
+    page = {
+        'title': 'great.gov.uk',
+        'page_type': 'HomePage',
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [
+            {'article_title': 'News article 1'},
+            {'article_title': 'News article 2'},
+        ],
+        'guidance': [
+            {'title': 'Guidance 1'},
+            {'title': 'Guidance 2'},
+        ],
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+        ]
+    }
+    mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [
+        {'id': 1, 'name': 'Agri-technology', 'icon': None, 'pages_count': 3},
+        {'id': 2, 'name': 'Agri-technology1', 'icon': None, 'pages_count': 6},
+        {'id': 3, 'name': 'Agri-technology2', 'icon': None, 'pages_count': 8},
+        {'id': 4, 'name': 'Agri-technology3', 'icon': None, 'pages_count': 6},
+        {'id': 5, 'name': 'Agri-technology4', 'icon': None, 'pages_count': 1},
+        {'id': 6, 'name': 'Agri-technology5', 'icon': None, 'pages_count': 0},
+        {'id': 7, 'name': 'Agri-technology6', 'icon': None, 'pages_count': 3},
+        {'id': 8, 'name': 'Agri-technology', 'icon': None, 'pages_count': 2},
+        {'id': 9, 'name': 'Agri-technology', 'icon': None, 'pages_count': 1},
+    ]
+    mock_industries.return_value = create_response(content_list_industry_tags)
+
+    url = reverse('landing-page')
+    response = client.get(url)
+
+    assert len(response.context_data['sector_list']) == 6
+
+
+
 def test_sitemaps(client):
     url = reverse('sitemap')
 
