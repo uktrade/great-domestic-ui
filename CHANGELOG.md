@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1122 - add sector selector and top sectors to homepage
 - XOT-1123 - Add filtering by industry tag to markets landing page
 - XOT-1118 - use CMS heading for page title
 - XOT-1121 - add pagination to markets landing page, limit 12 per page

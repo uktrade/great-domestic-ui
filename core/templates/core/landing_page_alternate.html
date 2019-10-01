@@ -31,6 +31,38 @@
 
 {% featured_articles heading=page.what_is_new_title items=page.what_is_new_pages %}
 
+<section class="sector-potential-section">
+  <div class="background-stone-30 padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m">
+    <div class="container padding-bottom-45-m">
+      <div class="width-full width-two-thirds-l">
+          <h2 class="heading-large margin-top-0">Sector potential</h2>
+          <p>Use our guides to inform your export plan. Select your sector to see possible markets.</p>
+          <form class="sector-potential-form" action="{% url 'markets' %}" method="GET">
+            {{ sector_form }}
+            <button type="submit" class="button margin-top-15">Show markets</button>
+            <a href="{% url 'markets' %}" class="view-markets link bold margin-left-30-m margin-top-15">View all market guides</a>
+          </form>
+        </div>
+      </div>
+      <div class="container sector-selector-quick-links padding-top-45">
+        <ul class="grid-row">
+          {% for sector in sector_list %}
+            {% if sector.pages_count > 0 %}
+            <li class="">
+              <a href="{% url 'markets' %}?sector={{ sector.id }}" class="quick-link">
+                <img src="{{ sector.icon.url }}" alt="" class="quick-links-icon">
+                <span class="sector-name">{{ sector.name }}</span>
+                <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
+              </a>
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+  </div>
+</section>
+
+{% if page.campaign %}
 <section class="campaign-section">
   <div class="container campaign-heading-container">
     <h2 class="heading-large margin-0 campaign-heading">{{ page.campaign.0.heading }}</h2>
@@ -48,6 +80,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 <div class="campaign-video-transcript" id="campaign-video-transcript">
   <details closed>

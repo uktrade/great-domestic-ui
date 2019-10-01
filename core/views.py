@@ -46,6 +46,10 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
         return 'core/landing_page_domestic.html'
 
     @cached_property
+    def sector_list(self):
+        return helpers.handle_cms_response(cms_api_client.list_industry_tags())
+
+    @cached_property
     def page(self):
         response = cms_api_client.lookup_by_slug(
             slug=slugs.GREAT_HOME,
@@ -60,8 +64,12 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
+        sorted_sectors = sorted(self.sector_list, key=lambda x: x['pages_count'], reverse=True)
+        top_sectors = sorted_sectors[:6]
         return super().get_context_data(
             page=self.page,
+            sector_list=top_sectors,
+            sector_form=forms.SectorPotentialForm(sector_list=self.sector_list),
             casestudies=[
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
