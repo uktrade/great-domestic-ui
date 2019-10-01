@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.urls import reverse_lazy
 from django.views.generic.base import RedirectView
 
+from django.conf import settings
 from core.views import (
     OpportunitiesRedirectView, TranslationRedirectView, QuerystringRedirectView
 )
@@ -41,7 +42,7 @@ redirects = [
         name='australia-event-calendar'
     ),
     url(
-        r'^(?i)trskorea/$',
+        r'^trskorea/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://eu.eventscloud.com/korea-uk-tech-rocketship-awards-kr'
         )
@@ -53,7 +54,7 @@ redirects = [
         )
     ),
     url(
-        r'^(?i)ukti/$',
+        r'^ukti/$(?i)',
         QuerystringRedirectView.as_view(pattern_name='landing-page')
     ),
     url(
@@ -66,43 +67,43 @@ redirects = [
         )
     ),
     url(
-        r'^(?i)innovation-hk/$',
+        r'^innovation-hk/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-hk',
         )
     ),
     url(
-        r'^(?i)innovation-china/$',
+        r'^innovation-china/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-china',
         )
     ),
     url(
-        r'^(?i)innovation-asean/$',
+        r'^innovation-asean/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-asean',
         )
     ),
     url(
-        r'^(?i)innovation-au-nz/$',
+        r'^innovation-au-nz/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-au-nz',
         )
     ),
     url(
-        r'^(?i)innovation-jpn/$',
+        r'^innovation-jpn/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-jpn',
         )
     ),
     url(
-        r'^(?i)innovation-kor/$',
+        r'^innovation-kor/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/innovation-kor',
         )
     ),
     url(
-        r'^(?i)bodw2019/$',
+        r'^bodw2019/$(?i)',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/bodw2019/'),
     ),
@@ -123,7 +124,7 @@ redirects = [
         ),
     ),
     url(
-        r'^(?i)beijingexpo2019/$',
+        r'^beijingexpo2019/$(?i)',
         RedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/index.php?eventid=200188985&'  # NOQA
         )
@@ -332,6 +333,15 @@ redirects = [
         ),
     ),
 ]
+
+if settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON']:
+    redirects += [
+        url(
+            r'^contact/triage/international/$',
+            QuerystringRedirectView.as_view(url='/international/contact/'),
+            name="contact-triage-redirect"
+        ),
+    ]
 
 # (<lang code path>, <language to use in query parameter>)
 INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [

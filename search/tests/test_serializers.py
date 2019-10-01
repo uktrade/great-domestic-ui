@@ -40,7 +40,7 @@ def test_parse_search_results():
                     'type': ['Document', 'dit:Opportunity'],
                     'title': 'Germany - snow clearing',
                     'content':
-                    'Winter services for the properties1) Former...',
+                    'Winter services for the properties1) Former…',
                     'url': 'www.great.gov.uk/opportunities/2'
                 }
             }, {
@@ -99,12 +99,12 @@ r-2018) and the full",
         'title': 'France - Data analysis services',
         'content': 'The purpose of this contract is to analyze Python\
  For Loops. A for loop is used for iterating over a sequence (that is\
-  either a list, a tuple, a dictionary,...',
+  either a list, a tuple, a dictionary, a…',
         'url': 'www.great.gov.uk/opportunities/1'
     }, {
         'type': 'Export opportunity',
         'title': 'Germany - snow clearing',
-        'content': 'Winter services for the properties1) Former...',
+        'content': 'Winter services for the properties1) Former…',
         'url': 'www.great.gov.uk/opportunities/2'
     }, {
         'type': 'Article',

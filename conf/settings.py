@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'directory_constants',
     'directory_sso_api_client',
     'core',
-    'article',
+    'content',
     'casestudy',
     'finance',
     'directory_healthcheck',
@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'sso',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'directory_components.middleware.MaintenanceModeMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -85,6 +85,7 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'conf.urls'
+ROOT_URLCONF_REDIRECTS = 'conf.url_redirects'
 
 TEMPLATES = [
     {
@@ -98,10 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 'directory_components.context_processors.sso_processor',
                 'directory_components.context_processors.urls_processor',
-                (
-                    'directory_components.context_processors.'
-                    'header_footer_processor'
-                ),
+                'directory_components.context_processors.header_footer_processor',
                 'directory_components.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
                 'directory_components.context_processors.cookie_notice',
@@ -378,6 +376,7 @@ DIRECTORY_CMS_API_CLIENT_API_KEY = env.str('CMS_SIGNATURE_SECRET')
 DIRECTORY_CMS_API_CLIENT_SENDER_ID = 'directory'
 DIRECTORY_CMS_API_CLIENT_SERVICE_NAME = cms.EXPORT_READINESS
 DIRECTORY_CMS_API_CLIENT_DEFAULT_TIMEOUT = 15
+DIRECTORY_CMS_SITE_ID = env.str('DIRECTORY_CMS_SITE_ID', 3)
 
 # directory clients
 DIRECTORY_CLIENT_CORE_CACHE_EXPIRE_SECONDS = env.int(
@@ -414,7 +413,8 @@ FEATURE_FLAGS = {
     'MAINTENANCE_MODE_ON': env.bool('FEATURE_MAINTENANCE_MODE_ENABLED', False),  # used by directory-components
     'TEST_SEARCH_API_PAGES_ON': env.bool('FEATURE_TEST_SEARCH_API_PAGES_ENABLED', False),
     'CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON': env.bool('FEATURE_CAPITAL_INVEST_CONTACT_IN_TRIAGE_ENABLED', False),
-    'EXPORT_VOUCHERS_ON': env.bool('FEATURE_EXPORT_VOUCHERS_ENABLED', False)
+    'EXPORT_VOUCHERS_ON': env.bool('FEATURE_EXPORT_VOUCHERS_ENABLED', False),
+    'INTERNATIONAL_CONTACT_TRIAGE_ON': env.bool('FEATURE_INTERNATIONAL_CONTACT_TRIAGE_ENABLED', False)
 }
 if FEATURE_FLAGS['TEST_SEARCH_API_PAGES_ON']:
     DIRECTORY_HEALTHCHECK_BACKENDS.append(healthcheck.backends.SearchSortBackend)

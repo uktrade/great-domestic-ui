@@ -10,7 +10,7 @@ from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
 from django.contrib import sitemaps
 from django.http import JsonResponse
-from django.urls import reverse, RegexURLResolver
+from django.urls import reverse
 from django.utils.cache import set_response_etag
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
@@ -18,7 +18,7 @@ from django.utils.functional import cached_property
 
 from casestudy import casestudies
 from core import helpers, mixins, forms
-from article.views import CMSPageView
+from content.views import CMSPageView
 from euexit.mixins import HideLanguageSelectorMixin
 
 logger = logging.getLogger(__name__)
@@ -183,6 +183,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'report-ma-barrier',
             'contact-us-exporting-guidance',
             'contact-us-exporting-to-the-uk-guidance',
+            'tree-based-url',
         ]
 
         excluded_pages += dynamic_cms_page_url_names
@@ -191,8 +192,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
         return [
             item.name for item in urls.urlpatterns
-            if not isinstance(item, RegexURLResolver) and
-            item not in redirects and
+            if item not in redirects and
             item.name not in excluded_pages
         ]
 
