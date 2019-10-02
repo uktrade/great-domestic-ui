@@ -1,10 +1,11 @@
 from django.utils.functional import cached_property
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from django.core.paginator import Paginator
 
 from directory_constants import slugs
 
 from directory_cms_client.client import cms_api_client
+from core import helpers, mixins, forms
 
 from .mixins import (
     GetCMSTagMixin,
@@ -20,6 +21,7 @@ from core.mixins import (
 )
 
 from core.helpers import handle_cms_response_allow_404
+
 
 TEMPLATE_MAPPING = {
     'TopicLandingPage': 'content/topic_list.html',
@@ -68,6 +70,10 @@ class MarketsPageView(CMSPageView):
             response = cms_api_client.lookup_countries_by_tag(tag_id=sector_id)
             return handle_cms_response_allow_404(response)
 
+    @cached_property
+    def sector_list(self):
+        return helpers.handle_cms_response(cms_api_client.list_industry_tags())
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
@@ -82,7 +88,7 @@ class MarketsPageView(CMSPageView):
 
         paginator = Paginator(filtered_countries, 12)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
-
+        context['sector_form'] = forms.SectorPotentialForm(sector_list=self.sector_list)
         context['pagination_page'] = pagination_page
         context['number_of_results'] = len(filtered_countries)
         context['tag_name'] = tag_name

@@ -335,7 +335,8 @@ def test_get_country_guide_page_neither_case_study_nor_statistics(
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
-def test_markets_page_filters(mock_countries, mock_page, client, rf):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_markets_page_filters(mock_industries, mock_countries, mock_page, client, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -347,6 +348,8 @@ def test_markets_page_filters(mock_countries, mock_page, client, rf):
     }
 
     mock_page.return_value = create_response(page)
+    content_list_industry_tags=[{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     filtered_countries = {
         'name': 'Tag name',
@@ -369,7 +372,8 @@ def test_markets_page_filters(mock_countries, mock_page, client, rf):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
-def test_markets_page_filters_sort_alphabetically(mock_countries, mock_page, client, rf):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_markets_page_filters_sort_alphabetically(mock_industries, mock_countries, mock_page, client, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -383,6 +387,8 @@ def test_markets_page_filters_sort_alphabetically(mock_countries, mock_page, cli
     sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['title'])
 
     mock_page.return_value = create_response(page)
+    content_list_industry_tags=[{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     mock_countries.return_value = create_response({})
 
@@ -400,7 +406,8 @@ def test_markets_page_filters_sort_alphabetically(mock_countries, mock_page, cli
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
-def test_markets_page_filters_invalid_param(mock_countries, mock_page, client, rf):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_markets_page_filters_invalid_param(mock_industries, mock_countries, mock_page, client, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -412,6 +419,8 @@ def test_markets_page_filters_invalid_param(mock_countries, mock_page, client, r
     }
 
     mock_page.return_value = create_response(page)
+    content_list_industry_tags=[{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     mock_countries.return_value = create_response({})
 
@@ -429,7 +438,8 @@ def test_markets_page_filters_invalid_param(mock_countries, mock_page, client, r
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
-def test_markets_page_filters_no_results(mock_countries, mock_page, client, rf):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_markets_page_filters_no_results(mock_industries, mock_countries, mock_page, client, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -441,6 +451,8 @@ def test_markets_page_filters_no_results(mock_countries, mock_page, client, rf):
     }
 
     mock_page.return_value = create_response(page)
+    content_list_industry_tags=[{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     filtered_countries = {
         'name': 'Tag name',
