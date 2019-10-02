@@ -14,6 +14,7 @@
 - XOT-1078 - UKEF contact us button text issue on small resolutions
 - XOT-1039 - Add campaign section with video
 - no ticket - Upgrade to Django 2
+- XOT-928 - Use user profile phone number on contact form
 
 ### Fixed bugs
 - XOT-1042 - remove extra container markup
