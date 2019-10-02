@@ -13,7 +13,7 @@ class SSOUser(directory_sso_api_client.models.SSOUser):
 
     def get_full_name(self):
         full_name = super().get_full_name()
-        if full_name in ['', None] and self.company:
+        if full_name in ['None None', '', None] and self.company:
             full_name = self.company['postal_full_name']
         return full_name
 
