@@ -300,7 +300,7 @@ class ExportingAdviceFormView(
             if step == self.PERSONAL:
                 initial.update({
                     'email': self.request.user.email,
-                    'phone': self.request.user.company['mobile_number'],
+                    'phone': self.request.user.get_mobile_number(),
                     'first_name': self.guess_given_name,
                     'last_name': self.guess_family_name,
                 })
@@ -525,7 +525,7 @@ class SellingOnlineOverseasFormView(
                 initial.update({
                     'contact_name': self.request.user.get_full_name(),
                     'contact_email': self.request.user.email,
-                    'phone': self.request.user.company['mobile_number'],
+                    'phone': self.request.user.get_mobile_number()
                 })
         return initial
 
