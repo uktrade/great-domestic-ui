@@ -18,7 +18,7 @@ class SSOUser(directory_sso_api_client.models.SSOUser):
         return full_name
 
     def get_mobile_number(self):
-        mobile_number = super().mobile_phone_number
+        mobile_number = self.mobile_phone_number
         if mobile_number in ['None None', '', None] and self.company:
             mobile_number = self.company['mobile_number']
         return mobile_number
