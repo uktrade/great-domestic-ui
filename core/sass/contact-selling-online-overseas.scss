@@ -27,35 +27,46 @@ body.js-enabled {
   }
 }
 
-#step-information {
-  padding-bottom: 0;
-  h1 {
-    margin-top: 0;
-    margin-bottom: 10px;
+#content .soo-application-form {
+  input, select {
+    width: 75%;
+    max-width: 375px;
+    &.short-field {
+      width: 35%;
+    }
   }
-  .step-counter {
-    color: #898989;
+
+  &.step-2, &.step-3, &.step-4 {
+    padding-top: 60px;
   }
 }
 
-#benefits {
-  margin-left: 10px;
-  @media (min-width: 767px) {
-    margin-left: 200px;
-    margin-top: 40px;
-    width: 56%;
-  }
-}
-#benefits-toggle {
-  border-top: 1px solid #9A9A9A;
-  border-bottom: 1px solid #9A9A9A;
-  margin-top: 20px;
+.read-only-input-container {
   padding-bottom: 10px;
-  h3 {
-    padding: 20px;
-    cursor: pointer;
-    margin: 0;
-    background-color: #FCFBF9;
-    position: relative;
+  margin-bottom: 0;
+  border-left: 5px solid #0858CD;
+  padding-left: 15px;
+  label {
+    font-weight: bold;
+    padding-bottom: 0;
+  }
+  input, textarea {
+    background: transparent;
+    border: 0;
+    padding: 0;
+
+    &:disabled {
+      color: $grey;
+    }
+  }
+  textarea {
+    overflow: hidden;
+    resize: none;
+  }
+  &.margin-bottom-30 {
+    margin-bottom: 30px;
+  }
+  &.padding-bottom-0 {
+    padding-bottom: 0;
   }
 }

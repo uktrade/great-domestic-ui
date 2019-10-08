@@ -454,29 +454,38 @@ class ExortingToUKGuidanceView(
 
 
 class SellingOnlineOverseasFormView(
-    mixins.PreventCaptchaRevalidationMixin,
     FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
+
+    def get_organisation_form_by_user_account(account_type):
+        if account_type == 'individual':
+            return forms.SellingOnlineOverseasBusinessIndividual
+        elif account_type== 'non_companies_house':
+            return forms.SellingOnlineOverseasBusinessNonCH
+        return forms.SellingOnlineOverseasBusiness
 
     ORGANISATION = 'organisation'
     ORGANISATION_DETAILS = 'organisation-details'
     EXPERIENCE = 'your-experience'
     CONTACT_DETAILS = 'contact-details'
+    ACCOUNT_TYPE = 'individual' #hard coded for development only - REMOVE
+    ORGANISATION_FORM = get_organisation_form_by_user_account(ACCOUNT_TYPE)
 
     form_list = (
-        (ORGANISATION, forms.SellingOnlineOverseasBusiness),
+        (CONTACT_DETAILS, forms.SellingOnlineOverseasContactDetails),
+        (ORGANISATION, ORGANISATION_FORM),
         (ORGANISATION_DETAILS, forms.SellingOnlineOverseasBusinessDetails),
         (EXPERIENCE, forms.SellingOnlineOverseasExperience),
-        (CONTACT_DETAILS, forms.SellingOnlineOverseasContactDetails),
     )
 
     templates = {
+        CONTACT_DETAILS: 'contact/soo/step-contact-details.html',
         ORGANISATION: 'contact/soo/step-organisation.html',
         ORGANISATION_DETAILS: 'contact/soo/step-organisation-details.html',
         EXPERIENCE: 'contact/soo/step-experience.html',
-        CONTACT_DETAILS: 'contact/soo/step-contact-details.html',
     }
+
 
     def get(self, *args, **kwargs):
         market = self.request.GET.get('market')
@@ -505,35 +514,37 @@ class SellingOnlineOverseasFormView(
         initial = super().get_form_initial(step)
 
         # prepopulate form from cached latest submission data or directory-api
-        latest_submission_data = self.get_form_data_cache()
-        if latest_submission_data is not None:
-            for field in self.form_list[step].declared_fields:
-                if field in latest_submission_data:
-                    initial[field] = latest_submission_data[field]
-        elif self.request.user.is_authenticated and self.request.user.company:
-            if step == self.ORGANISATION:
-                initial.update({
-                    'soletrader': False,
-                    'company_name': self.request.user.company['name'],
-                    'company_number': self.request.user.company['number'],
-                    'company_postcode': self.request.user.company['postal_code'],
-                    'website_address': self.request.user.company['website'],
-                })
-            elif step == self.EXPERIENCE:
-                initial['description'] = self.request.user.company['summary']
-            elif step == self.CONTACT_DETAILS:
-                initial.update({
-                    'contact_name': self.request.user.get_full_name(),
-                    'contact_email': self.request.user.email,
-                    'phone': self.request.user.get_mobile_number()
-                })
+        # latest_submission_data = self.get_form_data_cache()
+        # if latest_submission_data is not None:
+        #     for field in self.form_list[step].declared_fields:
+        #         if field in latest_submission_data:
+        #             initial[field] = latest_submission_data[field]
+        # elif self.request.user.is_authenticated and self.request.user.company:
+
+        if step == self.CONTACT_DETAILS:
+            initial.update({
+                'contact_first_name': self.request.user.first_name,
+                'contact_lst_name': self.request.user.last_name,
+                'contact_email': self.request.user.email,
+                'phone': self.request.user.company['mobile_number'],
+            })
+        elif step == self.ORGANISATION:
+            initial.update({
+                'company_name': self.request.user.company['name'],
+                'company_number': self.request.user.company['number'],
+                'company_postcode': self.request.user.company['postal_code'],
+                'website_address': self.request.user.company['website'],
+            })
+        elif step == self.EXPERIENCE:
+            initial['description'] = self.request.user.company['summary']
+
         return initial
 
     def serialize_form_list(self, form_list):
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        del data['terms_agreed']
+        # del data['terms_agreed']
         data['market'] = self.request.session.get(SESSION_KEY_SOO_MARKET)
         return data
 
