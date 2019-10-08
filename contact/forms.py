@@ -533,7 +533,7 @@ class SellingOnlineOverseasBusinessIndividual(forms.Form):
     company_address = forms.CharField(
         label='Address',
     )
-    postcode = forms.CharField(
+    company_postcode = forms.CharField(
         label='Postcode',
     )
     website_address = forms.CharField(

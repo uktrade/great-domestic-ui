@@ -544,7 +544,7 @@ class SellingOnlineOverseasFormView(
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        # del data['terms_agreed']
+        del data['terms_agreed']
         data['market'] = self.request.session.get(SESSION_KEY_SOO_MARKET)
         return data
 

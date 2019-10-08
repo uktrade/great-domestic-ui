@@ -381,17 +381,16 @@ contact_urls = [
         name='contact-us-soo-redirect'
     ),
     url(
+        r'^contact/selling-online-overseas/success/$',
+        skip_ga360(contact.views.SellingOnlineOverseasSuccessView.as_view()),
+        {'slug': slugs.HELP_FORM_SUCCESS_SOO},
+        name='contact-us-selling-online-overseas-success'
+    ),
+    url(
         r'^contact/selling-online-overseas/(?P<step>.+)/$',
         login_required(skip_ga360(contact.views.SellingOnlineOverseasFormView.as_view(
             url_name='contact-us-soo', done_step_name='finished'
         ))),
-        name='contact-us-soo'
-    ),
-    url(
-        r'^contact/selling-online-overseas/(?P<step>.+)/$',
-        skip_ga360(contact.views.SellingOnlineOverseasFormView.as_view(
-            url_name='contact-us-soo', done_step_name='finished'
-        )),
         name='contact-us-soo'
     ),
     url(
