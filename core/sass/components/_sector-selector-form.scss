@@ -1,3 +1,13 @@
+
+.sector-potential-section {
+  @media (min-width: 1081px) {
+    .sector-potential-wrapper {
+      background: url(/static/images/globe.png) calc(100% - (-100px)) -150px no-repeat;
+      background-size: auto 120%;
+    }
+  }
+}
+
 .sector-potential-form {
     #id_sector-container {
       label {
@@ -32,8 +42,12 @@
   }
 
   .sector-selector-quick-links {
+    .quick-links-separator {
+      margin: 0 0 45px 0;
+      height: 2px;
+      background-color: $light-grey;
+    }
 
-    border-top: 2px solid $light-grey;
     li {
       display: none;
       text-align: center;
@@ -79,6 +93,11 @@
       li:nth-child(-n+6) {
         display: block;
         width: calc(100% / 6);
+      }
+    }
+    @media (min-width: 1081px) {
+      .quick-links-separator {
+        width: 60%;
       }
     }
   }

@@ -48,13 +48,11 @@
     img {
       display: block;
     }
-
   }
 
   .campaign-related-links {
 
     a {
-      color: $white;
       font-weight: 700;
       font-family: $brand-font-alternative;
 
@@ -62,14 +60,25 @@
         color: $great-blue;
       }
     }
+
+    @media (min-width: 769px) {
+      a {
+        color: $white;
+      }
+    }
   }
 
   .campaign-heading-container {
     margin-bottom: $spacing-3;
+
   }
 
   .campaign-heading {
     text-transform: uppercase;
+    .if-we-can {
+      display: inline-block;
+      white-space: pre;
+    }
   }
 
   .campaign-content-container {
@@ -82,7 +91,7 @@
     }
 
     .campaign-content-container {
-      padding: 30px;
+      padding: 60px;
       z-index: 1;
       position: absolute;
       overflow: visible;
@@ -101,15 +110,51 @@
     }
 
     .campaign-heading {
-      max-width: 175px;
+      max-width: 310px;
       position: absolute;
-      margin-left: $spacing-3;
-      margin-top: $spacing-3;
+      margin-top: $spacing-1;
+
+      .if-we-can {
+        background-color: $great-red;
+        padding: 0 10px 0 30px;
+        white-space: normal;
+
+        &:last-child {
+          margin-top: 10px;
+        }
+      }
     }
 
     .campaign-subsection {
       position: absolute;
       bottom: 0;
+    }
+  }
+
+  @media (min-width: 961px) {
+    .campaign-heading {
+      font-size: 52px;
+    }
+  }
+
+  @media (min-width: 1261px) {
+    .campaign-heading {
+      margin-left: 0;
+    }
+  }
+
+  .chevron-banner-section {
+    .container {
+      border-bottom: 2px solid $stone-90;
+    }
+    .card {
+      min-height: 0;
+    }
+  }
+
+  .sector-potential-section {
+    .sector-potential-wrapper {
+      background-color: $stone-30;
     }
   }
 
