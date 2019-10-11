@@ -9,10 +9,10 @@ class CompaniesHouseSearchForm(django_forms.Form):
 class SectorPotentialForm(forms.Form):
     sector = forms.ChoiceField(
         label='Sector',
-        choices=[],
+        choices=[('', 'To see possible markets - select your sector')],
     )
 
     def __init__(self, sector_list, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sorted_sectors = sorted(sector_list, key=lambda x: x['name'])
-        self.fields['sector'].choices = [(tag['id'], tag['name']) for tag in sorted_sectors]
+        self.fields['sector'].choices += [(tag['id'], tag['name']) for tag in sorted_sectors]
