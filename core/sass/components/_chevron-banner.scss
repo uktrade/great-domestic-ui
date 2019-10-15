@@ -164,10 +164,13 @@
     text-decoration: none;
   }
 
-  .chevron-banner__link:link:focus,.chevron-banner__link:focus {
+  .chevron-banner__link:link:focus,.chevron-banner__link:focus,
+  .chevron-banner__link:link:active, .chevron-banner__link:active,
+  a.chevron-banner__link:active:focus {
     color: #0b0c0c;
     background-color: #ffdd00;
     box-shadow: 0 -2px #ffdd00, 0 4px #0b0c0c;
+    outline: none;
   }
 
   .chevron-banner__link:after {
