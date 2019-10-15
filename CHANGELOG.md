@@ -3,6 +3,8 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- XOT-1155 - change related link field from rich text to string
 - XOT-1151, XOT-1152, XOT-1137, XOT-1153, XOT-1155 - homepage redesigns v2
 - XOT-1129 - add selector form to market landing page
 - XOT-1122 - add sector selector and top sectors to homepage
