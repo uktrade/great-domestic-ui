@@ -33,7 +33,6 @@
     @media (min-width: 769px) {
       background-color: $white;
       color: $active-blue;
-      margin-right: 30px;
     }
   }
 
@@ -47,21 +46,26 @@
     }
   }
 
-  .campaign-related-links {
+  .campaign-related-link {
+    font-weight: 700;
+    font-family: $brand-font-alternative;
+    display: block;
+    text-align: center;
 
-    a {
-      font-weight: 700;
-      font-family: $brand-font-alternative;
+    &:active:hover {
+      color: $great-blue;
+    }
 
-      &:active:hover {
-        color: $great-blue;
-      }
+    @media (min-width: 641px) {
+      display: inline;
+      text-align: left;
+      margin-left: 15px;
+
     }
 
     @media (min-width: 769px) {
-      a {
-        color: $white;
-      }
+      color: $white;
+      margin-left: 30px;
     }
   }
 

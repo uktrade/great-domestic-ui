@@ -98,9 +98,7 @@
         <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
           <p class="heading-medium margin-bottom-30 margin-top-0">{{ page.campaign.0.subheading }}</p>
           <a href="{{ page.campaign.0.video.url }}" class="button button-video margin-bottom-15" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
-          <span class="campaign-related-links">
-              {{ page.campaign.0.related_link|add_export_elements_classes }}
-          </span>
+          <a class="campaign-related-link" href="{{ page.campaign.0.related_link_url}}">{{ page.campaign.0.related_link_text }}</a>
         </div>
       </div>
     </div>
