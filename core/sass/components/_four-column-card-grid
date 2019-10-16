@@ -18,9 +18,17 @@
         }
     }
     // TODO move to components
-    .card-inner {
-        > :last-child {
-            margin-bottom: 0;
+
+    .card {
+        min-height: 0;
+        img {
+            display: block;
+        }
+
+        .card-inner {
+            > :last-child {
+                margin-bottom: 0;
+            }
         }
     }
 }
