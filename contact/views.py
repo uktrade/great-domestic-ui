@@ -300,7 +300,7 @@ class ExportingAdviceFormView(
             if step == self.PERSONAL:
                 initial.update({
                     'email': self.request.user.email,
-                    'phone': self.request.user.company['mobile_number'],
+                    'phone': self.request.user.get_mobile_number(),
                     'first_name': self.guess_given_name,
                     'last_name': self.guess_family_name,
                 })
@@ -489,9 +489,7 @@ class SellingOnlineOverseasFormView(
 
     def get_form_kwargs(self, *args, **kwargs):
         # skipping `PrepopulateFormMixin.get_form_kwargs`
-        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(
-            *args, **kwargs
-        )
+        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
 
     def get_cache_prefix(self):
         return 'selling_online_overseas_form_view_{}'.format(
@@ -501,9 +499,7 @@ class SellingOnlineOverseasFormView(
         return cache.get(self.get_cache_prefix(), None)
 
     def set_form_data_cache(self, form_data):
-        cache.set(
-            self.get_cache_prefix(), form_data, SOO_SUBMISSION_CACHE_TIMEOUT
-        )
+        cache.set(self.get_cache_prefix(), form_data, SOO_SUBMISSION_CACHE_TIMEOUT)
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
@@ -529,7 +525,7 @@ class SellingOnlineOverseasFormView(
                 initial.update({
                     'contact_name': self.request.user.get_full_name(),
                     'contact_email': self.request.user.email,
-                    'phone': self.request.user.company['mobile_number'],
+                    'phone': self.request.user.get_mobile_number()
                 })
         return initial
 

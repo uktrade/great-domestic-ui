@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'sso',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'directory_components.middleware.MaintenanceModeMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -99,10 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.i18n',
                 'directory_components.context_processors.sso_processor',
                 'directory_components.context_processors.urls_processor',
-                (
-                    'directory_components.context_processors.'
-                    'header_footer_processor'
-                ),
+                'directory_components.context_processors.header_footer_processor',
                 'directory_components.context_processors.feature_flags',
                 'directory_components.context_processors.analytics',
                 'directory_components.context_processors.cookie_notice',
@@ -624,3 +621,5 @@ COUNTRY_COOKIE_SECURE = env.bool('COUNTRY_COOKIE_SECURE', True)
 # Authentication
 AUTH_USER_MODEL = 'sso.SSOUser'
 AUTHENTICATION_BACKENDS = ['directory_sso_api_client.backends.SSOUserBackend']
+
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']

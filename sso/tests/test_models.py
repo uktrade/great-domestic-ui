@@ -35,3 +35,21 @@ def test_get_full_name_with_no_details(user, company_profile):
     # information
     company_profile.return_value = create_response({})
     assert user.get_full_name() == ''
+
+
+def test_get_mobile_number_with_user_details(user):
+    user.mobile_phone_number = "123"
+    assert user.get_mobile_number() == "123"
+
+
+def test_get_mobile_number_with_company_details(user, company_profile):
+    # This inherits the company_profile fixture with a mobile_number
+    # of Foo Example
+    assert user.get_mobile_number() == "07171771717"
+
+
+def test_get_mobile_number_with_no_details(user, company_profile):
+    # Inherit the company_profile fixture and overwrite the company
+    # information
+    company_profile.return_value = create_response({})
+    assert user.get_mobile_number() == ''

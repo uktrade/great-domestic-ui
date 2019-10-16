@@ -1,12 +1,6 @@
 {% load card from directory_components %}
 {% for card in cards %}
   <div class="column-quarter-xl column-third-l column-half-m">
-    {% if card.sub_heading %}
-      {% with subheading=subheading|default:card.sub_heading  %}
-        {% card url=card.full_path img_src=card.hero_image_thumbnail.url title=card.title subheading=subheading %}
-      {% endwith %}
-    {% else %}
-      {% card url=card.full_path img_src=card.hero_image_thumbnail.url title=card.title subheading=subheading %}
-    {% endif %}
+      {% card url=card.full_path img_src=card.hero_image_thumbnail.url title=card.title  %}
   </div>
 {% endfor %}

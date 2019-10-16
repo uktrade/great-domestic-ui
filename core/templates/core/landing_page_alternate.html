@@ -18,36 +18,106 @@
 
 {% block content %}
 
-{% hero_with_cta image=page.hero_image.url heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_linked_page %}
+{% hero_with_cta image=page.hero_image.url heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
 
-{% key_facts items=page.how_dit_helps_columns heading=page.how_dit_helps_title %}
-
-<section>
-  <div class="container">
-    <h2 class="heading-large">{{ page.questions_section_title }}</h2>
-    {% accordion_list items=page.questions %}
+<section class="prepare-for-brexit-section margin-top-30 padding-bottom-45 padding-bottom-60-m">
+  <div class="container padding-bottom-15 padding-bottom-30-m">
+    <div class="chevron-banner margin-bottom-45">
+      <div class="chevron-banner__link-container">
+      <a href="{{ page.chevron_url }}" class="chevron-banner__link">{{ page.chevron_text }}</a>
+      </div>
+    </div>
+    <div class="flex-grid">
+        {% for link in page.chevron_links %}
+          <div class="column-third-m column-full">
+            {% card title=link.text subheading=link.source url=link.url no_padding_card=True transparent_card=True %}
+          </div>
+        {% endfor %}
+    </div>
   </div>
 </section>
 
-{% featured_articles heading=page.what_is_new_title items=page.what_is_new_pages %}
-
-<section class="campaign-section">
-  <div class="container campaign-heading-container">
-    <h2 class="heading-large margin-0 campaign-heading">{{ page.campaign.0.heading }}</h2>
-  </div>
-  <div class="container campaign-image-container">
-    <img src="{{ page.campaign.0.image.url }}" alt="" class="width-full">
-  </div>
-  <div class="container campaign-content-container">
-    <div class="campaign-subsection padding-bottom-30 width-two-thirds-l width-half-xl wrap-tight">
-      <p class="heading-medium margin-bottom-30">{{ page.campaign.0.subheading }}</p>
-      <a href="{{ page.campaign.0.video.url }}" class="button button-video" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
-      <div class="margin-top-15 campaign-related-links">
-        {{ page.campaign.0.related_link|add_export_elements_classes }}
+<section class="padding-bottom-15 padding-bottom-30-m">
+  <div class="container wrap-tight">
+    <h2 class="heading-large margin-bottom-30">{{ page.how_dit_helps_title }}</h2>
+    <div class="grid-row wrap-tight">
+      {% for column in page.how_dit_helps_columns %}
+          <div class="column-third-m column-full">
+            {% card title=column.text subheading=column.source url=column.url img_src=column.image.url img_alt=column.image_alt html_snippet=column.content no_padding_card=True transparent_card=True %}
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
 </section>
+
+<section class="sector-potential-section padding-bottom-0">
+  <div class="sector-potential-wrapper padding-top-45 padding-top-60-m padding-bottom-45 padding-bottom-60-m">
+    <div class="container padding-bottom-45-m">
+      <div class="width-full width-two-thirds-l">
+          <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
+          <p>Use our guides to identify new export markets and inform your international sales plan.</p>
+          <form class="sector-potential-form" action="{% url 'markets' %}" method="GET">
+            {{ sector_form }}
+            <button type="submit" class="button margin-top-15">Show markets</button>
+            <a href="{% url 'markets' %}" class="view-markets link bold margin-left-30-m margin-top-15">View all market guides</a>
+          </form>
+        </div>
+      </div>
+      <div class="container sector-selector-quick-links">
+        <hr class="quick-links-separator ">
+        <ul class="grid-row">
+          {% for sector in sector_list %}
+            {% if sector.pages_count > 0 %}
+            <li class="">
+              <a href="{% url 'markets' %}?sector={{ sector.id }}" class="quick-link link">
+                <img src="{{ sector.icon.url }}" alt="" class="quick-links-icon">
+                <span class="sector-name">{{ sector.name }}</span>
+                <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
+              </a>
+            </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+  </div>
+</section>
+{% if page.campaign or page.what_is_new_pages %}
+<section class="padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
+  <div class="container">
+    <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.what_is_new_title|default:"What's new" }}</h2>
+  {% if page.campaign %}
+    <div class="campaign-section {% if page.what_is_new_pages %}margin-bottom-45 {% endif %}">
+      <div class="campaign-heading-container">
+        <h2 class="heading-large margin-0 campaign-heading"><span class="if-we-can">If we can </span><span class="if-we-can">you can</span></h2>
+      </div>
+      <div class="campaign-image-container">
+        <img src="{{ page.campaign.0.image.url }}" alt="" class="width-full">
+      </div>
+      <div class="campaign-content-container">
+        <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
+          <p class="heading-medium margin-bottom-30 margin-top-0">{{ page.campaign.0.subheading }}</p>
+          <a href="{{ page.campaign.0.video.url }}" class="button button-video margin-bottom-15" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
+          <a class="campaign-related-link" href="{{ page.campaign.0.related_link_url}}">{{ page.campaign.0.related_link_text }}</a>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if page.what_is_new_pages %}
+    <div class="grid-row">
+      {% for page in page.what_is_new_pages %}
+          <div class="column-third-m column-full">
+            {% card title=page.text subheading=page.source url=page.url img_src=page.image.url img_alt=page.image_alt html_snippet=page.content no_padding_card=True transparent_card=True %}
+          </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  </div>
+</section>
+{% endif %}
+
 
 <div class="campaign-video-transcript" id="campaign-video-transcript">
   <details closed>
@@ -55,5 +125,6 @@
     <div class="campaign-video-transcript-text" id="campaign-video-transcript-text">{{ page.campaign.0.video_transcript|add_export_elements_classes }}</div>
   </details>
 </div>
+
 
 {% endblock %}

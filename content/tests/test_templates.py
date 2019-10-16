@@ -14,7 +14,8 @@ def mock_get_page():
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_market_landing_pagination_page_next(mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_market_landing_pagination_page_next(mock_industries, mock_get_page, client):
 
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
@@ -45,6 +46,8 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('markets')
     response = client.get(url)
@@ -55,7 +58,8 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_market_landing_pagination_page_next_not_in_html(mock_industries, mock_get_page, client):
 
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
@@ -81,6 +85,8 @@ def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('markets')
     response = client.get(url)
@@ -88,65 +94,22 @@ def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
     assert 'pagination-next' not in str(response.content)
 
 
-def test_markets_grid_uses_custom_subheading():
-    context = {
-        "subheading": "Custom subheading",
-        "page_type": "ArticlePage",
+def test_article_detail_page_no_related_content(rf):
+    page = {
+        "title": "Test article admin title",
+        "article_title": "Test article",
+        "article_teaser": "Test teaser",
+        "article_image": {"url": "foobar.png"},
+        "article_body_text": "<p>Lorem ipsum</p>",
+        "related_pages": [],
+        "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
+        "last_published_at": "2018-10-09T16:25:13.142357Z",
         "meta": {
-                "slug": "foo",
-            },
-        "cards": [
-            {
-                "sub_heading": "Default subheading",
-                "title": "Brazil",
-                "full_path": "Test article",
-            }
-        ]
-    }
-
-    html = render_to_string('content/components/four_column_card_grid.html', context)
-    assert 'Custom subheading' in html
-    assert 'Default subheading' not in html
-
-
-def test_markets_grid_uses_default_subheading():
-    context = {
-        "subheading": "",
+            "slug": "foo",
+        },
         "page_type": "ArticlePage",
-        "meta": {
-                "slug": "foo",
-            },
-        "cards": [
-            {
-                "sub_heading": "Default subheading",
-                "title": "Brazil",
-                "full_path": "Test article",
-            }
-        ]
     }
-
-    html = render_to_string('content/components/four_column_card_grid.html', context)
-
-    assert 'Default subheading' in html
-
-
-def test_article_detail_page_no_related_content():
-    context = {
-        'page': {
-            "title": "Test article admin title",
-            "article_title": "Test article",
-            "article_teaser": "Test teaser",
-            "article_image": {"url": "foobar.png"},
-            "article_body_text": "<p>Lorem ipsum</p>",
-            "related_pages": [],
-            "full_path": "/advice/manage-legal-and-ethical-compliance/foo/",
-            "last_published_at": "2018-10-09T16:25:13.142357Z",
-            "meta": {
-                "slug": "foo",
-            },
-            "page_type": "ArticlePage",
-        }
-    }
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/article_detail.html', context)
     assert 'Related content' not in html
@@ -372,8 +335,7 @@ def test_article_detail_page_media_not_rendered(rf):
     assert '<div class="video-container">' not in html
 
 
-def test_marketing_article_detail_page_related_content():
-    context = {}
+def test_marketing_article_detail_page_related_content(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -390,7 +352,7 @@ def test_marketing_article_detail_page_related_content():
         },
         "page_type": "MarketingArticlePage",
     }
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
     html = render_to_string('content/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
@@ -399,8 +361,7 @@ def test_marketing_article_detail_page_related_content():
     assert soup.find(id='contact-us-section').select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
 
 
-def test_marketing_article_detail_page_related_content_not_rendered():
-    context = {}
+def test_marketing_article_detail_page_related_content_not_rendered(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -418,15 +379,14 @@ def test_marketing_article_detail_page_related_content_not_rendered():
         "page_type": "MarketingArticlePage",
     }
 
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
     assert '<section id="contact-us-section"' not in html
 
 
-def test_marketing_article_detail_content_button_not_rendered_without_link():
-    context = {}
+def test_marketing_article_detail_content_button_not_rendered_without_link(rf):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -444,7 +404,7 @@ def test_marketing_article_detail_content_button_not_rendered_without_link():
         "page_type": "MarketingArticlePage",
     }
 
-    context['page'] = page
+    context = {'request': rf.get('/'), 'page': page}
 
     html = render_to_string('content/marketing_article_detail.html', context)
 

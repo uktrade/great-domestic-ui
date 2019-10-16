@@ -3,6 +3,11 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1121 - market landing page changes and search pagination
+- XOT-1155 - change related link field from rich text to string
+- XOT-1151, XOT-1152, XOT-1137, XOT-1153, XOT-1155 - homepage redesigns v2
+- XOT-1129 - add selector form to market landing page
+- XOT-1122 - add sector selector and top sectors to homepage
 - XOT-1123 - Add filtering by industry tag to markets landing page
 - XOT-1118 - use CMS heading for page title
 - XOT-1121 - add pagination to markets landing page, limit 12 per page
@@ -11,9 +16,13 @@
 - XOT-1107 - Add url for new article landing pages
 - XOT-1078 - UKEF contact us button text issue on small resolutions
 - XOT-1039 - Add campaign section with video
+- no ticket - Upgrade to Django 2
+- XOT-928 - Use user profile phone number on contact form
 
 ### Fixed bugs
+- XOT-1042 - remove extra container markup
 - no ticket - Fix international urls in develop and staging.
+- no ticket - Silence captcha key checks
 
 ## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23...2019.09.23_1)

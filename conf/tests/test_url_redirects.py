@@ -1,6 +1,6 @@
 import http
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 import pytest
 

@@ -2,7 +2,7 @@ from unittest.mock import call, patch, PropertyMock
 
 import requests
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
 
@@ -11,7 +11,7 @@ import pytest
 import requests_mock
 from rest_framework import status
 
-from core import helpers, views
+from core import helpers, views, forms
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
@@ -69,7 +69,8 @@ def test_landing_page_redirect(mock_get_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page(mock_get_page, client, settings):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_landing_page(mock_industries, mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
     page = {
@@ -91,6 +92,8 @@ def test_landing_page(mock_get_page, client, settings):
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
 
@@ -106,7 +109,8 @@ def test_landing_page(mock_get_page, client, settings):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_video_url(mock_get_page, client, settings):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_landing_page_video_url(mock_industries, mock_get_page, client, settings):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
     page = {
         'title': 'great.gov.uk',
@@ -125,12 +129,15 @@ def test_landing_page_video_url(mock_get_page, client, settings):
             {'url': '/', 'title': 'great.gov.uk'},
         ]
     }
-
     mock_get_page.return_value = create_response(page)
-    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
 
+    content_list_industry_tags = [{'id': 3, 'name': 'Agri-technology', 'icon': None, 'pages_count': 0},]
+    mock_industries = create_response(content_list_industry_tags)
+
+    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
     url = reverse('landing-page')
     response = client.get(url)
+    assert response.status_code == 200
     assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
         'https://example.com/video.mp4'
     )
@@ -138,8 +145,9 @@ def test_landing_page_video_url(mock_get_page, client, settings):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
 def test_landing_page_template_news_feature_flag_on(
-    mock_get_page, client, settings
+    mock_industries, mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
 
@@ -162,6 +170,8 @@ def test_landing_page_template_news_feature_flag_on(
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
 
@@ -172,8 +182,9 @@ def test_landing_page_template_news_feature_flag_on(
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
 def test_landing_page_template_news_feature_flag_off(
-    mock_get_page, client, settings
+    mock_industries, mock_get_page, client, settings
 ):
     settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
 
@@ -196,12 +207,58 @@ def test_landing_page_template_news_feature_flag_off(
     }
 
     mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.template_name == ['core/landing_page_domestic.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_top_sectors_returned(
+    mock_industries, mock_get_page, client, settings
+):
+
+    page = {
+        'title': 'great.gov.uk',
+        'page_type': 'HomePage',
+        'news_title': 'News',
+        'news_description': '<p>Lorem ipsum</p>',
+        'articles': [
+            {'article_title': 'News article 1'},
+            {'article_title': 'News article 2'},
+        ],
+        'guidance': [
+            {'title': 'Guidance 1'},
+            {'title': 'Guidance 2'},
+        ],
+        'tree_based_breadcrumbs': [
+            {'url': '/', 'title': 'great.gov.uk'},
+        ]
+    }
+    mock_get_page.return_value = create_response(page)
+    content_list_industry_tags = [
+        {'id': 1, 'name': 'Agri-technology', 'icon': None, 'pages_count': 3},
+        {'id': 2, 'name': 'Agri-technology1', 'icon': None, 'pages_count': 6},
+        {'id': 3, 'name': 'Agri-technology2', 'icon': None, 'pages_count': 8},
+        {'id': 4, 'name': 'Agri-technology3', 'icon': None, 'pages_count': 6},
+        {'id': 5, 'name': 'Agri-technology4', 'icon': None, 'pages_count': 1},
+        {'id': 6, 'name': 'Agri-technology5', 'icon': None, 'pages_count': 0},
+        {'id': 7, 'name': 'Agri-technology6', 'icon': None, 'pages_count': 3},
+        {'id': 8, 'name': 'Agri-technology', 'icon': None, 'pages_count': 2},
+        {'id': 9, 'name': 'Agri-technology', 'icon': None, 'pages_count': 1},
+    ]
+    mock_industries.return_value = create_response(content_list_industry_tags)
+
+    url = reverse('landing-page')
+    response = client.get(url)
+
+    assert len(response.context_data['sector_list']) == 6
+
 
 
 def test_sitemaps(client):
@@ -827,15 +884,18 @@ def test_international_investment_support_directory_redirect(client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_new_landing_page_querystring_old_cms_page(mock_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_new_landing_page_querystring_old_cms_page(mock_industries, mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'HomePage',
         'tree_based_breadcrumbs': [
             {'title': 'great.gov.uk', 'url': '/'}
         ],
     })
-    url = '/?nh=1'
 
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
+    url = '/?nh=1'
     response = client.get(url)
 
     assert response.status_code == 200
@@ -843,7 +903,8 @@ def test_new_landing_page_querystring_old_cms_page(mock_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_new_landing_page_querystring_new_cms_page(mock_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_new_landing_page_querystring_new_cms_page(mock_industries, mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'HomePage',
         'tree_based_breadcrumbs': [
@@ -854,8 +915,10 @@ def test_new_landing_page_querystring_new_cms_page(mock_page, client):
         'questions_section_title': '',
         'what_is_new_title': '',
     })
-    url = '/?nh=1'
 
+    content_list_industry_tags = [{}]
+    mock_industries = create_response(content_list_industry_tags)
+    url = '/?nh=1'
     response = client.get(url)
 
     assert response.status_code == 200
