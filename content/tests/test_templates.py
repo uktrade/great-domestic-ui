@@ -115,27 +115,6 @@ def test_markets_grid_uses_custom_subheading():
     assert 'Default subheading' not in html
 
 
-def test_markets_grid_uses_default_subheading():
-    context = {
-        "subheading": "",
-        "page_type": "ArticlePage",
-        "meta": {
-                "slug": "foo",
-            },
-        "cards": [
-            {
-                "sub_heading": "Default subheading",
-                "title": "Brazil",
-                "full_path": "Test article",
-            }
-        ]
-    }
-
-    html = render_to_string('content/components/four_column_card_grid.html', context)
-
-    assert 'Default subheading' in html
-
-
 def test_article_detail_page_no_related_content(rf):
     page = {
         "title": "Test article admin title",
