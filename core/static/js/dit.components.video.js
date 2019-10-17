@@ -137,7 +137,6 @@ dit.components.video = (new function() {
   }
   function bindEvents() {
     $(window).on('resize', function() {
-      console.log('resizing')
       setTranscriptHeight();
     });
   }
