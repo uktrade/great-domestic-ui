@@ -136,13 +136,13 @@ dit.components.video = (new function() {
     unbindEvents();
   }
   function bindEvents() {
-    $(window).on('resize', function() {
+    $(window).on('resize orientationchange', function() {
       setTranscriptHeight();
     });
   }
 
   function unbindEvents() {
-    $(window).off('resize');
+    $(window).off('resize orientationchange');
   }
 
 
