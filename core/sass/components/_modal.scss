@@ -9,10 +9,21 @@
   .content {
     width: calc(100% - 60px);
     max-height: calc(100vh - 60px);
+    padding: 15px;
+    overflow: hidden;
+
+    details {
+      margin: 15px 0 5px;
+    }
 
     video {
       width: 100%;
     }
+  }
+
+  .close {
+    background-color: $white;
+    padding: 15px;
   }
 }
 
@@ -24,5 +35,12 @@
 @media (max-width: 480px) {
   .Modal-Container .content {
     width: calc(100% - 30px);
+  }
+}
+
+@media (max-height: 650px) {
+  .Modal-Container .content video {
+   max-height: 250px;
+   margin: 0 auto;
   }
 }

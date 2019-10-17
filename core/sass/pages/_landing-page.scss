@@ -22,7 +22,8 @@
 }
 
 .campaign-video-transcript-text {
-  overflow: auto;
+  overflow-y: scroll;
+  padding-bottom: 30px;
 }
 
 .landing-page {

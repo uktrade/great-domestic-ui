@@ -20,6 +20,7 @@
 
 {% hero_with_cta image=page.hero_image.url heading=page.hero_text cta_text=page.hero_cta_text cta_link=page.hero_cta_url %}
 
+{% if page.chevron_url %}
 <section class="prepare-for-brexit-section margin-top-30 padding-bottom-45 padding-bottom-60-m">
   <div class="container padding-bottom-15 padding-bottom-30-m">
     <div class="chevron-banner margin-bottom-45">
@@ -27,6 +28,8 @@
       <a href="{{ page.chevron_url }}" class="chevron-banner__link">{{ page.chevron_text }}</a>
       </div>
     </div>
+  {% endif %}
+  {% if page.chevron_links %}
     <div class="flex-grid">
         {% for link in page.chevron_links %}
           <div class="column-third-m column-full">
@@ -34,6 +37,7 @@
           </div>
         {% endfor %}
     </div>
+    {% endif %}
   </div>
 </section>
 
@@ -89,7 +93,7 @@
   {% if page.campaign %}
     <div class="campaign-section {% if page.what_is_new_pages %}margin-bottom-45 {% endif %}">
       <div class="campaign-heading-container">
-        <h2 class="heading-large margin-0 campaign-heading"><span class="if-we-can">If we can </span><span class="if-we-can">you can</span></h2>
+        <h3 class="heading-large margin-0 campaign-heading"><span class="if-we-can">If we can </span><span class="if-we-can">you can</span></h3>
       </div>
       <div class="campaign-image-container">
         <img src="{{ page.campaign.0.image.url }}" alt="" class="width-full">
@@ -125,6 +129,7 @@
     <div class="campaign-video-transcript-text" id="campaign-video-transcript-text">{{ page.campaign.0.video_transcript|add_export_elements_classes }}</div>
   </details>
 </div>
+
 
 
 {% endblock %}
