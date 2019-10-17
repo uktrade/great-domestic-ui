@@ -19,7 +19,7 @@ from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 
 from core import mixins
-from core.helpers import NotifySettings
+from core.helpers import NotifySettings, company_profile_retrieve
 from core.views import BaseNotifyFormView
 from contact import constants, forms, helpers
 
@@ -459,7 +459,7 @@ class SellingOnlineOverseasFormView(
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
 
     def get_organisation_form_by_user_account(account_type):
-        if account_type == 'individual':
+        if account_type == 'individual': 
             return forms.SellingOnlineOverseasBusinessIndividual
         elif account_type== 'non_companies_house':
             return forms.SellingOnlineOverseasBusinessNonCH
@@ -469,7 +469,12 @@ class SellingOnlineOverseasFormView(
     ORGANISATION_DETAILS = 'organisation-details'
     EXPERIENCE = 'your-experience'
     CONTACT_DETAILS = 'contact-details'
-    ACCOUNT_TYPE = 'individual' #hard coded for development only - REMOVE
+
+    # account_type can be: COMPANIES_HOUSE, CHARITY,
+    # PARTNERSHIP, SOLE_TRADER and OTHER.
+
+    ACCOUNT_TYPE = DirectoryApiClient.private_company_data(sso_id)# 'individual' #hard coded for development only - REMOVE
+
     ORGANISATION_FORM = get_organisation_form_by_user_account(ACCOUNT_TYPE)
 
     form_list = (
