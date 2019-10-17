@@ -28,7 +28,6 @@
       <a href="{{ page.chevron_url }}" class="chevron-banner__link">{{ page.chevron_text }}</a>
       </div>
     </div>
-  {% endif %}
   {% if page.chevron_links %}
     <div class="flex-grid">
         {% for link in page.chevron_links %}
@@ -37,9 +36,10 @@
           </div>
         {% endfor %}
     </div>
-    {% endif %}
+  {% endif %}
   </div>
 </section>
+{% endif %}
 
 <section class="padding-bottom-15 padding-bottom-30-m">
   <div class="container wrap-tight">
