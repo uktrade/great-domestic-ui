@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1150 - add MADB comoonent and remove case studies link from campaign
 - XOT-1155 - amends to video modal transcript height issue, restyle close button
 - XOT-1121 - market landing page changes and search pagination
 - XOT-1155 - change related link field from rich text to string

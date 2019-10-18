@@ -86,6 +86,26 @@
       </div>
   </div>
 </section>
+
+{% if page.madb_title %}
+<section class="export-goods-from-uk padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
+  <div class="container">
+    <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.madb_title }}</h2>
+    <div class="flex-grid">
+      <div class="column-full column-half-l">
+        <img src="{{ page.madb_image.url }}" class="width-full" alt="{{ page.madb_image_alt }}" />
+      </div>
+      <div class="column-full column-half-l content-column">
+        <div class="content-column-inner">
+          <p class="margin-top-0">{{ page.madb_content }}</p>
+          <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
 {% if page.campaign or page.what_is_new_pages %}
 <section class="padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
   <div class="container">
@@ -102,7 +122,6 @@
         <div class="campaign-subsection padding-bottom-30-l width-two-thirds-l width-half-xl">
           <p class="heading-medium margin-bottom-30 margin-top-0">{{ page.campaign.0.subheading }}</p>
           <a href="{{ page.campaign.0.video.url }}" class="button button-video margin-bottom-15" id="hero-campaign-section-watch-video-button" data-node="videoactivator" data-element="video" target="_blank">Watch video</a>
-          <a class="campaign-related-link" href="{{ page.campaign.0.related_link_url}}">{{ page.campaign.0.related_link_text }}</a>
         </div>
       </div>
     </div>
