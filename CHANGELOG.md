@@ -1,5 +1,9 @@
 # Changelog
 
+### Hotfix
+- No ticket - fix trade barriers Search link
+
+
 ## Pre-release
 
 
