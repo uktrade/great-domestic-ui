@@ -31,4 +31,4 @@ redirect:
 	python scripts/add_new_redirect.py
 
 
-.PHONY: clean pytest flake8 manage webserver requirements install_requirements css secrets redirect flake8
+.PHONY: clean pytest flake8 manage webserver requirements install_requirements css secrets redirect
