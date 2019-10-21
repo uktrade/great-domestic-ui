@@ -6,7 +6,7 @@ from directory_constants.urls import international
 import directory_healthcheck.views
 
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps.views import sitemap
 from django.urls import reverse_lazy

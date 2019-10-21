@@ -1,3 +1,5 @@
+from unittest import mock
+
 import pytest
 from unittest.mock import patch
 from bs4 import BeautifulSoup
@@ -14,8 +16,8 @@ def mock_get_page():
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_market_landing_pagination_page_next(mock_industries, mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_market_landing_pagination_page_next(mock_get_page, client):
 
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
@@ -47,7 +49,7 @@ def test_market_landing_pagination_page_next(mock_industries, mock_get_page, cli
 
     mock_get_page.return_value = create_response(page)
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
 
     url = reverse('markets')
     response = client.get(url)
@@ -58,8 +60,8 @@ def test_market_landing_pagination_page_next(mock_industries, mock_get_page, cli
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_market_landing_pagination_page_next_not_in_html(mock_industries, mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
 
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
@@ -86,7 +88,7 @@ def test_market_landing_pagination_page_next_not_in_html(mock_industries, mock_g
 
     mock_get_page.return_value = create_response(page)
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
 
     url = reverse('markets')
     response = client.get(url)
@@ -433,10 +435,7 @@ test_news_list_page = {
 
 
 def test_news_list_page_feature_flag_on():
-    context = {
-        'features': {'NEWS_SECTION_ON': True}
-    }
-    context['page'] = test_news_list_page
+    context = {'features': {'NEWS_SECTION_ON': True}, 'page': test_news_list_page}
 
     html = render_to_string('content/domestic_news_list.html', context)
 
@@ -571,9 +570,7 @@ def test_landing_page_header_footer(rf):
     assert soup.find(id="great-global-header-logo")
 
 
-def test_article_detail_page_social_share_links(
-    mock_get_page, client, settings
-):
+def test_article_detail_page_social_share_links(mock_get_page, client):
     page = {
         "title": "Test article admin title",
         "article_title": "How to write an export plan",
@@ -632,9 +629,7 @@ def test_article_detail_page_social_share_links(
     assert soup.find(id='share-email').attrs['href'] == email_link
 
 
-def test_article_detail_page_social_share_links_no_title(
-    mock_get_page, client, settings
-):
+def test_article_detail_page_social_share_links_no_title(mock_get_page, client):
     page = {
         "title": "Test article admin title",
         "article_image": {"url": "foobar.png"},

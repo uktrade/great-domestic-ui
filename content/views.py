@@ -1,11 +1,11 @@
 from django.utils.functional import cached_property
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView
 from django.core.paginator import Paginator
 
 from directory_constants import slugs
 
 from directory_cms_client.client import cms_api_client
-from core import helpers, mixins, forms
+from core import helpers, forms
 
 from .mixins import (
     GetCMSTagMixin,
