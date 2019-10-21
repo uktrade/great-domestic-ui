@@ -20,6 +20,7 @@
 - XOT-1039 - Add campaign section with video
 - no ticket - Upgrade to Django 2
 - XOT-928 - Use user profile phone number on contact form
+- CI-540 - Brexit redirect
 
 ### Fixed bugs
 - XOT-1042 - remove extra container markup
