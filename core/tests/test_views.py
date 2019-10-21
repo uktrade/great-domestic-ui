@@ -71,8 +71,7 @@ def test_landing_page_redirect(mock_get_page, client):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_landing_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+def test_landing_page(mock_get_page, client):
 
     page = {
         'title': 'great.gov.uk',
@@ -111,8 +110,7 @@ def test_landing_page(mock_get_page, client, settings):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_landing_page_video_url(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+def test_landing_page_video_url(mock_get_page, client):
     page = {
         'title': 'great.gov.uk',
         'page_type': 'HomePage',
@@ -147,8 +145,7 @@ def test_landing_page_video_url(mock_get_page, client, settings):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_landing_page_template_news_feature_flag_on(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
+def test_landing_page_template_news_feature_flag_on(mock_get_page, client):
 
     page = {
         'title': 'great.gov.uk',
@@ -182,8 +179,7 @@ def test_landing_page_template_news_feature_flag_on(mock_get_page, client, setti
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_landing_page_template_news_feature_flag_off(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+def test_landing_page_template_news_feature_flag_off(mock_get_page, client):
 
     page = {
         'title': 'great.gov.uk',
@@ -215,7 +211,7 @@ def test_landing_page_template_news_feature_flag_off(mock_get_page, client, sett
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
 def test_top_sectors_returned(mock_industries, mock_get_page, client):
 
     page = {
@@ -410,7 +406,7 @@ def test_set_etag_mixin(rf, method, expected):
 
 
 @pytest.mark.parametrize('view_class', views.SetEtagMixin.__subclasses__())
-def test_cached_views_not_dynamic(rf, settings, view_class):
+def test_cached_views_not_dynamic(rf, view_class):
     # exception will be raised if the views perform http request, which are an
     # indicator that the views rely on dynamic data.
     with requests_mock.mock():
@@ -505,7 +501,7 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_privacy_cookies_subpage(mock_get_page, client, settings):
+def test_privacy_cookies_subpage(mock_get_page, client):
     url = reverse(
         'privacy-and-cookies-subpage',
         kwargs={'slug': 'fair-processing-notice-zendesk'}

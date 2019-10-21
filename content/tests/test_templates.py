@@ -117,30 +117,7 @@ def test_article_detail_page_no_related_content(rf):
     assert 'Related content' not in html
 
 
-def test_landing_page_news_section(rf):
-
-    context = {
-        'page': {
-            'news_title': 'News',
-            'news_description': '<p>Lorem ipsum</p>',
-            'articles': [
-                {'article_title': 'News article 1'},
-                {'article_title': 'News article 2'},
-            ],
-        },
-        'features': {'NEWS_SECTION_ON': True},
-        'request': rf.get('/')
-    }
-
-    html = render_to_string('core/landing_page_domestic.html', context)
-
-    assert context['page']['news_title'] in html
-    assert '<p class="body-text">Lorem ipsum</p>' in html
-    assert 'News article 1' in html
-    assert 'News article 2' in html
-
-
-def test_article_advice_page(mock_get_page, client, settings):
+def test_article_advice_page():
     context = {}
     page = {
         'title': 'Markets',
@@ -442,48 +419,6 @@ def test_news_list_page_feature_flag_on():
     assert test_news_list_page['title'] in html
     assert 'Lorem ipsum' in html
     assert 'Dolor sit amet' in html
-
-
-def test_domestic_news_article_detail_page(rf):
-    context = {
-        'features': {'NEWS_SECTION_ON': True},
-        'request': rf.get('/')
-    }
-
-    page = {
-        "title": "Test article admin title",
-        "article_title": "Test news title",
-        "article_teaser": "Test news teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "",
-        "related_article_one_title": "",
-        "related_article_one_teaser": "",
-        "related_article_two_url": "",
-        "related_article_two_title": "",
-        "related_article_two_teaser": "",
-        "related_article_three_url": "",
-        "related_article_three_title": "",
-        "related_article_three_teaser": "",
-        "full_path": "/markets/foo/bar/",
-        "last_published_at": "2018-10-09T16:25:13.142357Z",
-        "meta": {
-            "slug": "foo",
-        },
-        "tags": [
-            {"name": "Test tag", "slug": "test-tag-slug"}
-        ],
-        "page_type": "ArticlePage",
-    }
-
-    context['page'] = page
-
-    html = render_to_string('content/domestic_news_detail.html', context)
-
-    assert 'Test news title' in html
-    assert 'Test news teaser' in html
-    assert 'Test tag' not in html
-    assert '<p class="body-text">Lorem ipsum</p>' in html
 
 
 test_articles = [

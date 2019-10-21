@@ -27,16 +27,6 @@ markets_pages = [
 ]
 
 
-def test_news_list_page_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-
-    url = reverse('brexit-news-list')
-
-    response = client.get(url)
-
-    assert response.status_code == 404
-
-
 def test_community_article_view(mock_get_page, client):
     mock_get_page.return_value = create_response({
         "meta": {"slug": "foo"},

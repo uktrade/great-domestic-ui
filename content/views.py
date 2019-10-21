@@ -2,8 +2,6 @@ from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator
 
-from directory_constants import slugs
-
 from directory_cms_client.client import cms_api_client
 from core import helpers, forms
 
@@ -13,7 +11,6 @@ from .mixins import (
 )
 from core.mixins import (
     PrototypeFeatureFlagMixin,
-    NewsSectionFeatureFlagMixin,
     GetCMSPageMixin,
     GetCMSPageByPathMixin,
     SetGA360ValuesForCMSPageMixin,
@@ -146,27 +143,6 @@ class TagListPageView(
 ):
     template_name = 'content/tag_list.html'
     page_type = 'TagListPage'
-
-    @property
-    def slug(self):
-        return self.kwargs['slug']
-
-
-class NewsListPageView(
-    NewsSectionFeatureFlagMixin, SetGA360ValuesMixin, GetCMSPageMixin, TemplateView,
-):
-    template_name = 'content/domestic_news_list.html'
-    slug = slugs.EUEXIT_DOMESTIC_NEWS
-    page_type = 'NewsList'
-
-
-class NewsArticleDetailView(
-    ArticleSocialLinksMixin,
-    NewsSectionFeatureFlagMixin,
-    GetCMSPageMixin,
-    TemplateView,
-):
-    template_name = 'content/domestic_news_detail.html'
 
     @property
     def slug(self):
