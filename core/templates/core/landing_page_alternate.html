@@ -63,8 +63,8 @@
           <p>Use our guides to identify new export markets and inform your international sales plan.</p>
           <form class="sector-potential-form" action="{% url 'markets' %}" method="GET">
             {{ sector_form }}
-            <button type="submit" class="button margin-top-15">Show markets</button>
-            <a href="{% url 'markets' %}" class="view-markets link bold margin-left-30-m margin-top-15">View all market guides</a>
+            <button type="submit" class="button margin-top-15 show-markets" id="sector-submit">Show markets</button>
+            <span class="verbose">Please select a sector to enable the submit button.</span>
           </form>
         </div>
       </div>
@@ -73,7 +73,7 @@
         <ul class="grid-row">
           {% for sector in sector_list %}
             {% if sector.pages_count > 0 %}
-            <li class="">
+            <li>
               <a href="{% url 'markets' %}?sector={{ sector.id }}" class="quick-link link">
                 <img src="{{ sector.icon.url }}" alt="" class="quick-links-icon">
                 <span class="sector-name">{{ sector.name }}</span>
@@ -84,10 +84,15 @@
           {% endfor %}
         </ul>
       </div>
+      <div class="margin-top-15 margin-top-60-m">
+        <div class="container">
+          <a href="{% url 'markets' %}" class="view-markets link bold">View all market guides</a>
+        </div>
+      </div>
   </div>
 </section>
 
-{% if page.madb_title %}
+{% if page.madb_title and page.madb_image.url %}
 <section class="export-goods-from-uk padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
   <div class="container">
     <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.madb_title }}</h2>
@@ -97,7 +102,7 @@
       </div>
       <div class="column-full column-half-l content-column">
         <div class="content-column-inner">
-          <p class="margin-top-0">{{ page.madb_content }}</p>
+          <p class="margin-top-0 margin-bottom-30-l">{{ page.madb_content }}</p>
           <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
         </div>
       </div>
@@ -149,6 +154,44 @@
   </details>
 </div>
 
+
+
+{% endblock %}
+
+
+{% block body_js %}
+<script>
+  $(function() {
+
+    var sectorFormSubmitToggle = function() {
+
+      var $sectorform = $('.sector-potential-section .sector-potential-form'),
+        $industrySelector = $('select', $sectorform),
+        $submitBtn = $('#sector-submit'),
+        disabledToggleState = false;
+
+        function init() {
+          $industrySelector.on('change', toggleSubmitBtnState);
+          toggleSubmitBtnState();
+        }
+
+        function toggleSubmitBtnState() {
+          disabledToggleState = $industrySelector.val() === '' ? true : false;
+          $submitBtn.attr({
+          'disabled': disabledToggleState,
+          'aria-disabled': disabledToggleState
+        });
+      }
+
+      return {
+        init: init
+      }
+
+    }();
+
+    sectorFormSubmitToggle.init();
+  });
+</script>
 
 
 {% endblock %}
