@@ -8,7 +8,7 @@ class CompaniesHouseSearchForm(django_forms.Form):
 
 class SectorPotentialForm(forms.Form):
 
-    SECTOR_CHOICES_BASE = [('', 'To see possible markets - select your sector')]
+    SECTOR_CHOICES_BASE = [('', 'Select your sector')]
 
     sector = forms.ChoiceField(
         label='Sector',

@@ -107,7 +107,7 @@ dit.components.video = (new function() {
 
   function setTranscriptHeight() {
     var videoHeight, transcript_height;
-    if($video) {
+    if($video.length) {
       videoHeight = $video.height();
       transcript_height = (window.innerHeight - videoHeight) - 130;
 
@@ -115,7 +115,6 @@ dit.components.video = (new function() {
         height: transcript_height
       });
     }
-
   }
 
   function bindActivators($activators) {

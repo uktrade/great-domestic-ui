@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1153 - disable sector selector button until option has been selected, change default text
 - XOT-1150 - add MADB comoonent and remove case studies link from campaign
 - XOT-1155 - amends to video modal transcript height issue, restyle close button
 - XOT-1121 - market landing page changes and search pagination
