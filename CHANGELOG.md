@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1079 - add new banner to project finance page
 - XOT-1150 - change to MADB styles after review
 - XOT-1153 - disable sector selector button until option has been selected, change default text
 - XOT-1150 - add MADB comoonent and remove case studies link from campaign
