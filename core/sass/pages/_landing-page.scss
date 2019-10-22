@@ -22,7 +22,8 @@
 }
 
 .campaign-video-transcript-text {
-  overflow: auto;
+  overflow-y: scroll;
+  padding-bottom: 30px;
 }
 
 .landing-page {
@@ -156,6 +157,33 @@
   .sector-potential-section {
     .sector-potential-wrapper {
       background-color: $stone-30;
+    }
+  }
+
+  .export-goods-from-uk {
+    .content-column {
+      .content-column-inner {
+        padding-top: 15px;
+      }
+    }
+
+    @media(min-width: 769px) {
+      .content-column {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .content-column-inner {
+          padding: 0 0 0 50px;
+        }
+      }
+    }
+
+    @media(min-width: 961px) {
+      .content-column {
+        .content-column-inner {
+          padding-left: 100px;
+        }
+      }
     }
   }
 

@@ -1,11 +1,26 @@
 
 .sector-potential-section {
+
+  .view-markets {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    font-size: 19px;
+  }
   @media (min-width: 1081px) {
     .sector-potential-wrapper {
       background: url('/static/images/globe.png') calc(100% - (-100px)) -150px no-repeat;
       background-size: auto 120%;
     }
   }
+
+  @media (min-width: 641px) {
+    .view-markets {
+      width: auto;
+    }
+  }
+
+
 }
 
 .sector-potential-form {
@@ -18,11 +33,12 @@
       width: 100%;
       background-color: $white;
     }
-    .view-markets {
-      width: 100%;
-      display: inline-block;
-      text-align: center;
-      font-size: 19px;
+
+    .button.show-markets:disabled {
+      pointer-events: none;
+      background: $stone-90;
+      color: $stone-30;
+
     }
 
     @media (min-width: 641px) {

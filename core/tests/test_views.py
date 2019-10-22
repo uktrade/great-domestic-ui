@@ -1,3 +1,4 @@
+from unittest import mock
 from unittest.mock import call, patch, PropertyMock
 
 import requests
@@ -11,7 +12,7 @@ import pytest
 import requests_mock
 from rest_framework import status
 
-from core import helpers, views, forms
+from core import helpers, views
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
@@ -69,9 +70,8 @@ def test_landing_page_redirect(mock_get_page, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_landing_page(mock_industries, mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_landing_page(mock_get_page, client):
 
     page = {
         'title': 'great.gov.uk',
@@ -93,7 +93,7 @@ def test_landing_page(mock_industries, mock_get_page, client, settings):
 
     mock_get_page.return_value = create_response(page)
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
 
@@ -109,9 +109,8 @@ def test_landing_page(mock_industries, mock_get_page, client, settings):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_landing_page_video_url(mock_industries, mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_landing_page_video_url(mock_get_page, client):
     page = {
         'title': 'great.gov.uk',
         'page_type': 'HomePage',
@@ -131,8 +130,8 @@ def test_landing_page_video_url(mock_industries, mock_get_page, client, settings
     }
     mock_get_page.return_value = create_response(page)
 
-    content_list_industry_tags = [{'id': 3, 'name': 'Agri-technology', 'icon': None, 'pages_count': 0},]
-    mock_industries = create_response(content_list_industry_tags)
+    content_list_industry_tags = [{'id': 3, 'name': 'Agri-technology', 'icon': None, 'pages_count': 0}]
+    create_response(content_list_industry_tags)
 
     settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
     url = reverse('landing-page')
@@ -145,11 +144,8 @@ def test_landing_page_video_url(mock_industries, mock_get_page, client, settings
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_landing_page_template_news_feature_flag_on(
-    mock_industries, mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_landing_page_template_news_feature_flag_on(mock_get_page, client):
 
     page = {
         'title': 'great.gov.uk',
@@ -171,7 +167,7 @@ def test_landing_page_template_news_feature_flag_on(
 
     mock_get_page.return_value = create_response(page)
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
 
@@ -182,11 +178,8 @@ def test_landing_page_template_news_feature_flag_on(
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_landing_page_template_news_feature_flag_off(
-    mock_industries, mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_landing_page_template_news_feature_flag_off(mock_get_page, client):
 
     page = {
         'title': 'great.gov.uk',
@@ -208,7 +201,7 @@ def test_landing_page_template_news_feature_flag_off(
 
     mock_get_page.return_value = create_response(page)
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
     response = client.get(url)
@@ -219,9 +212,7 @@ def test_landing_page_template_news_feature_flag_off(
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_top_sectors_returned(
-    mock_industries, mock_get_page, client, settings
-):
+def test_top_sectors_returned(mock_industries, mock_get_page, client):
 
     page = {
         'title': 'great.gov.uk',
@@ -258,7 +249,6 @@ def test_top_sectors_returned(
     response = client.get(url)
 
     assert len(response.context_data['sector_list']) == 6
-
 
 
 def test_sitemaps(client):
@@ -305,9 +295,7 @@ def test_templates(view, expected_template, client):
     )
 )
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_terms_conditions_cms(
-    mock_get_t_and_c_page, view, expected_template, client
-):
+def test_terms_conditions_cms(mock_get_t_and_c_page, view, expected_template, client):
     url = reverse(view)
     page = {
         'title': 'the page',
@@ -418,7 +406,7 @@ def test_set_etag_mixin(rf, method, expected):
 
 
 @pytest.mark.parametrize('view_class', views.SetEtagMixin.__subclasses__())
-def test_cached_views_not_dynamic(rf, settings, view_class):
+def test_cached_views_not_dynamic(rf, view_class):
     # exception will be raised if the views perform http request, which are an
     # indicator that the views rely on dynamic data.
     with requests_mock.mock():
@@ -513,7 +501,7 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_privacy_cookies_subpage(mock_get_page, client, settings):
+def test_privacy_cookies_subpage(mock_get_page, client):
     url = reverse(
         'privacy-and-cookies-subpage',
         kwargs={'slug': 'fair-processing-notice-zendesk'}
@@ -610,7 +598,7 @@ campaign_page_all_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_campaign_page_all_fields(mock_get_page, client, settings):
+def test_marketing_campaign_campaign_page_all_fields(mock_get_page, client):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(campaign_page_all_fields)
@@ -721,7 +709,7 @@ campaign_page_required_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_page_required_fields(mock_get_page, client, settings):
+def test_marketing_campaign_page_required_fields(mock_get_page, client):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(campaign_page_required_fields)
@@ -884,8 +872,8 @@ def test_international_investment_support_directory_redirect(client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_new_landing_page_querystring_old_cms_page(mock_industries, mock_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_new_landing_page_querystring_old_cms_page(mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'HomePage',
         'tree_based_breadcrumbs': [
@@ -894,7 +882,7 @@ def test_new_landing_page_querystring_old_cms_page(mock_industries, mock_page, c
     })
 
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
     url = '/?nh=1'
     response = client.get(url)
 
@@ -903,8 +891,8 @@ def test_new_landing_page_querystring_old_cms_page(mock_industries, mock_page, c
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_new_landing_page_querystring_new_cms_page(mock_industries, mock_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_new_landing_page_querystring_new_cms_page(mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'HomePage',
         'tree_based_breadcrumbs': [
@@ -917,7 +905,7 @@ def test_new_landing_page_querystring_new_cms_page(mock_industries, mock_page, c
     })
 
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
     url = '/?nh=1'
     response = client.get(url)
 

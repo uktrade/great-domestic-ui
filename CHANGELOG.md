@@ -3,6 +3,9 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1153 - disable sector selector button until option has been selected, change default text
+- XOT-1150 - add MADB comoonent and remove case studies link from campaign
+- XOT-1155 - amends to video modal transcript height issue, restyle close button
 - XOT-1121 - market landing page changes and search pagination
 - XOT-1155 - change related link field from rich text to string
 - XOT-1151, XOT-1152, XOT-1137, XOT-1153, XOT-1155 - homepage redesigns v2
@@ -18,6 +21,7 @@
 - XOT-1039 - Add campaign section with video
 - no ticket - Upgrade to Django 2
 - XOT-928 - Use user profile phone number on contact form
+- CI-540 - Brexit redirect
 
 ### Fixed bugs
 - XOT-1042 - remove extra container markup

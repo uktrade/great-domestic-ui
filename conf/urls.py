@@ -6,7 +6,7 @@ from directory_constants.urls import international
 import directory_healthcheck.views
 
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps.views import sitemap
 from django.urls import reverse_lazy
@@ -219,20 +219,6 @@ euexit_urls = [
         r'^brexit/contact/success/$',
         euexit.views.DomesticContactSuccessView.as_view(),
         name='brexit-contact-form-success'
-    ),
-]
-
-
-news_urls = [
-    url(
-        r"^brexit/$",
-        content.views.NewsListPageView.as_view(),
-        name='brexit-news-list',
-    ),
-    url(
-        r"^brexit/(?P<slug>[\w-]+)/$",
-        content.views.NewsArticleDetailView.as_view(),
-        name='brexit-news-detail',
     ),
 ]
 
@@ -628,7 +614,6 @@ export_vouchers_urls = [
 urlpatterns += legacy_urls
 urlpatterns += euexit_urls
 urlpatterns += redirects
-urlpatterns += news_urls
 urlpatterns += article_urls
 urlpatterns += contact_urls
 urlpatterns += marketaccess_urls

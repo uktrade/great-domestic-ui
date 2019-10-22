@@ -196,7 +196,6 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
         excluded_pages += dynamic_cms_page_url_names
         excluded_pages += [url.name for url in urls.article_urls]
-        excluded_pages += [url.name for url in urls.news_urls]
 
         return [
             item.name for item in urls.urlpatterns

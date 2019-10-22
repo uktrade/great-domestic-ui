@@ -1,3 +1,5 @@
+from unittest import mock
+
 import pytest
 from unittest.mock import patch
 from bs4 import BeautifulSoup
@@ -14,8 +16,8 @@ def mock_get_page():
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_market_landing_pagination_page_next(mock_industries, mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_market_landing_pagination_page_next(mock_get_page, client):
 
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
@@ -47,7 +49,7 @@ def test_market_landing_pagination_page_next(mock_industries, mock_get_page, cli
 
     mock_get_page.return_value = create_response(page)
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
 
     url = reverse('markets')
     response = client.get(url)
@@ -58,8 +60,8 @@ def test_market_landing_pagination_page_next(mock_industries, mock_get_page, cli
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_market_landing_pagination_page_next_not_in_html(mock_industries, mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
 
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
@@ -86,7 +88,7 @@ def test_market_landing_pagination_page_next_not_in_html(mock_industries, mock_g
 
     mock_get_page.return_value = create_response(page)
     content_list_industry_tags = [{}]
-    mock_industries = create_response(content_list_industry_tags)
+    create_response(content_list_industry_tags)
 
     url = reverse('markets')
     response = client.get(url)
@@ -115,30 +117,7 @@ def test_article_detail_page_no_related_content(rf):
     assert 'Related content' not in html
 
 
-def test_landing_page_news_section(rf):
-
-    context = {
-        'page': {
-            'news_title': 'News',
-            'news_description': '<p>Lorem ipsum</p>',
-            'articles': [
-                {'article_title': 'News article 1'},
-                {'article_title': 'News article 2'},
-            ],
-        },
-        'features': {'NEWS_SECTION_ON': True},
-        'request': rf.get('/')
-    }
-
-    html = render_to_string('core/landing_page_domestic.html', context)
-
-    assert context['page']['news_title'] in html
-    assert '<p class="body-text">Lorem ipsum</p>' in html
-    assert 'News article 1' in html
-    assert 'News article 2' in html
-
-
-def test_article_advice_page(mock_get_page, client, settings):
+def test_article_advice_page():
     context = {}
     page = {
         'title': 'Markets',
@@ -433,58 +412,13 @@ test_news_list_page = {
 
 
 def test_news_list_page_feature_flag_on():
-    context = {
-        'features': {'NEWS_SECTION_ON': True}
-    }
-    context['page'] = test_news_list_page
+    context = {'features': {'NEWS_SECTION_ON': True}, 'page': test_news_list_page}
 
     html = render_to_string('content/domestic_news_list.html', context)
 
     assert test_news_list_page['title'] in html
     assert 'Lorem ipsum' in html
     assert 'Dolor sit amet' in html
-
-
-def test_domestic_news_article_detail_page(rf):
-    context = {
-        'features': {'NEWS_SECTION_ON': True},
-        'request': rf.get('/')
-    }
-
-    page = {
-        "title": "Test article admin title",
-        "article_title": "Test news title",
-        "article_teaser": "Test news teaser",
-        "article_image": {"url": "foobar.png"},
-        "article_body_text": "<p>Lorem ipsum</p>",
-        "related_article_one_url": "",
-        "related_article_one_title": "",
-        "related_article_one_teaser": "",
-        "related_article_two_url": "",
-        "related_article_two_title": "",
-        "related_article_two_teaser": "",
-        "related_article_three_url": "",
-        "related_article_three_title": "",
-        "related_article_three_teaser": "",
-        "full_path": "/markets/foo/bar/",
-        "last_published_at": "2018-10-09T16:25:13.142357Z",
-        "meta": {
-            "slug": "foo",
-        },
-        "tags": [
-            {"name": "Test tag", "slug": "test-tag-slug"}
-        ],
-        "page_type": "ArticlePage",
-    }
-
-    context['page'] = page
-
-    html = render_to_string('content/domestic_news_detail.html', context)
-
-    assert 'Test news title' in html
-    assert 'Test news teaser' in html
-    assert 'Test tag' not in html
-    assert '<p class="body-text">Lorem ipsum</p>' in html
 
 
 test_articles = [
@@ -571,9 +505,7 @@ def test_landing_page_header_footer(rf):
     assert soup.find(id="great-global-header-logo")
 
 
-def test_article_detail_page_social_share_links(
-    mock_get_page, client, settings
-):
+def test_article_detail_page_social_share_links(mock_get_page, client):
     page = {
         "title": "Test article admin title",
         "article_title": "How to write an export plan",
@@ -632,9 +564,7 @@ def test_article_detail_page_social_share_links(
     assert soup.find(id='share-email').attrs['href'] == email_link
 
 
-def test_article_detail_page_social_share_links_no_title(
-    mock_get_page, client, settings
-):
+def test_article_detail_page_social_share_links_no_title(mock_get_page, client):
     page = {
         "title": "Test article admin title",
         "article_image": {"url": "foobar.png"},

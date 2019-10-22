@@ -9,6 +9,13 @@ from core.views import (
 
 redirects = [
     url(
+        r'^brexit/$',
+        QuerystringRedirectView.as_view(
+            url='/international/content/how-to-setup-in-the-uk/uk-brexit-guidance-international-business/'
+        ),
+        name='brexit-redirect'
+    ),
+    url(
         r'^eu-exit-news/contact/$',
         QuerystringRedirectView.as_view(pattern_name='brexit-contact-form'),
         name='eu-exit-brexit-contact-redirect'
