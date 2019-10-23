@@ -159,16 +159,17 @@
 
 {% block body_js %}
 <script>
-  $(function() {
 
     var sectorFormSubmitToggle = function() {
 
-      var $sectorform = $('.sector-potential-section .sector-potential-form'),
-        $industrySelector = $('select', $sectorform),
-        $submitBtn = $('#sector-submit'),
-        disabledToggleState = false;
+      var $sectorform, $industrySelector, $submitBtn,
+          disabledToggleState = false;
 
         function init() {
+        $sectorform = $('.sector-potential-section .sector-potential-form');
+        $industrySelector = $('select', $sectorform);
+        $submitBtn = $('#sector-submit');
+
           $industrySelector.on('change', toggleSubmitBtnState);
           toggleSubmitBtnState();
         }
@@ -183,10 +184,11 @@
 
       return {
         init: init
-      }
+      };
 
     }();
 
+  $(function() {
     sectorFormSubmitToggle.init();
   });
 </script>

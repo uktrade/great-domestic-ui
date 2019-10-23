@@ -1,5 +1,5 @@
 from unittest import mock
-from unittest.mock import call, patch, PropertyMock
+from unittest.mock import call, patch
 
 import requests
 
@@ -12,7 +12,7 @@ import pytest
 import requests_mock
 from rest_framework import status
 
-from core import helpers, views
+from core import views
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
@@ -25,48 +25,6 @@ def test_exopps_redirect(client):
 
     assert response.status_code == 302
     assert response.url == settings.SERVICES_EXOPPS_ACTUAL
-
-
-@patch(
-    'core.helpers.GeoLocationRedirector.should_redirect',
-    PropertyMock(return_value=True)
-)
-@patch(
-    'core.helpers.GeoLocationRedirector.country_language',
-    PropertyMock(return_value='fr')
-)
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_redirect(mock_get_page, client):
-
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'title': 'Guidance 1'},
-            {'title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-
-    mock_get_page.return_value = create_response(page)
-
-    url = reverse('landing-page')
-
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.url == (
-        '/international/' + '?lang=' + 'fr'
-    )
-    assert response.cookies[helpers.GeoLocationRedirector.COOKIE_NAME].value
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -106,108 +64,6 @@ def test_landing_page(mock_get_page, client):
         casestudies.HELLO_BABY,
         casestudies.YORK,
     ]
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_landing_page_video_url(mock_get_page, client):
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'title': 'Guidance 1'},
-            {'title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-    mock_get_page.return_value = create_response(page)
-
-    content_list_industry_tags = [{'id': 3, 'name': 'Agri-technology', 'icon': None, 'pages_count': 0}]
-    create_response(content_list_industry_tags)
-
-    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
-    url = reverse('landing-page')
-    response = client.get(url)
-    assert response.status_code == 200
-    assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
-        'https://example.com/video.mp4'
-    )
-    assert b'https://example.com/video.mp4' in response.content
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_landing_page_template_news_feature_flag_on(mock_get_page, client):
-
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'title': 'Guidance 1'},
-            {'title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-
-    mock_get_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    create_response(content_list_industry_tags)
-
-    url = reverse('landing-page')
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_domestic.html']
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_landing_page_template_news_feature_flag_off(mock_get_page, client):
-
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'title': 'Guidance 1'},
-            {'title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-
-    mock_get_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    create_response(content_list_industry_tags)
-
-    url = reverse('landing-page')
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_domestic.html']
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -883,11 +739,11 @@ def test_new_landing_page_querystring_old_cms_page(mock_page, client):
 
     content_list_industry_tags = [{}]
     create_response(content_list_industry_tags)
-    url = '/?nh=1'
+    url = '/'
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_domestic.html']
+    assert response.template_name == ['core/landing_page_alternate.html']
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -906,7 +762,7 @@ def test_new_landing_page_querystring_new_cms_page(mock_page, client):
 
     content_list_industry_tags = [{}]
     create_response(content_list_industry_tags)
-    url = '/?nh=1'
+    url = '/'
     response = client.get(url)
 
     assert response.status_code == 200

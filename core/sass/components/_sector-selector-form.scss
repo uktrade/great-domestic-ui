@@ -108,7 +108,7 @@
     @media (min-width: 961px) {
       li:nth-child(-n+6) {
         display: block;
-        width: calc(100% / 6);
+        width: 16.66%; // ie edge fix
       }
     }
     @media (min-width: 1081px) {
