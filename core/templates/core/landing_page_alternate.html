@@ -52,7 +52,6 @@
         {% endfor %}
       </div>
     </div>
-  </div>
 </section>
 
 <section class="sector-potential-section padding-bottom-0">
@@ -64,7 +63,7 @@
           <form class="sector-potential-form" action="{% url 'markets' %}" method="GET">
             {{ sector_form }}
             <button type="submit" class="button margin-top-15 show-markets" id="sector-submit">Show markets</button>
-            <span class="verbose">Please select a sector to enable the submit button.</span>
+            <span class="verbose">Select a sector to enable the submit button.</span>
           </form>
         </div>
       </div>
@@ -94,17 +93,15 @@
 
 {% if page.madb_title and page.madb_image.url %}
 <section class="export-goods-from-uk padding-bottom-45 padding-bottom-60-m padding-top-45 padding-top-60-m">
-  <div class="container">
+  <div class="container padding-top-45 padding-top-60">
     <h2 class="heading-large margin-top-0 margin-bottom-30">{{ page.madb_title }}</h2>
     <div class="flex-grid">
       <div class="column-full column-half-l">
         <img src="{{ page.madb_image.url }}" class="width-full" alt="{{ page.madb_image_alt }}" />
       </div>
       <div class="column-full column-half-l content-column">
-        <div class="content-column-inner">
-          <p class="margin-top-0 margin-bottom-30-l">{{ page.madb_content }}</p>
-          <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
-        </div>
+        <p class="margin-top-0">{{ page.madb_content }}</p>
+        <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
       </div>
     </div>
   </div>
@@ -161,16 +158,17 @@
 
 {% block body_js %}
 <script>
-  $(function() {
 
     var sectorFormSubmitToggle = function() {
 
-      var $sectorform = $('.sector-potential-section .sector-potential-form'),
-        $industrySelector = $('select', $sectorform),
-        $submitBtn = $('#sector-submit'),
-        disabledToggleState = false;
+      var $sectorform, $industrySelector, $submitBtn,
+          disabledToggleState = false;
 
         function init() {
+          $sectorform = $('.sector-potential-section .sector-potential-form');
+          $industrySelector = $('select', $sectorform);
+          $submitBtn = $('#sector-submit');
+
           $industrySelector.on('change', toggleSubmitBtnState);
           toggleSubmitBtnState();
         }
@@ -185,10 +183,11 @@
 
       return {
         init: init
-      }
+      };
 
     }();
 
+  $(function() {
     sectorFormSubmitToggle.init();
   });
 </script>
