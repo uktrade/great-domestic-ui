@@ -14,7 +14,6 @@ from rest_framework import status
 
 from core import views
 from core.tests.helpers import create_response
-from casestudy import casestudies
 
 from directory_constants import slugs, urls
 
@@ -25,45 +24,6 @@ def test_exopps_redirect(client):
 
     assert response.status_code == 302
     assert response.url == settings.SERVICES_EXOPPS_ACTUAL
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_landing_page(mock_get_page, client):
-
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'title': 'Guidance 1'},
-            {'title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-
-    mock_get_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    create_response(content_list_industry_tags)
-
-    url = reverse('landing-page')
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert '/static/js/home' in str(response.content)
-    assert response.template_name == ['core/landing_page_domestic.html']
-    assert response.context_data['casestudies'] == [
-        casestudies.HELLO_BABY,
-        casestudies.YORK,
-    ]
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
