@@ -3,6 +3,12 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+
+## [2019.10.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.10.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.23)
+
+### Implemented enhancements
 - XOT-1172 - IE edge bugfix and removed homepage switch related code and tests
 - XOT-1079 - add new banner to project finance page
 - XOT-1150 - change to MADB styles after review
