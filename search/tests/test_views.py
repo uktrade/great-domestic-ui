@@ -3,7 +3,7 @@ import json
 import requests
 
 from unittest.mock import patch, Mock, call
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from freezegun import freeze_time
 

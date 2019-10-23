@@ -1,6 +1,6 @@
 import http
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 import pytest
 
@@ -9,7 +9,7 @@ from conf.url_redirects import (
     INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING,
     INTERNATIONAL_COUNTRY_REDIRECTS_MAPPING
 )
-
+from core.tests.helpers import reload_urlconf, reload_urlconf_redirects
 
 UTM_QUERY_PARAMS = '?utm_source=test%12&utm_medium=test&utm_campaign=test%test'
 
@@ -105,6 +105,10 @@ def test_privacy_international_redirect(path, client):
 
 # the first element needs to end with a slash
 redirects = [
+    (
+        '/brexit/',
+        '/international/content/how-to-setup-in-the-uk/uk-brexit-guidance-international-business/'
+    ),
     (
         '/eu-exit-news/contact/', reverse('brexit-contact-form')
     ),
@@ -464,11 +468,19 @@ redirects = [
         '/advice/get-export-finance-and-funding/raise-money-with-investment/',  # NOQA
         '/advice/get-export-finance-and-funding/get-export-finance/'
     ),
+    (
+        '/contact/triage/international/',
+        '/international/contact/'
+    ),
 ]
 
 
 @pytest.mark.parametrize('url,expected', redirects)
-def test_redirects(url, expected, client):
+def test_redirects(url, expected, client, settings):
+    settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON'] = True
+    reload_urlconf_redirects()
+    reload_urlconf()
+
     response = client.get(url)
 
     assert response.status_code == http.client.FOUND

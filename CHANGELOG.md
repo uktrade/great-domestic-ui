@@ -1,7 +1,48 @@
 # Changelog
 
+### Hotfix
+- No ticket - fix trade barriers Search link
+
+
 ## Pre-release
 
+### Implemented enhancements
+- XOT-1172 - IE edge bugfix and removed homepage switch related code and tests
+- XOT-1079 - add new banner to project finance page
+- XOT-1150 - change to MADB styles after review
+- XOT-1153 - disable sector selector button until option has been selected, change default text
+- XOT-1150 - add MADB comoonent and remove case studies link from campaign
+- XOT-1155 - amends to video modal transcript height issue, restyle close button
+- XOT-1121 - market landing page changes and search pagination
+- XOT-1155 - change related link field from rich text to string
+- XOT-1151, XOT-1152, XOT-1137, XOT-1153, XOT-1155 - homepage redesigns v2
+- XOT-1129 - add selector form to market landing page
+- XOT-1122 - add sector selector and top sectors to homepage
+- XOT-1123 - Add filtering by industry tag to markets landing page
+- XOT-1118 - use CMS heading for page title
+- XOT-1121 - add pagination to markets landing page, limit 12 per page
+- XOT-1042 - restyle markets grid and some elements of landing page
+- No ticket - Rename 'article' app folder to 'content'
+- XOT-1107 - Add url for new article landing pages
+- XOT-1078 - UKEF contact us button text issue on small resolutions
+- XOT-1039 - Add campaign section with video
+- no ticket - Upgrade to Django 2
+- XOT-928 - Use user profile phone number on contact form
+- CI-540 - Brexit redirect
+
+### Fixed bugs
+- XOT-1042 - remove extra container markup
+- no ticket - Fix international urls in develop and staging.
+- no ticket - Silence captcha key checks
+
+## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23...2019.09.23_1)
+
+### Hotfix
+- Re-add case insensitive urls
+
+## [2019.09.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.04_1...2019.09.23)
 
 ### Implemented enhancements
 - XOT-1114 add video transcript to article page
@@ -17,8 +58,11 @@
 - XOT-1034 - Add new landing page, remove obsolete international page styling, update metadata for cms pages
 - TT-1808: Update directory components to add "no-validate" no cache middleware
 - No ticket - Add trade barriers to search
+- CI-501 - Added redirect from `/contact/triage/international/` to new great-international-ui url `/international/contact`
+- XOT-928 - Add user full name from new registration journey to SOO contact form
 
 ### Bug fixes
+- No ticket - Fix report a trade barrier link in search-key-pages.json
 - No ticket - Fix 500 error on UKEF contact form
 - XOT-1115 - Fix IE hero bug, fix missing image on country guide hero, fix text colour on trade finance hero
 - TT-1832 - Fix anon users unable to view feedback page

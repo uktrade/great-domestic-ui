@@ -5,19 +5,7 @@ clean:
 	-find . -type d -name "__pycache__" -delete
 
 pytest:
-	ENV_FILES='test,dev' \
-	pytest $(ARGUMENTS) \
-	--numprocesses auto \
-	--dist=loadfile \
-	--ignore=node_modules \
-	--capture=no \
-	-Wignore::DeprecationWarning \
-	-vv
-
-flake8:
-	flake8 . \
-	--exclude=.venv,venv,node_modules \
-	--max-line-length=120
+	ENV_FILES='test,dev' pytest $(ARGUMENTS)
 
 manage:
 	ENV_FILES='secrets-do-not-commit,dev' ./manage.py $(ARGUMENTS)
@@ -42,5 +30,5 @@ secrets:
 redirect:
 	python scripts/add_new_redirect.py
 
-.PHONY: clean pytest flake8 manage webserver requirements install_requirements css secrets redirect
 
+.PHONY: clean pytest flake8 manage webserver requirements install_requirements css secrets redirect

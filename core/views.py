@@ -10,7 +10,7 @@ from directory_forms_api_client.helpers import FormSessionMixin, Sender
 from django.conf import settings
 from django.contrib import sitemaps
 from django.http import JsonResponse
-from django.urls import reverse, RegexURLResolver
+from django.urls import reverse
 from django.utils.cache import set_response_etag
 from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
@@ -18,7 +18,7 @@ from django.utils.functional import cached_property
 
 from casestudy import casestudies
 from core import helpers, mixins, forms
-from article.views import CMSPageView
+from content.views import CMSPageView
 from euexit.mixins import HideLanguageSelectorMixin
 
 logger = logging.getLogger(__name__)
@@ -34,16 +34,11 @@ class SetEtagMixin:
 
 class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
 
-    @property
-    def template_name(self):
-        alt_landing_page_requested = self.request.GET.get('nh')
-        required_cms_fields = ['how_dit_helps_title', 'hero_text', 'questions_section_title', 'what_is_new_title']
-        cms_page_has_new_fields = all([key in self.page for key in required_cms_fields])
+    template_name = 'core/landing_page_alternate.html'
 
-        if cms_page_has_new_fields and alt_landing_page_requested:
-            return 'core/landing_page_alternate.html'
-
-        return 'core/landing_page_domestic.html'
+    @cached_property
+    def sector_list(self):
+        return helpers.handle_cms_response(cms_api_client.list_industry_tags())
 
     @cached_property
     def page(self):
@@ -51,7 +46,7 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
             slug=slugs.GREAT_HOME,
             draft_token=self.request.GET.get('draft_token'),
         )
-        return helpers.handle_cms_response_allow_404(response)
+        return helpers.handle_cms_response(response)
 
     def get(self, request, *args, **kwargs):
         redirector = helpers.GeoLocationRedirector(self.request)
@@ -60,8 +55,12 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
+        sorted_sectors = sorted(self.sector_list, key=lambda x: x['pages_count'], reverse=True)
+        top_sectors = sorted_sectors[:6]
         return super().get_context_data(
             page=self.page,
+            sector_list=top_sectors,
+            sector_form=forms.SectorPotentialForm(sector_list=self.sector_list),
             casestudies=[
                 casestudies.HELLO_BABY,
                 casestudies.YORK,
@@ -183,16 +182,15 @@ class StaticViewSitemap(sitemaps.Sitemap):
             'report-ma-barrier',
             'contact-us-exporting-guidance',
             'contact-us-exporting-to-the-uk-guidance',
+            'tree-based-url',
         ]
 
         excluded_pages += dynamic_cms_page_url_names
         excluded_pages += [url.name for url in urls.article_urls]
-        excluded_pages += [url.name for url in urls.news_urls]
 
         return [
             item.name for item in urls.urlpatterns
-            if not isinstance(item, RegexURLResolver) and
-            item not in redirects and
+            if item not in redirects and
             item.name not in excluded_pages
         ]
 

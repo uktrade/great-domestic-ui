@@ -1,0 +1,58 @@
+{% extends 'content/topic_list_base.html' %}
+
+{% load directory_components %}
+
+{% block head_title %}Markets - great.gov.uk{% endblock %}
+
+{% block intro_section %}
+
+<section class="sector-potential-section padding-bottom-60">
+  <div class="padding-top-45">
+    <div class="container">
+    <div class="width-full width-two-thirds-l">
+          <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
+          <p>Use our guides to identify new export markets and inform your international sales plan.</p>
+          <form class="sector-potential-form" action="{% url 'markets' %}" method="GET">
+            {{ sector_form }}
+            <button type="submit" class="button margin-top-15">Show markets</button>
+            <a href="{% url 'markets' %}" class="view-markets link bold margin-left-30-m margin-top-15">View all market guides</a>
+          </form>
+        </div>
+      </div>
+  </div>
+</section>
+
+<section id="markets-banner-section" class="topic-list-section background-stone-30 padding-top-60 padding-bottom-0">
+
+    {% if page.teaser %}
+    <div class="container">
+      <div class="grid-row margin-top-60">
+        <div class="column-full column-half-l font-medium">
+          {{ page.teaser }}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+
+</section>
+{% endblock %}
+
+{% block child_pages %}
+<section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 padding-top-60 four-column-card-grid">
+  <div class="container">
+
+    {% if number_of_results > 0 and tag_name %}
+    <h2 class="font-medium margin-bottom-45">Best markets for <span class="bold">{{ tag_name }}</span> <span class="number-display highlight-circle background-active-blue">{{ number_of_results }}</span></h2>
+
+    {% elif tag_name %}
+    <h2 class="font-medium">No results found for <span class="bold">{{ tag_name }}</span>. Please try again.</h2>
+    {% endif %}
+
+    <div class="flex-grid">
+      {% include 'content/components/four_column_card_grid.html' with cards=pagination_page  %}
+    </div>
+    {% pagination pagination_page=pagination_page %}
+  </div>
+</section>
+{% endblock %}

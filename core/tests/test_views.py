@@ -1,8 +1,9 @@
-from unittest.mock import call, patch, PropertyMock
+from unittest import mock
+from unittest.mock import call, patch
 
 import requests
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
 
@@ -11,9 +12,8 @@ import pytest
 import requests_mock
 from rest_framework import status
 
-from core import helpers, views
+from core import views
 from core.tests.helpers import create_response
-from casestudy import casestudies
 
 from directory_constants import slugs, urls
 
@@ -26,16 +26,9 @@ def test_exopps_redirect(client):
     assert response.url == settings.SERVICES_EXOPPS_ACTUAL
 
 
-@patch(
-    'core.helpers.GeoLocationRedirector.should_redirect',
-    PropertyMock(return_value=True)
-)
-@patch(
-    'core.helpers.GeoLocationRedirector.country_language',
-    PropertyMock(return_value='fr')
-)
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_redirect(mock_get_page, client):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
+def test_top_sectors_returned(mock_industries, mock_get_page, client):
 
     page = {
         'title': 'great.gov.uk',
@@ -47,161 +40,31 @@ def test_landing_page_redirect(mock_get_page, client):
             {'article_title': 'News article 2'},
         ],
         'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
+            {'title': 'Guidance 1'},
+            {'title': 'Guidance 2'},
         ],
         'tree_based_breadcrumbs': [
             {'url': '/', 'title': 'great.gov.uk'},
         ]
     }
-
     mock_get_page.return_value = create_response(page)
-
-    url = reverse('landing-page')
-
-    response = client.get(url)
-
-    assert response.status_code == 302
-    assert response.url == (
-        '/international/' + '?lang=' + 'fr'
-    )
-    assert response.cookies[helpers.GeoLocationRedirector.COOKIE_NAME].value
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-
-    mock_get_page.return_value = create_response(page)
-
-    url = reverse('landing-page')
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert '/static/js/home' in str(response.content)
-    assert response.template_name == ['core/landing_page_domestic.html']
-    assert response.context_data['casestudies'] == [
-        casestudies.HELLO_BABY,
-        casestudies.YORK,
+    content_list_industry_tags = [
+        {'id': 1, 'name': 'Agri-technology', 'icon': None, 'pages_count': 3},
+        {'id': 2, 'name': 'Agri-technology1', 'icon': None, 'pages_count': 6},
+        {'id': 3, 'name': 'Agri-technology2', 'icon': None, 'pages_count': 8},
+        {'id': 4, 'name': 'Agri-technology3', 'icon': None, 'pages_count': 6},
+        {'id': 5, 'name': 'Agri-technology4', 'icon': None, 'pages_count': 1},
+        {'id': 6, 'name': 'Agri-technology5', 'icon': None, 'pages_count': 0},
+        {'id': 7, 'name': 'Agri-technology6', 'icon': None, 'pages_count': 3},
+        {'id': 8, 'name': 'Agri-technology', 'icon': None, 'pages_count': 2},
+        {'id': 9, 'name': 'Agri-technology', 'icon': None, 'pages_count': 1},
     ]
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_video_url(mock_get_page, client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-
-    mock_get_page.return_value = create_response(page)
-    settings.LANDING_PAGE_VIDEO_URL = 'https://example.com/video.mp4'
-
-    url = reverse('landing-page')
-    response = client.get(url)
-    assert response.context_data['LANDING_PAGE_VIDEO_URL'] == (
-        'https://example.com/video.mp4'
-    )
-    assert b'https://example.com/video.mp4' in response.content
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_template_news_feature_flag_on(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = True
-
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-
-    mock_get_page.return_value = create_response(page)
-
-    url = reverse('landing-page')
-
-    response = client.get(url)
-
-    assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_domestic.html']
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_landing_page_template_news_feature_flag_off(
-    mock_get_page, client, settings
-):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-
-    page = {
-        'title': 'great.gov.uk',
-        'page_type': 'HomePage',
-        'news_title': 'News',
-        'news_description': '<p>Lorem ipsum</p>',
-        'articles': [
-            {'article_title': 'News article 1'},
-            {'article_title': 'News article 2'},
-        ],
-        'guidance': [
-            {'landing_page_title': 'Guidance 1'},
-            {'landing_page_title': 'Guidance 2'},
-        ],
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-        ]
-    }
-
-    mock_get_page.return_value = create_response(page)
+    mock_industries.return_value = create_response(content_list_industry_tags)
 
     url = reverse('landing-page')
     response = client.get(url)
 
-    assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_domestic.html']
+    assert len(response.context_data['sector_list']) == 6
 
 
 def test_sitemaps(client):
@@ -248,9 +111,7 @@ def test_templates(view, expected_template, client):
     )
 )
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_terms_conditions_cms(
-    mock_get_t_and_c_page, view, expected_template, client
-):
+def test_terms_conditions_cms(mock_get_t_and_c_page, view, expected_template, client):
     url = reverse(view)
     page = {
         'title': 'the page',
@@ -361,7 +222,7 @@ def test_set_etag_mixin(rf, method, expected):
 
 
 @pytest.mark.parametrize('view_class', views.SetEtagMixin.__subclasses__())
-def test_cached_views_not_dynamic(rf, settings, view_class):
+def test_cached_views_not_dynamic(rf, view_class):
     # exception will be raised if the views perform http request, which are an
     # indicator that the views rely on dynamic data.
     with requests_mock.mock():
@@ -456,7 +317,7 @@ def test_performance_dashboard_cms(mock_get_page, settings, client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_privacy_cookies_subpage(mock_get_page, client, settings):
+def test_privacy_cookies_subpage(mock_get_page, client):
     url = reverse(
         'privacy-and-cookies-subpage',
         kwargs={'slug': 'fair-processing-notice-zendesk'}
@@ -553,7 +414,7 @@ campaign_page_all_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_campaign_page_all_fields(mock_get_page, client, settings):
+def test_marketing_campaign_campaign_page_all_fields(mock_get_page, client):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(campaign_page_all_fields)
@@ -664,7 +525,7 @@ campaign_page_required_fields = {
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-def test_marketing_campaign_page_required_fields(mock_get_page, client, settings):
+def test_marketing_campaign_page_required_fields(mock_get_page, client):
     url = reverse('campaign-page', kwargs={'slug': 'test-page'})
 
     mock_get_page.return_value = create_response(campaign_page_required_fields)
@@ -827,6 +688,7 @@ def test_international_investment_support_directory_redirect(client):
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
 def test_new_landing_page_querystring_old_cms_page(mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'HomePage',
@@ -834,15 +696,18 @@ def test_new_landing_page_querystring_old_cms_page(mock_page, client):
             {'title': 'great.gov.uk', 'url': '/'}
         ],
     })
-    url = '/?nh=1'
 
+    content_list_industry_tags = [{}]
+    create_response(content_list_industry_tags)
+    url = '/'
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_domestic.html']
+    assert response.template_name == ['core/landing_page_alternate.html']
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
 def test_new_landing_page_querystring_new_cms_page(mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'HomePage',
@@ -854,9 +719,53 @@ def test_new_landing_page_querystring_new_cms_page(mock_page, client):
         'questions_section_title': '',
         'what_is_new_title': '',
     })
-    url = '/?nh=1'
 
+    content_list_industry_tags = [{}]
+    create_response(content_list_industry_tags)
+    url = '/'
     response = client.get(url)
 
     assert response.status_code == 200
     assert response.template_name == ['core/landing_page_alternate.html']
+
+
+@pytest.mark.parametrize(
+    'page_type,expected_template',
+    [
+        ('ArticleListingPage', 'content/article_list.html'),
+        ('TopicLandingPage', 'content/topic_list.html'),
+        ('ArticlePage', 'content/article_detail.html'),
+    ]
+)
+@patch('directory_cms_client.client.cms_api_client.lookup_by_path')
+def test_cms_path_lookup(mock_page, page_type, expected_template, client):
+    mock_page.return_value = create_response({
+        'page_type': page_type,
+        'tree_based_breadcrumbs': [
+            {'title': 'great.gov.uk', 'url': '/'},
+            {'title': 'Article list', 'url': '/article-list'},
+        ],
+        'slug': 'test',
+    })
+
+    response = client.get('/test/')
+
+    assert response.status_code == 200
+    assert response.template_name == [expected_template]
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_path')
+def test_cms_path_url(mock_page, client):
+    mock_page.return_value = create_response({
+        'page_type': 'ArticlePage',
+        'tree_based_breadcrumbs': [
+            {'title': 'great.gov.uk', 'url': '/'},
+            {'title': 'Article', 'url': '/test-article/'}
+        ],
+        'meta': {'slug': 'test-article'},
+    })
+
+    response = client.get('/test-article/')
+
+    assert response.status_code == 200
+    assert response.template_name == ['content/article_detail.html']
