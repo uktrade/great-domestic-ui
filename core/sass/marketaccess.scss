@@ -12,14 +12,15 @@
         counter-increment: counter;
         &:before {
             content: counter(counter);
+            font-family: $brand-font-alternative;
             font-size: 72px;
-            color: #E2D9CB;
+            color: #1e1348;
             line-height: 1;
             left: 0;
             top: -9px;
             position: absolute;
         }
-    }  
+    }
 }
 
 .list.list-bullet {
