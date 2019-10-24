@@ -453,44 +453,54 @@ class ExortingToUKGuidanceView(
         return self.kwargs['slug']
 
 
+class WizardDynamicFormClassMixin(object):
+    def get_form_class(self, step):
+        return self.form_list[step]
+
+    def get_form(self, step=None, data=None, files=None):
+        """
+        Constructs the form for a given `step`. If no `step` is defined, the
+        current step will be determined automatically.
+
+        The form will be initialized using the `data` argument to prefill the
+        new form.
+        """
+        if step is None:
+            step = self.steps.current
+        # prepare the kwargs for the form instance.
+        kwargs = self.get_form_kwargs(step)
+        kwargs.update({
+            'data': data,
+            'files': files,
+            'prefix': self.get_form_prefix(step, self.form_list[step]),
+            'initial': self.get_form_initial(step),
+        })
+        return self.get_form_class(step)(**kwargs)
+
+
 class SellingOnlineOverseasFormView(
-    FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
+    WizardDynamicFormClassMixin, FormSessionMixin,
+    mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
-
-    def get_organisation_form_by_user_account(account_type):
-        if account_type == 'individual': 
-            return forms.SellingOnlineOverseasBusinessIndividual
-        elif account_type== 'non_companies_house':
-            return forms.SellingOnlineOverseasBusinessNonCH
-        return forms.SellingOnlineOverseasBusiness
-
-    ORGANISATION = 'organisation'
-    ORGANISATION_DETAILS = 'organisation-details'
-    EXPERIENCE = 'your-experience'
     CONTACT_DETAILS = 'contact-details'
-
-    # account_type can be: COMPANIES_HOUSE, CHARITY,
-    # PARTNERSHIP, SOLE_TRADER and OTHER.
-
-    ACCOUNT_TYPE = DirectoryApiClient.private_company_data(sso_id)# 'individual' #hard coded for development only - REMOVE
-
-    ORGANISATION_FORM = get_organisation_form_by_user_account(ACCOUNT_TYPE)
+    APPLICANT = 'applicant'
+    APPLICANT_DETAILS = 'applicant-details'
+    EXPERIENCE = 'your-experience'
 
     form_list = (
         (CONTACT_DETAILS, forms.SellingOnlineOverseasContactDetails),
-        (ORGANISATION, ORGANISATION_FORM),
-        (ORGANISATION_DETAILS, forms.SellingOnlineOverseasBusinessDetails),
+        (APPLICANT, forms.SellingOnlineOverseasApplicantPlaceholder),
+        (APPLICANT_DETAILS, forms.SellingOnlineOverseasApplicantDetails),
         (EXPERIENCE, forms.SellingOnlineOverseasExperience),
     )
 
     templates = {
         CONTACT_DETAILS: 'contact/soo/step-contact-details.html',
-        ORGANISATION: 'contact/soo/step-organisation.html',
-        ORGANISATION_DETAILS: 'contact/soo/step-organisation-details.html',
+        APPLICANT: 'contact/soo/step-applicant.html',
+        APPLICANT_DETAILS: 'contact/soo/step-applicant-details.html',
         EXPERIENCE: 'contact/soo/step-experience.html',
     }
-
 
     def get(self, *args, **kwargs):
         market = self.request.GET.get('market')
@@ -517,31 +527,33 @@ class SellingOnlineOverseasFormView(
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-
-        # prepopulate form from cached latest submission data or directory-api
-        # latest_submission_data = self.get_form_data_cache()
-        # if latest_submission_data is not None:
-        #     for field in self.form_list[step].declared_fields:
-        #         if field in latest_submission_data:
-        #             initial[field] = latest_submission_data[field]
-        # elif self.request.user.is_authenticated and self.request.user.company:
-
         if step == self.CONTACT_DETAILS:
             initial.update({
                 'contact_first_name': self.request.user.first_name,
-                'contact_lst_name': self.request.user.last_name,
+                'contact_last_name': self.request.user.last_name,
                 'contact_email': self.request.user.email,
-                'phone': self.request.user.company['mobile_number'],
             })
-        elif step == self.ORGANISATION:
-            initial.update({
-                'company_name': self.request.user.company['name'],
-                'company_number': self.request.user.company['number'],
-                'company_postcode': self.request.user.company['postal_code'],
-                'website_address': self.request.user.company['website'],
-            })
+            if self.request.user.company:
+                initial.update({
+                    'phone': self.request.user.company['mobile_number'],
+                })
+        elif step == self.APPLICANT:
+            if self.request.user.company:
+                address_1 = self.request.user.company['address_line_1']
+                address_2 = self.request.user.company['address_line_2']
+                address = ", ".join(filter(None, [address_1, address_2]))
+                initial.update({
+                    'company_name': self.request.user.company['name'],
+                    'company_address': address,
+                    'website_address': self.request.user.company['website'],
+                })
+                if 'number' in self.request.user.company:
+                    initial.update({
+                        'company_number': self.request.user.company['number']
+                    })
         elif step == self.EXPERIENCE:
-            initial['description'] = self.request.user.company['summary']
+            if self.request.user.company:
+                initial['description'] = self.request.user.company['summary']
 
         return initial
 
@@ -549,15 +561,35 @@ class SellingOnlineOverseasFormView(
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        del data['terms_agreed']
         data['market'] = self.request.session.get(SESSION_KEY_SOO_MARKET)
         return data
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, form, **kwargs):
+        #import pdb; pdb.set_trace()
+        #if self.steps.current == self.APPLICANT:
+        #    form = forms.SellingOnlineOverseasApplicantNonCH
+        #     form = get_applicant_form(self)
         return {
             'market_name': self.request.session.get(SESSION_KEY_SOO_MARKET),
-            **super().get_context_data(**kwargs),
+            **super().get_context_data(form, **kwargs),
         }
+
+    def get_form_class(self, step):
+        if step == self.APPLICANT:
+            # For the Limited Company flow, company_type is COMPANIES_HOUSE
+            # Non-companies-house flow: CHARITY, PARTNERSHIP, SOLE_TRADER
+            # and OTHER. For the Individual flow: None
+            if self.request.user.company and 'company_type' in self.request.user.company:
+                company_type = self.request.user.company['company_type']
+            else:
+                company_type = None
+
+            if company_type is None:
+                return forms.SellingOnlineOverseasApplicantIndividual
+            elif company_type == 'COMPANIES_HOUSE':
+                return forms.SellingOnlineOverseasApplicant
+            return forms.SellingOnlineOverseasApplicantNonCH
+        return super(SellingOnlineOverseasFormView, self).get_form_class(step)
 
     def done(self, form_list, **kwargs):
         form_data = self.serialize_form_list(form_list)
@@ -565,13 +597,17 @@ class SellingOnlineOverseasFormView(
             email_address=form_data['contact_email'],
             country_code=None
         )
+        full_name = ('%s %s' % (
+            form_data['contact_first_name'],
+            form_data['contact_last_name']
+        )).strip()
         action = actions.ZendeskAction(
             subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
-            full_name=form_data['contact_name'],
+            full_name=full_name,
             email_address=form_data['contact_email'],
             service_name='soo',
             form_url=reverse(
-                'contact-us-soo', kwargs={'step': 'organisation'}
+                'contact-us-soo', kwargs={'step': 'contact-details'}
             ),
             form_session=self.form_session,
             sender=sender,

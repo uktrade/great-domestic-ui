@@ -39,7 +39,12 @@ COMPANY_TYPE_OTHER_CHOICES = (
 INDUSTRY_CHOICES = (
     (('', 'Please select'),) + choices.INDUSTRIES + (('OTHER', 'Other'),)
 )
-
+SOO_TURNOVER_OPTIONS = (
+    ('Under 100k', 'Under £100,000'),
+    ('100k-500k', '£100,000 to £500,000'),
+    ('500k-2m', '£500,001 and £2million'),
+    ('2m+', 'More than £2million'),
+)
 
 class NoOpForm(forms.Form):
     pass
@@ -435,14 +440,7 @@ class SellingOnlineOverseasContactDetails(forms.Form):
     )
 
 
-class SellingOnlineOverseasBusiness(forms.Form):
-
-    TURNOVER_OPTIONS = (
-        ('Under 100k', 'Under £100,000'),
-        ('100k-500k', '£100,000 to £500,000'),
-        ('500k-2m', '£500,001 and £2million'),
-        ('2m+', 'More than £2million'),
-    )
+class SellingOnlineOverseasApplicant(forms.Form):
 
     company_name = forms.CharField(
         label='Company name',
@@ -467,25 +465,17 @@ class SellingOnlineOverseasBusiness(forms.Form):
         help_text='Website address, where we can see your products online.',
         max_length=255,
     )
-
     turnover = forms.ChoiceField(
         label='Your business turnover last year',
         help_text=(
             'You may use 12 months rolling or last year\'s annual turnover.'
         ),
-        choices=TURNOVER_OPTIONS,
+        choices=SOO_TURNOVER_OPTIONS,
         widget=forms.RadioSelect(),
     )
 
 
-class SellingOnlineOverseasBusinessNonCH(forms.Form):
-
-    TURNOVER_OPTIONS = (
-        ('Under 100k', 'Under £100,000'),
-        ('100k-500k', '£100,000 to £500,000'),
-        ('500k-2m', '£500,001 and £2million'),
-        ('2m+', 'More than £2million'),
-    )
+class SellingOnlineOverseasApplicantNonCH(forms.Form):
 
     company_name = forms.CharField(
         label='Company name',
@@ -504,25 +494,17 @@ class SellingOnlineOverseasBusinessNonCH(forms.Form):
         help_text='Website address, where we can see your products online.',
         max_length=255,
     )
-
     turnover = forms.ChoiceField(
         label='Your business turnover last year',
         help_text=(
             'You may use 12 months rolling or last year\'s annual turnover.'
         ),
-        choices=TURNOVER_OPTIONS,
+        choices=SOO_TURNOVER_OPTIONS,
         widget=forms.RadioSelect(),
     )
 
 
-class SellingOnlineOverseasBusinessIndividual(forms.Form):
-
-    TURNOVER_OPTIONS = (
-        ('Under 100k', 'Under £100,000'),
-        ('100k-500k', '£100,000 to £500,000'),
-        ('500k-2m', '£500,001 and £2million'),
-        ('2m+', 'More than £2million'),
-    )
+class SellingOnlineOverseasApplicantIndividual(forms.Form):
 
     company_name = forms.CharField(
         label='Business name',
@@ -541,18 +523,22 @@ class SellingOnlineOverseasBusinessIndividual(forms.Form):
         help_text='Website address, where we can see your products online.',
         max_length=255,
     )
-
     turnover = forms.ChoiceField(
         label='Your business turnover last year',
         help_text=(
             'You may use 12 months rolling or last year\'s annual turnover.'
         ),
-        choices=TURNOVER_OPTIONS,
+        choices=SOO_TURNOVER_OPTIONS,
         widget=forms.RadioSelect(),
     )
 
 
-class SellingOnlineOverseasBusinessDetails(forms.Form):
+class SellingOnlineOverseasApplicantPlaceholder(forms.Form):
+    # Default form before correct form selected by user-type.
+    pass
+
+
+class SellingOnlineOverseasApplicantDetails(forms.Form):
 
     sku_count = IntegerField(
         label='How many stock keeping units (SKUs) do you have?',

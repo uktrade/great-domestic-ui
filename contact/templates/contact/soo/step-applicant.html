@@ -8,9 +8,9 @@
 {% block body_js %}
     <script src="{% static 'js/company-lookup.js' %}"></script>
     <script type="text/javascript">
-      var $companyNumberContainer = $("#id_organisation-company_number-container");
-      var $companyNumberField = $("#id_organisation-company_number");
-      var $noCompanyNumber = $("#id_organisation-soletrader");
+      var $companyNumberContainer = $("#id_applicant-company_number-container");
+      var $companyNumberField = $("#id_applicant-company_number");
+      var $noCompanyNumber = $("#id_applicant-soletrader");
       function hideCompanyNumberFieldContainer() {
         $companyNumberField.val("");
         $companyNumberContainer.hide();
@@ -21,7 +21,7 @@
       }
 
       $(document).ready(function() {
-        var lookup = new GOVUK.components.CompaniesHouseNameLookup($("#id_organisation-company_name"), $companyNumberField);
+        var lookup = new GOVUK.components.CompaniesHouseNameLookup($("#id_applicant-company_name"), $companyNumberField);
 
         // Hide and clear company number field if declare they have no number.
         $noCompanyNumber.on("change", function() {
@@ -46,7 +46,7 @@
             var selectedCompanyNumber = lookup._private.$field.val();
             for(var i=0; i<companies.length; ++i) {
               if(companies[i].company_number == selectedCompanyNumber) {
-                $("#id_organisation-company_postcode").val(companies[i].address.postal_code);
+                $("#id_applicant-company_postcode").val(companies[i].address.postal_code);
               }
             }
 

@@ -381,6 +381,15 @@ contact_urls = [
         name='contact-us-soo-redirect'
     ),
     url(
+        r'^contact/selling-online-overseas/organisation/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-soo', kwargs={'step': 'contact-details'}
+            )
+        ),
+        name='contact-us-soo-organisation-redirect'
+    ),
+    url(
         r'^contact/selling-online-overseas/success/$',
         skip_ga360(contact.views.SellingOnlineOverseasSuccessView.as_view()),
         {'slug': slugs.HELP_FORM_SUCCESS_SOO},

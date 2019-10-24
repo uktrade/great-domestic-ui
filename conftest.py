@@ -49,9 +49,11 @@ def user():
         id=1,
         pk=1,
         email='jim@example.com',
+        mobile_phone_number='55512345',
+        first_name='Jim',
+        last_name='Cross',
         session_id='123',
     )
-
 
 @pytest.fixture(autouse=True)
 def auth_backend():
@@ -71,6 +73,11 @@ def client(client, auth_backend, settings):
             'id': user.id,
             'email': user.email,
             'hashed_uuid': user.hashed_uuid,
+            'user_profile': {
+                'mobile_phone_number': user.mobile_phone_number,
+                'first_name': user.first_name,
+                'last_name': user.last_name
+            }
         })
     client.force_login = force_login
     return client
@@ -80,6 +87,7 @@ def client(client, auth_backend, settings):
 def company_profile(client, user):
     client.force_login(user)
     response = create_response({
+        'company_type': 'COMPANIES_HOUSE',
         'number': 1234567,
         'name': 'Example corp',
         'postal_code': 'Foo Bar',
