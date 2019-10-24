@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1175 - Add logic to hide section on market page when no content
 - GTRANSFORM-300 - change numbered bullet colour
 
 ## [2019.10.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.10.23)
