@@ -68,22 +68,26 @@
   </div>
 </section>
 
-<section id="country-guide-section-two" class="section-two padding-vertical-60">
-  <div class="container">
-    <div class="grid-row">
-      <div class="column-full column-two-thirds-m column-half-l">
-        <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
-        <p>{{ page.section_two_teaser|add_href_target:request|safe }}</p>
+{% if page.section_two_heading %}
+  <section id="country-guide-section-two" class="section-two padding-vertical-60">
+    <div class="container">
+      <div class="grid-row">
+        <div class="column-full column-two-thirds-m column-half-l">
+          <h2 class="heading-large margin-top-0">{{ page.section_two_heading }}</h2>
+          <p>{{ page.section_two_teaser|add_href_target:request|safe }}</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="country-guide-accordions" class="accordions padding-vertical-0">
-  <ul>
-    {% include 'content/components/accordions.html' with accordions=page.accordions %}
-  </ul>
-</section>
+  {% if page.accordions %}
+    <section id="country-guide-accordions" class="accordions padding-vertical-0">
+      <ul>
+        {% include 'content/components/accordions.html' with accordions=page.accordions %}
+      </ul>
+    </section>
+  {% endif %}
+{% endif %}
 
 {% if page.fact_sheet.fact_sheet_title %}
 <section id="country-guide-section-three" class="section-three background-stone-30 padding-top-90 padding-bottom-60">
