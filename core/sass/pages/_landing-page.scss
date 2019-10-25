@@ -22,21 +22,18 @@
 }
 
 .campaign-video-transcript-text {
-  overflow: auto;
+  overflow-y: scroll;
+  padding-bottom: 30px;
 }
 
 .landing-page {
 
   .button-video {
-    text-align: left;
-    min-width: 250px;
     position: relative;
 
-    &:after {
-      content: '▶︎';
-      position: absolute;
-      right: 30px;
-      line-height: inherit;
+    @media (min-width: 769px) {
+      background-color: $white;
+      color: $active-blue;
     }
   }
 
@@ -48,28 +45,42 @@
     img {
       display: block;
     }
-
   }
 
-  .campaign-related-links {
+  .campaign-related-link {
+    font-weight: 700;
+    font-family: $brand-font-alternative;
+    display: block;
+    text-align: center;
 
-    a {
+    &:active:hover {
+      color: $great-blue;
+    }
+
+    @media (min-width: 641px) {
+      display: inline;
+      text-align: left;
+      margin-left: 15px;
+
+    }
+
+    @media (min-width: 769px) {
       color: $white;
-      font-weight: 700;
-      font-family: $brand-font-alternative;
-
-      &:active:hover {
-        color: $great-blue;
-      }
+      margin-left: 30px;
     }
   }
 
   .campaign-heading-container {
     margin-bottom: $spacing-3;
+
   }
 
   .campaign-heading {
     text-transform: uppercase;
+    .if-we-can {
+      display: inline-block;
+      white-space: pre;
+    }
   }
 
   .campaign-content-container {
@@ -82,7 +93,7 @@
     }
 
     .campaign-content-container {
-      padding: 30px;
+      padding: 60px;
       z-index: 1;
       position: absolute;
       overflow: visible;
@@ -101,15 +112,77 @@
     }
 
     .campaign-heading {
-      max-width: 175px;
+      max-width: 310px;
       position: absolute;
-      margin-left: $spacing-3;
-      margin-top: $spacing-3;
+      margin-top: $spacing-1;
+
+      .if-we-can {
+        background-color: $great-red;
+        padding: 0 10px 0 30px;
+        white-space: normal;
+
+        &:last-child {
+          margin-top: 10px;
+        }
+      }
     }
 
     .campaign-subsection {
       position: absolute;
       bottom: 0;
+    }
+  }
+
+  @media (min-width: 961px) {
+    .campaign-heading {
+      font-size: 52px;
+    }
+  }
+
+  @media (min-width: 1261px) {
+    .campaign-heading {
+      margin-left: 0;
+    }
+  }
+
+  .prepare-for-brexit-section {
+    .container {
+      border-bottom: 2px solid $stone-90;
+    }
+    .card {
+      min-height: 0;
+    }
+  }
+
+  .sector-potential-section {
+    .sector-potential-wrapper {
+      background-color: $stone-30;
+    }
+  }
+
+  .export-goods-from-uk {
+    .content-column {
+      padding-top: 15px;
+    }
+
+    @media(min-width: 769px) {
+      .content-column {
+        padding-top: 35px;
+        text-align: center;
+
+        p {
+          text-align: left;
+        }
+        .button {
+          margin: 0 auto;
+        }
+      }
+    }
+
+    @media(min-width: 961px) {
+      .content-column {
+        padding-top: 75px;
+      }
     }
   }
 

@@ -1,3 +1,5 @@
+from unittest import mock
+
 import pytest
 from unittest.mock import call, patch
 from django.urls import reverse
@@ -23,16 +25,6 @@ markets_pages = [
         '/markets/australia/'
     )
 ]
-
-
-def test_news_list_page_feature_flag_off(client, settings):
-    settings.FEATURE_FLAGS['NEWS_SECTION_ON'] = False
-
-    url = reverse('brexit-news-list')
-
-    response = client.get(url)
-
-    assert response.status_code == 404
 
 
 def test_community_article_view(mock_get_page, client):
@@ -335,8 +327,8 @@ def test_get_country_guide_page_neither_case_study_nor_statistics(
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_markets_page_filters(mock_industries, mock_countries, mock_page, client, rf):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_markets_page_filters(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -348,8 +340,8 @@ def test_markets_page_filters(mock_industries, mock_countries, mock_page, client
     }
 
     mock_page.return_value = create_response(page)
-    content_list_industry_tags=[{}]
-    mock_industries = create_response(content_list_industry_tags)
+    content_list_industry_tags = [{}]
+    create_response(content_list_industry_tags)
 
     filtered_countries = {
         'name': 'Tag name',
@@ -360,20 +352,17 @@ def test_markets_page_filters(mock_industries, mock_countries, mock_page, client
 
     request = rf.get('/markets/', {'sector': '1'})
     response = MarketsPageView.as_view()(request, slug='markets')
-
     response_content = str(response.render().content)
 
     assert response.status_code == 200
-
     assert 'Best markets for ' in response_content
-
     assert response.context_data['pagination_page'].object_list == filtered_countries['countries']
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_markets_page_filters_sort_alphabetically(mock_industries, mock_countries, mock_page, client, rf):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_markets_page_filters_sort_alphabetically(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -387,27 +376,23 @@ def test_markets_page_filters_sort_alphabetically(mock_industries, mock_countrie
     sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['title'])
 
     mock_page.return_value = create_response(page)
-    content_list_industry_tags=[{}]
-    mock_industries = create_response(content_list_industry_tags)
+    content_list_industry_tags = [{}]
+    create_response(content_list_industry_tags)
 
     mock_countries.return_value = create_response({})
-
     request = rf.get('/markets/', {'sector': '2'})
     response = MarketsPageView.as_view()(request, slug='markets')
-
     response_content = str(response.render().content)
 
     assert response.status_code == 200
-
     assert 'Best markets for ' not in response_content
-
     assert response.context_data['pagination_page'].object_list == sorted_child_pages
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_markets_page_filters_invalid_param(mock_industries, mock_countries, mock_page, client, rf):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_markets_page_filters_invalid_param(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -419,27 +404,23 @@ def test_markets_page_filters_invalid_param(mock_industries, mock_countries, moc
     }
 
     mock_page.return_value = create_response(page)
-    content_list_industry_tags=[{}]
-    mock_industries = create_response(content_list_industry_tags)
+    content_list_industry_tags = [{}]
+    create_response(content_list_industry_tags)
 
     mock_countries.return_value = create_response({})
-
     request = rf.get('/markets/', {'sector': 'foo'})
     response = MarketsPageView.as_view()(request, slug='markets')
-
     response_content = str(response.render().content)
 
     assert response.status_code == 200
-
     assert 'Best markets for ' not in response_content
-
     assert response.context_data['pagination_page'].object_list == page['child_pages']
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_countries_by_tag')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags')
-def test_markets_page_filters_no_results(mock_industries, mock_countries, mock_page, client, rf):
+@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
+def test_markets_page_filters_no_results(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -451,8 +432,8 @@ def test_markets_page_filters_no_results(mock_industries, mock_countries, mock_p
     }
 
     mock_page.return_value = create_response(page)
-    content_list_industry_tags=[{}]
-    mock_industries = create_response(content_list_industry_tags)
+    content_list_industry_tags = [{}]
+    create_response(content_list_industry_tags)
 
     filtered_countries = {
         'name': 'Tag name',
@@ -460,14 +441,10 @@ def test_markets_page_filters_no_results(mock_industries, mock_countries, mock_p
     }
 
     mock_countries.return_value = create_response(filtered_countries)
-
     request = rf.get('/markets/', {'sector': '1'})
     response = MarketsPageView.as_view()(request, slug='markets')
-
     response_content = str(response.render().content)
 
     assert response.status_code == 200
-
     assert 'No results found for ' in response_content
-
     assert response.context_data['pagination_page'].object_list == filtered_countries['countries']

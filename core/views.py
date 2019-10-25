@@ -34,16 +34,7 @@ class SetEtagMixin:
 
 class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
 
-    @property
-    def template_name(self):
-        alt_landing_page_requested = self.request.GET.get('nh')
-        required_cms_fields = ['how_dit_helps_title', 'hero_text', 'questions_section_title', 'what_is_new_title']
-        cms_page_has_new_fields = all([key in self.page for key in required_cms_fields])
-
-        if cms_page_has_new_fields and alt_landing_page_requested:
-            return 'core/landing_page_alternate.html'
-
-        return 'core/landing_page_domestic.html'
+    template_name = 'core/landing_page_alternate.html'
 
     @cached_property
     def sector_list(self):
@@ -196,7 +187,6 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
         excluded_pages += dynamic_cms_page_url_names
         excluded_pages += [url.name for url in urls.article_urls]
-        excluded_pages += [url.name for url in urls.news_urls]
 
         return [
             item.name for item in urls.urlpatterns

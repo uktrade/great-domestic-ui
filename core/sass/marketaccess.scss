@@ -7,19 +7,28 @@
     counter-reset: counter;
     li {
         position: relative;
-        padding-left: 70px;
-        margin-bottom:30px;
         counter-increment: counter;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 1.47em;
+        list-style: none;
+        margin: 0 0 45px 0;
+        padding: 0 0 0 100px;
+        overflow: hidden;
         &:before {
             content: counter(counter);
+            font-family: $brand-font-alternative;
             font-size: 72px;
-            color: #E2D9CB;
-            line-height: 1;
+            font-weight: bold;
+            line-height: 1em;
+            color: #1e1348;
             left: 0;
-            top: -9px;
+            min-width: 70px;
             position: absolute;
+            text-align: center;
+            top: -7px;
         }
-    }  
+    }
 }
 
 .list.list-bullet {
@@ -102,4 +111,18 @@ p.lede + a.button {
     .report-barrier-image {
        display: none;
     }
+
+    .big-number-list {
+        li {
+            margin: 0 0 30px 0;
+            padding: 0 0 0 65px;
+
+            &:before {
+                font-size: 52px;
+                min-width: 50px;
+                top: -4px;
+            }
+        }
+    }
+
 }

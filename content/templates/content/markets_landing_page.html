@@ -10,8 +10,8 @@
   <div class="padding-top-45">
     <div class="container">
     <div class="width-full width-two-thirds-l">
-          <h2 class="heading-large margin-top-0">Sector potential</h2>
-          <p>Use our guides to inform your export plan. Select your sector to see possible markets.</p>
+          <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
+          <p>Use our guides to identify new export markets and inform your international sales plan.</p>
           <form class="sector-potential-form" action="{% url 'markets' %}" method="GET">
             {{ sector_form }}
             <button type="submit" class="button margin-top-15">Show markets</button>
@@ -23,7 +23,6 @@
 </section>
 
 <section id="markets-banner-section" class="topic-list-section background-stone-30 padding-top-60 padding-bottom-0">
-    {% informative_banner banner_content='<p>More market guides are coming soon. <br/><a rel="noopener noreferrer" target="_blank" href="https://www.gov.uk/government/collections/exporting-country-guides" title="Opens in a new window">Find out how to export to specific countries in a no-deal Brexit</a>.</p>' %}
 
     {% if page.teaser %}
     <div class="container">
@@ -51,7 +50,7 @@
     {% endif %}
 
     <div class="flex-grid">
-      {% include 'content/components/four_column_card_grid.html' with cards=pagination_page subheading='Market guide' %}
+      {% include 'content/components/four_column_card_grid.html' with cards=pagination_page  %}
     </div>
     {% pagination pagination_page=pagination_page %}
   </div>

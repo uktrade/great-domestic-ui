@@ -15,6 +15,7 @@ dit.components.video = (new function() {
   var TYPE_IFRAME = "iframe";
   var TRANSCRIPT = '#campaign-video-transcript';
   var TRANSCRIPT_TEXT = '#campaign-video-transcript-text';
+  $VIDEO = null;
 
 
   /* Contructor
@@ -27,7 +28,7 @@ dit.components.video = (new function() {
   }
 
   VideoDialog.loadWithVideo = function(src) {
-    var $video = $("<video controls></video>");
+    $video = $("<video controls></video>");
     var format = src.replace(/^.*\.([a-z0-9/]+)$/, "$1");
     var $source = $("<source src=\"" + src + "\" type=\"video/" + format  + "\">");
     $video.append($source);
@@ -43,6 +44,7 @@ dit.components.video = (new function() {
     var $activator = $(this.activator);
     var type = $activator.data("element");
     var url = $activator.attr("href") || $activator.data("src");
+
     $(TRANSCRIPT).css({
       display: 'block'
     });
@@ -64,10 +66,13 @@ dit.components.video = (new function() {
 
   VideoDialog.prototype = new dit.classes.Modal;
 
+
   VideoDialog.prototype.open = function() {
     $('body').addClass('modal-open');
     VideoDialog.activate.call(this);
     dit.classes.Modal.prototype.open.call(this);
+    bindEvents();
+    setTranscriptHeight();
   }
 
   VideoDialog.prototype.resize = function() {
@@ -92,10 +97,6 @@ dit.components.video = (new function() {
 
     $iframe.attr("width", size[0]);
     $iframe.attr("height", size[1]);
-    var transcript_height = Math.max(260, window.innerHeight - size[1] - 65 - 120);
-    $(TRANSCRIPT_TEXT).css({
-      height: transcript_height
-    });
   }
 
   function createContainer() {
@@ -104,11 +105,23 @@ dit.components.video = (new function() {
     return $container;
   }
 
+  function setTranscriptHeight() {
+    var videoHeight, transcript_height;
+    if($video.length) {
+      videoHeight = $video.height();
+      transcript_height = (window.innerHeight - videoHeight) - 130;
+
+      $(TRANSCRIPT_TEXT).css({
+        height: transcript_height
+      });
+    }
+  }
+
   function bindActivators($activators) {
     $activators.on("click keydown", function(e) {
-     //dit.classes.Modal.activate.call(VIDEO_COMPONENT,  this, e);
-      //VIDEO_COMPONENT.activate(this, e);
-    });
+  });
+
+
   }
 
   function onClose() {
@@ -119,12 +132,26 @@ dit.components.video = (new function() {
     this.$container.find('video').each(function(index, video) {
       video.pause();
     });
+    unbindEvents();
   }
+  function bindEvents() {
+    $(window).on('resize orientationchange', function() {
+      setTranscriptHeight();
+    });
+  }
+
+  function unbindEvents() {
+    $(window).off('resize orientationchange');
+  }
+
+
 
   // Public
   this.init = function() {
     var $activators = $(SELECTOR_ACTIVATOR);
     var $container = createContainer();
+    $video = $container.find('video');
+
     if($activators.length) {
       $(document.body).append($container);
       new VideoDialog($container, {

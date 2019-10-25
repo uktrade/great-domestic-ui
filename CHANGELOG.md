@@ -3,6 +3,23 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1175 - Add logic to hide section on market page when no content
+- GTRANSFORM-300 - change numbered bullet colour
+- XOT-1135 - Add new SOO contact form
+
+## [2019.10.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.10.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.23)
+
+### Implemented enhancements
+- XOT-1172 - IE edge bugfix and removed homepage switch related code and tests
+- XOT-1079 - add new banner to project finance page
+- XOT-1150 - change to MADB styles after review
+- XOT-1153 - disable sector selector button until option has been selected, change default text
+- XOT-1150 - add MADB comoonent and remove case studies link from campaign
+- XOT-1155 - amends to video modal transcript height issue, restyle close button
+- XOT-1121 - market landing page changes and search pagination
+- XOT-1155 - change related link field from rich text to string
+- XOT-1151, XOT-1152, XOT-1137, XOT-1153, XOT-1155 - homepage redesigns v2
 - XOT-1129 - add selector form to market landing page
 - XOT-1122 - add sector selector and top sectors to homepage
 - XOT-1123 - Add filtering by industry tag to markets landing page
@@ -15,6 +32,7 @@
 - XOT-1039 - Add campaign section with video
 - no ticket - Upgrade to Django 2
 - XOT-928 - Use user profile phone number on contact form
+- CI-540 - Brexit redirect
 
 ### Fixed bugs
 - XOT-1042 - remove extra container markup

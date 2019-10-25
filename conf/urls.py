@@ -223,20 +223,6 @@ euexit_urls = [
 ]
 
 
-news_urls = [
-    url(
-        r"^brexit/$",
-        content.views.NewsListPageView.as_view(),
-        name='brexit-news-list',
-    ),
-    url(
-        r"^brexit/(?P<slug>[\w-]+)/$",
-        content.views.NewsArticleDetailView.as_view(),
-        name='brexit-news-detail',
-    ),
-]
-
-
 article_urls = [
     url(
         r"^tagged/(?P<slug>[\w-]+)/$",
@@ -637,7 +623,6 @@ export_vouchers_urls = [
 urlpatterns += legacy_urls
 urlpatterns += euexit_urls
 urlpatterns += redirects
-urlpatterns += news_urls
 urlpatterns += article_urls
 urlpatterns += contact_urls
 urlpatterns += marketaccess_urls
