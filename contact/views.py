@@ -19,7 +19,7 @@ from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 
 from core import mixins
-from core.helpers import NotifySettings, company_profile_retrieve
+from core.helpers import NotifySettings
 from core.views import BaseNotifyFormView
 from contact import constants, forms, helpers
 
@@ -565,10 +565,6 @@ class SellingOnlineOverseasFormView(
         return data
 
     def get_context_data(self, form, **kwargs):
-        #import pdb; pdb.set_trace()
-        #if self.steps.current == self.APPLICANT:
-        #    form = forms.SellingOnlineOverseasApplicantNonCH
-        #     form = get_applicant_form(self)
         return {
             'market_name': self.request.session.get(SESSION_KEY_SOO_MARKET),
             **super().get_context_data(form, **kwargs),

@@ -920,9 +920,9 @@ def test_selling_online_overseas_contact_form_organisation_url_redirect(client):
     assert response.url == reverse('contact-us-soo', kwargs={'step': 'contact-details'})
 
 
-@pytest.mark.parametrize('flow',
-    ('CH Company', 'Non-CH Company', 'Individual')
-)
+@pytest.mark.parametrize('flow', (
+    'CH Company', 'Non-CH Company', 'Individual'
+))
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_selling_online_overseas_contact_form_submission(
@@ -939,7 +939,7 @@ def test_selling_online_overseas_contact_form_submission(
 
     # Set Directory-API company lookup
     if flow == 'CH Company':
-        pass # lookup defaults to a limited company
+        pass  # lookup defaults to a limited company
     if flow == 'Non-CH Company':
         company_profile.return_value = create_response({
             'company_type': 'SOLE_TRADER',
@@ -975,7 +975,7 @@ def test_selling_online_overseas_contact_form_submission(
     )
 
     # Submit the 1st step
-    
+
     # Note that the user and company fixtures will auto-fill in the details
     # where the form requires it. You can only add optional data
     # to the POST requests.
@@ -1040,7 +1040,7 @@ def test_selling_online_overseas_contact_form_submission(
         form_session=mock_form_session(),
     )
     assert mock_zendesk_action().save.call_count == 1
-    
+
     expected_data = {
         'market': 'ebay',
         'contact_first_name': 'Jim',
@@ -1068,7 +1068,7 @@ def test_selling_online_overseas_contact_form_submission(
             'website_address': 'http://fooexample.com',
             'turnover': 'Under 100k',
         })
-    elif company_type == None:
+    elif company_type is None:
         expected_data.update({
             'company_name': 'Super corp',
             'company_number': '662222',
@@ -1132,16 +1132,14 @@ def test_selling_online_overseas_contact_form_market_name(client):
     assert response.context['market_name'] == 'ebay'
 
 
-@pytest.mark.parametrize('flow',
-    ('CH Company', 'Non-CH Company', 'Individual')
-)
-#@mock.patch.object(views.FormSessionMixin, 'form_session_class')
-#mock_form_session,
+@pytest.mark.parametrize('flow', (
+    'CH Company', 'Non-CH Company', 'Individual'
+))
 def test_selling_online_overseas_contact_form_initial_data(flow, company_profile, user, client):
 
     # Set Directory-API company lookup
     if flow == 'CH Company':
-        pass # lookup defaults to a limited company
+        pass  # lookup defaults to a limited company
     if flow == 'Non-CH Company':
         company_profile.return_value = create_response({
             'company_type': 'SOLE_TRADER',
@@ -1161,7 +1159,6 @@ def test_selling_online_overseas_contact_form_initial_data(flow, company_profile
     if flow == 'Individual':
         company_profile.return_value = create_response(status_code=404)
 
-
     response = client.get(
         reverse('contact-us-soo', kwargs={'step': 'contact-details'}),
     )
@@ -1178,7 +1175,6 @@ def test_selling_online_overseas_contact_form_initial_data(flow, company_profile
             'contact_last_name': 'Cross',
             'contact_email': 'jim@example.com'
         }
-
 
     response = client.get(
         reverse('contact-us-soo', kwargs={'step': 'applicant'}),

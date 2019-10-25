@@ -55,6 +55,7 @@ def user():
         session_id='123',
     )
 
+
 @pytest.fixture(autouse=True)
 def auth_backend():
     patch = mock.patch(

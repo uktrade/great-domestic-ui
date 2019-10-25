@@ -46,6 +46,7 @@ SOO_TURNOVER_OPTIONS = (
     ('2m+', 'More than £2million'),
 )
 
+
 class NoOpForm(forms.Form):
     pass
 

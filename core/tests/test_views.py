@@ -11,7 +11,7 @@ import pytest
 import requests_mock
 from rest_framework import status
 
-from core import helpers, views, forms
+from core import helpers, views
 from core.tests.helpers import create_response
 from casestudy import casestudies
 
