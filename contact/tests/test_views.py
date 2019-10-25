@@ -556,7 +556,7 @@ def test_exporting_from_uk_contact_form_initial_data_business(
 
     assert response_one.context_data['form'].initial == {
         'email': user.email,
-        'phone': '07171771717',
+        'phone': '55512345',
         'first_name': 'Jim',
         'last_name': 'Cross',
     }
