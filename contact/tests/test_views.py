@@ -557,8 +557,8 @@ def test_exporting_from_uk_contact_form_initial_data_business(
     assert response_one.context_data['form'].initial == {
         'email': user.email,
         'phone': '07171771717',
-        'first_name': 'Foo',
-        'last_name': 'Example',
+        'first_name': 'Jim',
+        'last_name': 'Cross',
     }
 
     response_two = client.get(reverse(url_name, kwargs={'step': 'business'}))
@@ -686,7 +686,7 @@ def test_contact_us_feedback_prepopulate(client, user):
     assert response.status_code == 200
     assert response.context_data['form'].initial == {
         'email': user.email,
-        'name': 'Foo Example',
+        'name': 'Jim Cross',
     }
 
 
@@ -706,8 +706,8 @@ def test_contact_us_short_form_prepopualate(client, url, user):
         'company_type': forms.LIMITED,
         'organisation_name': 'Example corp',
         'postcode': 'Foo Bar',
-        'family_name': 'Example',
-        'given_name': 'Foo',
+        'family_name': 'Cross',
+        'given_name': 'Jim',
     }
 
 
@@ -721,8 +721,8 @@ def test_contact_us_international_prepopualate(client, user):
         'organisation_name': 'Example corp',
         'country_name': 'FRANCE',
         'city': 'Paris',
-        'family_name': 'Example',
-        'given_name': 'Foo'
+        'family_name': 'Cross',
+        'given_name': 'Jim'
     }
 
 
