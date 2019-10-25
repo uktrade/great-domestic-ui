@@ -12,7 +12,7 @@ import pytest
 import requests_mock
 from rest_framework import status
 
-from core import helpers, views
+from core import views
 from core.tests.helpers import create_response
 
 from directory_constants import slugs, urls
