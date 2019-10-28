@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1137 - change order of padding incase chevron component is removed
 - XOT-1175 - Add logic to hide section on market page when no content
 - GTRANSFORM-300 - change numbered bullet colour
 
