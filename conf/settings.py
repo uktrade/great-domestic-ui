@@ -594,12 +594,6 @@ UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
     'UKEF_CONTACT_AGENT_EMAIL_ADDRESS',
 )
 
-LANDING_PAGE_VIDEO_URL = env.str(
-    'LANDING_PAGE_VIDEO_URL',
-    'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
-    'promo-video_web-stitch.mp4'
-)
-
 # Activity Stream API
 ACTIVITY_STREAM_API_SECRET_KEY = env.str('ACTIVITY_STREAM_API_SECRET_KEY')
 ACTIVITY_STREAM_API_ACCESS_KEY = env.str('ACTIVITY_STREAM_API_ACCESS_KEY')
