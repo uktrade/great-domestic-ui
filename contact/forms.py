@@ -541,7 +541,7 @@ class SellingOnlineOverseasApplicantProxy(forms.Form):
             form_class = SellingOnlineOverseasApplicantIndividual
         elif company_type == 'COMPANIES_HOUSE':
             form_class = SellingOnlineOverseasApplicant
-        elif company_type == '':
+        else:
             form_class = SellingOnlineOverseasApplicantNonCH
         return form_class(*args, **kwargs)
 
