@@ -520,10 +520,10 @@ class SellingOnlineOverseasFormView(
     #         company_type = None
     #     return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
 
-    def get_form_kwargs(self, *args, **kwargs):
+    def get_form_kwargs(self, step):
         # skipping `PrepopulateFormMixin.get_form_kwargs`
-        form_kwargs =  super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
-        if self.steps.current == self.APPLICANT:
+        form_kwargs =  super(mixins.PrepopulateFormMixin, self).get_form_kwargs(step)
+        if step == self.APPLICANT:
             form_kwargs['company_type'] = self.request.user.company_type
         return form_kwargs
 
