@@ -453,33 +453,34 @@ class ExortingToUKGuidanceView(
         return self.kwargs['slug']
 
 
-class WizardDynamicFormClassMixin(object):
-    def get_form_class(self, step):
-        return self.form_list[step]
+# class WizardDynamicFormClassMixin(object):
+#     def get_form_class(self, step):
+#         return self.form_list[step]
 
-    def get_form(self, step=None, data=None, files=None):
-        """
-        Constructs the form for a given `step`. If no `step` is defined, the
-        current step will be determined automatically.
+#     def get_form(self, step=None, data=None, files=None):
+#         """
+#         Constructs the form for a given `step`. If no `step` is defined, the
+#         current step will be determined automatically.
 
-        The form will be initialized using the `data` argument to prefill the
-        new form.
-        """
-        if step is None:
-            step = self.steps.current
-        # prepare the kwargs for the form instance.
-        kwargs = self.get_form_kwargs(step)
-        kwargs.update({
-            'data': data,
-            'files': files,
-            'prefix': self.get_form_prefix(step, self.form_list[step]),
-            'initial': self.get_form_initial(step),
-        })
-        return self.get_form_class(step)(**kwargs)
+#         The form will be initialized using the `data` argument to prefill the
+#         new form.
+#         """
+#         if step is None:
+#             step = self.steps.current
+#         # prepare the kwargs for the form instance.
+#         kwargs = self.get_form_kwargs(step)
+#         kwargs.update({
+#             'data': data,
+#             'files': files,
+#             'prefix': self.get_form_prefix(step, self.form_list[step]),
+#             'initial': self.get_form_initial(step),
+#         })
+#         return self.get_form_class(step)(**kwargs)
 
 
 class SellingOnlineOverseasFormView(
-    WizardDynamicFormClassMixin, FormSessionMixin,
+    # WizardDynamicFormClassMixin,
+    FormSessionMixin,
     mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
@@ -490,7 +491,7 @@ class SellingOnlineOverseasFormView(
 
     form_list = (
         (CONTACT_DETAILS, forms.SellingOnlineOverseasContactDetails),
-        (APPLICANT, forms.SellingOnlineOverseasApplicantPlaceholder),
+        (APPLICANT, forms.SellingOnlineOverseasApplicantProxy),
         (APPLICANT_DETAILS, forms.SellingOnlineOverseasApplicantDetails),
         (EXPERIENCE, forms.SellingOnlineOverseasExperience),
     )
@@ -511,9 +512,22 @@ class SellingOnlineOverseasFormView(
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
+    # def get_form_kwargs(self, *args, **kwargs):
+    #     # import pdb; pdb.set_trace()
+        
+    #         company_type = self.request.user.company['company_type']
+    #     else:
+    #         company_type = None
+    #     return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
+
     def get_form_kwargs(self, *args, **kwargs):
-        # skipping `PrepopulateFormMixin.get_form_kwargs`
-        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
+        form_kwargs = super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
+        # if self.request.user.company and 'company_type' in self.request.user.company:
+        #     form_kwargs['company_type'] = self.request.user.company['company_type']
+        # else:
+        # import pdb; pdb.set_trace()
+        # form_kwargs['company_type'] = 'ABC'
+        return form_kwargs
 
     def get_cache_prefix(self):
         return 'selling_online_overseas_form_view_{}'.format(
@@ -570,22 +584,22 @@ class SellingOnlineOverseasFormView(
             **super().get_context_data(form, **kwargs),
         }
 
-    def get_form_class(self, step):
-        if step == self.APPLICANT:
-            # For the Limited Company flow, company_type is COMPANIES_HOUSE
-            # Non-companies-house flow: CHARITY, PARTNERSHIP, SOLE_TRADER
-            # and OTHER. For the Individual flow: None
-            if self.request.user.company and 'company_type' in self.request.user.company:
-                company_type = self.request.user.company['company_type']
-            else:
-                company_type = None
+    # def get_form_class(self, step):
+    #     if step == self.APPLICANT:
+    #         # For the Limited Company flow, company_type is COMPANIES_HOUSE
+    #         # Non-companies-house flow: CHARITY, PARTNERSHIP, SOLE_TRADER
+    #         # and OTHER. For the Individual flow: None
+    #         if self.request.user.company and 'company_type' in self.request.user.company:
+    #             company_type = self.request.user.company['company_type']
+    #         else:
+    #             company_type = None
 
-            if company_type is None:
-                return forms.SellingOnlineOverseasApplicantIndividual
-            elif company_type == 'COMPANIES_HOUSE':
-                return forms.SellingOnlineOverseasApplicant
-            return forms.SellingOnlineOverseasApplicantNonCH
-        return super(SellingOnlineOverseasFormView, self).get_form_class(step)
+    #         if company_type is None:
+    #             return forms.SellingOnlineOverseasApplicantIndividual
+    #         elif company_type == 'COMPANIES_HOUSE':
+    #             return forms.SellingOnlineOverseasApplicant
+    #         return forms.SellingOnlineOverseasApplicantNonCH
+    #     return super(SellingOnlineOverseasFormView, self).get_form_class(step)
 
     def done(self, form_list, **kwargs):
         form_data = self.serialize_form_list(form_list)

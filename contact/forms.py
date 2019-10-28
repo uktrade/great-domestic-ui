@@ -534,10 +534,16 @@ class SellingOnlineOverseasApplicantIndividual(forms.Form):
     )
 
 
-class SellingOnlineOverseasApplicantPlaceholder(forms.Form):
-    # Default form before correct form selected by user-type.
-    pass
+class SellingOnlineOverseasApplicantProxy(forms.Form):
 
+    def __new__(self, company_type, *args, **kwargs):
+        if company_type is None:
+            form_class = SellingOnlineOverseasApplicantIndividual
+        elif company_type == 'COMPANIES_HOUSE':
+            form_class = SellingOnlineOverseasApplicant
+        elif company_type == '':
+            form_class = SellingOnlineOverseasApplicantNonCH
+        return form_class(*args, **kwargs)
 
 class SellingOnlineOverseasApplicantDetails(forms.Form):
 
