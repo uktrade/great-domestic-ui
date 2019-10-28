@@ -496,7 +496,7 @@ def test_tag_list_page():
 def test_landing_page_header_footer(rf):
     request = rf.get('/')
 
-    html = render_to_string('core/landing_page_domestic.html', {'request': request})
+    html = render_to_string('core/landing_page.html', {'request': request})
 
     assert '/static/js/home' in html
 

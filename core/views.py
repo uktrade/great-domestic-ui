@@ -1,13 +1,9 @@
 import logging
 
-from directory_components.mixins import (
-    CountryDisplayMixin, EnableTranslationsMixin
-)
-from directory_constants import slugs, urls
+from directory_constants import slugs
 from directory_cms_client.client import cms_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
-from django.conf import settings
 from django.contrib import sitemaps
 from django.http import JsonResponse
 from django.urls import reverse
@@ -16,10 +12,8 @@ from django.views.generic import FormView, TemplateView
 from django.views.generic.base import RedirectView, View
 from django.utils.functional import cached_property
 
-from casestudy import casestudies
 from core import helpers, mixins, forms
 from content.views import CMSPageView
-from euexit.mixins import HideLanguageSelectorMixin
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +28,7 @@ class SetEtagMixin:
 
 class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
 
-    template_name = 'core/landing_page_alternate.html'
+    template_name = 'core/landing_page.html'
 
     @cached_property
     def sector_list(self):
@@ -61,45 +55,6 @@ class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
             page=self.page,
             sector_list=top_sectors,
             sector_form=forms.SectorPotentialForm(sector_list=self.sector_list),
-            casestudies=[
-                casestudies.HELLO_BABY,
-                casestudies.YORK,
-            ],
-            LANDING_PAGE_VIDEO_URL=settings.LANDING_PAGE_VIDEO_URL,
-            *args, **kwargs
-        )
-
-
-class CampaignPageView(CMSPageView):
-
-    def get_context_data(self, *args, **kwargs):
-        kwargs['slug'] = self.slug
-        return super().get_context_data(*args, **kwargs)
-
-
-# to be removed
-class InternationalLandingPageView(
-    EnableTranslationsMixin,
-    CountryDisplayMixin,
-    mixins.TranslationsMixin,
-    mixins.GetCMSPageMixin,
-    mixins.GetCMSComponentMixin,
-    TemplateView,
-):
-    template_name = 'core/landing_page_international.html'
-    component_slug = slugs.COMPONENTS_BANNER_INTERNATIONAL
-    slug = slugs.GREAT_HOME_INTERNATIONAL
-
-
-# to be removed
-class InternationalContactPageView(
-    CountryDisplayMixin, HideLanguageSelectorMixin, TemplateView,
-):
-    template_name = 'core/contact_page_international.html'
-
-    def get_context_data(self, *args, **kwargs):
-        return super().get_context_data(
-            invest_contact_us_url=urls.build_invest_url('contact/'),
             *args, **kwargs
         )
 
@@ -202,19 +157,9 @@ class StaticViewSitemap(sitemaps.Sitemap):
         return reverse(item)
 
 
-# to be removed
-class AboutView(SetEtagMixin, TemplateView):
-    template_name = 'core/about.html'
-
-
 class PrivacyCookiesDomesticCMS(CMSPageView):
     template_name = 'core/info_page.html'
     slug = slugs.GREAT_PRIVACY_AND_COOKIES
-
-
-# to be removed
-class PrivacyCookiesInternationalCMS(PrivacyCookiesDomesticCMS):
-    template_name = 'core/info_page_international.html'
 
 
 class TermsConditionsDomesticCMS(CMSPageView):
@@ -225,11 +170,6 @@ class TermsConditionsDomesticCMS(CMSPageView):
 class AccessibilityStatementDomesticCMS(CMSPageView):
     template_name = 'core/info_page.html'
     slug = slugs.GREAT_ACCESSIBILITY_STATEMENT
-
-
-# to be removed
-class TermsConditionsInternationalCMS(TermsConditionsDomesticCMS):
-    template_name = 'core/info_page_international.html'
 
 
 class ServiceNoLongerAvailableView(mixins.GetCMSPageMixin, TemplateView):
