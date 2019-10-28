@@ -34,7 +34,7 @@ class SetEtagMixin:
 
 class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
 
-    template_name = 'core/landing_page_alternate.html'
+    template_name = 'core/landing_page.html'
 
     @cached_property
     def sector_list(self):

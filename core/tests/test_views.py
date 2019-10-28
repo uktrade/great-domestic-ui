@@ -703,7 +703,7 @@ def test_new_landing_page_querystring_old_cms_page(mock_page, client):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_alternate.html']
+    assert response.template_name == ['core/landing_page.html']
 
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
@@ -726,7 +726,7 @@ def test_new_landing_page_querystring_new_cms_page(mock_page, client):
     response = client.get(url)
 
     assert response.status_code == 200
-    assert response.template_name == ['core/landing_page_alternate.html']
+    assert response.template_name == ['core/landing_page.html']
 
 
 @pytest.mark.parametrize(
