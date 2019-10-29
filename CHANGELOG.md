@@ -1,5 +1,9 @@
 # Changelog
 
+### Hotfix
+- No ticket - fix trade barriers Search link
+
+
 ## Pre-release
 
 ### Implemented enhancements
@@ -40,6 +44,12 @@
 - XOT-1042 - remove extra container markup
 - no ticket - Fix international urls in develop and staging.
 - no ticket - Silence captcha key checks
+
+## [2019.10.28](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.28)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.28)
+
+### Hotfix
+- No ticket - Fix success message on market access success page
 
 ## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23...2019.09.23_1)
