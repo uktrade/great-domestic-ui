@@ -19,9 +19,7 @@
     <div class="container">
         <div class="grid-row">
             <div class="column-two-thirds">
-                {% with 'Thank you. We’ve sent a confirmation message to '|add:all_cleaned_data.email as success_message %}
-                    {% message_box heading="We’ve received your report" description=success_message %}
-                {% endwith %}
+                {% message_box heading="We’ve received your report" description='Thank you. We’ve sent you a confirmation email' %}
             </div>
         </div>
     </div>
