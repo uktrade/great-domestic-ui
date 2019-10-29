@@ -545,6 +545,7 @@ class SellingOnlineOverseasApplicantProxy(forms.Form):
             form_class = SellingOnlineOverseasApplicantNonCH
         return form_class(*args, **kwargs)
 
+
 class SellingOnlineOverseasApplicantDetails(forms.Form):
 
     sku_count = IntegerField(
