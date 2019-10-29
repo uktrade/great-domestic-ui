@@ -7,6 +7,7 @@
 - No ticket - Remove old homepage template and other unused code
 - XOT-1175 - Add logic to hide section on market page when no content
 - GTRANSFORM-300 - change numbered bullet colour
+- XOT-1135 - Add new SOO contact form
 
 ## [2019.10.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.10.23)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.23)

@@ -39,6 +39,12 @@ COMPANY_TYPE_OTHER_CHOICES = (
 INDUSTRY_CHOICES = (
     (('', 'Please select'),) + choices.INDUSTRIES + (('OTHER', 'Other'),)
 )
+SOO_TURNOVER_OPTIONS = (
+    ('Under 100k', 'Under £100,000'),
+    ('100k-500k', '£100,000 to £500,000'),
+    ('500k-2m', '£500,001 and £2million'),
+    ('2m+', 'More than £2million'),
+)
 
 
 class NoOpForm(forms.Form):
@@ -407,63 +413,148 @@ class BusinessDetailsForm(forms.Form):
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
-class SellingOnlineOverseasBusiness(forms.Form):
-    company_name = forms.CharField(required=True)
-    soletrader = forms.BooleanField(
-        label='I don\'t have a company number',
+class SellingOnlineOverseasContactDetails(forms.Form):
+    contact_first_name = forms.CharField(
+        label='First name',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    contact_last_name = forms.CharField(
+        label='Last name',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    contact_email = forms.EmailField(
+        label='Your email',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30',
+    )
+    phone = forms.CharField(
+        label='Phone number',
+    )
+    email_pref = forms.BooleanField(
+        label='I prefer to be contacted by email',
         required=False,
     )
-    company_number = forms.CharField(
-        label='Companies House Number',
-        help_text=(
-            'The number you received when '
-            'registering your company at Companies House.'
-        ),
-        required=False,  # Only need if soletrader false - see clean (below)
+
+
+class SellingOnlineOverseasApplicant(forms.Form):
+
+    company_name = forms.CharField(
+        label='Company name',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
     )
-    company_postcode = forms.CharField(
-        required=True,
+    company_number = forms.CharField(
+        label='Company number',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    company_address = forms.CharField(
+        label='Address',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30',
     )
     website_address = forms.CharField(
-        label='Company website',
+        label='Your business web address',
         help_text='Website address, where we can see your products online.',
         max_length=255,
-        required=True,
     )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        soletrader = cleaned_data.get('soletrader')
-        company_number = cleaned_data.get('company_number')
-        if not soletrader and not company_number:
-            self.add_error('company_number',
-                           self.fields['company_number']
-                           .error_messages['required'])
-
-
-class SellingOnlineOverseasBusinessDetails(forms.Form):
-    TURNOVER_OPTIONS = (
-        ('Under 100k', 'Under £100,000'),
-        ('100k-500k', '£100,000 to £500,000'),
-        ('500k-2m', '£500,001 and £2million'),
-        ('2m+', 'More than £2million'),
-
-    )
-
     turnover = forms.ChoiceField(
-        label='Turnover last year',
+        label='Your business turnover last year',
         help_text=(
             'You may use 12 months rolling or last year\'s annual turnover.'
         ),
-        choices=TURNOVER_OPTIONS,
+        choices=SOO_TURNOVER_OPTIONS,
         widget=forms.RadioSelect(),
     )
+
+
+class SellingOnlineOverseasApplicantNonCH(forms.Form):
+
+    company_name = forms.CharField(
+        label='Company name',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container',
+    )
+    company_address = forms.CharField(
+        label='Address',
+        disabled=True,
+        required=False,
+        container_css_classes='border-active-blue read-only-input-container padding-bottom-0 margin-bottom-30',
+    )
+    website_address = forms.CharField(
+        label='Your business web address',
+        help_text='Website address, where we can see your products online.',
+        max_length=255,
+    )
+    turnover = forms.ChoiceField(
+        label='Your business turnover last year',
+        help_text=(
+            'You may use 12 months rolling or last year\'s annual turnover.'
+        ),
+        choices=SOO_TURNOVER_OPTIONS,
+        widget=forms.RadioSelect(),
+    )
+
+
+class SellingOnlineOverseasApplicantIndividual(forms.Form):
+
+    company_name = forms.CharField(
+        label='Business name',
+    )
+    company_number = forms.CharField(
+        label='Companies House number (optional)',
+    )
+    company_address = forms.CharField(
+        label='Address',
+    )
+    company_postcode = forms.CharField(
+        label='Postcode',
+    )
+    website_address = forms.CharField(
+        label='Your business web address',
+        help_text='Website address, where we can see your products online.',
+        max_length=255,
+    )
+    turnover = forms.ChoiceField(
+        label='Your business turnover last year',
+        help_text=(
+            'You may use 12 months rolling or last year\'s annual turnover.'
+        ),
+        choices=SOO_TURNOVER_OPTIONS,
+        widget=forms.RadioSelect(),
+    )
+
+
+class SellingOnlineOverseasApplicantProxy(forms.Form):
+
+    def __new__(self, company_type, *args, **kwargs):
+        if company_type is None:
+            form_class = SellingOnlineOverseasApplicantIndividual
+        elif company_type == 'COMPANIES_HOUSE':
+            form_class = SellingOnlineOverseasApplicant
+        else:
+            form_class = SellingOnlineOverseasApplicantNonCH
+        return form_class(*args, **kwargs)
+
+
+class SellingOnlineOverseasApplicantDetails(forms.Form):
+
     sku_count = IntegerField(
         label='How many stock keeping units (SKUs) do you have?',
         help_text=(
             'A stock keeping unit is an individual item, such as a product '
             'or a service that is offered for sale.'
-        )
+        ),
+        widget=TextInput(attrs={'class': 'short-field'}),
     )
     trademarked = TypedChoiceField(
         label='Are your products trademarked in your target countries?',
@@ -501,20 +592,6 @@ class SellingOnlineOverseasExperience(forms.Form):
         ),
         widget=Textarea,
     )
-
-
-class SellingOnlineOverseasContactDetails(forms.Form):
-    contact_name = forms.CharField()
-    contact_email = forms.EmailField(
-        label='Email address'
-    )
-    phone = forms.CharField(label='Telephone number')
-    email_pref = forms.BooleanField(
-        label='I prefer to be contacted by email',
-        required=False,
-    )
-    captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
 class OfficeFinderForm(forms.Form):

@@ -186,8 +186,8 @@ def test_test_ukef_lead_generationinitial_data(client, user):
     assert response_one.context_data['form'].initial == {
         'email': user.email,
         'phone': '07171771717',
-        'firstname': 'Foo',
-        'lastname': 'Example',
+        'firstname': 'Jim',
+        'lastname': 'Cross',
     }
 
     response_two = client.get(

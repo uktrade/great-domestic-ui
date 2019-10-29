@@ -556,9 +556,9 @@ def test_exporting_from_uk_contact_form_initial_data_business(
 
     assert response_one.context_data['form'].initial == {
         'email': user.email,
-        'phone': '07171771717',
-        'first_name': 'Foo',
-        'last_name': 'Example',
+        'phone': '55512345',
+        'first_name': 'Jim',
+        'last_name': 'Cross',
     }
 
     response_two = client.get(reverse(url_name, kwargs={'step': 'business'}))
@@ -686,7 +686,7 @@ def test_contact_us_feedback_prepopulate(client, user):
     assert response.status_code == 200
     assert response.context_data['form'].initial == {
         'email': user.email,
-        'name': 'Foo Example',
+        'name': 'Jim Cross',
     }
 
 
@@ -706,8 +706,8 @@ def test_contact_us_short_form_prepopualate(client, url, user):
         'company_type': forms.LIMITED,
         'organisation_name': 'Example corp',
         'postcode': 'Foo Bar',
-        'family_name': 'Example',
-        'given_name': 'Foo',
+        'family_name': 'Cross',
+        'given_name': 'Jim',
     }
 
 
@@ -721,8 +721,8 @@ def test_contact_us_international_prepopualate(client, user):
         'organisation_name': 'Example corp',
         'country_name': 'FRANCE',
         'city': 'Paris',
-        'family_name': 'Example',
-        'given_name': 'Foo'
+        'family_name': 'Cross',
+        'given_name': 'Jim'
     }
 
 
@@ -912,143 +912,215 @@ def test_ingress_url_cleared_on_redirect_away(
     assert form.is_valid()
 
 
-@mock.patch('captcha.fields.ReCaptchaField.clean')
+def test_selling_online_overseas_contact_form_organisation_url_redirect(client):
+    response = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'organisation'})
+    )
+    assert response.status_code == 302
+    assert response.url == reverse('contact-us-soo', kwargs={'step': 'contact-details'})
+
+
+@pytest.mark.parametrize('flow', (
+    'CH Company', 'Non-CH Company', 'Individual'
+))
 @mock.patch('directory_forms_api_client.actions.ZendeskAction')
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_selling_online_overseas_contact_form_submission(
-    mock_form_session, mock_zendesk_action, mock_clean, captcha_stub,
-    company_profile, user, client
+    mock_form_session, mock_zendesk_action, flow, company_profile, user, client
 ):
-    company_profile.return_value = create_response(status_code=404)
+    def post(step, args):
+        return client.post(
+            reverse(url_name, kwargs={'step': step}),
+            {
+                view_name + '-current_step': step,
+                **args
+            }
+        )
+
+    # Set Directory-API company lookup
+    if flow == 'CH Company':
+        pass  # lookup defaults to a limited company
+    if flow == 'Non-CH Company':
+        company_profile.return_value = create_response({
+            'company_type': 'SOLE_TRADER',
+            'name': 'Example corp',
+            'postal_code': 'Foo Bar',
+            'sectors': ['AEROSPACE'],
+            'employees': '1-10',
+            'mobile_number': '07171771717',
+            'postal_full_name': 'Foo Example',
+            'address_line_1': '123 Street',
+            'address_line_2': 'Near Fake Town',
+            'country': 'FRANCE',
+            'locality': 'Paris',
+            'summary': 'Makes widgets',
+            'website': 'http://www.example.com',
+        })
+    if flow == 'Individual':
+        company_profile.return_value = create_response(status_code=404)
+
+    # Shortcut for company type
+    if user.company and 'company_type' in user.company:
+        company_type = user.company['company_type']
+    else:
+        company_type = None
 
     url_name = 'contact-us-soo'
     view_name = 'selling_online_overseas_form_view'
 
+    # Get the 1st step
     client.get(
-        reverse(url_name, kwargs={'step': 'organisation'}),
+        reverse(url_name, kwargs={'step': 'contact-details'}),
         {'market': 'ebay'}
     )
 
-    response = client.post(
-        reverse(url_name, kwargs={'step': 'organisation'}),
-        {
-            view_name + '-current_step': 'organisation',
-            'organisation-soletrader': False,
-            'organisation-company_name': 'Example corp',
-            'organisation-company_number': 213123,
-            'organisation-company_postcode': 'FOO BAR',
-            'organisation-website_address': 'http://example.com'
-        }
-    )
+    # Submit the 1st step
+
+    # Note that the user and company fixtures will auto-fill in the details
+    # where the form requires it. You can only add optional data
+    # to the POST requests.
+    response = post('contact-details', {
+        'contact-details-phone': '55512345',
+        'contact-details-email_pref': True
+    })
     assert response.status_code == 302
 
-    response = client.post(
-        reverse(url_name, kwargs={'step': 'organisation-details'}),
-        {
-            view_name + '-current_step': 'organisation-details',
-            'organisation-details-turnover': 'Under 100k',
-            'organisation-details-sku_count': 12,
-            'organisation-details-trademarked': True,
-        }
-    )
+    if company_type == 'COMPANIES_HOUSE':
+        # Name, number and address auto-filled
+        response = post('applicant', {
+            'applicant-website_address': 'http://fooexample.com',
+            'applicant-turnover': 'Under 100k'
+        })
+    elif company_type == 'SOLE_TRADER':
+        # Name, address auto-filled
+        response = post('applicant', {
+            'applicant-website_address': 'http://fooexample.com',
+            'applicant-turnover': 'Under 100k'
+        })
+    elif company_type is None:
+        response = post('applicant', {
+            'applicant-company_name': 'Super corp',
+            'applicant-company_number': 662222,
+            'applicant-company_address': '99 Street',
+            'applicant-company_postcode': 'N1 123',
+            'applicant-website_address': 'http://barexample.com',
+            'applicant-turnover': 'Under 100k'
+        })
     assert response.status_code == 302
 
-    response = client.post(
-        reverse(url_name, kwargs={'step': 'your-experience'}),
-        {
-            view_name + '-current_step': 'your-experience',
-            'your-experience-experience': 'Not yet',
-            'your-experience-description': 'Makes widgets',
-        }
-    )
+    response = post('applicant-details', {
+        'applicant-details-sku_count': 12,
+        'applicant-details-trademarked': True,
+    })
     assert response.status_code == 302
 
-    response = client.post(
-        reverse(url_name, kwargs={'step': 'contact-details'}),
-        {
-            view_name + '-current_step': 'contact-details',
-            'contact-details-contact_name': 'Foo Example',
-            'contact-details-contact_email': 'test@example.com',
-            'contact-details-phone': '0324234243',
-            'contact-details-email_pref': True,
-            'contact-details-terms_agreed': True,
-            'contact-details-captcha': captcha_stub,
-        }
-    )
+    response = post('your-experience', {
+        'your-experience-experience': 'Not yet',
+        'your-experience-description': 'Makes widgets',
+    })
     assert response.status_code == 302
-
     response = client.get(response.url)
-
     assert response.status_code == 302
+
     assert response.url == reverse(
         'contact-us-selling-online-overseas-success'
     )
-    assert mock_clean.call_count == 1
+
+    # Check data sent to Zendesk
     assert mock_zendesk_action.call_count == 1
     assert mock_zendesk_action.call_args == mock.call(
         subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
-        full_name='Foo Example',
-        sender={'email_address': 'test@example.com', 'country_code': None},
-        email_address='test@example.com',
+        full_name=user.get_full_name(),
+        sender={'email_address': user.email, 'country_code': None},
+        email_address=user.email,
         service_name='soo',
         form_url=reverse(
-            'contact-us-soo', kwargs={'step': 'organisation'}
+            'contact-us-soo', kwargs={'step': 'contact-details'}
         ),
         form_session=mock_form_session(),
     )
     assert mock_zendesk_action().save.call_count == 1
+
     expected_data = {
-        'soletrader': False,
-        'company_name': 'Example corp',
-        'company_number': '213123',
-        'company_postcode': 'FOO BAR',
-        'website_address': 'http://example.com',
-        'turnover': 'Under 100k',
+        'market': 'ebay',
+        'contact_first_name': 'Jim',
+        'contact_last_name': 'Cross',
+        'contact_email': 'jim@example.com',
+        'phone': '55512345',
+        'email_pref': True,
         'sku_count': 12,
         'trademarked': True,
         'experience': 'Not yet',
-        'description': 'Makes widgets',
-        'contact_name': 'Foo Example',
-        'contact_email': 'test@example.com',
-        'phone': '0324234243',
-        'email_pref': True,
-        'market': 'ebay',
+        'description': 'Makes widgets'
     }
+    if company_type == 'COMPANIES_HOUSE':
+        expected_data.update({
+            'company_name': 'Example corp',
+            'company_number': '1234567',
+            'company_address': '123 Street, Near Fake Town',
+            'website_address': 'http://fooexample.com',
+            'turnover': 'Under 100k',
+        })
+    elif company_type == 'SOLE_TRADER':
+        expected_data.update({
+            'company_name': 'Example corp',
+            'company_address': '123 Street, Near Fake Town',
+            'website_address': 'http://fooexample.com',
+            'turnover': 'Under 100k',
+        })
+    elif company_type is None:
+        expected_data.update({
+            'company_name': 'Super corp',
+            'company_number': '662222',
+            'company_address': '99 Street',
+            'company_postcode': 'N1 123',
+            'website_address': 'http://barexample.com',
+            'turnover': 'Under 100k',
+        })
+
     cache_key = '{}_{}'.format(view_name, + user.id)
     assert mock_zendesk_action().save.call_args == mock.call(expected_data)
     assert cache.get(cache_key) == expected_data
     # next request for the form will have initial values
     response = client.get(
-        reverse(url_name, kwargs={'step': 'organisation'}),
+        reverse(url_name, kwargs={'step': 'contact-details'}),
         {'market': 'ebay'}
     )
-    assert response.context_data['form'].initial == {
-        'soletrader': False,
-        'company_name': 'Example corp',
-        'company_number': '213123',
-        'company_postcode': 'FOO BAR',
-        'website_address': 'http://example.com'
-    }
+
+    # Initial data contains phone number if company profile present
+    if company_type in ['COMPANIES_HOUSE', 'SOLE_TRADER']:
+        assert response.context_data['form'].initial == {
+            'contact_first_name': 'Jim',
+            'contact_last_name': 'Cross',
+            'contact_email': 'jim@example.com',
+            'phone': '07171771717'
+        }
+    else:
+        assert response.context_data['form'].initial == {
+            'contact_first_name': 'Jim',
+            'contact_last_name': 'Cross',
+            'contact_email': 'jim@example.com'
+        }
 
 
-@mock.patch('captcha.fields.ReCaptchaField.clean')
-@mock.patch('directory_forms_api_client.actions.ZendeskAction')
-def test_selling_online_overseas_contact_form_market_name(
-    mock_zendesk_action, mock_clean, captcha_stub, company_profile, client
-):
-    company_profile.return_value = create_response(status_code=404)
-
+def test_selling_online_overseas_contact_form_market_name(client):
     url_name = 'contact-us-soo'
 
     response = client.get(
-        reverse(url_name, kwargs={'step': 'organisation'}),
+        reverse(url_name, kwargs={'step': 'contact-details'}),
         {'market': 'ebay'}
     )
     assert response.status_code == 200
     assert response.context['market_name'] == 'ebay'
 
     response = client.get(
-        reverse(url_name, kwargs={'step': 'organisation-details'}),
+        reverse(url_name, kwargs={'step': 'applicant'}),
+    )
+    assert response.status_code == 200
+    assert response.context['market_name'] == 'ebay'
+
+    response = client.get(
+        reverse(url_name, kwargs={'step': 'applicant-details'}),
     )
     assert response.status_code == 200
     assert response.context['market_name'] == 'ebay'
@@ -1059,45 +1131,84 @@ def test_selling_online_overseas_contact_form_market_name(
     assert response.status_code == 200
     assert response.context['market_name'] == 'ebay'
 
+
+@pytest.mark.parametrize('flow', (
+    'CH Company', 'Non-CH Company', 'Individual'
+))
+def test_selling_online_overseas_contact_form_initial_data(flow, company_profile, user, client):
+
+    # Set Directory-API company lookup
+    if flow == 'CH Company':
+        pass  # lookup defaults to a limited company
+    if flow == 'Non-CH Company':
+        company_profile.return_value = create_response({
+            'company_type': 'SOLE_TRADER',
+            'name': 'Example corp',
+            'postal_code': 'Foo Bar',
+            'sectors': ['AEROSPACE'],
+            'employees': '1-10',
+            'mobile_number': '07171771717',
+            'postal_full_name': 'Foo Example',
+            'address_line_1': '123 Street',
+            'address_line_2': 'Near Fake Town',
+            'country': 'FRANCE',
+            'locality': 'Paris',
+            'summary': 'Makes widgets',
+            'website': 'http://www.example.com',
+        })
+    if flow == 'Individual':
+        company_profile.return_value = create_response(status_code=404)
+
     response = client.get(
-        reverse(url_name, kwargs={'step': 'contact-details'}),
-    )
-    assert response.status_code == 200
-    assert response.context['market_name'] == 'ebay'
-
-
-def test_selling_online_overseas_contact_form_initial_data(client, user):
-    response_one = client.get(
-        reverse('contact-us-soo', kwargs={'step': 'organisation'}),
-    )
-    assert response_one.context_data['form'].initial == {
-        'soletrader': False,
-        'company_name': 'Example corp',
-        'company_number': 1234567,
-        'company_postcode': 'Foo Bar',
-        'website_address': 'http://www.example.com',
-    }
-
-    response_two = client.get(
-        reverse('contact-us-soo', kwargs={'step': 'organisation-details'}),
-    )
-    assert response_two.context_data['form'].initial == {}
-
-    response_three = client.get(
-        reverse('contact-us-soo', kwargs={'step': 'your-experience'}),
-    )
-    assert response_three.context_data['form'].initial == {
-        'description': 'Makes widgets'
-    }
-
-    response_four = client.get(
         reverse('contact-us-soo', kwargs={'step': 'contact-details'}),
     )
-    assert response_four.context_data['form'].initial == {
-        'contact_name': 'Foo Example',
-        'contact_email': user.email,
-        'phone': '07171771717',
-    }
+    if flow in ['CH Company', 'Non-CH Company']:
+        assert response.context_data['form'].initial == {
+            'contact_first_name': 'Jim',
+            'contact_last_name': 'Cross',
+            'contact_email': 'jim@example.com',
+            'phone': '07171771717',
+        }
+    else:
+        assert response.context_data['form'].initial == {
+            'contact_first_name': 'Jim',
+            'contact_last_name': 'Cross',
+            'contact_email': 'jim@example.com'
+        }
+
+    response = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'applicant'}),
+    )
+    if flow == 'CH Company':
+        assert response.context_data['form'].initial == {
+            'company_name': 'Example corp',
+            'company_address': '123 Street, Near Fake Town',
+            'company_number': 1234567,
+            'website_address': 'http://www.example.com',
+        }
+    if flow == 'Non-CH Company':
+        assert response.context_data['form'].initial == {
+            'company_name': 'Example corp',
+            'company_address': '123 Street, Near Fake Town',
+            'website_address': 'http://www.example.com',
+        }
+    if flow == 'Individual':
+        assert response.context_data['form'].initial == {}
+
+    response = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'applicant-details'}),
+    )
+    assert response.context_data['form'].initial == {}
+
+    response = client.get(
+        reverse('contact-us-soo', kwargs={'step': 'your-experience'}),
+    )
+    if flow in ['CH Company', 'Non-CH Company']:
+        assert response.context_data['form'].initial == {
+            'description': 'Makes widgets'
+        }
+    else:
+        assert response.context_data['form'].initial == {}
 
 
 def test_office_finder_valid(all_office_details, client):

@@ -354,10 +354,19 @@ contact_urls = [
         r'^contact/selling-online-overseas/$',
         QuerystringRedirectView.as_view(
             url=reverse_lazy(
-                'contact-us-soo', kwargs={'step': 'organisation'}
+                'contact-us-soo', kwargs={'step': 'contact-details'}
             )
         ),
         name='contact-us-soo-redirect'
+    ),
+    url(
+        r'^contact/selling-online-overseas/organisation/$',
+        RedirectView.as_view(
+            url=reverse_lazy(
+                'contact-us-soo', kwargs={'step': 'contact-details'}
+            )
+        ),
+        name='contact-us-soo-organisation-redirect'
     ),
     url(
         r'^contact/selling-online-overseas/success/$',
