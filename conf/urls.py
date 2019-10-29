@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps.views import sitemap
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 from core.views import QuerystringRedirectView
 
 import content.views
