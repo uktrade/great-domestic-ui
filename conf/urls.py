@@ -361,7 +361,7 @@ contact_urls = [
     ),
     url(
         r'^contact/selling-online-overseas/organisation/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-soo', kwargs={'step': 'contact-details'}
             )
