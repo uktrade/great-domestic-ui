@@ -517,7 +517,7 @@ class SellingOnlineOverseasApplicantIndividual(forms.Form):
         label='Address',
     )
     company_postcode = forms.CharField(
-        label='Postcode',
+        label='Post code',
     )
     website_address = forms.CharField(
         label='Your business web address',
