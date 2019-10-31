@@ -15,6 +15,9 @@
 - GTRANSFORM-300 - change numbered bullet colour
 - XOT-1135 - Add new SOO contact form
 
+### Bugs fixed
+- No ticket - Handle invalid postcodes on office finder
+
 ## [2019.10.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.10.23)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.23)
 
