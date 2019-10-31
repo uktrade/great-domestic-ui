@@ -7,6 +7,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- no ticket - change campaign component logo spacing (marketing request)
 - XOT-1117 - small spelling change
 - XOT-1137 - change order of padding incase chevron component is removed
 - No ticket - Remove old homepage template and other unused code
