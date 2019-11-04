@@ -30,7 +30,7 @@
     </div>
   {% endif %}
   {% if page.chevron_links %}
-    <div class="flex-grid">
+    <div class="flex-grid{% if not page.chevron_url %} margin-top-30{% endif %}">
         {% for link in page.chevron_links %}
           <div class="column-third-m column-full">
             {% card title=link.text subheading=link.source url=link.url no_padding_card=True transparent_card=True %}
