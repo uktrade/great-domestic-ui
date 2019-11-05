@@ -46,6 +46,7 @@
 - CI-540 - Brexit redirect
 
 ### Fixed bugs
+- No ticket - Fix search for "dit:Event" returning all events in Activity Stream
 - XOT-1042 - remove extra container markup
 - no ticket - Fix international urls in develop and staging.
 - no ticket - Silence captcha key checks

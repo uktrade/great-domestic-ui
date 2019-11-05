@@ -21,7 +21,7 @@ def parse_search_results(content):
         ).rstrip()
 
     def format_events_url(result):
-        if "dit:Event" in result['type'] or "Event" in result['type']:
+        if "dit:aventri:Event" in result['type']:
             url = parse_url(result['url'])
             result['url'] = build_events_url(url.request_uri)
 
@@ -31,8 +31,7 @@ def parse_search_results(content):
 
     def format_display_type(result):
         mappings = {
-            'dit:Event': 'Event',
-            'Event': 'Event',
+            'dit:aventri:Event': 'Event',
             'dit:Opportunity': 'Export opportunity',
             'Opportunity': 'Export opportunity',
             'Market': 'Online marketplace',
