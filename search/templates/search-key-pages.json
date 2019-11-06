@@ -122,7 +122,6 @@
       "type": "Update",
       "object": {
         "id": "dit:greatDomesticUi:KeyPages:10",
-        "type": "Service",
         "type": ["Document", "dit:Service", "Service"],
         "name": "Report a trade barrier",
         "content": "Tell us if you think you’re facing a trade barrier. We might be able to help you resolve it.",

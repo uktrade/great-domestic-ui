@@ -1,8 +1,6 @@
 # Changelog
 
-### Hotfix
-- XOT-1195 - allow chevron links to be displayed without the chevron
-- No ticket - fix trade barriers Search link
+
 
 
 ## Pre-release
@@ -18,6 +16,12 @@
 
 ### Bugs fixed
 - No ticket - Handle invalid postcodes on office finder
+
+## [2019.11.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.11.5)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.10.29...2019.11.5)
+### Hotfix
+- XOT-1195 - allow chevron links to be displayed without the chevron
+
 
 ## [2019.10.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.10.23)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.23)
@@ -45,6 +49,7 @@
 - no ticket - Upgrade to Django 2
 - XOT-928 - Use user profile phone number on contact form
 - CI-540 - Brexit redirect
+- No ticket - fix trade barriers Search link
 
 ### Fixed bugs
 - No ticket - Fix search for "dit:Event" returning all events in Activity Stream
