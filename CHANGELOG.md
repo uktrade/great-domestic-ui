@@ -17,11 +17,14 @@
 ### Bugs fixed
 - No ticket - Handle invalid postcodes on office finder
 
-### Hotfix
-- XOT-1195 - allow chevron links to be displayed without the chevron
 ## [2019.11.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.11.5)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.10.29...2019.11.5)
+### Hotfix
+- XOT-1195 - allow chevron links to be displayed without the chevron
 
+
+## [2019.10.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.10.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.23)
 
 ### Implemented enhancements
 - XOT-1172 - IE edge bugfix and removed homepage switch related code and tests
