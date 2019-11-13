@@ -1168,13 +1168,14 @@ def test_selling_online_overseas_contact_form_initial_data(flow, company_profile
             'contact_first_name': 'Jim',
             'contact_last_name': 'Cross',
             'contact_email': 'jim@example.com',
-            'phone': '07171771717',
+            'phone': '55512345',
         }
     else:
         assert response.context_data['form'].initial == {
             'contact_first_name': 'Jim',
             'contact_last_name': 'Cross',
-            'contact_email': 'jim@example.com'
+            'contact_email': 'jim@example.com',
+            'phone': '55512345'
         }
 
     response = client.get(
