@@ -6,6 +6,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1200 - autoplay video when watch video button opens modal
 - no ticket - change campaign component logo spacing (marketing request)
 - XOT-1117 - small spelling change
 - XOT-1137 - change order of padding incase chevron component is removed
