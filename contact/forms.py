@@ -2,15 +2,14 @@ from captcha.fields import ReCaptchaField
 from directory_components import forms
 from directory_constants import choices
 from directory_constants.urls import domestic as domestic_urls
-from directory_forms_api_client.forms import (
-    GovNotifyEmailActionMixin, ZendeskActionMixin
-)
+from directory_forms_api_client.forms import GovNotifyEmailActionMixin, ZendeskActionMixin
 import requests.exceptions
 
 from django.conf import settings
 from django.forms import Textarea, TextInput, TypedChoiceField
 from django.utils.html import mark_safe
 
+from core.validators import is_valid_postcode
 from contact import constants, helpers
 from contact.fields import IntegerField
 
@@ -517,7 +516,7 @@ class SellingOnlineOverseasApplicantIndividual(forms.Form):
         label='Address',
     )
     company_postcode = forms.CharField(
-        label='Postcode',
+        label='Post code',
     )
     website_address = forms.CharField(
         label='Your business web address',
@@ -600,6 +599,7 @@ class OfficeFinderForm(forms.Form):
     postcode = forms.CharField(
         label='Enter your postcode',
         help_text='For example SW1A 2AA',
+        validators=[is_valid_postcode]
     )
 
     def clean_postcode(self):

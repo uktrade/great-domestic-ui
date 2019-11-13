@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps.views import sitemap
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
+from core.views import QuerystringRedirectView
 
 import content.views
 import casestudy.views
@@ -70,13 +70,6 @@ urlpatterns = [
         r"^not-found/$",
         TemplateView.as_view(template_name='404.html'),
         name='not-found'
-    ),
-    # The url below is feature flagged. Remove skip_ga360 and configure
-    # ga360 data when it is enabled
-    url(
-        r"^campaigns/(?P<slug>[\w-]+)/$",
-        skip_ga360(core.views.CampaignPageView.as_view()),
-        name='campaign-page',
     ),
     url(
         r"^performance-dashboard/$",
@@ -141,7 +134,7 @@ urlpatterns = [
     ),
     url(
         r"^export-opportunities/$",
-        RedirectView.as_view(url=settings.SERVICES_EXOPPS_ACTUAL),
+        QuerystringRedirectView.as_view(url=settings.SERVICES_EXOPPS_ACTUAL),
         name='export-opportunities'
     ),
     url(
@@ -305,7 +298,7 @@ contact_urls = [
     ),
     url(
         r'^contact/export-advice/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-export-advice', kwargs={'step': 'comment'}
             )
@@ -359,7 +352,7 @@ contact_urls = [
     ),
     url(
         r'^contact/selling-online-overseas/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-soo', kwargs={'step': 'contact-details'}
             )
@@ -368,7 +361,7 @@ contact_urls = [
     ),
     url(
         r'^contact/selling-online-overseas/organisation/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-soo', kwargs={'step': 'contact-details'}
             )
@@ -440,7 +433,7 @@ contact_urls = [
     ),
     url(
         r'^contact/$',
-        RedirectView.as_view(
+        QuerystringRedirectView.as_view(
             url=reverse_lazy(
                 'contact-us-routing-form', kwargs={'step': 'location'}
             )
@@ -580,28 +573,23 @@ ukef_urls = [
 international_redirects_urls = [
     url(
         r'^trade/$',
-        RedirectView.as_view(url=international.TRADE_HOME, query_string=True),
+        QuerystringRedirectView.as_view(url=international.TRADE_HOME),
         name='international-trade-home'
     ),
     url(
         r'^trade/(?P<path>[\w\-/]*)/$',
-        RedirectView.as_view(url=build_great_international_url('trade/incoming/%(path)s'), query_string=True),
+        QuerystringRedirectView.as_view(
+            url=build_great_international_url('trade/incoming/%(path)s')),
         name='international-trade'
     ),
     url(
         r'^investment-support-directory/$',
-        RedirectView.as_view(
-            url=international.EXPAND_ISD_HOME,
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url=international.EXPAND_ISD_HOME),
         name='international-investment-support-directory-home'
     ),
     url(
         r'^investment-support-directory/(?P<path>[\w\-/]*)/$',
-        RedirectView.as_view(
-            url=build_great_international_url('investment-support-directory/%(path)s'),
-            query_string=True
-        ),
+        QuerystringRedirectView.as_view(url=build_great_international_url('investment-support-directory/%(path)s')),
         name='international-investment-support-directory'
     ),
 ]

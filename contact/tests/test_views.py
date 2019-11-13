@@ -1214,8 +1214,8 @@ def test_selling_online_overseas_contact_form_initial_data(flow, company_profile
 
 def test_office_finder_valid(all_office_details, client):
     with requests_mock.mock() as mock:
-        mock.get(url_lookup_by_postcode.format(postcode='ABC123'), json=all_office_details)
-        response = client.get(reverse('office-finder'), {'postcode': 'ABC123'})
+        mock.get(url_lookup_by_postcode.format(postcode='LE191RJ'), json=all_office_details)
+        response = client.get(reverse('office-finder'), {'postcode': 'LE19 1RJ'})
 
     assert response.status_code == 200
 
