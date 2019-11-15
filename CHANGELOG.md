@@ -14,6 +14,7 @@
 - XOT-1175 - Add logic to hide section on market page when no content
 - GTRANSFORM-300 - change numbered bullet colour
 - XOT-1135 - Add new SOO contact form
+- XOT-1171 - Advice redirects
 
 ### Bugs fixed
 - No ticket - Handle invalid postcodes on office finder
