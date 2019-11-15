@@ -6,6 +6,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1185 - change sort field for countries to arrange tiles wiht 'The' alphabetically by country name
 - XOT-1200 - autoplay video when watch video button opens modal
 - no ticket - change campaign component logo spacing (marketing request)
 - XOT-1117 - small spelling change
