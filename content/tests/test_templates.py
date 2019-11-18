@@ -19,7 +19,7 @@ def mock_get_page():
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
 def test_market_landing_pagination_page_next(mock_get_page, client):
 
-    child_page = {'title': 'Title',  'sorted_title': 'Title', 'sub_heading': 'Markets subheading'}
+    child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
     page = {
         'title': 'test',
@@ -63,7 +63,7 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
 def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
 
-    child_page = {'title': 'Title', 'sorted_title': 'Title', 'sub_heading': 'Markets subheading'}
+    child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
 
     page = {
         'title': 'test',

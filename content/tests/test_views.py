@@ -336,7 +336,7 @@ def test_markets_page_filters(mock_countries, mock_page, rf):
             {'url': '/', 'title': 'great.gov.uk'},
             {'url': '/markets/', 'title': 'Markets'},
         ],
-        'child_pages': [{'sorted_title': 'Brazil'}, {'sorted_title': 'China'}, {'sorted_title': 'India'}],
+        'child_pages': [{'title': 'Brazil'}, {'title': 'China'}, {'title': 'India'}, {'title': 'Japan'}],
     }
 
     mock_page.return_value = create_response(page)
@@ -345,7 +345,7 @@ def test_markets_page_filters(mock_countries, mock_page, rf):
 
     filtered_countries = {
         'name': 'Tag name',
-        'countries': [{'sorted_title': 'India'}],
+        'countries': [{'title': 'India'}],
     }
 
     mock_countries.return_value = create_response(filtered_countries)
@@ -370,10 +370,10 @@ def test_markets_page_filters_sort_alphabetically(mock_countries, mock_page, rf)
             {'url': '/', 'title': 'great.gov.uk'},
             {'url': '/markets/', 'title': 'Markets'},
         ],
-        'child_pages': [{'sorted_title': 'India'}, {'sorted_title': 'Japan'}, {'sorted_title': 'Brazil'}],
+        'child_pages': [{'title': 'India'}, {'title': 'Japan'}, {'title': 'Brazil'}, {'title': 'China'}],
     }
 
-    sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['sorted_title'])
+    sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['title'])
 
     mock_page.return_value = create_response(page)
     content_list_industry_tags = [{}]
@@ -400,7 +400,7 @@ def test_markets_page_filters_invalid_param(mock_countries, mock_page, rf):
             {'url': '/', 'title': 'great.gov.uk'},
             {'url': '/markets/', 'title': 'Markets'},
         ],
-        'child_pages': [{'sorted_title': 'Brazil'}, {'sorted_title': 'China'}, {'sorted_title': 'India'}],
+        'child_pages': [{'title': 'Brazil'}, {'title': 'China'}, {'title': 'India'}, {'title': 'Japan'}],
     }
 
     mock_page.return_value = create_response(page)
