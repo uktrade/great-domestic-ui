@@ -6,6 +6,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1118 - remove 'The ' prefix from markets on sorting so they sit better alphabetically
 - XOT-1200 - autoplay video when watch video button opens modal
 - no ticket - change campaign component logo spacing (marketing request)
 - XOT-1117 - small spelling change
