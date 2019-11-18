@@ -81,7 +81,7 @@ class MarketsPageView(CMSPageView):
             markets = self.page['child_pages']
             tag_name = None
 
-        filtered_countries = sorted(markets, key=lambda x: x['title'])
+        filtered_countries = sorted(markets, key=lambda x: x['sorted_title'])
 
         paginator = Paginator(filtered_countries, 12)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
