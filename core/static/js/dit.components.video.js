@@ -15,7 +15,7 @@ dit.components.video = (new function() {
   var TYPE_IFRAME = "iframe";
   var TRANSCRIPT = '#campaign-video-transcript';
   var TRANSCRIPT_TEXT = '#campaign-video-transcript-text';
-  $VIDEO = null;
+  var $video = null;
 
 
   /* Contructor
@@ -28,7 +28,7 @@ dit.components.video = (new function() {
   }
 
   VideoDialog.loadWithVideo = function(src) {
-    $video = $("<video controls></video>");
+    $video = $("<video controls autoplay></video>");
     var format = src.replace(/^.*\.([a-z0-9/]+)$/, "$1");
     var $source = $("<source src=\"" + src + "\" type=\"video/" + format  + "\">");
     $video.append($source);

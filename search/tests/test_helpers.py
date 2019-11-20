@@ -172,12 +172,6 @@ def test_format_query():
                     }},
                     {'match': {
                         'type': {
-                            'query': 'Event',
-                            'boost': 10000
-                        }
-                    }},
-                    {'match': {
-                        'type': {
                             'query': 'dit:Article',
                             'boost': 10000
                         }
@@ -196,7 +190,7 @@ def test_format_query():
                     }},
                     {'match': {
                         'type': {
-                            'query': 'dit:Event',
+                            'query': 'dit:aventri:Event',
                             'boost': 10000
                         }
                     }}
@@ -208,12 +202,11 @@ def test_format_query():
                             'Opportunity',
                             'Market',
                             'Service',
-                            'Event',
                             'dit:Article',
                             'dit:Opportunity',
                             'dit:Market',
                             'dit:Service',
-                            'dit:Event'
+                            'dit:aventri:Event'
                         ]
                     }}
                 ]
