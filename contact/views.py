@@ -454,7 +454,6 @@ class ExortingToUKGuidanceView(
 
 
 class SellingOnlineOverseasFormView(
-    # WizardDynamicFormClassMixin,
     FormSessionMixin,
     mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
 ):
@@ -511,11 +510,8 @@ class SellingOnlineOverseasFormView(
                 'contact_first_name': self.request.user.first_name,
                 'contact_last_name': self.request.user.last_name,
                 'contact_email': self.request.user.email,
+                'phone': self.request.user.get_mobile_number()
             })
-            if self.request.user.company:
-                initial.update({
-                    'phone': self.request.user.company['mobile_number'],
-                })
         elif step == self.APPLICANT:
             if self.request.user.company:
                 address_1 = self.request.user.company['address_line_1']

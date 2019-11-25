@@ -2,11 +2,14 @@
 
 
 
+### Hotfix
+- XOT-1195 - allow chevron links to be displayed without the chevron
+- No ticket - fix trade barriers Search link
 
 ## Pre-release
 
 ### Implemented enhancements
-
+- XOT-1226 - JP Morgan campaign redirect in GREAT.gov
 - XOT-1201 - move video close button inside container and add modal js from directory components
 - XOT-1185 - change sort field for countries to arrange tiles with 'The' alphabetically by country name
 - XOT-1200 - autoplay video when watch video button opens modal
