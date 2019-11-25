@@ -22,3 +22,7 @@ class SSOUser(directory_sso_api_client.models.SSOUser):
         if mobile_number in ['', None] and self.company:
             mobile_number = self.company['mobile_number']
         return mobile_number
+
+    @property
+    def company_type(self):
+        return self.company['company_type'] if self.company else None

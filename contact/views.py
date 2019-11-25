@@ -454,28 +454,27 @@ class ExortingToUKGuidanceView(
 
 
 class SellingOnlineOverseasFormView(
-    mixins.PreventCaptchaRevalidationMixin,
-    FormSessionMixin, mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
+    FormSessionMixin,
+    mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
-
-    ORGANISATION = 'organisation'
-    ORGANISATION_DETAILS = 'organisation-details'
-    EXPERIENCE = 'your-experience'
     CONTACT_DETAILS = 'contact-details'
+    APPLICANT = 'applicant'
+    APPLICANT_DETAILS = 'applicant-details'
+    EXPERIENCE = 'your-experience'
 
     form_list = (
-        (ORGANISATION, forms.SellingOnlineOverseasBusiness),
-        (ORGANISATION_DETAILS, forms.SellingOnlineOverseasBusinessDetails),
-        (EXPERIENCE, forms.SellingOnlineOverseasExperience),
         (CONTACT_DETAILS, forms.SellingOnlineOverseasContactDetails),
+        (APPLICANT, forms.SellingOnlineOverseasApplicantProxy),
+        (APPLICANT_DETAILS, forms.SellingOnlineOverseasApplicantDetails),
+        (EXPERIENCE, forms.SellingOnlineOverseasExperience),
     )
 
     templates = {
-        ORGANISATION: 'contact/soo/step-organisation.html',
-        ORGANISATION_DETAILS: 'contact/soo/step-organisation-details.html',
-        EXPERIENCE: 'contact/soo/step-experience.html',
         CONTACT_DETAILS: 'contact/soo/step-contact-details.html',
+        APPLICANT: 'contact/soo/step-applicant.html',
+        APPLICANT_DETAILS: 'contact/soo/step-applicant-details.html',
+        EXPERIENCE: 'contact/soo/step-experience.html',
     }
 
     def get(self, *args, **kwargs):
@@ -487,9 +486,12 @@ class SellingOnlineOverseasFormView(
     def get_template_names(self):
         return [self.templates[self.steps.current]]
 
-    def get_form_kwargs(self, *args, **kwargs):
+    def get_form_kwargs(self, step):
         # skipping `PrepopulateFormMixin.get_form_kwargs`
-        return super(mixins.PrepopulateFormMixin, self).get_form_kwargs(*args, **kwargs)
+        form_kwargs = super(mixins.PrepopulateFormMixin, self).get_form_kwargs(step)
+        if step == self.APPLICANT:
+            form_kwargs['company_type'] = self.request.user.company_type
+        return form_kwargs
 
     def get_cache_prefix(self):
         return 'selling_online_overseas_form_view_{}'.format(
@@ -503,44 +505,44 @@ class SellingOnlineOverseasFormView(
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-
-        # prepopulate form from cached latest submission data or directory-api
-        latest_submission_data = self.get_form_data_cache()
-        if latest_submission_data is not None:
-            for field in self.form_list[step].declared_fields:
-                if field in latest_submission_data:
-                    initial[field] = latest_submission_data[field]
-        elif self.request.user.is_authenticated and self.request.user.company:
-            if step == self.ORGANISATION:
+        if step == self.CONTACT_DETAILS:
+            initial.update({
+                'contact_first_name': self.request.user.first_name,
+                'contact_last_name': self.request.user.last_name,
+                'contact_email': self.request.user.email,
+                'phone': self.request.user.get_mobile_number()
+            })
+        elif step == self.APPLICANT:
+            if self.request.user.company:
+                address_1 = self.request.user.company['address_line_1']
+                address_2 = self.request.user.company['address_line_2']
+                address = ", ".join(filter(None, [address_1, address_2]))
                 initial.update({
-                    'soletrader': False,
                     'company_name': self.request.user.company['name'],
-                    'company_number': self.request.user.company['number'],
-                    'company_postcode': self.request.user.company['postal_code'],
+                    'company_address': address,
                     'website_address': self.request.user.company['website'],
                 })
-            elif step == self.EXPERIENCE:
+                if 'number' in self.request.user.company:
+                    initial.update({
+                        'company_number': self.request.user.company['number']
+                    })
+        elif step == self.EXPERIENCE:
+            if self.request.user.company:
                 initial['description'] = self.request.user.company['summary']
-            elif step == self.CONTACT_DETAILS:
-                initial.update({
-                    'contact_name': self.request.user.get_full_name(),
-                    'contact_email': self.request.user.email,
-                    'phone': self.request.user.get_mobile_number()
-                })
+
         return initial
 
     def serialize_form_list(self, form_list):
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        del data['terms_agreed']
         data['market'] = self.request.session.get(SESSION_KEY_SOO_MARKET)
         return data
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, form, **kwargs):
         return {
             'market_name': self.request.session.get(SESSION_KEY_SOO_MARKET),
-            **super().get_context_data(**kwargs),
+            **super().get_context_data(form, **kwargs),
         }
 
     def done(self, form_list, **kwargs):
@@ -549,13 +551,17 @@ class SellingOnlineOverseasFormView(
             email_address=form_data['contact_email'],
             country_code=None
         )
+        full_name = ('%s %s' % (
+            form_data['contact_first_name'],
+            form_data['contact_last_name']
+        )).strip()
         action = actions.ZendeskAction(
             subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
-            full_name=form_data['contact_name'],
+            full_name=full_name,
             email_address=form_data['contact_email'],
             service_name='soo',
             form_url=reverse(
-                'contact-us-soo', kwargs={'step': 'organisation'}
+                'contact-us-soo', kwargs={'step': 'contact-details'}
             ),
             form_session=self.form_session,
             sender=sender,
