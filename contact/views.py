@@ -455,7 +455,8 @@ class ExortingToUKGuidanceView(
 
 class SellingOnlineOverseasFormView(
     FormSessionMixin,
-    mixins.PrepopulateFormMixin, NamedUrlSessionWizardView,
+    mixins.PrepopulateFormMixin,
+    NamedUrlSessionWizardView,
 ):
     success_url = reverse_lazy('contact-us-selling-online-overseas-success')
     CONTACT_DETAILS = 'contact-details'
@@ -489,6 +490,14 @@ class SellingOnlineOverseasFormView(
     def get_form_kwargs(self, step):
         # skipping `PrepopulateFormMixin.get_form_kwargs`
         form_kwargs = super(mixins.PrepopulateFormMixin, self).get_form_kwargs(step)
+
+        # Reset form if at start
+        if step == self.CONTACT_DETAILS and \
+           self.request.path != reverse(
+               'contact-us-soo', kwargs={'step': 'finished'}
+           ):
+            self.storage.reset()
+            self.storage.current_step = self.steps.first
         if step == self.APPLICANT:
             form_kwargs['company_type'] = self.request.user.company_type
         return form_kwargs
