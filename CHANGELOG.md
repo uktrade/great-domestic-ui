@@ -2,6 +2,9 @@
 
 
 
+### Hotfix
+- XOT-1195 - allow chevron links to be displayed without the chevron
+- No ticket - fix trade barriers Search link
 
 ## Pre-release
 
