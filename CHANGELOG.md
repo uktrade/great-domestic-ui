@@ -9,6 +9,32 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1226 - JP Morgan campaign redirect in GREAT.gov
+- XOT-1201 - move video close button inside container and add modal js from directory components
+- XOT-1185 - change sort field for countries to arrange tiles with 'The' alphabetically by country name
+- XOT-1200 - autoplay video when watch video button opens modal
+- no ticket - change campaign component logo spacing (marketing request)
+- XOT-1117 - small spelling change
+- XOT-1137 - change order of padding incase chevron component is removed
+- No ticket - Remove old homepage template and other unused code
+- XOT-1175 - Add logic to hide section on market page when no content
+- GTRANSFORM-300 - change numbered bullet colour
+- XOT-1135 - Add new SOO contact form
+- XOT-1171 - Advice redirects
+
+### Bugs fixed
+- No ticket - Handle invalid postcodes on office finder
+
+## [2019.11.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.11.5)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.10.29...2019.11.5)
+### Hotfix
+- XOT-1195 - allow chevron links to be displayed without the chevron
+
+
+## [2019.10.23](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.10.23)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.23)
+
+### Implemented enhancements
 - XOT-1172 - IE edge bugfix and removed homepage switch related code and tests
 - XOT-1079 - add new banner to project finance page
 - XOT-1150 - change to MADB styles after review
@@ -31,8 +57,10 @@
 - no ticket - Upgrade to Django 2
 - XOT-928 - Use user profile phone number on contact form
 - CI-540 - Brexit redirect
+- No ticket - fix trade barriers Search link
 
 ### Fixed bugs
+- No ticket - Fix search for "dit:Event" returning all events in Activity Stream
 - XOT-1042 - remove extra container markup
 - no ticket - Fix international urls in develop and staging.
 - no ticket - Silence captcha key checks

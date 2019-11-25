@@ -249,40 +249,43 @@ def test_routing_forms_new_reg_journey_flag(value, feature_flags):
     ) is value
 
 
-def test_selling_online_overseas_business_valid_form_soletrader():
-    form = forms.SellingOnlineOverseasBusiness(
-        data={
-            'company_name': 'Acme',
-            'soletrader': True,
-            'company_postcode': 'SW1H 0TL',
-            'website_address': 'bar'
-        }
-    )
-    assert form.is_valid()
-
-
-def test_selling_online_overseas_business_valid_form_company():
-    form = forms.SellingOnlineOverseasBusiness(
+def test_selling_online_overseas_applicant_valid_form_ch():
+    form = forms.SellingOnlineOverseasApplicant(
         data={
             'company_name': 'Acme',
             'company_number': '123',
-            'company_postcode': 'SW1H 0TL',
-            'website_address': 'bar'
+            'company_address': 'Same Street',
+            'website_address': 'bar',
+            'turnover': 'Under 100k'
         }
     )
     assert form.is_valid()
 
 
-def test_selling_online_overseas_business_invalid_form():
-    form = forms.SellingOnlineOverseasBusiness(
+def test_selling_online_overseas_applicant_valid_form_non_ch():
+    form = forms.SellingOnlineOverseasApplicantNonCH(
         data={
             'company_name': 'Acme',
-            'company_postcode': 'SW1H 0TL',
-            'website_address': 'bar'
+            'company_address': 'Same Street',
+            'website_address': 'bar',
+            'turnover': 'Under 100k'
         }
     )
-    assert form.is_valid() is False
-    assert form.errors == {'company_number': ['This field is required.']}
+    assert form.is_valid()
+
+
+def test_selling_online_overseas_applicant_valid_form_individual():
+    form = forms.SellingOnlineOverseasApplicantIndividual(
+        data={
+            'company_name': 'Acme',
+            'company_number': '123',
+            'company_address': 'Same Street',
+            'company_postcode': 'SW1H 0TL',
+            'website_address': 'bar',
+            'turnover': 'Under 100k'
+        }
+    )
+    assert form.is_valid()
 
 
 @pytest.mark.parametrize('value', (True, False,))

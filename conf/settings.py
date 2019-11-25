@@ -402,7 +402,6 @@ GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
 
 # feature flags
 FEATURE_FLAGS = {
-    'NEW_INTERNATIONAL_HEADER_ON': env.bool('FEATURE_NEW_INTERNATIONAL_HEADER_ENABLED', False),
     'PROTOTYPE_PAGES_ON': env.bool('FEATURE_PROTOTYPE_PAGES_ENABLED', False),
     'INTERNAL_CH_ON': env.bool('FEATURE_USE_INTERNAL_CH_ENABLED', False),
     'EXPORTING_TO_UK_ON': env.bool('FEATURE_EXPORTING_TO_UK_ON_ENABLED', False),
@@ -592,12 +591,6 @@ UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID = env.str(
 )
 UKEF_CONTACT_AGENT_EMAIL_ADDRESS = env.str(
     'UKEF_CONTACT_AGENT_EMAIL_ADDRESS',
-)
-
-LANDING_PAGE_VIDEO_URL = env.str(
-    'LANDING_PAGE_VIDEO_URL',
-    'https://s3-eu-west-1.amazonaws.com/public-directory-api/'
-    'promo-video_web-stitch.mp4'
 )
 
 # Activity Stream API

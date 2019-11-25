@@ -1,7 +1,5 @@
 from unittest.mock import patch
 
-from directory_components.context_processors import urls_processor
-
 from django.template.loader import render_to_string
 
 from core.tests.helpers import create_response
@@ -22,10 +20,3 @@ def test_404_custom_template(mock_cms_404, settings, client):
         'If you entered a web address please check'
         ' it’s correct.', 'utf8')
     assert expected_text in response.content
-
-
-def test_about_page_services_links(settings):
-    context = urls_processor(None)
-    html = render_to_string('core/about.html', context)
-    assert settings.DIRECTORY_CONSTANTS_URL_FIND_A_BUYER in html
-    assert settings.DIRECTORY_CONSTANTS_URL_SELLING_ONLINE_OVERSEAS in html

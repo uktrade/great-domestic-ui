@@ -173,7 +173,7 @@ def test_domestic_prepopulate(mock_lookup_by_slug, client, user):
         'email': user.email,
         'company_name': 'Example corp',
         'postcode': 'Foo Bar',
-        'first_name': 'Foo',
-        'last_name': 'Example',
+        'first_name': 'Jim',
+        'last_name': 'Cross',
         'organisation_type': 'COMPANY',
     }

@@ -7,9 +7,9 @@ from directory_components import forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from marketing import constants as choices
+from core.validators import is_valid_postcode
 from contact.forms import TERMS_LABEL
-from ukpostcodeutils import validation
+from marketing import constants as choices
 
 PHONE_NUMBER_REGEX = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
 
@@ -73,7 +73,8 @@ class MarketingJoinForm(GovNotifyEmailActionMixin, forms.Form):
         error_messages={
             'required': _('Enter your business postcode'),
             'invalid': _('Please enter a UK postcode')
-        }
+        },
+        validators=[is_valid_postcode],
     )
     annual_turnover = forms.ChoiceField(
             label=_('Annual turnover'),
@@ -131,13 +132,7 @@ class MarketingJoinForm(GovNotifyEmailActionMixin, forms.Form):
         return phone_number
 
     def clean_company_postcode(self):
-
-        company_postcode = self.cleaned_data.get(
-            'company_postcode', ''
-        ).replace(' ', '').upper()
-        if not validation.is_valid_postcode(company_postcode):
-            raise ValidationError(_('Please enter a UK postcode'))
-        return company_postcode
+        return self.cleaned_data.get('company_postcode', '').replace(' ', '').upper()
 
     @property
     def serialized_data(self):

@@ -84,7 +84,7 @@ r-2018) and the full",
                 '_id': 'dit:exportOpportunities:Event:1',
                 '_score': 0.18232156,
                 '_source': {
-                    'type': ['Document', 'dit:Event'],
+                    'type': ['Document', 'dit:aventri:Event'],
                     'title': 'Test Event URL Parsing',
                     'content': 'Great event',
                     'url': 'https://eu.eventscloud.com\

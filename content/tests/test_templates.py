@@ -496,7 +496,7 @@ def test_tag_list_page():
 def test_landing_page_header_footer(rf):
     request = rf.get('/')
 
-    html = render_to_string('core/landing_page_domestic.html', {'request': request})
+    html = render_to_string('core/landing_page.html', {'request': request})
 
     assert '/static/js/home' in html
 
@@ -735,3 +735,35 @@ def test_country_guide_add_href_target(dummy_cms_page, rf):
     assert links[0].attrs['title'] == 'Opens in a new window'
     assert links[0].attrs['target'] == '_blank'
     assert links[0].attrs['rel'] == ['noopener', 'noreferrer']
+
+
+def test_country_guide_no_industries_no_heading(dummy_cms_page, rf):
+    context = {
+        'page': dummy_cms_page,
+        'request': rf.get('/'),
+    }
+
+    context['page']['accordions'] = []
+    context['page']['section_two_heading'] = None
+
+    html = render_to_string('content/country_guide.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+
+    assert not soup.find(id='country-guide-section-two')
+    assert not soup.find(id='country-guide-accordions')
+
+
+def test_country_guide_no_industries(dummy_cms_page, rf):
+    context = {
+        'page': dummy_cms_page,
+        'request': rf.get('/'),
+    }
+
+    context['page']['accordions'] = []
+    context['page']['section_two_heading'] = 'Heading'
+
+    html = render_to_string('content/country_guide.html', context)
+    soup = BeautifulSoup(html, 'html.parser')
+
+    assert soup.find(id='country-guide-section-two')
+    assert not soup.find(id='country-guide-accordions')

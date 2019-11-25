@@ -1,45 +1,16 @@
 {% extends 'contact/soo/base.html' %}
 
 {% load static from static %}
-
-{% block extra_contents %}
-    <div id="form-step-body-text">
-        Your answers to the questions below help us to decide the best way to support your business
-    </div>
-{% endblock %}
-
-{% block form_class %}{% endblock %}
-{% block form_contents_class %}lg-2{% endblock %}
-{% block step_title_container %}
-  {{ block.super }}
-  <div id="benefits-toggle">
-    <h3 class="heading-medium">Benefits of applying here</h3>
-    <div id="benefits">
-      <p>The Department for International Trade facilitates the introduction between you and the marketplace directly.</p>
-      <p>
-        <p>
-          <h4 class="heading-small">Save time</h4>
-          <span>Your application will be 'fast tracked' through this channel, providing a direct route to the marketplace.</span>
-        </p>
-        <p>Your application for this marketplace will be reviewed for suitability and we will respond to you within 5 working days.</p>
-      </p>
-      <p>
-        <h4 class="heading-small">Save money</h4>
-        <p>If successfully matched, you may be able to get access to marketplace offers.</p>
-      </p>
-    </div>
-  </div>
-  <h3 class="heading-medium">Your business</h3>
-{% endblock %}
-
-{% block step_title_heading %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+{% block step_title_container %}{% endblock %}
+{% block step_title %}About your business{% endblock %}
 
 {% block body_js %}
     <script src="{% static 'js/company-lookup.js' %}"></script>
     <script type="text/javascript">
-      var $companyNumberContainer = $("#id_organisation-company_number-container");
-      var $companyNumberField = $("#id_organisation-company_number");
-      var $noCompanyNumber = $("#id_organisation-soletrader");
+      var $companyNumberContainer = $("#id_applicant-company_number-container");
+      var $companyNumberField = $("#id_applicant-company_number");
+      var $noCompanyNumber = $("#id_applicant-soletrader");
       function hideCompanyNumberFieldContainer() {
         $companyNumberField.val("");
         $companyNumberContainer.hide();
@@ -50,7 +21,7 @@
       }
 
       $(document).ready(function() {
-        var lookup = new GOVUK.components.CompaniesHouseNameLookup($("#id_organisation-company_name"), $companyNumberField);
+        var lookup = new GOVUK.components.CompaniesHouseNameLookup($("#id_applicant-company_name"), $companyNumberField);
 
         // Hide and clear company number field if declare they have no number.
         $noCompanyNumber.on("change", function() {
@@ -75,7 +46,7 @@
             var selectedCompanyNumber = lookup._private.$field.val();
             for(var i=0; i<companies.length; ++i) {
               if(companies[i].company_number == selectedCompanyNumber) {
-                $("#id_organisation-company_postcode").val(companies[i].address.postal_code);
+                $("#id_applicant-company_postcode").val(companies[i].address.postal_code);
               }
             }
 
