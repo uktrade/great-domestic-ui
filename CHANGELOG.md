@@ -6,6 +6,10 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- XOT-1201 - move video close button inside container and add modal js from directory components
+- XOT-1185 - change sort field for countries to arrange tiles with 'The' alphabetically by country name
+- XOT-1200 - autoplay video when watch video button opens modal
 - no ticket - change campaign component logo spacing (marketing request)
 - XOT-1117 - small spelling change
 - XOT-1137 - change order of padding incase chevron component is removed
@@ -13,6 +17,7 @@
 - XOT-1175 - Add logic to hide section on market page when no content
 - GTRANSFORM-300 - change numbered bullet colour
 - XOT-1135 - Add new SOO contact form
+- XOT-1171 - Advice redirects
 
 ### Bugs fixed
 - No ticket - Handle invalid postcodes on office finder

@@ -845,7 +845,7 @@ articles_redirects = [
     url(
         r'^advice/find-an-export-market/plan-export-market-research/$',
         QuerystringRedirectView.as_view(
-            url='/advice/find-an-export-market/understand-export-market-research/'  # NOQA
+            url='/advice/find-an-export-market/understand-export-market-research/'
         )
     ),
     url(
@@ -863,7 +863,7 @@ articles_redirects = [
     url(
         r'^advice/get-export-finance-and-funding/choose-the-right-finance/$',
         QuerystringRedirectView.as_view(
-            url='/advice/get-export-finance-and-funding/understand-export-finance/'  # NOQA
+            url='/advice/get-export-finance-and-funding/understand-export-finance/'
         )
     ),
     url(
@@ -879,11 +879,59 @@ articles_redirects = [
         )
     ),
     url(
-        r'^advice/get-export-finance-and-funding/raise-money-with-investment/$',  # NOQA
+        r'^advice/get-export-finance-and-funding/raise-money-with-investment/$',
         QuerystringRedirectView.as_view(
             url='/advice/get-export-finance-and-funding/get-export-finance/'
         )
     ),
+    url(
+        r'^advice/use-a-freight-forwarder-to-export/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/'
+        )
+    ),
+    url(
+        r'^advice/prepare-for-export-procedures-and-logistics/use-a-freight-forwarder-to-export/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/'
+        )
+    ),
+    url(
+        r'^advice/plan-logistics-for-exporting/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/'
+        )
+    ),
+    url(
+        r'^advice/prepare-for-export-procedures-and-logistics/plan-logistics-for-exporting/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/prepare-for-export-procedures-and-logistics/moving-goods-and-using-freight-forwarders/'
+        )
+    ),
+    url(
+        r'^advice/use-incoterms-in-contracts/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/'
+        )
+    ),
+    url(
+        r'^advice/prepare-for-export-procedures-and-logistics/use-incoterms-in-contracts/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/prepare-for-export-procedures-and-logistics/international-trade-contracts-and-incoterms/'
+        )
+    ),
+    url(
+        r'^advice/get-your-export-documents-right/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
+        )
+    ),
+    url(
+        r'^advice/prepare-for-export-procedures-and-logistics/get-your-export-documents-right/$',
+        QuerystringRedirectView.as_view(
+            url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
+        )
+    )
 ]
 
 
