@@ -479,6 +479,11 @@ class SellingOnlineOverseasFormView(
     }
 
     def get(self, *args, **kwargs):
+        if self.request.path == reverse(
+                'contact-us-soo', kwargs={'step': 'contact-details'}
+            ):
+            self.storage.reset()
+            self.storage.current_step = self.steps.first
         market = self.request.GET.get('market')
         if market:
             self.request.session[SESSION_KEY_SOO_MARKET] = market
@@ -491,13 +496,6 @@ class SellingOnlineOverseasFormView(
         # skipping `PrepopulateFormMixin.get_form_kwargs`
         form_kwargs = super(mixins.PrepopulateFormMixin, self).get_form_kwargs(step)
 
-        # Reset form if at start
-        if step == self.CONTACT_DETAILS and \
-           self.request.path != reverse(
-               'contact-us-soo', kwargs={'step': 'finished'}
-           ):
-            self.storage.reset()
-            self.storage.current_step = self.steps.first
         if step == self.APPLICANT:
             form_kwargs['company_type'] = self.request.user.company_type
         return form_kwargs
