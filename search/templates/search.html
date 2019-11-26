@@ -67,23 +67,21 @@
           </li>
         {% endfor %}
       </ul>
-
+    {% if total_pages > 1 %}
       <div class="pagination">
         <p class="verbose">Displaying page {{ current_page }} of total {{ total_pages }}</p>
         {% if current_page != 1 %}
-          <a class="previous" rel="prev" href="{% url 'search' %}?page={{ previous_page }}&q={{ query }}">Previous</a>
+          <a class="button-ghost-blue pagination-previous" rel="prev" href="{% url 'search' %}?page={{ previous_page }}&q={{ query }}">Previous</a>
         {% endif %}
-        {% if current_page != total_pages %}
-          <a class="next" rel="next" href="{% url 'search' %}?page={{ next_page }}&q={{ query }}">Next</a>
-        {% endif %}
-        <ul class="navigation" role="navigation" aria-label="Page navigation">
+
+        <ol class="navigation" role="navigation" aria-label="Page navigation">
           {% if show_first_page %}
             <li>
               <a href="{% url 'search' %}?page=1&q={{ query }}"><span class="verbose">Page </span>1</a>
             </li>
-            <li>
+            <li class="active-blue-text margin-right-0 margin-top-15 margin-15-m">
               <span class="verbose">Page links truncated</span>
-              <span class="gap">…</span>
+              <span>...</span>
             </li>
           {% endif %}
           {% for page in prev_pages %}
@@ -102,16 +100,20 @@
             </li>
           {% endfor %}
           {% if show_last_page %}
-            <li>
+            <li class="active-blue-text margin-right-0 margin-top-15 margin-15-m">
               <span class="verbose">Page links truncated</span>
-              <span class="gap">…</span>
+              <span>...</span>
             </li>
             <li>
               <a href="{% url 'search' %}?page={{ total_pages }}&q={{ query }}"><span class="verbose">Page </span>{{ total_pages }}</a>
             </li>
           {% endif %}
-        </ul>
+        </ol>
+          {% if current_page != total_pages %}
+          <a class="button-ghost-blue pagination-next" rel="next" href="{% url 'search' %}?page={{ next_page }}&q={{ query }}">Next</a>
+        {% endif %}
       </div>
+    {% endif %}
     </div>
   </section>
 {% else %}
