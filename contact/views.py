@@ -479,9 +479,7 @@ class SellingOnlineOverseasFormView(
     }
 
     def get(self, *args, **kwargs):
-        if self.request.path == reverse(
-                'contact-us-soo', kwargs={'step': 'contact-details'}
-            ):
+        if self.steps.current == self.CONTACT_DETAILS:
             self.storage.reset()
             self.storage.current_step = self.steps.first
         market = self.request.GET.get('market')
