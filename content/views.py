@@ -63,6 +63,8 @@ class MarketsPageView(CMSPageView):
     def filtered_countries(self):
         sector_id = self.request.GET.get('sector')
 
+        print(sector_id)
+
         if sector_id and sector_id.isdigit() and int(sector_id) != 0:
             response = cms_api_client.lookup_countries_by_tag(tag_id=sector_id)
             return handle_cms_response_allow_404(response)
@@ -70,6 +72,14 @@ class MarketsPageView(CMSPageView):
     @cached_property
     def sector_list(self):
         return helpers.handle_cms_response(cms_api_client.list_industry_tags())
+
+    def sortby_options(self):
+        options = [
+            {'value': 'a-z', 'label': 'A-Z'},
+            {'value': 'region', 'label': 'Region'},
+            {'value': 'recently-updated', 'label': 'Recently updated'},
+        ]
+        return options
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -85,6 +95,10 @@ class MarketsPageView(CMSPageView):
 
         paginator = Paginator(filtered_countries, 12)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
+        context['selected_sectors'] = list(map(int, self.request.GET.getlist('sector')))
+        context['sortby_options'] = self.sortby_options
+        context['sortby'] = self.request.GET.get('sortby')
+        context['sector_list'] = sorted(self.sector_list, key=lambda x: x['name'])
         context['sector_form'] = forms.SectorPotentialForm(sector_list=self.sector_list)
         context['pagination_page'] = pagination_page
         context['number_of_results'] = len(filtered_countries)

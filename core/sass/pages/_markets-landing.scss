@@ -1,0 +1,45 @@
+.markets-landing {
+    .controls {
+        .sort-control {
+            width: auto;
+            min-width: 200px;
+            padding-right: 60px;
+
+        }
+    }
+    .card {
+        min-height: 0;
+        .heading-large {
+            font-size: 16px;
+        }
+
+        .subheading {
+            font-size: 14px;
+        }
+
+
+        .card-image {
+            display: none;
+        }
+
+        .card-inner {
+            > :last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (min-width: 641px) {
+            .heading-large {
+                font-size: 19px;
+            }
+            .subheading {
+                font-size: 15px;
+            }
+
+            .card-image {
+                display: block;
+            }
+        }
+    }
+
+}
