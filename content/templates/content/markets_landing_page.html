@@ -24,14 +24,14 @@
 {% block child_pages %}
 <section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 markets-landing">
   <div class="container">
-    <h2 class="heading-large margin-bottom-45 margin-bottom-60-m padding-right-60-l">Find market guides for British Businesses interested in selling goods and services overseas.</h2>
+    <h2 class="heading-large margin-bottom-45 margin-bottom-60-m padding-right-90-m">Find market guides for British Businesses interested in selling goods and services overseas.</h2>
 
     <form id="sectors-form" action="{% url 'markets' %}" method="GET">
 
     <div class="grid-row">
-      <div class="column-quarter">
+      <div class="column-third column-quarter-xl">
         <div class="filters">
-          <h2 class="heading-small margin-top-0">
+          <h2 class="heading-small margin-top-0 margin-bottom-30 margin-bottom-15-m">
             <span>Filter markets guides</span>
             <a href="#" class="button mobile-filter-toggle" id="mobile-filter-toggle">Filter market guides</a>
           </h2>
@@ -40,18 +40,16 @@
               <input type="checkbox" id="sectors" checked />
               <label for="sectors">Opportunities for specific sectors</label>
               <div class="options checkbox-small">
-
-                  <ul>
-                    {% for sector in sector_list %}
-                    <li class="multiple-choice margin-bottom-0">
-                      <input type="checkbox" value="{{ sector.id }}" id="{{ sector.id }}" name="sector" {% if sector.id in selected_sectors %} checked {% endif %} />
-                      <label for="{{ sector.id }}">
-                        {{ sector.name }}
-                      </label>
-                      </li>
-                    {% endfor %}
-                  </ul>
-
+                <ul>
+                  {% for sector in sector_list %}
+                  <li class="multiple-choice margin-bottom-0">
+                    <input type="checkbox" value="{{ sector.id }}" id="{{ sector.id }}" name="sector" {% if sector.id in selected_sectors %} checked {% endif %} />
+                    <label for="{{ sector.id }}">
+                      {{ sector.name }}
+                    </label>
+                    </li>
+                  {% endfor %}
+                </ul>
               </div>
             </li>
             <li class="filter-section">
@@ -63,10 +61,14 @@
             </li>
 
           </ul>
-          <button type="submit" class="button margin-top-15">Show markets</button>
+          <div class="filters-sticky-footer" id="filters-sticky-footer">
+            <a href="#" class="cancel link">Cancel</a>
+            <a href="#" class="button update">Update</a>
+          </div>
+
         </div>
       </div>
-      <div class="column-three-quarters"> {{tag_name }}
+      <div class="column-two-thirds column-three-quarters-xl">
         {% if number_of_results > 0 and tag_name %}
         <h3 class="font-medium margin-bottom-0">There are <span class="bold">{{ number_of_results }}</span> market opportunities for <span class="bold">{{ tag_name }}</span> </h3>
         <p>These are the countries our local experts recommend for sectors you selected.</p>
@@ -77,6 +79,7 @@
           {% if selected_sectors %}
           <p><a href="{% url 'markets' %}" class="view-markets link bold margin-top-15 margin-bottom-45">Clear all filters</a></p>
           {% endif %}
+          {% if number_of_results %}
           <div>
             <label for="sortby" class="margin-right-15">Sort by</label>
             <select name="sortby" class="sort-control form-control" id="sortby">
@@ -85,6 +88,7 @@
               {% endfor %}
             </select>
           </div>
+          {% endif %}
         </div>
 
 
@@ -109,10 +113,12 @@ window.onload=function() {
 var marketFilters = function() {
 
   var form = document.querySelector('#sectors-form'),
-      filters = document.querySelectorAll('#sectors-form .filters'),
+      filters = document.querySelectorAll('#sectors-form .filters')[0],
       checks = document.querySelectorAll('.filters li.multiple-choice input[type=checkbox]'),
       sortby = document.querySelector('#sortby'),
-      cards = document.querySelectorAll('.markets-grid .card');
+      cards = document.querySelectorAll('.markets-grid .card'),
+      stickyFooter = document.querySelectorAll('.filters-sticky-footer')[0],
+      body = document.querySelector('body');
 
   function init() {
     bindEvents();
@@ -125,46 +131,61 @@ var marketFilters = function() {
           checks[i].addEventListener('change', submitForm);
       })(i);
     }
-    sortby.addEventListener("change", submitForm);
 
-    $('#mobile-filter-toggle').on('click', function(e) {
+    if(sortby) {
+      sortby.addEventListener("change", submitForm);
+    }
+    stickyFooter.querySelector('a.cancel').addEventListener('click', clearMobileFilters);
+    stickyFooter.querySelector('a.update').addEventListener('click', submitForm);
+
+    document.querySelector('#mobile-filter-toggle').addEventListener('click', function(e) {
       e.preventDefault();
-      $('body').addClass('fixed');
-      $(filters).addClass('mobile-filters').css('height', $(window).height());
-
-    })
-
-    $(window).on('resize orientationchange', function() {
-        getImages();
+      body.classList.add('fixed');
+      filters.classList.add('mobile-filters');
+      filters.style.height = window.innerHeight + 'px';
     });
+
+    window.addEventListener("resize", resizeHandler);
+    window.addEventListener("orientationchange", resizeHandler);
+  }
+
+  function resizeHandler() {
+    if(window.innerWidth >= 641) {
+      getImages();
+      if(body.classList.contains('fixed')) {
+        clearMobileFilters();
+      }
+    }
+    if(window.innerWidth <= 640) {
+      if(filters.classList.contains('mobile-filters')) {
+        filters.style.height = window.innerHeight + 'px';
+      }
+    }
   }
 
   function submitForm(e) {
-    if(window.innerWidth > 641) {
+    if(e.target.name === 'sector' && window.innerWidth <= 640) return;
       document.querySelector('#sectors-form').submit();
-    }
+  }
+
+  function clearMobileFilters() {
+    body.classList.remove('fixed');
+    filters.classList.remove('mobile-filters');
+    filters.style.height = '';
   }
 
   function getImages() {
-    if(window.innerWidth > 641) {
+    if(window.innerWidth >= 641) {
       $(cards).each(function(int, card) {
         var $marketImg = $(card).find('img.card-image');
         if($marketImg.attr('src')) {
-          console.log('got an image so returning')
           return
         } else {
           $marketImg.attr('src', $marketImg.data('src'));
-          console.log('no img so adding', $marketImg, $(card))
         }
       })
     }
-
-
   }
-
-
-
-
 
   return {
   init: init
