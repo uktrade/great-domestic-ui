@@ -1,9 +1,10 @@
 # Changelog
 
-
-
 ## Pre-release
-- XOT-1206 - change search pagination markup and css to match directory components
+
+### Implemented enhancements
+ - XOT-1206 - change search pagination markup and css to match directory components
+ - TT-1304 - Upgrade sentry client
 
 # [2019.11.25](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.11.25)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.12.05...2019.11.25)
