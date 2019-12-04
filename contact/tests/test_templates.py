@@ -1,11 +1,9 @@
 from django.template.loader import render_to_string
 
 
-def test_cms_guidance_descriptive_page_title_is_rendered(rf):
+def test_cms_guidance_descriptive_page_title_is_rendered(rf, context):
 
-    context = {
-        'request': rf.get('/'),
-    }
+    context['request'] = rf.get('/')
     page = {
         'title': 'Descriptive text',
     }

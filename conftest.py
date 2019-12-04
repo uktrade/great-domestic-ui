@@ -8,10 +8,17 @@ from django.core.cache import cache
 
 from core.tests.helpers import create_response
 
+from directory_components.context_processors import urls_processor
+
 
 @pytest.fixture(autouse=True)
 def clear_django_cache():
     cache.clear()
+
+
+@pytest.fixture(autouse=True)
+def context():
+    return urls_processor(None)
 
 
 @pytest.fixture
