@@ -2,7 +2,7 @@
 {% for card in cards %}
   <div class="column-third-xl column-half-l">
     <div class="card only-title">
-        <a class="card-link" href="card.full_path">
+        <a class="card-link" href="{{ card.full_path }}">
             <img class="card-image" data-src="{{ card.hero_image_thumbnail.url }}" alt="">
             <div class="card-inner">
                 <h3 class="heading-large">{{ card.title }}</h3>

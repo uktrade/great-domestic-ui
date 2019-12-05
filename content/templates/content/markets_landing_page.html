@@ -19,88 +19,103 @@
 {% endif %}
 {% endblock %}
 
-
-
 {% block child_pages %}
 <section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 markets-landing">
   <div class="container">
-    <h2 class="heading-large margin-bottom-45 margin-bottom-60-m padding-right-90-m">Find market guides for British Businesses interested in selling goods and services overseas.</h2>
+    <h2 class="heading-large margin-bottom-45-m padding-right-90-m">Find market guides for British Businesses interested in selling goods and services overseas.</h2>
 
     <form id="sectors-form" action="{% url 'markets' %}" method="GET">
+      <div class="grid-row">
+        <div class="column-third column-quarter-xl">
+          <div class="filters">
+            <h2 class="heading-small margin-top-0 margin-bottom-30 margin-bottom-15-m">
+              <span>Filter markets guides</span>
+            </h2>
+            <ul>
+              <li class="filter-section">
+                <input type="checkbox" id="sectors" checked />
+                <label for="sectors">Opportunities for specific sectors</label>
+                <div class="options checkbox-small">
+                  <ul>
+                    {% for sector in sector_list %}
+                    <li class="multiple-choice margin-bottom-0">
+                      <input type="checkbox" value="{{ sector.name }}" id="{{ sector.id }}" name="sector" {% if sector.name in selected_sectors %} checked {% endif %} />
+                      <label for="{{ sector.id }}">
+                        {{ sector.name }}
+                      </label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </li>
+              <li class="filter-section">
+                <input type="checkbox" id="regions" checked />
+                <label for="regions">Regions</label>
+                <div class="options checkbox-small expanded">
+                    <ul>
+                      {% for region in regions_list %}
+                      <li class="multiple-choice margin-bottom-0">
+                        <input type="checkbox" value="{{ region.name }}" id="{{ region.id }}" name="region" {% if region.name in selected_regions %} checked {% endif %} />
+                        <label for="{{ region.id }}">
+                          {{ region.name }}
+                        </label>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+              </li>
 
-    <div class="grid-row">
-      <div class="column-third column-quarter-xl">
-        <div class="filters">
-          <h2 class="heading-small margin-top-0 margin-bottom-30 margin-bottom-15-m">
-            <span>Filter markets guides</span>
-            <a href="#" class="button mobile-filter-toggle" id="mobile-filter-toggle">Filter market guides</a>
-          </h2>
-          <ul>
-            <li class="filter-section">
-              <input type="checkbox" id="sectors" checked />
-              <label for="sectors">Opportunities for specific sectors</label>
-              <div class="options checkbox-small">
-                <ul>
-                  {% for sector in sector_list %}
-                  <li class="multiple-choice margin-bottom-0">
-                    <input type="checkbox" value="{{ sector.id }}" id="{{ sector.id }}" name="sector" {% if sector.id in selected_sectors %} checked {% endif %} />
-                    <label for="{{ sector.id }}">
-                      {{ sector.name }}
-                    </label>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </li>
-            <li class="filter-section">
-              <input type="checkbox" id="regions" checked />
-              <label for="regions">Regions</label>
-              <div class="options">
-                more filters...
-              </div>
-            </li>
+            </ul>
+            <div class="filters-sticky-footer" id="filters-sticky-footer">
+              <a href="#" class="cancel link">Cancel</a>
+              <a href="#" class="button update">Update</a>
+            </div>
 
-          </ul>
-          <div class="filters-sticky-footer" id="filters-sticky-footer">
-            <a href="#" class="cancel link">Cancel</a>
-            <a href="#" class="button update">Update</a>
           </div>
-
         </div>
-      </div>
-      <div class="column-two-thirds column-three-quarters-xl">
-        {% if number_of_results > 0 and tag_name %}
-        <h3 class="font-medium margin-bottom-0">There are <span class="bold">{{ number_of_results }}</span> market opportunities for <span class="bold">{{ tag_name }}</span> </h3>
-        <p>These are the countries our local experts recommend for sectors you selected.</p>
-        {% elif tag_name %}
-        <h3 class="font-medium">No results found for <span class="bold">{{ tag_name }}</span>. Please try again.</h3>
-        {% endif %}
-        <div class="controls margin-bottom-45">
-          {% if selected_sectors %}
-          <p><a href="{% url 'markets' %}" class="view-markets link bold margin-top-15 margin-bottom-45">Clear all filters</a></p>
-          {% endif %}
-          {% if number_of_results %}
-          <div>
-            <label for="sortby" class="margin-right-15">Sort by</label>
-            <select name="sortby" class="sort-control form-control" id="sortby">
-              {% for option in sortby_options %}
-              <option value="{{ option.value }}" {% if sortby == option.value %}selected{% endif %}>{{ option.label }}</option>
-              {% endfor %}
-            </select>
+        <div class="column-two-thirds column-three-quarters-xl">
+
+          <div class="markets-header">
+              {% if selected_sectors or selected_regions %}
+              <h3 class="font-medium margin-bottom-0">There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market opportunit{{ number_of_results|pluralize:"y,ies" }}
+                  {% if selected_sectors %} for
+                    {% for sector in selected_sectors %} <span class="bold">{{ sector }}</span> {% if not forloop.last %} or{% endif %}{% endfor %}
+                  {% endif %}
+                  {% if selected_regions %}
+                  in {% for region in selected_regions %} <span class="bold">{{ region }}</span> {% if not forloop.last %} or{% endif %}
+                    {% endfor %}
+                  {% endif %}
+                </h3>
+                {% if number_of_results > 0 %}
+                <p>These are the countries our local experts recommend for sectors you selected.</p>
+                {% else %}
+                <p>Explain why no results...</p>
+                {% endif %}
+              {% endif %}
+
+
+            {% if selected_sectors %}
+            <p class="margin-bottom-45-m"><a href="{% url 'markets' %}" class="view-markets link bold margin-top-15">Clear all filters</a></p>
+            {% endif %}
+            <div class="controls margin-bottom-45-m">
+              <a href="#" class="button mobile-filter-toggle" id="mobile-filter-toggle">Filter</a>
+              {% if number_of_results %}
+              <label for="sortby" class="margin-right-15">Sort by</label>
+              <select name="sortby" class="sort-control form-control" id="sortby">
+                {% for option in sortby_options %}
+                <option value="{{ option.value }}" {% if sortby == option.value %}selected{% endif %}>{{ option.label }}</option>
+                {% endfor %}
+              </select>
+              {% endif %}
+            </div>
           </div>
-          {% endif %}
+          <div class="flex-grid markets-grid">
+            {% include 'content/components/markets_card_grid.html' with cards=pagination_page  %}
+          </div>
         </div>
 
-
-
-
-        <div class="flex-grid markets-grid">
-          {% include 'content/components/markets_card_grid.html' with cards=pagination_page  %}
-        </div>
       </div>
-
-    </div>
-  </form>
+    </form>
     {% pagination pagination_page=pagination_page %}
   </div>
 </section>
@@ -164,7 +179,7 @@ var marketFilters = function() {
   }
 
   function submitForm(e) {
-    if(e.target.name === 'sector' && window.innerWidth <= 640) return;
+    if((e.target.name === 'sector' || e.target.name === 'region') && window.innerWidth <= 640) return;
       document.querySelector('#sectors-form').submit();
   }
 

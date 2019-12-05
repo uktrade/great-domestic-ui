@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
 from core.tests.helpers import create_response
 from django.urls import reverse
+from directory_components.context_processors import urls_processor
 
 
 @pytest.fixture
@@ -96,7 +97,7 @@ def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
     assert 'pagination-next' not in str(response.content)
 
 
-def test_article_detail_page_no_related_content(rf):
+def test_article_detail_page_no_related_content(rf, context):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -111,14 +112,14 @@ def test_article_detail_page_no_related_content(rf):
         },
         "page_type": "ArticlePage",
     }
-    context = {'request': rf.get('/'), 'page': page}
+    context['request'] = rf.get('/')
+    context['page'] = page
 
     html = render_to_string('content/article_detail.html', context)
     assert 'Related content' not in html
 
 
-def test_article_advice_page():
-    context = {}
+def test_article_advice_page(context):
     page = {
         'title': 'Markets',
         'hero_image': {'url': 'markets.jpg'},
@@ -154,10 +155,8 @@ def test_article_advice_page():
     assert 'africa.jpg' in html
 
 
-def test_article_detail_page_related_content(rf):
-    context = {
-        'request': rf.get('/')
-    }
+def test_article_detail_page_related_content(rf, context):
+    context['request'] = rf.get('/')
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -201,10 +200,8 @@ def test_article_detail_page_related_content(rf):
     assert soup.find(id='related-content').select('li a')[1].text == 'Related article 2'
 
 
-def test_article_detail_page_related_content_footer(rf):
-    context = {
-        'request': rf.get('/')
-    }
+def test_article_detail_page_related_content_footer(rf, context):
+    context['request'] = rf.get('/')
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -239,10 +236,8 @@ def test_article_detail_page_related_content_footer(rf):
     ).select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
 
 
-def test_article_detail_page_related_content_footer_not_rendered(rf):
-    context = {
-        'request': rf.get('/')
-    }
+def test_article_detail_page_related_content_footer_not_rendered(rf, context):
+    context['request'] = rf.get('/')
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -267,10 +262,8 @@ def test_article_detail_page_related_content_footer_not_rendered(rf):
     assert '<section id="article_related_content_footer"' not in html
 
 
-def test_article_detail_page_media_rendered(rf):
-    context = {
-        'request': rf.get('/')
-    }
+def test_article_detail_page_media_rendered(rf, context):
+    context['request'] = rf.get('/')
     page = {
         "article_video": {
             "url": "test.mp4",
@@ -290,10 +283,8 @@ def test_article_detail_page_media_rendered(rf):
     assert src.attrs['type'] == 'video/mp4'
 
 
-def test_article_detail_page_media_not_rendered(rf):
-    context = {
-        'request': rf.get('/')
-    }
+def test_article_detail_page_media_not_rendered(rf, context):
+    context['request'] = rf.get('/')
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -314,7 +305,7 @@ def test_article_detail_page_media_not_rendered(rf):
     assert '<div class="video-container">' not in html
 
 
-def test_marketing_article_detail_page_related_content(rf):
+def test_marketing_article_detail_page_related_content(rf, context):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -331,7 +322,8 @@ def test_marketing_article_detail_page_related_content(rf):
         },
         "page_type": "MarketingArticlePage",
     }
-    context = {'request': rf.get('/'), 'page': page}
+    context['request'] = rf.get('/')
+    context['page'] = page
     html = render_to_string('content/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
@@ -340,7 +332,7 @@ def test_marketing_article_detail_page_related_content(rf):
     assert soup.find(id='contact-us-section').select('a.button')[0].attrs['href'] == 'http://www.great.gov.uk'
 
 
-def test_marketing_article_detail_page_related_content_not_rendered(rf):
+def test_marketing_article_detail_page_related_content_not_rendered(rf, context):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -358,14 +350,15 @@ def test_marketing_article_detail_page_related_content_not_rendered(rf):
         "page_type": "MarketingArticlePage",
     }
 
-    context = {'request': rf.get('/'), 'page': page}
+    context['request'] = rf.get('/')
+    context['page'] = page
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
     assert '<section id="contact-us-section"' not in html
 
 
-def test_marketing_article_detail_content_button_not_rendered_without_link(rf):
+def test_marketing_article_detail_content_button_not_rendered_without_link(rf, context):
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -383,7 +376,8 @@ def test_marketing_article_detail_content_button_not_rendered_without_link(rf):
         "page_type": "MarketingArticlePage",
     }
 
-    context = {'request': rf.get('/'), 'page': page}
+    context['request'] = rf.get('/')
+    context['page'] = page
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
@@ -411,8 +405,9 @@ test_news_list_page = {
 }
 
 
-def test_news_list_page_feature_flag_on():
-    context = {'features': {'NEWS_SECTION_ON': True}, 'page': test_news_list_page}
+def test_news_list_page_feature_flag_on(context):
+    context['features'] = {'NEWS_SECTION_ON': True}
+    context['page'] = test_news_list_page
 
     html = render_to_string('content/domestic_news_list.html', context)
 
@@ -465,8 +460,7 @@ test_list_page = {
 }
 
 
-def test_article_list_page():
-    context = {}
+def test_article_list_page(context):
     context['page'] = test_list_page
 
     html = render_to_string('content/article_list.html', context)
@@ -477,8 +471,7 @@ def test_article_list_page():
     assert '02 October' in html
 
 
-def test_tag_list_page():
-    context = {}
+def test_tag_list_page(context):
     page = {
         'name': 'New to exporting',
         'articles': test_articles,
@@ -493,10 +486,10 @@ def test_tag_list_page():
     assert 'Articles with tag: New to exporting' in html
 
 
-def test_landing_page_header_footer(rf):
-    request = rf.get('/')
+def test_landing_page_header_footer(rf, context):
+    context['request'] = rf.get('/')
 
-    html = render_to_string('core/landing_page.html', {'request': request})
+    html = render_to_string('core/landing_page.html', context)
 
     assert '/static/js/home' in html
 
@@ -617,8 +610,8 @@ def test_article_detail_page_social_share_links_no_title(mock_get_page, client):
     assert soup.find(id='share-email').attrs['href'] == email_link
 
 
-def test_country_guide_fact_sheet_displays_if_given_title(rf):
-    context = {'request': rf.get('/')}
+def test_country_guide_fact_sheet_displays_if_given_title(rf, context):
+    context['request'] = rf.get('/')
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
@@ -655,11 +648,9 @@ def test_country_guide_fact_sheet_displays_if_given_title(rf):
         }
     ],
 ))
-def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/')
-    }
+def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page, rf, context):
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     context['page']['heading_teaser'] = 'Teaser'
     context['page']['intro_ctas'] = intro_ctas
@@ -671,11 +662,9 @@ def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page, rf):
     assert len(ctas) == 0
 
 
-def test_country_guide_complete_intro_ctas(dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/')
-    }
+def test_country_guide_complete_intro_ctas(dummy_cms_page, rf, context):
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     intro_ctas = [
         {
@@ -702,11 +691,9 @@ def test_country_guide_complete_intro_ctas(dummy_cms_page, rf):
     assert len(ctas) == 3
 
 
-def test_country_guide_no_intro_ctas(dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/')
-    }
+def test_country_guide_no_intro_ctas(dummy_cms_page, rf, context):
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     context['page']['heading_teaser'] = 'Teaser'
 
@@ -717,13 +704,12 @@ def test_country_guide_no_intro_ctas(dummy_cms_page, rf):
     assert len(ctas) == 0
 
 
-def test_country_guide_add_href_target(dummy_cms_page, rf):
+def test_country_guide_add_href_target(dummy_cms_page, rf, context):
     request = rf.get('/')
     request.META['HTTP_HOST'] = 'example.com'
-    context = {
-        'page': dummy_cms_page,
-        'request': request
-    }
+
+    context['page'] = dummy_cms_page
+    context['request'] = request
 
     context['page']['section_one_body'] = '<a href="http://www.google.co.uk">Here is an external link</a>'
 
@@ -737,11 +723,9 @@ def test_country_guide_add_href_target(dummy_cms_page, rf):
     assert links[0].attrs['rel'] == ['noopener', 'noreferrer']
 
 
-def test_country_guide_no_industries_no_heading(dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/'),
-    }
+def test_country_guide_no_industries_no_heading(dummy_cms_page, rf, context):
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     context['page']['accordions'] = []
     context['page']['section_two_heading'] = None
@@ -753,11 +737,9 @@ def test_country_guide_no_industries_no_heading(dummy_cms_page, rf):
     assert not soup.find(id='country-guide-accordions')
 
 
-def test_country_guide_no_industries(dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/'),
-    }
+def test_country_guide_no_industries(dummy_cms_page, rf, context):
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     context['page']['accordions'] = []
     context['page']['section_two_heading'] = 'Heading'

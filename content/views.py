@@ -59,19 +59,45 @@ class CMSPageFromPathView(SetGA360ValuesForCMSPageMixin, TemplateChooserMixin, G
 class MarketsPageView(CMSPageView):
     template_name = 'content/markets_landing_page.html'
 
+    # @cached_property
+    # def filtered_countries(self):
+    #     sector_id = self.request.GET.get('sector')
+    #     if sector_id and sector_id.isdigit() and int(sector_id) != 0:
+    #         response = cms_api_client.lookup_countries_by_tag(tag_id=sector_id)
+    #         return handle_cms_response_allow_404(response)
+
+    @cached_property
+    def selected_sectors(self):
+        return self.request.GET.getlist('sector')
+
+    @cached_property
+    def selected_regions(self):
+        return self.request.GET.getlist('region')
+
     @cached_property
     def filtered_countries(self):
-        sector_id = self.request.GET.get('sector')
+        # sector_id = self.request.GET.get('sector')
+        # sectors = self.request.GET.getlist('sector')
+        # regions = self.request.GET.getlist('region')
 
-        print(sector_id)
+        if self.selected_sectors or self.selected_regions:
 
-        if sector_id and sector_id.isdigit() and int(sector_id) != 0:
-            response = cms_api_client.lookup_countries_by_tag(tag_id=sector_id)
+            response = cms_api_client.lookup_country_guides(industry=','.join(self.selected_sectors), region=', '.join(self.selected_regions))
+
+            # response = cms_api_client.lookup_country_guides(industry='Aerospace,Aerospace', region='')
+            # import pdb
+            # pdb.set_trace()
             return handle_cms_response_allow_404(response)
+
+    @cached_property
+    def regions_list(self):
+        return helpers.handle_cms_response(cms_api_client.list_regions())
 
     @cached_property
     def sector_list(self):
         return helpers.handle_cms_response(cms_api_client.list_industry_tags())
+
+
 
     def sortby_options(self):
         options = [
@@ -84,10 +110,13 @@ class MarketsPageView(CMSPageView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        if self.filtered_countries:
-            markets = self.filtered_countries['countries']
-            tag_name = self.filtered_countries['name']
+        # if self.filtered_countries:
+        if self.selected_sectors or self.selected_regions:
+            markets = self.filtered_countries
+            # tag_name = self.filtered_countries['name']
+            tag_name = 'test'
         else:
+            print('no sectors or regions', self.filtered_countries)
             markets = self.page['child_pages']
             tag_name = None
 
@@ -95,14 +124,18 @@ class MarketsPageView(CMSPageView):
 
         paginator = Paginator(filtered_countries, 12)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
-        context['selected_sectors'] = list(map(int, self.request.GET.getlist('sector')))
+
+        context['sector_list'] = sorted(self.sector_list, key=lambda x: x['name'])
+        context['regions_list'] = sorted(self.regions_list, key=lambda x: x['name'])
+        context['selected_sectors'] = self.selected_sectors
+        context['selected_regions'] = self.selected_regions
         context['sortby_options'] = self.sortby_options
         context['sortby'] = self.request.GET.get('sortby')
-        context['sector_list'] = sorted(self.sector_list, key=lambda x: x['name'])
-        context['sector_form'] = forms.SectorPotentialForm(sector_list=self.sector_list)
+        # context['sector_form'] = forms.SectorPotentialForm(sector_list=self.sector_list)
         context['pagination_page'] = pagination_page
         context['number_of_results'] = len(filtered_countries)
         context['tag_name'] = tag_name
+
         return context
 
 
