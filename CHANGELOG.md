@@ -21,6 +21,8 @@
 - GTRANSFORM-300 - change numbered bullet colour
 - XOT-1135 - Add new SOO contact form
 - XOT-1171 - Advice redirects
+- XOT-1240 - Changed url of Search API endpoint to search v3 endpoint
+
 
 ### Bugs fixed
 - No ticket - Handle invalid postcodes on office finder
