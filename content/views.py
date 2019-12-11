@@ -76,18 +76,25 @@ class MarketsPageView(CMSPageView):
 
     @cached_property
     def filtered_countries(self):
-        # sector_id = self.request.GET.get('sector')
-        # sectors = self.request.GET.getlist('sector')
-        # regions = self.request.GET.getlist('region')
-
         if self.selected_sectors or self.selected_regions:
+            response = cms_api_client.lookup_country_guides(
+                industry=','.join(self.selected_sectors), region=', '.join(self.selected_regions)
+            )
 
-            response = cms_api_client.lookup_country_guides(industry=','.join(self.selected_sectors), region=', '.join(self.selected_regions))
+            filtered_countries = handle_cms_response_allow_404(response)
+            sortOption = self.request.GET.get('sortby')
 
-            # response = cms_api_client.lookup_country_guides(industry='Aerospace,Aerospace', region='')
-            # import pdb
-            # pdb.set_trace()
-            return handle_cms_response_allow_404(response)
+            for country in filtered_countries:
+                if sortOption and sortOption in filtered_countries[0] and country[sortOption] is None:
+                    sortOption = 'title'
+                    break
+
+            if sortOption == 'region':
+                return sorted(filtered_countries, key=lambda x: x['region'].replace('The ', ''))
+            elif sortOption == 'last_published_at':
+                return sorted(filtered_countries, key=lambda x: x['last_published_at'], reverse=True)
+            else:
+                return sorted(filtered_countries, key=lambda x: x['title'].replace('The ', ''))
 
     @cached_property
     def regions_list(self):
@@ -97,32 +104,23 @@ class MarketsPageView(CMSPageView):
     def sector_list(self):
         return helpers.handle_cms_response(cms_api_client.list_industry_tags())
 
-
-
     def sortby_options(self):
         options = [
-            {'value': 'a-z', 'label': 'A-Z'},
+            {'value': 'title', 'label': 'A-Z'},
             {'value': 'region', 'label': 'Region'},
-            {'value': 'recently-updated', 'label': 'Recently updated'},
+            {'value': 'last_published_at', 'label': 'Recently updated'},
         ]
         return options
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        # if self.filtered_countries:
         if self.selected_sectors or self.selected_regions:
             markets = self.filtered_countries
-            # tag_name = self.filtered_countries['name']
-            tag_name = 'test'
         else:
-            print('no sectors or regions', self.filtered_countries)
             markets = self.page['child_pages']
-            tag_name = None
 
-        filtered_countries = sorted(markets, key=lambda x: x['title'].replace('The ', ''))
-
-        paginator = Paginator(filtered_countries, 12)
+        paginator = Paginator(markets, 6)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
 
         context['sector_list'] = sorted(self.sector_list, key=lambda x: x['name'])
@@ -131,10 +129,8 @@ class MarketsPageView(CMSPageView):
         context['selected_regions'] = self.selected_regions
         context['sortby_options'] = self.sortby_options
         context['sortby'] = self.request.GET.get('sortby')
-        # context['sector_form'] = forms.SectorPotentialForm(sector_list=self.sector_list)
         context['pagination_page'] = pagination_page
-        context['number_of_results'] = len(filtered_countries)
-        context['tag_name'] = tag_name
+        context['number_of_results'] = len(markets)
 
         return context
 
