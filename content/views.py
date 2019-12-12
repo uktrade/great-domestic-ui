@@ -59,13 +59,6 @@ class CMSPageFromPathView(SetGA360ValuesForCMSPageMixin, TemplateChooserMixin, G
 class MarketsPageView(CMSPageView):
     template_name = 'content/markets_landing_page.html'
 
-    # @cached_property
-    # def filtered_countries(self):
-    #     sector_id = self.request.GET.get('sector')
-    #     if sector_id and sector_id.isdigit() and int(sector_id) != 0:
-    #         response = cms_api_client.lookup_countries_by_tag(tag_id=sector_id)
-    #         return handle_cms_response_allow_404(response)
-
     @cached_property
     def selected_sectors(self):
         return self.request.GET.getlist('sector')
@@ -76,25 +69,14 @@ class MarketsPageView(CMSPageView):
 
     @cached_property
     def filtered_countries(self):
-        if self.selected_sectors or self.selected_regions:
-            response = cms_api_client.lookup_country_guides(
-                industry=','.join(self.selected_sectors), region=', '.join(self.selected_regions)
-            )
-
-            filtered_countries = handle_cms_response_allow_404(response)
-            sortOption = self.request.GET.get('sortby')
-
-            for country in filtered_countries:
-                if sortOption and sortOption in filtered_countries[0] and country[sortOption] is None:
-                    sortOption = 'title'
-                    break
-
-            if sortOption == 'region':
-                return sorted(filtered_countries, key=lambda x: x['region'].replace('The ', ''))
-            elif sortOption == 'last_published_at':
-                return sorted(filtered_countries, key=lambda x: x['last_published_at'], reverse=True)
-            else:
-                return sorted(filtered_countries, key=lambda x: x['title'].replace('The ', ''))
+        response = cms_api_client.lookup_country_guides(
+            industry=','.join(self.selected_sectors), region=', '.join(self.selected_regions)
+        )
+        results = handle_cms_response_allow_404(response)
+        if len(results):
+            return self.sortResults(results)
+        else:
+            return results
 
     @cached_property
     def regions_list(self):
@@ -112,17 +94,23 @@ class MarketsPageView(CMSPageView):
         ]
         return options
 
+    def sortResults(self, countries):
+        for country in countries:
+            sortOption = self.request.GET.get('sortby')
+            if sortOption and sortOption in countries[0] and country[sortOption] is None:
+                return sorted(countries, key=lambda x: x['title'].replace('The ', ''))
+            elif sortOption == 'region':
+                return sorted(countries, key=lambda x: x['region'].replace('The ', ''))
+            elif sortOption == 'last_published_at':
+                return sorted(countries, key=lambda x: x['last_published_at'], reverse=True)
+            else:
+                return sorted(countries, key=lambda x: x['title'].replace('The ', ''))
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        if self.selected_sectors or self.selected_regions:
-            markets = self.filtered_countries
-        else:
-            markets = self.page['child_pages']
-
-        paginator = Paginator(markets, 6)
+        paginator = Paginator(self.filtered_countries, 18)
         pagination_page = paginator.page(self.request.GET.get('page', 1))
-
         context['sector_list'] = sorted(self.sector_list, key=lambda x: x['name'])
         context['regions_list'] = sorted(self.regions_list, key=lambda x: x['name'])
         context['selected_sectors'] = self.selected_sectors
@@ -130,7 +118,7 @@ class MarketsPageView(CMSPageView):
         context['sortby_options'] = self.sortby_options
         context['sortby'] = self.request.GET.get('sortby')
         context['pagination_page'] = pagination_page
-        context['number_of_results'] = len(markets)
+        context['number_of_results'] = len(self.filtered_countries)
 
         return context
 
