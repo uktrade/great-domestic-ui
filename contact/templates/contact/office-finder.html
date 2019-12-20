@@ -27,9 +27,9 @@
             </form>
         </section>
 
-		{% if not office_details and other_offices %}
-			<p> We couldn’t find an exact match for your postcode. You can contact a DIT office near you.</p>
-		{% endif %}
+	{% if not office_details and other_offices %}
+	    <p> We couldn’t find an exact match for your postcode. You can contact a DIT office near you.</p>
+	{% endif %}
 
         {% if office_details %}
             <section class="width-half" id="results">
