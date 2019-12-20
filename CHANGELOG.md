@@ -6,6 +6,7 @@
 - XOT-1007 - hide extra CTA on mobile, some style fixes
 - XOT-1206 - change search pagination markup and css to match directory components
 - TT-1304 - Upgrade sentry client
+- TT-2185 - postcode message
 
 # [2019.11.25](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.11.25)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.12.05...2019.11.25)

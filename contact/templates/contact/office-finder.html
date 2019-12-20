@@ -21,11 +21,15 @@
         <section class="width-half" id="search-section">
             <form method="get" enctype="multipart/form-data">
                 <h1 class="heading-large">Find your local trade office</h1>
-                <p>We have local trade offices based around the UK, within each office you can contact an international trade advisor.</p>
+                <p>We have local trade offices based around the UK, within each office you can contact an international trade advisor .</p>
                 {{ form }}
                 <button type="submit" class="button button">Search</button>
             </form>
         </section>
+
+		{% if not office_details and other_offices %}
+			<p> We couldn’t find an exact match for your postcode. You can contact a DIT office near you.</p>
+		{% endif %}
 
         {% if office_details %}
             <section class="width-half" id="results">
