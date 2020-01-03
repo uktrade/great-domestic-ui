@@ -70,8 +70,8 @@ class GeolocationArchiveNegotiator:
     def __new__(cls, *args, **kwargs):
         try:
             geolocation_archive = GeolocationRemoteFileArchive()
-        except requests.exceptions.HTTPError:
-            logger.error(cls.MESSAGE_FAILED_TO_DOWNLOAD, exc_info=True)
+        except requests.exceptions.RequestException:
+            logger.error(cls.MESSAGE_FAILED_TO_DOWNLOAD)
             geolocation_archive = GeolocationLocalFileArchive()
         return geolocation_archive
 
