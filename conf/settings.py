@@ -225,6 +225,7 @@ if DEBUG:
         }
     }
 
+
 # Sentry
 if env.str('SENTRY_DSN', ''):
     sentry_sdk.init(
@@ -357,10 +358,10 @@ DIRECTORY_CH_SEARCH_CLIENT_DEFAULT_TIMEOUT = env.str('DIRECTORY_CH_SEARCH_CLIENT
 # geo location
 GEOIP_PATH = os.path.join(BASE_DIR, 'core/geolocation_data')
 GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
-
+MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')
 GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
     'GEOLOCATION_MAXMIND_DATABASE_FILE_URL',
-    'http://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz'
+    f'https://download.maxmind.com/app/geoip_download'
 )
 
 # feature flags

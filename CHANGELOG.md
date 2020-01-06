@@ -7,6 +7,13 @@
 - XOT-1206 - change search pagination markup and css to match directory components
 - TT-1304 - Upgrade sentry client
 - TT-2185 - postcode message
+- TT-2243 - Download maxmind database during build time
+
+## [2020.01.03](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.03)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.11.5...2020.01.03)
+
+### Hotfix
+- No ticket - Fix app not starting because maxmind url changed
 
 # [2019.11.25](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.11.25)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.12.05...2019.11.25)
