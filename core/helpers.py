@@ -10,7 +10,7 @@ from directory_ch_client import ch_search_api_client
 from ipware import get_client_ip
 
 from django.conf import settings
-from django.contrib.gis.geoip2 import GeoIP2
+from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
 from django.shortcuts import Http404, redirect
 from django.utils.functional import cached_property
 from django.utils import translation
@@ -102,14 +102,16 @@ class GeoLocationRedirector:
     def country_code(self):
         client_ip, is_routable = get_client_ip(self.request)
         if client_ip and is_routable:
-            response = GeoIP2().country(client_ip)
-            return response['country_code']
+            try:
+                response = GeoIP2().country(client_ip)
+            except GeoIP2Exception:
+                pass
+            else:
+                return response['country_code']
 
     @property
     def country_language(self):
-        return self.COUNTRY_TO_LANGUAGE_MAP.get(
-            self.country_code, settings.LANGUAGE_CODE
-        )
+        return self.COUNTRY_TO_LANGUAGE_MAP.get(self.country_code, settings.LANGUAGE_CODE)
 
     @property
     def should_redirect(self):

@@ -64,6 +64,13 @@ We add compiled CSS files to version control. This will sometimes result in conf
 
 You should not edit CSS files directly, instead edit their SCSS counterparts.
 
+## Geolocation data
+Maxmind geolite2 is used to determin the country the user is from via their IP address. The geolocation dataset must be updated to stay fresh. To update the geolocation data run:
+
+```
+make manage download_geolocation_data
+```
+
 ## Session
 
 Signed cookies are used as the session backend to avoid using a database. We therefore must avoid storing non-trivial data in the session, because the browser will be exposed to the data.
