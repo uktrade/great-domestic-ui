@@ -70,13 +70,13 @@ class MarketsPageView(CMSPageView):
     @cached_property
     def filtered_countries(self):
         response = cms_api_client.lookup_country_guides(
-            industry=','.join(self.selected_sectors), region=', '.join(self.selected_regions)
+            industry=','.join(self.selected_sectors), region=','.join(self.selected_regions)
         )
         results = handle_cms_response_allow_404(response)
-        if len(results):
-            return self.sortResults(results)
-        else:
-            return results
+        # import pdb
+        # pdb.set_trace()
+
+        return self.sort_results(results)
 
     @cached_property
     def regions_list(self):
@@ -88,23 +88,27 @@ class MarketsPageView(CMSPageView):
 
     def sortby_options(self):
         options = [
-            {'value': 'title', 'label': 'A-Z'},
+            {'value': 'title', 'label': 'Market A-Z'},
             {'value': 'region', 'label': 'Region'},
             {'value': 'last_published_at', 'label': 'Recently updated'},
         ]
         return options
 
-    def sortResults(self, countries):
+    def sort_results(self, countries):
+        print(countries)
         for country in countries:
-            sortOption = self.request.GET.get('sortby')
-            if sortOption and sortOption in countries[0] and country[sortOption] is None:
-                return sorted(countries, key=lambda x: x['title'].replace('The ', ''))
-            elif sortOption == 'region':
-                return sorted(countries, key=lambda x: x['region'].replace('The ', ''))
-            elif sortOption == 'last_published_at':
-                return sorted(countries, key=lambda x: x['last_published_at'], reverse=True)
+            sortoption = self.request.GET.get('sortby')
+            if sortoption and sortoption in countries[0] and country[sortoption] is None:
+                return sorted(countries, key=lambda x: (x['title'] or '').replace('The ', ''))
+            elif sortoption == 'region':
+                return sorted(countries, key=lambda x: (x['region'] or '').replace('The ', ''))
+            elif sortoption == 'last_published_at':
+                return sorted(countries, key=lambda x: (x['last_published_at'] or ''), reverse=True)
             else:
+                print('else', countries)
                 return sorted(countries, key=lambda x: x['title'].replace('The ', ''))
+        else:
+            return countries
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -118,6 +122,7 @@ class MarketsPageView(CMSPageView):
         context['sortby_options'] = self.sortby_options
         context['sortby'] = self.request.GET.get('sortby')
         context['pagination_page'] = pagination_page
+        context['number_of_regions'] = len(self.selected_regions)
         context['number_of_results'] = len(self.filtered_countries)
 
         return context

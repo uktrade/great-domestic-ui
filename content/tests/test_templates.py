@@ -7,21 +7,13 @@ from django.template.loader import render_to_string
 from core.tests.helpers import create_response
 from django.urls import reverse
 from directory_components.context_processors import urls_processor
+from django.core.paginator import Paginator
 
 
-@pytest.fixture
-def mock_get_page():
-    stub = patch('directory_cms_client.client.cms_api_client.lookup_by_slug', return_value=create_response())
-    yield stub.start()
-    stub.stop()
+def test_market_landing_pagination_page_next(rf, context):
 
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_market_landing_pagination_page_next(mock_get_page, client):
-
+    page_size = 18
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
-
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -44,28 +36,30 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
             child_page,
             child_page,
             child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
             child_page
         ]
     }
 
-    mock_get_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    create_response(content_list_industry_tags)
+    paginator = Paginator(page['child_pages'], page_size)
+    pagination_page = paginator.page(1)
+    context['request'] = rf.get('/')
+    context['pagination_page'] = pagination_page
 
-    url = reverse('markets')
-    response = client.get(url)
+    html = render_to_string('content/markets_landing_page.html', context)
 
-    assert "pagination_page" in response.context_data
-    assert len(response.context_data['pagination_page']) == 12
-    assert 'pagination-next' in str(response.content)
+    assert len(pagination_page) == 18
+    assert 'pagination-next' in html
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
+def test_market_landing_pagination_page_next_not_in_html(rf, context):
 
+    page_size = 18
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
-
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -87,14 +81,14 @@ def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
         ]
     }
 
-    mock_get_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    create_response(content_list_industry_tags)
+    paginator = Paginator(page['child_pages'], page_size)
+    pagination_page = paginator.page(1)
+    context['request'] = rf.get('/')
+    context['pagination_page'] = pagination_page
 
-    url = reverse('markets')
-    response = client.get(url)
+    html = render_to_string('content/markets_landing_page.html', context)
 
-    assert 'pagination-next' not in str(response.content)
+    assert 'pagination-next' not in html
 
 
 def test_article_detail_page_no_related_content(rf, context):
