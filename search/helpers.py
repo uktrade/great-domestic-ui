@@ -4,7 +4,7 @@ from math import ceil
 
 from django.conf import settings
 from mohawk import Sender
-from raven.contrib.django.raven_compat.models import client
+import sentry_sdk
 
 from search import serializers
 
@@ -26,7 +26,7 @@ def parse_results(response, query, page):
         results = []
         total_results = 0
         total_pages = 1
-        client.captureMessage(
+        sentry_sdk.capture_message(
             f"There was an error in /search: {content['error']}"
         )
     else:
