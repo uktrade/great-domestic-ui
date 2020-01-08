@@ -27,6 +27,10 @@
             </form>
         </section>
 
+	{% if not office_details and other_offices %}
+	    <p> We couldn’t find an exact match for your postcode. You can contact a DIT office near you.</p>
+	{% endif %}
+
         {% if office_details %}
             <section class="width-half" id="results">
                 <h2 class="heading-medium">Your local Trade office for {{ form.cleaned_data.postcode }} is</h2>

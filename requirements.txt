@@ -6,7 +6,7 @@
 #
 attrs==19.1.0             # via jsonschema
 beautifulsoup4==4.8.0
-certifi==2019.3.9         # via requests
+certifi==2019.3.9         # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 dateparser==0.7.2
 directory-api-client==20.0.0
@@ -16,7 +16,7 @@ directory-cms-client==11.1.0
 directory-components==35.7.1
 directory-constants==20.5.0
 directory-forms-api-client==5.0.0
-directory-healthcheck==1.1.2
+directory-healthcheck==2.0.0
 directory-sso-api-client==6.2.0
 directory-validators==5.2.0
 django-cors-headers==3.1.0
@@ -27,7 +27,7 @@ django-health-check==3.8.0  # via directory-healthcheck
 django-ipware==2.1.0
 django-recaptcha==2.0.5
 django-redis==4.10.0
-django==2.2.5
+django==2.2.8
 djangorestframework==3.10.3
 geoip2==2.9.0
 gunicorn==19.9.0
@@ -43,10 +43,10 @@ pillow==4.2.1             # via directory-validators
 pyrsistent==0.15.2        # via jsonschema
 python-dateutil==2.8.0    # via dateparser
 pytz==2017.2              # via dateparser, directory-validators, django, tzlocal
-raven==6.10.0
 redis==3.2.1              # via django-redis
 regex==2019.6.8           # via dateparser
 requests==2.22.0
+sentry-sdk==0.13.4
 sigauth==4.1.1
 six==1.12.0               # via django-extensions, jsonschema, mohawk, pyrsistent, python-dateutil, w3lib
 soupsieve==1.9.4          # via beautifulsoup4
@@ -56,3 +56,6 @@ uk-postcode-utils==1.0
 urllib3==1.24.3
 w3lib==1.20.0             # via directory-client-core
 whitenoise==4.1.4
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
