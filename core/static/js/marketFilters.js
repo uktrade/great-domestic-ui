@@ -51,7 +51,7 @@ var marketFilters = function() {
     function submitForm(e) {
       if((e.target.name === 'sector' || e.target.name === 'region') && window.innerWidth <= 640){
           /* triggered by checkboxes in mobile filters view -
-          below creates a temporay array of filters selected, which need to be unchecked if user cancels
+          below creates a temporay array of filters selected, which need to be unchecked if user cancels the overlay
           */
           if(e.target.checked) {
             mobileFiltersSelected.push(e.target.id);
@@ -89,16 +89,16 @@ var marketFilters = function() {
         $(cards).each(function(int, card) {
           var $marketImg = $(card).find('img.card-image');
           if($marketImg.attr('src')) {
-            return
+            return;
           } else {
             $marketImg.attr('src', $marketImg.data('src'));
           }
-        })
+        });
       }
     }
 
     return {
     init: init
-  }
+  };
 
   }();

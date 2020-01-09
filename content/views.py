@@ -95,7 +95,6 @@ class MarketsPageView(CMSPageView):
         return options
 
     def sort_results(self, countries):
-        print(countries)
         for country in countries:
             sortoption = self.request.GET.get('sortby')
             if sortoption and sortoption in countries[0] and country[sortoption] is None:
@@ -105,7 +104,6 @@ class MarketsPageView(CMSPageView):
             elif sortoption == 'last_published_at':
                 return sorted(countries, key=lambda x: (x['last_published_at'] or ''), reverse=True)
             else:
-                print('else', countries)
                 return sorted(countries, key=lambda x: x['title'].replace('The ', ''))
         else:
             return countries
