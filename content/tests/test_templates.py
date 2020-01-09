@@ -1,12 +1,7 @@
-from unittest import mock
-
 import pytest
-from unittest.mock import patch
 from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
 from core.tests.helpers import create_response
-from django.urls import reverse
-from directory_components.context_processors import urls_processor
 from django.core.paginator import Paginator
 
 
