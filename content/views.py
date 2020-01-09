@@ -73,8 +73,6 @@ class MarketsPageView(CMSPageView):
             industry=','.join(self.selected_sectors), region=','.join(self.selected_regions)
         )
         results = handle_cms_response_allow_404(response)
-        # import pdb
-        # pdb.set_trace()
 
         return self.sort_results(results)
 
