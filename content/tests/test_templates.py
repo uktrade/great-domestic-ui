@@ -3,6 +3,14 @@ from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
 from core.tests.helpers import create_response
 from django.core.paginator import Paginator
+from unittest.mock import patch
+
+
+@pytest.fixture
+def mock_get_page():
+    stub = patch('directory_cms_client.client.cms_api_client.lookup_by_slug', return_value=create_response())
+    yield stub.start()
+    stub.stop()
 
 
 def test_market_landing_pagination_page_next(rf, context):

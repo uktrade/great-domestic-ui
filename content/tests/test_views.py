@@ -6,7 +6,6 @@ from django.urls import reverse
 
 from core.tests.helpers import create_response
 from content.views import MarketsPageView
-from directory_components.context_processors import urls_processor
 
 
 @pytest.fixture
@@ -329,7 +328,8 @@ def test_get_country_guide_page_neither_case_study_nor_statistics(
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_country_guides')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_markets_page_filters(mock_industries, mock_countries, mock_page, rf):
+@patch('directory_cms_client.client.cms_api_client.list_regions', mock.MagicMock())
+def test_markets_page_filters(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -358,8 +358,6 @@ def test_markets_page_filters(mock_industries, mock_countries, mock_page, rf):
     }
 
     mock_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    mock_industries.return_value = create_response(content_list_industry_tags)
 
     filtered_countries = [
         {
@@ -374,7 +372,7 @@ def test_markets_page_filters(mock_industries, mock_countries, mock_page, rf):
 
     mock_countries.return_value = create_response(filtered_countries)
 
-    request = rf.get('/markets/', {'sector': 'Aeropsoace'})
+    request = rf.get('/markets/', {'sector': 'Aerospace'})
     response = MarketsPageView.as_view()(request, slug='markets')
     response_content = str(response.render().content)
 
@@ -385,8 +383,7 @@ def test_markets_page_filters(mock_industries, mock_countries, mock_page, rf):
 
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_country_guides')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_markets_page_filters_remove_title_prefix_from_sort(mock_industries, mock_countries, mock_page):
+def test_markets_page_filters_remove_title_prefix_from_sort(mock_countries, mock_page):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -400,8 +397,6 @@ def test_markets_page_filters_remove_title_prefix_from_sort(mock_industries, moc
     sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['title'].replace('The ', ''))
 
     mock_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    mock_industries.return_value = create_response(content_list_industry_tags)
 
     mock_countries.return_value = create_response({})
 
@@ -412,7 +407,8 @@ def test_markets_page_filters_remove_title_prefix_from_sort(mock_industries, moc
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_country_guides')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_markets_page_filters_sort_by_title(mock_industries, mock_countries, mock_page, rf):
+@patch('directory_cms_client.client.cms_api_client.list_regions', mock.MagicMock())
+def test_markets_page_filters_sort_by_title(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -424,12 +420,7 @@ def test_markets_page_filters_sort_by_title(mock_industries, mock_countries, moc
     }
 
     sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['title'])
-
-    content_list_industry_tags = [{}]
-    mock_industries.return_value = create_response(content_list_industry_tags)
-
     mock_page.return_value = create_response(page)
-
     mock_countries.return_value = create_response(sorted_child_pages)
 
     request = rf.get('/markets/', {'sector': '', 'sortby': 'title'})
@@ -442,7 +433,8 @@ def test_markets_page_filters_sort_by_title(mock_industries, mock_countries, moc
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_country_guides')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_markets_page_filters_sort_by_region(mock_industries, mock_countries, mock_page, rf):
+@patch('directory_cms_client.client.cms_api_client.list_regions', mock.MagicMock())
+def test_markets_page_filters_sort_by_region(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -462,8 +454,6 @@ def test_markets_page_filters_sort_by_region(mock_industries, mock_countries, mo
     sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['region'].replace('The ', ''))
 
     mock_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    mock_industries.return_value = create_response(content_list_industry_tags)
 
     mock_countries.return_value = create_response(page['child_pages'])
     request = rf.get('/markets/', {'sortby': 'region'})
@@ -476,7 +466,8 @@ def test_markets_page_filters_sort_by_region(mock_industries, mock_countries, mo
 @patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
 @patch('directory_cms_client.client.cms_api_client.lookup_country_guides')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_markets_page_filters_no_results(mock_industries, mock_countries, mock_page, rf):
+@patch('directory_cms_client.client.cms_api_client.list_regions', mock.MagicMock())
+def test_markets_page_filters_no_results(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -488,8 +479,6 @@ def test_markets_page_filters_no_results(mock_industries, mock_countries, mock_p
     }
 
     mock_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    mock_industries.return_value = create_response(content_list_industry_tags)
     mock_countries.return_value = create_response(page['child_pages'])
 
     request = rf.get('/markets/', {'sector': '', 'sortby': 'title'})
