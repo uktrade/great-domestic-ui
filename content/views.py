@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from django.core.paginator import Paginator
 
 from directory_cms_client.client import cms_api_client
-from core import helpers, forms
+from core import helpers
 
 from .mixins import (
     GetCMSTagMixin,
