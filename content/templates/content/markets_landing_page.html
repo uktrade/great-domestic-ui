@@ -2,29 +2,17 @@
 
 {% load directory_components %}
 
+{% load static from staticfiles %}
+
+
+
+
 {% block head_title %}Markets - great.gov.uk{% endblock %}
 
 {% block intro_section %}
 
-<section class="sector-potential-section padding-bottom-60">
-  <div class="padding-top-45">
-    <div class="container">
-    <div class="width-full width-two-thirds-l">
-          <h2 class="heading-large margin-top-0">Find new markets for your business</h2>
-          <p>Use our guides to identify new export markets and inform your international sales plan.</p>
-          <form class="sector-potential-form" action="{% url 'markets' %}" method="GET">
-            {{ sector_form }}
-            <button type="submit" class="button margin-top-15">Show markets</button>
-            <a href="{% url 'markets' %}" class="view-markets link bold margin-left-30-m margin-top-15">View all market guides</a>
-          </form>
-        </div>
-      </div>
-  </div>
-</section>
-
+{% if page.teaser %}
 <section id="markets-banner-section" class="topic-list-section background-stone-30 padding-top-60 padding-bottom-0">
-
-    {% if page.teaser %}
     <div class="container">
       <div class="grid-row margin-top-60">
         <div class="column-full column-half-l font-medium">
@@ -32,27 +20,147 @@
         </div>
       </div>
     </div>
-    {% endif %}
-
-
 </section>
+{% endif %}
 {% endblock %}
 
 {% block child_pages %}
-<section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 padding-top-60 four-column-card-grid">
+<section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 markets-landing">
   <div class="container">
+    <h2 class="heading-large margin-bottom-45-m padding-right-90-m">Our market guides can help you find export opportunities and prepare to do business in new markets.</h2>
 
-    {% if number_of_results > 0 and tag_name %}
-    <h2 class="font-medium margin-bottom-45">Best markets for <span class="bold">{{ tag_name }}</span> <span class="number-display highlight-circle background-active-blue">{{ number_of_results }}</span></h2>
+    <form id="sectors-form" action="{% url 'markets' %}" method="GET">
+      <div class="grid-row">
+        <div class="column-third column-quarter-xl">
+          <div class="filters">
+          <a id="skip-link" class="accessibility-skip-to-section" href="#markets-results">Skip filters and go to the market results.</a>
+            <h2 class="heading-small margin-top-0 margin-bottom-30 margin-bottom-15-m" id="filters-heading">
+              <span>Filter markets guides</span>
+            </h2>
+            <span class="verbose">Selecting a filter with Javascript enabled will refresh the page.</span>
+            <ul>
+              <li class="filter-section">
+                <input type="checkbox" id="sectors" checked />
+                <label for="sectors" role="button">High potential sectors for UK business</label>
+                <div class="options checkbox-small">
+                  <ul>
+                    {% for sector in sector_list %}
+                    <li class="multiple-choice margin-bottom-0">
+                      <input type="checkbox" value="{{ sector.name }}" id="sector_{{ sector.id }}" name="sector" {% if sector.name in selected_sectors %} checked {% endif %} />
+                      <label for="sector_{{ sector.id }}">
+                        {{ sector.name }}
+                      </label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </li>
+              <li class="filter-section">
+                <input type="checkbox" id="regions" checked />
+                <label for="regions" role="button">World regions</label>
+                <div class="options checkbox-small full-height">
+                    <ul>
+                      {% for region in regions_list %}
+                      <li class="multiple-choice margin-bottom-0">
+                        <input type="checkbox" value="{{ region.name }}" id="region_{{ region.id }}" name="region" {% if region.name in selected_regions %} checked {% endif %} />
+                        <label for="region_{{ region.id }}">
+                          {{ region.name }}
+                        </label>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+              </li>
 
-    {% elif tag_name %}
-    <h2 class="font-medium">No results found for <span class="bold">{{ tag_name }}</span>. Please try again.</h2>
-    {% endif %}
+            </ul>
+            <div class="filters-sticky-footer" id="filters-sticky-footer">
+              <a href="#" class="cancel link">Cancel</a>
+              <a href="#" class="button update" role="button">Update<span class="verbose">With Javascript enabled, click this button to filter the results.</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="column-two-thirds column-three-quarters-xl" id="markets-results">
+          <div class="markets-header">
+            {% if number_of_results == 0 %}
+              {% if selected_sectors or selected_regions %}
+                <p>Currently, we don't have any market guides with information about
+                   {% for sector in selected_sectors %}
+                    <span class="bold">{{ sector}}</span>{% if not forloop.last %} or{% endif %}
+                  {% endfor %}
+                  {% if selected_regions %} in
+                  {% for region in selected_regions %}
+                    <span class="bold">{{ region }}</span> {% if not forloop.last %} or{% endif %}
+                    {% if forloop.last %} region{{ number_of_regions|pluralize:",s" }} {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <p>There are other ways the the Department for International Trade can help you sell your product in an overseas market.</p>
+                <p><a href="{{ services_urls.exopps }}" class="link">Browse our export opportunities service to find opportunities to sell your product in overseas markets</a></p>
+                <p><a href="{{ services_urls.contact_us }}office-finder" class="link">Get in touch with a trade adviser to discuss your export business plan</a></p>
+              {% endif %}
+            {% else %}
+              {% if selected_sectors or selected_regions %}
 
-    <div class="flex-grid">
-      {% include 'content/components/four_column_card_grid.html' with cards=pagination_page  %}
-    </div>
-    {% pagination pagination_page=pagination_page %}
+                <h3 class="font-medium margin-bottom-15">There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market{{ number_of_results|pluralize:",s" }}
+                {% if selected_sectors %}
+                  with high potential for UK businesses in
+                  {% for sector in selected_sectors %}
+                    <span class="bold">{{ sector}}</span>{% if not forloop.last %} or{% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if selected_regions %} in
+                  {% for region in selected_regions %}
+                    <span class="bold">{{ region }}</span> {% if not forloop.last %} or{% endif %}
+                    {% if forloop.last %} region{{ number_of_regions|pluralize:",s" }} {% endif %}
+                  {% endfor %}
+                {% endif %}
+                </h3>
+
+              {% endif %}
+            {% endif %}
+            {% if selected_sectors or selected_regions %}
+              <p class="margin-bottom-45-m"><a href="{% url 'markets' %}" class="view-markets link bold margin-top-15">Clear all filters</a></p>
+            {% endif %}
+
+
+            <div class="controls margin-bottom-45-m">
+              <a href="#" class="button mobile-filter-toggle" id="mobile-filter-toggle">Filter</a>
+              {% if number_of_results %}
+              <label for="sortby" class="margin-right-15">Sort by</label>
+              <span class="verbose">Selecting a sort option, with Javascript enabled, will refresh the page.</span>
+              <select name="sortby" class="sort-control form-control" id="sortby">
+                {% for option in sortby_options %}
+                <option value="{{ option.value }}" {% if sortby == option.value %}selected{% endif %}>{{ option.label }}</option>
+                {% endfor %}
+              </select>
+
+            </div>
+
+
+
+            {% endif %}
+
+
+          </div>
+          <div class="flex-grid markets-grid">
+            {% include 'content/components/markets_card_grid.html' with cards=pagination_page  %}
+          </div>
+          {% pagination pagination_page=pagination_page %}
+        </div>
+
+      </div>
+      <input class="button" type="submit" value="Submit form" />
+    </form>
   </div>
 </section>
 {% endblock %}
+
+{% block body_js %}
+<script src="{% static 'js/marketFilters.js' %}"></script>
+<script>
+  window.onload=function() {
+    marketFilters.init();
+}
+</script>
+{% endblock %}
+
+

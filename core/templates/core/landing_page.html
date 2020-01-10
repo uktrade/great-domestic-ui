@@ -78,7 +78,7 @@
           {% for sector in sector_list %}
             {% if sector.pages_count > 0 %}
             <li>
-              <a href="{% url 'markets' %}?sector={{ sector.id }}" class="quick-link link">
+              <a href="{% url 'markets' %}?sector={{ sector.name }}" class="quick-link link">
                 <img src="{{ sector.icon.url }}" alt="" class="quick-links-icon">
                 <span class="sector-name">{{ sector.name }}</span>
                 <p class="sector-page-count font-small">{{ sector.pages_count }} market guide{{ sector.pages_count|pluralize }}</p>
