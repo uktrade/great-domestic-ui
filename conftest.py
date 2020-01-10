@@ -16,11 +16,6 @@ def clear_django_cache():
     cache.clear()
 
 
-@pytest.fixture(autouse=True)
-def context():
-    return urls_processor(None)
-
-
 @pytest.fixture
 def dummy_cms_page():
     return {
