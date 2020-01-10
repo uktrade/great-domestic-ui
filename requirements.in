@@ -13,7 +13,7 @@ django-recaptcha==2.0.5
 directory-validators==5.2.0
 sigauth==4.1.1
 directory-healthcheck==2.0.0
-directory-components==35.7.1
+directory-components==35.10.0
 directory-constants==20.5.0
 geoip2==2.9.0
 django-ipware==2.1.0
