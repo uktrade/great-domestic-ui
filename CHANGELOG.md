@@ -8,6 +8,8 @@
 - TT-1304 - Upgrade sentry client
 - TT-2185 - postcode message
 - TT-2243 - Download maxmind database during build time
+- XOT-1135 - Reset SOO contact form at start
+
 
 ## [2020.01.03](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.03)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.11.5...2020.01.03)
@@ -31,7 +33,6 @@
 - GTRANSFORM-300 - change numbered bullet colour
 - XOT-1135 - Add new SOO contact form
 - XOT-1171 - Advice redirects
-- XOT-1135 - Reset SOO contact form at start
 
 ### Bugs fixed
 - No ticket - Handle invalid postcodes on office finder

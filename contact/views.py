@@ -5,6 +5,7 @@ from directory_constants import slugs, urls
 from directory_forms_api_client import actions
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
+from formtools.wizard.storage import get_storage
 from formtools.wizard.views import NamedUrlSessionWizardView
 
 from django.conf import settings
@@ -479,8 +480,17 @@ class SellingOnlineOverseasFormView(
     }
 
     def get(self, *args, **kwargs):
+        # import pdb; pdb.set_trace()
+        # See what is in the self.storage object
+        # How does this manifest itself? What would I be MANUALLY testing to see?
+        # Honest answer to that is I do not know
+
         if self.steps.current == self.CONTACT_DETAILS:
             self.storage.reset()
+            self.storage = get_storage(
+                self.storage_name, self.prefix, self.request,
+                getattr(self, 'file_storage', None),
+            )
             self.storage.current_step = self.steps.first
         market = self.request.GET.get('market')
         if market:

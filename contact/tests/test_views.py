@@ -980,7 +980,7 @@ def test_selling_online_overseas_contact_form_submission(
     # where the form requires it. You can only add optional data
     # to the POST requests.
     response = post('contact-details', {
-        'contact-details-phone': '55512345',
+        'contact-details-phone': '111111',
         'contact-details-email_pref': True
     })
     assert response.status_code == 302
@@ -1046,7 +1046,7 @@ def test_selling_online_overseas_contact_form_submission(
         'contact_first_name': 'Jim',
         'contact_last_name': 'Cross',
         'contact_email': 'jim@example.com',
-        'phone': '55512345',
+        'phone': '111111',
         'email_pref': True,
         'sku_count': 12,
         'trademarked': True,
@@ -1081,27 +1081,24 @@ def test_selling_online_overseas_contact_form_submission(
     cache_key = '{}_{}'.format(view_name, + user.id)
     assert mock_zendesk_action().save.call_args == mock.call(expected_data)
     assert cache.get(cache_key) == expected_data
+    
     # next request for the form will have initial values
     response = client.get(
         reverse(url_name, kwargs={'step': 'contact-details'}),
-        {'market': 'ebay'}
+        {'market': 'amazon'}
     )
 
     # Initial data contains phone number if company profile present
-    if company_type in ['COMPANIES_HOUSE', 'SOLE_TRADER']:
-        assert response.context_data['form'].initial == {
-            'contact_first_name': 'Jim',
-            'contact_last_name': 'Cross',
-            'contact_email': 'jim@example.com',
-            'phone': '55512345'
-        }
-    else:
-        assert response.context_data['form'].initial == {
-            'contact_first_name': 'Jim',
-            'contact_last_name': 'Cross',
-            'contact_email': 'jim@example.com',
-            'phone': '55512345'
-        }
+    assert response.context_data['form'].initial == {
+        'contact_first_name': 'Jim',
+        'contact_last_name': 'Cross',
+        'contact_email': 'jim@example.com',
+        'phone': '55512345'
+    }
+
+    # assert cache.get(cache_key) ==  { 
+    #     'market': 'amazon'
+    # }
 
 
 def test_selling_online_overseas_contact_form_market_name(client):
