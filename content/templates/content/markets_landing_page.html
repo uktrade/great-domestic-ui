@@ -104,7 +104,7 @@
                 {% if selected_sectors %}
                   with high potential for UK businesses
                   {% for sector in selected_sectors %}
-                    in <span class="bold">{{ sector}}</span>{% if not forloop.last %} or{% endif %}{% if forloop.last and not selected_regions %}.{% endif %}
+                    {% if forloop.first %}in {% endif %}<span class="bold">{{ sector}}</span>{% if not forloop.last %} or{% endif %}{% if forloop.last and not selected_regions %}.{% endif %}
                   {% endfor %}
                 {% endif %}
                 {% if selected_regions %} in the
