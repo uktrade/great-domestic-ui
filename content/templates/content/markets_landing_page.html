@@ -102,9 +102,9 @@
 
                 <h3 class="font-medium margin-bottom-15">There {{ number_of_results|pluralize:"is,are" }} {{ number_of_results }} market{{ number_of_results|pluralize:",s" }}
                 {% if selected_sectors %}
-                  with high potential for UK businesses
+                  with high potential for UK businesses in
                   {% for sector in selected_sectors %}
-                    {% if forloop.first %}in {% endif %}<span class="bold">{{ sector}}</span>{% if not forloop.last %} or{% endif %}{% if forloop.last and not selected_regions %}.{% endif %}
+                   <span class="bold">{{ sector}}</span>{% if not forloop.last %} or{% endif %}{% if forloop.last and not selected_regions %}.{% endif %}
                   {% endfor %}
                 {% endif %}
                 {% if selected_regions %} in the
