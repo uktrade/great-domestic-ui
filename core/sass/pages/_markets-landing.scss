@@ -115,6 +115,19 @@
             display: none;
         }
     }
+
+    @media (max-width: 640px) {
+        .card {
+            margin-bottom: 15px;
+            .card-inner {
+                padding: 20px;
+
+                > :last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
 }
 
 .accessibility-skip-to-section {
