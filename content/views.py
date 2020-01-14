@@ -87,7 +87,6 @@ class MarketsPageView(CMSPageView):
     def sortby_options(self):
         options = [
             {'value': 'title', 'label': 'Market A-Z'},
-            {'value': 'region', 'label': 'Region'},
             {'value': 'last_published_at', 'label': 'Recently updated'},
         ]
         return options
@@ -97,8 +96,6 @@ class MarketsPageView(CMSPageView):
             sortoption = self.request.GET.get('sortby')
             if sortoption and sortoption in countries[0] and country[sortoption] is None:
                 return sorted(countries, key=lambda x: (x['title'] or '').replace('The ', ''))
-            elif sortoption == 'region':
-                return sorted(countries, key=lambda x: (x['region'] or '').replace('The ', ''))
             elif sortoption == 'last_published_at':
                 return sorted(countries, key=lambda x: (x['last_published_at'] or ''), reverse=True)
             else:

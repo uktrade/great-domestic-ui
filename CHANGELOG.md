@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1224 - remove regions sorting, add text format filter to regions filters and mobile css tweaks
 - no ticket - events footer link to /about/ redirects to DIT about page in gov.uk
 - XOT-1224 - add multiple filtering to market landing, regions and industries
 - XOT-1007 - hide extra CTA on mobile, some style fixes
