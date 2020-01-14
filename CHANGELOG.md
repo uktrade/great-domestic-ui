@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- no ticket - events footer link to /about/ redirects to DIT about page in gov.uk
 - XOT-1224 - add multiple filtering to market landing, regions and industries
 - XOT-1007 - hide extra CTA on mobile, some style fixes
 - XOT-1206 - change search pagination markup and css to match directory components
