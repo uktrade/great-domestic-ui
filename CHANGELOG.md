@@ -1,12 +1,25 @@
 # Changelog
 
+## Pre-release
 
+### Implemented enhancements
+- XOT-1224 - remove regions sorting, add text format filter to regions filters and mobile css tweaks
+- no ticket - events footer link to /about/ redirects to DIT about page in gov.uk
+- XOT-1224 - add multiple filtering to market landing, regions and industries
+- XOT-1007 - hide extra CTA on mobile, some style fixes
+- XOT-1206 - change search pagination markup and css to match directory components
+- TT-1304 - Upgrade sentry client
+- TT-2185 - postcode message
+- TT-2243 - Download maxmind database during build time
+
+## [2020.01.03](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.03)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.11.5...2020.01.03)
 
 ### Hotfix
-- XOT-1195 - allow chevron links to be displayed without the chevron
-- No ticket - fix trade barriers Search link
+- No ticket - Fix app not starting because maxmind url changed
 
-## Pre-release
+# [2019.11.25](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.11.25)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.12.05...2019.11.25)
 
 ### Implemented enhancements
 - XOT-1226 - JP Morgan campaign redirect in GREAT.gov
@@ -27,6 +40,7 @@
 
 ## [2019.11.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.11.5)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.10.29...2019.11.5)
+
 ### Hotfix
 - XOT-1195 - allow chevron links to be displayed without the chevron
 

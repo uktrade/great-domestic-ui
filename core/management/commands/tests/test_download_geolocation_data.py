@@ -3,8 +3,8 @@ import shutil
 import tarfile
 from unittest.mock import call, patch
 
-import requests_mock
 import pytest
+import requests.exceptions
 
 from django.core.management import call_command
 from django.conf import settings
@@ -22,13 +22,18 @@ class GeolocationBadLocalFileArchive(GeolocationLocalFileArchive):
     )
 
 
-def test_falls_back_to_local_file_on_http_error(settings, caplog):
-    with requests_mock.mock() as mock:
-        mock.get(
-            settings.GEOLOCATION_MAXMIND_DATABASE_FILE_URL,
-            status_code=400
-        )
-        geolocation_archive = GeolocationArchiveNegotiator()
+@pytest.mark.parametrize('exception_class', (
+    requests.exceptions.HTTPError,
+    requests.exceptions.ConnectionError,
+    requests.exceptions.SSLError,
+    requests.exceptions.Timeout,
+))
+def test_falls_back_to_local_file_on_request_error(exception_class, settings, caplog, requests_mock):
+    requests_mock.get(
+        settings.GEOLOCATION_MAXMIND_DATABASE_FILE_URL,
+        exc=exception_class
+    )
+    geolocation_archive = GeolocationArchiveNegotiator()
 
     assert isinstance(geolocation_archive, GeolocationLocalFileArchive)
 
@@ -37,14 +42,13 @@ def test_falls_back_to_local_file_on_http_error(settings, caplog):
     assert log.msg == GeolocationArchiveNegotiator.MESSAGE_FAILED_TO_DOWNLOAD
 
 
-def test_handles_remote_invalid_archive(settings):
-    with requests_mock.mock() as mock:
-        mock.get(
-            settings.GEOLOCATION_MAXMIND_DATABASE_FILE_URL,
-            status_code=200,
-            content=b'hello',
-        )
-        geolocation_archive = GeolocationArchiveNegotiator()
+def test_handles_remote_invalid_archive(settings, requests_mock):
+    requests_mock.get(
+        settings.GEOLOCATION_MAXMIND_DATABASE_FILE_URL,
+        status_code=200,
+        content=b'hello',
+    )
+    geolocation_archive = GeolocationArchiveNegotiator()
 
     with pytest.raises(tarfile.ReadError):
         geolocation_archive.decompress(

@@ -1,11 +1,10 @@
-from unittest import mock
-
 import pytest
-from unittest.mock import patch
 from bs4 import BeautifulSoup
 from django.template.loader import render_to_string
 from core.tests.helpers import create_response
-from django.urls import reverse
+from django.core.paginator import Paginator
+from unittest.mock import patch
+from directory_components.context_processors import urls_processor
 
 
 @pytest.fixture
@@ -15,12 +14,10 @@ def mock_get_page():
     stub.stop()
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_market_landing_pagination_page_next(mock_get_page, client):
-
+def test_market_landing_pagination_page_next(rf):
+    context = urls_processor(None)
+    page_size = 18
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
-
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -43,28 +40,30 @@ def test_market_landing_pagination_page_next(mock_get_page, client):
             child_page,
             child_page,
             child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
+            child_page,
             child_page
         ]
     }
 
-    mock_get_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    create_response(content_list_industry_tags)
+    paginator = Paginator(page['child_pages'], page_size)
+    pagination_page = paginator.page(1)
+    context['request'] = rf.get('/')
+    context['pagination_page'] = pagination_page
 
-    url = reverse('markets')
-    response = client.get(url)
+    html = render_to_string('content/markets_landing_page.html', context)
 
-    assert "pagination_page" in response.context_data
-    assert len(response.context_data['pagination_page']) == 12
-    assert 'pagination-next' in str(response.content)
+    assert len(pagination_page) == 18
+    assert 'pagination-next' in html
 
 
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
-
+def test_market_landing_pagination_page_next_not_in_html(rf):
+    context = urls_processor(None)
+    page_size = 18
     child_page = {'title': 'Title', 'sub_heading': 'Markets subheading'}
-
     page = {
         'title': 'test',
         'page_type': 'TopicLandingPage',
@@ -86,17 +85,18 @@ def test_market_landing_pagination_page_next_not_in_html(mock_get_page, client):
         ]
     }
 
-    mock_get_page.return_value = create_response(page)
-    content_list_industry_tags = [{}]
-    create_response(content_list_industry_tags)
+    paginator = Paginator(page['child_pages'], page_size)
+    pagination_page = paginator.page(1)
+    context['request'] = rf.get('/')
+    context['pagination_page'] = pagination_page
 
-    url = reverse('markets')
-    response = client.get(url)
+    html = render_to_string('content/markets_landing_page.html', context)
 
-    assert 'pagination-next' not in str(response.content)
+    assert 'pagination-next' not in html
 
 
 def test_article_detail_page_no_related_content(rf):
+    context = urls_processor(None)
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -111,14 +111,15 @@ def test_article_detail_page_no_related_content(rf):
         },
         "page_type": "ArticlePage",
     }
-    context = {'request': rf.get('/'), 'page': page}
+    context['request'] = rf.get('/')
+    context['page'] = page
 
     html = render_to_string('content/article_detail.html', context)
     assert 'Related content' not in html
 
 
 def test_article_advice_page():
-    context = {}
+    context = urls_processor(None)
     page = {
         'title': 'Markets',
         'hero_image': {'url': 'markets.jpg'},
@@ -155,9 +156,8 @@ def test_article_advice_page():
 
 
 def test_article_detail_page_related_content(rf):
-    context = {
-        'request': rf.get('/')
-    }
+    context = urls_processor(None)
+    context['request'] = rf.get('/')
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -202,9 +202,8 @@ def test_article_detail_page_related_content(rf):
 
 
 def test_article_detail_page_related_content_footer(rf):
-    context = {
-        'request': rf.get('/')
-    }
+    context = urls_processor(None)
+    context['request'] = rf.get('/')
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -240,9 +239,8 @@ def test_article_detail_page_related_content_footer(rf):
 
 
 def test_article_detail_page_related_content_footer_not_rendered(rf):
-    context = {
-        'request': rf.get('/')
-    }
+    context = urls_processor(None)
+    context['request'] = rf.get('/')
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -268,9 +266,8 @@ def test_article_detail_page_related_content_footer_not_rendered(rf):
 
 
 def test_article_detail_page_media_rendered(rf):
-    context = {
-        'request': rf.get('/')
-    }
+    context = urls_processor(None)
+    context['request'] = rf.get('/')
     page = {
         "article_video": {
             "url": "test.mp4",
@@ -291,9 +288,8 @@ def test_article_detail_page_media_rendered(rf):
 
 
 def test_article_detail_page_media_not_rendered(rf):
-    context = {
-        'request': rf.get('/')
-    }
+    context = urls_processor(None)
+    context['request'] = rf.get('/')
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -315,6 +311,7 @@ def test_article_detail_page_media_not_rendered(rf):
 
 
 def test_marketing_article_detail_page_related_content(rf):
+    context = urls_processor(None)
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -331,7 +328,8 @@ def test_marketing_article_detail_page_related_content(rf):
         },
         "page_type": "MarketingArticlePage",
     }
-    context = {'request': rf.get('/'), 'page': page}
+    context['request'] = rf.get('/')
+    context['page'] = page
     html = render_to_string('content/marketing_article_detail.html', context)
 
     soup = BeautifulSoup(html, 'html.parser')
@@ -341,6 +339,7 @@ def test_marketing_article_detail_page_related_content(rf):
 
 
 def test_marketing_article_detail_page_related_content_not_rendered(rf):
+    context = urls_processor(None)
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -358,7 +357,8 @@ def test_marketing_article_detail_page_related_content_not_rendered(rf):
         "page_type": "MarketingArticlePage",
     }
 
-    context = {'request': rf.get('/'), 'page': page}
+    context['request'] = rf.get('/')
+    context['page'] = page
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
@@ -366,6 +366,7 @@ def test_marketing_article_detail_page_related_content_not_rendered(rf):
 
 
 def test_marketing_article_detail_content_button_not_rendered_without_link(rf):
+    context = urls_processor(None)
     page = {
         "title": "Test article admin title",
         "article_title": "Test article",
@@ -383,7 +384,8 @@ def test_marketing_article_detail_content_button_not_rendered_without_link(rf):
         "page_type": "MarketingArticlePage",
     }
 
-    context = {'request': rf.get('/'), 'page': page}
+    context['request'] = rf.get('/')
+    context['page'] = page
 
     html = render_to_string('content/marketing_article_detail.html', context)
 
@@ -412,7 +414,9 @@ test_news_list_page = {
 
 
 def test_news_list_page_feature_flag_on():
-    context = {'features': {'NEWS_SECTION_ON': True}, 'page': test_news_list_page}
+    context = urls_processor(None)
+    context['features'] = {'NEWS_SECTION_ON': True}
+    context['page'] = test_news_list_page
 
     html = render_to_string('content/domestic_news_list.html', context)
 
@@ -466,7 +470,7 @@ test_list_page = {
 
 
 def test_article_list_page():
-    context = {}
+    context = urls_processor(None)
     context['page'] = test_list_page
 
     html = render_to_string('content/article_list.html', context)
@@ -478,7 +482,7 @@ def test_article_list_page():
 
 
 def test_tag_list_page():
-    context = {}
+    context = urls_processor(None)
     page = {
         'name': 'New to exporting',
         'articles': test_articles,
@@ -494,9 +498,10 @@ def test_tag_list_page():
 
 
 def test_landing_page_header_footer(rf):
-    request = rf.get('/')
+    context = urls_processor(None)
+    context['request'] = rf.get('/')
 
-    html = render_to_string('core/landing_page.html', {'request': request})
+    html = render_to_string('core/landing_page.html', context)
 
     assert '/static/js/home' in html
 
@@ -618,7 +623,8 @@ def test_article_detail_page_social_share_links_no_title(mock_get_page, client):
 
 
 def test_country_guide_fact_sheet_displays_if_given_title(rf):
-    context = {'request': rf.get('/')}
+    context = urls_processor(None)
+    context['request'] = rf.get('/')
     page = {
         'title': 'test',
         'page_type': 'CountryGuidePage',
@@ -656,10 +662,9 @@ def test_country_guide_fact_sheet_displays_if_given_title(rf):
     ],
 ))
 def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/')
-    }
+    context = urls_processor(None)
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     context['page']['heading_teaser'] = 'Teaser'
     context['page']['intro_ctas'] = intro_ctas
@@ -672,10 +677,9 @@ def test_country_guide_incomplete_intro_ctas(intro_ctas, dummy_cms_page, rf):
 
 
 def test_country_guide_complete_intro_ctas(dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/')
-    }
+    context = urls_processor(None)
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     intro_ctas = [
         {
@@ -703,10 +707,9 @@ def test_country_guide_complete_intro_ctas(dummy_cms_page, rf):
 
 
 def test_country_guide_no_intro_ctas(dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/')
-    }
+    context = urls_processor(None)
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     context['page']['heading_teaser'] = 'Teaser'
 
@@ -718,12 +721,12 @@ def test_country_guide_no_intro_ctas(dummy_cms_page, rf):
 
 
 def test_country_guide_add_href_target(dummy_cms_page, rf):
+    context = urls_processor(None)
     request = rf.get('/')
     request.META['HTTP_HOST'] = 'example.com'
-    context = {
-        'page': dummy_cms_page,
-        'request': request
-    }
+
+    context['page'] = dummy_cms_page
+    context['request'] = request
 
     context['page']['section_one_body'] = '<a href="http://www.google.co.uk">Here is an external link</a>'
 
@@ -738,10 +741,9 @@ def test_country_guide_add_href_target(dummy_cms_page, rf):
 
 
 def test_country_guide_no_industries_no_heading(dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/'),
-    }
+    context = urls_processor(None)
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     context['page']['accordions'] = []
     context['page']['section_two_heading'] = None
@@ -754,10 +756,9 @@ def test_country_guide_no_industries_no_heading(dummy_cms_page, rf):
 
 
 def test_country_guide_no_industries(dummy_cms_page, rf):
-    context = {
-        'page': dummy_cms_page,
-        'request': rf.get('/'),
-    }
+    context = urls_processor(None)
+    context['page'] = dummy_cms_page
+    context['request'] = rf.get('/')
 
     context['page']['accordions'] = []
     context['page']['section_two_heading'] = 'Heading'

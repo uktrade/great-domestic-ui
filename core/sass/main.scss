@@ -14,18 +14,18 @@
 @import 'components/eu-exit-banner';
 @import 'components/pagination';
 @import 'components/utils';
-@import 'components/four-column-card-grid';
 @import 'components/sector-selector-form';
 @import 'components/chevron-banner';
+@import 'components/filters';
 
 // PAGES
-@import 'pages/landing-page-old';
 @import 'pages/landing-page';
 @import 'pages/article-list';
 @import 'pages/tag-list';
 @import 'pages/article-detail';
 @import 'pages/campaign-page';
 @import 'pages/country-guide-page';
+@import 'pages/markets-landing';
 
 
 #content {

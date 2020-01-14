@@ -40,7 +40,8 @@ class GeolocationRemoteFileArchive(GeolocationArchiveBase):
 
     def retrieve_file(self):
         file_like_object = io.BytesIO()
-        response = requests.get(self.location)
+        params = {'edition_id': 'GeoLite2-Country', 'suffix': 'tar.gz', 'license_key': settings.MAXMIND_LICENCE_KEY}
+        response = requests.get(self.location, params)
         response.raise_for_status()
         for chunk in response.iter_content(chunk_size=1024):
             if chunk:  # filter out keep-alive new chunks
@@ -62,9 +63,7 @@ class GeolocationLocalFileArchive(GeolocationArchiveBase):
 
 class GeolocationArchiveNegotiator:
 
-    MESSAGE_FAILED_TO_DOWNLOAD = (
-        'Failed to download geolocation archive. Using local archive.'
-    )
+    MESSAGE_FAILED_TO_DOWNLOAD = 'Failed to download geolocation archive. Using local archive.'
 
     @classmethod
     def __new__(cls, *args, **kwargs):
