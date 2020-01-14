@@ -64,7 +64,7 @@
                       <li class="multiple-choice margin-bottom-0">
                         <input type="checkbox" value="{{ region.name }}" id="region_{{ region.id }}" name="region" {% if region.name in selected_regions %} checked {% endif %} />
                         <label for="region_{{ region.id }}">
-                          {{ region.name }}
+                          {{ region.name|title }}
                         </label>
                         </li>
                       {% endfor %}

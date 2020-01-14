@@ -9,6 +9,12 @@ from core.views import (
 
 redirects = [
     url(
+        r'^about/$',
+        QuerystringRedirectView.as_view(
+            url='https://www.gov.uk/government/organisations/department-for-international-trade/about'),
+        name='events-about-legacy'
+    ),
+    url(
         r'^jpm/$',
         QuerystringRedirectView.as_view(
             url='https://www.events.great.gov.uk/ehome/200197163/'),

@@ -434,39 +434,6 @@ def test_markets_page_filters_sort_by_title(mock_countries, mock_page, rf):
 @patch('directory_cms_client.client.cms_api_client.lookup_country_guides')
 @patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
 @patch('directory_cms_client.client.cms_api_client.list_regions', mock.MagicMock())
-def test_markets_page_filters_sort_by_region(mock_countries, mock_page, rf):
-    page = {
-        'title': 'test',
-        'page_type': 'TopicLandingPage',
-        'tree_based_breadcrumbs': [
-            {'url': '/', 'title': 'great.gov.uk'},
-            {'url': '/markets/', 'title': 'Markets'},
-        ],
-        'child_pages': [
-            {'title': 'Brazil', 'region': 'South America'},
-            {'title': 'Japan', 'region': 'East Asia'},
-            {'title': 'China', 'region': 'East Asia'},
-            {'title': 'India', 'region': 'South Asia'},
-        ]
-
-    }
-
-    sorted_child_pages = sorted(page['child_pages'], key=lambda x: x['region'].replace('The ', ''))
-
-    mock_page.return_value = create_response(page)
-
-    mock_countries.return_value = create_response(page['child_pages'])
-    request = rf.get('/markets/', {'sortby': 'region'})
-    response = MarketsPageView.as_view()(request, slug='markets')
-
-    assert response.status_code == 200
-    assert response.context_data['pagination_page'].object_list == sorted_child_pages
-
-
-@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
-@patch('directory_cms_client.client.cms_api_client.lookup_country_guides')
-@patch('directory_cms_client.client.cms_api_client.list_industry_tags', mock.MagicMock())
-@patch('directory_cms_client.client.cms_api_client.list_regions', mock.MagicMock())
 def test_markets_page_filters_no_results(mock_countries, mock_page, rf):
     page = {
         'title': 'test',
