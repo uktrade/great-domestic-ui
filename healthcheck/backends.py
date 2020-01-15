@@ -9,7 +9,7 @@ class SearchSortBackend(BaseHealthCheckBackend):
 
     def check_status(self):
         client = TestClient()
-        response = client.get(reverse_lazy('search'), data={'q': 'qwerty123'})
+        response = client.get(reverse_lazy('search'), data={'q': 'qwerty123'}, follow=True)
 
         ordering_success = False
         if response.status_code == 200:
