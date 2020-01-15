@@ -3,6 +3,13 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+### Bugs fixed
+
+## [2020.01.14](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.14)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.03...2020.01.14)
+
+### Implemented enhancements
 - XOT-1224 - remove regions sorting, add text format filter to regions filters and mobile css tweaks
 - no ticket - events footer link to /about/ redirects to DIT about page in gov.uk
 - XOT-1224 - add multiple filtering to market landing, regions and industries
