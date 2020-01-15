@@ -501,6 +501,7 @@ def test_new_landing_page_querystring_new_cms_page(mock_page, client):
 def test_cms_path_lookup(mock_page, page_type, expected_template, client):
     mock_page.return_value = create_response({
         'page_type': page_type,
+        'title': 'Page title',
         'tree_based_breadcrumbs': [
             {'title': 'great.gov.uk', 'url': '/'},
             {'title': 'Article list', 'url': '/article-list'},
@@ -518,6 +519,7 @@ def test_cms_path_lookup(mock_page, page_type, expected_template, client):
 def test_cms_path_url(mock_page, client):
     mock_page.return_value = create_response({
         'page_type': 'ArticlePage',
+        'title': 'Page title',
         'tree_based_breadcrumbs': [
             {'title': 'great.gov.uk', 'url': '/'},
             {'title': 'Article', 'url': '/test-article/'}

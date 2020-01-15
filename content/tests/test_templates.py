@@ -269,6 +269,7 @@ def test_article_detail_page_media_rendered(rf):
     context = urls_processor(None)
     context['request'] = rf.get('/')
     page = {
+        "title": "Page title",
         "article_video": {
             "url": "test.mp4",
             "file_extension": "mp4"
