@@ -4,7 +4,6 @@ from health_check.exceptions import ServiceReturnedUnexpectedResult
 from django.urls import reverse_lazy
 from django.test import Client as TestClient
 
-import logging
 
 class SearchSortBackend(BaseHealthCheckBackend):
 
@@ -13,12 +12,6 @@ class SearchSortBackend(BaseHealthCheckBackend):
         response = client.get(reverse_lazy('search'), data={'q': 'qwerty123'}, follow=True)
 
         ordering_success = False
-        logging.error('vars(response)')
-        logging.error(vars(response))
-        logging.error('response.status_code')
-        logging.error(response.status_code)
-        logging.error("response.context_data['results']")
-        logging.error(response.context_data['results'])
         if response.status_code == 200:
             results = response.context_data['results']
             if (len(results) == 4) and \

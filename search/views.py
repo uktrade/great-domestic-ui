@@ -39,7 +39,6 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
         try:
             elasticsearch_query = helpers.format_query(query, page)
             response = helpers.search_with_activitystream(elasticsearch_query)
-            # import pdb; pdb.set_trace()
         except RequestException:
             logger.error(
                 "Activity Stream connection for "
@@ -59,8 +58,6 @@ class SearchView(SetGA360ValuesMixin, TemplateView):
                 results = helpers.parse_results(
                     response, query, page
                 )
-
-        # import pdb; pdb.set_trace()
 
         return {**context, **common, **results}
 
