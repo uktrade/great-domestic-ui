@@ -5,6 +5,8 @@
 ### Implemented enhancements
 - XOT-1278 - remove parent directory from campagins/case study article breadcrumbs
 
+- TT-1805 - Fix broken Search Sort Order backend
+
 ### Bugs fixed
 
 ## [2020.01.14](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.14)
