@@ -3,7 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
-
+- XOT-1224 - add markets heading to cms and some design fixes
 - TT-1805 - Fix broken Search Sort Order backend
 
 ### Bugs fixed
