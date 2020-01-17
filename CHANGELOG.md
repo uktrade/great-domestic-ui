@@ -3,7 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
-
+- XOT-1224 - add markets heading to cms and some design fixes
 - TT-1805 - Fix broken Search Sort Order backend
 
 ### Bugs fixed
@@ -14,7 +14,7 @@
 ### Implemented enhancements
 - XOT-1224 - remove regions sorting, add text format filter to regions filters and mobile css tweaks
 - no ticket - events footer link to /about/ redirects to DIT about page in gov.uk
-- XOT-1224 - add multiple filtering to market landing, regions and industries
+- XOT-1224 - add multiple filtering to markets heading landing, regions and industries
 - XOT-1007 - hide extra CTA on mobile, some style fixes
 - XOT-1206 - change search pagination markup and css to match directory components
 - TT-1304 - Upgrade sentry client
@@ -39,7 +39,7 @@
 - XOT-1117 - small spelling change
 - XOT-1137 - change order of padding incase chevron component is removed
 - No ticket - Remove old homepage template and other unused code
-- XOT-1175 - Add logic to hide section on market page when no content
+- XOT-1175 - Add logic to hide section on markets heading page when no content
 - GTRANSFORM-300 - change numbered bullet colour
 - XOT-1135 - Add new SOO contact form
 - XOT-1171 - Advice redirects
@@ -64,10 +64,10 @@
 - XOT-1153 - disable sector selector button until option has been selected, change default text
 - XOT-1150 - add MADB comoonent and remove case studies link from campaign
 - XOT-1155 - amends to video modal transcript height issue, restyle close button
-- XOT-1121 - market landing page changes and search pagination
+- XOT-1121 - markets heading landing page changes and search pagination
 - XOT-1155 - change related link field from rich text to string
 - XOT-1151, XOT-1152, XOT-1137, XOT-1153, XOT-1155 - homepage redesigns v2
-- XOT-1129 - add selector form to market landing page
+- XOT-1129 - add selector form to markets heading landing page
 - XOT-1122 - add sector selector and top sectors to homepage
 - XOT-1123 - Add filtering by industry tag to markets landing page
 - XOT-1118 - use CMS heading for page title
@@ -92,7 +92,7 @@
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23_1...2019.10.28)
 
 ### Hotfix
-- No ticket - Fix success message on market access success page
+- No ticket - Fix success message on markets heading access success page
 
 ## [2019.09.23_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2019.09.23_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2019.09.23...2019.09.23_1)
@@ -139,9 +139,9 @@
 ### Implemented enhancements
 - CMS-1754 - (Follow-up) Remove unused international form views (now in great international UI), move international Brexit contact form url into settings
 - No ticket - route marketaccess requests to EU Exit zendesk
-- No ticket - fix typo in email market access review form step
+- No ticket - fix typo in email markets heading access review form step
 - XOT-920 - hide article type to prevent rendering of None and add missing subheading field
-- GTRANSFORM-363 - Ensure market access summary page reflects the forms, add missing answers to questions
+- GTRANSFORM-363 - Ensure markets heading access summary page reflects the forms, add missing answers to questions
 - No ticket - remove comma in report-trade-barriers 'Tell us what you’ve done to resolve your problem, even if this is your first step' error msg, that causes error message to render incorrectly
 - No ticket - Fix /legal redirect
 - XOT-920 - combined article/case study/blog template, full width quote section from cms content
@@ -185,7 +185,7 @@
 ### Implemented enhancements
 - GTRANSFORM-241 - Remove carousel and outdated case study from the homepage, make responsive column classes consistent across pages
 - No ticket - Remove number of guides and publish date from cards, remove number of articles from article listing page hero.
-- XOT-989 - remove Content from breadcrumbs for SOO market sign up
+- XOT-989 - remove Content from breadcrumbs for SOO markets heading sign up
 - XOT-968 - Fix security issues raised by latest pen test
 
 ### Fixed bugs
@@ -224,7 +224,7 @@
 - XOT-958 - bugfixes for XOT-922 (css changes, added cms_breadcrumbs, fixed template footer markup and hide block if fields not populated)
 - XOT-914 - Add automated tests for search sort order
 - XOT-906 - Update wording on search feedback form
-- XOT-943 - Rename market and opportunity search classifiers in Search
+- XOT-943 - Rename markets heading and opportunity search classifiers in Search
 
 ### Fixed bugs
 - TT-1602 - Fix radio buttons on /contact/domestic/
