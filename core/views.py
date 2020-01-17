@@ -2,6 +2,7 @@ import logging
 
 from directory_constants import slugs
 from directory_cms_client.client import cms_api_client
+from directory_ch_client import ch_search_api_client
 from directory_forms_api_client.helpers import FormSessionMixin, Sender
 
 from django.contrib import sitemaps
@@ -184,9 +185,8 @@ class CompaniesHouseSearchApiView(View):
         form = self.form_class(data=request.GET)
         if not form.is_valid():
             return JsonResponse(form.errors, status=400)
-        api_response = helpers.CompaniesHouseClient.search(
-            term=form.cleaned_data['term']
-        )
+
+        api_response = ch_search_api_client.company.search_companies(query=form.cleaned_data['term'])
         api_response.raise_for_status()
         return JsonResponse(api_response.json()['items'], safe=False)
 
