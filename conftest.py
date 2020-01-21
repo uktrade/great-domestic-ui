@@ -1,6 +1,6 @@
-import os
 from unittest import mock
 
+from captcha.client import RecaptchaResponse
 import pytest
 
 from django.contrib.auth import get_user_model
@@ -27,12 +27,13 @@ def dummy_cms_page():
     }
 
 
-@pytest.fixture()
+@pytest.fixture(autouse=True)
 def captcha_stub():
-    # https://github.com/praekelt/django-recaptcha#id5
-    os.environ['RECAPTCHA_TESTING'] = 'True'
+    stub = mock.patch('captcha.fields.client.submit')
+    stub.return_value = RecaptchaResponse(is_valid=True)
+    stub.start()
     yield 'PASSED'
-    os.environ['RECAPTCHA_TESTING'] = 'False'
+    stub.stop()
 
 
 @pytest.fixture(autouse=True)

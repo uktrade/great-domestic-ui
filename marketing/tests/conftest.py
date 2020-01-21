@@ -51,4 +51,5 @@ def serialized_marketing_form_api_data(captcha_stub):
         'annual_turnover': '',
         'currently_export': 'no',
         'terms_agreed': True,
+        'g-recaptcha-response': captcha_stub,
     }

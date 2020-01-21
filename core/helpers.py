@@ -1,12 +1,9 @@
 import collections
-import http
 import urllib.parse
-import requests
 from functools import partial
 from urllib.parse import urljoin
 
 from directory_api_client import api_client
-from directory_ch_client import ch_search_api_client
 from ipware import get_client_ip
 
 from django.conf import settings
@@ -138,35 +135,6 @@ class GeoLocationRedirector:
             domain=settings.LANGUAGE_COOKIE_DOMAIN
         )
         return response
-
-
-class CompaniesHouseClient:
-
-    api_key = settings.COMPANIES_HOUSE_API_KEY
-    make_api_url = partial(urljoin, 'https://api.companieshouse.gov.uk')
-    endpoints = {
-        'search': make_api_url('search/companies'),
-    }
-    session = requests.Session()
-
-    @classmethod
-    def get_auth(cls):
-        return requests.auth.HTTPBasicAuth(cls.api_key, '')
-
-    @classmethod
-    def get(cls, url, params={}):
-        response = cls.session.get(url=url, params=params, auth=cls.get_auth())
-        if response.status_code == http.client.UNAUTHORIZED:
-            response.raise_for_status()
-        return response
-
-    @classmethod
-    def search(cls, term):
-        if settings.FEATURE_FLAGS['INTERNAL_CH_ON']:
-            return ch_search_api_client.company.search_companies(query=term)
-        else:
-            url = cls.endpoints['search']
-            return cls.get(url, params={'q': term})
 
 
 GA_DATA_MAPPING = {

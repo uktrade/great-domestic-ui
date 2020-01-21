@@ -1,8 +1,6 @@
 from unittest import mock
 from unittest.mock import call, patch
 
-import requests
-
 from django.urls import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -365,43 +363,8 @@ def test_triage_wizard_view(mock_get_page, client):
     assert response.template_name == ['core/service_no_longer_available.html']
 
 
-def test_companies_house_search_validation_error(client, settings):
-    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
-
-    url = reverse('api-internal-companies-house-search')
-    response = client.get(url)  # notice absense of `term`
-
-    assert response.status_code == 400
-
-
-@patch('core.helpers.CompaniesHouseClient.search')
-def test_companies_house_search_api_error(mock_search, client, settings):
-    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
-
-    mock_search.return_value = create_response(status_code=400)
-    url = reverse('api-internal-companies-house-search')
-
-    with pytest.raises(requests.HTTPError):
-        client.get(url, data={'term': 'thing'})
-
-
-@patch('core.helpers.CompaniesHouseClient.search')
-def test_companies_house_search_api_success(mock_search, client, settings):
-    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = False
-
-    mock_search.return_value = create_response({'items': [{'name': 'Smashing corp'}]})
-    url = reverse('api-internal-companies-house-search')
-
-    response = client.get(url, data={'term': 'thing'})
-
-    assert response.status_code == 200
-    assert response.content == b'[{"name": "Smashing corp"}]'
-
-
-@patch('core.helpers.ch_search_api_client.company.search_companies')
+@patch('directory_ch_client.ch_search_api_client.company.search_companies')
 def test_companies_house_search_internal(mock_search_companies, client, settings):
-    settings.FEATURE_FLAGS['INTERNAL_CH_ON'] = True
-
     mock_search_companies.return_value = create_response({'items': [{'name': 'Smashing corp'}]})
     url = reverse('api-internal-companies-house-search')
 

@@ -68,7 +68,6 @@ def test_contact_form_notify_success(
 ):
     url = reverse('uk-export-contact')
     response = client.post(url, valid_contact_form_data)
-
     assert response.status_code == 302
     assert response.url == reverse('uk-export-contract-success')
     assert mock_save.call_count == 2
