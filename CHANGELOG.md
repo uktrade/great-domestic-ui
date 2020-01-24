@@ -1,6 +1,7 @@
 # Changelog
 
 ## Pre-release
+- no ticket - events footer link to /about/ redirects to DIT about our services page in gov.uk (updated link)
 
 ### Implemented enhancements
 - no ticket - events footer link to /about/ redirects to DIT about page in gov.uk
