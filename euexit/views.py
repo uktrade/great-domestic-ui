@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from core.mixins import (
-    GetCMSPageMixin, PrepopulateFormMixin, SetGA360ValuesMixin)
+    GetCMSPageMixin, PrepopulateFormMixin)
 from euexit import forms, mixins
 
 
@@ -16,7 +16,6 @@ SESSION_KEY_FORM_INGRESS_URL = 'FORM_INGRESS_URL'
 
 
 class BaseInternationalContactFormView(
-    SetGA360ValuesMixin,
     GetCMSPageMixin,
     PrepopulateFormMixin,
     mixins.HideLanguageSelectorMixin,
@@ -59,7 +58,6 @@ class BaseInternationalContactFormView(
 
 
 class BaseContactView(
-    SetGA360ValuesMixin,
     GetCMSPageMixin,
     mixins.HideLanguageSelectorMixin,
     TemplateView

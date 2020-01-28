@@ -27,7 +27,7 @@ class SetEtagMixin:
         return response
 
 
-class LandingPageView(mixins.SetGA360ValuesForCMSPageMixin, TemplateView):
+class LandingPageView(TemplateView):
 
     template_name = 'core/landing_page.html'
 
@@ -224,12 +224,11 @@ class SendNotifyMessagesMixin:
 
 
 class BaseNotifyFormView(
-    mixins.SetGA360ValuesMixin,
     FormSessionMixin, SendNotifyMessagesMixin, FormView
 ):
     page_type = 'ContactPage'
 
 
-class ServicesView(mixins.SetGA360ValuesMixin, TemplateView):
+class ServicesView(TemplateView):
     template_name = 'core/services.html'
     page_type = 'ServicesLandingPage'
