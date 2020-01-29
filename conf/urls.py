@@ -133,6 +133,12 @@ urlpatterns = [
         name='accessibility-statement'
     ),
     url(
+        r"^cookies/$",
+        skip_ga360(
+            core.views.CookiePreferencesPageView.as_view()),
+        name='cookie-preferences'
+    ),
+    url(
         r"^export-opportunities/$",
         QuerystringRedirectView.as_view(url=settings.SERVICES_EXOPPS_ACTUAL),
         name='export-opportunities'
