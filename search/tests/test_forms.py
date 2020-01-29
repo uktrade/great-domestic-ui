@@ -1,7 +1,7 @@
 from search import forms
 
 
-def test_cleaned_form(captcha_stub):
+def test_cleaned_form():
     form = forms.FeedbackForm({
         'result_found': 'no',
         'search_target': 'Test',
@@ -12,7 +12,6 @@ def test_cleaned_form(captcha_stub):
         'contact_name': 'Test',
         'contact_email': 'test@example.com',
         'contact_number': '55512341234',
-        'g-recaptcha-response': captcha_stub
     })
     form.is_valid()
 

@@ -237,18 +237,6 @@ def test_routing_forms_feature_flag(form_class, value, feature_flags):
     assert any(item == expected for item, _ in choices) is value
 
 
-@pytest.mark.parametrize('value', (True, False,))
-def test_routing_forms_new_reg_journey_flag(value, feature_flags):
-    feature_flags['NEW_REGISTRATION_JOURNEY_ON'] = value
-
-    choices = forms.GreatAccountRoutingForm().fields['choice'].choices
-
-    assert any(
-        value == constants.COMPANY_NOT_FOUND for value,
-        label in choices
-    ) is value
-
-
 def test_selling_online_overseas_applicant_valid_form_ch():
     form = forms.SellingOnlineOverseasApplicant(
         data={

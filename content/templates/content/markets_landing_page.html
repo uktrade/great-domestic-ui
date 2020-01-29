@@ -12,10 +12,10 @@
 {% block intro_section %}
 
 {% if page.teaser %}
-<section id="markets-banner-section" class="topic-list-section background-stone-30 padding-top-60 padding-bottom-0">
+<section id="markets-banner-section" class="topic-list-section background-stone-30 padding-bottom-0 padding-bottom-60-m">
     <div class="container">
-      <div class="grid-row margin-top-60">
-        <div class="column-full column-half-l font-medium">
+      <div class="grid-row margin-top-30 margin-top-60-m">
+        <div class="column-full column-two-thirds-l font-medium">
           {{ page.teaser }}
         </div>
       </div>
@@ -27,8 +27,6 @@
 {% block child_pages %}
 <section id="{{ page.meta.slug }}-list-section" class="topic-list-section background-stone-30 markets-landing">
   <div class="container">
-    <h2 class="heading-large margin-bottom-45-m padding-right-90-m">Our market guides can help you find export opportunities and prepare to do business in new markets.</h2>
-
     <form id="sectors-form" action="{% url 'markets' %}" method="GET">
       <div class="grid-row">
         <div class="column-third column-quarter-xl">
