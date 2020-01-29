@@ -1,7 +1,6 @@
 from directory_constants import slugs
 
 import directory_components.views
-from directory_components.decorators import skip_ga360
 from directory_constants.urls import international
 import directory_healthcheck.views
 
@@ -37,28 +36,28 @@ sitemaps = {
 urlpatterns = [
     url(
         r'^healthcheck/$',
-        skip_ga360(directory_healthcheck.views.HealthcheckView.as_view()),
+        directory_healthcheck.views.HealthcheckView.as_view(),
         name='healthcheck'
     ),
     url(
         r'^healthcheck/ping/$',
-        skip_ga360(directory_healthcheck.views.PingView.as_view()),
+        directory_healthcheck.views.PingView.as_view(),
         name='ping'
     ),
     url(
         r"^sitemap\.xml$",
-        skip_ga360(sitemap),
+        sitemap),
         {'sitemaps': sitemaps},
         name='sitemap'
     ),
     url(
         r"^robots\.txt$",
-        skip_ga360(directory_components.views.RobotsView.as_view()),
+        directory_components.views.RobotsView.as_view(),
         name='robots'
     ),
     url(
         r"^not-found/$",
-        skip_ga360(TemplateView.as_view(template_name='404.html')),
+        TemplateView.as_view(template_name='404.html'),
         name='not-found'
     ),
     url(
@@ -149,21 +148,21 @@ urlpatterns = [
     ),
     url(
         r'^get-finance/contact/thanks/$',
-        skip_ga360(
-            finance.views.GetFinanceLeadGenerationSuccessView.as_view()),
+        
+            finance.views.GetFinanceLeadGenerationSuccessView.as_view(),
         name='uk-export-finance-lead-generation-form-success'
     ),
     url(
         r'^get-finance/(?P<step>.+)/$',
-        skip_ga360(finance.views.GetFinanceLeadGenerationFormView.as_view(
+        finance.views.GetFinanceLeadGenerationFormView.as_view(
             url_name='uk-export-finance-lead-generation-form',
             done_step_name='finished'
-        )),
+        ),
         name='uk-export-finance-lead-generation-form'
     ),
     url(
         r'^search/key-pages/$',
-        skip_ga360(search.views.SearchKeyPagesView.as_view()),
+        search.views.SearchKeyPagesView.as_view(),
         name='search-key-pages'
     ),
     url(
@@ -178,7 +177,7 @@ urlpatterns = [
     ),
     url(
         r'^search/test-api/$',
-        skip_ga360(search.views.TestSearchAPIView.as_view()),
+        search.views.TestSearchAPIView.as_view(),
         name='search-test-api'
     )
 ]
@@ -186,17 +185,17 @@ urlpatterns = [
 legacy_urls = [
     url(
         r'^triage/(?P<step>.+)/$',
-        skip_ga360(core.views.ServiceNoLongerAvailableView.as_view()),
+        core.views.ServiceNoLongerAvailableView.as_view(),
         name='triage-wizard'
     ),
     url(
         r'^triage/$',
-        skip_ga360(core.views.ServiceNoLongerAvailableView.as_view()),
+        core.views.ServiceNoLongerAvailableView.as_view(),
         name='triage-start'
     ),
     url(
         r'^custom/$',
-        skip_ga360(core.views.ServiceNoLongerAvailableView.as_view()),
+        core.views.ServiceNoLongerAvailableView.as_view(),
         name='custom-page'
     ),
 ]
@@ -254,45 +253,45 @@ article_urls = [
 contact_urls = [
     url(
         r'^contact/triage/export-opportunities/(?P<slug>[-\w\d]+)/$',
-        skip_ga360(contact.views.GuidanceView.as_view()),
+        contact.views.GuidanceView.as_view(),
         name='contact-us-export-opportunities-guidance'
     ),
     url(
         r'^contact/triage/great-account/(?P<slug>[-\w\d]+)/$',
-        skip_ga360(contact.views.GuidanceView.as_view()),
+        contact.views.GuidanceView.as_view(),
         name='contact-us-great-account-guidance'
     ),
     url(
         r'^contact/triage/international/(?P<slug>[-\w\d]+)/$',
-        skip_ga360(contact.views.ExortingToUKGuidanceView.as_view()),
+        contact.views.ExortingToUKGuidanceView.as_view(),
         name='contact-us-exporting-to-the-uk-guidance'
     ),
     url(
         r'^contact/events/$',
-        skip_ga360(contact.views.EventsFormView.as_view()),
+        contact.views.EventsFormView.as_view(),
         name='contact-us-events-form'
     ),
     url(
         r'^contact/events/success/$',
-        skip_ga360(contact.views.DomesticSuccessView.as_view()),
+        contact.views.DomesticSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS_EVENTS},
         name='contact-us-events-success'
     ),
     url(
         r'^contact/defence-and-security-organisation/$',
-        skip_ga360(
-            contact.views.DefenceAndSecurityOrganisationFormView.as_view()),
+        
+            contact.views.DefenceAndSecurityOrganisationFormView.as_view(),
         name='contact-us-dso-form'
     ),
     url(
         r'^contact/defence-and-security-organisation/success/$',
-        skip_ga360(contact.views.DomesticSuccessView.as_view()),
+        contact.views.DomesticSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS_DSO},
         name='contact-us-dso-success'
     ),
     url(
         r'^contact/export-advice/success/$',
-        skip_ga360(contact.views.DomesticSuccessView.as_view()),
+        contact.views.DomesticSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS_EXPORT_ADVICE},
         name='contact-us-export-advice-success'
     ),
@@ -307,46 +306,46 @@ contact_urls = [
     ),
     url(
         r'^contact/export-advice/(?P<step>.+)/$',
-        skip_ga360(contact.views.ExportingAdviceFormView.as_view(
+        contact.views.ExportingAdviceFormView.as_view(
             url_name='contact-us-export-advice', done_step_name='finished'
-        )),
+        ),
         name='contact-us-export-advice'
     ),
     url(
         r'^contact/feedback/$',
-        skip_ga360(contact.views.FeedbackFormView.as_view()),
+        contact.views.FeedbackFormView.as_view(),
         name='contact-us-feedback'
     ),
     url(
         r'^contact/feedback/success/$',
-        skip_ga360(contact.views.DomesticSuccessView.as_view()),
+        contact.views.DomesticSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS_FEEDBACK},
         name='contact-us-feedback-success'
     ),
     url(
         r'^contact/domestic/$',
-        skip_ga360(contact.views.DomesticFormView.as_view()),
+        contact.views.DomesticFormView.as_view(),
         name='contact-us-domestic'
     ),
     url(
         r'^contact/domestic/enquiries/$',
-        skip_ga360(contact.views.DomesticEnquiriesFormView.as_view()),
+        contact.views.DomesticEnquiriesFormView.as_view(),
         name='contact-us-enquiries'
     ),
     url(
         r'^contact/domestic/success/$',
-        skip_ga360(contact.views.DomesticSuccessView.as_view()),
+        contact.views.DomesticSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS},
         name='contact-us-domestic-success'
     ),
     url(
         r'^contact/international/$',
-        skip_ga360(contact.views.InternationalFormView.as_view()),
+        contact.views.InternationalFormView.as_view(),
         name='contact-us-international'
     ),
     url(
         r'^contact/international/success/$',
-        skip_ga360(contact.views.InternationalSuccessView.as_view()),
+        contact.views.InternationalSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS_INTERNATIONAL},
         name='contact-us-international-success'
     ),
@@ -370,20 +369,20 @@ contact_urls = [
     ),
     url(
         r'^contact/selling-online-overseas/success/$',
-        skip_ga360(contact.views.SellingOnlineOverseasSuccessView.as_view()),
+        contact.views.SellingOnlineOverseasSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS_SOO},
         name='contact-us-selling-online-overseas-success'
     ),
     url(
         r'^contact/selling-online-overseas/(?P<step>.+)/$',
-        login_required(skip_ga360(contact.views.SellingOnlineOverseasFormView.as_view(
+        login_required(contact.views.SellingOnlineOverseasFormView.as_view(
             url_name='contact-us-soo', done_step_name='finished'
-        ))),
+        )),
         name='contact-us-soo'
     ),
     url(
         r'^contact/department-for-business-energy-and-industrial-strategy/$',
-        skip_ga360(contact.views.ExportingToUKBEISFormView.as_view()),
+        contact.views.ExportingToUKBEISFormView.as_view(),
         name='contact-us-exporting-to-the-uk-beis'
     ),
     url(
@@ -391,13 +390,13 @@ contact_urls = [
             r'^contact/department-for-business-energy-and-industrial-strategy/'
             r'success/$'
         ),
-        skip_ga360(contact.views.ExportingToUKSuccessView.as_view()),
+        contact.views.ExportingToUKSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS_BEIS},
         name='contact-us-exporting-to-the-uk-beis-success'
     ),
     url(
         r'^contact/department-for-environment-food-and-rural-affairs/$',
-        skip_ga360(contact.views.ExportingToUKDERAFormView.as_view()),
+        contact.views.ExportingToUKDERAFormView.as_view(),
         name='contact-us-exporting-to-the-uk-defra'
     ),
     url(
@@ -405,30 +404,30 @@ contact_urls = [
             r'^contact/department-for-environment-food-and-rural-affairs/'
             r'success/$'
         ),
-        skip_ga360(contact.views.ExportingToUKSuccessView.as_view()),
+        contact.views.ExportingToUKSuccessView.as_view(),
         {'slug': slugs.HELP_FORM_SUCCESS_DEFRA},
         name='contact-us-exporting-to-the-uk-defra-success'
     ),
     url(
         r'^contact/exporting-to-the-uk/$',
-        skip_ga360(contact.views.ExportingToUKFormView.as_view()),
+        contact.views.ExportingToUKFormView.as_view(),
         name='contact-us-exporting-to-the-uk'
     ),
     url(
         r'^contact/exporting-to-the-uk/import-controls/$',
-        skip_ga360(contact.views.ExportingToUKFormView.as_view()),
+        contact.views.ExportingToUKFormView.as_view(),
         {'zendesk_subdomain': settings.EU_EXIT_ZENDESK_SUBDOMAIN},
         name='contact-us-exporting-to-the-uk-import-controls'
     ),
     url(
         r'^contact/exporting-to-the-uk/other/$',
-        skip_ga360(contact.views.ExportingToUKFormView.as_view()),
+        contact.views.ExportingToUKFormView.as_view(),
         {'zendesk_subdomain': settings.EU_EXIT_ZENDESK_SUBDOMAIN},
         name='contact-us-exporting-to-the-uk-other'
     ),
     url(
         r'^contact/exporting-to-the-uk/trade-with-uk-app/$',
-        skip_ga360(contact.views.ExportingToUKFormView.as_view()),
+        contact.views.ExportingToUKFormView.as_view(),
         name='contact-us-exporting-to-the-trade-with-uk-app'
     ),
     url(
@@ -442,29 +441,29 @@ contact_urls = [
     ),
     url(
         r'^contact/triage/(?P<step>.+)/$',
-        skip_ga360(contact.views.RoutingFormView.as_view(
+        contact.views.RoutingFormView.as_view(
             url_name='contact-us-routing-form', done_step_name='finished'
-        )),
+        ),
         name='contact-us-routing-form'
     ),
     url(
         r'^contact/office-finder/$',
-        skip_ga360(contact.views.OfficeFinderFormView.as_view()),
+        contact.views.OfficeFinderFormView.as_view(),
         name='office-finder'
     ),
     url(
         r'^contact/office-finder/(?P<postcode>[\w\d]+)/$',
-        skip_ga360(contact.views.OfficeContactFormView.as_view()),
+        contact.views.OfficeContactFormView.as_view(),
         name='office-finder-contact'
     ),
     url(
         r'^contact/office-finder/(?P<postcode>[\w\d]+)/success/$',
-        skip_ga360(contact.views.OfficeSuccessView.as_view()),
+        contact.views.OfficeSuccessView.as_view(),
         name='contact-us-office-success'
     ),
     url(
         r'^api/internal/companies-house-search/$',
-        skip_ga360(core.views.CompaniesHouseSearchApiView.as_view()),
+        core.views.CompaniesHouseSearchApiView.as_view(),
         name='api-internal-companies-house-search'
     ),
 ]
@@ -472,22 +471,19 @@ contact_urls = [
 marketaccess_urls = [
     url(
         r'^report-trade-barrier/$',
-        skip_ga360(marketaccess.views.MarketAccessView.as_view()),
+        marketaccess.views.MarketAccessView.as_view(),
         name='market-access'
     ),
     url(
         r'^report-trade-barrier/report/success/$',
-        skip_ga360(
-            marketaccess.views.ReportMarketAccessBarrierSuccessView.as_view()),
+            marketaccess.views.ReportMarketAccessBarrierSuccessView.as_view(),
         name='report-barrier-form-success'
     ),
     url(
         r'^report-trade-barrier/report/(?P<step>.+)/$',
-        skip_ga360(
             marketaccess.views.ReportMarketAccessBarrierFormView.as_view(
                 url_name='report-ma-barrier',
                 done_step_name='finished',
-            )
         ),
         name='report-ma-barrier'
     ),
@@ -502,7 +498,7 @@ community_urls = [
     ),
     url(
         r"^community/success/$",
-        skip_ga360(community.views.CommunitySuccessPageView.as_view()),
+        community.views.CommunitySuccessPageView.as_view(),
         name='community-join-success'
     ),
     url(
@@ -520,7 +516,7 @@ marketing_urls = [
         ),
     url(
             r"^local-export-support/success/$",
-            skip_ga360(marketing.views.MarketingSuccessPageView.as_view()),
+            marketing.views.MarketingSuccessPageView.as_view(),
             name='marketing-join-success'
         ),
 ]
@@ -529,43 +525,43 @@ marketing_urls = [
 ukef_urls = [
     url(
         r"^get-finance/$(?i)",
-        skip_ga360(ukef.views.HomeView.as_view()),
+        ukef.views.HomeView.as_view(),
         name='get-finance',
     ),
     url(
         r"^trade-finance/$(?i)",
-        skip_ga360(finance.views.TradeFinanceView.as_view()),
+        finance.views.TradeFinanceView.as_view(),
         name='trade-finance'
     ),
     url(
         r"^project-finance/$(?i)",
-        skip_ga360(ukef.views.LandingView.as_view()),
+        ukef.views.LandingView.as_view(),
         name='project-finance',
     ),
     url(
         r"^uk-export-contact-form/$(?i)",
-        skip_ga360(ukef.views.ContactView.as_view()),
+        ukef.views.ContactView.as_view(),
         {'slug': 'uk-export-contact'},
         name='uk-export-contact',
     ),
     url(
         r"^uk-export-contact-form-success/$(?i)",
-        skip_ga360(ukef.views.SuccessPageView.as_view()),
+        ukef.views.SuccessPageView.as_view(),
         name='uk-export-contract-success'
     ),
     url(
         r"^how-we-assess-your-project/$(?i)",
-        skip_ga360(ukef.views.HowWeAssessPageView.as_view()),
+        ukef.views.HowWeAssessPageView.as_view(),
         name='how-we-assess-your-project'
     ),
     url(
         r"^what-we-offer-you/$(?i)",
-        skip_ga360(ukef.views.WhatWeOfferView.as_view()),
+        ukef.views.WhatWeOfferView.as_view(),
         name='what-we-offer-you'
     ),
     url(
         r"^country-cover/$(?i)",
-        skip_ga360(ukef.views.CountryCoverView.as_view()),
+        ukef.views.CountryCoverView.as_view(),
         name='country-cover'
     ),
 ]
