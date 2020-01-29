@@ -109,4 +109,3 @@ package-lock.json
 # Docker
 .env
 conf/env/secrets-do-not-commit
-core/geolocation_data/GeoLite2-Country.mmdb

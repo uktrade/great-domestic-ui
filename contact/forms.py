@@ -128,7 +128,6 @@ def choice_is_enabled(value):
     flagged_choices = {
         constants.EXPORTING_TO_UK: 'EXPORTING_TO_UK_ON',
         constants.CAPITAL_INVEST: 'CAPITAL_INVEST_CONTACT_IN_TRIAGE_ON',
-        constants.COMPANY_NOT_FOUND: 'NEW_REGISTRATION_JOURNEY_ON'
     }
 
     if value not in flagged_choices:
