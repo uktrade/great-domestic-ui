@@ -11,7 +11,7 @@ redirects = [
     url(
         r'^about/$',
         QuerystringRedirectView.as_view(
-            url='https://www.gov.uk/government/organisations/department-for-international-trade/about'),
+            url='https://www.gov.uk/government/organisations/department-for-international-trade/about-our-services'),
         name='events-about-legacy'
     ),
     url(

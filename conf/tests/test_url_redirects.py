@@ -107,7 +107,7 @@ def test_privacy_international_redirect(path, client):
 redirects = [
     (
         '/about/',
-        'https://www.gov.uk/government/organisations/department-for-international-trade/about'
+        'https://www.gov.uk/government/organisations/department-for-international-trade/about-our-services'
     ),
     (
         '/jpm/',
