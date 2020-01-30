@@ -2,7 +2,17 @@
 
 ## Pre-release
 
+- TT-2262 - Change conent on brexit enquiries form
+
 ### Implemented enhancements
+
+### Bugs fixed
+
+## [2020.01.29](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.29)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.14...2020.01.29)
+
+### Implemented enhancements
+- no ticket - events footer link to /about/ redirects to DIT about our services page in gov.uk (updated link)
 - XOT-1275 - Remove gov uk tile on market page
 - XOT-1224 - add markets heading to cms and some design fixes
 - TT-1805 - Fix broken Search Sort Order backend
