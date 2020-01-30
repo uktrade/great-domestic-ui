@@ -4,6 +4,8 @@
 
 ### Implemented enhancements
 
+- XOT-1291 - transition redirect
+
 ### Bugs fixed
 
 ## [2020.01.29](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.29)
