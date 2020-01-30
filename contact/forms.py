@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 from captcha.fields import ReCaptchaField
 from directory_components import forms
@@ -24,7 +24,7 @@ class LazyEUExitLabel(LazyObject):
 
     @property
     def _wrapped(self):
-        if timezone.now().date() > date(2020, 1, 31):
+        if timezone.now() > timezone.make_aware(datetime(2020, 1, 31, 23)):
             return self.POST_BREXIT
         return self.PRE_BREXIT
 
