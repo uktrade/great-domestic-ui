@@ -18,7 +18,7 @@
         <div class="grid-row">
             <div class="column-two-thirds">
                 <div class="confirmation-banner display-none">
-                {% success_box heading="Your cookie settings were saved" description="Government services may set additional cookies and, if so, will have their own cookie policy and banner.<p><a href='#'' id='back-from-preferences' class='link go-back'>Go back to the page you were looking at</a></p>" %}
+                {% success_box heading="Your cookie settings were saved" description="Government services may set additional cookies and, if so, will have their own cookie policy and banner.<br/><a href='#' id='back-from-preferences' class='link go-back margin-top-15 block'>Go back to the page you were looking at</a>" %}
                 </div>
                 <h1 class="heading-xlarge margin-bottom-60-m">Cookies on great.gov.uk</h1>
 
@@ -135,12 +135,12 @@
 'use strict'
 
   function bindCookiePolicyForm (formSelector, confirmationSelector, radioButtons) {
+
     if (typeof radioButtons !== 'object') {
       throw 'expected an object with radio button selectors';
     }
 
     var form = document.querySelector(formSelector);
-
     if (!form) {
       throw formSelector + ' was not found';
     }
@@ -152,14 +152,25 @@
 
     var policy = dit.components.cookieNotice.getPolicyOrDefault();
 
+
+    for (var cookieType in policy) {
+        var radioButton;
+        if(cookieType !== 'essential') {
+            if (policy[cookieType]) {
+                radioButton = document.querySelector('input[name=cookies-' + cookieType + '][value=on]');
+            } else {
+                radioButton = document.querySelector('input[name=cookies-' + cookieType + '][value=off]');
+            }
+            radioButton.checked = true;
+        }
+    }
+
     form[radioButtons.usage].value = policy.usage ? 'on' : 'off';
     form[radioButtons.settings].value = policy.settings ? 'on' : 'off';
     form[radioButtons.campaigns].value = policy.campaigns ? 'on' : 'off';
 
-    var attachEventMethod = form.attachEvent || form.addEventListener;
-    attachEventMethod('submit', function (e) {
+    form.addEventListener('submit', function(e){
       e.preventDefault();
-
       var settings = form[radioButtons.settings].value === 'on';
       var usage = form[radioButtons.usage].value === 'on';
       var campaigns = form[radioButtons.campaigns].value === 'on';
@@ -167,13 +178,12 @@
       dit.components.cookieNotice.createPoliciesCookie(settings, usage, campaigns);
       dit.components.cookieNotice.setPreferencesCookie();
 
-
-
       confirmation.classList.add('display-block');
       window.scrollTo(0, 0);
-      return false;
 
-    }, false);
+      return false;
+    });
+
   }
 
 
@@ -193,7 +203,6 @@ window.onload = function() {
         window.history.back();
     });
 
-    //dit.components.cookieNotice.init('.cookie-notice', '.button-accept', 'cookies');
 }
 
 
