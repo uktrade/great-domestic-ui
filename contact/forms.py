@@ -1,3 +1,5 @@
+from datetime import date
+
 from captcha.fields import ReCaptchaField
 from directory_components import forms
 from directory_constants import choices
@@ -7,12 +9,27 @@ import requests.exceptions
 
 from django.conf import settings
 from django.forms import Textarea, TextInput, TypedChoiceField
+from django.utils import timezone
 from django.utils.html import mark_safe
+from django.utils.functional import LazyObject
 
 from core.validators import is_valid_postcode
 from contact import constants, helpers
 from contact.fields import IntegerField
 
+
+class LazyEUExitLabel(LazyObject):
+    POST_BREXIT = 'The transition period (now that the UK has left the EU)'
+    PRE_BREXIT = 'The UK leaving the EU and transition period'
+
+    @property
+    def _wrapped(self):
+        if timezone.now().date() > date(2020, 1, 31):
+            return self.POST_BREXIT
+        return self.PRE_BREXIT
+
+
+EU_EXIT_LABEL = LazyEUExitLabel()
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
@@ -82,7 +99,7 @@ class DomesticRoutingForm(forms.Form):
             'great.gov.uk account and services support'
         ),
         (constants.FINANCE, 'UK Export Finance (UKEF)'),
-        (constants.EUEXIT, 'Brexit enquiries'),  # possibly removed by mixin
+        (constants.EUEXIT, EU_EXIT_LABEL),
         (constants.EVENTS, 'Events'),
         (constants.DSO, 'Defence and Security Organisation (DSO)'),
         (constants.OTHER, 'Other'),
@@ -165,12 +182,13 @@ class GreatAccountRoutingForm(forms.Form):
 
 
 def international_choices():
+
     all_choices = (
         (constants.INVESTING, 'Investing in the UK'),
         (constants.CAPITAL_INVEST, 'Capital investment in the UK'),
         (constants.EXPORTING_TO_UK, 'Exporting to the UK'),
         (constants.BUYING, 'Find a UK business partner'),
-        (constants.EUEXIT, 'Brexit enquiries'),
+        (constants.EUEXIT, EU_EXIT_LABEL),
         (constants.OTHER, 'Other'),
     )
 

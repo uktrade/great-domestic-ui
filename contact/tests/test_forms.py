@@ -1,4 +1,5 @@
 from directory_api_client.exporting import url_lookup_by_postcode
+from freezegun import freeze_time
 import pytest
 import requests
 import requests_mock
@@ -293,3 +294,14 @@ def test_routing_forms_feature_flag_for_int_routing_form(value_one, value_two, f
 
     assert any(value == constants.CAPITAL_INVEST for value, label in choices) is value_one
     assert any(value == constants.EXPORTING_TO_UK for value, label in choices) is value_two
+
+
+@pytest.mark.parametrize('current_date,expected', (
+    ['2020-01-30', forms.LazyEUExitLabel.PRE_BREXIT],
+    ['2020-01-31', forms.LazyEUExitLabel.PRE_BREXIT],
+    ['2020-02-01', forms.LazyEUExitLabel.POST_BREXIT],
+))
+def test_routing_forms_euexit(current_date, expected):
+    with freeze_time(current_date):
+        assert forms.DomesticRoutingForm().fields['choice'].choices[4][1] == expected
+        assert forms.InternationalRoutingForm().fields['choice'].choices[4][1] == expected
