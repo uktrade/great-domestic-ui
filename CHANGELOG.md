@@ -2,6 +2,8 @@
 
 ## Pre-release
 
+- TT-2262 - Change conent on brexit enquiries form
+
 ### Implemented enhancements
 
 ### Bugs fixed
