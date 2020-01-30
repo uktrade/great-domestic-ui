@@ -112,7 +112,7 @@
         "type": "Service",
         "type": ["Document", "dit:Service", "Service"],
         "name": "Brexit enquiry form",
-        "content": "See our guidance on how to prepare for Brexit. If you can’t see the information you’re looking for, complete the form below and one of our experts will try to help you.",
+        "content": "See our guidance on the transition period and preparing your businessfor 2021. If you can’t see the information you’re looking for, complete the form below and one of our experts will try to help you.",
         "keywords": "Brexit Brexit leave european union euexit",
         "url": "https://www.great.gov.uk/eu-exit-news/contact/"
       }
