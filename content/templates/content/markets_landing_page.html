@@ -155,9 +155,9 @@
 {% block body_js %}
 <script src="{% static 'js/marketFilters.js' %}"></script>
 <script>
-  window.onload=function() {
+  $(function() {
     marketFilters.init();
-}
+});
 </script>
 {% endblock %}
 
