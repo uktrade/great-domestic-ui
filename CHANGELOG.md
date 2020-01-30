@@ -1,7 +1,7 @@
 # Changelog
 
 ## Pre-release
-
+- XOT-1289 - add cookie preferences page and update components
 - TT-2262 - Change conent on brexit enquiries form
 
 ### Implemented enhancements
