@@ -133,6 +133,12 @@ urlpatterns = [
         name='accessibility-statement'
     ),
     url(
+        r"^cookies/$",
+        skip_ga360(
+            core.views.CookiePreferencesPageView.as_view()),
+        name='cookie-preferences'
+    ),
+    url(
         r"^export-opportunities/$",
         QuerystringRedirectView.as_view(url=settings.SERVICES_EXOPPS_ACTUAL),
         name='export-opportunities'
@@ -204,12 +210,12 @@ legacy_urls = [
 
 euexit_urls = [
     url(
-        r'^brexit/contact/$',
+        r'^transition-period/contact/$',
         euexit.views.DomesticContactFormView.as_view(),
         name='brexit-contact-form'
     ),
     url(
-        r'^brexit/contact/success/$',
+        r'^transition-period/contact/success/$',
         euexit.views.DomesticContactSuccessView.as_view(),
         name='brexit-contact-form-success'
     ),
@@ -298,11 +304,7 @@ contact_urls = [
     ),
     url(
         r'^contact/export-advice/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-export-advice', kwargs={'step': 'comment'}
-            )
-        ),
+        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-export-advice', kwargs={'step': 'comment'})),
         name='export-advice-routing-form'
     ),
     url(

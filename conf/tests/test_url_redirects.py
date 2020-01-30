@@ -107,7 +107,7 @@ def test_privacy_international_redirect(path, client):
 redirects = [
     (
         '/about/',
-        'https://www.gov.uk/government/organisations/department-for-international-trade/about'
+        'https://www.gov.uk/government/organisations/department-for-international-trade/about-our-services'
     ),
     (
         '/jpm/',
@@ -789,6 +789,14 @@ def test_redirects_no_trailing_slash(url, expected, client):
                 '/regular/',
                 '/advice'
         ),
+        (
+            '/brexit/contact/',
+            '/transition-period/contact/',
+        ),
+        (
+            '/brexit/contact/success/',
+            '/transition-period/contact/success/',
+        )
     ])
 def redirect_articles(incoming_url, expected_url, client):
     response = client.get(incoming_url)
