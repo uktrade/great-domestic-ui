@@ -297,9 +297,9 @@ def test_routing_forms_feature_flag_for_int_routing_form(value_one, value_two, f
 
 
 @pytest.mark.parametrize('current_date,expected', (
-    ['2020-01-30', forms.LazyEUExitLabel.PRE_BREXIT],
-    ['2020-01-31', forms.LazyEUExitLabel.PRE_BREXIT],
-    ['2020-02-01', forms.LazyEUExitLabel.POST_BREXIT],
+    ['2020-01-30 22:59:00', forms.LazyEUExitLabel.PRE_BREXIT],
+    ['2020-01-31 23:00:00', forms.LazyEUExitLabel.PRE_BREXIT],
+    ['2020-02-01 23:00:01', forms.LazyEUExitLabel.POST_BREXIT],
 ))
 def test_routing_forms_euexit(current_date, expected):
     with freeze_time(current_date):
