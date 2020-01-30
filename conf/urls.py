@@ -210,12 +210,12 @@ legacy_urls = [
 
 euexit_urls = [
     url(
-        r'^brexit/contact/$',
+        r'^transition-period/contact/$',
         euexit.views.DomesticContactFormView.as_view(),
         name='brexit-contact-form'
     ),
     url(
-        r'^brexit/contact/success/$',
+        r'^transition-period/contact/success/$',
         euexit.views.DomesticContactSuccessView.as_view(),
         name='brexit-contact-form-success'
     ),
@@ -304,11 +304,7 @@ contact_urls = [
     ),
     url(
         r'^contact/export-advice/$',
-        QuerystringRedirectView.as_view(
-            url=reverse_lazy(
-                'contact-us-export-advice', kwargs={'step': 'comment'}
-            )
-        ),
+        QuerystringRedirectView.as_view(url=reverse_lazy('contact-us-export-advice', kwargs={'step': 'comment'})),
         name='export-advice-routing-form'
     ),
     url(

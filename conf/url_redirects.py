@@ -501,6 +501,15 @@ contact_redirects = [
             )
         ),
     ),
+    url(
+        r'^brexit/contact/$',
+        QuerystringRedirectView.as_view(url=reverse_lazy('brexit-contact-form'))
+    ),
+    url(
+        r'^brexit/contact/success/$',
+        QuerystringRedirectView.as_view(url=reverse_lazy('brexit-contact-form-success'))
+    ),
+
 ]
 
 articles_redirects = [
