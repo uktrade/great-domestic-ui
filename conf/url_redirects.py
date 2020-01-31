@@ -22,16 +22,12 @@ redirects = [
     ),
     url(
         r'^brexit/$',
-        QuerystringRedirectView.as_view(
-            url='/transition/'
-        ),
+        QuerystringRedirectView.as_view(url='/transition/'),
         name='brexit-redirect'
     ),
     url(
         r'^transition/$',
-        QuerystringRedirectView.as_view(
-            url='/international/content/invest/how-to-setup-in-the-uk/uk-transition-guidance-international-business/'
-        ),
+        QuerystringRedirectView.as_view(url='/international/content/invest/how-to-setup-in-the-uk/transition-period/'),
         name='transition-redirect'
     ),
     url(
