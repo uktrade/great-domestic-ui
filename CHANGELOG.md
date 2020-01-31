@@ -3,8 +3,8 @@
 ## Pre-release
 
 ### Implemented enhancements
+- no ticket - cookie settings, only display back button if user has come from great.gov link
 - XOT-1285 - Add html formatting to field on homepage
-
 - XOT-1291 - transition redirect
 
 ### Bugs fixed
