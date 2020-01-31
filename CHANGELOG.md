@@ -4,6 +4,8 @@
 
 ### Implemented enhancements
 
+- XOT-1291 - transition redirect
+
 ### Bugs fixed
 
 
