@@ -173,6 +173,10 @@ class AccessibilityStatementDomesticCMS(CMSPageView):
     slug = slugs.GREAT_ACCESSIBILITY_STATEMENT
 
 
+class CookiePreferencesPageView(TemplateView):
+    template_name = 'core/cookie-preferences.html'
+
+
 class ServiceNoLongerAvailableView(mixins.GetCMSPageMixin, TemplateView):
     slug = 'advice'
     template_name = 'core/service_no_longer_available.html'
