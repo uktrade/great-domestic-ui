@@ -20,3 +20,29 @@
 .fixed {
   position: fixed;
 }
+
+.clear-none {
+  clear: none;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-only-js {
+    display: none;
+    .js-enabled & {
+      display: block;
+    }
+}
+
+.display-only-no-js {
+  display: block;
+  .js-enabled & {
+    display: none;
+  }
+}

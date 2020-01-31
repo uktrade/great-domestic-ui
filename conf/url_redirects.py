@@ -11,7 +11,7 @@ redirects = [
     url(
         r'^about/$',
         QuerystringRedirectView.as_view(
-            url='https://www.gov.uk/government/organisations/department-for-international-trade/about'),
+            url='https://www.gov.uk/government/organisations/department-for-international-trade/about-our-services'),
         name='events-about-legacy'
     ),
     url(
@@ -501,6 +501,15 @@ contact_redirects = [
             )
         ),
     ),
+    url(
+        r'^brexit/contact/$',
+        QuerystringRedirectView.as_view(url=reverse_lazy('brexit-contact-form'))
+    ),
+    url(
+        r'^brexit/contact/success/$',
+        QuerystringRedirectView.as_view(url=reverse_lazy('brexit-contact-form-success'))
+    ),
+
 ]
 
 articles_redirects = [
