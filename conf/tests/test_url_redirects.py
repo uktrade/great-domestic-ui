@@ -115,7 +115,11 @@ redirects = [
     ),
     (
         '/brexit/',
-        '/international/content/how-to-setup-in-the-uk/uk-brexit-guidance-international-business/'
+        '/transition/'
+    ),
+    (
+        '/transition/',
+        '/international/content/invest/how-to-setup-in-the-uk/transition-period/'
     ),
     (
         '/eu-exit-news/contact/', reverse('brexit-contact-form')
