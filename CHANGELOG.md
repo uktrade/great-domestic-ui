@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- XOT-1285 - Add html formatting to field on homepage
 
 - XOT-1291 - transition redirect
 

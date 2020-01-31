@@ -105,8 +105,12 @@
         <img src="{{ page.madb_image.url }}" class="width-full" alt="{{ page.madb_image_alt }}" />
       </div>
       <div class="column-full column-half-l content-column">
-        <p class="margin-top-0">{{ page.madb_content }}</p>
-        <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
+        <div class="wrap-tight padding-bottom-30">
+          {{ page.madb_content|add_export_elements_classes }}
+        </div>
+        <div class="centre-children">
+          <a href="{{ page.madb_cta_url }}" class="button">{{ page.madb_cta_text }}</a>
+        </div>
       </div>
     </div>
   </div>
