@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+ - XOT-1275 - Add country guide CTA link
 
 ### Bugs fixed
 
