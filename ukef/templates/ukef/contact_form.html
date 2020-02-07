@@ -12,6 +12,7 @@
 {% block css_layout_class %}uk-export-contact-form{% endblock %}
 
 {% block body_js %}
+  {{ block.super }}
   <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
   <script type="text/javascript">
     var likeToDiscussInputYes = document.getElementById('id_like_to_discuss_1');

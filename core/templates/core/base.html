@@ -5,6 +5,7 @@
 {% block head_title %}Welcome to great.gov.uk{% endblock %}
 
 {% block head_js %}
+  {{ block.super }}
   <script src="{% static 'js/dit.js' %}"></script>
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
 {% endblock %}
