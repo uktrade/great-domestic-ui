@@ -6,6 +6,7 @@
 {% block step_title %}About your business{% endblock %}
 
 {% block body_js %}
+    {{ block.super }}
     <script src="{% static 'js/company-lookup.js' %}"></script>
     <script type="text/javascript">
       var $companyNumberContainer = $("#id_applicant-company_number-container");
@@ -67,4 +68,3 @@
 
 
 {% endblock %}
-
