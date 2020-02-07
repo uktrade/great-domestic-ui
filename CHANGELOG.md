@@ -1,14 +1,17 @@
 # Changelog
 
-### Hotfix
-- No ticket - CVE-2020-5236 & CVE-2020-7471: Potential SQL injection via StringAgg(delimiter)
 
 ## Pre-release
 
 ### Implemented enhancements
  - XOT-1275 - Add country guide CTA link
 
-### Bugs fixed
+
+## [2020.01.31_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.31_1)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.31...2020.01.31_1)
+
+### Hotfix
+- No ticket - CVE-2020-5236 & CVE-2020-7471: Potential SQL injection via StringAgg(delimiter)
 
 
 ## [2020.01.31](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.31)
