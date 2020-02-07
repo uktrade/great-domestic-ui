@@ -35,3 +35,10 @@
 {% endblock %}
 
 {% endblock %}
+
+
+{% block body_js %}
+  {% if request.resolver_match.url_name != 'privacy-and-cookies' %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
