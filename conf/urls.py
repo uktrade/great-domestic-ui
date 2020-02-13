@@ -108,6 +108,11 @@ urlpatterns = [
         name='performance-dashboard-notes'
     ),
     url(
+        r"^campaigns/(?P<slug>[-\w\d]+)/$",
+        core.views.OrphanCMSArticlePageView.as_view(),
+        name='campaign-page'
+    ),
+    url(
         r"^services/$",
         core.views.ServicesView.as_view(),
         name='services'
