@@ -4,8 +4,9 @@
 ## Pre-release
 
 ### Implemented enhancements
- - XOT-1275 - Add country guide CTA link
- - XOT-1296 - replace cookie banner with cookie modal
+- XOT-1278 - Remove middle breadcrumb from campaign article pages
+- XOT-1275 - Add country guide CTA link
+- XOT-1296 - replace cookie banner with cookie modal
 
 ## [2020.02.11](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.11)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.31_1...2020.02.11)
