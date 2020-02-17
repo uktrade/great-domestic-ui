@@ -6,6 +6,7 @@
 ### Implemented enhancements
  - XOT-1275 - Add country guide CTA link
  - XOT-1296 - replace cookie banner with cookie modal
+ - MVP-115 - Add /today/ redirect
 
 ## [2020.02.11](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.11)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.31_1...2020.02.11)
