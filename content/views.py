@@ -157,10 +157,6 @@ class CountryGuidePageView(CMSPageView):
                 accordion['teaser'] and \
                 accordion['num_of_subsections'] >= 2
 
-        context['market_guide_cta_text'] = (
-            f"Exporting to {self.page['heading']} if there's no Brexit deal"
-        )
-
         return context
 
 

@@ -2,7 +2,7 @@ dateparser==0.7.2
 directory-api-client==20.0.0
 directory-ch-client==2.1.0
 directory-cms-client==11.1.0
-directory-components==35.13.0
+directory-components==35.15.2
 directory-constants==20.11.0
 directory-forms-api-client==5.0.0
 directory-healthcheck==2.0.0
@@ -13,7 +13,7 @@ django-formtools==2.1
 django-ipware==2.1.0
 django-recaptcha==2.0.5
 django-redis==4.10.0
-django==2.2.9
+django==2.2.10
 djangorestframework==3.10.3
 geoip2==2.9.0
 gunicorn==19.9.0

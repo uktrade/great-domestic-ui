@@ -374,7 +374,15 @@ INTERNATIONAL_LANGUAGE_REDIRECTS_MAPPING = [
     ('es', 'es'),
     ('ja', 'ja'),
 ]
+
 international_redirects = [
+    url(
+        r'^today/$',
+        QuerystringRedirectView.as_view(url='/international/content/capital-invest/')
+    )
+]
+
+international_redirects += [
     url(
         r'^int/{path}/$'.format(path=redirect[0]),
         TranslationRedirectView.as_view(
@@ -956,6 +964,7 @@ articles_redirects = [
             url='/advice/prepare-for-export-procedures-and-logistics/documentation-international-trade/'
         )
     )
+
 ]
 
 
