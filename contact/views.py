@@ -744,7 +744,7 @@ class ExportVoucherFeatureFlagMixin(mixins.NotFoundOnDisabledFeature):
         return settings.FEATURE_FLAGS['EXPORT_VOUCHERS_ON']
 
 
-class ExportVoucherFormView(ExportVoucherFeatureFlagMixin, mixins.SetGA360ValuesMixin, FormSessionMixin, FormView):
+class ExportVoucherFormView(ExportVoucherFeatureFlagMixin, FormSessionMixin, FormView):
     page_type = 'ContactPage'
     template_name = 'contact/export-voucher-form.html'
     success_url = reverse_lazy('export-voucher-success')
@@ -766,6 +766,6 @@ class ExportVoucherFormView(ExportVoucherFeatureFlagMixin, mixins.SetGA360Values
         return super().form_valid(form)
 
 
-class ExportVoucherSuccessView(ExportVoucherFeatureFlagMixin, mixins.SetGA360ValuesMixin, TemplateView):
+class ExportVoucherSuccessView(ExportVoucherFeatureFlagMixin, TemplateView):
     page_type = 'ContactPage'
     template_name = 'contact/export-voucher-success.html'

@@ -6,14 +6,13 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 
-from core.mixins import SetGA360ValuesMixin
 from search import helpers, forms
 from search.mixins import TestSearchAPIFeatureFlagMixin
 
 logger = logging.getLogger(__name__)
 
 
-class SearchView(SetGA360ValuesMixin, TemplateView):
+class SearchView(TemplateView):
     """ Search results page.
 
         URL parameters: 'q'    String to be searched
@@ -69,7 +68,7 @@ class SearchKeyPagesView(TemplateView):
     template_name = 'search-key-pages.json'
 
 
-class SearchFeedbackFormView(SetGA360ValuesMixin, FormView):
+class SearchFeedbackFormView(FormView):
     template_name = 'search_feedback.html'
     form_class = forms.FeedbackForm
     page_type = 'SearchFeedbackPage'
