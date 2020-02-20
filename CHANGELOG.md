@@ -47,6 +47,7 @@
 - XOT-1224 - add markets heading to cms and some design fixes
 - TT-1805 - Fix broken Search Sort Order backend
 - TT-2254 - Remove obsolete settings and code
+- MVP-40 - Add GA360 context processor and remove GA360 Middleware
 
 ### Bugs fixed
 
