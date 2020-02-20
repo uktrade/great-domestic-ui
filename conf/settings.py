@@ -329,7 +329,7 @@ GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')
 GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
     'GEOLOCATION_MAXMIND_DATABASE_FILE_URL',
-    f'https://download.maxmind.com/app/geoip_download'
+    'https://download.maxmind.com/app/geoip_download'
 )
 
 # feature flags

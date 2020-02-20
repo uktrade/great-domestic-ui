@@ -800,7 +800,11 @@ def test_redirects_no_trailing_slash(url, expected, client):
         (
             '/brexit/contact/success/',
             '/transition-period/contact/success/',
-        )
+        ),
+        (
+            '/today/',
+            '/international/content/capital-invest/',
+        ),
     ])
 def redirect_articles(incoming_url, expected_url, client):
     response = client.get(incoming_url)
