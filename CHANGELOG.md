@@ -5,11 +5,14 @@
 
 ### Implemented enhancements
 
+- XOT-1278 - Remove middle breadcrumb from campaign article pages
+
 ### Bugs fixed
 
 
 ## [2020.02.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.20)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.02.11...2020.02.20)
+
 ### Implemented enhancements
  - XOT-1275 - Add country guide CTA link
  - MVP-115 - Add /today/ redirect

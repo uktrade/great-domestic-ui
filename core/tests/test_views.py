@@ -1,6 +1,8 @@
 from unittest import mock
 from unittest.mock import call, patch
 
+from bs4 import BeautifulSoup
+
 from django.urls import reverse
 from django.conf import settings
 from django.views.generic import TemplateView
@@ -492,3 +494,26 @@ def test_cms_path_url(mock_page, client):
 
     assert response.status_code == 200
     assert response.template_name == ['content/article_detail.html']
+
+
+@patch('directory_cms_client.client.cms_api_client.lookup_by_slug')
+def test_orphan_page_breadcrumbs(mock_page, client):
+    mock_page.return_value = create_response({
+        'page_type': 'ArticlePage',
+        'title': 'Article',
+        'tree_based_breadcrumbs': [
+            {'title': 'great.gov.uk', 'url': '/'},
+            {'title': 'Article list', 'url': '/article-list/'},
+            {'title': 'Article', 'url': '/article-list/test-article/'}
+        ],
+        'meta': {'slug': 'test-article'},
+    })
+
+    response = client.get('/campaigns/foo/')
+
+    html = response.content
+    soup = BeautifulSoup(html, 'html.parser')
+
+    breadcrumbs_list = soup.select('.breadcrumbs ol li')
+    assert response.status_code == 200
+    assert len(breadcrumbs_list) == 2
