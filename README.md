@@ -5,7 +5,7 @@
 [![codecov-image]][codecov]
 [![gitflow-image]][gitflow]
 [![calver-image]][calver]
- 
+
 **GREAT.gov.uk, Domestic UI for GREAT platform - the Department for International Trade (DIT)**  
 
 ---
@@ -15,7 +15,7 @@
 ### Installing
     $ git clone https://github.com/uktrade/great-domestic-ui
     $ cd great-domestic-ui
-    $ [create and activate virutal environment]
+    $ [create and activate virtual environment]
     $ make install_requirements
 
 
@@ -65,7 +65,7 @@ We add compiled CSS files to version control. This will sometimes result in conf
 You should not edit CSS files directly, instead edit their SCSS counterparts.
 
 ## Geolocation data
-Maxmind geolite2 is used to determin the country the user is from via their IP address. The geolocation dataset must be updated to stay fresh. To update the geolocation data run:
+Maxmind geolite2 is used to determine the country the user is from via their IP address. The geolocation dataset must be updated to stay fresh. To update the geolocation data run:
 
 ```
 make manage download_geolocation_data
@@ -122,4 +122,3 @@ https://github.com/uktrade?q=great
 
 [calver-image]: https://img.shields.io/badge/Versioning%20strategy-CalVer-5FBB1C.svg
 [calver]: https://calver.org
-    

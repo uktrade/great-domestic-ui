@@ -75,7 +75,6 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'directory_sso_api_client.middleware.AuthenticationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'directory_components.middleware.CheckGATags',
     'directory_components.middleware.NoCacheMiddlware',
     'directory_components.middleware.LocaleQuerystringMiddleware',
     'directory_components.middleware.PersistLocaleMiddleware',
@@ -97,6 +96,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.template.context_processors.i18n',
                 'directory_components.context_processors.sso_processor',
+                'directory_components.context_processors.ga360',
                 'directory_components.context_processors.urls_processor',
                 'directory_components.context_processors.header_footer_processor',
                 'directory_components.context_processors.feature_flags',
@@ -329,7 +329,7 @@ GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 MAXMIND_LICENCE_KEY = env.str('MAXMIND_LICENCE_KEY')
 GEOLOCATION_MAXMIND_DATABASE_FILE_URL = env.str(
     'GEOLOCATION_MAXMIND_DATABASE_FILE_URL',
-    f'https://download.maxmind.com/app/geoip_download'
+    'https://download.maxmind.com/app/geoip_download'
 )
 
 # feature flags

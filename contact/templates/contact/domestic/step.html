@@ -16,6 +16,7 @@
 {% endblock %}
 
 {% block body_js %}
+    {{ block.super }}
     <script type="text/javascript" src="{% static 'js/dit.components.toggleOther.js' %}"></script>
     <script type="text/javascript">
         var companyTypeOther = document.getElementById('id_company_type_1');

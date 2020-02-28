@@ -8,7 +8,6 @@ from directory_cms_client.helpers import (
     handle_cms_response, handle_cms_response_allow_404
 )
 from directory_constants import cms
-from directory_components.mixins import GA360Mixin
 
 from . import helpers
 
@@ -158,55 +157,3 @@ class PrepopulateFormMixin:
         elif self.request.user.company and self.request.user.company['postal_full_name']:
             names = self.request.user.company['postal_full_name'].split(' ')
             return names[-1] if len(names) > 1 else None
-
-
-class SetGA360ValuesForCMSPageMixin(GA360Mixin):
-    """
-    Expects the view to have the `page` attribute and uses the
-    page's `tree_based_breadcrumbs` to work out page section.
-    """
-
-    def dispatch(self, request, *args, **kwargs):
-        dispatch_result = super().dispatch(request, *args, **kwargs)
-
-        page_id = self.page['page_type']
-
-        breadcrumbs = self.page['tree_based_breadcrumbs']
-
-        # section will always be the top level page in the tree
-        site_section = breadcrumbs[0]['title']
-        site_subsection = ''
-
-        # subsection is the second page down the tree
-        if len(breadcrumbs) > 1:
-            site_subsection = breadcrumbs[1]['title']
-
-        self.set_ga360_payload(
-            page_id=page_id,
-            business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section=site_section,
-            site_subsection=site_subsection
-        )
-
-        return dispatch_result
-
-
-class SetGA360ValuesMixin(GA360Mixin):
-    """
-    Variation of the above mixin for non-CMS pages. Uses the view's `page_type`
-    attribute to map to values in core.helpers.GA_DATA_MAPPING.
-    """
-
-    def dispatch(self, request, *args, **kwargs):
-        dispatch_result = super().dispatch(request, *args, **kwargs)
-
-        page_type = self.page_type
-        ga360_data = helpers.get_ga_data_for_page(page_type)
-
-        self.set_ga360_payload(
-            page_id=page_type,
-            business_unit=settings.GA360_BUSINESS_UNIT,
-            site_section=ga360_data['site_section'],
-            site_subsection=ga360_data['site_subsection']
-        )
-        return dispatch_result

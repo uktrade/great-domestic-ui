@@ -1,13 +1,39 @@
 # Changelog
 
+
 ## Pre-release
 
 ### Implemented enhancements
 - no ticket - cookie settings, only display back button if user has come from great.gov link
-- XOT-1285 - Add html formatting to field on homepage
-- XOT-1291 - transition redirect
+- XOT-1278 - Remove middle breadcrumb from campaign article pages
 
 ### Bugs fixed
+
+
+## [2020.02.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.20)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.02.11...2020.02.20)
+
+### Implemented enhancements
+ - XOT-1275 - Add country guide CTA link
+ - MVP-115 - Add /today/ redirect
+
+## [2020.02.11](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.11)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.31_1...2020.02.11)
+### Hotfix
+- No ticket - Replace cookie banner with modal
+
+## [2020.01.31_1](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.31_1)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.31...2020.01.31_1)
+
+### Hotfix
+- No ticket - CVE-2020-5236 & CVE-2020-7471: Potential SQL injection via StringAgg(delimiter)
+
+## [2020.01.31](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.31)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.30...2020.01.31)
+
+### Implemented enhancements
+- XOT-1285 - Add html formatting to field on homepage
+- XOT-1291 - transition redirect
 
 
 ## [2020.01.30](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.30)
@@ -17,7 +43,7 @@
 
 - no ticket, change the market filters onload event to jquery doc ready
 - XOT-1289 - add cookie preferences page and update components
-- TT-2262 - Change conent on brexit enquiries form
+- TT-2262 - Change content on brexit enquiries form
 - no ticket - events footer link to /about/ redirects to DIT about our services page in gov.uk (updated link)
 
 ## [2020.01.29](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.29)
@@ -28,6 +54,7 @@
 - XOT-1224 - add markets heading to cms and some design fixes
 - TT-1805 - Fix broken Search Sort Order backend
 - TT-2254 - Remove obsolete settings and code
+- MVP-40 - Add GA360 context processor and remove GA360 Middleware
 
 ### Bugs fixed
 
