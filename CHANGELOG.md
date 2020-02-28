@@ -4,7 +4,7 @@
 ## Pre-release
 
 ### Implemented enhancements
-
+- no ticket - cookie settings, only display back button if user has come from great.gov link
 - XOT-1278 - Remove middle breadcrumb from campaign article pages
 
 ### Bugs fixed

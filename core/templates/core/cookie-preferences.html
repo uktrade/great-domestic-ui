@@ -176,8 +176,7 @@
 
   }
 
-window.onload = function() {
-
+$(function() {
     bindCookiePolicyForm(
         '#cookie-preferences-form',
         '.confirmation-banner',
@@ -192,7 +191,10 @@ window.onload = function() {
         window.history.back();
     });
 
-}
+    if(document.referrer === document.location.href || document.referrer.indexOf(document.location.hostname) === -1) {
+        document.querySelectorAll('a.go-back')[0].classList.add('display-none')
+    }
+});
 
 </script>
 {% endblock %}
