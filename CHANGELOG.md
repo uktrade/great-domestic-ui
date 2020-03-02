@@ -4,8 +4,18 @@
 ## Pre-release
 
 ### Implemented enhancements
+- no ticket - cookie settings, only display back button if user has come from great.gov link
+- XOT-1278 - Remove middle breadcrumb from campaign article pages
+- MVP-40 - Add GA360 context processor and remove GA360 Middleware
+
+### Bugs fixed
+
+
+## [2020.02.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.20)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.02.11...2020.02.20)
+
+### Implemented enhancements
  - XOT-1275 - Add country guide CTA link
- - XOT-1296 - replace cookie banner with cookie modal
  - MVP-115 - Add /today/ redirect
 
 ## [2020.02.11](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.11)
@@ -19,10 +29,8 @@
 ### Hotfix
 - No ticket - CVE-2020-5236 & CVE-2020-7471: Potential SQL injection via StringAgg(delimiter)
 
-
 ## [2020.01.31](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.31)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.30...2020.01.31)
-
 
 ### Implemented enhancements
 - XOT-1285 - Add html formatting to field on homepage
