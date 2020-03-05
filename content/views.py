@@ -12,9 +12,7 @@ from .mixins import (
 from core.mixins import (
     PrototypeFeatureFlagMixin,
     GetCMSPageMixin,
-    GetCMSPageByPathMixin,
-    SetGA360ValuesForCMSPageMixin,
-    SetGA360ValuesMixin,
+    GetCMSPageByPathMixin
 )
 
 from core.helpers import handle_cms_response_allow_404
@@ -41,7 +39,6 @@ class TemplateChooserMixin:
 
 
 class CMSPageView(
-    SetGA360ValuesForCMSPageMixin,
     ArticleSocialLinksMixin,
     TemplateChooserMixin,
     GetCMSPageMixin,
@@ -52,7 +49,7 @@ class CMSPageView(
         return self.kwargs['slug']
 
 
-class CMSPageFromPathView(SetGA360ValuesForCMSPageMixin, TemplateChooserMixin, GetCMSPageByPathMixin, TemplateView):
+class CMSPageFromPathView(TemplateChooserMixin, GetCMSPageByPathMixin, TemplateView):
     pass
 
 
@@ -164,7 +161,7 @@ class CountryGuidePageView(CMSPageView):
 
 
 class TagListPageView(
-    PrototypeFeatureFlagMixin, SetGA360ValuesMixin, GetCMSTagMixin, TemplateView,
+    PrototypeFeatureFlagMixin, GetCMSTagMixin, TemplateView,
 ):
     template_name = 'content/tag_list.html'
     page_type = 'TagListPage'
