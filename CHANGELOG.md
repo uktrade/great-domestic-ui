@@ -7,6 +7,7 @@
 - no ticket - cookie settings, only display back button if user has come from great.gov link
 - XOT-1278 - Remove middle breadcrumb from campaign article pages
 - MVP-40 - Add GA360 context processor and remove GA360 Middleware
+- no ticket - fixing double "the" typo in markets_landing_page
 
 ### Bugs fixed
 
