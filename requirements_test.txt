@@ -37,7 +37,7 @@ djangorestframework==3.10.3
 execnet==1.5.0            # via pytest-xdist
 flake8==3.5.0
 freezegun==0.3.10
-geoip2==2.9.0
+geoip2==3.0.0
 gunicorn==19.9.0
 idna==2.7                 # via requests
 importlib-metadata==0.22  # via pluggy, pytest

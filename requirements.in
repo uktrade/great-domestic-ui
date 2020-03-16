@@ -15,7 +15,7 @@ django-recaptcha==2.0.5
 django-redis==4.10.0
 django==2.2.10
 djangorestframework==3.10.3
-geoip2==2.9.0
+geoip2==3.0.0
 gunicorn==19.9.0
 markdown2==2.3.8
 requests[security]==2.22.0
