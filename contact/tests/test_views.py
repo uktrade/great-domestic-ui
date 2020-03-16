@@ -529,7 +529,9 @@ def test_exporting_from_uk_contact_form_submission(
         reply_to=[settings.DEFAULT_FROM_EMAIL],
         form_url='/contact/export-advice/comment/',
         form_session=mock_form_session(),
-        sender={'email_address': 'test@example.com', 'country_code': None}
+        sender={'email_address': 'test@example.com',
+                'country_code': None,
+                'ip_address': None}
     )
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({
