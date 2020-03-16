@@ -8,6 +8,7 @@
 - XOT-1278 - Remove middle breadcrumb from campaign article pages
 - MVP-40 - Add GA360 context processor and remove GA360 Middleware
 - no ticket - fixing double "the" typo in markets_landing_page
+- TT-2293 - Replace free-text-entry location field with dropdown
 
 ### Bugs fixed
 

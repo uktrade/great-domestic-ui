@@ -1,7 +1,12 @@
 from directory_components import forms
+from directory_constants import choices
 from django.utils.safestring import mark_safe
 
 from django.forms import Textarea, TextInput
+
+
+LOCATION_CHOICES = [('', 'Please select')] + choices.COUNTRIES_AND_TERRITORIES
+LOCATION_CHOICES_MAP = dict(LOCATION_CHOICES)
 
 
 class AboutForm(forms.Form):
@@ -87,7 +92,8 @@ class ProblemDetailsForm(forms.Form):
 
     error_css_class = 'input-field-container has-error'
 
-    location = forms.CharField(
+    location = forms.ChoiceField(
+        choices=LOCATION_CHOICES,
         label='Where are you trying to export to or invest in?',
         error_messages={
             'required': (
@@ -175,6 +181,11 @@ class ProblemDetailsForm(forms.Form):
             'required': 'Tell us if your problem is related to Brexit'
         }
     )
+
+    def clean_location(self):
+        location = self.cleaned_data['location']
+        self.cleaned_data['location_label'] = LOCATION_CHOICES_MAP[location]
+        return location
 
 
 class SummaryForm(forms.Form):
