@@ -101,7 +101,7 @@ def test_about_form_error_messages():
 def problem_details_form_data():
     return {
         'product_service': 'something',
-        'location': 'Angola',
+        'location': 'AO',
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
@@ -133,7 +133,10 @@ def test_problem_details_form_mandatory_fields():
 def test_problem_details_form_serialize(problem_details_form_data):
     form = forms.ProblemDetailsForm(data=problem_details_form_data)
     assert form.is_valid()
-    assert form.cleaned_data == problem_details_form_data
+    assert form.cleaned_data == {
+        'location_label': 'Angola',
+        **problem_details_form_data
+    }
 
 
 def test_problem_details_error_messages():
