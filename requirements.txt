@@ -29,12 +29,12 @@ django-recaptcha==2.0.5
 django-redis==4.10.0
 django==2.2.10
 djangorestframework==3.10.3
-geoip2==2.9.0
+geoip2==3.0.0
 gunicorn==19.9.0
 idna==2.8                 # via requests
 jsonschema==3.0.1         # via directory-components
 markdown2==2.3.8
-maxminddb==1.4.1          # via geoip2
+maxminddb==1.5.2          # via geoip2
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-ch-client, directory-client-core
 olefile==0.44             # via directory-validators, pillow
@@ -55,6 +55,6 @@ soupsieve==1.9.4          # via beautifulsoup4
 sqlparse==0.3.0           # via django
 tzlocal==2.0.0            # via dateparser
 uk-postcode-utils==1.0
-urllib3==1.24.3
+urllib3==1.25.8
 w3lib==1.20.0             # via directory-client-core
 whitenoise==4.1.4
