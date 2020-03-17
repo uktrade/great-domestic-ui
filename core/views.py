@@ -236,3 +236,11 @@ class BaseNotifyFormView(
 class ServicesView(TemplateView):
     template_name = 'core/services.html'
     page_type = 'ServicesLandingPage'
+
+
+class OrphanCMSArticlePageView(CMSPageView):
+
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(
+            hide_breadcrumbs=True,
+            *args, **kwargs)
