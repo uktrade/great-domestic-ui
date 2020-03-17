@@ -123,7 +123,9 @@ def test_ukef_lead_generation_submit(
             'uk-export-finance-lead-generation-form',
             kwargs={'step': 'your-details'}
         ),
-        sender={'email_address': 'test@example.com', 'country_code': None}
+        sender={'email_address': 'test@example.com',
+                'country_code': None,
+                'ip_address': None}
     )
 
     assert mock_action().save.call_count == 1
