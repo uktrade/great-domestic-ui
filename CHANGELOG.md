@@ -8,6 +8,7 @@
 - XOT-1278 - Remove middle breadcrumb from campaign article pages
 - MVP-40 - Add GA360 context processor and remove GA360 Middleware
 - XOT-1277 - Search form will only send data to database, not Zendesk
+- no ticket - fixing double "the" typo in markets_landing_page
 
 ### Bugs fixed
 
