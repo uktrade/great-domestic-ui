@@ -2,10 +2,10 @@ from django.forms import HiddenInput, Textarea, IntegerField
 
 from captcha.fields import ReCaptchaField
 from directory_components import forms
-from directory_forms_api_client.forms import ZendeskAPIForm
+from directory_forms_api_client.forms import SaveOnlyInDatabaseAPIForm
 
 
-class FeedbackForm(ZendeskAPIForm):
+class FeedbackForm(SaveOnlyInDatabaseAPIForm):
     result_found = forms.ChoiceField(
         label='Did you find what you were looking for on the site today?',
         widget=forms.RadioSelect(),

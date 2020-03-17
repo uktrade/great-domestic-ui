@@ -368,7 +368,9 @@ def test_notify_form_submit_success(
             email_address=agent_email,
             form_url=url,
             form_session=mock_form_session(),
-            sender={'email_address': 'test@example.com', 'country_code': None}
+            sender={'email_address': 'test@example.com',
+                    'country_code': None,
+                    'ip_address': None}
         ),
         mock.call(
             template_id=user_template,
@@ -527,7 +529,9 @@ def test_exporting_from_uk_contact_form_submission(
         reply_to=[settings.DEFAULT_FROM_EMAIL],
         form_url='/contact/export-advice/comment/',
         form_session=mock_form_session(),
-        sender={'email_address': 'test@example.com', 'country_code': None}
+        sender={'email_address': 'test@example.com',
+                'country_code': None,
+                'ip_address': None}
     )
     assert mock_email_action().save.call_count == 1
     assert mock_email_action().save.call_args == mock.call({
@@ -674,7 +678,9 @@ def test_zendesk_submit_success(
         full_name='Foo B',
         subject=subject,
         service_name=settings.DIRECTORY_FORMS_API_ZENDESK_SEVICE_NAME,
-        sender={'email_address': 'foo@bar.com', 'country_code': None},
+        sender={'email_address': 'foo@bar.com',
+                'country_code': None,
+                'ip_address': None},
         subdomain=subdomain,
     )
 
@@ -1031,7 +1037,9 @@ def test_selling_online_overseas_contact_form_submission(
     assert mock_zendesk_action.call_args == mock.call(
         subject=settings.CONTACT_SOO_ZENDESK_SUBJECT,
         full_name=user.get_full_name(),
-        sender={'email_address': user.email, 'country_code': None},
+        sender={'email_address': user.email,
+                'country_code': None,
+                'ip_address': None},
         email_address=user.email,
         service_name='soo',
         form_url=reverse(
@@ -1325,7 +1333,7 @@ def test_export_voucher_submit(mock_gov_notify_action, mock_form_session_class, 
         email_address=settings.EXPORT_VOUCHERS_AGENT_EMAIL,
         form_url=reverse('export-voucher-form'),
         form_session=mock_form_session_class(),
-        sender=Sender(email_address=data['email'], country_code=None,),
+        sender=Sender(email_address=data['email'], country_code=None, ip_address=None),
     )
     assert mock_gov_notify_action().save.call_count == 1
     assert mock_gov_notify_action().save.call_args == mock.call({

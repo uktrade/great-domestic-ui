@@ -72,7 +72,7 @@ def test_form_submission(mock_zendesk_action, client):
         {
             view_name + '-current_step': 'problem-details',
             'problem-details-product_service': 'something',
-            'problem-details-location': 'Angola',
+            'problem-details-location': 'AO',
             'problem-details-problem_summary': 'problem summary',
             'problem-details-impact': 'problem impact',
             'problem-details-resolve_summary': 'steps in resolving',
@@ -96,7 +96,7 @@ def test_form_submission(mock_zendesk_action, client):
     assert response.status_code == 200
 
     assert mock_zendesk_action.call_count == 1
-    subject = f'{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: Angola: Craig Music'
+    subject = f'{settings.MARKET_ACCESS_ZENDESK_SUBJECT}: AO: Craig Music'
     assert mock_zendesk_action.call_args == mock.call(
         subject=subject,
         full_name='Craig Smith',
@@ -104,7 +104,9 @@ def test_form_submission(mock_zendesk_action, client):
         service_name='market_access',
         subdomain='debug',
         form_url=reverse(url_name, kwargs={'step': 'about'}),
-        sender={'email_address': 'craig@craigmusic.com', 'country_code': None},
+        sender={'email_address': 'craig@craigmusic.com',
+                'country_code': None,
+                'ip_address': None},
     )
     assert mock_zendesk_action().save.call_count == 1
     assert mock_zendesk_action().save.call_args == mock.call({
@@ -117,7 +119,8 @@ def test_form_submission(mock_zendesk_action, client):
         'email': 'craig@craigmusic.com',
         'phone': '0123456789',
         'product_service': 'something',
-        'location': 'Angola',
+        'location': 'AO',
+        'location_label': 'Angola',
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',

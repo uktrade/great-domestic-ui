@@ -105,6 +105,7 @@ Temporary Items
 # JS
 node_modules/
 package-lock.json
+yarn.lock
 
 # Docker
 .env
