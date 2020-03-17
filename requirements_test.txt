@@ -37,13 +37,13 @@ djangorestframework==3.10.3
 execnet==1.5.0            # via pytest-xdist
 flake8==3.5.0
 freezegun==0.3.10
-geoip2==2.9.0
+geoip2==3.0.0
 gunicorn==19.9.0
 idna==2.7                 # via requests
 importlib-metadata==0.22  # via pluggy, pytest
 jsonschema==3.0.1         # via directory-components
 markdown2==2.3.8
-maxminddb==1.4.1          # via geoip2
+maxminddb==1.5.2          # via geoip2
 mccabe==0.6.1             # via flake8
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-ch-client, directory-client-core
@@ -81,7 +81,7 @@ sqlparse==0.3.0           # via django
 termcolor==1.1.0          # via pytest-sugar
 tzlocal==2.0.0            # via dateparser
 uk-postcode-utils==1.0
-urllib3==1.24.2
+urllib3==1.25.8
 w3lib==1.19.0             # via directory-client-core
 wcwidth==0.1.7            # via pytest
 whitenoise==4.1.4
