@@ -4,11 +4,16 @@ from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from directory_components.forms import Form
 from directory_components import forms
+from directory_constants import choices
 from django.forms import TextInput, ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from community import constants as choices
+from community import constants
 from contact.forms import TERMS_LABEL
+
+
+INDUSTRY_CHOICES = [('', 'Please select')] + choices.SECTORS + [('OTHER', 'Other')]
+INDUSTRY_MAP = dict(INDUSTRY_CHOICES)
 
 
 class CommunityJoinForm(GovNotifyEmailActionMixin, Form):
@@ -59,7 +64,7 @@ class CommunityJoinForm(GovNotifyEmailActionMixin, Form):
     )
     sector = forms.ChoiceField(
         label=_('Sector'),
-        choices=choices.COMPANY_SECTOR_CHOISES,
+        choices=INDUSTRY_CHOICES,
         error_messages={
             'required': _('Choose a sector'),
         }
@@ -83,7 +88,7 @@ class CommunityJoinForm(GovNotifyEmailActionMixin, Form):
     )
     employees_number = forms.ChoiceField(
         label=_('Number of employees'),
-        choices=choices.EMPLOYEES_NUMBER_CHOISES,
+        choices=constants.EMPLOYEES_NUMBER_CHOISES,
         error_messages={
             'required': _('Choose a number'),
         }
@@ -99,7 +104,7 @@ class CommunityJoinForm(GovNotifyEmailActionMixin, Form):
     )
     advertising_feedback = forms.ChoiceField(
         label=_('Where did you hear about becoming an Export Advocate?'),
-        choices=choices.HEARD_ABOUT_CHOISES,
+        choices=constants.HEARD_ABOUT_CHOISES,
         error_messages={
             'required': _('Please tell us where you heard about'
                           ' becoming an Export Advocate'),
@@ -126,32 +131,30 @@ class CommunityJoinForm(GovNotifyEmailActionMixin, Form):
     )
 
     def clean_phone_number(self):
-        phone_number = self.cleaned_data.get(
-            'phone_number', ''
-        ).replace(' ', '')
+        phone_number = self.cleaned_data.get('phone_number', '').replace(' ', '')
         if not self.phone_number_regex.match(phone_number):
             raise ValidationError(_('Please enter an UK phone number'))
         return phone_number
 
-    @property
-    def serialized_data(self):
-        data = super().serialized_data
-        sector_mapping = dict(choices.COMPANY_SECTOR_CHOISES)
-        employees_number_mapping = dict(choices.EMPLOYEES_NUMBER_CHOISES)
-        advertising_feedback_mapping = dict(choices.HEARD_ABOUT_CHOISES)
-        if data.get('sector_other'):
-            sector_label = data.get('sector_other')
-        else:
-            sector_label = sector_mapping.get(data['sector'])
-        data['sector_label'] = sector_label
-        if data.get('advertising_feedback_other'):
-            advertising_feedback_label = data.get('advertising_feedback_other')
-        else:
-            advertising_feedback_label = advertising_feedback_mapping.get(
-                data['advertising_feedback']
-            )
-        data['advertising_feedback_label'] = advertising_feedback_label
-        data['employees_number_label'] = employees_number_mapping.get(
-            data['employees_number']
-        )
+    def clean_employees_number(self):
+        value = self.cleaned_data['employees_number']
+        self.cleaned_data['employees_number_label'] = constants.EMPLOYEES_NUMBER_MAP[value]
+        return value
+
+    def clean_sector_other(self):
+        if self.cleaned_data['sector_other']:
+            self.cleaned_data['sector_label'] = self.cleaned_data['sector_other']
+        return self.cleaned_data['sector_other']
+
+    def clean_advertising_feedback_other(self):
+        if self.cleaned_data['advertising_feedback_other']:
+            self.cleaned_data['advertising_feedback_label'] = self.cleaned_data['advertising_feedback_other']
+        return self.cleaned_data['advertising_feedback_other']
+
+    def clean(self):
+        data = super().clean()
+        if 'sector_label' not in data and 'sector' in data:
+            self.cleaned_data['sector_label'] = INDUSTRY_MAP[data['sector']]
+        if 'advertising_feedback_label' not in data and 'advertising_feedback' in data:
+            self.cleaned_data['advertising_feedback_label'] = constants.HEARD_ABOUT_MAP[data['advertising_feedback']]
         return data
