@@ -4,6 +4,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- no ticket - v3-cipipeline manifest.yml file fix
 - no ticket - cookie settings, only display back button if user has come from great.gov link
 - XOT-1278 - Remove middle breadcrumb from campaign article pages
 - MVP-40 - Add GA360 context processor and remove GA360 Middleware
@@ -16,6 +17,8 @@
 
 ### Bugs fixed
 
+## Hotfix
+- No ticket - v3-cipipeline manifest.yml file fix
 
 ## [2020.02.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.20)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.02.11...2020.02.20)
