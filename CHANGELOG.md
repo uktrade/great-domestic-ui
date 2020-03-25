@@ -11,6 +11,8 @@
 - no ticket - fixing double "the" typo in markets_landing_page
 - TT-2293 - Replace free-text-entry location field with dropdown
 - no ticket - upgrade geoip library
+- XOT-1302 - Replace industries list on /community/join/ with DIT sectors list
+- XOT-1301 - Replace industries list on /contact/export-advice/business/ with DIT sectors list
 
 ### Bugs fixed
 
