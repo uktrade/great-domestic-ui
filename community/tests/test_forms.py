@@ -24,33 +24,23 @@ def test_community_form_api_serialization(valid_community_form_data):
     assert form.is_valid()
 
     api_data = form.serialized_data
-    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
-        form.serialized_data['sector']
-    )
+    sector_label = forms.INDUSTRY_MAP[form.serialized_data['sector']]
     assert api_data['sector_label'] == sector_label
-    employees_number_label = dict(constants.EMPLOYEES_NUMBER_CHOISES).get(
-        form.serialized_data['employees_number']
-    )
+    employees_number_label = constants.EMPLOYEES_NUMBER_MAP[form.serialized_data['employees_number']]
     assert api_data['employees_number_label'] == employees_number_label
 
 
-def test_community_form_api_serialization_with_other_options(
-        valid_community_form_data_with_other_options
-):
+def test_community_form_api_serialization_with_other_options(valid_community_form_data_with_other_options):
     form = forms.CommunityJoinForm(
         data=valid_community_form_data_with_other_options
     )
     assert form.is_valid()
 
     api_data = form.serialized_data
-    sector_label = dict(constants.COMPANY_SECTOR_CHOISES).get(
-        form.serialized_data['sector']
-    )
+    sector_label = forms.INDUSTRY_MAP[form.serialized_data['sector']]
     assert sector_label == 'Other'
     assert api_data['sector_other'] == 'Game Development'
-    advertising_feedback_label = dict(constants.HEARD_ABOUT_CHOISES).get(
-        form.serialized_data['advertising_feedback']
-    )
+    advertising_feedback_label = constants.HEARD_ABOUT_MAP[form.serialized_data['advertising_feedback']]
     assert advertising_feedback_label == 'Other'
     assert api_data['advertising_feedback_other'] == 'Friends'
 
