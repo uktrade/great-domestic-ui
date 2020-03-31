@@ -4,16 +4,12 @@ from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from directory_components.forms import Form
 from directory_components import forms
-from directory_constants import choices
 from django.forms import TextInput, ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from community import constants
 from contact.forms import TERMS_LABEL
-
-
-INDUSTRY_CHOICES = [('', 'Please select')] + choices.SECTORS + [('OTHER', 'Other')]
-INDUSTRY_MAP = dict(INDUSTRY_CHOICES)
+from core.constants import INDUSTRY_CHOICES, INDUSTRY_MAP
 
 
 class CommunityJoinForm(GovNotifyEmailActionMixin, Form):
