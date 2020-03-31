@@ -9,7 +9,7 @@ def valid_community_form_data(captcha_stub):
         'phone_number': '+447501234567',
         'company_name': 'Limited',
         'company_location': 'London',
-        'sector': 'SL10002',
+        'sector': 'Aerospace',
         'company_website': 'limitedgoal.com',
         'employees_number': '1',
         'currently_export': 'no',

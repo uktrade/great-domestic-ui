@@ -14,6 +14,7 @@ from django.utils.html import mark_safe
 from django.utils.functional import LazyObject
 
 from core.validators import is_valid_postcode
+from core.constants import INDUSTRY_CHOICES, INDUSTRY_MAP
 from contact import constants, helpers
 from contact.fields import IntegerField
 
@@ -52,8 +53,6 @@ COMPANY_TYPE_OTHER_CHOICES = (
     ('FOREIGN', 'UK branch of foreign company'),
     ('OTHER', 'Other'),
 )
-INDUSTRY_CHOICES = [('', 'Please select')] + choices.SECTORS + [('OTHER', 'Other')]
-INDUSTRY_MAP = dict(INDUSTRY_CHOICES)
 
 SOO_TURNOVER_OPTIONS = (
     ('Under 100k', 'Under £100,000'),
