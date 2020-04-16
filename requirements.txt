@@ -58,3 +58,6 @@ uk-postcode-utils==1.0
 urllib3==1.25.8
 w3lib==1.20.0             # via directory-client-core
 whitenoise==4.1.4
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
