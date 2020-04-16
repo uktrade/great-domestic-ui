@@ -76,7 +76,9 @@ def test_contact_form_notify_success(
             email_address=settings.UKEF_CONTACT_AGENT_EMAIL_ADDRESS,
             form_session=mock_form_session(),
             form_url=url,
-            sender={'email_address': 'test@test.com', 'country_code': None},
+            sender={'email_address': 'test@test.com',
+                    'country_code': None,
+                    'ip_address': None},
             template_id=settings.UKEF_CONTACT_AGENT_NOTIFY_TEMPLATE_ID
         ),
         mock.call(

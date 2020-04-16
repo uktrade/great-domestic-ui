@@ -22,7 +22,11 @@ def test_community_join_form_notify_success(
             email_address=settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS,
             form_session=mock_form_session(),
             form_url=url,
-            sender={'email_address': 'test@test.com', 'country_code': None},
+            sender={
+                'email_address': 'test@test.com',
+                'country_code': None,
+                'ip_address': None
+            },
             template_id=settings.COMMUNITY_ENQUIRIES_AGENT_NOTIFY_TEMPLATE_ID
         ),
         mock.call(

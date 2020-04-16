@@ -14,6 +14,7 @@ from django.utils.html import mark_safe
 from django.utils.functional import LazyObject
 
 from core.validators import is_valid_postcode
+from core.constants import INDUSTRY_CHOICES, INDUSTRY_MAP
 from contact import constants, helpers
 from contact.fields import IntegerField
 
@@ -52,9 +53,7 @@ COMPANY_TYPE_OTHER_CHOICES = (
     ('FOREIGN', 'UK branch of foreign company'),
     ('OTHER', 'Other'),
 )
-INDUSTRY_CHOICES = (
-    (('', 'Please select'),) + choices.INDUSTRIES + (('OTHER', 'Other'),)
-)
+
 SOO_TURNOVER_OPTIONS = (
     ('Under 100k', 'Under £100,000'),
     ('100k-500k', '£100,000 to £500,000'),
@@ -407,9 +406,7 @@ class BusinessDetailsForm(forms.Form):
     )
     organisation_name = forms.CharField()
     postcode = forms.CharField()
-    industry = forms.ChoiceField(
-        choices=INDUSTRY_CHOICES,
-    )
+    industry = forms.ChoiceField(choices=INDUSTRY_CHOICES)
     industry_other = forms.CharField(
         label='Type in your industry',
         widget=TextInput(attrs={'class': 'js-field-other'}),
@@ -427,6 +424,11 @@ class BusinessDetailsForm(forms.Form):
     )
     captcha = ReCaptchaField(label_suffix='')
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
+
+    def clean_industry(self):
+        industry = self.cleaned_data['industry']
+        self.cleaned_data['industry_label'] = INDUSTRY_MAP[industry]
+        return industry
 
 
 class SellingOnlineOverseasContactDetails(forms.Form):
