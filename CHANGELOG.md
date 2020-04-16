@@ -4,10 +4,16 @@
 ## Pre-release
 
 ### Implemented enhancements
+- MAR-305 - Add Covid 19 banner to home page
+
+### Bugs fixed
+
+
+## [2020.04.16](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.04.16)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.03.05...2020.04.16)
+
+### Implemented enhancements
 - no ticket - v3-cipipeline manifest.yml file fix
-- no ticket - cookie settings, only display back button if user has come from great.gov link
-- XOT-1278 - Remove middle breadcrumb from campaign article pages
-- MVP-40 - Add GA360 context processor and remove GA360 Middleware
 - XOT-1277 - Search form will only send data to database, not Zendesk
 - no ticket - fixing double "the" typo in markets_landing_page
 - TT-2293 - Replace free-text-entry location field with dropdown
@@ -15,10 +21,14 @@
 - XOT-1302 - Replace industries list on /community/join/ with DIT sectors list
 - XOT-1301 - Replace industries list on /contact/export-advice/business/ with DIT sectors list
 
-### Bugs fixed
+## [2020.03.05](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.03.05)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.02.20...2020.03.05)
 
-## Hotfix
-- No ticket - v3-cipipeline manifest.yml file fix
+### Implemented enhancements
+
+ - no ticket - cookie settings, only display back button if user has come from great.gov link
+ - XOT-1278 - Remove middle breadcrumb from campaign article pages
+ - MVP-40 - Add GA360 context processor and remove GA360 Middleware
 
 ## [2020.02.20](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.02.20)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.02.11...2020.02.20)
