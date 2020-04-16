@@ -5,6 +5,7 @@
 
 ### Implemented enhancements
 - MAR-305 - Add Covid 19 banner to home page
+- MAR-306 - Acc Covid 19 section to /report-trade-barrier/
 
 ### Bugs fixed
 
