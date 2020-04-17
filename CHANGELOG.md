@@ -4,6 +4,10 @@
 ## Pre-release
 
 ### Implemented enhancements
+- MAR-305 - Add Covid 19 banner to home page
+- MAR-306 - Add Covid 19 section to /report-trade-barrier/
+- MAR-307 - Add Covid 19 option to /report-trade-barrier/report/problem-details/
+
 ### Bugs fixed
 
 
