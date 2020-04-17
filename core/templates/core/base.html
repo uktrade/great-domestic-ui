@@ -16,6 +16,7 @@
   {{ block.super }}
   <script src="{% static 'js/dit.js' %}"></script>
   <script src="{% static 'directory_components/js/dit.components.cookie-notice.js' %}"></script>
+
 {% endblock %}
 
 {% block head_other %}
@@ -42,4 +43,11 @@
   <meta name="description" content="{% block meta_description %}{% firstof page.search_description page.teaser page.featured_description page.seo_title page.title %}{% endblock %}">
 {% endblock %}
 
+{% endblock %}
+
+
+{% block body_js %}
+  {% if request.resolver_match.url_name != 'privacy-and-cookies' %}
+    {{ block.super }}
+  {% endif %}
 {% endblock %}
