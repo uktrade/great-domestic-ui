@@ -2,8 +2,7 @@ from datetime import datetime
 
 from captcha.fields import ReCaptchaField
 from directory_components import forms
-from directory_constants import choices
-from directory_constants.urls import domestic as domestic_urls
+from directory_constants import choices, urls
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin, ZendeskActionMixin
 import requests.exceptions
 
@@ -13,6 +12,7 @@ from django.utils import timezone
 from django.utils.html import mark_safe
 from django.utils.functional import LazyObject
 
+from core.forms import ConsentFieldMixin
 from core.validators import is_valid_postcode
 from core.constants import INDUSTRY_CHOICES, INDUSTRY_MAP
 from contact import constants, helpers
@@ -34,7 +34,7 @@ EU_EXIT_LABEL = LazyEUExitLabel()
 
 TERMS_LABEL = mark_safe(
     'Tick this box to accept the '
-    f'<a href="{domestic_urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
+    f'<a href="{urls.domestic.TERMS_AND_CONDITIONS}" target="_blank">terms and '
     'conditions</a> of the great.gov.uk service.'
 )
 
@@ -319,6 +319,18 @@ class ShortNotifyForm(SerializeDataMixin, GovNotifyEmailActionMixin, BaseShortFo
         return data
 
 
+class EventsForm(ConsentFieldMixin, ShortNotifyForm):
+    pass
+
+
+class DomesticEnquiriesForm(ConsentFieldMixin, ShortNotifyForm):
+    pass
+
+
+class DefenceAndSecurityOrganisationForm(ConsentFieldMixin, ShortNotifyForm):
+    pass
+
+
 class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
 
     @property
@@ -326,6 +338,10 @@ class ShortZendeskForm(SerializeDataMixin, ZendeskActionMixin, BaseShortForm):
         assert self.is_valid()
         cleaned_data = self.cleaned_data
         return f'{cleaned_data["given_name"]} {cleaned_data["family_name"]}'
+
+
+class DomesticForm(ConsentFieldMixin, ShortZendeskForm):
+    pass
 
 
 class InternationalContactForm(
@@ -378,7 +394,7 @@ class PersonalDetailsForm(forms.Form):
     phone = forms.CharField(label='Phone')
 
 
-class BusinessDetailsForm(forms.Form):
+class BusinessDetailsForm(ConsentFieldMixin, forms.Form):
     TURNOVER_OPTIONS = (
         ('', 'Please select'),
         ('0-25k', 'under £25,000'),
@@ -423,7 +439,6 @@ class BusinessDetailsForm(forms.Form):
         required=False,
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
     def clean_industry(self):
         industry = self.cleaned_data['industry']
@@ -625,9 +640,7 @@ class OfficeFinderForm(forms.Form):
         return self.cleaned_data['postcode'].replace(' ', '')
 
 
-class TradeOfficeContactForm(
-    SerializeDataMixin, GovNotifyEmailActionMixin, BaseShortForm
-):
+class TradeOfficeContactForm(SerializeDataMixin, GovNotifyEmailActionMixin, ConsentFieldMixin, BaseShortForm):
     pass
 
 

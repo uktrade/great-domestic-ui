@@ -98,7 +98,6 @@ class GetFinanceLeadGenerationFormView(
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        del data['terms_agreed']
         return data
 
 
