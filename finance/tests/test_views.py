@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from core.tests.helpers import create_response
 from finance import forms, views
+from core.constants import CONSENT_EMAIL
 
 
 @pytest.mark.parametrize(
@@ -68,10 +69,11 @@ def test_ukef_lead_generation_captcha_revalidation(
         {
             view_name + '-current_step': 'help',
             'help-comment': 'test',
-            'help-terms_agreed': True,
+            'help-contact_consent': [CONSENT_EMAIL],
             'g-recaptcha-response': captcha_stub,
         }
     )
+
     assert response.status_code == 302
 
     response = client.get(response.url)
@@ -96,7 +98,7 @@ def test_ukef_lead_generation_submit(
     })
     form_two = forms.HelpForm(data={
         'comment': 'thing',
-        'terms_agreed': True,
+        'contact_consent': [CONSENT_EMAIL],
         'g-recaptcha-response': captcha_stub,
     })
     form_three = forms.PersonalDetailsForm(data={
@@ -104,7 +106,7 @@ def test_ukef_lead_generation_submit(
         'lastname': 'Example',
         'position': 'Thing',
         'email': 'test@example.com',
-        'phone': '2342'
+        'phone': '2342',
     })
 
     assert form_one.is_valid()
@@ -138,6 +140,7 @@ def test_ukef_lead_generation_submit(
         'position': 'Thing',
         'email': 'test@example.com',
         'phone': '2342',
+        'contact_consent': [CONSENT_EMAIL],
     })
 
 

@@ -1,9 +1,21 @@
-from django import forms as django_forms
 from directory_components import forms
+from directory_constants import urls
+
+from django.template.loader import render_to_string
+
+from core import constants
 
 
-class CompaniesHouseSearchForm(django_forms.Form):
-    term = django_forms.CharField()
+PRIVACY_POLICY_URL = urls.domestic.PRIVACY_AND_COOKIES / 'privacy-notice-great-domestic'
+
+CONSENT_CHOICES = (
+    (constants.CONSENT_EMAIL, 'I would like to receive additional information by email'),
+    (constants.CONSENT_PHONE, ' I would like to receive additional information by telephone'),
+)
+
+
+class CompaniesHouseSearchForm(forms.Form):
+    term = forms.CharField()
 
 
 class SectorPotentialForm(forms.Form):
@@ -21,3 +33,25 @@ class SectorPotentialForm(forms.Form):
         self.fields['sector'].choices = (
             self.SECTOR_CHOICES_BASE + [(tag['name'], tag['name']) for tag in sorted_sectors]
         )
+
+
+class ConsentFieldMixin(forms.Form):
+    contact_consent = forms.MultipleChoiceField(
+        label=render_to_string('core/contact-consent.html', {'privacy_url': PRIVACY_POLICY_URL}),
+        widget=forms.CheckboxSelectInlineLabelMultiple(attrs={'id': 'checkbox-multiple'}, use_nice_ids=True),
+        choices=CONSENT_CHOICES
+    )
+
+    @staticmethod
+    def move_to_end(fields, name):
+        fields.remove(name)
+        fields.append(name)
+
+    def order_fields(self, field_order):
+        # move terms agreed and captcha to the back
+        field_order = field_order or list(self.fields.keys())
+        field_order = field_order[:]
+        self.move_to_end(fields=field_order, name='contact_consent')
+        if 'captcha' in field_order:
+            self.move_to_end(fields=field_order, name='captcha')
+        return super().order_fields(field_order)

@@ -13,6 +13,7 @@ from django.core.cache import cache
 from django.urls import reverse
 
 from contact import constants, forms, views
+from core.constants import CONSENT_EMAIL
 from core.tests.helpers import create_response, reload_urlconf
 
 
@@ -484,7 +485,7 @@ def test_exporting_from_uk_contact_form_submission(
             'business-turnover': '0-25k',
             'business-employees': '1-10',
             'business-captcha': captcha_stub,
-            'business-terms_agreed': True,
+            'business-contact_consent': [CONSENT_EMAIL],
         }
     )
     assert response.status_code == 302
@@ -521,6 +522,7 @@ def test_exporting_from_uk_contact_form_submission(
         'turnover': '0-25k',
         'employees': '1-10',
         'region_office_email': 'regional@example.com',
+        'contact_consent': [CONSENT_EMAIL],
     })
 
     assert mock_email_action.call_count == 1

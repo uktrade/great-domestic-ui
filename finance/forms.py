@@ -1,10 +1,10 @@
 from captcha.fields import ReCaptchaField
 from directory_constants import choices
-from directory_constants.urls import domestic as domestic_urls
 from directory_components import forms
 
 from django.forms import Textarea, TextInput
-from django.utils.html import mark_safe
+
+from core.forms import ConsentFieldMixin
 
 
 class CategoryForm(forms.Form):
@@ -85,7 +85,7 @@ class CompanyDetailsForm(forms.Form):
         }
 
 
-class HelpForm(forms.Form):
+class HelpForm(ConsentFieldMixin, forms.Form):
     error_css_class = 'input-field-container has-error'
 
     comment = forms.CharField(
@@ -96,12 +96,5 @@ class HelpForm(forms.Form):
             "spoken to your bank or a broker. "
         ),
         widget=Textarea(attrs={'class': 'margin-top-15'}),
-    )
-    terms_agreed = forms.BooleanField(
-        label=mark_safe(
-            'Tick this box to accept the '
-            f'<a href="{domestic_urls.TERMS_AND_CONDITIONS}" target="_blank">terms and '
-            'conditions</a> of the great.gov.uk service.'
-        )
     )
     captcha = ReCaptchaField(label_suffix='')

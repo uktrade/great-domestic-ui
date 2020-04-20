@@ -2,6 +2,7 @@ from unittest import mock
 
 from django.urls import reverse
 
+from core.constants import CONSENT_EMAIL
 from core.tests.helpers import create_response
 from euexit import views
 
@@ -77,7 +78,6 @@ def test_domestic_form_cms_retrieval_ok(mock_lookup_by_slug, settings, client):
     form = response.context_data['form']
     assert form.fields['first_name'].label == 'Given name'
     assert form.fields['last_name'].label == 'Family name'
-    assert form.fields['terms_agreed'].widget.label.endswith('disclaim')
     assert response.context_data['hide_language_selector'] is True
 
 
@@ -104,7 +104,7 @@ def test_domestic_form_submit(
         'organisation_type': 'COMPANY',
         'company_name': 'thing',
         'comment': 'hello',
-        'terms_agreed': True,
+        'contact_consent': [CONSENT_EMAIL],
         'g-recaptcha-response': captcha_stub,
     })
 
@@ -139,7 +139,6 @@ def test_form_urls(mock_lookup_by_slug, client, settings):
 
     assert response.status_code == 200
     form = response.context_data['form']
-    assert form.fields['terms_agreed'].widget.label.endswith('disclaim')
     assert form.ingress_url == 'http://www.google.com'
     assert response.context_data['hide_language_selector'] is True
 
