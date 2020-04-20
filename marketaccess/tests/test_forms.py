@@ -105,7 +105,7 @@ def problem_details_form_data():
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
-        'eu_exit_related': 'No',
+        'problem_cause': ['brexit'],
     }
 
 
@@ -116,7 +116,7 @@ def test_problem_details_form_initial():
     assert form.fields['problem_summary'].initial is None
     assert form.fields['impact'].initial is None
     assert form.fields['resolve_summary'].initial is None
-    assert form.fields['eu_exit_related'].initial is None
+    assert form.fields['problem_cause'].initial is None
 
 
 def test_problem_details_form_mandatory_fields():
@@ -127,7 +127,7 @@ def test_problem_details_form_mandatory_fields():
     assert form.fields['problem_summary'].required is True
     assert form.fields['impact'].required is True
     assert form.fields['resolve_summary'].required is True
-    assert form.fields['eu_exit_related'].required is True
+    assert form.fields['problem_cause'].required is True
 
 
 def test_problem_details_form_serialize(problem_details_form_data):
@@ -161,6 +161,3 @@ def test_problem_details_error_messages():
         'Tell us what you’ve done to resolve your problem, '
         'even if this is your first step'
     )]
-    form.errors['eu_exit_related'] == [
-        'Tell us if your problem is related to Brexit'
-    ]

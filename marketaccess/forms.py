@@ -4,6 +4,8 @@ from django.utils.safestring import mark_safe
 
 from django.forms import Textarea, TextInput
 
+from marketaccess import widgets
+
 
 LOCATION_CHOICES = [('', 'Please select')] + choices.COUNTRIES_AND_TERRITORIES
 LOCATION_CHOICES_MAP = dict(LOCATION_CHOICES)
@@ -168,18 +170,21 @@ class ProblemDetailsForm(forms.Form):
             )
         }
     )
-    eu_exit_related = forms.ChoiceField(
-        label='Is your problem caused by or related to Brexit?',
-        widget=forms.RadioSelect(
-            use_nice_ids=True, attrs={'id': 'radio-one'}
+    problem_cause = forms.MultipleChoiceField(
+        label='Is the problem caused by or related to any of the following?',
+        widget=widgets.TickboxWithOptionsHelpText(
+            use_nice_ids=True,
+            attrs={
+                'id': 'radio-one',
+                'help_text': {
+                     'radio-one-covid-19': 'Problem related to the COVID-19 (coronavirus) pandemic.',
+                }
+            },
         ),
         choices=(
-            ('Yes', 'Yes'),
-            ('No', 'No')
+            ('brexit', 'Brexit'),
+            ('covid-19', 'Covid-19'),
         ),
-        error_messages={
-            'required': 'Tell us if your problem is related to Brexit'
-        }
     )
 
     def clean_location(self):

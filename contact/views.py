@@ -358,7 +358,6 @@ class ExportingAdviceFormView(
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        del data['terms_agreed']
         data['region_office_email'] = helpers.retrieve_exporting_advice_email(
             data['postcode']
         )
@@ -380,14 +379,14 @@ class FeedbackFormView(mixins.PrepopulateFormMixin, BaseZendeskFormView):
 
 
 class DomesticFormView(PrepopulateShortFormMixin, BaseZendeskFormView):
-    form_class = forms.ShortZendeskForm
+    form_class = forms.DomesticForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-domestic-success')
     subject = settings.CONTACT_DOMESTIC_ZENDESK_SUBJECT
 
 
 class DomesticEnquiriesFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
-    form_class = forms.ShortNotifyForm
+    form_class = forms.DomesticEnquiriesForm
     template_name = 'contact/domestic/step-enquiries.html'
     success_url = reverse_lazy('contact-us-domestic-success')
     notify_settings = NotifySettings(
@@ -412,7 +411,7 @@ class InternationalFormView(
 
 
 class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
-    form_class = forms.ShortNotifyForm
+    form_class = forms.EventsForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-events-success')
     notify_settings = NotifySettings(
@@ -422,10 +421,8 @@ class EventsFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
     )
 
 
-class DefenceAndSecurityOrganisationFormView(
-    PrepopulateShortFormMixin, BaseNotifyFormView
-):
-    form_class = forms.ShortNotifyForm
+class DefenceAndSecurityOrganisationFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
+    form_class = forms.DefenceAndSecurityOrganisationForm
     template_name = 'contact/domestic/step.html'
     success_url = reverse_lazy('contact-us-dso-success')
     notify_settings = NotifySettings(

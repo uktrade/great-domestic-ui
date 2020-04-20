@@ -30,3 +30,7 @@ CONTACT_FORM_INDUSTRIES = [
 INDUSTRY_CHOICES = [('', 'Please select')] + [(item, item) for item in CONTACT_FORM_INDUSTRIES] + [('OTHER', 'Other')]
 
 INDUSTRY_MAP = dict(INDUSTRY_CHOICES)
+
+CONSENT_EMAIL = 'consents_to_email_contact'
+
+CONSENT_PHONE = 'consents_to_phone_contact'
