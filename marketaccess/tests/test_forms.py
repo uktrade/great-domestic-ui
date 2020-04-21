@@ -127,7 +127,7 @@ def test_problem_details_form_mandatory_fields():
     assert form.fields['problem_summary'].required is True
     assert form.fields['impact'].required is True
     assert form.fields['resolve_summary'].required is True
-    assert form.fields['problem_cause'].required is True
+    assert form.fields['problem_cause'].required is False
 
 
 def test_problem_details_form_serialize(problem_details_form_data):
@@ -135,6 +135,7 @@ def test_problem_details_form_serialize(problem_details_form_data):
     assert form.is_valid()
     assert form.cleaned_data == {
         'location_label': 'Angola',
+        'problem_cause_label': ['Brexit'],
         **problem_details_form_data
     }
 
@@ -144,7 +145,7 @@ def test_problem_details_error_messages():
         data={}
     )
 
-    assert len(form.errors) == 6
+    assert len(form.errors) == 5
     form.errors['product_service'] == [
         'Tell us what you’re trying to export or invest in'
     ]
