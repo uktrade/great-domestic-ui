@@ -76,7 +76,7 @@ def test_form_submission(mock_zendesk_action, client):
             'problem-details-problem_summary': 'problem summary',
             'problem-details-impact': 'problem impact',
             'problem-details-resolve_summary': 'steps in resolving',
-            'problem-details-eu_exit_related': 'No',
+            'problem-details-problem_cause': ['covid-19'],
 
         }
     )
@@ -124,7 +124,8 @@ def test_form_submission(mock_zendesk_action, client):
         'problem_summary': 'problem summary',
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
-        'eu_exit_related': 'No',
+        'problem_cause': ['covid-19'],
+        'problem_cause_label': ['Covid-19'],
     })
 
 

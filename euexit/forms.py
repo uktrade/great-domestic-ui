@@ -3,11 +3,13 @@ from directory_constants import choices
 from directory_constants.urls import domestic as domestic_urls
 from directory_components import forms
 from directory_forms_api_client.forms import ZendeskActionMixin
-from directory_validators.common import not_contains_url_or_email
-from directory_validators.company import no_html
+from directory_validators.url import not_contains_url_or_email
+from directory_validators.string import no_html
 
 from django.forms import Select, Textarea
 from django.utils.html import mark_safe
+
+from core.forms import ConsentFieldMixin
 
 
 COMPANY = 'COMPANY'
@@ -26,14 +28,12 @@ TERMS_LABEL = mark_safe(
 
 
 class FieldsMutationMixin:
-    def __init__(self, field_attributes, disclaimer, *args, **kwargs):
+    def __init__(self, field_attributes, *args, **kwargs):
         for field_name, field in self.base_fields.items():
             attributes = field_attributes.get(field_name)
             if attributes:
                 field.__dict__.update(attributes)
         super().__init__(*args, **kwargs)
-        widget = self.fields['terms_agreed'].widget
-        widget.label = mark_safe(f'{widget.label}  {disclaimer}')
 
 
 class SerializeMixin:
@@ -46,7 +46,6 @@ class SerializeMixin:
         data = self.cleaned_data.copy()
         data['ingress_url'] = self.ingress_url
         del data['captcha']
-        del data['terms_agreed']
         return data
 
     @property
@@ -83,9 +82,7 @@ class InternationalContactForm(
     )
 
 
-class DomesticContactForm(
-    FieldsMutationMixin, SerializeMixin, ZendeskActionMixin, forms.Form
-):
+class DomesticContactForm(FieldsMutationMixin, SerializeMixin, ZendeskActionMixin, ConsentFieldMixin, forms.Form):
 
     first_name = forms.CharField()
     last_name = forms.CharField()
@@ -101,6 +98,3 @@ class DomesticContactForm(
         validators=[no_html, not_contains_url_or_email]
     )
     captcha = ReCaptchaField(label_suffix='')
-    terms_agreed = forms.BooleanField(
-        label=TERMS_LABEL
-    )

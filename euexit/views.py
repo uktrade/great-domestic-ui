@@ -36,7 +36,6 @@ class BaseInternationalContactFormView(
         kwargs['ingress_url'] = (
             self.request.session.get(SESSION_KEY_FORM_INGRESS_URL)
         )
-        kwargs['disclaimer'] = self.page['disclaimer']
         return kwargs
 
     def form_valid(self, form):
