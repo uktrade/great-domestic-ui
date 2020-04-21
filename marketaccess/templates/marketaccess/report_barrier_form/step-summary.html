@@ -42,8 +42,14 @@
         <dd class="font-small">{{all_cleaned_data.impact}}</dd>
         <dt class="bold-small">Tell us about any steps you’ve taken to resolve the problem</dt>
         <dd class="font-small">{{all_cleaned_data.resolve_summary}}</dd>
-        <dt class="bold-small">Is your problem caused by or related to Brexit?</dt>
-        <dd class="font-small">{{all_cleaned_data.eu_exit_related}}</dd>
+        <dt class="bold-small">Is the problem caused by or related to Brexit or Covid-19?</dt>
+        <dd class="font-small">
+            {% if all_cleaned_data.problem_cause_label %}
+                Yes. {{ all_cleaned_data.problem_cause_label|join:' and ' }}
+            {% else %}
+                No
+            {% endif %}
+        </dd>
     </dl>
     <a id="previous-button" class="link" href="{% url 'report-ma-barrier' step='problem-details' %}?from=summary">Change answers</a>
     <p class="privacy-policy-text">By submitting this form you agree to our <a class='link' href='{% url 'privacy-and-cookies' %}'>privacy policy</a>.</p>

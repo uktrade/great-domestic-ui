@@ -8,7 +8,12 @@ from marketaccess import widgets
 
 
 LOCATION_CHOICES = [('', 'Please select')] + choices.COUNTRIES_AND_TERRITORIES
-LOCATION_CHOICES_MAP = dict(LOCATION_CHOICES)
+LOCATION_MAP = dict(LOCATION_CHOICES)
+PROBLEM_CAUSE_CHOICES = (
+    ('brexit', 'Brexit'),
+    ('covid-19', 'Covid-19'),
+)
+PROBLEM_CAUSE_MAP = dict(PROBLEM_CAUSE_CHOICES)
 
 
 class AboutForm(forms.Form):
@@ -181,16 +186,19 @@ class ProblemDetailsForm(forms.Form):
                 }
             },
         ),
-        choices=(
-            ('brexit', 'Brexit'),
-            ('covid-19', 'Covid-19'),
-        ),
+        choices=PROBLEM_CAUSE_CHOICES,
+        required=False,
     )
 
     def clean_location(self):
-        location = self.cleaned_data['location']
-        self.cleaned_data['location_label'] = LOCATION_CHOICES_MAP[location]
-        return location
+        value = self.cleaned_data['location']
+        self.cleaned_data['location_label'] = LOCATION_MAP[value]
+        return value
+
+    def clean_problem_cause(self):
+        value = self.cleaned_data['problem_cause']
+        self.cleaned_data['problem_cause_label'] = [PROBLEM_CAUSE_MAP[item] for item in value]
+        return value
 
 
 class SummaryForm(forms.Form):

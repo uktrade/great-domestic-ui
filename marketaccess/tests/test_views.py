@@ -125,6 +125,7 @@ def test_form_submission(mock_zendesk_action, client):
         'impact': 'problem impact',
         'resolve_summary': 'steps in resolving',
         'problem_cause': ['covid-19'],
+        'problem_cause_label': ['Covid-19'],
     })
 
 
