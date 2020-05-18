@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'ukef',
     'healthcheck',
     'sso',
+    'elasticapm.contrib.django',
 ]
 
 MIDDLEWARE = [
@@ -505,3 +506,13 @@ AUTH_USER_MODEL = 'sso.SSOUser'
 AUTHENTICATION_BACKENDS = ['directory_sso_api_client.backends.SSOUserBackend']
 
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
+# Application Performance Monitoring
+if env.str('ELASTIC_APM_SERVER_URL', ''):
+    ELASTIC_APM = {
+        'SERVICE_NAME': env.str('ELASTIC_APM_SERVICE_NAME', 'directory-cms'),
+        'SECRET_TOKEN': env.str('ELASTIC_APM_SECRET_TOKEN'),
+        'SERVER_URL': env.str('ELASTIC_APM_SERVER_URL'),
+        'ENVIRONMENT': env.str('SENTRY_ENVIRONMENT'),
+        'DEBUG': DEBUG,
+    }
