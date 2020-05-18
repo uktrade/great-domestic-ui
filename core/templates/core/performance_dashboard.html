@@ -44,7 +44,7 @@ Performance dashboard - great.gov.uk
             </div>
           </div>
         </div>
-
+		{% if page.data_title_row_two and page.data_number_row_two and page.data_period_row_two and page.data_description_row_two %
         <div class="column-quarter">
           <div class="data">
             <h2 class="heading-small">{{ page.data_title_row_two }}</h2>
@@ -55,7 +55,8 @@ Performance dashboard - great.gov.uk
             </div>
           </div>
         </div>
-
+		  {% endif %}
+		{% if page.data_title_row_three and page.data_number_row_three and page.data_period_row_three and page.data_description_row_three %}
         <div class="column-quarter">
           <div class="data">
             <h2 class="heading-small">{{ page.data_title_row_three }}</h2>
@@ -66,7 +67,7 @@ Performance dashboard - great.gov.uk
             </div>
           </div>
         </div>
-
+		{% endif %}
         {% if page.data_title_row_four and page.data_number_row_four and page.data_period_row_four and page.data_description_row_four %}
         <div class="column-quarter">
           <div class="data">

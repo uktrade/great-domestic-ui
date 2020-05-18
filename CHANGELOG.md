@@ -6,6 +6,7 @@
 ### Bugs fixed
 ### Implemented enhancements
  - no ticked - Add APM support
+ - XOT-1341 - optional fields template
 
 ## [2020.04.22](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.04.22)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.04.16...2020.04.22)
