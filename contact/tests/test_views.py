@@ -1357,3 +1357,79 @@ def test_export_voucher_feature_flag(enabled, url, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200 if enabled else 404, response.status_code
+
+
+@mock.patch.object(views.ExportSupportFormPageView, 'form_session_class')
+@mock.patch.object(views.ExportSupportFormPageView.form_class, 'save')
+def test_marketing_join_form_notify_success(
+    mock_save, mock_form_session, client, valid_request_export_support_form_data
+):
+    url = reverse('marketing-join-form')
+    response = client.post(url, valid_request_export_support_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('marketing-join-success')
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            email_address=settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS,
+            form_session=mock_form_session(),
+            form_url=url,
+            sender={'email_address': 'test@test.com',
+                    'country_code': None,
+                    'ip_address': None},
+            template_id=settings.CONTACT_LOCAL_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID
+        ),
+        mock.call(
+            email_address='test@test.com',
+            form_session=mock_form_session(),
+            form_url=url,
+            template_id=settings.CONTACT_LOCAL_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID
+        )
+    ]
+
+
+def test_marketing_success_view(client):
+    url = reverse('marketing-join-success')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@mock.patch.object(views.EcommerceSupportFormPageView, 'form_session_class')
+@mock.patch.object(views.EcommerceSupportFormPageView.form_class, 'save')
+def test_ecommerce_export_form_notify_success(
+    mock_save, mock_form_session, client, valid_request_export_support_form_data
+):
+    url = reverse('ecommerce-export-support-form')
+    response = client.post(url, valid_request_export_support_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('ecommerce-export-support-success')
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            email_address=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS,
+            form_session=mock_form_session(),
+            form_url=url,
+            sender={'email_address': 'test@test.com',
+                    'country_code': None,
+                    'ip_address': None},
+            template_id=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID
+        ),
+        mock.call(
+            email_address='test@test.com',
+            form_session=mock_form_session(),
+            form_url=url,
+            template_id=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID
+        )
+    ]
+
+
+def test_ecommerce_success_view(client):
+    url = reverse('ecommerce-export-support-success')
+
+    response = client.get(url)
+
+    assert response.status_code == 200

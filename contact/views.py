@@ -23,6 +23,7 @@ from core.helpers import NotifySettings, retrieve_regional_office_email
 from core.views import BaseNotifyFormView
 from contact import constants, forms, helpers
 
+
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
 
@@ -769,3 +770,37 @@ class ExportVoucherFormView(ExportVoucherFeatureFlagMixin, FormSessionMixin, For
 class ExportVoucherSuccessView(ExportVoucherFeatureFlagMixin, TemplateView):
     page_type = 'ContactPage'
     template_name = 'contact/export-voucher-success.html'
+
+
+class EcommerceSupportFormPageView(BaseNotifyFormView):
+    template_name = 'core/request-export-support-form.html'
+    form_class = forms.ExportSupportForm
+    success_url = reverse_lazy('ecommerce-export-support-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
+    )
+
+
+class ExportSupportSuccessPageView(TemplateView):
+    template_name = 'core/request-export-support-success.html'
+
+
+class ExportSupportFormPageView(BaseNotifyFormView):
+    template_name = 'core/request-export-support-form.html'
+    form_class = forms.ExportSupportForm
+    success_url = reverse_lazy('marketing-join-success')
+
+    @staticmethod
+    def get_agent_email(postcode):
+        region_email = retrieve_regional_office_email(postcode=postcode)
+        return region_email or settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS
+
+    def form_valid(self, form):
+        self.notify_settings = NotifySettings(
+            agent_template=settings.CONTACT_LOCAL_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID,
+            agent_email=self.get_agent_email(form.cleaned_data['company_postcode']),
+            user_template=settings.CONTACT_LOCAL_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
+        )
+        return super().form_valid(form)
