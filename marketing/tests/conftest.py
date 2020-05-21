@@ -14,6 +14,7 @@ def valid_marketing_form_data(captcha_stub):
         'employees_number': '1-9',
         'annual_turnover': '',
         'currently_export': 'no',
+        'comment': 'some comment',
         'terms_agreed': True,
         'g-recaptcha-response': captcha_stub,
     }
@@ -32,6 +33,7 @@ def valid_marketing_form_data_with_other_options(captcha_stub):
         'employees_number': '1-9',
         'annual_turnover': '',
         'currently_export': 'no',
+        'comment': 'some comment',
         'terms_agreed': True,
         'g-recaptcha-response': captcha_stub,
     }
@@ -50,6 +52,7 @@ def serialized_marketing_form_api_data(captcha_stub):
         'employees_number': '1-9',
         'annual_turnover': '',
         'currently_export': 'no',
+        'comment': 'some comment',
         'terms_agreed': True,
         'g-recaptcha-response': captcha_stub,
     }

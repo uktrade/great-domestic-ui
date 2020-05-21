@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 
 from directory_api_client import api_client
 from ipware import get_client_ip
+import requests.exceptions
 
 from django.conf import settings
 from django.contrib.gis.geoip2 import GeoIP2, GeoIP2Exception
@@ -184,3 +185,20 @@ def company_profile_retrieve(sso_session_id):
         return None
     response.raise_for_status()
     return response.json()
+
+
+def retrieve_regional_offices(postcode):
+    response = api_client.exporting.lookup_regional_offices_by_postcode(postcode)
+    response.raise_for_status()
+    return response.json()
+
+
+def retrieve_regional_office_email(postcode):
+    try:
+        office_details = retrieve_regional_offices(postcode)
+    except requests.exceptions.RequestException:
+        email = None
+    else:
+        matches = [office for office in office_details if office['is_match']]
+        email = matches[0]['email'] if matches else None
+    return email

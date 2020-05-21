@@ -437,15 +437,15 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
 @mock.patch('directory_forms_api_client.actions.EmailAction')
-@mock.patch('contact.helpers.retrieve_exporting_advice_email')
+@mock.patch('contact.views.retrieve_regional_office_email')
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_exporting_from_uk_contact_form_submission(
-    mock_form_session, mock_retrieve_exporting_advice_email, mock_email_action,
+    mock_form_session, mock_retrieve_regional_office_email, mock_email_action,
     mock_notify_action, mock_clean, client, captcha_stub, company_profile,
     settings
 ):
     company_profile.return_value = create_response(status_code=404)
-    mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
+    mock_retrieve_regional_office_email.return_value = 'regional@example.com'
 
     url_name = 'contact-us-export-advice'
     view_name = 'exporting_advice_form_view'
@@ -541,8 +541,8 @@ def test_exporting_from_uk_contact_form_submission(
         'text_body': mock.ANY, 'html_body': mock.ANY
     })
 
-    assert mock_retrieve_exporting_advice_email.call_count == 1
-    assert mock_retrieve_exporting_advice_email.call_args == mock.call(
+    assert mock_retrieve_regional_office_email.call_count == 1
+    assert mock_retrieve_regional_office_email.call_args == mock.call(
         '1234'
     )
 
@@ -550,12 +550,12 @@ def test_exporting_from_uk_contact_form_submission(
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
 @mock.patch('directory_forms_api_client.actions.EmailAction')
-@mock.patch('contact.helpers.retrieve_exporting_advice_email')
+@mock.patch('core.helpers.retrieve_regional_office_email')
 def test_exporting_from_uk_contact_form_initial_data_business(
-    mock_retrieve_exporting_advice_email, mock_email_action,
+    mock_retrieve_regional_office_email, mock_email_action,
     mock_notify_action, mock_clean, client, captcha_stub, user
 ):
-    mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
+    mock_retrieve_regional_office_email.return_value = 'regional@example.com'
 
     url_name = 'contact-us-export-advice'
 

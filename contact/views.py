@@ -19,7 +19,7 @@ from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 
 from core import mixins
-from core.helpers import NotifySettings
+from core.helpers import NotifySettings, retrieve_regional_office_email
 from core.views import BaseNotifyFormView
 from contact import constants, forms, helpers
 
@@ -354,13 +354,16 @@ class ExportingAdviceFormView(
         self.send_user_message(form_data)
         return redirect(self.success_url)
 
+    @staticmethod
+    def get_agent_email(postcode):
+        region_email = retrieve_regional_office_email(postcode)
+        return region_email or settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
+
     def serialize_form_list(self, form_list):
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        data['region_office_email'] = helpers.retrieve_exporting_advice_email(
-            data['postcode']
-        )
+        data['region_office_email'] = self.get_agent_email(data['postcode'])
         return data
 
 
@@ -604,7 +607,7 @@ class OfficeContactFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
 
     @property
     def agent_email(self):
-        return helpers.retrieve_exporting_advice_email(self.kwargs['postcode'])
+        return retrieve_regional_office_email(self.kwargs['postcode']) or settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
 
     @property
     def notify_settings(self):

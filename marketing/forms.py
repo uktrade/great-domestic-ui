@@ -4,7 +4,7 @@ from captcha.fields import ReCaptchaField
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from directory_components import forms
 
-from django.forms import ValidationError
+from django.forms import Textarea, ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from core.validators import is_valid_postcode
@@ -116,6 +116,10 @@ class MarketingJoinForm(GovNotifyEmailActionMixin, forms.Form):
                           ' before registering'),
         }
     )
+    comment = forms.CharField(
+        label='Please give us as much detail as you can',
+        widget=Textarea,
+    )
     captcha = ReCaptchaField(
         label_suffix='',
         error_messages={
@@ -124,15 +128,13 @@ class MarketingJoinForm(GovNotifyEmailActionMixin, forms.Form):
     )
 
     def clean_phone_number(self):
-        phone_number = self.cleaned_data.get(
-            'phone_number', ''
-        ).replace(' ', '')
+        phone_number = self.cleaned_data['phone_number'].replace(' ', '')
         if not PHONE_NUMBER_REGEX.match(phone_number):
             raise ValidationError(_('Please enter a UK phone number'))
         return phone_number
 
     def clean_company_postcode(self):
-        return self.cleaned_data.get('company_postcode', '').replace(' ', '').upper()
+        return self.cleaned_data['company_postcode'].replace(' ', '').upper()
 
     @property
     def serialized_data(self):

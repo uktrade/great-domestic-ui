@@ -64,7 +64,6 @@ INSTALLED_APPS = [
     'ukef',
     'healthcheck',
     'sso',
-    'elasticapm.contrib.django',
 ]
 
 MIDDLEWARE = [
@@ -516,3 +515,4 @@ if env.str('ELASTIC_APM_SERVER_URL', ''):
         'ENVIRONMENT': env.str('SENTRY_ENVIRONMENT'),
         'DEBUG': DEBUG,
     }
+    INSTALLED_APPS.append('elasticapm.contrib.django')
