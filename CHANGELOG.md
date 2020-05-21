@@ -8,6 +8,8 @@
 ### Implemented enhancements
 - TT-2322 - Route /local-export-support/apply/ emails to closest trade office
 
+### Bugs fixed
+- No ticket - Upgrade markdown to fix vulnerability
 
 ## [2020.05.18](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.05.18_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.04.22...2020.05.18_1)
@@ -91,8 +93,6 @@
 - XOT-1224 - add markets heading to cms and some design fixes
 - TT-1805 - Fix broken Search Sort Order backend
 - TT-2254 - Remove obsolete settings and code
-
-### Bugs fixed
 
 ## [2020.01.14](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.01.14)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.01.03...2020.01.14)
