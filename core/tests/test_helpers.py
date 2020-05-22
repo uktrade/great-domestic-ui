@@ -1,5 +1,6 @@
 from unittest.mock import patch, Mock, PropertyMock
 
+from directory_api_client.exporting import url_lookup_by_postcode
 import pytest
 import requests
 
@@ -200,3 +201,26 @@ def test_geolocation_end_to_end(rf, ip_address, language, settings):
     assert url == '/international/'
     assert 'lang=' + language in querysrtring
     assert 'a=b' in querysrtring
+
+
+def test_retrieve_regional_office_email_exception(settings, requests_mock):
+    requests_mock.get(url_lookup_by_postcode.format(postcode='ABC123'), exc=requests.exceptions.ConnectTimeout)
+    email = helpers.retrieve_regional_office_email('ABC123')
+
+    assert email is None
+
+
+def test_retrieve_regional_office_email_not_ok(settings, requests_mock):
+    requests_mock.get(url_lookup_by_postcode.format(postcode='ABC123'), status_code=404)
+    email = helpers.retrieve_regional_office_email('ABC123')
+
+    assert email is None
+
+
+def test_retrieve_regional_office_email_success(requests_mock):
+    match_office = [{'is_match': True, 'email': 'region@example.com'}]
+    requests_mock.get(url_lookup_by_postcode.format(postcode='ABC123'), status_code=200, json=match_office)
+
+    email = helpers.retrieve_regional_office_email('ABC123')
+
+    assert email == 'region@example.com'

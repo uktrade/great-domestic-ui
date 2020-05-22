@@ -437,15 +437,15 @@ def test_success_view_cms(mock_lookup_by_slug, url, slug, client):
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
 @mock.patch('directory_forms_api_client.actions.EmailAction')
-@mock.patch('contact.helpers.retrieve_exporting_advice_email')
+@mock.patch('contact.views.retrieve_regional_office_email')
 @mock.patch.object(views.FormSessionMixin, 'form_session_class')
 def test_exporting_from_uk_contact_form_submission(
-    mock_form_session, mock_retrieve_exporting_advice_email, mock_email_action,
+    mock_form_session, mock_retrieve_regional_office_email, mock_email_action,
     mock_notify_action, mock_clean, client, captcha_stub, company_profile,
     settings
 ):
     company_profile.return_value = create_response(status_code=404)
-    mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
+    mock_retrieve_regional_office_email.return_value = 'regional@example.com'
 
     url_name = 'contact-us-export-advice'
     view_name = 'exporting_advice_form_view'
@@ -541,8 +541,8 @@ def test_exporting_from_uk_contact_form_submission(
         'text_body': mock.ANY, 'html_body': mock.ANY
     })
 
-    assert mock_retrieve_exporting_advice_email.call_count == 1
-    assert mock_retrieve_exporting_advice_email.call_args == mock.call(
+    assert mock_retrieve_regional_office_email.call_count == 1
+    assert mock_retrieve_regional_office_email.call_args == mock.call(
         '1234'
     )
 
@@ -550,12 +550,12 @@ def test_exporting_from_uk_contact_form_submission(
 @mock.patch('captcha.fields.ReCaptchaField.clean')
 @mock.patch('directory_forms_api_client.actions.GovNotifyEmailAction')
 @mock.patch('directory_forms_api_client.actions.EmailAction')
-@mock.patch('contact.helpers.retrieve_exporting_advice_email')
+@mock.patch('core.helpers.retrieve_regional_office_email')
 def test_exporting_from_uk_contact_form_initial_data_business(
-    mock_retrieve_exporting_advice_email, mock_email_action,
+    mock_retrieve_regional_office_email, mock_email_action,
     mock_notify_action, mock_clean, client, captcha_stub, user
 ):
-    mock_retrieve_exporting_advice_email.return_value = 'regional@example.com'
+    mock_retrieve_regional_office_email.return_value = 'regional@example.com'
 
     url_name = 'contact-us-export-advice'
 
@@ -1357,3 +1357,79 @@ def test_export_voucher_feature_flag(enabled, url, client, settings):
     response = client.get(url)
 
     assert response.status_code == 200 if enabled else 404, response.status_code
+
+
+@mock.patch.object(views.ExportSupportFormPageView, 'form_session_class')
+@mock.patch.object(views.ExportSupportFormPageView.form_class, 'save')
+def test_marketing_join_form_notify_success(
+    mock_save, mock_form_session, client, valid_request_export_support_form_data
+):
+    url = reverse('marketing-join-form')
+    response = client.post(url, valid_request_export_support_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('marketing-join-success')
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            email_address=settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS,
+            form_session=mock_form_session(),
+            form_url=url,
+            sender={'email_address': 'test@test.com',
+                    'country_code': None,
+                    'ip_address': None},
+            template_id=settings.CONTACT_LOCAL_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID
+        ),
+        mock.call(
+            email_address='test@test.com',
+            form_session=mock_form_session(),
+            form_url=url,
+            template_id=settings.CONTACT_LOCAL_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID
+        )
+    ]
+
+
+def test_marketing_success_view(client):
+    url = reverse('marketing-join-success')
+
+    response = client.get(url)
+
+    assert response.status_code == 200
+
+
+@mock.patch.object(views.EcommerceSupportFormPageView, 'form_session_class')
+@mock.patch.object(views.EcommerceSupportFormPageView.form_class, 'save')
+def test_ecommerce_export_form_notify_success(
+    mock_save, mock_form_session, client, valid_request_export_support_form_data
+):
+    url = reverse('ecommerce-export-support-form')
+    response = client.post(url, valid_request_export_support_form_data)
+
+    assert response.status_code == 302
+    assert response.url == reverse('ecommerce-export-support-success')
+    assert mock_save.call_count == 2
+    assert mock_save.call_args_list == [
+        mock.call(
+            email_address=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS,
+            form_session=mock_form_session(),
+            form_url=url,
+            sender={'email_address': 'test@test.com',
+                    'country_code': None,
+                    'ip_address': None},
+            template_id=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID
+        ),
+        mock.call(
+            email_address='test@test.com',
+            form_session=mock_form_session(),
+            form_url=url,
+            template_id=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID
+        )
+    ]
+
+
+def test_ecommerce_success_view(client):
+    url = reverse('ecommerce-export-support-success')
+
+    response = client.get(url)
+
+    assert response.status_code == 200

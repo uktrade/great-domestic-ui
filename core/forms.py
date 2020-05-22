@@ -2,9 +2,16 @@ from directory_components import forms
 from directory_constants import urls
 
 from django.template.loader import render_to_string
+from django.utils.html import mark_safe
 
 from core import constants
 
+
+TERMS_LABEL = mark_safe(
+    'Tick this box to accept the '
+    f'<a href="{urls.domestic.TERMS_AND_CONDITIONS}" target="_blank">terms and '
+    'conditions</a> of the great.gov.uk service.'
+)
 
 PRIVACY_POLICY_URL = urls.domestic.PRIVACY_AND_COOKIES / 'privacy-notice-great-domestic'
 

@@ -1,24 +1,4 @@
-from directory_api_client import api_client
-
-from django.conf import settings
-import requests.exceptions
-
-
-def retrieve_regional_offices(postcode):
-    response = api_client.exporting.lookup_regional_offices_by_postcode(postcode)
-    response.raise_for_status()
-    return response.json()
-
-
-def retrieve_exporting_advice_email(postcode):
-    try:
-        office_details = retrieve_regional_offices(postcode)
-    except requests.exceptions.RequestException:
-        email = None
-    else:
-        matches = [office for office in office_details if office['is_match']]
-        email = matches[0]['email'] if matches else None
-    return email or settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
+from core.helpers import retrieve_regional_offices
 
 
 def retrieve_regional_office(postcode):
