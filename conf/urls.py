@@ -21,7 +21,6 @@ import euexit.views
 import finance.views
 import marketaccess.views
 import community.views
-import marketing.views
 import search.views
 import ukef.views
 
@@ -107,6 +106,18 @@ urlpatterns = [
         {'slug': slugs.PERFORMANCE_DASHBOARD_NOTES},
         name='performance-dashboard-notes'
     ),
+    # must come becore `campaigns/(?P<slug>[-\w\d]+)/$"`
+    url(
+        r"^campaigns/ecommerce-export-support/apply/$",
+        contact.views.EcommerceSupportFormPageView.as_view(),
+        name='ecommerce-export-support-form'
+    ),
+    url(
+        r"^campaigns/ecommerce-export-support/success/$",
+        skip_ga360(contact.views.ExportSupportSuccessPageView.as_view()),
+        name='ecommerce-export-support-success'
+    ),
+
     url(
         r"^campaigns/(?P<slug>[-\w\d]+)/$",
         core.views.OrphanCMSArticlePageView.as_view(),
@@ -521,15 +532,15 @@ community_urls = [
 
 marketing_urls = [
     url(
-            r"^local-export-support/apply/$",
-            marketing.views.MarketingJoinFormPageView.as_view(),
-            name='marketing-join-form'
+        r"^local-export-support/apply/$",
+        contact.views.ExportSupportFormPageView.as_view(),
+        name='marketing-join-form'
         ),
     url(
-            r"^local-export-support/success/$",
-            skip_ga360(marketing.views.MarketingSuccessPageView.as_view()),
-            name='marketing-join-success'
-        ),
+        r"^local-export-support/success/$",
+        skip_ga360(contact.views.ExportSupportSuccessPageView.as_view()),
+        name='marketing-join-success'
+    ),
 ]
 
 

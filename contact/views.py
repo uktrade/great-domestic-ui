@@ -19,9 +19,10 @@ from django.template.response import TemplateResponse
 from django.utils.functional import cached_property
 
 from core import mixins
-from core.helpers import NotifySettings
+from core.helpers import NotifySettings, retrieve_regional_office_email
 from core.views import BaseNotifyFormView
 from contact import constants, forms, helpers
+
 
 SESSION_KEY_SOO_MARKET = 'SESSION_KEY_SOO_MARKET'
 SOO_SUBMISSION_CACHE_TIMEOUT = 2592000  # 30 days
@@ -354,13 +355,16 @@ class ExportingAdviceFormView(
         self.send_user_message(form_data)
         return redirect(self.success_url)
 
+    @staticmethod
+    def get_agent_email(postcode):
+        region_email = retrieve_regional_office_email(postcode)
+        return region_email or settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
+
     def serialize_form_list(self, form_list):
         data = {}
         for form in form_list:
             data.update(form.cleaned_data)
-        data['region_office_email'] = helpers.retrieve_exporting_advice_email(
-            data['postcode']
-        )
+        data['region_office_email'] = self.get_agent_email(data['postcode'])
         return data
 
 
@@ -604,7 +608,7 @@ class OfficeContactFormView(PrepopulateShortFormMixin, BaseNotifyFormView):
 
     @property
     def agent_email(self):
-        return helpers.retrieve_exporting_advice_email(self.kwargs['postcode'])
+        return retrieve_regional_office_email(self.kwargs['postcode']) or settings.CONTACT_DIT_AGENT_EMAIL_ADDRESS
 
     @property
     def notify_settings(self):
@@ -766,3 +770,37 @@ class ExportVoucherFormView(ExportVoucherFeatureFlagMixin, FormSessionMixin, For
 class ExportVoucherSuccessView(ExportVoucherFeatureFlagMixin, TemplateView):
     page_type = 'ContactPage'
     template_name = 'contact/export-voucher-success.html'
+
+
+class EcommerceSupportFormPageView(BaseNotifyFormView):
+    template_name = 'core/request-export-support-form.html'
+    form_class = forms.ExportSupportForm
+    success_url = reverse_lazy('ecommerce-export-support-success')
+    notify_settings = NotifySettings(
+        agent_template=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID,
+        agent_email=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_AGENT_EMAIL_ADDRESS,
+        user_template=settings.CONTACT_ECOMMERCE_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
+    )
+
+
+class ExportSupportSuccessPageView(TemplateView):
+    template_name = 'core/request-export-support-success.html'
+
+
+class ExportSupportFormPageView(BaseNotifyFormView):
+    template_name = 'core/request-export-support-form.html'
+    form_class = forms.ExportSupportForm
+    success_url = reverse_lazy('marketing-join-success')
+
+    @staticmethod
+    def get_agent_email(postcode):
+        region_email = retrieve_regional_office_email(postcode=postcode)
+        return region_email or settings.COMMUNITY_ENQUIRIES_AGENT_EMAIL_ADDRESS
+
+    def form_valid(self, form):
+        self.notify_settings = NotifySettings(
+            agent_template=settings.CONTACT_LOCAL_EXPORT_SUPPORT_AGENT_NOTIFY_TEMPLATE_ID,
+            agent_email=self.get_agent_email(form.cleaned_data['company_postcode']),
+            user_template=settings.CONTACT_LOCAL_EXPORT_SUPPORT_NOTIFY_TEMPLATE_ID,
+        )
+        return super().form_valid(form)
