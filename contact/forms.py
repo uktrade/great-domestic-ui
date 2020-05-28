@@ -772,7 +772,7 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         }
     )
     comment = forms.CharField(
-        label='Please give us as much detail as you can',
+        label='Please give us as much detail as you can on your enquiry',
         widget=Textarea,
     )
     captcha = ReCaptchaField(
