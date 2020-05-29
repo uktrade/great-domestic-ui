@@ -49,12 +49,11 @@ class ReportMarketAccessBarrierFormView(
         (SUMMARY, forms.SummaryForm),
     )
 
-    form_template_directory = 'marketaccess/report_barrier_form/'
     templates = {
-        ABOUT: f'{form_template_directory}step-about.html',
-        PROBLEM_DETAILS: f'{form_template_directory}step-problem.html',
-        SUMMARY: f'{form_template_directory}step-summary.html',
-        FINISHED: f'{form_template_directory}success.html',
+        ABOUT: 'marketaccess/report_barrier_form/step-about.html',
+        PROBLEM_DETAILS: 'marketaccess/report_barrier_form/step-problem.html',
+        SUMMARY: 'marketaccess/report_barrier_form/step-summary.html',
+        FINISHED: 'marketaccess/report_barrier_form/success.html',
     }
 
     def get_template_names(self):
