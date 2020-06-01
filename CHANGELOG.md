@@ -8,6 +8,8 @@
 ### Implemented enhancements
 - TT-2322 - Route /local-export-support/apply/ emails to closest trade office
 - TT-2323 - Add ecommerce export support form
+- TT-2322 - Update content
+- TT-2321 - Use new privacy policy on report trade barrier page
 
 ### Bugs fixed
 - No ticket - Upgrade markdown to fix vulnerability
