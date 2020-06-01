@@ -126,6 +126,8 @@ def test_form_submission(mock_zendesk_action, client):
         'resolve_summary': 'steps in resolving',
         'problem_cause': ['covid-19'],
         'problem_cause_label': ['Covid-19'],
+        'contact_by_email': False,
+        'contact_by_phone': False,
     })
 
 

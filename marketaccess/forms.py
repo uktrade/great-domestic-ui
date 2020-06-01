@@ -202,4 +202,11 @@ class ProblemDetailsForm(forms.Form):
 
 
 class SummaryForm(forms.Form):
-    pass
+    contact_by_email = forms.BooleanField(
+        label='I would like to receive additional information by email',
+        required=False,
+    )
+    contact_by_phone = forms.BooleanField(
+        label='I would like to receive additional information by telephone',
+        required=False,
+    )
