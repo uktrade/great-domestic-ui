@@ -32,7 +32,7 @@ django-health-check==3.8.0  # via directory-healthcheck
 django-ipware==2.1.0      # via -r requirements.in
 django-recaptcha==2.0.5   # via -r requirements.in
 django-redis==4.10.0      # via -r requirements.in
-django==2.2.10            # via -r requirements.in, directory-api-client, directory-ch-client, directory-client-core, directory-components, directory-constants, directory-healthcheck, directory-validators, django-formtools, django-recaptcha, django-redis, sigauth
+django==2.2.13            # via -r requirements.in, directory-api-client, directory-ch-client, directory-client-core, directory-components, directory-constants, directory-healthcheck, directory-validators, django-formtools, django-recaptcha, django-redis, sigauth
 djangorestframework==3.10.3  # via -r requirements.in, sigauth
 elastic-apm==5.5.2        # via -r requirements.in
 execnet==1.5.0            # via pytest-xdist
