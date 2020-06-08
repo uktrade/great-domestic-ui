@@ -34,7 +34,7 @@ geoip2==3.0.0             # via -r requirements.in
 gunicorn==19.9.0          # via -r requirements.in
 idna==2.8                 # via requests
 jsonschema==3.0.1         # via directory-components
-markdown2==2.3.8          # via -r requirements.in
+markdown2==2.3.9          # via -r requirements.in
 maxminddb==1.5.2          # via geoip2
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-ch-client, directory-client-core

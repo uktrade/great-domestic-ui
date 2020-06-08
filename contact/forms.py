@@ -1,22 +1,26 @@
 from datetime import datetime
+import re
 
 from captcha.fields import ReCaptchaField
 from directory_components import forms
-from directory_constants import choices, urls
+from directory_constants import choices
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin, ZendeskActionMixin
 import requests.exceptions
 
 from django.conf import settings
-from django.forms import Textarea, TextInput, TypedChoiceField
+from django.forms import Textarea, TextInput, TypedChoiceField, ValidationError
 from django.utils import timezone
 from django.utils.html import mark_safe
 from django.utils.functional import LazyObject
 
-from core.forms import ConsentFieldMixin
+from core.forms import ConsentFieldMixin, TERMS_LABEL
 from core.validators import is_valid_postcode
 from core.constants import INDUSTRY_CHOICES, INDUSTRY_MAP
 from contact import constants, helpers
 from contact.fields import IntegerField
+
+
+PHONE_NUMBER_REGEX = re.compile(r'^(\+\d{1,3}[- ]?)?\d{8,16}$')
 
 
 class LazyEUExitLabel(LazyObject):
@@ -31,12 +35,6 @@ class LazyEUExitLabel(LazyObject):
 
 
 EU_EXIT_LABEL = LazyEUExitLabel()
-
-TERMS_LABEL = mark_safe(
-    'Tick this box to accept the '
-    f'<a href="{urls.domestic.TERMS_AND_CONDITIONS}" target="_blank">terms and '
-    'conditions</a> of the great.gov.uk service.'
-)
 
 LIMITED = 'LIMITED'
 
@@ -664,3 +662,138 @@ class ExportVoucherForm(SerializeDataMixin, GovNotifyEmailActionMixin, forms.For
     )
     captcha = ReCaptchaField(label_suffix='')
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
+
+
+class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
+
+    EMPLOYEES_NUMBER_CHOICES = (
+        ('1-9', '1 to 9'),
+        ('10-49', '10 to 49'),
+        ('50-249', '50 to 249'),
+        ('250-499', '250 to 499'),
+        ('500plus', 'More than 500'),
+    )
+
+    first_name = forms.CharField(
+        label='First name',
+        min_length=2,
+        max_length=50,
+        error_messages={
+            'required': 'Enter your first name'
+        }
+    )
+    last_name = forms.CharField(
+        label='Last name',
+        min_length=2,
+        max_length=50,
+        error_messages={
+            'required': 'Enter your last name'
+        }
+    )
+    email = forms.EmailField(
+        label='Email address',
+        error_messages={
+            'required': 'Enter an email address in the correct format, like name@example.com',
+            'invalid': 'Enter an email address in the correct format, like name@example.com',
+        }
+    )
+    phone_number = forms.CharField(
+        label='UK telephone number',
+        min_length=8,
+        help_text='This can be a landline or mobile number',
+        error_messages={
+            'max_length': 'Figures only, maximum 16 characters, minimum 8 characters excluding spaces',
+            'min_length': 'Figures only, maximum 16 characters, minimum 8 characters excluding spaces',
+            'required': 'Enter a UK phone number',
+            'invalid': 'Please enter a UK phone number',
+        }
+    )
+    job_title = forms.CharField(
+        label='Job title',
+        max_length=50,
+        error_messages={
+            'required': 'Enter your job title',
+        }
+    )
+    company_name = forms.CharField(
+        label='Business name',
+        max_length=50,
+        error_messages={
+            'required': 'Enter your business name',
+        }
+    )
+    company_postcode = forms.CharField(
+        label='Business postcode',
+        max_length=50,
+        error_messages={
+            'required': 'Enter your business postcode',
+            'invalid': 'Please enter a UK postcode'
+        },
+        validators=[is_valid_postcode],
+    )
+    annual_turnover = forms.ChoiceField(
+            label='Annual turnover',
+            help_text=(
+                'This information will help us tailor our response and advice on the services we can provide.'
+            ),
+            choices=(
+                ('Less than £500K', 'Less than £500K'),
+                ('£500K to £2M', '£500K to £2M'),
+                ('£2M to £5M', '£2M to £5M'),
+                ('£5M to £10M', '£5M to £10M'),
+                ('£10M to £50M', '£10M to £50M'),
+                ('£50M or higher', '£50M or higher')
+            ),
+            widget=forms.RadioSelect,
+            required=False,
+    )
+    employees_number = forms.ChoiceField(
+        label='Number of employees',
+        choices=EMPLOYEES_NUMBER_CHOICES,
+        widget=forms.RadioSelect,
+        error_messages={
+            'required': 'Choose a number',
+        }
+    )
+    currently_export = forms.ChoiceField(
+            label='Do you currently export?',
+            choices=(
+                ('yes', 'Yes'),
+                ('no', 'No')
+            ),
+            widget=forms.RadioSelect,
+            error_messages={'required': 'Please answer this question'}
+    )
+
+    terms_agreed = forms.BooleanField(
+        label=TERMS_LABEL,
+        error_messages={
+            'required': 'You must agree to the terms and conditions before registering',
+        }
+    )
+    comment = forms.CharField(
+        label='Please give us as much detail as you can on your enquiry',
+        widget=Textarea,
+    )
+    captcha = ReCaptchaField(
+        label_suffix='',
+        error_messages={
+            'required': 'Check the box to confirm that you’re human'
+        },
+    )
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data['phone_number'].replace(' ', '')
+        if not PHONE_NUMBER_REGEX.match(phone_number):
+            raise ValidationError('Please enter a UK phone number')
+        return phone_number
+
+    def clean_company_postcode(self):
+        return self.cleaned_data['company_postcode'].replace(' ', '').upper()
+
+    @property
+    def serialized_data(self):
+        data = super().serialized_data
+        employees_number_mapping = dict(self.EMPLOYEES_NUMBER_CHOICES)
+        data['employees_number_label'] = employees_number_mapping.get(data['employees_number'])
+        return data
