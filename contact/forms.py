@@ -33,6 +33,10 @@ class LazyEUExitLabel(LazyObject):
             return self.POST_BREXIT
         return self.PRE_BREXIT
 
+MARKETING_CONSENT_LABEL = mark_safe(
+    'Tick this box if you are happy to receive future communications from'
+    ' the great.gov.uk service.'
+)
 
 EU_EXIT_LABEL = LazyEUExitLabel()
 
@@ -266,6 +270,7 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
     )
     captcha = ReCaptchaField(label_suffix='')
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
+    marketing_agreed = forms.BooleanField(label=MARKETING_CONSENT_LABEL)
 
     @property
     def full_name(self):
