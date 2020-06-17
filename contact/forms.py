@@ -33,6 +33,7 @@ class LazyEUExitLabel(LazyObject):
             return self.POST_BREXIT
         return self.PRE_BREXIT
 
+
 MARKETING_CONSENT_LABEL = mark_safe(
     'Tick this box if you are happy to receive future communications from'
     ' the great.gov.uk service.'

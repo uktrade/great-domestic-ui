@@ -3,6 +3,8 @@
 
 ## Pre-release
 ### Implemented enhancements
+- TT-2330 - Add consent request for feedback form
+
 ### Bugs fixed
 
 ## [2020.06.08](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.06.08)
