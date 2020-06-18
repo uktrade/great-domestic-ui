@@ -22,7 +22,7 @@ def domestic_data(captcha_stub):
         'comment': 'Help please',
         'g-recaptcha-response': captcha_stub,
         'terms_agreed': True,
-        'marketing_agreed': True,
+        'marketing_agreed': False,
     }
 
 
