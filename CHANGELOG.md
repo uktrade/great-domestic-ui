@@ -15,6 +15,9 @@
 - No ticket - Upgrade markdown to fix vulnerability
 - No ticket - Fixed local export support form
 
+### Hotfix
+- No ticket - Upgrade django and pillow to fix vulnerability
+
 ## [2020.05.18](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.05.18_1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.04.22...2020.05.18_1)
 
