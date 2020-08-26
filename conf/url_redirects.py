@@ -354,6 +354,12 @@ redirects = [
             )
         ),
     ),
+    url(
+        r'^local-export-support/apply/$',
+        QuerystringRedirectView.as_view(
+            url='/contact/export-advice/business/',
+        ),
+    ),
 ]
 
 if settings.FEATURE_FLAGS['INTERNATIONAL_CONTACT_TRIAGE_ON']:
