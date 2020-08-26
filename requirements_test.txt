@@ -25,14 +25,14 @@ directory-constants==20.11.0  # via -r requirements.in, directory-components
 directory-forms-api-client==5.3.0  # via -r requirements.in
 directory-healthcheck==2.0.0  # via -r requirements.in
 directory-sso-api-client==6.2.0  # via -r requirements.in
-directory-validators==6.0.1  # via -r requirements.in
+directory-validators==6.0.3  # via -r requirements.in
 django-environ==0.4.5     # via -r requirements.in
 django-formtools==2.1     # via -r requirements.in
 django-health-check==3.8.0  # via directory-healthcheck
 django-ipware==2.1.0      # via -r requirements.in
 django-recaptcha==2.0.5   # via -r requirements.in
 django-redis==4.10.0      # via -r requirements.in
-django==2.2.10            # via -r requirements.in, directory-api-client, directory-ch-client, directory-client-core, directory-components, directory-constants, directory-healthcheck, directory-validators, django-formtools, django-recaptcha, django-redis, sigauth
+django==2.2.15            # via -r requirements.in, directory-api-client, directory-ch-client, directory-client-core, directory-components, directory-constants, directory-healthcheck, directory-validators, django-formtools, django-recaptcha, django-redis, sigauth
 djangorestframework==3.10.3  # via -r requirements.in, sigauth
 elastic-apm==5.5.2        # via -r requirements.in
 execnet==1.5.0            # via pytest-xdist
@@ -51,7 +51,7 @@ monotonic==1.5            # via directory-ch-client, directory-client-core
 more-itertools==4.3.0     # via pytest, zipp
 olefile==0.44             # via directory-validators
 packaging==19.1           # via pytest
-pillow==6.2.2             # via directory-validators
+pillow==7.2.0             # via directory-validators
 pip-tools==3.7.0          # via -r requirements_test.in
 pluggy==0.13.0            # via pytest
 py==1.5.4                 # via pytest
