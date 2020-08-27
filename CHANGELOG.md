@@ -5,7 +5,14 @@
 ### Implemented enhancements
 ### Bugs fixed
 
+## [2020.08.26](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.08.26)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.08.26...2020.06.08)
+
+### Implemented enhancements
 - GAA - 31 Added alt text to fix accessibility
+
+### Bugs fixed
+- TT-2334 - Redirect old export form to new one
 
 ## [2020.06.08](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.06.08)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.05.18_1...2020.06.08)
