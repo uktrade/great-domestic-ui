@@ -28,9 +28,16 @@ def dummy_cms_page():
 
 
 @pytest.fixture(autouse=True)
+def mock_captcha_clean():
+    patch = mock.patch('captcha.fields.ReCaptchaField.clean', return_value='PASS')
+    yield patch.start()
+    patch.stop()
+
+
+@pytest.fixture(autouse=True)
 def captcha_stub():
     stub = mock.patch('captcha.fields.client.submit')
-    stub.return_value = RecaptchaResponse(is_valid=True)
+    stub.return_value = RecaptchaResponse(is_valid=False, extra_data={'score': 1.0})
     stub.start()
     yield 'PASSED'
     stub.stop()

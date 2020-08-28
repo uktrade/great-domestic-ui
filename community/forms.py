@@ -1,6 +1,7 @@
 import re
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin
 from directory_components.forms import Form
 from directory_components import forms
@@ -120,10 +121,9 @@ class CommunityJoinForm(GovNotifyEmailActionMixin, Form):
         }
     )
     captcha = ReCaptchaField(
+        label='',
         label_suffix='',
-        error_messages={
-            'required': _('Check the box to confirm that you’re human')
-        }
+        widget=ReCaptchaV3()
     )
 
     def clean_phone_number(self):

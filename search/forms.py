@@ -1,6 +1,7 @@
 from django.forms import HiddenInput, Textarea, IntegerField
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from directory_components import forms
 from directory_forms_api_client.forms import SaveOnlyInDatabaseAPIForm
 
@@ -45,10 +46,9 @@ class FeedbackForm(SaveOnlyInDatabaseAPIForm):
         required=False
     )
     captcha = ReCaptchaField(
+        label='',
         label_suffix='',
-        error_messages={
-            'required': ('Check the box to confirm that you’re human')
-        }
+        widget=ReCaptchaV3()
     )
 
     @property

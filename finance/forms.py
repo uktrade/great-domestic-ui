@@ -1,4 +1,5 @@
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from directory_constants import choices
 from directory_components import forms
 
@@ -97,4 +98,8 @@ class HelpForm(ConsentFieldMixin, forms.Form):
         ),
         widget=Textarea(attrs={'class': 'margin-top-15'}),
     )
-    captcha = ReCaptchaField(label_suffix='')
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+    )
