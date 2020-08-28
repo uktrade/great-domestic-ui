@@ -134,7 +134,7 @@ def test_ukef_lead_generation_submit(
     assert mock_action().save.call_args == mock.call({
         'categories': ['Securing upfront funding'],
         'comment': 'thing',
-        'captcha': captcha_stub,
+        'captcha': 'PASS',
         'firstname': 'Test',
         'lastname': 'Example',
         'position': 'Thing',

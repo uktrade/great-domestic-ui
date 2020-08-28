@@ -3,6 +3,7 @@
 
 ## Pre-release
 ### Implemented enhancements
+- GAA-5 upgrade captcha-v3
 ### Bugs fixed
 
 ## [2020.08.26](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.08.26)

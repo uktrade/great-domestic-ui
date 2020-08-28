@@ -1,4 +1,5 @@
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from directory_constants import choices
 from directory_constants.urls import domestic as domestic_urls
 from directory_components import forms
@@ -76,7 +77,11 @@ class InternationalContactForm(
         widget=Textarea,
         validators=[no_html, not_contains_url_or_email]
     )
-    captcha = ReCaptchaField(label_suffix='')
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+    )
     terms_agreed = forms.BooleanField(
         label=TERMS_LABEL
     )
@@ -97,4 +102,8 @@ class DomesticContactForm(FieldsMutationMixin, SerializeMixin, ZendeskActionMixi
         widget=Textarea,
         validators=[no_html, not_contains_url_or_email]
     )
-    captcha = ReCaptchaField(label_suffix='')
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+    )
