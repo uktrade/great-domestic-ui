@@ -1,4 +1,5 @@
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from django.forms import Select, Textarea
 from django.utils.translation import ugettext_lazy as _
 
@@ -92,10 +93,9 @@ class UKEFContactForm(GovNotifyEmailActionMixin, forms.Form):
         }
     )
     captcha = ReCaptchaField(
+        label='',
         label_suffix='',
-        error_messages={
-            'required': _('Check the box to confirm that you’re human')
-        }
+        widget=ReCaptchaV3()
     )
 
     @property
