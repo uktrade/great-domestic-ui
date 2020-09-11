@@ -5,11 +5,14 @@
 ### Implemented enhancements
 - GAA-5 upgrade captcha-v3
 ### Bugs fixed
+- GAA-16 Remove alt text from homepage images
+- GAA-21 Fix keyboard control of expander
 
 ## [2020.08.26](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.08.26)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.08.26...2020.06.08)
 
 ### Implemented enhancements
+- GAA-15 - Focus video container for accessibility
 - GAA - 31 Added alt text to fix accessibility
 
 ### Bugs fixed

@@ -26,7 +26,7 @@
     <div class="grid-row wrap-tight">
       {% for column in page.how_dit_helps_columns %}
           <div class="column-third-m column-full">
-            {% card title=column.text subheading=column.source url=column.url img_src=column.image.url img_alt=column.image_alt html_snippet=column.content no_padding_card=True transparent_card=True %}
+            {% card title=column.text subheading=column.source url=column.url img_src=column.image.url html_snippet=column.content no_padding_card=True transparent_card=True %}
           </div>
         {% endfor %}
       </div>
