@@ -270,16 +270,17 @@ dit.scroll = (new function () {
         case 27:
         EXPANDER.close();
         break;
-        case 13: // Fall through
         case 39:
-        if(EXPANDER.state === OPEN) {
-          // Move though any detected links.
-          Expander.move.call(EXPANDER, e);
-        }
+          if(EXPANDER.state === OPEN) {
+            // Move though any detected links.
+            Expander.move.call(EXPANDER, e);
+          }
         else {
           EXPANDER.open();
         }
         break;
+        case 32:
+          EXPANDER.toggle();
         default: ; // Nothing yet.
       }
     });
