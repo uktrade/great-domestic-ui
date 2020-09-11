@@ -73,6 +73,7 @@ dit.components.video = (new function() {
     dit.classes.Modal.prototype.open.call(this);
     bindEvents();
     setTranscriptHeight();
+    $('video',this.$container).focus();
   }
 
   VideoDialog.prototype.resize = function() {
