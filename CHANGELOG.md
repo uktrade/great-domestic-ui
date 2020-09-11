@@ -10,6 +10,7 @@
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.08.26...2020.06.08)
 
 ### Implemented enhancements
+- GAA-15 - Focus video container for accessibility
 - GAA - 31 Added alt text to fix accessibility
 
 ### Bugs fixed
