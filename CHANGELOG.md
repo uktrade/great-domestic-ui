@@ -3,6 +3,7 @@
 
 ## Pre-release
 ### Implemented enhancements
+- GAA-24 - fixed header tag
 - GAA-5 upgrade captcha-v3
 ### Bugs fixed
 - GAA-16 Remove alt text from homepage images
