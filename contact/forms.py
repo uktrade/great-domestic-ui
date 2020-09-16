@@ -2,6 +2,7 @@ from datetime import datetime
 import re
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 from directory_components import forms
 from directory_constants import choices
 from directory_forms_api_client.forms import GovNotifyEmailActionMixin, ZendeskActionMixin
@@ -264,7 +265,11 @@ class FeedbackForm(SerializeDataMixin, ZendeskActionMixin, forms.Form):
         label='Feedback',
         widget=Textarea,
     )
-    captcha = ReCaptchaField(label_suffix='')
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+    )
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
     @property
@@ -295,7 +300,11 @@ class BaseShortForm(forms.Form):
     )
     organisation_name = forms.CharField()
     postcode = forms.CharField()
-    captcha = ReCaptchaField(label_suffix='')
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+    )
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
@@ -372,7 +381,11 @@ class InternationalContactForm(
         ),
         widget=Textarea,
     )
-    captcha = ReCaptchaField(label_suffix='')
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+    )
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
@@ -436,7 +449,11 @@ class BusinessDetailsForm(ConsentFieldMixin, forms.Form):
         choices=(('', 'Please select'),) + choices.EMPLOYEES,
         required=False,
     )
-    captcha = ReCaptchaField(label_suffix='')
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+    )
 
     def clean_industry(self):
         industry = self.cleaned_data['industry']
@@ -660,7 +677,11 @@ class ExportVoucherForm(SerializeDataMixin, GovNotifyEmailActionMixin, forms.For
         widget=forms.RadioSelect(),
         required=False,
     )
-    captcha = ReCaptchaField(label_suffix='')
+    captcha = ReCaptchaField(
+        label='',
+        label_suffix='',
+        widget=ReCaptchaV3()
+    )
     terms_agreed = forms.BooleanField(label=TERMS_LABEL)
 
 
@@ -776,10 +797,9 @@ class ExportSupportForm(GovNotifyEmailActionMixin, forms.Form):
         widget=Textarea,
     )
     captcha = ReCaptchaField(
+        label='',
         label_suffix='',
-        error_messages={
-            'required': 'Check the box to confirm that you’re human'
-        },
+        widget=ReCaptchaV3()
     )
 
     def clean_phone_number(self):
