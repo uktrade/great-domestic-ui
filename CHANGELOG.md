@@ -1,7 +1,13 @@
 # Changelog
 
-
 ## Pre-release
+
+### Implemented enhancements
+
+### Bugs fixed
+
+## [2020.09.16](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.09.16)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.08.27-1...2020.09.16)
 ### Implemented enhancements
 - GAA-24 - fixed header tag
 - GAA-5 upgrade captcha-v3
