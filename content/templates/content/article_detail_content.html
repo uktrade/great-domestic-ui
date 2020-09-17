@@ -65,7 +65,7 @@
         {% endif %}
         {% endif %}
         {% if page.article_image and not page.article_video %}
-          <img src="{{ page.article_image.url }}" alt="" class="width-full">
+          <img src="{{ page.article_image.url }}" alt="{{ page.article_image.alt }}" class="width-full">
         {% endif %}
 
         <section class="grid-row padding-bottom-0">
