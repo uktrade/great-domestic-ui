@@ -49,7 +49,7 @@
     <div class="grid-row">
       <div class="column-three-quarters">
         {% if page.article_image %}
-          <img src="{{ page.article_image.url }}" alt="" class="width-full">
+          <img src="{{ page.article_image.url }}" alt="{{ page.article_image.alt }}" class="width-full">
         {% endif %}
         <section class="grid-row">
           <div class="column-seven-ninths article-content">
