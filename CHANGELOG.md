@@ -1,7 +1,15 @@
 # Changelog
 
-
 ## Pre-release
+
+### Implemented enhancements
+
+### Bugs fixed
+- GAA - 31 Added alt text to fix accessibility (article template missing one)
+- GAA-27 - directory-components version bump
+
+## [2020.09.16](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.09.16)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.08.27-1...2020.09.16)
 ### Implemented enhancements
 - GAA-24 - fixed header tag
 - GAA-5 upgrade captcha-v3
@@ -14,6 +22,10 @@
 
 ### Implemented enhancements
 - GAA-15 - Focus video container for accessibility
+## [2020.08.26](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.08.26)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.08.26...2020.06.08)
+
+### Implemented enhancements
 - GAA - 31 Added alt text to fix accessibility
 
 ### Bugs fixed
