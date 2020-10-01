@@ -46,7 +46,8 @@ class ConsentFieldMixin(forms.Form):
     contact_consent = forms.MultipleChoiceField(
         label=render_to_string('core/contact-consent.html', {'privacy_url': PRIVACY_POLICY_URL}),
         widget=forms.CheckboxSelectInlineLabelMultiple(attrs={'id': 'checkbox-multiple'}, use_nice_ids=True),
-        choices=CONSENT_CHOICES
+        choices=CONSENT_CHOICES,
+        required=False,
     )
 
     @staticmethod
