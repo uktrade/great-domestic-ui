@@ -9,7 +9,6 @@
 - GAA-27 - directory-components version bump
 - GBAU-77 - fix-mandatory-fields
 
-
 ## [2020.09.16](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.09.16)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.08.27-1...2020.09.16)
 ### Implemented enhancements
