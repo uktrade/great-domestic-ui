@@ -3,7 +3,10 @@
 ## Pre-release
 
 ### Implemented enhancements
+### Bugs fixed
 
+## [2020.10.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.10.01)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.10.01)
 ### Bugs fixed
 - GAA - 31 Added alt text to fix accessibility (article template missing one)
 - GAA-27 - directory-components version bump
