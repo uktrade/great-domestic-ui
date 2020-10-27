@@ -31,7 +31,16 @@ def parse_results(response, query, page):
         )
     else:
         results = serializers.parse_search_results(content)
+
+        # ActivityStream v1 / ElasticSearch v6 format - total is a raw int
         total_results = content['hits']['total']
+
+        # Check if we're using ActivityStream v2 (ElasticSearch v7) format by trying to grab the inner value
+        try:
+            total_results = total_results['value']
+        except TypeError:
+            pass
+
         total_pages = ceil(total_results/float(RESULTS_PER_PAGE))
 
     prev_pages = list(range(1, current_page))[-3:]
