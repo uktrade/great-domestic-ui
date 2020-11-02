@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- No ticket - added simultaneous support for Activity Stream 2 (Elasticsearch 7).
 
 ### Bugs fixed
 - GBAU-856 - Fix homepage card template (separate from directory-components)
