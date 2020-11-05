@@ -7,6 +7,7 @@
 
 ### Bugs fixed
 - GBAU-856 - Fix homepage card template (separate from directory-components)
+- GBAU-856 - Update homepage image
 
 ## [2020.09.21-1](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.09.21-1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.09.21-1)
