@@ -6,6 +6,7 @@
 - No ticket - added simultaneous support for Activity Stream 2 (Elasticsearch 7).
 
 ### Bugs fixed
+- GBAU-858 - Various padding fixes
 - GBAU-856 - Fix homepage card template (separate from directory-components)
 - GBAU-856 - Update homepage image
 
