@@ -3,6 +3,14 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+### Bugs fixed
+
+
+## [1.0.0](https://github.com/uktrade/great-domestic-ui/releases/tag/1.0.0)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.21-1...1.0.0)
+
+### Implemented enhancements
 - No ticket - added simultaneous support for Activity Stream 2 (Elasticsearch 7).
 
 ### Bugs fixed
