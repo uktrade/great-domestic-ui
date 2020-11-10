@@ -26,10 +26,10 @@ show_last_page,first_item_number,last_item_number', (
         (9, [6, 7, 8], [10], True, False, 81, 90),
     )
 )
-def test_parse_results(page, prev_pages,
-                       next_pages, show_first_page,
-                       show_last_page, first_item_number,
-                       last_item_number):
+def test_parse_results_activitystream_v1(page, prev_pages,
+                                         next_pages, show_first_page,
+                                         show_last_page, first_item_number,
+                                         last_item_number):
     mock_results = json.dumps({
         'took': 17,
         'timed_out': False,
@@ -41,6 +41,86 @@ def test_parse_results(page, prev_pages,
         },
         'hits': {
             'total': 100,
+            'max_score': 0.2876821,
+            'hits': [{
+                '_index': 'objects__feed_id_first_feed__date_2019',
+                '_type': '_doc',
+                '_id': 'dit:exportOpportunities:Opportunity:2',
+                '_score': 0.2876821,
+                '_source': {
+                    'type': ['Document', 'dit:Opportunity'],
+                    'title': 'France - Data analysis services',
+                    'content':
+                    'The purpose of this contract is to analyze...',
+                    'url': 'www.great.gov.uk/opportunities/1'
+                }
+            }, {
+                '_index': 'objects__feed_id_first_feed__date_2019',
+                '_type': '_doc',
+                '_id': 'dit:exportOpportunities:Opportunity:2',
+                '_score': 0.18232156,
+                '_source': {
+                    'type': ['Document', 'dit:Opportunity'],
+                    'title': 'Germany - snow clearing',
+                    'content':
+                    'Winter services for the properties1) Former...',
+                    'url': 'www.great.gov.uk/opportunities/2'
+                }
+            }]
+        }
+    })
+    response = Mock(status=200, content=mock_results)
+    assert helpers.parse_results(response, "services", page) == {
+       'results': [{
+            'type': 'Export opportunity',
+            'title': 'France - Data analysis services',
+            'content': 'The purpose of this contract is to analyze...',
+            'url': 'www.great.gov.uk/opportunities/1'
+        },
+        {
+            'type': 'Export opportunity',
+            'title': 'Germany - snow clearing',
+            'content': 'Winter services for the properties1) Former...',
+            'url': 'www.great.gov.uk/opportunities/2'
+        }],
+       'total_results': 100,
+       'total_pages': 10,
+       'previous_page': page-1,
+       'next_page': page+1,
+       'prev_pages': prev_pages,
+       'next_pages': next_pages,
+       'show_first_page': show_first_page,
+       'show_last_page': show_last_page,
+       'first_item_number': first_item_number,
+       'last_item_number': last_item_number
+    }
+
+
+@pytest.mark.parametrize(
+    'page,prev_pages,next_pages,show_first_page,\
+show_last_page,first_item_number,last_item_number', (
+        (2, [1], [3, 4, 5], False, True, 11, 20),
+        (9, [6, 7, 8], [10], True, False, 81, 90),
+    )
+)
+def test_parse_results_activitystream_v2(page, prev_pages,
+                                         next_pages, show_first_page,
+                                         show_last_page, first_item_number,
+                                         last_item_number):
+    mock_results = json.dumps({
+        'took': 17,
+        'timed_out': False,
+        '_shards': {
+            'total': 4,
+            'successful': 4,
+            'skipped': 0,
+            'failed': 0
+        },
+        'hits': {
+            'total': {
+                'value': 100,
+                'relation': 'eq',
+            },
             'max_score': 0.2876821,
             'hits': [{
                 '_index': 'objects__feed_id_first_feed__date_2019',
