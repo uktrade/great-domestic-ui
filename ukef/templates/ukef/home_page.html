@@ -41,7 +41,7 @@
 			<div class="flex-grid margin-top-30">
 				<div class="column-half-l column-full">
 					{% url 'trade-finance' as trade_finance %}
-					{% static 'images/offer_section_image.jpg' as offer_section_image %}
+					{% static 'images/offer_section_image.png' as offer_section_image %}
 					{% include 'ukef/includes/card.html' with id='small-and-medium-businesses' url=trade_finance img_src=offer_section_image title='Trade finance for UK exporters' description='When it comes to exporting, having a great product or service is only half the story: you need to have the right finance and insurance in place. Our trade finance offer includes:' bullets=trade_finance_bullets %}
 				</div>
 
