@@ -5,6 +5,8 @@
 ### Implemented enhancements
 ### Bugs fixed
 
+GBAU-75 - Added autocomplete attribute for contact form
+
 ## [2020.10.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.10.01)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.10.01)
 ### Bugs fixed
