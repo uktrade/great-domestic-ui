@@ -3,6 +3,9 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+GBAU-848 - Update trade barrier page content
+
 ### Bugs fixed
 
 GBAU-75 - Added autocomplete attribute for contact form
