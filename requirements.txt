@@ -9,7 +9,7 @@ beautifulsoup4==4.8.0     # via directory-components
 certifi==2019.3.9         # via elastic-apm, requests, sentry-sdk
 cffi==1.13.2              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.8         # via pyopenssl, requests
+cryptography==3.2         # via pyopenssl, requests
 dateparser==0.7.2         # via -r requirements.in
 directory-api-client==20.0.0  # via -r requirements.in
 directory-ch-client==2.1.0  # via -r requirements.in
