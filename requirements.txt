@@ -10,31 +10,31 @@ certifi==2019.3.9         # via elastic-apm, requests, sentry-sdk
 cffi==1.13.2              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==2.8         # via pyopenssl, requests
-dateparser==0.7.2
-directory-api-client==20.0.0
-directory-ch-client==2.1.0
+dateparser==0.7.2         # via -r requirements.in
+directory-api-client==20.0.0  # via -r requirements.in
+directory-ch-client==2.1.0  # via -r requirements.in
 directory-client-core==6.1.0  # via directory-api-client, directory-ch-client, directory-cms-client, directory-forms-api-client, directory-sso-api-client
-directory-cms-client==11.1.0
-directory-components==35.26.0
-directory-constants==20.11.0
-directory-forms-api-client==5.3.0
-directory-healthcheck==2.0.0
-directory-sso-api-client==6.2.0
-directory-validators==6.0.3
-django-environ==0.4.5
-django-formtools==2.1
+directory-cms-client==11.1.0  # via -r requirements.in
+directory-components==35.26.0  # via -r requirements.in
+directory-constants==20.11.0  # via -r requirements.in, directory-components
+directory-forms-api-client==5.4.0  # via -r requirements.in
+directory-healthcheck==2.0.0  # via -r requirements.in
+directory-sso-api-client==6.2.0  # via -r requirements.in
+directory-validators==6.0.3  # via -r requirements.in
+django-environ==0.4.5     # via -r requirements.in
+django-formtools==2.1     # via -r requirements.in
 django-health-check==3.8.0  # via directory-healthcheck
-django-ipware==2.1.0
-django-recaptcha==2.0.5
-django-redis==4.10.0
-django==2.2.15
-djangorestframework==3.10.3
-elastic-apm==5.5.2
-geoip2==3.0.0
-gunicorn==19.9.0
+django-ipware==2.1.0      # via -r requirements.in
+django-recaptcha==2.0.5   # via -r requirements.in
+django-redis==4.10.0      # via -r requirements.in
+django==2.2.15            # via -r requirements.in, directory-api-client, directory-ch-client, directory-client-core, directory-components, directory-constants, directory-healthcheck, directory-validators, django-formtools, django-recaptcha, django-redis, sigauth
+djangorestframework==3.10.3  # via -r requirements.in, sigauth
+elastic-apm==5.5.2        # via -r requirements.in
+geoip2==3.0.0             # via -r requirements.in
+gunicorn==19.9.0          # via -r requirements.in
 idna==2.8                 # via requests
 jsonschema==3.0.1         # via directory-components
-markdown2==2.3.9
+markdown2==2.3.9          # via -r requirements.in
 maxminddb==1.5.2          # via geoip2
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-ch-client, directory-client-core
@@ -47,14 +47,17 @@ python-dateutil==2.8.1    # via dateparser
 pytz==2017.2              # via dateparser, directory-validators, django, tzlocal
 redis==3.2.1              # via django-redis
 regex==2020.1.8           # via dateparser
-requests[security]==2.22.0
-sentry-sdk==0.13.4
-sigauth==4.1.1
+requests[security]==2.22.0  # via -r requirements.in, directory-api-client, directory-ch-client, directory-client-core, geoip2
+sentry-sdk==0.13.4        # via -r requirements.in
+sigauth==4.1.1            # via -r requirements.in, directory-client-core
 six==1.12.0               # via cryptography, jsonschema, mohawk, pyopenssl, pyrsistent, python-dateutil, w3lib
 soupsieve==1.9.4          # via beautifulsoup4
 sqlparse==0.3.0           # via django
 tzlocal==2.0.0            # via dateparser
-uk-postcode-utils==1.0
-urllib3==1.25.8
+uk-postcode-utils==1.0    # via -r requirements.in
+urllib3==1.25.8           # via -r requirements.in, directory-validators, elastic-apm, geoip2, requests, sentry-sdk
 w3lib==1.20.0             # via directory-client-core
-whitenoise==4.1.4
+whitenoise==4.1.4         # via -r requirements.in
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
