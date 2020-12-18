@@ -17,7 +17,7 @@
     <div class="container">
         <h1 class="heading-large">[Title]</h1>
         <p>[Body]</p>
-        <form method="post" class="width-half">
+        <form method="post" class="width-half" autocomplete="on">
             {% csrf_token %}
             {{ form }}
             <button type="submit" class="button">Submit</button>
