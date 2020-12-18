@@ -4,12 +4,12 @@
 
 ### Implemented enhancements
 
-GBAU-848 - Update trade barrier page content
+- GBAU-848 - Update trade barrier page content
 
 ### Bugs fixed
 
-GBAU-75 - Added autocomplete attribute for contact form
-GBAU-789 - Upgraded directory-form-api-client to fix SaveInDatabaseOnly's actions
+- GBAU-75 - Added autocomplete attribute for contact form
+- GBAU-789 - Upgraded directory-form-api-client to fix SaveInDatabaseOnly's actions
 
 ## [2020.10.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.10.01)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.10.01)
