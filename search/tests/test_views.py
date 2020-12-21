@@ -171,7 +171,6 @@ def test_search_feedback_submit_success(mock_save, client, captcha_stub):
         email_address="test@example.com",
         full_name="Test",
         subject='Search Feedback - 00:00 01 Jan 2020',
-        service_name='Great.gov.uk Search',
         form_url='/search/feedback/'
     )
 

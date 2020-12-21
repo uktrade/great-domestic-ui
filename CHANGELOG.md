@@ -3,6 +3,24 @@
 ## Pre-release
 
 ### Implemented enhancements
+
+- GBAU-848 - Update trade barrier page content
+
+### Bugs fixed
+
+- No ticket - Upgrade cryptography package to fix vulnerability
+- GBAU-75 - Added autocomplete attribute for contact form
+- GBAU-789 - Upgraded directory-form-api-client to fix SaveInDatabaseOnly's actions
+
+## [2020.10.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.10.01)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.10.01)
+### Bugs fixed
+
+
+## [1.0.0](https://github.com/uktrade/great-domestic-ui/releases/tag/1.0.0)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.21-1...1.0.0)
+
+### Implemented enhancements
 - No ticket - added simultaneous support for Activity Stream 2 (Elasticsearch 7).
 
 ### Bugs fixed
