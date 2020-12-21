@@ -98,7 +98,6 @@ class SearchFeedbackFormView(FormView):
             email_address=email,
             full_name=name,
             subject=subject,
-            service_name='Great.gov.uk Search',
             form_url=self.request.path
         )
         response.raise_for_status()

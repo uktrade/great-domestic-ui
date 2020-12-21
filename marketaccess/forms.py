@@ -134,6 +134,13 @@ class ProblemDetailsForm(forms.Form):
                 'the HS (Harmonized System) code for your goods, '
                 'if you know it'
                 '</li>'
+                '<li>'
+                'if it is an existing barrier include the trade '
+                'barrier code and title (to find the title and '
+                'code visit '
+                '<a href="https://www.gov.uk/barriers-trading-investing-abroad" target="_blank" class="link">'
+                'check for barriers to trading and investing abroad</a>.)'
+                '</li>'
                 '</ul>'
             )
         ),

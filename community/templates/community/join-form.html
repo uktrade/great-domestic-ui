@@ -39,7 +39,7 @@
             <h1 class="heading-large">Sign up to become an Export Advocate</h1>
             <div class="question">
                 <div class="exred-triage-form">
-                    <form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}">
+                    <form action="{% url 'community-join-form' %}" method="post" class="{% block form_class %}lg-6{% endblock %}" autocomplete="on">
                         {% csrf_token %}
                         {{ form }}
                         <button type="submit" class="button">Submit</button>
