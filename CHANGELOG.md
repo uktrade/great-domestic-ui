@@ -8,6 +8,7 @@
 
 ### Bugs fixed
 
+- No ticket - Upgrade cryptography package to fix vulnerability
 - GBAU-75 - Added autocomplete attribute for contact form
 - GBAU-789 - Upgraded directory-form-api-client to fix SaveInDatabaseOnly's actions
 
