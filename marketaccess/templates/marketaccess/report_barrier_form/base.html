@@ -19,7 +19,7 @@
             {% endbreadcrumbs %}
             <div class="grid-row">
                 <div class="column-one-half"></div>
-                    <form method="post">
+                    <form method="post" autocomplete="on">
                         <div class="">
                             {% csrf_token %}
                             {% if wizard.form.errors %}

@@ -22,7 +22,7 @@ directory-client-core==6.1.0  # via directory-api-client, directory-ch-client, d
 directory-cms-client==11.1.0
 directory-components==35.26.0
 directory-constants==20.11.0
-directory-forms-api-client==5.3.0
+directory-forms-api-client==6.0.0
 directory-healthcheck==2.0.0
 directory-sso-api-client==6.2.0
 directory-validators==6.0.3
@@ -41,14 +41,14 @@ freezegun==0.3.10
 geoip2==3.0.0
 gunicorn==19.9.0
 idna==2.7                 # via requests
-importlib-metadata==0.22  # via pluggy, pytest
+importlib-metadata==3.3.0  # via pluggy, pytest
 jsonschema==3.0.1         # via directory-components
 markdown2==2.3.9
 maxminddb==1.5.2          # via geoip2
 mccabe==0.6.1             # via flake8
 mohawk==0.3.4             # via sigauth
 monotonic==1.5            # via directory-ch-client, directory-client-core
-more-itertools==4.3.0     # via pytest, zipp
+more-itertools==4.3.0     # via pytest
 olefile==0.44             # via directory-validators
 packaging==19.1           # via pytest
 pillow==7.2.0             # via directory-validators
@@ -79,10 +79,11 @@ six==1.11.0               # via cryptography, freezegun, jsonschema, mohawk, mor
 soupsieve==1.9.4          # via beautifulsoup4
 sqlparse==0.3.0           # via django
 termcolor==1.1.0          # via pytest-sugar
+typing-extensions==3.7.4.3  # via importlib-metadata
 tzlocal==2.0.0            # via dateparser
 uk-postcode-utils==1.0
 urllib3==1.25.8
 w3lib==1.19.0             # via directory-client-core
 wcwidth==0.1.7            # via pytest
 whitenoise==4.1.4
-zipp==0.6.0               # via importlib-metadata
+zipp==3.4.0               # via importlib-metadata
