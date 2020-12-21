@@ -4,18 +4,20 @@
 
 ### Implemented enhancements
 
+### Bugs fixed
+
+
+## [1.1.0](https://github.com/uktrade/great-domestic-ui/releases/tag/1.1.0)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/1.0.0...1.1.0)
+
+
+### Implemented enhancements
 - GBAU-848 - Update trade barrier page content
 
 ### Bugs fixed
-
 - No ticket - Upgrade cryptography package to fix vulnerability
 - GBAU-75 - Added autocomplete attribute for contact form
 - GBAU-789 - Upgraded directory-form-api-client to fix SaveInDatabaseOnly's actions
-
-## [2020.10.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.10.01)
-[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.10.01)
-### Bugs fixed
-
 
 ## [1.0.0](https://github.com/uktrade/great-domestic-ui/releases/tag/1.0.0)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.21-1...1.0.0)
@@ -27,6 +29,12 @@
 - GBAU-858 - Various padding fixes
 - GBAU-856 - Fix homepage card template (separate from directory-components)
 - GBAU-856 - Update homepage image
+
+
+## [2020.10.01](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.10.01)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.10.01)
+### Bugs fixed
+
 
 ## [2020.09.21-1](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.09.21-1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.09.21-1)
