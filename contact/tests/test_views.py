@@ -115,6 +115,11 @@ def domestic_form_data(captcha_stub):
     ),
     (
         constants.DOMESTIC,
+        constants.EUEXIT,
+        reverse('brexit-contact-form'),
+    ),
+    (
+        constants.DOMESTIC,
         constants.EVENTS,
         reverse('contact-us-events-form'),
     ),

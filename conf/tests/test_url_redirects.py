@@ -122,6 +122,12 @@ redirects = [
         '/international/content/invest/how-to-setup-in-the-uk/transition-period/'
     ),
     (
+        '/eu-exit-news/contact/', reverse('brexit-contact-form')
+    ),
+    (
+        '/eu-exit-news/contact/success/', reverse('brexit-contact-form-success')
+    ),
+    (
         '/redarrows/',
         'https://www.events.great.gov.uk/red-arrows-north-america-tour/'
     ),
