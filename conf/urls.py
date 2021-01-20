@@ -17,7 +17,6 @@ import content.views
 import casestudy.views
 import contact.views
 import core.views
-import euexit.views
 import finance.views
 import marketaccess.views
 import community.views
@@ -220,20 +219,6 @@ legacy_urls = [
         r'^custom/$',
         skip_ga360(core.views.ServiceNoLongerAvailableView.as_view()),
         name='custom-page'
-    ),
-]
-
-
-euexit_urls = [
-    url(
-        r'^transition-period/contact/$',
-        euexit.views.DomesticContactFormView.as_view(),
-        name='brexit-contact-form'
-    ),
-    url(
-        r'^transition-period/contact/success/$',
-        euexit.views.DomesticContactSuccessView.as_view(),
-        name='brexit-contact-form-success'
     ),
 ]
 
@@ -627,7 +612,6 @@ export_vouchers_urls = [
 
 
 urlpatterns += legacy_urls
-urlpatterns += euexit_urls
 urlpatterns += redirects
 urlpatterns += article_urls
 urlpatterns += contact_urls
