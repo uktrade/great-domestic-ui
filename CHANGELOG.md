@@ -4,8 +4,6 @@
 
 ### Implemented enhancements
 
-- GBAU - 906 Removed EU transition option from contact form
-
 ### Bugs fixed
 
 
