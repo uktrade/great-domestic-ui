@@ -78,18 +78,6 @@ r-2018) and the full",
                     'title': 'Test No URL',
                     'content': 'Here is the content'
                 }
-            }, {
-                '_index': 'objects__feed_id_first_feed__date_2019',
-                '_type': '_doc',
-                '_id': 'dit:exportOpportunities:Event:1',
-                '_score': 0.18232156,
-                '_source': {
-                    'type': ['Document', 'dit:aventri:Event'],
-                    'title': 'Test Event URL Parsing',
-                    'content': 'Great event',
-                    'url': 'https://eu.eventscloud.com\
-/ehome/index.php?eventid=200188836&'
-                }
             }]
         }
     }
@@ -122,10 +110,4 @@ r-2018) and the full",
         'type': 'Article',
         'title': 'Test No URL',
         'content': 'Here is the content',
-    }, {
-        'type': 'Event',
-        'title': 'Test Event URL Parsing',
-        'content': 'Great event',
-        'url': 'https://www.events.great.gov.uk/\
-ehome/index.php?eventid=200188836&'
     }]
