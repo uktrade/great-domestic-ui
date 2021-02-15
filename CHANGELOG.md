@@ -5,7 +5,7 @@
 ### Implemented enhancements
 
 ### Bugs fixed
-
+- GBAU-918 Fix reCaptcha token timeout.
 
 ## [1.1.0](https://github.com/uktrade/great-domestic-ui/releases/tag/1.1.0)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/1.0.0...1.1.0)
