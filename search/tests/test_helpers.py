@@ -267,12 +267,6 @@ def test_format_query():
                             'query': 'dit:Service',
                             'boost': 20000
                         }
-                    }},
-                    {'match': {
-                        'type': {
-                            'query': 'dit:aventri:Event',
-                            'boost': 10000
-                        }
                     }}
                 ],
                 'filter': [
@@ -286,7 +280,6 @@ def test_format_query():
                             'dit:Opportunity',
                             'dit:Market',
                             'dit:Service',
-                            'dit:aventri:Event'
                         ]
                     }}
                 ]
