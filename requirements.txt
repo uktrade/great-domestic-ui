@@ -62,7 +62,7 @@ django-recaptcha==2.0.5
     # via -r requirements.in
 django-redis==4.10.0
     # via -r requirements.in
-django==2.2.15
+django==2.2.18
     # via
     #   -r requirements.in
     #   directory-api-client
