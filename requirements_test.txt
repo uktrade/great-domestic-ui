@@ -133,7 +133,7 @@ olefile==0.44
     # via directory-validators
 packaging==19.1
     # via pytest
-pillow==7.2.0
+pillow==8.1.1
     # via directory-validators
 pip-tools==3.7.0
     # via -r requirements_test.in
