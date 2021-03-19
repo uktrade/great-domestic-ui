@@ -48,7 +48,7 @@ directory-healthcheck==2.0.0
     # via -r requirements.in
 directory-sso-api-client==6.2.0
     # via -r requirements.in
-directory-validators==6.0.3
+directory-validators==6.0.5
     # via -r requirements.in
 django-environ==0.4.5
     # via -r requirements.in
@@ -62,7 +62,7 @@ django-recaptcha==2.0.5
     # via -r requirements.in
 django-redis==4.10.0
     # via -r requirements.in
-django==2.2.15
+django==2.2.19
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -102,7 +102,7 @@ monotonic==1.5
     #   directory-client-core
 olefile==0.44
     # via directory-validators
-pillow==7.2.0
+pillow==8.1.2
     # via directory-validators
 pycparser==2.19
     # via cffi
