@@ -90,8 +90,9 @@ django==2.2.19
     #   django-formtools
     #   django-recaptcha
     #   django-redis
+    #   djangorestframework
     #   sigauth
-djangorestframework==3.10.3
+djangorestframework==3.11.2
     # via
     #   -r requirements.in
     #   sigauth
