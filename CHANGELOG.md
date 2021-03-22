@@ -3,6 +3,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- No ticket Upgraded django version
 
 ### Bugs fixed
 - GBAU-918 Fix reCaptcha token timeout
