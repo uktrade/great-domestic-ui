@@ -1,6 +1,11 @@
 # Changelog
-
 ## Pre-release
+
+### Implemented enhancements
+### Bugs fixed
+
+## [2.0.0](https://github.com/uktrade/great-domestic-ui/releases/tag/2.0.0)
+[Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/1.1.0...2.0.0)
 
 ### Implemented enhancements
 - No ticket Upgraded django version
