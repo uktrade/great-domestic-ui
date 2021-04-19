@@ -51,9 +51,9 @@ directory-client-core==6.1.0
     #   directory-sso-api-client
 directory-cms-client==11.1.0
     # via -r requirements.in
-directory-components==35.26.0
+directory-components==36.0.0
     # via -r requirements.in
-directory-constants==20.11.0
+directory-constants==20.26.0
     # via
     #   -r requirements.in
     #   directory-components
@@ -110,10 +110,6 @@ gunicorn==19.9.0
     # via -r requirements.in
 idna==2.7
     # via requests
-importlib-metadata==3.3.0
-    # via
-    #   pluggy
-    #   pytest
 jsonschema==3.0.1
     # via directory-components
 markdown2==2.3.9
@@ -224,8 +220,6 @@ sqlparse==0.3.0
     # via django
 termcolor==1.1.0
     # via pytest-sugar
-typing-extensions==3.7.4.3
-    # via importlib-metadata
 tzlocal==2.0.0
     # via dateparser
 uk-postcode-utils==1.0
@@ -244,8 +238,6 @@ wcwidth==0.1.7
     # via pytest
 whitenoise==4.1.4
     # via -r requirements.in
-zipp==3.4.0
-    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
