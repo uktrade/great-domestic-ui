@@ -2,6 +2,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- GP2-2358 - footer contact link updated
  - GP2-2256 - magna header for BAU pages
 ### Bugs fixed
 
