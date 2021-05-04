@@ -2,8 +2,9 @@
 ## Pre-release
 
 ### Implemented enhancements
+- NOTICKET - Upgrade Django version
 - GP2-2358 - footer contact link updated
- - GP2-2256 - magna header for BAU pages
+- GP2-2256 - magna header for BAU pages
 ### Bugs fixed
 
 ## [2.0.0](https://github.com/uktrade/great-domestic-ui/releases/tag/2.0.0)
