@@ -51,9 +51,9 @@ directory-client-core==6.1.0
     #   directory-sso-api-client
 directory-cms-client==11.1.0
     # via -r requirements.in
-directory-components==36.1.0
+directory-components==36.2.0
     # via -r requirements.in
-directory-constants==20.27.0
+directory-constants==20.28.0
     # via directory-components
 directory-forms-api-client==6.0.0
     # via -r requirements.in
@@ -75,7 +75,7 @@ django-recaptcha==2.0.5
     # via -r requirements.in
 django-redis==4.10.0
     # via -r requirements.in
-django==2.2.20
+django==2.2.22
     # via
     #   -r requirements.in
     #   directory-api-client
@@ -110,6 +110,7 @@ idna==2.7
     # via requests
 importlib-metadata==4.0.1
     # via
+    #   pep517
     #   pluggy
     #   pytest
 jsonschema==3.0.1
@@ -132,9 +133,11 @@ olefile==0.44
     # via directory-validators
 packaging==19.1
     # via pytest
+pep517==0.10.0
+    # via pip-tools
 pillow==8.1.2
     # via directory-validators
-pip-tools==3.7.0
+pip-tools==6.1.0
     # via -r requirements_test.in
 pluggy==0.13.0
     # via pytest
@@ -211,7 +214,6 @@ six==1.11.0
     #   mohawk
     #   more-itertools
     #   packaging
-    #   pip-tools
     #   pyopenssl
     #   pyrsistent
     #   pytest-xdist
@@ -224,6 +226,8 @@ sqlparse==0.3.0
     # via django
 termcolor==1.1.0
     # via pytest-sugar
+toml==0.10.2
+    # via pep517
 typing-extensions==3.7.4.3
     # via importlib-metadata
 tzlocal==2.0.0
@@ -245,7 +249,10 @@ wcwidth==0.1.7
 whitenoise==4.1.4
     # via -r requirements.in
 zipp==3.4.1
-    # via importlib-metadata
+    # via
+    #   importlib-metadata
+    #   pep517
 
 # The following packages are considered to be unsafe in a requirements file:
+# pip
 # setuptools
