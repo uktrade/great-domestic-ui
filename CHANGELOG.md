@@ -8,7 +8,7 @@
 
 ### Bugs fixed
 - GP2-2556 - Update verbose class implementation
-
+- GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 
 ## [2.0.0](https://github.com/uktrade/great-domestic-ui/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/1.1.0...2.0.0)
@@ -75,11 +75,6 @@
 
 ### Implemented enhancements
 - GAA - 31 Added alt text to fix accessibility
-- GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de 
-- no ticket - cookie settings, only display back button if user has come from great.gov link
-- XOT-1278 - Remove middle breadcrumb from campaign article pages
-- MVP-40 - Add GA360 context processor and remove GA360 Middleware
-- no ticket - fixing double "the" typo in markets_landing_page
 
 ### Bugs fixed
 - TT-2334 - Redirect old export form to new one
