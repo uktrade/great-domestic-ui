@@ -5,7 +5,10 @@
 - NOTICKET - Upgrade Django version
 - GP2-2358 - footer contact link updated
 - GP2-2256 - magna header for BAU pages
+
 ### Bugs fixed
+- GP2-2556 - Update verbose class implementation
+
 
 ## [2.0.0](https://github.com/uktrade/great-domestic-ui/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/1.1.0...2.0.0)
