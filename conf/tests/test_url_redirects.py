@@ -484,6 +484,10 @@ redirects = [
         '/contact/triage/international/',
         '/international/contact/'
     ),
+    (
+        '/companion/',
+        'https://digital-companion.ava-digi.de/'
+    ),
 ]
 
 
