@@ -5,6 +5,8 @@
 - NOTICKET - Upgrade Django version
 - GP2-2358 - footer contact link updated
 - GP2-2256 - magna header for BAU pages
+- GP2-2754 - Header changes
+- GP2-2755 - Footer changes
 
 ### Bugs fixed
 - GP2-2556 - Update verbose class implementation

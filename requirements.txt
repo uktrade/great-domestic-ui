@@ -36,7 +36,7 @@ directory-client-core==6.1.0
     #   directory-sso-api-client
 directory-cms-client==11.1.0
     # via -r requirements.in
-directory-components==36.2.0
+directory-components==37.0.0
     # via -r requirements.in
 directory-constants==20.28.0
     # via directory-components
