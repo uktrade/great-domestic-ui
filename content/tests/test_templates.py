@@ -507,7 +507,7 @@ def test_landing_page_header_footer(rf):
 
     soup = BeautifulSoup(html, 'html.parser')
 
-    assert soup.find(id="great-global-header-logo")
+    assert not soup.find(id="great-global-header-logo")
 
 
 def test_article_detail_page_social_share_links(mock_get_page, client):
