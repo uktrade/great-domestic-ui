@@ -16,7 +16,7 @@ django==2.2.22
 djangorestframework==3.11.2
 geoip2==3.0.0
 gunicorn==19.9.0
-markdown2==2.3.9
+markdown2==2.4.0
 requests[security]==2.25.1
 sentry-sdk==0.13.4
 sigauth==4.1.1
