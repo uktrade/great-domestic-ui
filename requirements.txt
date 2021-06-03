@@ -89,7 +89,7 @@ idna==2.8
     # via requests
 jsonschema==3.0.1
     # via directory-components
-markdown2==2.3.9
+markdown2==2.4.0
     # via -r requirements.in
 maxminddb==1.5.2
     # via geoip2

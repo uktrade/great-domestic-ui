@@ -108,9 +108,14 @@ gunicorn==19.9.0
     # via -r requirements.in
 idna==2.7
     # via requests
+importlib-metadata==4.4.0
+    # via
+    #   pep517
+    #   pluggy
+    #   pytest
 jsonschema==3.0.1
     # via directory-components
-markdown2==2.3.9
+markdown2==2.4.0
     # via -r requirements.in
 maxminddb==1.5.2
     # via geoip2
@@ -223,6 +228,8 @@ termcolor==1.1.0
     # via pytest-sugar
 toml==0.10.2
     # via pep517
+typing-extensions==3.10.0.0
+    # via importlib-metadata
 tzlocal==2.0.0
     # via dateparser
 uk-postcode-utils==1.0
@@ -241,6 +248,10 @@ wcwidth==0.1.7
     # via pytest
 whitenoise==4.1.4
     # via -r requirements.in
+zipp==3.4.1
+    # via
+    #   importlib-metadata
+    #   pep517
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
