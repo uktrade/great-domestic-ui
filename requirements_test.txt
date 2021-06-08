@@ -135,7 +135,7 @@ packaging==19.1
     # via pytest
 pep517==0.10.0
     # via pip-tools
-pillow==8.1.2
+pillow==8.2.0
     # via directory-validators
 pip-tools==6.1.0
     # via -r requirements_test.in

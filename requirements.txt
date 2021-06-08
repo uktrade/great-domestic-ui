@@ -101,7 +101,7 @@ monotonic==1.5
     #   directory-client-core
 olefile==0.44
     # via directory-validators
-pillow==8.1.2
+pillow==8.2.0
     # via directory-validators
 pycparser==2.19
     # via cffi
