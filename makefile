@@ -18,6 +18,7 @@ requirements:
 	pip-compile requirements_test.in
 
 install_requirements:
+	pip install --upgrade pip
 	pip install -r requirements_test.txt
 
 css:
