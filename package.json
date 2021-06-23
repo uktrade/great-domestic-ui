@@ -11,9 +11,11 @@
   },
   "devDependencies": {
     "del": "^4.0.0",
-    "gulp": "^4.0.0",
-    "gulp-sass": "^4.0.2",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
-    "yarn": "^1.22.10"
+    "yarn": "^1.22.10",
+    "trim-newlines": "^3.0.1",
+    "glob-parent":"5.1.2"
   }
 }
