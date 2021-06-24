@@ -2,6 +2,7 @@
 ## Pre-release
 
 ### Implemented enhancements
+- NOTICKET - another FE pipelin vulnerability patches/upgrades
 - NOTICKET - FE / CSS pipeline vulnerability patches/upgrades
 - NOTICKET - Upgrade Django version
 - GP2-2358 - footer contact link updated

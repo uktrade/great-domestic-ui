@@ -16,6 +16,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "yarn": "^1.22.10",
     "trim-newlines": "^3.0.1",
-    "glob-parent":"5.1.2"
+    "glob-parent":"5.1.2",
+    "yargs-parser":"^5.0.0-security.0"
   }
 }
