@@ -10,6 +10,7 @@
 - GP2-2784 - Bump directory components with header and footer updates
 
 ### Bugs fixed
+- GP2-2988 - Make SOO contact form name fields editable if not already populated.
 - GP2-2556 - Update verbose class implementation
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 
