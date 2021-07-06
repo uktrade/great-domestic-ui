@@ -2,12 +2,15 @@
 ## Pre-release
 
 ### Implemented enhancements
+- NOTICKET - another FE pipelin vulnerability patches/upgrades
+- NOTICKET - FE / CSS pipeline vulnerability patches/upgrades
 - NOTICKET - Upgrade Django version
 - GP2-2358 - footer contact link updated
 - GP2-2256 - magna header for BAU pages
 - GP2-2784 - Bump directory components with header and footer updates
 
 ### Bugs fixed
+- GP2-2988 - Make SOO contact form name fields editable if not already populated.
 - GP2-2556 - Update verbose class implementation
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
 
@@ -51,6 +54,9 @@
 
 ## [2020.09.21-1](https://github.com/uktrade/great-domestic-ui/releases/tag/2020.09.21-1)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/2020.09.16...2020.09.21-1)
+## Pre-release
+
+### Implemented enhancements
 
 ### Bugs fixed
 - GAA - 31 Added alt text to fix accessibility (article template missing one)
