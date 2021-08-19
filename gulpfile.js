@@ -11,11 +11,11 @@ const CSS_DIR = `${PROJECT_DIR}/core/static/styles`;
 const CSS_FILES = `${PROJECT_DIR}/core/static/styles/**/*.css`;
 const CSS_MAPS = `${PROJECT_DIR}/core/static/styles/**/*.css.map`;
 
-gulp.task('clean', function() {
+gulp.task('clean', () => {
   return del([CSS_FILES, CSS_MAPS])
 });
 
-gulp.task('sass:compile', function () {
+gulp.task('sass:compile', () => {
   return gulp.src(SASS_FILES)
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -28,7 +28,7 @@ gulp.task('sass:compile', function () {
     .pipe(gulp.dest(CSS_DIR));
 });
 
-gulp.task('sass:watch', function () {
+gulp.task('sass:watch', () => {
   gulp.watch(
     [SASS_FILES],
     gulp.series('sass:compile')
