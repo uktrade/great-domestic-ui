@@ -14,9 +14,8 @@
     "glob-parent": "5.1.2",
     "gulp": "^4.0.2",
     "gulp-sass": "5.0.0",
-    "gulp-sourcemaps": "^2.6.5",
+    "gulp-sourcemaps": "3.0.0",
     "trim-newlines": "^3.0.1",
-    "yargs-parser": "^5.0.0-security.0",
     "yarn": "^1.22.10"
   },
   "dependencies": {
