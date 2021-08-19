@@ -13,6 +13,7 @@
 - GP2-2988 - Make SOO contact form name fields editable if not already populated.
 - GP2-2556 - Update verbose class implementation
 - GBAU-957 - redirect /companion/ to digital-companion.ava-digi.de
+- GP2-3290 - Vulnerabilities fixes.
 
 ## [2.0.0](https://github.com/uktrade/great-domestic-ui/releases/tag/2.0.0)
 [Full Changelog](https://github.com/uktrade/great-domestic-ui/compare/1.1.0...2.0.0)
